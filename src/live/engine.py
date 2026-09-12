@@ -57,7 +57,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-from src import cliff, firststop, percar
+from src import cliff, firststop, percar, racestate
 from src.calibration import get_calibration
 from src.config import (
     DATA_PROCESSED,
@@ -142,6 +142,9 @@ class WeekendModel:
     first_stop_kappa_s: float = 0.0
     first_stop_table: dict | None = None             # compound -> (n+1,) nats by first-stop lap
     driver_dev_pooled: dict = field(default_factory=dict)   # driver -> {compound: (n,) draws}
+    # V4: the race-state constants (every other 2026 race); None switches the
+    # race state off and the engine runs the V3 objective
+    race_state: object | None = None
 
     @classmethod
     def load(cls, event: Event | str, *, n_draws: int = N_DRAWS, seed: int = 0) -> "WeekendModel":
@@ -209,6 +212,13 @@ class WeekendModel:
                     source += f"; per-car deviation pooled over {len(set(teams.values()))} teams"
             except Exception:
                 log.exception("team-pooled practice deviation unavailable for %s", ev.key)
+        # The race state: measured on every 2026 race but this one, so a replay
+        # of a scored race never learns from itself.
+        try:
+            rs_const = racestate.measure_constants(exclude=ev.key)
+        except Exception:
+            log.exception("race-state constants unavailable for %s; the V3 objective runs", ev.key)
+            rs_const = None
         return cls(event=ev, model=model, m_prior=m_prior, pit_loss_s=pit,
                    pit_loss_source=pit_src, allocation=alloc, stint_cap=caps, history=hist,
                    source=source, sealed_file=sealed, n_draws=n,
@@ -216,7 +226,7 @@ class WeekendModel:
                    dirty_air_s_per_lap=float(cal.dirty_air_for(ev.circuit)),
                    calibration_source=cal.source,
                    first_stop_kappa_s=float(cal.first_stop_kappa_s), first_stop_table=fs_table,
-                   driver_dev_pooled=pooled_dev)
+                   driver_dev_pooled=pooled_dev, race_state=rs_const)
 
     @staticmethod
     def prior_model(ev: Event, n: int, rng: np.random.Generator, calibration=None) -> TyreModel:
@@ -341,9 +351,24 @@ class DriverTyre:
 
 
 class RaceEngine:
-    """Decisions for a race, recomputed every tick from the live state."""
+    """Decisions for a race, recomputed every tick from the live state.
 
-    def __init__(self, wm: WeekendModel, *, seed: int = 0):
+    **V4: the race state makes the pit call.**  Every tick runs in two passes.
+    The first prices every car's options on its own tyre and the pit lane,
+    exactly as V3 did.  The second re-prices each option's *next* stop against
+    the car's four nearest rivals in virtual race position - their gaps, sets,
+    tyre ages, stops made, pit status and the plan the engine gave them on the
+    previous lap - at the measured value of a place (`src.racestate`), and
+    swaps V3's generic traffic charge for the traffic the timing screen shows at
+    the rejoin point over the next four laps.  The undercut exposure of the
+    current set and the first-stop history prior come out of the next stop,
+    because the race state prices what they approximated.  Each plan carries the
+    explicit comparison of PIT NOW, STAY OUT 1/2/3 LAPS and PIT AT THE EDGE OF
+    THE WINDOW (`plan["race_state"]`).  With `race_state=False`, or a weekend
+    model without the constants, the engine is V3's, number for number.
+    """
+
+    def __init__(self, wm: WeekendModel, *, seed: int = 0, race_state: bool = True):
         self.wm = wm
         self.ev = wm.event
         self.n_laps = wm.event.n_race_laps
@@ -370,6 +395,9 @@ class RaceEngine:
         self.first_stop_table = getattr(wm, "first_stop_table", None)
         self.pooled_dev = dict(getattr(wm, "driver_dev_pooled", {}) or {})
         self._rate_cache: dict = {}
+        self.race_state = getattr(wm, "race_state", None) if race_state else None
+        self._ctx: dict = {}            # num -> the car's last plan context (phase 1)
+        self._rs_curves: dict = {}      # num -> (laps, cost, stay) from the previous tick's race-state plan
 
     # -- helpers ------------------------------------------------------------
 
@@ -654,6 +682,20 @@ class RaceEngine:
 
     def _plan(self, state: LiveState, num: str, dt: DriverTyre, tr, total: int,
               sc_active: bool) -> dict | None:
+        """One car's plan on its own cost surface alone (V3): no race state."""
+        ctx = self._plan_prepare(state, num, dt, tr, total)
+        return self._plan_finish(state, num, dt, tr, total, ctx) if ctx else None
+
+    def _plan_prepare(self, state: LiveState, num: str, dt: DriverTyre, tr, total: int) -> dict | None:
+        """Phase 1 of a car's plan: every option on its expected cost.
+
+        Returned as a context rather than a decision so that the race-state term
+        (`_race_state_extra`), which needs *every* car's continuation and
+        fresh-set costs, can re-price the next stop of each option before the
+        choice is made.  The V3 objective's next-stop terms (the undercut
+        exposure of the current set and the first-stop prior) are carried per
+        option in `xv3`, and the next stop's traffic charge in `tv3`, so the
+        race state can take them out and put its own in."""
         cur = tr.current
         if cur is None or dt.compound not in self.model.compounds:
             return None
@@ -731,31 +773,41 @@ class RaceEngine:
         # per option: expected cost, kind, stop lap, legality, and the recipe
         # (compounds and laps) to price it on the draws if it makes the shortlist
         means, kinds, stops, legals, recipes = [], [], [], [], []
+        xv3s, tv3s, nxcs = [], [], []
+        cidx = {c: i for i, c in enumerate(self.model.compounds)}
         legal0 = bool((len(compounds_used) >= 2 or not state.is_race) and cont_ok_vec(R))
         means.append(np.array([cont_m[R]])); kinds.append(np.array([0])); stops.append(np.array([-1]))
         legals.append(np.array([legal0])); recipes.append([("stay", None, None, None, None)])
+        xv3s.append(np.zeros(1)); tv3s.append(np.zeros(1)); nxcs.append(np.array([-1]))
         P1 = np.arange(now_lap, total - margin + 1)
         K1 = P1 - cur_lap
         keep = K1 <= R - margin
         P1, K1 = P1[keep], K1[keep]
         if len(P1):
             rem = total - P1
+            fsp1 = first_stop_pen(P1, 1)
             fixed1 = (pit * np.where(P1 == now_lap, pit_now_factor, 1.0)
-                      + traffic * dens[np.clip(P1, 1, total) - 1] + first_stop_pen(P1, 1))
+                      + traffic * dens[np.clip(P1, 1, total) - 1] + fsp1)
+            fsp1 = np.broadcast_to(np.asarray(fsp1, dtype=float), P1.shape)
             for c2 in avail:
                 legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
-                means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + expo_cont(c2, K1))
+                ex1 = expo_cont(c2, K1)
+                means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + ex1)
                 kinds.append(np.full(len(P1), 1)); stops.append(P1)
                 legals.append(np.asarray(legal, bool) & np.ones(len(P1), bool))
                 recipes.append([(c2, int(p), int(r), None, None) for p, r in zip(P1, rem)])
+                xv3s.append(fsp1 + ex1); tv3s.append(traffic * dens[np.clip(P1, 1, total) - 1])
+                nxcs.append(np.full(len(P1), cidx[c2]))
         step = 2 if R > 30 else 1
         p1s = np.arange(now_lap, total - 2 * margin + 1, step)
         pairs = [(p1, p2) for p1 in p1s for p2 in range(p1 + margin, total - margin + 1, step)]
         if pairs:
             P1p = np.array([a for a, _ in pairs]); P2p = np.array([b for _, b in pairs])
             K1p = P1p - cur_lap
+            fsp2 = first_stop_pen(P1p, 2)
             fixed2 = (pit * np.where(P1p == now_lap, pit_now_factor, 1.0) + pit
-                      + traffic * (dens[P1p - 1] + dens[P2p - 1]) + first_stop_pen(P1p, 2))
+                      + traffic * (dens[P1p - 1] + dens[P2p - 1]) + fsp2)
+            fsp2 = np.broadcast_to(np.asarray(fsp2, dtype=float), P1p.shape)
             for c2 in avail:
                 e1 = expo_cont(c2, K1p)
                 for c3 in avail:
@@ -771,11 +823,41 @@ class RaceEngine:
                     means.append(m2); kinds.append(np.full(len(P1p), 2)); stops.append(P1p)
                     legals.append(np.asarray(legal, bool))
                     recipes.append([(c2, int(a), int(b - a), c3, int(total - b)) for a, b in pairs])
-        mean_all = np.concatenate(means)
-        kind = np.concatenate(kinds)
-        stop = np.concatenate(stops)
-        legal = np.concatenate(legals)
-        recipe = [r for blk in recipes for r in blk]
+                    xv3s.append(fsp2 + e1); tv3s.append(traffic * dens[P1p - 1])
+                    nxcs.append(np.full(len(P1p), cidx[c2]))
+        return {"cur_lap": cur_lap, "R": R, "now_lap": now_lap, "w": w, "cont": cont, "cont_m": cont_m,
+                "mean_t": mean_t, "tables": tables, "expo": expo, "pit": pit, "pit_now_factor": pit_now_factor,
+                "dens": dens, "traffic": traffic, "caps": caps, "legal0": legal0,
+                "compounds_used": compounds_used, "avail": avail, "cur_c": cur_c,
+                "stint_len_now": stint_len_now, "first_stint": first_stint, "stops_taken": stops_taken,
+                "mean_all": np.concatenate(means), "kind": np.concatenate(kinds),
+                "stop": np.concatenate(stops), "legal": np.concatenate(legals),
+                "recipe": [r for blk in recipes for r in blk],
+                "xv3": np.concatenate(xv3s), "tv3": np.concatenate(tv3s), "nxc": np.concatenate(nxcs),
+                "first_stop_pen": first_stop_pen, "expo_cont": expo_cont}
+
+    def _plan_finish(self, state: LiveState, num: str, dt: DriverTyre, tr, total: int, ctx: dict,
+                     rs: dict | None = None) -> dict:
+        """Phase 2 of a car's plan: choose, price the shortlist on the draws, report.
+
+        With `rs` (from `_race_state_extra`) each option's next stop is charged
+        the race state - the expected places lost to the relevant rivals at the
+        measured value of a place, and the traffic the timing screen says the car
+        would rejoin into - in place of V3's exposure and first-stop prior."""
+        cur_lap, R, now_lap, w = ctx["cur_lap"], ctx["R"], ctx["now_lap"], ctx["w"]
+        cont, tables, expo = ctx["cont"], ctx["tables"], ctx["expo"]
+        pit, pit_now_factor, dens, traffic = ctx["pit"], ctx["pit_now_factor"], ctx["dens"], ctx["traffic"]
+        caps, legal0, compounds_used, avail = ctx["caps"], ctx["legal0"], ctx["compounds_used"], ctx["avail"]
+        stint_len_now, first_stint, stops_taken = ctx["stint_len_now"], ctx["first_stint"], ctx["stops_taken"]
+        first_stop_pen, expo_cont = ctx["first_stop_pen"], ctx["expo_cont"]
+        n = self.n
+        kind, stop, legal, recipe = ctx["kind"], ctx["stop"], ctx["legal"], ctx["recipe"]
+        if rs is None:
+            mean_all = ctx["mean_all"]
+            rs_adj = None
+        else:
+            rs_adj = rs["opt_extra"] - ctx["xv3"]
+            mean_all = ctx["mean_all"] + rs_adj
         if not legal.any():
             legal = np.ones(len(stop), bool)
         li = np.flatnonzero(legal)
@@ -823,6 +905,8 @@ class RaceEngine:
                 if expo is not None:
                     e2 = expo[(c2, c3)]
                     t = t + self.lam * e2[min(r1, len(e2) - 1)] * dens[p2 - 1]
+            if rs_adj is not None:
+                t = t + float(rs_adj[i])
             rows.append(np.asarray(t, dtype=np.float64))
         T = np.stack(rows)                                                   # (n_short, n)
         win_short = np.bincount(np.argmin(T, axis=0), minlength=len(short)) / n
@@ -843,7 +927,35 @@ class RaceEngine:
             return f"2 stops: {c2} lap {p}, {c3} lap {p + r1}", [c2, c3]
 
         best_label, best_comps = label_of(best_i)
+        rs_report = None
+        if rs is not None:
+            # the five actions, on the race-state curve: cost by next-stop lap,
+            # best continuation at each lap
+            S = np.asarray(rs["laps"], dtype=int)
+            cur_best = np.full(len(S), np.inf)
+            core_best = np.full(len(S), np.inf)
+            st_l_all = stop[li]
+            pos_in = np.searchsorted(S, st_l_all)
+            okm = (st_l_all >= 0) & (pos_in < len(S))
+            okm[okm] &= S[pos_in[okm]] == st_l_all[okm]
+            np.minimum.at(cur_best, pos_in[okm], ml[okm])
+            core_l = (ctx["mean_all"] - ctx["xv3"])[li]
+            np.minimum.at(core_best, pos_in[okm], core_l[okm])
+            fin = np.isfinite(cur_best)
+            pos_l = np.asarray(rs["position_s"], dtype=float)
+            trf_l = np.asarray(rs["traffic_s"], dtype=float)
+            tbl = racestate.action_table(
+                S[fin], cur_best[fin],
+                {"tyre_s": core_best[fin] - np.nanmin(core_best[fin]) if fin.any() else core_best[fin],
+                 "position_s": pos_l[fin] - np.nanmin(pos_l[fin]) if fin.any() else pos_l[fin],
+                 "traffic_s": trf_l[fin]},
+                now_lap=now_lap, window_hi=(max(in_win) if in_win else None),
+                extra={"rejoin_position": [rs["rejoin"].get(int(s)) for s in S[fin]]})
+            rs_report = {**tbl, "rivals": rs["rivals"], "place_value_s": rs["place_value_s"],
+                         "sigma_rel_s": rs["sigma_rel_s"], "n_rivals": len(rs["rivals"]),
+                         "position_s_stay": rs["position_stay_s"]}
         return {
+            "race_state": rs_report,
             "best": best_label, "best_kind": int(kind[best_i]),
             "next_stop": (int(stop[best_i]) if stop[best_i] >= 0 else None),
             "next_compound": (best_comps[0] if best_comps else None),
@@ -861,11 +973,131 @@ class RaceEngine:
             "box_now_label": (label_of(box_i)[0] if box_i is not None else None),
             "undercut_lambda": self.lam,
             "first_stop_kappa_s": self.kappa,
-            "first_stop_prior_applies": bool(first_stint and self.first_stop_table is not None and self.kappa > 0),
+            "first_stop_prior_applies": bool(rs is None and first_stint and self.first_stop_table is not None
+                                             and self.kappa > 0),
             "first_stop_s": (float(first_stop_pen(int(stop[best_i]), max(int(kind[best_i]), 1)))
-                             if stop[best_i] >= 0 else 0.0),
+                             if (stop[best_i] >= 0 and rs is None) else 0.0),
             "first_stop_n_stops": (stops_taken + int(kind[best_i]) if stop[best_i] >= 0 else None),
         }
+
+    # -- race state ---------------------------------------------------------
+
+    def _curve_of(self, ctx: dict, mean_all: np.ndarray | None = None) -> tuple:
+        """A car's expected cost by next-stop lap (best legal option at each lap)
+        and its no-further-stop cost: what its stop distribution is drawn from."""
+        m = ctx["mean_all"] if mean_all is None else mean_all
+        stop, legal = ctx["stop"], ctx["legal"]
+        ok = legal & (stop >= 0)
+        if not ok.any():
+            return np.zeros(0, int), np.zeros(0), (float(m[0]) if ctx["legal0"] else float("inf"))
+        laps = np.unique(stop[ok])
+        best = np.full(len(laps), np.inf)
+        np.minimum.at(best, np.searchsorted(laps, stop[ok]), m[ok])
+        return laps, best, (float(m[0]) if ctx["legal0"] else float("inf"))
+
+    def _fresh_rows(self, ctx: dict, total: int) -> tuple:
+        """`rows[s, j]`: the expected cost of j laps on the set the car would fit
+        if it stopped after lap s (its best option's compound at that lap)."""
+        core = ctx["mean_all"] - ctx["xv3"]
+        stop, legal, nxc = ctx["stop"], ctx["legal"], ctx["nxc"]
+        ok = legal & (stop >= 0)
+        rows = np.zeros((total + 1, total + 1))
+        comp_at = {}
+        if not ok.any():
+            return rows, comp_at
+        o = np.lexsort((core[ok], stop[ok]))
+        s_sorted, c_sorted = stop[ok][o], nxc[ok][o]
+        uniq, at = np.unique(s_sorted, return_index=True)
+        for s, ci in zip(uniq, c_sorted[at]):
+            c = self.model.compounds[int(ci)]
+            tbl = ctx["mean_t"].get(c)
+            if tbl is not None and s <= total:
+                rows[int(s), :tbl.shape[1]] = tbl[int(s)]
+                comp_at[int(s)] = c
+        return rows, comp_at
+
+    def _car_views(self, state: LiveState, order: list, ctxs: dict, total: int) -> dict:
+        """`racestate.CarView` for every car with a plan context this tick."""
+        rows = {r["driver_number"]: r for r in order}
+        views = {}
+        for num, ctx in ctxs.items():
+            if ctx is None:
+                continue
+            r = rows.get(num) or {}
+            fresh, comp_at = self._fresh_rows(ctx, total)
+            prev = self._rs_curves.get(num)
+            if prev is not None:
+                c_laps, c_cost, stay = prev
+            else:
+                c_laps, c_cost, stay = self._curve_of(ctx)
+            plan = self._plans.get(num) or {}
+            nxt = plan.get("next_compound")
+            if not nxt and comp_at:
+                nxt = comp_at[min(comp_at)]
+            gl = 0.0 if r.get("position") == 1 else r.get("gap_leader_s")
+            views[num] = racestate.CarView(
+                number=num, code=state.driver_label(num), cur_lap=int(ctx["cur_lap"]),
+                gap_leader_s=(float(gl) if gl is not None else None),
+                position=r.get("position"), stops=int(ctx["stops_taken"]), in_pit=bool(r.get("in_pit")),
+                compound=ctx["cur_c"], tyre_age=r.get("tyre_age"), cont=np.asarray(ctx["cont_m"], dtype=float),
+                fresh_rows=fresh, next_compound=nxt, curve_laps=np.asarray(c_laps, dtype=int),
+                curve_cost=np.asarray(c_cost, dtype=float), stay_cost=float(stay))
+        return views
+
+    def _race_state_extra(self, state: LiveState, num: str, ctx: dict, views: dict, order: list,
+                          total: int) -> dict | None:
+        """The race-state charge on each of this car's options' next stop.
+
+        The four cars nearest in virtual race position, their gaps, sets, tyre
+        ages, stops made, pit status and last lap's plans (`racestate.
+        live_position_term`), plus the traffic the timing screen says the car
+        would rejoin into over the next four laps (`racestate.rejoin_traffic`,
+        replacing the V3 density model's charge there).  None when the car has
+        no race-time gap to price it with (lapped, or before the first timing
+        line) - the plan then keeps V3's terms."""
+        me = views.get(num)
+        if me is None or me.gap_leader_s is None or not np.isfinite(me.gap_leader_s):
+            return None
+        stop = ctx["stop"]
+        S = np.unique(stop[stop >= 0])
+        if not len(S):
+            return None
+        pit, factor, now_lap = ctx["pit"], ctx["pit_now_factor"], ctx["now_lap"]
+        same_lap = {k: v for k, v in views.items() if abs(v.cur_lap - me.cur_lap) <= 1}
+        riv = racestate.relevant_rivals(me, same_lap, pit)
+        for k, _, _ in riv:
+            r = same_lap[k]
+            best_stop = float(np.min(r.curve_cost)) if len(r.curve_cost) else float("inf")
+            done = np.isfinite(r.stay_cost) and r.stay_cost <= best_stop
+            r.pending = bool(r.stops <= me.stops and not done)
+        pos, detail = racestate.live_position_term(me, riv, same_lap, S, pit_now_s=pit * factor, pit_s=pit,
+                                                   now_lap=now_lap, const=self.race_state)
+        # traffic on rejoin, from the screen, over the laps it can be seen for
+        others = [v.gap_leader_s for k, v in same_lap.items() if k != num and not v.in_pit]
+        traffic_l = np.array([float(ctx["traffic"] * ctx["dens"][int(s) - 1]) for s in S])
+        rejoin = {}
+        for i, s in enumerate(S):
+            if s > now_lap + 3:
+                break
+            rj = racestate.rejoin_traffic(me.gap_leader_s, others, pit * (factor if s == now_lap else 1.0),
+                                          dirty_air_s_per_lap=self.dirty_air,
+                                          laps_per_stop=TRAFFIC_LAPS_PER_STOP, sigma_s=self.race_state.sigma_rel_s)
+            if np.isfinite(rj["traffic_s"]):
+                traffic_l[i] = rj["traffic_s"]
+                rejoin[int(s)] = rj["rejoin_position"]
+        tadj = traffic_l - np.array([float(ctx["traffic"] * ctx["dens"][int(s) - 1]) for s in S])
+        base = float(np.min(pos))
+        pos_s = pos[:-1] - base
+        at = np.searchsorted(S, np.clip(stop, S[0], S[-1]))
+        opt = np.where(stop >= 0, pos_s[at] + tadj[at], pos[-1] - base)
+        for d in detail:
+            d["p_ahead_now"] = float(d["p_ahead"][0]) if len(d["p_ahead"]) else None
+            d["p_ahead_stay_3"] = float(d["p_ahead"][min(3, len(d["p_ahead"]) - 1)]) if len(d["p_ahead"]) else None
+            d["p_ahead"] = None
+        return {"opt_extra": opt, "laps": [int(s) for s in S], "position_s": [float(x) for x in pos_s],
+                "traffic_s": [float(x) for x in traffic_l], "rejoin": rejoin, "rivals": detail,
+                "place_value_s": float(self.race_state.place_value_s),
+                "sigma_rel_s": float(self.race_state.sigma_rel_s), "position_stay_s": float(pos[-1] - base)}
 
     def _density(self, total: int) -> np.ndarray:
         f = np.arange(1, total + 1, dtype=float) / total
@@ -1035,6 +1267,8 @@ class RaceEngine:
         order = state.field_snapshot()
         sc = state.track_status in ("4", "6", "7")
         field = []
+        todo = []
+        # -- pass 1: each car on its own tyre and the pit lane ---------------------
         for r in order:
             num = r["driver_number"]
             tr = state.tracks[num]
@@ -1069,63 +1303,98 @@ class RaceEngine:
                             "wear_alarm": bool(dt.p_past_cliff >= CLIFF_ALARM_P
                                                or dt.laps_to_cliff[1] <= 2.0)})
             lap_no = int(tr.current["lap_number"]) if tr.current else 0
-            if dt is not None and dt.wear is not None and not tr.retired and state.is_race \
-                    and state.session_status not in ("Finished", "Finalised", "Ends"):
-                if replan and (self._last_plan_lap.get(num) != lap_no or sc):
+            eligible = bool(dt is not None and dt.wear is not None and not tr.retired and state.is_race
+                            and state.session_status not in ("Finished", "Finalised", "Ends"))
+            needs = bool(eligible and replan and (self._last_plan_lap.get(num) != lap_no or sc))
+            if needs:
+                try:
+                    self._ctx[num] = self._plan_prepare(state, num, dt, tr, total)
+                except Exception:
+                    log.exception("plan failed for %s", num)
+                    self._ctx[num] = None
+            todo.append((row, num, tr, dt, lap_no, eligible, needs))
+            field.append(row)
+        # -- pass 2: the race state against the nearest rivals, then the call -------
+        views = None
+        if self.race_state is not None:
+            ctxs = {t[1]: self._ctx.get(t[1]) for t in todo if t[6] and self._ctx.get(t[1]) is not None}
+            try:
+                views = self._car_views(state, order, ctxs, total)
+            except Exception:
+                log.exception("race-state views failed; this tick prices the V3 objective")
+                views = None
+        new_curves = {}
+        for row, num, tr, dt, lap_no, eligible, needs in todo:
+            if not eligible:
+                continue
+            if needs:
+                ctx = self._ctx.get(num)
+                if ctx is None:
+                    self._plans[num] = None
+                else:
                     try:
-                        self._plans[num] = self._plan(state, num, dt, tr, total, sc)
+                        rs = None
+                        if views is not None:
+                            try:
+                                rs = self._race_state_extra(state, num, ctx, views, order, total)
+                            except Exception:
+                                log.exception("race state failed for %s; its plan keeps V3's terms", num)
+                                rs = None
+                        self._plans[num] = self._plan_finish(state, num, dt, tr, total, ctx, rs)
+                        if rs is not None:
+                            new_curves[num] = self._curve_of(ctx, ctx["mean_all"] - ctx["xv3"] + rs["opt_extra"])
                     except Exception:
                         log.exception("plan failed for %s", num)
                         self._plans[num] = None
-                    self._last_plan_lap[num] = lap_no
-                plan = self._plans.get(num)
-                row["plan"] = plan
-                uc = self._undercut(state, order, num, dt)
-                row["undercut"] = uc
-                if plan is not None:
-                    factor = plan.get("pit_now_factor", 1.0)
-                    row["rejoin_if_box_now"] = self._rejoin(order, num, self.pit_loss_s * factor)
-                    if row["pace_collapse"]:
-                        self._alert(state, num, "collapse", "bad",
-                                    f"PACE COLLAPSE on the {dt.compound}: pace broke away at age "
-                                    f"{row['collapse_knee_age']:.0f}, now {row['collapse_slope_post']:+.2f} s/lap "
-                                    f"({row['collapse_kind']}); the model still gives it "
-                                    f"~{row['laps_to_cliff_p50']:.0f} laps", lap_no)
-                    # Box-now is within a tenth of the best plan: the decision is
-                    # live this lap.  Fired under a safety car too - the numbers
-                    # say the same thing - beside the SC-specific message below.
-                    if np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] <= BOX_NOW_TOL_S \
-                            and plan["best_kind"] > 0:
-                        rj = row.get("rejoin_if_box_now") or {}
-                        self._alert(state, num, "box_now", "warn",
-                                    f"BOX NOW is live: it costs {plan['delta_box_now_s']:+.1f} s against "
-                                    f"{plan['best']}; rejoin P{rj.get('position', '?')}", lap_no)
-                    if sc and np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] < 0.5 \
-                            and plan["best_kind"] > 0:
-                        rj = row["rejoin_if_box_now"] or {}
-                        self._alert(state, num, "sc_box", "warn",
-                                    f"{'SC' if state.track_status == '4' else 'VSC'} — box now: costs "
-                                    f"{plan['delta_box_now_s']:+.1f} s vs the best green plan"
-                                    f" (pit loss x{factor:.2f}); rejoin P{rj.get('position', '?')}", lap_no)
-                    if plan.get("window_lo") is not None and plan["window_lo"] <= lap_no <= (plan["window_hi"] or 0) \
-                            and plan["best_kind"] > 0:
-                        self._alert(state, num, "window", "accent",
-                                    f"Pit window open: laps {plan['window_lo']}-{plan['window_hi']} "
-                                    f"({plan['best']}, box-now costs {plan['delta_box_now_s']:+.1f} s)", lap_no)
-                    th = uc.get("threat")
-                    if th and th["p_undercut_3lap"] > 0.5:
-                        self._alert(state, num, "undercut_threat", "warn",
-                                    f"UNDERCUT THREAT from {th['driver']} (gap {th['gap_s']:.1f} s): on a fresh "
-                                    f"{th['new_compound']} they are ahead after "
-                                    f"{th['laps_needed'] or '>5'} lap(s) if you stay out — "
-                                    f"P(1 lap) {th['p_undercut_1lap']:.0%}, P(3 laps) {th['p_undercut_3lap']:.0%}", lap_no)
-                    op = uc.get("opportunity")
-                    if op and op["p_undercut_3lap"] > 0.5:
-                        self._alert(state, num, "undercut_opp", "good",
-                                    f"UNDERCUT ON {op['driver']} (gap {op['gap_s']:.1f} s): box now and you are "
-                                    f"ahead after {op['laps_needed'] or '>5'} lap(s) if they stay out — "
-                                    f"P(3 laps) {op['p_undercut_3lap']:.0%}", lap_no)
-            field.append(row)
+                self._last_plan_lap[num] = lap_no
+            plan = self._plans.get(num)
+            row["plan"] = plan
+            uc = self._undercut(state, order, num, dt)
+            row["undercut"] = uc
+            if plan is not None:
+                factor = plan.get("pit_now_factor", 1.0)
+                row["rejoin_if_box_now"] = self._rejoin(order, num, self.pit_loss_s * factor)
+                if row["pace_collapse"]:
+                    self._alert(state, num, "collapse", "bad",
+                                f"PACE COLLAPSE on the {dt.compound}: pace broke away at age "
+                                f"{row['collapse_knee_age']:.0f}, now {row['collapse_slope_post']:+.2f} s/lap "
+                                f"({row['collapse_kind']}); the model still gives it "
+                                f"~{row['laps_to_cliff_p50']:.0f} laps", lap_no)
+                # Box-now is within a tenth of the best plan: the decision is
+                # live this lap.  Fired under a safety car too - the numbers
+                # say the same thing - beside the SC-specific message below.
+                if np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] <= BOX_NOW_TOL_S \
+                        and plan["best_kind"] > 0:
+                    rj = row.get("rejoin_if_box_now") or {}
+                    self._alert(state, num, "box_now", "warn",
+                                f"BOX NOW is live: it costs {plan['delta_box_now_s']:+.1f} s against "
+                                f"{plan['best']}; rejoin P{rj.get('position', '?')}", lap_no)
+                if sc and np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] < 0.5 \
+                        and plan["best_kind"] > 0:
+                    rj = row["rejoin_if_box_now"] or {}
+                    self._alert(state, num, "sc_box", "warn",
+                                f"{'SC' if state.track_status == '4' else 'VSC'} — box now: costs "
+                                f"{plan['delta_box_now_s']:+.1f} s vs the best green plan"
+                                f" (pit loss x{factor:.2f}); rejoin P{rj.get('position', '?')}", lap_no)
+                if plan.get("window_lo") is not None and plan["window_lo"] <= lap_no <= (plan["window_hi"] or 0) \
+                        and plan["best_kind"] > 0:
+                    self._alert(state, num, "window", "accent",
+                                f"Pit window open: laps {plan['window_lo']}-{plan['window_hi']} "
+                                f"({plan['best']}, box-now costs {plan['delta_box_now_s']:+.1f} s)", lap_no)
+                th = uc.get("threat")
+                if th and th["p_undercut_3lap"] > 0.5:
+                    self._alert(state, num, "undercut_threat", "warn",
+                                f"UNDERCUT THREAT from {th['driver']} (gap {th['gap_s']:.1f} s): on a fresh "
+                                f"{th['new_compound']} they are ahead after "
+                                f"{th['laps_needed'] or '>5'} lap(s) if you stay out — "
+                                f"P(1 lap) {th['p_undercut_1lap']:.0%}, P(3 laps) {th['p_undercut_3lap']:.0%}", lap_no)
+                op = uc.get("opportunity")
+                if op and op["p_undercut_3lap"] > 0.5:
+                    self._alert(state, num, "undercut_opp", "good",
+                                f"UNDERCUT ON {op['driver']} (gap {op['gap_s']:.1f} s): box now and you are "
+                                f"ahead after {op['laps_needed'] or '>5'} lap(s) if they stay out — "
+                                f"P(3 laps) {op['p_undercut_3lap']:.0%}", lap_no)
+        self._rs_curves.update(new_curves)
         m_field = self.m_prior
         fw = self.field_weights
         o = np.argsort(m_field)
@@ -1145,7 +1414,8 @@ class RaceEngine:
                      "sc_active": sc, "tick": self.tick_no, "undercut_lambda": self.lam,
                      "dirty_air_s_per_lap": self.dirty_air,
                      "first_stop_kappa_s": self.kappa,
-                     "first_stop_prior": bool(self.first_stop_table is not None),
+                     "first_stop_prior": bool(self.first_stop_table is not None and self.race_state is None),
+                     "race_state": (self.race_state.as_dict() if self.race_state is not None else None),
                      "percar_pooled_drivers": len(self.pooled_dev),
                      "tick_utc": datetime.now(timezone.utc).isoformat()},
             "field": field,

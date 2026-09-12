@@ -1,13 +1,43 @@
 {
-  "bench_accuracy": {"seconds": 26, "exit": 0},
-  "bench_strategy": {"seconds": 3, "exit": 0},
-  "bench_ablation": {"seconds": 106, "exit": 0},
-  "bench_outlook": {"seconds": 17, "exit": 0},
-  "bench_live": {"seconds": 12, "exit": 0},
-  "bench_stability": {"seconds": 43, "exit": 0},
-  "bench_speed": {"seconds": 49, "exit": 0},
-  "bench_apex": {"seconds": 101, "exit": 0},
-  "pytest": {"seconds": 13, "exit": 0},
-  "bench_compare": {"seconds": 1, "exit": 0},
-  "total_seconds": 371
+ "bench_accuracy": {
+  "seconds": 82,
+  "exit": 0
+ },
+ "bench_strategy": {
+  "seconds": 8,
+  "exit": 0
+ },
+ "bench_ablation": {
+  "seconds": 603,
+  "exit": 0
+ },
+ "bench_outlook": {
+  "seconds": 62,
+  "exit": 0
+ },
+ "bench_live": {
+  "seconds": 74,
+  "exit": 0
+ },
+ "bench_stability": {
+  "seconds": 130,
+  "exit": 0
+ },
+ "bench_speed": {
+  "seconds": 211,
+  "exit": 0
+ },
+ "bench_apex": {
+  "seconds": 187,
+  "exit": 0
+ },
+ "pytest": {
+  "seconds": 56,
+  "exit": 0
+ },
+ "bench_compare": {
+  "seconds": 2,
+  "exit": 0
+ },
+ "total_seconds": 1420
 }

@@ -1,0 +1,5321 @@
+{
+ "australia-2026": {
+  "full": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.98,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.8933333333333333,
+    "2": 0.10666666666666666,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_plan_prior": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.8966666666666667,
+    "2": 0.10333333333333333,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.97,
+    "2": 0.03,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_position": {
+   "best": "1-stop M-H @ 26",
+   "p_stops": {
+    "1": 0.96,
+    "2": 0.04,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 26,
+   "pit_laps": [
+    26
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_pace_cal": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 0.7033333333333334,
+    "2": 0.2966666666666667,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 36",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "config_constants": {
+   "best": "1-stop H-M @ 36",
+   "p_stops": {
+    "1": 0.9733333333333334,
+    "2": 0.02666666666666667,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 1,
+   "seq": "HARD-MEDIUM",
+   "start": "HARD",
+   "first": 36,
+   "pit_laps": [
+    36
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 36",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "practice_only": {
+   "best": "1-stop M-H @ 31",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 31,
+   "pit_laps": [
+    31
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0067,
+    "MEDIUM": 0.0124,
+    "SOFT": 0.0259
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "old_budget": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.98,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.98,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "1-stop M-H @ 25",
+   "p_stops": {
+    "1": 0.98,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 25,
+   "pit_laps": [
+    25
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.5333333333333333,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   },
+   "regime": {
+    "ratio": 0.6694907242090762,
+    "ln_sd": 0.26589697926927564,
+    "mode": "none",
+    "shipped_ratio": 0.669490724209074
+   },
+   "rate_mae": 0.04893811987026071,
+   "rate_bias": 0.011424898991185392,
+   "rate_cov90": 0.782608695652174,
+   "shipped_rate_mae": 0.04893812003763015
+  },
+  "percar": {
+   "shipped": {
+    "n": 20,
+    "share_same_shape_as_field": 0.95,
+    "first_stop_spread": 26.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 20,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 22.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": -0.1305699717401196,
+    "sealed_driver_hist": -0.09933284217257345,
+    "sealed_driver_practice_dev": -0.4175932917205202,
+    "sealed_driver_team_pooled": -0.3928836294885368
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "1-stop M-H @ 25",
+   "ablation_full": "1-stop M-H @ 25",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0336,
+    "MEDIUM": 0.0249,
+    "SOFT": 0.0445
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0389,
+    "MEDIUM": 0.0049,
+    "SOFT": 0.0515
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0311,
+    "MEDIUM": -0.1498,
+    "SOFT": 0.0886
+   },
+   "practice_stint_fe_ordered": false,
+   "model_rate": {
+    "HARD": 0.0407,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0837
+   },
+   "model_ordered": true,
+   "circuit_ladder": {
+    "n_races": 2,
+    "recency_weights": [
+     0.5,
+     0.7
+    ],
+    "deg_ratio": 1.8876704345475854,
+    "deg_ratio_ln_sd": 0.25,
+    "deg_ratio_by_year": [
+     1.888
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": 0.031098706786709895,
+     "MEDIUM": -0.14983351740827103,
+     "SOFT": 0.08862779738160395
+    },
+    "ci": {
+     "HARD": [
+      -0.08103527125073214,
+      0.11755150254521207
+     ],
+     "MEDIUM": [
+      -0.2173145086684067,
+      -0.04458595175015394
+     ],
+     "SOFT": [
+      -0.03732572616361597,
+      0.20014828485997813
+     ]
+    },
+    "n_stints": 52,
+    "n_laps": 233,
+    "pooled_slope": -0.04621165888068878,
+    "pooled_ci": [
+     -0.09476670614471781,
+     0.0189155423868341
+    ],
+    "n_stints_by_compound": {
+     "HARD": 12,
+     "MEDIUM": 24,
+     "SOFT": 16
+    },
+    "n_laps_by_compound": {
+     "HARD": 57,
+     "MEDIUM": 118,
+     "SOFT": 58
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": 0.031098706786709895,
+      "n_laps": 57,
+      "n_stints": 12
+     },
+     "MEDIUM": {
+      "slope": -0.14983351740827103,
+      "n_laps": 118,
+      "n_stints": 24
+     },
+     "SOFT": {
+      "slope": 0.08862779738160395,
+      "n_laps": 58,
+      "n_stints": 16
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.01401970446627151,
+    "stint_fe": -0.04621165888068878,
+    "diff": 0.06023136334696029
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.0407,
+      "MEDIUM": 0.0754,
+      "SOFT": 0.0837
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.0071,
+      "MEDIUM": 0.0162,
+      "SOFT": 0.0418
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.0088,
+      "MEDIUM": 0.0115,
+      "SOFT": 0.0153
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.0097,
+      "MEDIUM": 0.0175,
+      "SOFT": 0.0381
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.1994,
+      "MEDIUM": 2.7534,
+      "SOFT": 0.7397
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.011,
+      "MEDIUM": 0.011,
+      "SOFT": 0.011
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 1,
+   "modal_seq": "MEDIUM-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 25.0,
+   "sc_set": true,
+   "obs_max_stint": {
+    "MEDIUM": 28,
+    "HARD": 46,
+    "SOFT": 24
+   },
+   "n_classified": 15
+  },
+  "inputs": {
+   "kappa_s": 1.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.1312,
+   "dirty_air_pooled": 0.06714154486582084,
+   "plan_prior_source": "Melbourne races [2023, 2024] mapped by C-number",
+   "plan_prior_letters_source": "Melbourne races [2023, 2024]",
+   "nomination": [
+    "C3",
+    "C4",
+    "C5"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.269999999999962
+   }
+  }
+ },
+ "japan-2026": {
+  "full": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9666666666666666,
+    "2": 0.03333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 0.97,
+    "2": 0.03,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_plan_prior": {
+   "best": "1-stop S-H @ 20",
+   "p_stops": {
+    "1": 0.7766666666666666,
+    "2": 0.22333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "SOFT-HARD",
+   "start": "SOFT",
+   "first": 20,
+   "pit_laps": [
+    20
+   ],
+   "first_stop_s": 0.28069989806633533,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9666666666666666,
+    "2": 0.03333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9666666666666667,
+    "2": 0.03333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_position": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9533333333333334,
+    "2": 0.04666666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_pace_cal": {
+   "best": "1-stop M-H @ 20",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20
+   ],
+   "first_stop_s": 0.3616227405291186,
+   "tyre_optimal": "1-stop H-M @ 34",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "config_constants": {
+   "best": "1-stop H-M @ 34",
+   "p_stops": {
+    "1": 0.87,
+    "2": 0.12999999999999998,
+    "3": 0.0
+   },
+   "push": 0.85,
+   "n_stops": 1,
+   "seq": "HARD-MEDIUM",
+   "start": "HARD",
+   "first": 34,
+   "pit_laps": [
+    34
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 34",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.05,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "practice_only": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9633333333333333,
+    "2": 0.03666666666666667,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop M-S @ 31",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0398,
+    "MEDIUM": 0.0806,
+    "SOFT": 0.1775
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "old_budget": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9666666666666667,
+    "2": 0.03333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9666666666666667,
+    "2": 0.03333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9766666666666668,
+    "2": 0.023333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-S @ 32",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0575,
+    "MEDIUM": 0.1088,
+    "SOFT": 0.1735
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   },
+   "regime": {
+    "ratio": 0.6694907242090762,
+    "ln_sd": 0.26856491686467,
+    "mode": "none",
+    "shipped_ratio": 0.6278082385756051
+   },
+   "rate_mae": 0.022664786812784787,
+   "rate_bias": -0.021369740262102182,
+   "rate_cov90": 1.0,
+   "shipped_rate_mae": 0.02026612937410186
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 2.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 20.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": 0.42339019740572564,
+    "sealed_driver_hist": 0.29473684210526313,
+    "sealed_driver_practice_dev": 0.3175438596491228,
+    "sealed_driver_team_pooled": 0.360684545472663
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "1-stop M-H @ 23",
+   "ablation_full": "1-stop M-H @ 23",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0204,
+    "MEDIUM": 0.0592
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "HARD": 0.0201,
+    "MEDIUM": 0.0538
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "HARD": -0.0909,
+    "MEDIUM": 0.0735
+   },
+   "practice_stint_fe_ordered": true,
+   "model_rate": {
+    "HARD": 0.0599,
+    "MEDIUM": 0.1103,
+    "SOFT": 0.1783
+   },
+   "model_ordered": true,
+   "circuit_ladder": {
+    "n_races": 3,
+    "recency_weights": [
+     0.5,
+     0.7,
+     1.0
+    ],
+    "pace_step_s": 0.0732995368022521,
+    "pace_step_se": 0.1348381987100873,
+    "pace_step_by_year": [
+     -0.113,
+     -0.12,
+     0.123
+    ],
+    "pace_step_usable": true,
+    "deg_ratio": 1.2931061960838162,
+    "deg_ratio_ln_sd": 0.4003393289752875,
+    "deg_ratio_by_year": [
+     0.938,
+     0.948,
+     1.887
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": -0.09089169782626004,
+     "MEDIUM": 0.07345224389070013,
+     "SOFT": 0.24317713613878278
+    },
+    "ci": {
+     "HARD": [
+      -0.19932014180776428,
+      -0.023774301452097583
+     ],
+     "MEDIUM": [
+      0.02579910261972655,
+      0.13215471199661166
+     ],
+     "SOFT": [
+      0.15446802368251952,
+      0.3190133492612853
+     ]
+    },
+    "n_stints": 57,
+    "n_laps": 269,
+    "pooled_slope": 0.06615925020825876,
+    "pooled_ci": [
+     0.017414834677894696,
+     0.10949724900846514
+    ],
+    "n_stints_by_compound": {
+     "HARD": 16,
+     "MEDIUM": 22,
+     "SOFT": 19
+    },
+    "n_laps_by_compound": {
+     "HARD": 77,
+     "MEDIUM": 129,
+     "SOFT": 63
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": -0.09089169782626004,
+      "n_laps": 77,
+      "n_stints": 16
+     },
+     "MEDIUM": {
+      "slope": 0.07345224389070013,
+      "n_laps": 129,
+      "n_stints": 22
+     },
+     "SOFT": {
+      "slope": 0.24317713613878278,
+      "n_laps": 63,
+      "n_stints": 19
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.09164692318328294,
+    "stint_fe": 0.06615925020825876,
+    "diff": 0.025487672975024175
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.0599,
+      "MEDIUM": 0.1103,
+      "SOFT": 0.1783
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.0403,
+      "MEDIUM": 0.0797,
+      "SOFT": 0.1851
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.0562,
+      "MEDIUM": 0.0762,
+      "SOFT": 0.1047
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.0476,
+      "MEDIUM": 0.092,
+      "SOFT": 0.1937
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.1922,
+      "MEDIUM": 2.7524,
+      "SOFT": 0.7396
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.0536,
+      "MEDIUM": 0.0537,
+      "SOFT": 0.0538
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 1,
+   "modal_seq": "MEDIUM-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 18.0,
+   "sc_set": true,
+   "obs_max_stint": {
+    "MEDIUM": 33,
+    "HARD": 37
+   },
+   "n_classified": 20
+  },
+  "inputs": {
+   "kappa_s": 1.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.2291,
+   "dirty_air_pooled": 0.13724036279951204,
+   "plan_prior_source": "Suzuka races [2023, 2024, 2025]",
+   "plan_prior_letters_source": "Suzuka races [2023, 2024, 2025]",
+   "nomination": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.299999999999962
+   }
+  }
+ },
+ "barcelona-2026": {
+  "full": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6733333333333333,
+    "3": 0.3266666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6733333333333333,
+    "3": 0.3266666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_plan_prior": {
+   "best": "3-stop M-M-S-S @ 16,32,49",
+   "p_stops": {
+    "3": 0.5833333333333334,
+    "2": 0.41666666666666663,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-MEDIUM-SOFT-SOFT",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16,
+    32,
+    49
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "3-stop S-M-M-S @ 16,32,49",
+   "p_stops": {
+    "3": 0.33666666666666667,
+    "2": 0.6633333333333333,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "SOFT-MEDIUM-MEDIUM-SOFT",
+   "start": "SOFT",
+   "first": 16,
+   "pit_laps": [
+    16,
+    32,
+    49
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": false,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6466666666666666,
+    "3": 0.3533333333333332,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_position": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6733333333333333,
+    "3": 0.3266666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_pace_cal": {
+   "best": "2-stop M-H-H @ 18,42",
+   "p_stops": {
+    "2": 0.9099999999999999,
+    "3": 0.09000000000000001,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop H-H-S @ 24,48",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 5.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "config_constants": {
+   "best": "2-stop S-H-H @ 18,42",
+   "p_stops": {
+    "2": 0.5633333333333334,
+    "3": 0.43666666666666665,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "SOFT-HARD-HARD",
+   "start": "SOFT",
+   "first": 18,
+   "pit_laps": [
+    18,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop S-H-H @ 18,42",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.07692307692307693,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": 5.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "practice_only": {
+   "best": "3-stop M-S-S-M @ 16,33,50",
+   "p_stops": {
+    "3": 0.9033333333333333,
+    "2": 0.09666666666666666,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16,
+    33,
+    50
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-S-S-M @ 16,33,50",
+   "life": {
+    "HARD": 32.2,
+    "MEDIUM": 22.6,
+    "SOFT": 23.4
+   },
+   "deg_full_push": {
+    "HARD": 0.2351,
+    "MEDIUM": 0.2639,
+    "SOFT": 0.2576
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.04,
+     "MEDIUM": 0.87,
+     "SOFT": 1.67
+    },
+    "median": 1.04,
+    "n_over_1": 2
+   }
+  },
+  "old_budget": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6733333333333333,
+    "3": 0.3266666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "2-stop M-H-H @ 19,42",
+   "p_stops": {
+    "2": 0.6733333333333333,
+    "3": 0.3266666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    42
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "2-stop M-H-H @ 19,43",
+   "p_stops": {
+    "2": 0.76,
+    "3": 0.24,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 26.9,
+    "SOFT": 24.5
+   },
+   "deg_full_push": {
+    "HARD": 0.1564,
+    "MEDIUM": 0.224,
+    "SOFT": 0.2447
+   },
+   "seq_share": 0.46153846153846156,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 6.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 1.03,
+     "SOFT": 1.75
+    },
+    "median": 1.1,
+    "n_over_1": 3
+   },
+   "regime": {
+    "ratio": 0.6843692444211116,
+    "ln_sd": 0.271868967164839,
+    "mode": "none",
+    "shipped_ratio": 0.6005308175140492
+   },
+   "rate_mae": 0.04087481703663622,
+   "rate_bias": -0.0053083346945167675,
+   "rate_cov90": 0.9354838709677419,
+   "shipped_rate_mae": 0.0399198503479724
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 0.7727272727272727,
+    "first_stop_spread": 8.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 18.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": 0.1118177749033395,
+    "sealed_driver_hist": 0.18354176563909516,
+    "sealed_driver_practice_dev": 0.014526383123372382,
+    "sealed_driver_team_pooled": -0.004439961897217759
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "2-stop M-H-H @ 19,42",
+   "ablation_full": "2-stop M-H-H @ 19,42",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.1105,
+    "MEDIUM": 0.1566,
+    "SOFT": 0.1722
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "MEDIUM": 0.1725,
+    "SOFT": 0.2094
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "MEDIUM": 0.2822,
+    "SOFT": 0.2533
+   },
+   "practice_stint_fe_ordered": false,
+   "model_rate": {
+    "HARD": 0.1759,
+    "MEDIUM": 0.2445,
+    "SOFT": 0.2547
+   },
+   "model_ordered": true,
+   "circuit_ladder": {
+    "n_races": 2,
+    "recency_weights": [
+     0.5,
+     1.0
+    ],
+    "pace_step_s": -0.055032350919588,
+    "pace_step_se": 0.18571691249582145,
+    "pace_step_by_year": [
+     -0.055
+    ],
+    "pace_step_usable": false,
+    "deg_ratio": 1.3833473396884277,
+    "deg_ratio_ln_sd": 0.47489584569346316,
+    "deg_ratio_by_year": [
+     0.989,
+     1.935
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "MEDIUM": 0.28216874026375754,
+     "SOFT": 0.25334038947479465
+    },
+    "ci": {
+     "MEDIUM": [
+      0.2198691218144975,
+      0.37725850674708844
+     ],
+     "SOFT": [
+      0.1473897607469748,
+      0.35738638918268295
+     ]
+    },
+    "n_stints": 42,
+    "n_laps": 225,
+    "pooled_slope": 0.26935613991310736,
+    "pooled_ci": [
+     0.20818506980285706,
+     0.3404686449572651
+    ],
+    "n_stints_by_compound": {
+     "MEDIUM": 22,
+     "SOFT": 19
+    },
+    "n_laps_by_compound": {
+     "MEDIUM": 120,
+     "SOFT": 96
+    },
+    "per_compound": {
+     "MEDIUM": {
+      "slope": 0.28216874026375754,
+      "n_laps": 120,
+      "n_stints": 22
+     },
+     "SOFT": {
+      "slope": 0.25334038947479465,
+      "n_laps": 96,
+      "n_stints": 19
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.2611678435490611,
+    "stint_fe": 0.26935613991310736,
+    "diff": 0.008188296364046277
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.1759,
+      "MEDIUM": 0.2445,
+      "SOFT": 0.2547
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.2182,
+      "MEDIUM": 0.2469,
+      "SOFT": 0.2626
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.1841,
+      "MEDIUM": 0.2387,
+      "SOFT": 0.2995
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.2619,
+      "MEDIUM": 0.2886,
+      "SOFT": 0.2794
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.2137,
+      "MEDIUM": 2.7559,
+      "SOFT": 0.7403
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.2646,
+      "MEDIUM": 0.265,
+      "SOFT": 0.2654
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 2,
+   "modal_seq": "MEDIUM-HARD-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 13.0,
+   "sc_set": false,
+   "obs_max_stint": {
+    "MEDIUM": 26,
+    "HARD": 31,
+    "SOFT": 14
+   },
+   "n_classified": 13
+  },
+  "inputs": {
+   "kappa_s": 0.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.1162,
+   "dirty_air_pooled": 0.06714154486582084,
+   "plan_prior_source": "Barcelona races [2023, 2025] mapped by C-number",
+   "plan_prior_letters_source": "Barcelona races [2023, 2025]",
+   "nomination": [
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.8,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8,
+    "MEDIUM": 3.8,
+    "HARD": 4.187733485335042
+   }
+  }
+ },
+ "austria-2026": {
+  "full": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.89,
+    "3": 0.11,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.9066666666666667,
+    "3": 0.09333333333333332,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_plan_prior": {
+   "best": "3-stop M-S-S-M @ 17,35,53",
+   "p_stops": {
+    "3": 0.7933333333333333,
+    "2": 0.20333333333333334,
+    "1": 0.0033333333333333335
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 17,
+   "pit_laps": [
+    17,
+    35,
+    53
+   ],
+   "first_stop_s": 0.08812216531749639,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.89,
+    "3": 0.11,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.89,
+    "3": 0.11,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_position": {
+   "best": "2-stop M-H-M @ 23,48",
+   "p_stops": {
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 5.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_pace_cal": {
+   "best": "2-stop M-H-M @ 21,47",
+   "p_stops": {
+    "2": 0.9766666666666666,
+    "3": 0.023333333333333334,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21,
+    47
+   ],
+   "first_stop_s": 0.03417289061936968,
+   "tyre_optimal": "2-stop H-H-M @ 25,50",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "config_constants": {
+   "best": "2-stop S-H-H @ 18,45",
+   "p_stops": {
+    "2": 0.68,
+    "3": 0.31999999999999995,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "SOFT-HARD-HARD",
+   "start": "SOFT",
+   "first": 18,
+   "pit_laps": [
+    18,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop S-H-H @ 18,45",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "practice_only": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.8233333333333333,
+    "3": 0.17666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop S-S-M-M @ 18,36,54",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1166,
+    "MEDIUM": 0.1535,
+    "SOFT": 0.1479
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "old_budget": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.89,
+    "3": 0.11,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.89,
+    "3": 0.11,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.9433333333333334,
+    "3": 0.05666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.010225562621160478,
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1101,
+    "MEDIUM": 0.1376,
+    "SOFT": 0.1371
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   },
+   "regime": {
+    "ratio": 0.7167694816367273,
+    "ln_sd": 0.274191208342158,
+    "mode": "none",
+    "shipped_ratio": 0.652261007717854
+   },
+   "rate_mae": 0.03401103702370921,
+   "rate_bias": -0.01945954658380934,
+   "rate_cov90": 0.975,
+   "shipped_rate_mae": 0.03150763346336551
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 0.9545454545454546,
+    "first_stop_spread": 4.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 22.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": 0.06034618098466586,
+    "sealed_driver_hist": 0.12169262740063069,
+    "sealed_driver_practice_dev": 0.04616900732289241,
+    "sealed_driver_team_pooled": 0.024960121097832674
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "2-stop M-H-M @ 22,46",
+   "ablation_full": "2-stop M-H-M @ 22,46",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0783,
+    "MEDIUM": 0.0703,
+    "SOFT": 0.0504
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0753,
+    "MEDIUM": 0.0897,
+    "SOFT": 0.0663
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0604,
+    "MEDIUM": 0.1885,
+    "SOFT": 0.0925
+   },
+   "practice_stint_fe_ordered": false,
+   "model_rate": {
+    "HARD": 0.1165,
+    "MEDIUM": 0.147,
+    "SOFT": 0.1415
+   },
+   "model_ordered": false,
+   "circuit_ladder": {
+    "n_races": 1,
+    "recency_weights": [
+     1.0
+    ],
+    "pace_step_s": -0.2849741320545426,
+    "pace_step_se": 0.21383740751864455,
+    "pace_step_by_year": [
+     -0.285
+    ],
+    "pace_step_usable": false,
+    "deg_ratio": 1.0604620992785314,
+    "deg_ratio_ln_sd": 0.25,
+    "deg_ratio_by_year": [
+     1.06
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": 0.06041859286240618,
+     "MEDIUM": 0.18848196567585568,
+     "SOFT": 0.09249795838056363
+    },
+    "ci": {
+     "HARD": [
+      0.0019038647756299287,
+      0.11425859293967972
+     ],
+     "MEDIUM": [
+      0.14796079962507402,
+      0.2265894493127015
+     ],
+     "SOFT": [
+      -0.019134153704815995,
+      0.20296259356984733
+     ]
+    },
+    "n_stints": 47,
+    "n_laps": 262,
+    "pooled_slope": 0.13900613101635623,
+    "pooled_ci": [
+     0.10456819793710401,
+     0.17112821458773858
+    ],
+    "n_stints_by_compound": {
+     "HARD": 11,
+     "MEDIUM": 23,
+     "SOFT": 13
+    },
+    "n_laps_by_compound": {
+     "HARD": 57,
+     "MEDIUM": 146,
+     "SOFT": 59
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": 0.06041859286240618,
+      "n_laps": 57,
+      "n_stints": 11
+     },
+     "MEDIUM": {
+      "slope": 0.18848196567585568,
+      "n_laps": 146,
+      "n_stints": 23
+     },
+     "SOFT": {
+      "slope": 0.09249795838056363,
+      "n_laps": 59,
+      "n_stints": 13
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.1455521480055389,
+    "stint_fe": 0.13900613101635623,
+    "diff": 0.006546016989182668
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.1165,
+      "MEDIUM": 0.147,
+      "SOFT": 0.1415
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.0719,
+      "MEDIUM": 0.1062,
+      "SOFT": 0.1166
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.1086,
+      "MEDIUM": 0.1446,
+      "SOFT": 0.1846
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.1419,
+      "MEDIUM": 0.1865,
+      "SOFT": 0.1711
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.1788,
+      "MEDIUM": 2.7503,
+      "SOFT": 0.7398
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.145,
+      "MEDIUM": 0.1453,
+      "SOFT": 0.1455
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 2,
+   "modal_seq": "MEDIUM-HARD-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 18.0,
+   "sc_set": false,
+   "obs_max_stint": {
+    "MEDIUM": 27,
+    "HARD": 36,
+    "SOFT": 19
+   },
+   "n_classified": 17
+  },
+  "inputs": {
+   "kappa_s": 1.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.1393,
+   "dirty_air_pooled": 0.08402036941416823,
+   "plan_prior_source": "Spielberg races [2025]",
+   "plan_prior_letters_source": "Spielberg races [2025]",
+   "nomination": [
+    "C3",
+    "C4",
+    "C5"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.299999999999962
+   }
+  }
+ },
+ "belgium-2026": {
+  "full": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.5566666666666666,
+    "2": 0.44333333333333336,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "1-stop M-S @ 20",
+   "p_stops": {
+    "1": 0.6833333333333333,
+    "2": 0.31666666666666665,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_plan_prior": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.7133333333333334,
+    "2": 0.2866666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.5566666666666666,
+    "2": 0.44333333333333336,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.5466666666666666,
+    "2": 0.4533333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_position": {
+   "best": "1-stop M-S @ 19",
+   "p_stops": {
+    "1": 0.62,
+    "2": 0.38000000000000006,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 1.5208233459264244,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_pace_cal": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.3066666666666667,
+    "2": 0.6933333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 24",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "config_constants": {
+   "best": "1-stop S-M @ 24",
+   "p_stops": {
+    "1": 0.72,
+    "2": 0.28,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "SOFT-MEDIUM",
+   "start": "SOFT",
+   "first": 24,
+   "pit_laps": [
+    24
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop S-M @ 24",
+   "life": {
+    "HARD": 35.6,
+    "MEDIUM": 33.9,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.15,
+     "MEDIUM": 1.69,
+     "SOFT": 1.08
+    },
+    "median": 1.15,
+    "n_over_1": 3
+   }
+  },
+  "practice_only": {
+   "best": "2-stop M-S-S @ 12,27",
+   "p_stops": {
+    "2": 0.7166666666666667,
+    "1": 0.2833333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-SOFT-SOFT",
+   "start": "MEDIUM",
+   "first": 12,
+   "pit_laps": [
+    12,
+    27
+   ],
+   "first_stop_s": 0.18794136898103964,
+   "tyre_optimal": "1-stop M-S @ 22",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1848,
+    "MEDIUM": 0.1845,
+    "SOFT": 0.2005
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "old_budget": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.5566666666666666,
+    "2": 0.44333333333333336,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 35.6,
+    "MEDIUM": 33.9,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.15,
+     "MEDIUM": 1.69,
+     "SOFT": 1.08
+    },
+    "median": 1.15,
+    "n_over_1": 3
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.5566666666666666,
+    "2": 0.44333333333333336,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "1-stop M-S @ 18",
+   "p_stops": {
+    "1": 0.7766666666666667,
+    "2": 0.2233333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18
+   ],
+   "first_stop_s": 1.1486860453032701,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1522,
+    "MEDIUM": 0.1623,
+    "SOFT": 0.1481
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   },
+   "regime": {
+    "ratio": 0.7167694816367273,
+    "ln_sd": 0.15,
+    "mode": "none",
+    "shipped_ratio": 0.4746224918574549
+   },
+   "rate_mae": 0.04794604272256608,
+   "rate_bias": -0.03995260086114238,
+   "rate_cov90": 1.0,
+   "shipped_rate_mae": 0.029157724180702106
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 0.7727272727272727,
+    "first_stop_spread": 6.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 18.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": 0.09062179550303358,
+    "sealed_driver_hist": 0.18070175438596495,
+    "sealed_driver_practice_dev": 0.15752829240256547,
+    "sealed_driver_team_pooled": 0.041264282804444996
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "1-stop M-S @ 18",
+   "ablation_full": "1-stop M-S @ 18",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0357,
+    "MEDIUM": 0.1166,
+    "SOFT": 0.0517
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0384,
+    "MEDIUM": 0.0746,
+    "SOFT": 0.0569
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.1711,
+    "MEDIUM": 0.1946,
+    "SOFT": 0.2063
+   },
+   "practice_stint_fe_ordered": true,
+   "model_rate": {
+    "HARD": 0.1708,
+    "MEDIUM": 0.1771,
+    "SOFT": 0.159
+   },
+   "model_ordered": false,
+   "circuit_ladder": {
+    "n_races": 1,
+    "recency_weights": [
+     0.7
+    ],
+    "pace_step_s": -0.1374088933412806,
+    "pace_step_se": 0.23323941338720694,
+    "pace_step_by_year": [
+     -0.137
+    ],
+    "pace_step_usable": false,
+    "deg_ratio": 0.9648221233955439,
+    "deg_ratio_ln_sd": 0.25,
+    "deg_ratio_by_year": [
+     0.965
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": 0.17108185114988106,
+     "MEDIUM": 0.19461175483748283,
+     "SOFT": 0.20630761662008895
+    },
+    "ci": {
+     "HARD": [
+      0.1517133430583329,
+      0.19255128212326036
+     ],
+     "MEDIUM": [
+      0.09397010819358695,
+      0.27064552754507354
+     ],
+     "SOFT": [
+      0.07924532578999492,
+      0.3485487434165288
+     ]
+    },
+    "n_stints": 17,
+    "n_laps": 103,
+    "pooled_slope": 0.19675314524914148,
+    "pooled_ci": [
+     0.11112005837726657,
+     0.2820591591508487
+    ],
+    "n_stints_by_compound": {
+     "HARD": 2,
+     "MEDIUM": 7,
+     "SOFT": 8
+    },
+    "n_laps_by_compound": {
+     "HARD": 12,
+     "MEDIUM": 48,
+     "SOFT": 43
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": 0.17108185114988106,
+      "n_laps": 12,
+      "n_stints": 2
+     },
+     "MEDIUM": {
+      "slope": 0.19461175483748283,
+      "n_laps": 48,
+      "n_stints": 7
+     },
+     "SOFT": {
+      "slope": 0.20630761662008895,
+      "n_laps": 43,
+      "n_stints": 8
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.18845163248108038,
+    "stint_fe": 0.19675314524914148,
+    "diff": 0.008301512768061098
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.1708,
+      "MEDIUM": 0.1771,
+      "SOFT": 0.159
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.182,
+      "MEDIUM": 0.188,
+      "SOFT": 0.2055
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.1326,
+      "MEDIUM": 0.1728,
+      "SOFT": 0.2236
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.1766,
+      "MEDIUM": 0.1759,
+      "SOFT": 0.1842
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.2151,
+      "MEDIUM": 2.7561,
+      "SOFT": 0.7405
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.1896,
+      "MEDIUM": 0.1899,
+      "SOFT": 0.1903
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 1,
+   "modal_seq": "MEDIUM-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 16.0,
+   "sc_set": true,
+   "obs_max_stint": {
+    "MEDIUM": 20,
+    "HARD": 31,
+    "SOFT": 26
+   },
+   "n_classified": 19
+  },
+  "inputs": {
+   "kappa_s": 1.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.2133,
+   "dirty_air_pooled": 0.13724036279951204,
+   "plan_prior_source": "Spa-Francorchamps races [2024]",
+   "plan_prior_letters_source": "Spa-Francorchamps races [2024]",
+   "nomination": [
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.269999999999962
+   }
+  }
+ },
+ "hungary-2026": {
+  "full": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9799999999999999,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9799999999999999,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_plan_prior": {
+   "best": "2-stop S-M-M @ 19,43",
+   "p_stops": {
+    "2": 0.9800000000000002,
+    "3": 0.0,
+    "1": 0.02
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "SOFT-MEDIUM-MEDIUM",
+   "start": "SOFT",
+   "first": 19,
+   "pit_laps": [
+    19,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9799999999999999,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.99,
+    "1": 0.01,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_position": {
+   "best": "2-stop M-H-M @ 23,47",
+   "p_stops": {
+    "2": 0.9700000000000001,
+    "1": 0.03,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_pace_cal": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9933333333333334,
+    "1": 0.006666666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "config_constants": {
+   "best": "2-stop S-M-M @ 19,45",
+   "p_stops": {
+    "2": 0.9966666666666667,
+    "3": 0.0,
+    "1": 0.0033333333333333335
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "SOFT-MEDIUM-MEDIUM",
+   "start": "SOFT",
+   "first": 19,
+   "pit_laps": [
+    19,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop S-M-M @ 19,45",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "practice_only": {
+   "best": "2-stop M-H-M @ 22,46",
+   "p_stops": {
+    "2": 0.8666666666666667,
+    "1": 0.13333333333333336,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    46
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop S-M-M @ 19,45",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0839,
+    "MEDIUM": 0.111,
+    "SOFT": 0.1053
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "old_budget": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9799999999999999,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9799999999999999,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 3.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "2-stop M-H-M @ 23,46",
+   "p_stops": {
+    "2": 0.9733333333333334,
+    "1": 0.02666666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23,
+    46
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0864,
+    "MEDIUM": 0.1057,
+    "SOFT": 0.1255
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   },
+   "regime": {
+    "ratio": 0.7167694816367273,
+    "ln_sd": 0.2752908880756989,
+    "mode": "none",
+    "shipped_ratio": 0.5277635843420668
+   },
+   "rate_mae": 0.044136559055661495,
+   "rate_bias": 0.004194115427915313,
+   "rate_cov90": 0.813953488372093,
+   "shipped_rate_mae": 0.0455625047405191
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 0.5454545454545454,
+    "first_stop_spread": 6.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 22.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": -0.11274820679590794,
+    "sealed_driver_hist": -0.3051884377100941,
+    "sealed_driver_practice_dev": -0.19832339456241205,
+    "sealed_driver_team_pooled": -0.18941168071688097
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "2-stop M-H-M @ 22,45",
+   "ablation_full": "2-stop M-H-M @ 22,45",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0824,
+    "MEDIUM": 0.0648,
+    "SOFT": 0.0475
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0873,
+    "MEDIUM": 0.0606,
+    "SOFT": 0.0568
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0826,
+    "MEDIUM": 0.1602,
+    "SOFT": 0.03
+   },
+   "practice_stint_fe_ordered": false,
+   "model_rate": {
+    "HARD": 0.099,
+    "MEDIUM": 0.1204,
+    "SOFT": 0.1389
+   },
+   "model_ordered": true,
+   "circuit_ladder": {
+    "n_races": 3,
+    "recency_weights": [
+     0.5,
+     0.7,
+     1.0
+    ],
+    "pace_step_s": 0.2924025631256547,
+    "pace_step_se": 0.2005274818314844,
+    "pace_step_by_year": [
+     0.096,
+     0.196,
+     0.396
+    ],
+    "pace_step_usable": true,
+    "deg_ratio": 1.2315308945300312,
+    "deg_ratio_ln_sd": 0.3083055464191739,
+    "deg_ratio_by_year": [
+     0.912,
+     0.954,
+     1.588
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": 0.08261142456506443,
+     "MEDIUM": 0.16023371179798765,
+     "SOFT": 0.030012395345834393
+    },
+    "ci": {
+     "HARD": [
+      0.033876007027160794,
+      0.11504979007493668
+     ],
+     "MEDIUM": [
+      0.036073852846265325,
+      0.21790466100033948
+     ],
+     "SOFT": [
+      -0.03936093629102257,
+      0.09727473797454676
+     ]
+    },
+    "n_stints": 39,
+    "n_laps": 184,
+    "pooled_slope": 0.10531978907981385,
+    "pooled_ci": [
+     0.037067627119129636,
+     0.14631760479874606
+    ],
+    "n_stints_by_compound": {
+     "HARD": 9,
+     "MEDIUM": 17,
+     "SOFT": 13
+    },
+    "n_laps_by_compound": {
+     "HARD": 53,
+     "MEDIUM": 85,
+     "SOFT": 46
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": 0.08261142456506443,
+      "n_laps": 53,
+      "n_stints": 9
+     },
+     "MEDIUM": {
+      "slope": 0.16023371179798765,
+      "n_laps": 85,
+      "n_stints": 17
+     },
+     "SOFT": {
+      "slope": 0.030012395345834393,
+      "n_laps": 46,
+      "n_stints": 13
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.10351642417746844,
+    "stint_fe": 0.10531978907981385,
+    "diff": 0.0018033649023454085
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.099,
+      "MEDIUM": 0.1204,
+      "SOFT": 0.1389
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.0523,
+      "MEDIUM": 0.1074,
+      "SOFT": 0.0979
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.0753,
+      "MEDIUM": 0.0988,
+      "SOFT": 0.1261
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.1088,
+      "MEDIUM": 0.1424,
+      "SOFT": 0.1266
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.1826,
+      "MEDIUM": 2.7508,
+      "SOFT": 0.7395
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.1034,
+      "MEDIUM": 0.1035,
+      "SOFT": 0.1037
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 2,
+   "modal_seq": "MEDIUM-HARD-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": 19.0,
+   "sc_set": false,
+   "obs_max_stint": {
+    "MEDIUM": 29,
+    "HARD": 49,
+    "SOFT": 34
+   },
+   "n_classified": 19
+  },
+  "inputs": {
+   "kappa_s": 0.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.4073,
+   "dirty_air_pooled": 0.06714154486582084,
+   "plan_prior_source": "Budapest races [2023, 2024, 2025]",
+   "plan_prior_letters_source": "Budapest races [2023, 2024, 2025]",
+   "nomination": [
+    "C3",
+    "C4",
+    "C5"
+   ],
+   "v2_budgets": {
+    "HARD": 3.2659415451184075,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.099999999999966
+   }
+  }
+ },
+ "italy-2026": {
+  "full": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_first_stop_prior": {
+   "best": "1-stop M-H @ 26",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 26,
+   "pit_laps": [
+    26
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_plan_prior": {
+   "best": "1-stop H-M @ 28",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "HARD-MEDIUM",
+   "start": "HARD",
+   "first": 28,
+   "pit_laps": [
+    28
+   ],
+   "first_stop_s": 0.235860697858286,
+   "tyre_optimal": "1-stop H-M @ 29",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": false,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_dirty_air_circuit": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0000000000000002,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_position": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23
+   ],
+   "first_stop_s": 0.5259611215643525,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_pace_cal": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 29",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "config_constants": {
+   "best": "1-stop M-H @ 24",
+   "p_stops": {
+    "1": 0.9733333333333333,
+    "2": 0.02666666666666667,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 24,
+   "pit_laps": [
+    24
+   ],
+   "first_stop_s": 0.0,
+   "tyre_optimal": "1-stop M-H @ 24",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "practice_only": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 29",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0166,
+    "MEDIUM": 0.0217,
+    "SOFT": 0.0365
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "old_budget": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_cliff_budgets": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_circuit_regime_prior": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.24775331974217973,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0551,
+    "MEDIUM": 0.0724,
+    "SOFT": 0.1111
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   },
+   "regime": {
+    "ratio": 0.6694907242090762,
+    "ln_sd": 0.25677313158368004,
+    "mode": "none",
+    "shipped_ratio": 0.6549055440739951
+   },
+   "rate_mae": 0.03179719438160786,
+   "rate_bias": -0.016383596592758627,
+   "rate_cov90": 0.9047619047619048,
+   "shipped_rate_mae": 0.03168744057625351
+  },
+  "percar": {
+   "shipped": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 2.0,
+    "mode": "team_pooled"
+   },
+   "no_percar": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 22.0,
+    "n_distinct_plans": 1
+   },
+   "spearman": {
+    "source": "bench/out/accuracy.json",
+    "sealed": -0.04796656089772118,
+    "sealed_driver_hist": -0.03506493506493507,
+    "sealed_driver_practice_dev": -0.06493506493506493,
+    "sealed_driver_team_pooled": -0.059740259740259746
+   }
+  },
+  "full_vs_shipped": {
+   "shipped": "1-stop M-H @ 22",
+   "ablation_full": "1-stop M-H @ 22",
+   "matches": true,
+   "note": "the pipeline searches 500 draws, the ablation 300"
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0039,
+    "MEDIUM": 0.0106,
+    "SOFT": 0.0826
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "HARD": 0.0144,
+    "MEDIUM": 0.0204,
+    "SOFT": 0.0428
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "HARD": 0.0067,
+    "MEDIUM": -0.0156,
+    "SOFT": 0.0528
+   },
+   "practice_stint_fe_ordered": false,
+   "model_rate": {
+    "HARD": 0.0565,
+    "MEDIUM": 0.0752,
+    "SOFT": 0.1101
+   },
+   "model_ordered": true,
+   "circuit_ladder": {
+    "n_races": 3,
+    "recency_weights": [
+     0.5,
+     0.7,
+     1.0
+    ],
+    "pace_step_s": -0.07707674487413702,
+    "pace_step_se": 0.13819639231765946,
+    "pace_step_by_year": [
+     -0.146,
+     -0.204,
+     0.212
+    ],
+    "pace_step_usable": false,
+    "deg_ratio": 1.3304362059148687,
+    "deg_ratio_ln_sd": 0.36531591432416716,
+    "deg_ratio_by_year": [
+     0.848,
+     1.23,
+     1.761
+    ]
+   },
+   "stint_fe_baseline": {
+    "slopes": {
+     "HARD": 0.006688739165204556,
+     "MEDIUM": -0.015576278474664572,
+     "SOFT": 0.05284463354071969
+    },
+    "ci": {
+     "HARD": [
+      -0.047291786230719716,
+      0.04453192150023026
+     ],
+     "MEDIUM": [
+      -0.04923189977838638,
+      0.016043292783357622
+     ],
+     "SOFT": [
+      0.008135499408039527,
+      0.11288904157286304
+     ]
+    },
+    "n_stints": 57,
+    "n_laps": 262,
+    "pooled_slope": 0.014580427226394525,
+    "pooled_ci": [
+     -0.0068437722525217185,
+     0.04821821797018317
+    ],
+    "n_stints_by_compound": {
+     "HARD": 15,
+     "MEDIUM": 22,
+     "SOFT": 20
+    },
+    "n_laps_by_compound": {
+     "HARD": 66,
+     "MEDIUM": 102,
+     "SOFT": 94
+    },
+    "per_compound": {
+     "HARD": {
+      "slope": 0.006688739165204556,
+      "n_laps": 66,
+      "n_stints": 15
+     },
+     "MEDIUM": {
+      "slope": -0.015576278474664572,
+      "n_laps": 102,
+      "n_stints": 22
+     },
+     "SOFT": {
+      "slope": 0.05284463354071969,
+      "n_laps": 94,
+      "n_stints": 20
+     }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap"
+   },
+   "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.025788800014865016,
+    "stint_fe": 0.014580427226394525,
+    "diff": 0.011208372788470491
+   },
+   "fit_variants": {
+    "2026": {
+     "slopes": {
+      "HARD": 0.0565,
+      "MEDIUM": 0.0752,
+      "SOFT": 0.1101
+     }
+    },
+    "hinge": {
+     "slopes": {
+      "HARD": 0.0159,
+      "MEDIUM": 0.0231,
+      "SOFT": 0.0436
+     }
+    },
+    "hardladder": {
+     "slopes": {
+      "HARD": 0.0189,
+      "MEDIUM": 0.0248,
+      "SOFT": 0.0331
+     }
+    },
+    "2025": {
+     "slopes": {
+      "HARD": 0.024,
+      "MEDIUM": 0.0313,
+      "SOFT": 0.0513
+     }
+    },
+    "none": {
+     "slopes": {
+      "HARD": 11.2067,
+      "MEDIUM": 2.7546,
+      "SOFT": 0.7398
+     }
+    },
+    "noladder": {
+     "slopes": {
+      "HARD": 0.0224,
+      "MEDIUM": 0.0225,
+      "SOFT": 0.0225
+     }
+    }
+   }
+  },
+  "field": {
+   "mode_stops": 1,
+   "modal_seq": "MEDIUM-HARD",
+   "majority_start": "MEDIUM",
+   "first_median_green": null,
+   "sc_set": true,
+   "obs_max_stint": {
+    "MEDIUM": 50,
+    "HARD": 50,
+    "SOFT": 24
+   },
+   "n_classified": 19
+  },
+  "inputs": {
+   "kappa_s": 1.0,
+   "first_stop_prior": true,
+   "dirty_air_circuit": 0.0987,
+   "dirty_air_pooled": 0.13724036279951204,
+   "plan_prior_source": "Monza races [2023, 2024, 2025]",
+   "plan_prior_letters_source": "Monza races [2023, 2024, 2025]",
+   "nomination": [
+    "C3",
+    "C4",
+    "C5"
+   ],
+   "v2_budgets": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "budgets": {
+    "SOFT": 3.8417984308528155,
+    "MEDIUM": 4.090632250527002,
+    "HARD": 4.299999999999962
+   }
+  }
+ },
+ "_pooled": {
+  "full": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 4.333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_first_stop_prior": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 4.333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_plan_prior": {
+   "n_events": 7,
+   "seq_run_by_anyone": 3,
+   "start_matches_majority": 4,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.09122807017543859,
+   "first_minus_field": {
+    "barcelona-2026": 3.0,
+    "austria-2026": -1.0,
+    "hungary-2026": 0.0
+   },
+   "mean_abs_first_err": 1.3333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_nomination_mapping": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 6,
+   "stops_match_mode": 6,
+   "mean_seq_share": 0.28386407194456725,
+   "first_minus_field": {
+    "barcelona-2026": 3.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 3.3333333333333335,
+   "life_ratio_median": 1.1
+  },
+  "no_dirty_air_circuit": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 4.333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_position": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 5.0,
+    "hungary-2026": 4.0
+   },
+   "mean_abs_first_err": 5.0,
+   "life_ratio_median": 1.1
+  },
+  "no_pace_cal": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 5.0,
+    "austria-2026": 3.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 3.6666666666666665,
+   "life_ratio_median": 1.1
+  },
+  "config_constants": {
+   "n_events": 7,
+   "seq_run_by_anyone": 3,
+   "start_matches_majority": 1,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.06324465008675535,
+   "first_minus_field": {
+    "barcelona-2026": 5.0,
+    "austria-2026": 0.0,
+    "hungary-2026": 0.0
+   },
+   "mean_abs_first_err": 1.6666666666666667,
+   "life_ratio_median": 1.1
+  },
+  "practice_only": {
+   "n_events": 7,
+   "seq_run_by_anyone": 4,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2763452749520861,
+   "first_minus_field": {
+    "barcelona-2026": 3.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 3.3333333333333335,
+   "life_ratio_median": 1.04
+  },
+  "old_budget": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 4.333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_cliff_budgets": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 3.0
+   },
+   "mean_abs_first_err": 4.333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "no_circuit_regime_prior": {
+   "n_events": 7,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "mean_seq_share": 0.3497981378786333,
+   "first_minus_field": {
+    "barcelona-2026": 6.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 4.0
+   },
+   "mean_abs_first_err": 4.666666666666667,
+   "life_ratio_median": 1.1
+  }
+ },
+ "_note": "`_pooled` counts are out of the weekends benchmarked; first_minus_field is restricted to the non-safety-car weekends ['barcelona-2026', 'austria-2026', 'hungary-2026']"
+}

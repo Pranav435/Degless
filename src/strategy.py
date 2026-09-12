@@ -555,6 +555,10 @@ class StrategyResult:
     plan_prior_tau_s: float = 0.0
     plan_prior_source: str = ""
     first_stop_kappa_s: float = 0.0
+    # V4: the race-state first-stop term, when the search carried one - the
+    # measured constants, each plan group's pack equilibrium, and the group of
+    # the recommended plan in full (`src.racestate.pack_equilibrium`)
+    race_state: dict = field(default_factory=dict)
 
     def head(self, n: int = 10) -> pd.DataFrame:
         return self.table.head(n)
@@ -614,9 +618,23 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
                    undercut_lambda: float = 0.0,
                    plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0,
                    first_stop_prior: dict | None = None,
-                   first_stop_kappa_s: float = 0.0) -> StrategyResult:
+                   first_stop_kappa_s: float = 0.0,
+                   race_state=None, race_state_cover: bool = True) -> StrategyResult:
     """Rank every legal (plan, push level) pair, then score a shortlist over
     the posterior draws carried by `model`.
+
+    **V4: the race state times the first stop.**  With `race_state` (a
+    `src.racestate.RaceStateConstants`) every plan group - start compound,
+    second compound and stop count - is solved as a pack of four rivals running
+    the same plan (`racestate.pack_equilibrium`), and the first stop of every
+    plan in the group is charged that pack's race-state term: the seconds of
+    track position, at the measured value of a place, a first stop on that lap
+    gains or gives away against cars choosing theirs the same way.  The term
+    *replaces* the undercut exposure on the first stop (it prices the same
+    thing, car by car rather than as a generic exposure) and the caller is
+    expected to switch the first-stop history prior off (`first_stop_kappa_s =
+    0`); later stops keep `undercut_lambda`.  Without `race_state` this is the
+    V3 objective, bit for bit.
 
     Two phases, because ordering the stints multiplies the search space by an
     order of magnitude and the full posterior does not fit alongside it:
@@ -672,9 +690,18 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
 
     # -- phase 1: cost every plan at every push, keep the best push ---------
     fam_full, fam_tyre, fam_push, fam_pos, fam_prior, n_total = [], [], [], [], [], 0
-    fam_first = []
+    fam_first, fam_rs = [], []
     dens = traffic_density(ev)
-    for seq, lens, starts in zip(seqs, lens_all, starts_all):
+    rs_info: dict = {}
+    if race_state is not None:
+        (fam_full, fam_tyre, fam_push, fam_pos, fam_prior, fam_first, fam_rs, n_total,
+         rs_info) = _phase1_race_state(
+            seqs, lens_all, starts_all, means=means, expos=expos, push_grid=push_grid,
+            pit_loss_s=pit_loss_s, n_laps=n_laps, max_len=max_len, dens=dens,
+            traffic_s_per_lap=traffic_s_per_lap, sc_rate=sc_rate, grid_penalty_s=grid_penalty_s,
+            rank=_rank, plan_prior=plan_prior, tau=tau, fsp=fsp, kappa=kappa, lam=lam,
+            race_state=race_state, cover=race_state_cover)
+    for seq, lens, starts in (zip(seqs, lens_all, starts_all) if race_state is None else ()):
         pits = starts[:, 1:]
         # Terms that do not depend on the tyre model: pit lane, traffic, the
         # safety-car option value, the opening-stint grid penalty.
@@ -718,6 +745,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
         fam_pos.append(bpos)
         fam_prior.append(np.full(len(lens), prior_pen))
         fam_first.append(np.asarray(first_pen, dtype=float))
+        fam_rs.append(np.zeros(len(lens)))
         n_total += len(lens)
 
     flat = np.concatenate(fam_full)
@@ -726,6 +754,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
     flat_pos = np.concatenate(fam_pos)
     flat_prior = np.concatenate(fam_prior)
     flat_first = np.concatenate(fam_first)
+    flat_rs = np.concatenate(fam_rs)
     keep = min(shortlist, len(flat))
     order = np.argpartition(flat, keep - 1)[:keep]
     bounds = np.cumsum([0] + [len(x) for x in fam_full])
@@ -761,6 +790,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
         fixed += grid_penalty_s * float(_rank[seq[0]])
         fixed += lam * float(flat_pos[order[i]]) + float(flat_prior[order[i]])
         fixed += float(flat_first[order[i]])
+        fixed += float(flat_rs[order[i]])
         t = np.full(nd, fixed, dtype=np.float64)
         for k, c in enumerate(seq):
             t += tables[p][c][:, st[k], L[k]]
@@ -778,6 +808,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
             "position_s": float(lam * flat_pos[order[i]]),
             "prior_s": float(flat_prior[order[i]]),
             "first_stop_s": float(flat_first[order[i]]),
+            "race_state_s": float(flat_rs[order[i]]),
             "tyre_s": float(flat_tyre[order[i]]),
             "_flat": int(order[i]),
         })
@@ -832,14 +863,146 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
               "push": float(top["push"]),
               "position_s": float(top["position_s"]),
               "prior_s": float(top["prior_s"]),
-              "first_stop_s": float(top["first_stop_s"])},
+              "first_stop_s": float(top["first_stop_s"]),
+              **({"race_state_s": float(top["race_state_s"])} if race_state is not None else {})},
         regime=(rg.as_dict() if rg else {}), warmup_s=warmup_s,
         life=compound_life(model, ev, push=float(top["push"]), cap=caps, support=support),
         by_stops=by_stops, push_grid=tuple(push_grid),
         implied_regime=float(model.psi(float(top["push"]))), model=model,
         times=times, tyre_optimal=tyre_plan, tyre_optimal_label=str(tyre_row["strategy"]),
         undercut_lambda=lam, plan_prior_tau_s=tau, first_stop_kappa_s=kappa,
-        plan_prior_source=str((plan_prior or {}).get("source", "")))
+        plan_prior_source=str((plan_prior or {}).get("source", "")),
+        race_state=_race_state_for_best(rs_info, list(top["compounds"].split("-"))))
+
+
+def _group_label(g: tuple) -> str:
+    c0, c1, n = g
+    return f"{n}-stop {c0[0]}-{c1[0]}"
+
+
+def _race_state_for_best(rs_info: dict, seq: list) -> dict:
+    """`rs_info` with the recommended plan's own group pulled out as `best`."""
+    if not rs_info:
+        return {}
+    label = _group_label((seq[0], seq[1], len(seq) - 1)) if len(seq) >= 2 else None
+    return {**rs_info, "best_group": label, "best": (rs_info.get("packs") or {}).get(label) or {}}
+
+
+def _phase1_race_state(seqs, lens_all, starts_all, *, means, expos, push_grid, pit_loss_s, n_laps,
+                       max_len, dens, traffic_s_per_lap, sc_rate, grid_penalty_s, rank, plan_prior,
+                       tau, fsp, kappa, lam, race_state, cover) -> tuple:
+    """Phase 1 of `simulate_model` with the race-state first-stop term.
+
+    Three passes.  (1) every plan at every push on everything but the race
+    state - tyre, pit lane, traffic, the safety-car credit, the grid penalty,
+    the undercut exposure of every stop *after* the first, the plan prior;
+    (2) each plan group's cost by first-stop lap (the best plan of the group
+    with its first stop on that lap, at its best push) is solved as a pack
+    (`racestate.pack_equilibrium`); (3) the group's term is charged on every
+    plan's first stop and the best push re-chosen.  A group whose best plan is
+    further behind the overall best than the race-state term could ever make up
+    (four places at the measured value, plus 5 s) is not solved and carries no
+    term: it cannot win either way.
+    """
+    from src import racestate
+
+    per_fam = []
+    for seq, lens, starts in zip(seqs, lens_all, starts_all):
+        pits = starts[:, 1:]
+        fixed = np.full(len(lens), (len(seq) - 1) * pit_loss_s, dtype=np.float64)
+        if pits.shape[1]:
+            idx = np.clip(pits, 1, n_laps) - 1
+            fixed += TRAFFIC_LAPS_PER_STOP * traffic_s_per_lap * dens[idx].sum(1)
+            last = pits.max(1).astype(float)
+            fixed -= ((1.0 - np.exp(-sc_rate * last))
+                      * (1.0 - SC_PIT_LOSS_FRACTION) * pit_loss_s)
+        fixed += grid_penalty_s * float(rank[seq[0]])
+        prior_pen = plan_prior_penalty(seq, plan_prior, tau) if tau > 0 else 0.0
+        first_pen = (first_stop_penalty(seq[0], pits[:, 0], fsp, kappa, n_stops=len(seq) - 1)
+                     if (fsp is not None and pits.shape[1]) else np.zeros(len(lens)))
+        first_pen = np.broadcast_to(np.asarray(first_pen, dtype=float), (len(lens),))
+        base_p, tyre_p, posl_p = [], [], []
+        for p in push_grid:
+            t = fixed.copy()
+            for k, c in enumerate(seq):
+                t += means[p][c][starts[:, k], lens[:, k]]
+            posl = np.zeros(len(lens))
+            if lam > 0 and pits.shape[1] > 1:
+                for k in range(1, len(seq) - 1):
+                    e = expos[p][(seq[k], seq[k + 1])]
+                    posl += e[np.clip(lens[:, k], 0, max_len)] * dens[np.clip(pits[:, k], 1, n_laps) - 1]
+            base_p.append(t + lam * posl + prior_pen + first_pen)
+            tyre_p.append(t)
+            posl_p.append(posl)
+        per_fam.append((np.stack(base_p), np.stack(tyre_p), np.stack(posl_p), prior_pen,
+                        np.asarray(first_pen, dtype=float)))
+
+    groups: dict = {}
+    for fi, seq in enumerate(seqs):
+        if len(seq) >= 2:
+            groups.setdefault((seq[0], seq[1], len(seq) - 1), []).append(fi)
+    curves = {}
+    for g, fis in groups.items():
+        Tg = np.full(n_laps + 1, np.inf)
+        Pg = np.zeros(n_laps + 1, dtype=int)
+        for fi in fis:
+            base = per_fam[fi][0]
+            pi = np.argmin(base, axis=0)
+            val = base[pi, np.arange(base.shape[1])]
+            first = starts_all[fi][:, 1]
+            o = np.lexsort((val, first))
+            uniq, at = np.unique(first[o], return_index=True)
+            v = val[o][at]
+            better = v < Tg[uniq]
+            Tg[uniq[better]] = v[better]
+            Pg[uniq[better]] = pi[o][at][better]
+        laps = np.flatnonzero(np.isfinite(Tg))
+        if len(laps):
+            curves[g] = (laps, Tg[laps], Pg[laps])
+    V = float(race_state.place_value_s)
+    overall = min(float(c[1].min()) for c in curves.values()) if curves else 0.0
+    margin = 4.0 * V + 5.0
+    packs, terms = {}, {}
+    for g, (laps, T, P) in curves.items():
+        if float(T.min()) > overall + margin:
+            continue
+        p = push_grid[int(P[int(np.argmin(T))])]
+        stay_cum = np.asarray(means[p][g[0]][0], dtype=float)
+        fresh_cum = np.asarray(means[p][g[1]], dtype=float)
+        laps_ok = laps[laps < len(stay_cum)]
+        T_ok = T[laps < len(stay_cum)]
+        pk = racestate.pack_equilibrium(T_ok, laps_ok, stay_cum, fresh_cum, race_state, cover=cover)
+        if not pk:
+            continue
+        pk["push"] = float(p)
+        packs[_group_label(g)] = pk
+        terms[g] = racestate.term_by_lap(pk, n_laps)
+
+    fam_full, fam_tyre, fam_push, fam_pos, fam_prior, fam_first, fam_rs = [], [], [], [], [], [], []
+    n_total = 0
+    for fi, (seq, lens, starts) in enumerate(zip(seqs, lens_all, starts_all)):
+        base_p, tyre_p, posl_p, prior_pen, first_pen = per_fam[fi]
+        g = (seq[0], seq[1], len(seq) - 1) if len(seq) >= 2 else None
+        term = terms.get(g)
+        rs_rows = term[np.clip(starts[:, 1], 0, n_laps)] if (term is not None and starts.shape[1] > 1) \
+            else np.zeros(len(lens))
+        full_p = base_p + rs_rows[None, :]
+        pi = np.argmin(full_p, axis=0)
+        cols = np.arange(len(lens))
+        fam_full.append(full_p[pi, cols])
+        fam_tyre.append(tyre_p.min(0))
+        fam_push.append(np.asarray(push_grid, dtype=float)[pi])
+        fam_pos.append(posl_p[pi, cols])
+        fam_prior.append(np.full(len(lens), prior_pen))
+        fam_first.append(first_pen)
+        fam_rs.append(rs_rows)
+        n_total += len(lens)
+    info = {"constants": race_state.as_dict(), "cover": bool(cover),
+            "groups": {k: {kk: v.get(kk) for kk in ("best_lap", "tyre_best_lap", "q_median", "q_p25_p75",
+                                                   "iterations", "converged", "push")}
+                       for k, v in packs.items()},
+            "packs": packs, "n_groups": len(curves), "n_groups_solved": len(packs)}
+    return fam_full, fam_tyre, fam_push, fam_pos, fam_prior, fam_first, fam_rs, n_total, info
 
 
 def search_with_pace_calibration(model: TyreModel, event: Event | str, pit_loss_s: float, *,
@@ -1043,7 +1206,8 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
                      traffic_s_per_lap: float = DIRTY_AIR_S_PER_LAP,
                      undercut_lambda: float = 0.0,
                      first_stop_prior: dict | None = None,
-                     first_stop_kappa_s: float = 0.0) -> pd.DataFrame:
+                     first_stop_kappa_s: float = 0.0,
+                     race_state_term: np.ndarray | None = None) -> pd.DataFrame:
     """Cost of moving one stop earlier or later, holding the others fixed.
 
     Sweeping each stop lap one at a time turns the single recommended lap into
@@ -1053,6 +1217,10 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
     the search used, so the window is the window of the objective that chose the
     plan: sweeping the first stop without its prior would report a window the
     recommendation does not live in.
+
+    `race_state_term` (V4, seconds indexed by lap - `racestate.term_by_lap` of
+    the plan group's pack) is charged on the first stop in place of its
+    undercut exposure, exactly as `simulate_model` charged it.
     """
     ev = get_event(event) if isinstance(event, str) else event
     n_laps = ev.n_race_laps
@@ -1070,6 +1238,7 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
     cost = stint_cost_table(model, ev, max_len, p, warmup_s=warmup_s)
     expo = undercut_exposure_tables(model, ev, p, max_len) if lam > 0 else None
     dens = traffic_density(ev)
+    rst = None if race_state_term is None else np.asarray(race_state_term, dtype=float)
 
     seq, pits = list(plan["compounds"]), list(plan["pit_laps"])
 
@@ -1086,10 +1255,12 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
         for c, L, st in zip(seq, lens, starts):
             t += cost[c][:, int(st), int(L)]
         if expo is not None:
-            for k in range(len(seq) - 1):
+            for k in range(1 if rst is not None else 0, len(seq) - 1):
                 t += lam * expo[(seq[k], seq[k + 1])][int(lens[k])] * dens[int(pl[k]) - 1]
         if fsp is not None and len(pl):
             t += first_stop_penalty(seq[0], int(pl[0]), fsp, kappa, n_stops=len(pl))
+        if rst is not None and len(pl):
+            t += float(rst[min(int(pl[0]), len(rst) - 1)])
         return t
 
     base = race_time(pits)

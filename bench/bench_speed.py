@@ -2,12 +2,17 @@
 weekend, at the production settings and at the weekend (quick) settings, plus
 the strategy-desk calls, the live tick and the app cold start.
 
-Every search here runs the shipped V3 objective — the first-stop penalty tables
-at the calibrated kappa and this circuit's own dirty-air cost — so the timings
-are the production ones and not a cheaper variant's.  The V3 stages added to the
-table are the within-stint collapse detector (`cliff.race_collapses`), the
+The V3 rows run the V3 objective — the first-stop penalty tables at the
+calibrated kappa and this circuit's own dirty-air cost — under their original
+names, so earlier runs compare row for row.  The V3 stages added to the table
+are the within-stint collapse detector (`cliff.race_collapses`), the
 stint-fixed-effects gate (`model_fallback.stint_fe_baseline`) and the pit-window
-sweep with the first-stop term in it.
+sweep with the first-stop term in it.  V4 adds the shipped race-state rows: the
+constants, the search with the race-state first stop, its window sweep and the
+per-car plans under it.
+
+Peak memory is `resource.getrusage` where it exists and the process's peak
+working set on Windows.
 
 The one call in bench/ that writes outside bench/ is `seal_predictions`, timed
 here and then deleted again (`common.discard_sealed`), so `predictions/sealed/`
@@ -19,13 +24,38 @@ Usage: python bench/bench_speed.py [--events barcelona-2026]  (the first event i
 from __future__ import annotations
 
 import json
-import resource
 import subprocess
 import sys
 import time
 
 import numpy as np
 import pandas as pd
+
+try:
+    import resource
+
+    def _peak_rss_mb() -> float:
+        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 ** 2)
+except ImportError:            # Windows has no `resource`: the process's peak working set
+    import ctypes
+    from ctypes import wintypes
+
+    class _PMC(ctypes.Structure):
+        _fields_ = [("cb", wintypes.DWORD), ("PageFaultCount", wintypes.DWORD),
+                    ("PeakWorkingSetSize", ctypes.c_size_t), ("WorkingSetSize", ctypes.c_size_t),
+                    ("QuotaPeakPagedPoolUsage", ctypes.c_size_t), ("QuotaPagedPoolUsage", ctypes.c_size_t),
+                    ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t), ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+                    ("PagefileUsage", ctypes.c_size_t), ("PeakPagefileUsage", ctypes.c_size_t)]
+
+    def _peak_rss_mb() -> float:
+        k32, psapi = ctypes.windll.kernel32, ctypes.windll.psapi
+        k32.GetCurrentProcess.restype = wintypes.HANDLE          # a 64-bit pseudo-handle, not a C int
+        psapi.GetProcessMemoryInfo.argtypes = [wintypes.HANDLE, ctypes.POINTER(_PMC), wintypes.DWORD]
+        pmc = _PMC()
+        pmc.cb = ctypes.sizeof(_PMC)
+        if not psapi.GetProcessMemoryInfo(k32.GetCurrentProcess(), ctypes.byref(pmc), pmc.cb):
+            return float("nan")
+        return pmc.PeakWorkingSetSize / (1024 ** 2)
 
 from common import (EVENTS, ROOT, Timer, arg_events, cp_for, dirty_air_of, discard_sealed,  # noqa: E402
                     dump, first_stop_tables, fs_kwargs, kappa_of, memoise_regime, meta, offline,
@@ -161,6 +191,21 @@ def main() -> None:
         strat.pit_window_model(model, ev, res.best, pit_loss, max_stint=res.max_stint, push=res.best["push"],
                                undercut_lambda=cal.undercut_lambda,
                                **fs_kwargs(strat.pit_window_model, fs_tables, kappa))
+    # V4: the shipped objective times the first stop with the race state (its
+    # constants measured on the other races, the first-stop prior off)
+    from src import racestate
+    with T("race-state constants (measured on the donor races)"):
+        rs_c = racestate.measure_constants(exclude=key)
+    kw4 = {**{k: v for k, v in kw.items() if k not in ("first_stop_prior", "first_stop_kappa_s")}, "race_state": rs_c}
+    with T("strategy search 500 draws, 1-lap grid, race-state objective (V4 production)"):
+        res4 = strat.simulate_model(model, ev, pit_loss, step=1, **kw4)
+    with T("pit window sweep (race-state term)"):
+        strat.pit_window_model(model, ev, res4.best, pit_loss, max_stint=res4.max_stint, push=res4.best["push"],
+                               undercut_lambda=cal.undercut_lambda,
+                               race_state_term=racestate.term_by_lap(res4.race_state.get("best"), ev.n_race_laps))
+    with T("per-car plans (20 drivers, 2-lap grid, race-state objective)"):
+        strat.per_driver_plans(model, ev, pit_loss, sorted(race["driver"].unique()), race_factors=cal.driver_factors,
+                               **kw4)
     with T("undercut window"):
         strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=30, push=res.best["push"])
     with T("counterfactual (all drivers, vectorised, SC-aware, per-car)"):
@@ -196,7 +241,7 @@ def main() -> None:
         at.run()
         app_exc = len(at.exception)
     tbl = T.table()
-    peak_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 ** 2)
+    peak_mb = _peak_rss_mb()
     recorded = {k: {"total": meta(k).get("runtime_s"), "decide": meta(k).get("runtime_decide_s"),
                     "timings": meta(k).get("timings")} for k in EVENTS}
     weekend = {}

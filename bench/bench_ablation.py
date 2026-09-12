@@ -3,11 +3,21 @@
 For every weekend the same search is run on the shipped posterior with one
 term switched off at a time, and the answer compared with the field:
 
-  full                    the shipped V3 objective (calibrated constants, pace
-                          calibration, undercut exposure, plan prior through the
-                          Pirelli nominations, first-stop prior, per-circuit
-                          dirty air, censoring-aware grip budgets)
-  no_first_stop_prior     kappa = 0: V2's cost surface decides the stop lap
+  full                    the shipped objective (V4: calibrated constants, pace
+                          calibration, the race-state first-stop term, undercut
+                          exposure on later stops, plan prior through the
+                          Pirelli nominations, per-circuit dirty air,
+                          censoring-aware grip budgets; no first-stop prior)
+  no_race_state           V4's race-state term switched off: the V3 objective
+                          exactly (undercut exposure and the first-stop prior
+                          time the first stop)
+  race_state_no_cover     the race state with rivals that never cover
+  race_state_lead_lap_value  a place valued at the lead-lap finishing interval
+                          (the definition first implemented) instead of every
+                          classified finisher's
+  race_state_undiscounted a place valued at the full finishing interval (psi = 1:
+                          every pit-cycle order assumed to survive to the flag)
+  no_first_stop_prior     kappa = 0 (in V4 the prior is already off: equals full)
   no_plan_prior           plan-prior tau = 0
   no_nomination_mapping   the plan prior built from the letters as recorded
                           (`plan_prior_for(cp, use_nominations=False)`) — V2's
@@ -35,6 +45,10 @@ reported, not asserted: the pipeline searches 500 draws and the ablation 300, so
 two plans within a few tenths of each other can swap, and a swap is a fact about
 how tight the decision is rather than a failure of the benchmark.
 
+Every variant but `no_race_state` and `config_constants` keeps the race state
+on (they switch off one *other* term of the shipped objective); `config_constants`
+is the V1 baseline and has no race state either.
+
 plus the ladder-vs-race check: per-compound race degradation measured two
 ways against the model's ordering.
 """
@@ -50,7 +64,7 @@ import pandas as pd
 from common import (OUT, NON_SC_EVENTS, arg_events, cp_for, dirty_air_of, driver_plans, dump,  # noqa: E402
                     first_stop_tables, fs_kwargs, kappa_of, memoise_regime, meta, offline,
                     race_table, v2_calibration)
-from src import strategy as strat
+from src import racestate, strategy as strat
 from src.calibration import Calibration, get_calibration
 from src.config import DATA_PROCESSED, GRIP_BUDGET_S, get_event
 from src.history import apply_circuit_prior, plan_prior_for, race_deg_slopes
@@ -72,10 +86,18 @@ def ordered(rates: dict) -> bool | None:
 
 def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=None, pace_cal=True,
         budgets=None, grid=None, dirty=None, regime=None, plan_prior=None, fs_tables=None,
-        kappa=None, n_draws: int = N_DRAWS) -> dict:
+        kappa=None, race_state="shipped", race_state_cover: bool = True, n_draws: int = N_DRAWS) -> dict:
     """One search.  Every switched-off term is a keyword whose default is the
-    shipped value, so a variant names exactly what it changed."""
+    shipped value, so a variant names exactly what it changed.
+
+    `race_state="shipped"` is V4's term with this weekend's leave-one-out
+    constants (and the first-stop prior off, as the pipeline runs it); `None`
+    is the V3 objective; a `RaceStateConstants` is that variant's constants."""
     ev = get_event(key)
+    if isinstance(race_state, str):
+        race_state = racestate.measure_constants(exclude=key)
+    if race_state is not None and kappa is None:
+        kappa = 0.0
     if regime is None:
         regime = RegimeFactor(ratio=float(m["regime"]["ratio"]), ln_sd=float(m["regime"]["ln_sd"]))
     caps = {c: int(v) for c, v in (m.get("circuit_history") or {}).get("stint_cap", {}).items()} or None
@@ -91,6 +113,8 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
               traffic_s_per_lap=(dirty_air_of(cal, ev.circuit) if dirty is None else dirty),
               grid_penalty_s=(cal.grid_start_penalty_s if grid is None else grid), step=1)
     kw.update(fs_kwargs(strat.simulate_model, fs_tables, kappa_of(cal) if kappa is None else kappa))
+    if race_state is not None:
+        kw.update(race_state=race_state, race_state_cover=race_state_cover)
     ns = m.get("net_step") or {}
     if pace_cal and ns.get("measured") is not None:
         _, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]), net_step_s=float(ns["measured"]),
@@ -103,6 +127,8 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
             "first": (int(res.best["pit_laps"][0]) if res.best["pit_laps"] else None),
             "pit_laps": list(res.best["pit_laps"]),
             "first_stop_s": res.best.get("first_stop_s"),
+            "race_state_s": res.best.get("race_state_s"),
+            "race_state_group": ((res.race_state or {}).get("groups") or {}).get((res.race_state or {}).get("best_group")),
             "tyre_optimal": res.tyre_optimal_label,
             "life": {x["compound"]: round(float(x["life_laps"]), 1) for _, x in res.life.iterrows()},
             "deg_full_push": {x["compound"]: round(float(x["deg_s_per_lap"]), 4) for _, x in res.life.iterrows()}}
@@ -131,7 +157,8 @@ def percar(key: str, m: dict, fit: BayesFit, cal: Calibration, drivers: list, *,
               undercut_lambda=cal.undercut_lambda, plan_prior=m.get("plan_prior") or {},
               plan_prior_tau_s=cal.plan_prior_tau_s, traffic_s_per_lap=dirty_air_of(cal, ev.circuit),
               grid_penalty_s=cal.grid_start_penalty_s)
-    kw.update(fs_kwargs(strat.simulate_model, fs_tables, kappa_of(cal)))
+    # the shipped per-car plans carry the race state (and no first-stop prior)
+    kw.update(race_state=racestate.measure_constants(exclude=key))
     try:
         pdf = strat.per_driver_plans(model, ev, float(m["pit_loss_s"]), drivers,
                                      race_factors=(race_factors or None), **kw)
@@ -216,8 +243,15 @@ def main() -> None:
         v2_budgets = ((v2cal.get("loo") or {}).get(key) or v2cal.get("global") or {}).get("grip_budget_by_compound")
         pp_letters = plan_prior_for(cp, use_nominations=False) if cp is not None else {}
 
+        rs_c = racestate.measure_constants(exclude=key)
         variants = {
             "full": run(key, m, f_ship, cal, fs_tables=fs_tables),
+            "no_race_state": run(key, m, f_ship, cal, fs_tables=fs_tables, race_state=None),
+            "race_state_no_cover": run(key, m, f_ship, cal, fs_tables=fs_tables, race_state_cover=False),
+            "race_state_lead_lap_value": run(key, m, f_ship, cal, fs_tables=fs_tables,
+                                             race_state=dataclasses.replace(rs_c, place_gap_s=rs_c.place_gap_lead_lap_s)),
+            "race_state_undiscounted": run(key, m, f_ship, cal, fs_tables=fs_tables,
+                                           race_state=dataclasses.replace(rs_c, persistence=1.0)),
             "no_first_stop_prior": run(key, m, f_ship, cal, fs_tables=fs_tables, kappa=0.0),
             "no_plan_prior": run(key, m, f_ship, cal, fs_tables=fs_tables, tau=0.0),
             "no_nomination_mapping": run(key, m, f_ship, cal, fs_tables=fs_tables, plan_prior=pp_letters),
@@ -226,7 +260,7 @@ def main() -> None:
             "no_position": run(key, m, f_ship, cal, fs_tables=fs_tables, lam=0.0),
             "no_pace_cal": run(key, m, f_ship, cal, fs_tables=fs_tables, pace_cal=False),
             "config_constants": run(key, m, f_ship, old, lam=0.0, tau=0.0, pace_cal=False,
-                                    budgets=GRIP_BUDGET_S, kappa=0.0),
+                                    budgets=GRIP_BUDGET_S, kappa=0.0, race_state=None),
             "practice_only": run(key, m, f_prac, cal, fs_tables=fs_tables),
             "old_budget": run(key, m, f_ship, cal, fs_tables=fs_tables, budgets=GRIP_BUDGET_S),
         }

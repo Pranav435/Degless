@@ -273,10 +273,16 @@ def main() -> int:
     draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
     model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets, manage_floor=cal.manage_wear_floor,
                                manage_cost_s=cal.manage_cost_s)
+    # V4: the race state times the first stop (constants from every 2026 race
+    # but this weekend's); the circuit's first-stop history is then only a
+    # plausibility prior through the plan family, so its lap term is off
+    from src import racestate
+    rs_const = racestate.measure_constants(exclude=key)
+    kappa_used = 0.0 if rs_const is not None else cal.first_stop_kappa_s
     sim_kw = dict(regime=regime, support=per_comp_support, max_per_compound=alloc["caps"], max_stint=caps,
                   undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                  first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s,
-                  traffic_s_per_lap=dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
+                  first_stop_prior=fs_tables, first_stop_kappa_s=kappa_used,
+                  traffic_s_per_lap=dirty_air, grid_penalty_s=cal.grid_start_penalty_s, race_state=rs_const)
     net = pstep.get("net_stint_step_measured", float("nan"))
     model, res, pace_cal = strat.search_with_pace_calibration(
         model, ev, pit_loss, net_step_s=float(net if net is not None else np.nan),
@@ -294,7 +300,14 @@ def main() -> int:
               f"first-stop prior {res.best.get('first_stop_s', 0):.1f} s")
         pw = strat.pit_window_model(model, ev, res.best, pit_loss, max_stint=res.max_stint, push=res.best["push"],
                                     undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=dirty_air,
-                                    first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s)
+                                    first_stop_prior=fs_tables, first_stop_kappa_s=kappa_used,
+                                    race_state_term=racestate.term_by_lap((res.race_state or {}).get("best"),
+                                                                          ev.n_race_laps))
+        if res.race_state.get("best"):
+            _b = res.race_state["best"]
+            print(f"  race state ({res.race_state.get('best_group')}): the tyre alone would stop on lap "
+                  f"{_b.get('tyre_best_lap')}, against the pack lap {_b.get('best_lap')} "
+                  f"(a place worth {rs_const.place_value_s:.2f} s)")
         if cp.available:
             ok = all(L <= cp.stint_cap.get(c, 10 ** 6) for c, L in zip(res.best["compounds"], res.best["stint_lens"]))
             gate("every recommended stint is within what this circuit has supported", ok,

@@ -36,6 +36,7 @@ the data-source research.
 ```
 src/                 model (config, ingest, laps, fuel, evolution, telemetry, model_bayes,
                      model_fallback, compounds, regime, tyre, strategy, validate, replay, engineer)
+src/racestate.py     V4: the pit call from race state - nearest rivals, undercut/overcut, cover, rejoin traffic
 src/outlook.py       the next race's strategy picture from everything known so far, kept fresh
 src/plans.py         committed decision cards (data/live/plans/<event>.json)
 src/live/            live layer: streams, merge, state, sources, engine, store

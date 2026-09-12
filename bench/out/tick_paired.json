@@ -1,0 +1,36 @@
+{
+ "barcelona-2026": {
+  "n_ticks": 65,
+  "on_ms": {
+   "mean": 437.6,
+   "median": 298.1,
+   "p95": 699.0,
+   "max": 732.4
+  },
+  "off_ms": {
+   "mean": 400.6,
+   "median": 286.5,
+   "p95": 634.9,
+   "max": 663.5
+  },
+  "ratio_mean": 1.093,
+  "extra_ms_median": 13.5
+ },
+ "hungary-2026": {
+  "n_ticks": 69,
+  "on_ms": {
+   "mean": 335.9,
+   "median": 340.5,
+   "p95": 378.7,
+   "max": 566.2
+  },
+  "off_ms": {
+   "mean": 316.1,
+   "median": 316.7,
+   "p95": 351.6,
+   "max": 513.9
+  },
+  "ratio_mean": 1.063,
+  "extra_ms_median": 18.4
+ }
+}

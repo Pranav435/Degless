@@ -41,8 +41,8 @@
   "first_stop_s": 1.1329507753789914,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.042664387615471734,
-   "model_net_after": 0.07098991214484303
+   "model_net_before": -0.04266438761547117,
+   "model_net_after": 0.07098991214484379
   },
   "mode_stops": 1,
   "stops_match_mode": false,
@@ -53,9 +53,9 @@
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": null,
-  "sealed_best": "1-stop M-H @ 25",
+  "sealed_best": "1-stop M-H @ 21",
   "same_as_sealed_stops": false,
-  "seconds": 0.9,
+  "seconds": 3.8,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024]",
@@ -98,8 +98,8 @@
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.13185320851118765,
-    "model_net_after": 0.057690481648270356
+    "model_net_before": -0.13185320851118662,
+    "model_net_after": 0.057690481648271404
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -110,9 +110,9 @@
    "matches_field_modal": true,
    "start_ok": true,
    "first_minus_field": null,
-   "sealed_best": "1-stop M-H @ 25",
+   "sealed_best": "1-stop M-H @ 21",
    "same_as_sealed_stops": true,
-   "seconds": 0.9
+   "seconds": 3.7
   },
   "baseline_prior_best": "2-stop M-H-H @ 18,38",
   "baseline_prior_seq_share": 0.06666666666666667,
@@ -162,8 +162,8 @@
   "first_stop_s": 0.08148150166480805,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.17680217359356473,
-   "model_net_after": 0.02154664969500123
+   "model_net_before": -0.17680217359356387,
+   "model_net_after": 0.021546649695000752
   },
   "mode_stops": 1,
   "stops_match_mode": true,
@@ -174,9 +174,9 @@
   "matches_field_modal": true,
   "start_ok": true,
   "first_minus_field": null,
-  "sealed_best": "1-stop M-H @ 23",
+  "sealed_best": "1-stop M-H @ 19",
   "same_as_sealed_stops": true,
-  "seconds": 0.8,
+  "seconds": 3.1,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
@@ -219,8 +219,8 @@
    "first_stop_s": 0.08148150166480805,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.17680217359356473,
-    "model_net_after": 0.02154664969500123
+    "model_net_before": -0.17680217359356387,
+    "model_net_after": 0.021546649695000752
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -231,9 +231,9 @@
    "matches_field_modal": true,
    "start_ok": true,
    "first_minus_field": null,
-   "sealed_best": "1-stop M-H @ 23",
+   "sealed_best": "1-stop M-H @ 19",
    "same_as_sealed_stops": true,
-   "seconds": 0.8
+   "seconds": 3.2
   },
   "baseline_prior_best": "1-stop M-H @ 25",
   "baseline_prior_seq_share": 0.85,
@@ -282,8 +282,8 @@
   "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.09441353657914829,
-   "model_net_after": 0.05181656708705253
+   "model_net_before": -0.09441353657914703,
+   "model_net_after": 0.051816567087052054
   },
   "mode_stops": 2,
   "stops_match_mode": true,
@@ -294,9 +294,9 @@
   "matches_field_modal": true,
   "start_ok": true,
   "first_minus_field": 8.0,
-  "sealed_best": "2-stop M-H-H @ 19,42",
+  "sealed_best": "2-stop M-H-H @ 15,40",
   "same_as_sealed_stops": true,
-  "seconds": 1.0,
+  "seconds": 3.6,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2025]",
@@ -339,8 +339,8 @@
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.08212925603966227,
-    "model_net_after": 0.053532693379924036
+    "model_net_before": -0.0821292560396611,
+    "model_net_after": 0.053532693379923516
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -351,9 +351,9 @@
    "matches_field_modal": false,
    "start_ok": false,
    "first_minus_field": 8.0,
-   "sealed_best": "2-stop M-H-H @ 19,42",
+   "sealed_best": "2-stop M-H-H @ 15,40",
    "same_as_sealed_stops": true,
-   "seconds": 1.0
+   "seconds": 3.4
   },
   "baseline_prior_best": "2-stop M-H-H @ 20,43",
   "baseline_prior_seq_share": 0.46153846153846156,
@@ -402,8 +402,8 @@
   "first_stop_s": 0.010225562621160478,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.11919714562880392,
-   "model_net_after": 0.09385664479868633
+   "model_net_before": -0.11919714562880315,
+   "model_net_after": 0.0938566447986858
   },
   "mode_stops": 2,
   "stops_match_mode": true,
@@ -414,9 +414,9 @@
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": 4.0,
-  "sealed_best": "2-stop M-H-M @ 22,46",
+  "sealed_best": "2-stop M-H-M @ 20,45",
   "same_as_sealed_stops": true,
-  "seconds": 1.1,
+  "seconds": 4.5,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2025]",
@@ -458,8 +458,8 @@
    "first_stop_s": 0.010225562621160478,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.11919714562880392,
-    "model_net_after": 0.09385664479868633
+    "model_net_before": -0.11919714562880315,
+    "model_net_after": 0.0938566447986858
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -470,9 +470,9 @@
    "matches_field_modal": false,
    "start_ok": true,
    "first_minus_field": 4.0,
-   "sealed_best": "2-stop M-H-M @ 22,46",
+   "sealed_best": "2-stop M-H-M @ 20,45",
    "same_as_sealed_stops": true,
-   "seconds": 1.0
+   "seconds": 4.4
   },
   "baseline_prior_best": "2-stop M-H-H @ 21,46",
   "baseline_prior_seq_share": 0.29411764705882354,
@@ -522,8 +522,8 @@
   "first_stop_s": 0.18794136898103964,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.036218929178546834,
-   "model_net_after": 0.10280794483277508
+   "model_net_before": -0.03621892917854551,
+   "model_net_after": 0.10280794483277424
   },
   "mode_stops": 1,
   "stops_match_mode": false,
@@ -534,9 +534,9 @@
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": null,
-  "sealed_best": "1-stop M-S @ 18",
+  "sealed_best": "1-stop M-S @ 16",
   "same_as_sealed_stops": false,
-  "seconds": 1.8,
+  "seconds": 6.4,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2024]",
@@ -579,8 +579,8 @@
    "first_stop_s": 0.18794136898103964,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.036218929178546834,
-    "model_net_after": 0.10280794483277508
+    "model_net_before": -0.03621892917854551,
+    "model_net_after": 0.10280794483277424
    },
    "mode_stops": 1,
    "stops_match_mode": false,
@@ -591,9 +591,9 @@
    "matches_field_modal": false,
    "start_ok": true,
    "first_minus_field": null,
-   "sealed_best": "1-stop M-S @ 18",
+   "sealed_best": "1-stop M-S @ 16",
    "same_as_sealed_stops": false,
-   "seconds": 1.9
+   "seconds": 7.1
   },
   "baseline_prior_best": "1-stop S-M @ 20",
   "baseline_prior_seq_share": 0.0,
@@ -643,8 +643,8 @@
   "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.23073198906017667,
-   "model_net_after": 0.06374346962661354
+   "model_net_before": -0.2307319890601734,
+   "model_net_after": 0.06374346962661488
   },
   "mode_stops": 2,
   "stops_match_mode": true,
@@ -655,9 +655,9 @@
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": 3.0,
-  "sealed_best": "2-stop M-H-M @ 22,45",
+  "sealed_best": "2-stop M-H-M @ 18,43",
   "same_as_sealed_stops": true,
-  "seconds": 1.2,
+  "seconds": 4.5,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
@@ -700,8 +700,8 @@
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.23073198906017667,
-    "model_net_after": 0.06374346962661354
+    "model_net_before": -0.2307319890601734,
+    "model_net_after": 0.06374346962661488
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -712,9 +712,9 @@
    "matches_field_modal": false,
    "start_ok": true,
    "first_minus_field": 3.0,
-   "sealed_best": "2-stop M-H-M @ 22,45",
+   "sealed_best": "2-stop M-H-M @ 18,43",
    "same_as_sealed_stops": true,
-   "seconds": 1.2
+   "seconds": 4.7
   },
   "baseline_prior_best": "2-stop M-H-H @ 21,46",
   "baseline_prior_seq_share": 0.3157894736842105,
@@ -764,8 +764,8 @@
   "first_stop_s": 0.5259611215643525,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.053139374592938535,
-   "model_net_after": 0.0518495415141232
+   "model_net_before": -0.05313937459293809,
+   "model_net_after": 0.051849541514122424
   },
   "mode_stops": 1,
   "stops_match_mode": true,
@@ -776,9 +776,9 @@
   "matches_field_modal": true,
   "start_ok": true,
   "first_minus_field": null,
-  "sealed_best": "1-stop M-H @ 22",
+  "sealed_best": "1-stop M-H @ 21",
   "same_as_sealed_stops": true,
-  "seconds": 0.9,
+  "seconds": 3.3,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
@@ -821,8 +821,8 @@
    "first_stop_s": 0.5259611215643525,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.053139374592938535,
-    "model_net_after": 0.0518495415141232
+    "model_net_before": -0.05313937459293809,
+    "model_net_after": 0.051849541514122424
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -833,9 +833,9 @@
    "matches_field_modal": true,
    "start_ok": true,
    "first_minus_field": null,
-   "sealed_best": "1-stop M-H @ 22",
+   "sealed_best": "1-stop M-H @ 21",
    "same_as_sealed_stops": true,
-   "seconds": 0.8
+   "seconds": 3.1
   },
   "baseline_prior_best": "1-stop M-H @ 25",
   "baseline_prior_seq_share": 0.3157894736842105,

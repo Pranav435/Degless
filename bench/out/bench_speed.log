@@ -1,59 +1,63 @@
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+C:\Users\aadib\Degless\.venv\Lib\site-packages\arviz_stats\base\diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-2026-09-12 23:04:08.856 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
-                                                             stage  seconds
-                                                import jax+numpyro    0.433
-                                 load practice laps (FastF1 cache)    1.542
-                                         lap table + clean cascade    0.009
-                                            fuel + track evolution    0.016
-              circuit history prior (cached) + ladder + plan prior    0.064
-                  compound pace-step prior (donor races + circuit)    0.027
-                     regime prior (donor races, temperature model)    0.052
-                                             MixedLM, no bootstrap    0.036
-                                      MixedLM, 50 stint bootstraps    1.645
-                 stint-FE baseline, 50 stint bootstraps (the gate)    0.232
-            first-stop prior: KDE penalty table per start compound    0.001
-  NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)    6.156
-                      NUTS 2x800x800 lap-time only (weekend refit)    2.932
-                  NUTS 2x800x800 lap-time only, hinge (diagnostic)    4.384
-                           apex speeds (cached) + corner selection    0.005
-               NUTS 4x1500x1500 joint lap-time + apex (diagnostic)   13.016
-                                       circuit history combination    0.007
-                                                  seal predictions    0.031
-                                        load race laps + lap table    0.430
-                                                        score race    0.020
-                        within-stint collapse detector, whole race    0.050
-strategy search 500 draws, 1-lap grid, full objective (production)    0.652
-              strategy search with pace calibration (2-3 searches)    1.250
-                             strategy search 500 draws, 2-lap grid    0.575
-                             strategy search 200 draws, 1-lap grid    0.468
-                                  pit window sweep (position term)    0.052
-               pit window sweep (position term + first-stop prior)    0.052
-                                                   undercut window    0.001
-       counterfactual (all drivers, vectorised, SC-aware, per-car)    1.265
-                            per-car plans (20 drivers, 2-lap grid)    6.668
-                                                 replay precompute    0.291
-                                            desk: evaluate 3 plans    0.009
-                      desk: degradation crossover (21 multipliers)    0.118
-                                         desk: safety-car playbook    0.091
-                                        desk: value of information    0.006
-                                               desk: undercut duel    0.000
-                              outlook build (300 draws, scenarios)    3.446
-                                app cold start (streamlit AppTest)    1.064
-peak RSS 1981 MB; app exceptions 0; import re-timed 0.5269718170166016s
-recorded full-pipeline runtimes: {'australia-2026': 54.3, 'japan-2026': 48.4, 'barcelona-2026': 64.2, 'austria-2026': 241.1, 'belgium-2026': 40.3, 'hungary-2026': 47.4, 'italy-2026': 48.5}
-recorded weekend-script runtimes: {'spain-2026': 49.8, 'hungary-2026': 16.1, 'italy-2026': 27.3, 'barcelona-2026': 20.7}
+2026-09-13 02:28:59.235 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+                                                                      stage  seconds
+                                                         import jax+numpyro    0.871
+                                          load practice laps (FastF1 cache)    3.330
+                                                  lap table + clean cascade    0.027
+                                                     fuel + track evolution    0.044
+                       circuit history prior (cached) + ladder + plan prior    0.040
+                           compound pace-step prior (donor races + circuit)    0.088
+                              regime prior (donor races, temperature model)    0.198
+                                                      MixedLM, no bootstrap    0.121
+                                               MixedLM, 50 stint bootstraps    8.533
+                          stint-FE baseline, 50 stint bootstraps (the gate)    1.249
+                     first-stop prior: KDE penalty table per start compound    0.006
+           NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)   19.183
+                               NUTS 2x800x800 lap-time only (weekend refit)    5.734
+                           NUTS 2x800x800 lap-time only, hinge (diagnostic)   12.451
+                                    apex speeds (cached) + corner selection    0.016
+                        NUTS 4x1500x1500 joint lap-time + apex (diagnostic)   31.911
+                                                circuit history combination    0.009
+                                                           seal predictions    0.045
+                                                 load race laps + lap table    1.378
+                                                                 score race    0.069
+                                 within-stint collapse detector, whole race    0.175
+         strategy search 500 draws, 1-lap grid, full objective (production)    4.057
+                       strategy search with pace calibration (2-3 searches)    7.530
+                                      strategy search 500 draws, 2-lap grid    3.163
+                                      strategy search 200 draws, 1-lap grid    2.722
+                                           pit window sweep (position term)    0.311
+                        pit window sweep (position term + first-stop prior)    0.295
+                         race-state constants (measured on the donor races)    1.043
+strategy search 500 draws, 1-lap grid, race-state objective (V4 production)    2.814
+                                         pit window sweep (race-state term)    0.244
+               per-car plans (20 drivers, 2-lap grid, race-state objective)   41.976
+                                                            undercut window    0.001
+                counterfactual (all drivers, vectorised, SC-aware, per-car)    7.317
+                                     per-car plans (20 drivers, 2-lap grid)   33.743
+                                                          replay precompute    1.094
+                                                     desk: evaluate 3 plans    0.025
+                               desk: degradation crossover (21 multipliers)    0.359
+                                                  desk: safety-car playbook    0.413
+                                                 desk: value of information    0.067
+                                                        desk: undercut duel    0.001
+                                       outlook build (300 draws, scenarios)   12.063
+                                         app cold start (streamlit AppTest)    1.915
+peak RSS 0 MB; app exceptions 0; import re-timed 1.278942584991455s
+recorded full-pipeline runtimes: {'australia-2026': 76.3, 'japan-2026': 74.6, 'barcelona-2026': 94.3, 'austria-2026': 276.6, 'belgium-2026': 64.3, 'hungary-2026': 82.3, 'italy-2026': 72.0}
+recorded weekend-script runtimes: {'barcelona-2026': 20.7, 'hungary-2026': 16.1, 'italy-2026': 27.3, 'spain-2026': 49.8}

@@ -22,7 +22,11 @@ lap, and score the calls against what happened.
     every stop and says nothing.
   * plan stability: how often the leader's recommended plan changed shape
 
-Usage: python bench/bench_live.py [--events hungary-2026 barcelona-2026]
+Usage: python bench/bench_live.py [--events hungary-2026 barcelona-2026] [--no-race-state]
+
+`--no-race-state` replays the same archives through the engine with the V4
+race-state term switched off (V3's objective) and writes `live_no_race_state.json`
+beside `live.json`: the ablation, scored identically.
 """
 
 from __future__ import annotations
@@ -85,9 +89,9 @@ def signal_scores(by_lap: dict, stops: dict) -> dict:
     return out
 
 
-def replay(key: str) -> dict:
+def replay(key: str, race_state: bool = True) -> dict:
     wm = WeekendModel.load(key)
-    eng = RaceEngine(wm)
+    eng = RaceEngine(wm, race_state=race_state)
     st = LiveState()
     ticks, hist = [], []
     last_lap = None
@@ -200,14 +204,15 @@ def replay(key: str) -> dict:
 
 
 def main() -> None:
-    args = arg_events(__doc__)
+    args = arg_events(__doc__, extra=[(("--no-race-state",), {"action": "store_true",
+                                       "help": "the V3 objective (race-state term off): writes live_no_race_state.json"})])
     offline()        # the replay is a recorded archive; nothing here may reach the network
     keys = [k for k in args.events if k in ARCHIVES] or list(ARCHIVES)
     missing = [k for k in keys if not ARCHIVES[k].exists()]
     if missing:
         print(f"  no archived feed for {missing}; skipped")
-    res = {k: replay(k) for k in keys if ARCHIVES[k].exists()}
-    dump("live.json", res)
+    res = {k: replay(k, race_state=not args.no_race_state) for k in keys if ARCHIVES[k].exists()}
+    dump("live_no_race_state.json" if args.no_race_state else "live.json", res)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,43 @@
+{
+ "bench_accuracy": {
+  "seconds": 83,
+  "exit": 0
+ },
+ "bench_strategy": {
+  "seconds": 7,
+  "exit": 0
+ },
+ "bench_ablation": {
+  "seconds": 437,
+  "exit": 0
+ },
+ "bench_outlook": {
+  "seconds": 63,
+  "exit": 0
+ },
+ "bench_live": {
+  "seconds": 57,
+  "exit": 0
+ },
+ "bench_stability": {
+  "seconds": 119,
+  "exit": 0
+ },
+ "bench_speed": {
+  "seconds": 145,
+  "exit": 0
+ },
+ "bench_apex": {
+  "seconds": 235,
+  "exit": 0
+ },
+ "pytest": {
+  "seconds": 55,
+  "exit": 0
+ },
+ "bench_compare": {
+  "seconds": 5,
+  "exit": 0
+ },
+ "total_seconds": 1211
+}

@@ -1,0 +1,856 @@
+{
+ "australia-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2023, 2024]",
+  "best": "2-stop M-H-H @ 16,37",
+  "tyre_optimal": "1-stop H-M @ 31",
+  "p_stops": {
+   "2": 0.9466666666666667,
+   "1": 0.05333333333333333,
+   "3": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 10.0,
+   "MEDIUM": 41.0,
+   "HARD": 52.0
+  },
+  "caps": {
+   "SOFT": 10,
+   "MEDIUM": 41,
+   "HARD": 52
+  },
+  "pit_loss": 21.0,
+  "regime": 0.669,
+  "regime_mode": "none",
+  "plan_prior_source": "Melbourne races [2023, 2024] mapped by C-number",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H-H": 12,
+   "H-H": 4,
+   "H-M-H": 2,
+   "S-H-H": 2
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 14,
+   "HARD": 7,
+   "SOFT": 2
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 1.0,
+  "first_stop_s": 1.1329507753789914,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.04266438761547117,
+   "model_net_after": 0.07098991214484379
+  },
+  "mode_stops": 1,
+  "stops_match_mode": false,
+  "stops_share": 0.4,
+  "seq_share": 0.06666666666666667,
+  "field_modal_seq": "MEDIUM-HARD",
+  "seq_run_by_anyone": true,
+  "matches_field_modal": false,
+  "start_ok": true,
+  "first_minus_field": null,
+  "sealed_best": "1-stop M-H @ 25",
+  "same_as_sealed_stops": false,
+  "seconds": 3.2,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2023, 2024]",
+   "best": "1-stop M-H @ 27",
+   "tyre_optimal": "2-stop M-M-S @ 24,48",
+   "p_stops": {
+    "1": 0.8266666666666667,
+    "2": 0.17333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 10.0,
+    "MEDIUM": 41.0,
+    "HARD": 52.0
+   },
+   "caps": {
+    "SOFT": 10,
+    "MEDIUM": 41,
+    "HARD": 52
+   },
+   "pit_loss": 21.0,
+   "regime": 0.669,
+   "regime_mode": "none",
+   "plan_prior_source": "Melbourne races [2023, 2024]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H-H": 12,
+    "M-H": 9,
+    "H-H": 4,
+    "H-M-H": 3
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 22,
+    "HARD": 8,
+    "SOFT": 3
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 1.0,
+   "first_stop_s": 0.0,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.13185320851118662,
+    "model_net_after": 0.057690481648271404
+   },
+   "mode_stops": 1,
+   "stops_match_mode": true,
+   "stops_share": 0.5333333333333333,
+   "seq_share": 0.5333333333333333,
+   "field_modal_seq": "MEDIUM-HARD",
+   "seq_run_by_anyone": true,
+   "matches_field_modal": true,
+   "start_ok": true,
+   "first_minus_field": null,
+   "sealed_best": "1-stop M-H @ 25",
+   "same_as_sealed_stops": true,
+   "seconds": 3.5
+  },
+  "baseline_prior_best": "2-stop M-H-H @ 18,38",
+  "baseline_prior_seq_share": 0.06666666666666667,
+  "v2_prior_best": "2-stop M-H-H @ 16,36",
+  "v2_prior_seq_share": 0.06666666666666667,
+  "v2_prior_matches_field_modal": false
+ },
+ "japan-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "1-stop M-H @ 24",
+  "tyre_optimal": "2-stop M-S-S @ 18,36",
+  "p_stops": {
+   "1": 0.7066666666666667,
+   "2": 0.29333333333333333,
+   "3": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 22.0,
+   "MEDIUM": 36.0,
+   "HARD": 42.0
+  },
+  "caps": {
+   "SOFT": 22,
+   "MEDIUM": 36,
+   "HARD": 42
+  },
+  "pit_loss": 22.5,
+  "regime": 0.628,
+  "regime_mode": "none",
+  "plan_prior_source": "Suzuka races [2023, 2024, 2025]",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H": 16,
+   "M-H-H": 7,
+   "M-M-H": 6,
+   "S-H-H": 4
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 31,
+   "SOFT": 12,
+   "HARD": 9
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 1.0,
+  "first_stop_s": 0.08148150166480805,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.17680217359356387,
+   "model_net_after": 0.021546649695000752
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.9,
+  "seq_share": 0.85,
+  "field_modal_seq": "MEDIUM-HARD",
+  "seq_run_by_anyone": true,
+  "matches_field_modal": true,
+  "start_ok": true,
+  "first_minus_field": null,
+  "sealed_best": "1-stop M-H @ 23",
+  "same_as_sealed_stops": true,
+  "seconds": 3.3,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2023, 2024, 2025]",
+   "best": "1-stop M-H @ 24",
+   "tyre_optimal": "2-stop M-S-S @ 18,36",
+   "p_stops": {
+    "1": 0.7066666666666667,
+    "2": 0.29333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 22.0,
+    "MEDIUM": 36.0,
+    "HARD": 42.0
+   },
+   "caps": {
+    "SOFT": 22,
+    "MEDIUM": 36,
+    "HARD": 42
+   },
+   "pit_loss": 22.5,
+   "regime": 0.628,
+   "regime_mode": "none",
+   "plan_prior_source": "Suzuka races [2023, 2024, 2025]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H": 16,
+    "M-H-H": 7,
+    "M-M-H": 6,
+    "S-H-H": 4
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 31,
+    "SOFT": 12,
+    "HARD": 9
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 1.0,
+   "first_stop_s": 0.08148150166480805,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.17680217359356387,
+    "model_net_after": 0.021546649695000752
+   },
+   "mode_stops": 1,
+   "stops_match_mode": true,
+   "stops_share": 0.9,
+   "seq_share": 0.85,
+   "field_modal_seq": "MEDIUM-HARD",
+   "seq_run_by_anyone": true,
+   "matches_field_modal": true,
+   "start_ok": true,
+   "first_minus_field": null,
+   "sealed_best": "1-stop M-H @ 23",
+   "same_as_sealed_stops": true,
+   "seconds": 3.8
+  },
+  "baseline_prior_best": "1-stop M-H @ 25",
+  "baseline_prior_seq_share": 0.85,
+  "v2_prior_best": "1-stop M-H @ 25",
+  "v2_prior_seq_share": 0.85,
+  "v2_prior_matches_field_modal": false
+ },
+ "barcelona-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2023, 2025]",
+  "best": "2-stop M-H-H @ 21,44",
+  "tyre_optimal": "2-stop M-S-S @ 24,45",
+  "p_stops": {
+   "2": 0.9833333333333334,
+   "3": 0.016666666666666666,
+   "1": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 28.0,
+   "MEDIUM": 40.0,
+   "HARD": 37.0
+  },
+  "caps": {
+   "SOFT": 28,
+   "MEDIUM": 40,
+   "HARD": 37
+  },
+  "pit_loss": 23.1,
+  "regime": 0.601,
+  "regime_mode": "none",
+  "plan_prior_source": "Barcelona races [2023, 2025] mapped by C-number",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H-H": 10,
+   "M-H-M-M": 8,
+   "M-H-M": 4,
+   "H-H-M": 3
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 31,
+   "HARD": 5
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 0.0,
+  "first_stop_s": 0.0,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.09441353657914703,
+   "model_net_after": 0.051816567087052054
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.5384615384615384,
+  "seq_share": 0.46153846153846156,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "seq_run_by_anyone": true,
+  "matches_field_modal": true,
+  "start_ok": true,
+  "first_minus_field": 8.0,
+  "sealed_best": "2-stop M-H-H @ 19,42",
+  "same_as_sealed_stops": true,
+  "seconds": 4.5,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2023, 2025]",
+   "best": "2-stop S-M-S @ 21,45",
+   "tyre_optimal": "2-stop M-S-S @ 24,45",
+   "p_stops": {
+    "2": 0.9833333333333333,
+    "3": 0.016666666666666666,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 28.0,
+    "MEDIUM": 40.0,
+    "HARD": 37.0
+   },
+   "caps": {
+    "SOFT": 28,
+    "MEDIUM": 40,
+    "HARD": 37
+   },
+   "pit_loss": 23.1,
+   "regime": 0.601,
+   "regime_mode": "none",
+   "plan_prior_source": "Barcelona races [2023, 2025]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "S-M-S-S": 8,
+    "S-H-M": 4,
+    "S-M-S": 4,
+    "S-M-H": 3
+   },
+   "plan_prior_starts": {
+    "SOFT": 31,
+    "MEDIUM": 4,
+    "HARD": 2
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 0.0,
+   "first_stop_s": 0.0,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.0821292560396611,
+    "model_net_after": 0.053532693379923516
+   },
+   "mode_stops": 2,
+   "stops_match_mode": true,
+   "stops_share": 0.5384615384615384,
+   "seq_share": 0.0,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "seq_run_by_anyone": false,
+   "matches_field_modal": false,
+   "start_ok": false,
+   "first_minus_field": 8.0,
+   "sealed_best": "2-stop M-H-H @ 19,42",
+   "same_as_sealed_stops": true,
+   "seconds": 4.2
+  },
+  "baseline_prior_best": "2-stop M-H-H @ 20,43",
+  "baseline_prior_seq_share": 0.46153846153846156,
+  "v2_prior_best": "2-stop S-M-S @ 20,44",
+  "v2_prior_seq_share": 0.0,
+  "v2_prior_matches_field_modal": false
+ },
+ "austria-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2025]",
+  "best": "2-stop M-H-M @ 22,46",
+  "tyre_optimal": "3-stop M-M-S-S @ 18,36,54",
+  "p_stops": {
+   "2": 0.7966666666666667,
+   "3": 0.12666666666666665,
+   "1": 0.07666666666666666
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 18.0,
+   "MEDIUM": 37.0,
+   "HARD": 46.0
+  },
+  "caps": {
+   "SOFT": 18,
+   "MEDIUM": 37,
+   "HARD": 46
+  },
+  "pit_loss": 21.0,
+  "regime": 0.652,
+  "regime_mode": "none",
+  "plan_prior_source": "Spielberg races [2025]",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H-M": 4,
+   "M-H": 3,
+   "S-H-M": 2,
+   "M-M-H": 2
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 12,
+   "SOFT": 4
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 1.0,
+  "first_stop_s": 0.010225562621160478,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.11919714562880315,
+   "model_net_after": 0.0938566447986858
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.8235294117647058,
+  "seq_share": 0.23529411764705882,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "seq_run_by_anyone": true,
+  "matches_field_modal": false,
+  "start_ok": true,
+  "first_minus_field": 4.0,
+  "sealed_best": "2-stop M-H-M @ 22,46",
+  "same_as_sealed_stops": true,
+  "seconds": 4.2,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2025]",
+   "best": "2-stop M-H-M @ 22,46",
+   "tyre_optimal": "3-stop M-M-S-S @ 18,36,54",
+   "p_stops": {
+    "2": 0.7966666666666667,
+    "3": 0.12666666666666665,
+    "1": 0.07666666666666666
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 18.0,
+    "MEDIUM": 37.0,
+    "HARD": 46.0
+   },
+   "caps": {
+    "SOFT": 18,
+    "MEDIUM": 37,
+    "HARD": 46
+   },
+   "pit_loss": 21.0,
+   "regime": 0.652,
+   "regime_mode": "none",
+   "plan_prior_source": "Spielberg races [2025]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H-M": 4,
+    "M-H": 3,
+    "S-H-M": 2,
+    "M-M-H": 2
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 12,
+    "SOFT": 4
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 1.0,
+   "first_stop_s": 0.010225562621160478,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.11919714562880315,
+    "model_net_after": 0.0938566447986858
+   },
+   "mode_stops": 2,
+   "stops_match_mode": true,
+   "stops_share": 0.8235294117647058,
+   "seq_share": 0.23529411764705882,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "seq_run_by_anyone": true,
+   "matches_field_modal": false,
+   "start_ok": true,
+   "first_minus_field": 4.0,
+   "sealed_best": "2-stop M-H-M @ 22,46",
+   "same_as_sealed_stops": true,
+   "seconds": 3.8
+  },
+  "baseline_prior_best": "2-stop M-H-H @ 21,46",
+  "baseline_prior_seq_share": 0.29411764705882354,
+  "v2_prior_best": "2-stop M-H-M @ 22,47",
+  "v2_prior_seq_share": 0.23529411764705882,
+  "v2_prior_matches_field_modal": false
+ },
+ "belgium-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2024]",
+  "best": "2-stop M-S-S @ 12,27",
+  "tyre_optimal": "1-stop M-S @ 23",
+  "p_stops": {
+   "2": 0.4866666666666667,
+   "1": 0.5133333333333333,
+   "3": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 32.0,
+   "MEDIUM": 35.0,
+   "HARD": 37.0
+  },
+  "caps": {
+   "SOFT": 32,
+   "MEDIUM": 35,
+   "HARD": 37
+  },
+  "pit_loss": 18.5,
+  "regime": 0.475,
+  "regime_mode": "none",
+  "plan_prior_source": "Spa-Francorchamps races [2024]",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H-H": 6,
+   "M-M-H": 3,
+   "M-H-M": 3,
+   "M-M": 2
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 17,
+   "SOFT": 1,
+   "HARD": 1
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 1.0,
+  "first_stop_s": 0.18794136898103964,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.03621892917854551,
+   "model_net_after": 0.10280794483277424
+  },
+  "mode_stops": 1,
+  "stops_match_mode": false,
+  "stops_share": 0.05263157894736842,
+  "seq_share": 0.0,
+  "field_modal_seq": "MEDIUM-HARD",
+  "seq_run_by_anyone": false,
+  "matches_field_modal": false,
+  "start_ok": true,
+  "first_minus_field": null,
+  "sealed_best": "1-stop M-S @ 18",
+  "same_as_sealed_stops": false,
+  "seconds": 6.7,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2024]",
+   "best": "2-stop M-S-S @ 12,27",
+   "tyre_optimal": "1-stop M-S @ 23",
+   "p_stops": {
+    "2": 0.4866666666666667,
+    "1": 0.5133333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 32.0,
+    "MEDIUM": 35.0,
+    "HARD": 37.0
+   },
+   "caps": {
+    "SOFT": 32,
+    "MEDIUM": 35,
+    "HARD": 37
+   },
+   "pit_loss": 18.5,
+   "regime": 0.475,
+   "regime_mode": "none",
+   "plan_prior_source": "Spa-Francorchamps races [2024]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H-H": 6,
+    "M-M-H": 3,
+    "M-H-M": 3,
+    "M-M": 2
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 17,
+    "SOFT": 1,
+    "HARD": 1
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 1.0,
+   "first_stop_s": 0.18794136898103964,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.03621892917854551,
+    "model_net_after": 0.10280794483277424
+   },
+   "mode_stops": 1,
+   "stops_match_mode": false,
+   "stops_share": 0.05263157894736842,
+   "seq_share": 0.0,
+   "field_modal_seq": "MEDIUM-HARD",
+   "seq_run_by_anyone": false,
+   "matches_field_modal": false,
+   "start_ok": true,
+   "first_minus_field": null,
+   "sealed_best": "1-stop M-S @ 18",
+   "same_as_sealed_stops": false,
+   "seconds": 6.4
+  },
+  "baseline_prior_best": "1-stop S-M @ 20",
+  "baseline_prior_seq_share": 0.0,
+  "v2_prior_best": "1-stop M-S @ 22",
+  "v2_prior_seq_share": 0.05263157894736842,
+  "v2_prior_matches_field_modal": false
+ },
+ "hungary-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "2-stop M-H-M @ 22,45",
+  "tyre_optimal": "2-stop M-M-S @ 25,51",
+  "p_stops": {
+   "2": 0.9866666666666667,
+   "3": 0.013333333333333334,
+   "1": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 19.0,
+   "MEDIUM": 38.9,
+   "HARD": 51.9
+  },
+  "caps": {
+   "SOFT": 19,
+   "MEDIUM": 44,
+   "HARD": 61
+  },
+  "pit_loss": 21.0,
+  "regime": 0.528,
+  "regime_mode": "none",
+  "plan_prior_source": "Budapest races [2023, 2024, 2025]",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H-H": 16,
+   "M-H-M": 10,
+   "M-H": 9,
+   "S-H-H": 4
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 38,
+   "SOFT": 10,
+   "HARD": 7
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 0.0,
+  "first_stop_s": 0.0,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.2307319890601734,
+   "model_net_after": 0.06374346962661488
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.631578947368421,
+  "seq_share": 0.0,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "seq_run_by_anyone": false,
+  "matches_field_modal": false,
+  "start_ok": true,
+  "first_minus_field": 3.0,
+  "sealed_best": "2-stop M-H-M @ 22,45",
+  "same_as_sealed_stops": true,
+  "seconds": 4.6,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2023, 2024, 2025]",
+   "best": "2-stop M-H-M @ 22,45",
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "p_stops": {
+    "2": 0.9866666666666667,
+    "3": 0.013333333333333334,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 19.0,
+    "MEDIUM": 38.9,
+    "HARD": 51.9
+   },
+   "caps": {
+    "SOFT": 19,
+    "MEDIUM": 44,
+    "HARD": 61
+   },
+   "pit_loss": 21.0,
+   "regime": 0.528,
+   "regime_mode": "none",
+   "plan_prior_source": "Budapest races [2023, 2024, 2025]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H-H": 16,
+    "M-H-M": 10,
+    "M-H": 9,
+    "S-H-H": 4
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 38,
+    "SOFT": 10,
+    "HARD": 7
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 0.0,
+   "first_stop_s": 0.0,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.2307319890601734,
+    "model_net_after": 0.06374346962661488
+   },
+   "mode_stops": 2,
+   "stops_match_mode": true,
+   "stops_share": 0.631578947368421,
+   "seq_share": 0.0,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "seq_run_by_anyone": false,
+   "matches_field_modal": false,
+   "start_ok": true,
+   "first_minus_field": 3.0,
+   "sealed_best": "2-stop M-H-M @ 22,45",
+   "same_as_sealed_stops": true,
+   "seconds": 4.4
+  },
+  "baseline_prior_best": "2-stop M-H-H @ 21,46",
+  "baseline_prior_seq_share": 0.3157894736842105,
+  "v2_prior_best": "2-stop M-H-H @ 21,45",
+  "v2_prior_seq_share": 0.3157894736842105,
+  "v2_prior_matches_field_modal": false
+ },
+ "italy-2026": {
+  "variant": "prior_only",
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "1-stop M-H @ 23",
+  "tyre_optimal": "1-stop H-M @ 28",
+  "p_stops": {
+   "1": 1.0,
+   "2": 0.0,
+   "3": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 10.0,
+   "MEDIUM": 51.0,
+   "HARD": 53.0
+  },
+  "caps": {
+   "SOFT": 10,
+   "MEDIUM": 51,
+   "HARD": 56
+  },
+  "pit_loss": 25.3,
+  "regime": 0.655,
+  "regime_mode": "none",
+  "plan_prior_source": "Monza races [2023, 2024, 2025]",
+  "plan_prior_mode": "c-number",
+  "plan_prior_top": {
+   "M-H": 27,
+   "M-H-H": 7,
+   "H-M": 6,
+   "M-H-M": 5
+  },
+  "plan_prior_starts": {
+   "MEDIUM": 41,
+   "HARD": 13,
+   "SOFT": 1
+  },
+  "first_stop_in_objective": true,
+  "first_stop_kappa_s": 1.0,
+  "first_stop_s": 0.5259611215643525,
+  "pace_calibration": {
+   "applied": true,
+   "model_net_before": -0.05313937459293809,
+   "model_net_after": 0.051849541514122424
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.5263157894736842,
+  "seq_share": 0.3157894736842105,
+  "field_modal_seq": "MEDIUM-HARD",
+  "seq_run_by_anyone": true,
+  "matches_field_modal": true,
+  "start_ok": true,
+  "first_minus_field": null,
+  "sealed_best": "1-stop M-H @ 22",
+  "same_as_sealed_stops": true,
+  "seconds": 3.3,
+  "prior_only_letters": {
+   "variant": "prior_only_letters",
+   "basis": "circuit history [2023, 2024, 2025]",
+   "best": "1-stop M-H @ 23",
+   "tyre_optimal": "1-stop H-M @ 28",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life_laps_at_push": {
+    "SOFT": 10.0,
+    "MEDIUM": 51.0,
+    "HARD": 53.0
+   },
+   "caps": {
+    "SOFT": 10,
+    "MEDIUM": 51,
+    "HARD": 56
+   },
+   "pit_loss": 25.3,
+   "regime": 0.655,
+   "regime_mode": "none",
+   "plan_prior_source": "Monza races [2023, 2024, 2025]",
+   "plan_prior_mode": null,
+   "plan_prior_top": {
+    "M-H": 27,
+    "M-H-H": 7,
+    "H-M": 6,
+    "M-H-M": 5
+   },
+   "plan_prior_starts": {
+    "MEDIUM": 41,
+    "HARD": 13,
+    "SOFT": 1
+   },
+   "first_stop_in_objective": true,
+   "first_stop_kappa_s": 1.0,
+   "first_stop_s": 0.5259611215643525,
+   "pace_calibration": {
+    "applied": true,
+    "model_net_before": -0.05313937459293809,
+    "model_net_after": 0.051849541514122424
+   },
+   "mode_stops": 1,
+   "stops_match_mode": true,
+   "stops_share": 0.5263157894736842,
+   "seq_share": 0.3157894736842105,
+   "field_modal_seq": "MEDIUM-HARD",
+   "seq_run_by_anyone": true,
+   "matches_field_modal": true,
+   "start_ok": true,
+   "first_minus_field": null,
+   "sealed_best": "1-stop M-H @ 22",
+   "same_as_sealed_stops": true,
+   "seconds": 3.1
+  },
+  "baseline_prior_best": "1-stop M-H @ 25",
+  "baseline_prior_seq_share": 0.3157894736842105,
+  "v2_prior_best": "1-stop M-H @ 24",
+  "v2_prior_seq_share": 0.3157894736842105,
+  "v2_prior_matches_field_modal": false
+ },
+ "_summary": {
+  "n_events": 7,
+  "modal_match": 3,
+  "modal_match_letters": 3,
+  "start_ok": 7,
+  "start_ok_letters": 6,
+  "mean_seq_share": 0.2756126742194854,
+  "mean_seq_share_letters": 0.2763452749520861,
+  "stops_match_mode": 5
+ }
+}

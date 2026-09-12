@@ -68,11 +68,14 @@ def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> 
     total = f.posterior["lin"].shape[0]
     idx = np.random.default_rng(0).choice(total, size=min(300, total), replace=False)
     model = TyreModel.from_fit(f, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+    # the shipped objective: V4's race-state first stop (constants from the
+    # other races), which replaces the first-stop prior
+    from src import racestate
     kw = dict(regime=regime, support=clean.groupby("compound")["tyre_age"].max().to_dict(),
               max_per_compound=m["allocation"]["caps"], max_stint=caps, undercut_lambda=cal.undercut_lambda,
               plan_prior=plan_prior_for(cp), plan_prior_tau_s=cal.plan_prior_tau_s,
               traffic_s_per_lap=dirty_air_of(cal, ev.circuit), grid_penalty_s=cal.grid_start_penalty_s,
-              **fs_kwargs(strat.simulate_model, first_stop_tables(cp, ev, list(model.compounds)), kappa_of(cal)))
+              race_state=racestate.measure_constants(exclude=ev.key))
     _, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]),
                                                    net_step_s=float(pstep.get("net_stint_step_measured", np.nan)),
                                                    net_step_se_s=float(pstep.get("net_stint_step_se") or 0.0), **kw)

@@ -1,0 +1,299 @@
+
+=== 0. practice-only firewall ===
+  [PASS] firewall blocks race data: practice-only firewall: refusing to load 'Race' for fitting. Allowed: ['Practice 1', 'Prac
+
+=== 1. practice laps + clean-lap cascade ===
+WARNING requests_cache.session: Request for URL https://api.jolpi.ca/ergast/f1/2026/7/results.json failed; using cached response
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/retry.py", line 498, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 311, in _resend
+    response = self._send_and_cache(request, actions, cached_response, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 279, in _send_and_cache
+    response = super().send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/req.py", line 112, in send
+    return super().send(request, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 742, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+WARNING requests_cache.session: Request for URL https://api.jolpi.ca/ergast/f1/2026/7/results.json failed; using cached response
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 1106, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 796, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+        sock=sock,
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 975, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/ssl_.py", line 433, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/ssl_.py", line 477, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TimeoutError: _ssl.c:1011: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/retry.py", line 498, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 311, in _resend
+    response = self._send_and_cache(request, actions, cached_response, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 279, in _send_and_cache
+    response = super().send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/req.py", line 112, in send
+    return super().send(request, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 742, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+        step                             rule  laps  dropped
+    raw laps                                —  1467        0
+ ok_accurate                FastF1 IsAccurate   793      674
+  ok_not_pit         not an in-lap or out-lap   793        0
+    ok_green           track status all-green   782       11
+ok_stint_len stint >= 6 valid laps (long run)   359      423
+  ok_traffic          gap to car ahead > 2.0s   274       85
+ ok_not_slow   lap time < session median + 5s   225       49
+ ok_compound                   known compound   225        0
+compound  laps  stints  median_lap_s
+  MEDIUM   120      22       83.1180
+    SOFT    96      19       82.6945
+    HARD     9       1       81.8500
+  [PASS] clean laps in 120-320: 225 clean laps from 1467 raw (19s)
+  [PASS] no non-green lap survives: track statuses: ['1']
+  [PASS] all compounds valid: 
+
+=== 2. fuel physics, circuit history, compound ladder, regime transfer ===
+       prior  burn_kg_per_lap  k_track_s_per_kg  fuel_effect_s_per_lap                                                                     derivation
+2026 physics           1.0606           0.02914                 0.0309 burn = 70 kg / 66 laps = 1.061 kg/lap;  k = 0.30 x 78 s / 803 kg = 0.0291 s/kg
+2025 physics           1.6700           0.03300                 0.0551      burn = 1.67 kg/lap (110 kg allowance), k = 0.033 s/kg (800 kg min weight)
+    no prior           0.0000           0.00000                 0.0000                     fuel effect assumed zero; age and fuel burn stay collinear
+  circuit history: Barcelona [2023, 2025]; stops {2: 21, 3: 14, 4: 2}; plans {'S-M-S-S': 8, 'S-H-M': 4, 'S-M-S': 4, 'S-M-H': 3, 'S-S-H': 2, 'S-H-H': 2}; starts {'SOFT': 31, 'MEDIUM': 4, 'HARD': 2}
+    ladder from the circuit's races: {'n_races': 2, 'recency_weights': [0.5, 1.0], 'pace_step_s': -0.055032350919588, 'pace_step_se': 0.18571691249582145, 'pace_step_by_year': [-0.055], 'pace_step_usable': False, 'deg_ratio': 1.3833473396884277, 'deg_ratio_ln_sd': 0.47489584569346316, 'deg_ratio_by_year': [0.989, 1.935]}
+    cliff (longest / p90 stint): SOFT 25/23, MEDIUM 36/29, HARD 34/21
+
+  compound pace step prior: 0.164 s  [calibrated (0.21% of lap time)]
+    measured net stint step: +0.058 +/- 0.113 s
+compound  hardness_rank  pace_offset_s  deg_multiplier
+    SOFT              0          0.000           1.000
+  MEDIUM              1          0.164           0.723
+    HARD              2          0.328           0.523
+iter      rss  evo_range_s   HARD  MEDIUM   SOFT estimator                                                                                            per_session  backfit_range_s
+   1 156.3179       1.9000 0.3179  0.2879 0.2532       NaN                                                                                                    NaN              NaN
+   2 149.4717       2.9000 0.3179  0.2952 0.2604       NaN                                                                                                    NaN              NaN
+   3 149.3248       2.9289 0.3179  0.2954 0.2606       NaN                                                                                                    NaN              NaN
+push      NaN       0.8471 0.3259  0.2822 0.2533 push laps {'Practice 1': 0.8259325998515372, 'Practice 2': 0.6909569137972106, 'Practice 3': 0.8470764389278335}           2.9289
+  [PASS] track evolution identified & plausible: push-lap range 0.85s per session {'Practice 1': 0.8259325998515372, 'Practice 2': 0.6909569137972106, 'Practice 3': 0.8470764389278335}; long-run backfit would have given 2.93s; sessions on the backfit: []
+
+  practice->race degradation factor: 0.601x [0.44-0.81]  [median of 6 donors + circuit history]
+    race/practice degradation ratio, stint-fixed-effects estimator on both sessions; residuals pooled with the median: australia-2026 0.75x, japan-2026 0.73x, austria-2026 0.58x, belgium-2026 0.32x, hungary-2026 0.64x, italy-2026 0.81x -> management residual 0.68x (spread 0.27 ln); no temperature term (no race-day forecast supplied: no temperature term); the pool gives 0.68x; Barcelona's own practice->race ratio in [2023, 2025] is 0.54x (+/-0.25 ln), which carries 54% of the precision, so 0.60x applies; the old pooled geometric mean would have given 0.61x. barcelona-2026's own race is never used
+    temperature mode: none; circuit prior: {'ratio': 0.5377043899704241, 'ln_sd': 0.25, 'years': [2023, 2025], 'n': 2, 'by_year': {2023: 0.4896, 2025: 0.5906}, 'weight': 1.0, 'weight_on_circuit': 0.5418316342736228}
+  [PASS] regime factor is plausible (0.15-1.0): 0.601x from ['australia-2026', 'japan-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026', 'Barcelona 2023', 'Barcelona 2025']
+  plan prior mapped through the nominations (c-number, target ['C2', 'C3', 'C4']): 2023 ['C1', 'C2', 'C3'] shifted (mapped 19, dropped 1, clamped 17); 2025 ['C1', 'C2', 'C3'] shifted (mapped 17, dropped 0, clamped 1)
+    sequences {'M-H-H': 10, 'M-H-M-M': 8, 'M-H-M': 4, 'H-H-M': 3, 'M-M-H': 2, 'M-H-H-H': 2}; starts {'MEDIUM': 31, 'HARD': 5}
+  first-stop prior: mode lap 17, median 16 (11-20), n=37 (31 on the modal start compound MEDIUM)
+    conditioned on a 2-stop plan: mode lap 17, median 17 (13-21) from 21 same-stop-count stops, 16 of them on the MEDIUM
+
+=== 3. MixedLM baseline + stint-FE baseline, both on stint block bootstraps ===
+compound  slope_s_per_lap     lo     hi  n_stints  n_boot  band_estimable
+    HARD           0.3259 0.3259 0.3259         1      30           False
+  MEDIUM           0.3091 0.2581 0.4256        22      50            True
+    SOFT           0.2734 0.1595 0.3611        19      50            True
+compound  slope_s_per_lap     lo     hi  n_stints  n_laps  n_boot  band_estimable
+  MEDIUM           0.2822 0.2199 0.3773        22     120      50            True
+    SOFT           0.2533 0.1474 0.3574        19      96      50            True
+  [PASS] stint-FE baseline pooled slope is finite and >= 0: 0.2694 s/lap over 42 stints / 225 laps [90% 0.208-0.340] (2s)
+
+=== 5. NumPyro hierarchical fits ===
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+  production (lap-time only, linear, soft ladder): rhat=1.0024 div=0 laps=225 (6.0s)
+  [PASS] convergence: r_hat < 1.01 and zero divergences: max r_hat 1.0024, 0 divergences
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: divide by zero encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+  circuit history Barcelona [2023, 2025] folded in (rate only, capped 3x, floored):
+compound  practice  practice_as_race  practice_sd_ln  history_race  history_sd_ln  combined_race  combined  combined_sd_ln  weight_on_history  scale_mean  capped_share  floor_practice  floor_binds
+    HARD    0.2222            0.1334          0.4316        0.0741         0.4736         0.1022    0.1701          0.2606             0.4536      0.7728           0.0          0.0606        False
+  MEDIUM    0.2626            0.1577          0.2226        0.0990         0.4736         0.1450    0.2414          0.1500             0.1809      0.9211           0.0          0.0810        False
+    SOFT    0.2558            0.1536          0.2417        0.1359         0.6108         0.1511    0.2516          0.1500             0.1354      0.9847           0.0          0.0905        False
+  2026         rhat=1.0024 div=0 laps=225 apex=0
+  hinge        rhat=1.0085 div=0 laps=225 apex=0
+  hardladder   rhat=1.0040 div=0 laps=225 apex=0
+  2025         rhat=1.0078 div=0 laps=225 apex=0
+  none         rhat=1.0000 div=0 laps=225 apex=0
+  noladder     rhat=1.0070 div=0 laps=225 apex=0
+compound  slope_s_per_lap     lo     hi  knee_lap  knee_lo  knee_hi
+    HARD           0.1759 0.1115 0.2619       NaN      NaN      NaN
+  MEDIUM           0.2445 0.1887 0.3081       NaN      NaN      NaN
+    SOFT           0.2547 0.1979 0.3206       NaN      NaN      NaN
+  (32s)
+  [PASS] Bayes vs MixedLM pooled degradation within 0.06 s/lap (practice-only posterior): pooled 0.261 vs MixedLM 0.295 (diff 0.033); per-compound differences are the ladder prior overriding an unordered baseline: HARD 0.087, MEDIUM 0.044, SOFT 0.014
+  [PASS] Bayes pooled slope within 0.06 s/lap of the stint-FE baseline: pooled 0.261 vs stint-FE 0.269 (diff 0.008) over 42 stints
+
+  compound ordering (soft ladder): deg SOFT 0.255 > MEDIUM 0.245 > HARD 0.176 (ordered); pace SOFT 0.00 < MEDIUM 0.04 < HARD 0.20 (ordered); without any ladder: SOFT 0.265 MEDIUM 0.265 HARD 0.265
+
+  prior sensitivity (mean slope over ages 1-20, s/lap):
+          2026    2025     none
+HARD    0.1759  0.2619  11.2137
+MEDIUM  0.2445  0.2886   2.7559
+SOFT    0.2547  0.2794   0.7403
+
+=== 6. seal predictions (before any race lap is read) ===
+  barcelona-2026_20260912T165853Z.json  sha256 a912a62a49f52b0251680b8fcf398a47...
+  [PASS] sealed file verifies against its sha256: a912a62a49f52b02
+
+=== fit stage done in 52s ===

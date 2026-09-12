@@ -1,21 +1,21 @@
-### bench_accuracy Sat Sep 12 22:59:54 IST 2026
-bench_accuracy exit 0  [26s]
-### bench_strategy Sat Sep 12 23:00:20 IST 2026
-bench_strategy exit 0  [3s]
-### bench_ablation Sat Sep 12 23:00:23 IST 2026
-bench_ablation exit 0  [106s]
-### bench_outlook Sat Sep 12 23:02:09 IST 2026
-bench_outlook exit 0  [17s]
-### bench_live Sat Sep 12 23:02:26 IST 2026
-bench_live exit 0  [12s]
-### bench_stability Sat Sep 12 23:02:38 IST 2026
-bench_stability exit 0  [43s]
-### bench_speed Sat Sep 12 23:03:21 IST 2026
-bench_speed exit 0  [49s]
-### bench_apex Sat Sep 12 23:04:10 IST 2026
-bench_apex exit 0  [101s]
-### pytest Sat Sep 12 23:05:51 IST 2026
-pytest exit 0  [13s]
-### bench_compare Sat Sep 12 23:06:04 IST 2026
-bench_compare exit 0  [1s]
-### done Sat Sep 12 23:06:05 IST 2026  [total 371s]
+### bench_accuracy 2026-09-13 02:09:29.857881
+bench_accuracy exit 0  [82s]
+### bench_strategy 2026-09-13 02:10:52.749420
+bench_strategy exit 0  [8s]
+### bench_ablation 2026-09-13 02:11:00.809935
+bench_ablation exit 0  [603s]
+### bench_outlook 2026-09-13 02:21:04.287573
+bench_outlook exit 0  [62s]
+### bench_live 2026-09-13 02:22:07.126195
+bench_live exit 0  [74s]
+### bench_stability 2026-09-13 02:23:21.514757
+bench_stability exit 0  [130s]
+### bench_speed 2026-09-13 02:25:32.053515
+bench_speed exit 0  [211s]
+### bench_apex 2026-09-13 02:29:03.636938
+bench_apex exit 0  [187s]
+### pytest 2026-09-13 02:32:11.392941
+pytest exit 0  [56s]
+### bench_compare 2026-09-13 02:33:07.852461
+bench_compare exit 0  [2s]
+### done 2026-09-13 02:33:10.400722  [total 1420s]

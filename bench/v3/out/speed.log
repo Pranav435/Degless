@@ -1,0 +1,52 @@
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+2026-09-12 13:36:38.694 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+                                             stage  seconds
+                                import jax+numpyro   48.281
+                 load practice laps (FastF1 cache)   49.142
+                         lap table + clean cascade    0.010
+                            fuel + track evolution    3.377
+            compound pace-step prior (donor races)    0.105
+                        regime prior (donor races)    0.050
+                    circuit history prior (cached)    0.001
+                             MixedLM, no bootstrap    0.040
+                      MixedLM, 50 stint bootstraps    1.580
+           apex speeds (cached) + corner selection    0.003
+               NUTS 4x1500x1500 joint (production)  247.372
+                    NUTS 4x1500x1500 lap-time only    8.624
+                    NUTS 2x800x800 joint (--quick)   21.297
+                      NUTS 2x800x800 lap-time only    6.230
+                       circuit history combination    0.004
+                                  seal predictions    0.033
+                        load race laps + lap table   16.029
+                                        score race    0.019
+strategy search 500 draws, 1-lap grid (production)    0.636
+             strategy search 500 draws, 2-lap grid    0.587
+             strategy search 200 draws, 1-lap grid    0.432
+                                  pit window sweep    0.061
+                                   undercut window    0.001
+                      counterfactual (all drivers)    4.721
+                                 replay precompute    0.117
+                            desk: evaluate 3 plans    0.009
+      desk: degradation crossover (21 multipliers)    0.166
+                         desk: safety-car playbook    0.120
+                        desk: value of information    0.010
+                               desk: undercut duel    0.000
+                app cold start (streamlit AppTest)  420.455
+peak RSS 1310 MB; app exceptions 0
+recorded full-pipeline runtimes: {'australia-2026': 439.6, 'japan-2026': 421.4, 'barcelona-2026': 666.9, 'austria-2026': 567.3, 'belgium-2026': 273.2, 'hungary-2026': 490.9, 'italy-2026': 269.7}
+recorded weekend-script runtimes: {'hungary-2026': {'runtime_s': 36.7, 'sessions': ['Practice 2', 'Practice 3']}, 'italy-2026': {'runtime_s': 199.2, 'sessions': ['Practice 1', 'Practice 2']}, 'barcelona-2026': {'runtime_s': 31.8, 'sessions': ['Practice 1', 'Practice 2', 'Practice 3']}}
