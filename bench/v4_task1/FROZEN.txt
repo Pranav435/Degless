@@ -1,0 +1,1 @@
+V4 Task 1 outputs frozen 2026-09-12T21:44Z from commit 18e3d6f: bench/out/*.json|csv|md and data/processed/meta_*-2026.json + calibration.json as they stood before V4-final work began. Read-only.
