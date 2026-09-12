@@ -1119,11 +1119,13 @@ def hardness_rank_order(compounds: list) -> list:
 def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, drivers: list, *,
                      race_factors: dict | None = None, dev_by_driver: dict | None = None,
                      factor_ln_sd: dict | None = None, factor_shrink: float | None = 1.0,
+                     warmup_by_driver: dict | None = None,
+                     traffic_mult_by_driver: dict | None = None,
                      step: int = 2, shortlist: int = 800, **sim_kw) -> pd.DataFrame:
     """The best plan per car: the field model scaled by each driver's own
     tyre behaviour (`TyreModel.for_driver`), searched on a 2-lap grid.
 
-    Two per-car terms, each optional and each backward compatible:
+    Four per-car terms, each optional and each backward compatible:
 
     * `race_factors` - the driver's measured rate factor from previous races.
       A bare `{driver: float}` map works as it always did; a
@@ -1135,6 +1137,17 @@ def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, dr
       deviation, normally `percar.team_pooled_dev(...)`, so a car with no long
       run on a compound inherits its team-mate's behaviour rather than the
       field's.  A driver absent from the map keeps the fit's own deviation.
+    * `warmup_by_driver` - the stint warm-up cost for that car, in seconds,
+      replacing the field's `warmup_s` for that car's search alone
+      (`src.haascar.car_terms(state)["warmup_s"]`, which is field-relative: a
+      car with no evidence of its own gets the field value back).
+    * `traffic_mult_by_driver` - a multiplier on that car's dirty-air cost, so
+      the search sees `traffic_s_per_lap * mult` for that car alone
+      (`...["traffic_mult"]`, 1.0 for a car with no evidence).
+
+    The last two default to `None`, which leaves the search exactly as it was:
+    a keyword is inserted only for a driver the map actually names, and the
+    field search (`base`) never sees either of them.
 
     One row per driver: the plan, the first-stop lap, how far it sits from the
     field plan, and the driver's rate factor with its sources.
@@ -1144,6 +1157,7 @@ def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, dr
     sds = factor_ln_sd or {}
     devs = dev_by_driver or {}
     base = simulate_model(model, ev, pit_loss_s, step=step, shortlist=shortlist, **sim_kw)
+    base_traffic = float(sim_kw.get("traffic_s_per_lap", DIRTY_AIR_S_PER_LAP))
     rows = []
     for drv in drivers:
         v = rf.get(drv, 1.0)
@@ -1153,7 +1167,14 @@ def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, dr
         m_d = model.for_driver(drv, race_factor={"factor": f, "ln_sd": ln_sd},
                                dev_override=dev_override, factor_shrink=factor_shrink)
         dev = dev_override if dev_override is not None else model.driver_dev.get(drv, {})
-        res = simulate_model(m_d, ev, pit_loss_s, step=step, shortlist=shortlist, **sim_kw)
+        car_kw = dict(sim_kw)
+        warm_d = (warmup_by_driver or {}).get(drv)
+        mult_d = (traffic_mult_by_driver or {}).get(drv)
+        if warm_d is not None:
+            car_kw["warmup_s"] = float(warm_d)
+        if mult_d is not None:
+            car_kw["traffic_s_per_lap"] = base_traffic * float(mult_d)
+        res = simulate_model(m_d, ev, pit_loss_s, step=step, shortlist=shortlist, **car_kw)
         if res.table.empty:
             continue
         rows.append({"driver": drv, "race_factor": f,
@@ -1169,6 +1190,12 @@ def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, dr
                      "first_stop_vs_field": ((int(res.best["pit_laps"][0]) - int(base.best["pit_laps"][0]))
                                              if res.best["pit_laps"] and base.best["pit_laps"] else None),
                      "same_shape_as_field": bool("-".join(res.best["compounds"]) == "-".join(base.best["compounds"]))})
+        # Only reported when the caller asked for them, so a default call's
+        # frame - and the `meta["per_driver"]` block built from it - is unchanged.
+        if warmup_by_driver is not None:
+            rows[-1]["warmup_s"] = (float(warm_d) if warm_d is not None else None)
+        if traffic_mult_by_driver is not None:
+            rows[-1]["traffic_mult"] = (float(mult_d) if mult_d is not None else None)
     return pd.DataFrame(rows)
 
 
