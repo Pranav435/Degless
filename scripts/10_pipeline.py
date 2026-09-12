@@ -99,6 +99,9 @@ def race_state_block(res, rs_const, pw, n_laps: int) -> dict:
                                        now_lap=lap, window_hi=w_hi)
             decisions.append({"lap": lap, **t})
     return {"enabled": True, "constants": rs_const.as_dict(), "group": rs.get("best_group"),
+            # who the simulated rivals were: the symmetric pack, or the
+            # heterogeneous field's type table (`racestate.RivalFieldConfig`)
+            "mode": rs.get("mode"), "rival_field": rs.get("rival_field"),
             "first_stop": first, "tyre_optimal_first_stop_in_group": best.get("tyre_best_lap"),
             "pack_first_stop_median": best.get("q_median"), "pack_first_stop_iqr": best.get("q_p25_p75"),
             "iterations": best.get("iterations"), "converged": best.get("converged"), "push": best.get("push"),

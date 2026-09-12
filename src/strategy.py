@@ -82,6 +82,7 @@ from __future__ import annotations
 
 import itertools
 import logging
+import math
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -118,6 +119,14 @@ log = logging.getLogger("degless.strategy")
 MAX_PASSES = 4               # calibrate -> search passes before giving up on a fixed point
 PACE_CAL_TOL_LAPS = 2.5      # two stint lengths this close are the same decision
 LIFE_CAP_FRACTION = 0.9      # of the shortest mean compound life at the plan's push
+
+# V4 rival field: a rival type's degradation level is a mean shift, not a new
+# posterior, so it is evaluated on this many of the model's own draws.  60 puts
+# the Monte Carlo error on the *difference* between two levels' mean stint
+# costs under a hundredth of a second (the difference itself is 1-3 s over a
+# 20-lap stint); the term it feeds is in tenths.
+RATE_SUBSAMPLE_DRAWS = 60
+RATE_SUBSAMPLE_SEED = 11
 
 
 def is_sc_status(status) -> bool:
@@ -619,22 +628,35 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
                    plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0,
                    first_stop_prior: dict | None = None,
                    first_stop_kappa_s: float = 0.0,
-                   race_state=None, race_state_cover: bool = True) -> StrategyResult:
+                   race_state=None, race_state_cover: bool = True,
+                   rival_field=None) -> StrategyResult:
     """Rank every legal (plan, push level) pair, then score a shortlist over
     the posterior draws carried by `model`.
 
     **V4: the race state times the first stop.**  With `race_state` (a
     `src.racestate.RaceStateConstants`) every plan group - start compound,
-    second compound and stop count - is solved as a pack of four rivals running
-    the same plan (`racestate.pack_equilibrium`), and the first stop of every
-    plan in the group is charged that pack's race-state term: the seconds of
-    track position, at the measured value of a place, a first stop on that lap
-    gains or gives away against cars choosing theirs the same way.  The term
-    *replaces* the undercut exposure on the first stop (it prices the same
-    thing, car by car rather than as a generic exposure) and the caller is
-    expected to switch the first-stop history prior off (`first_stop_kappa_s =
-    0`); later stops keep `undercut_lambda`.  Without `race_state` this is the
-    V3 objective, bit for bit.
+    second compound and stop count - is solved against a simulated pack of four
+    rivals, and the first stop of every plan in the group is charged that
+    pack's race-state term: the seconds of track position, at the measured
+    value of a place, a first stop on that lap gains or gives away against cars
+    choosing theirs the same way.  The term *replaces* the undercut exposure on
+    the first stop (it prices the same thing, car by car rather than as a
+    generic exposure) and the caller is expected to switch the first-stop
+    history prior off (`first_stop_kappa_s = 0`); later stops keep
+    `undercut_lambda`.  Without `race_state` this is the V3 objective, bit for
+    bit.
+
+    `rival_field` (a `racestate.RivalFieldConfig`) says who those four rivals
+    are.  The default - `None` with a race state - is the **heterogeneous
+    field**: the pack is filled from a distribution over rival types, a plan
+    group crossed with a degradation level, weighted by the model's own cost of
+    each group blended with how often this circuit's field has run it, each type
+    choosing its stop lap on its own curve blended with the circuit's
+    historical first-stop density, solved as a mean-field equilibrium over
+    types (`racestate.rival_field`).  `RivalFieldConfig(mode="symmetric")` is
+    Task 1: a pack of four copies of our own car on our own plan
+    (`racestate.pack_equilibrium`).  Either way history informs only the
+    *rivals'* behaviour; our own lap is never charged for it.
 
     Two phases, because ordering the stints multiplies the search space by an
     order of magnitude and the full posterior does not fit alongside it:
@@ -700,7 +722,8 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
             pit_loss_s=pit_loss_s, n_laps=n_laps, max_len=max_len, dens=dens,
             traffic_s_per_lap=traffic_s_per_lap, sc_rate=sc_rate, grid_penalty_s=grid_penalty_s,
             rank=_rank, plan_prior=plan_prior, tau=tau, fsp=fsp, kappa=kappa, lam=lam,
-            race_state=race_state, cover=race_state_cover)
+            race_state=race_state, cover=race_state_cover, rival_field=rival_field,
+            model=model, event=ev, warmup_s=warmup_s, first_stop_tables=first_stop_prior)
     for seq, lens, starts in (zip(seqs, lens_all, starts_all) if race_state is None else ()):
         pits = starts[:, 1:]
         # Terms that do not depend on the tyre model: pit lane, traffic, the
@@ -890,19 +913,25 @@ def _race_state_for_best(rs_info: dict, seq: list) -> dict:
 
 def _phase1_race_state(seqs, lens_all, starts_all, *, means, expos, push_grid, pit_loss_s, n_laps,
                        max_len, dens, traffic_s_per_lap, sc_rate, grid_penalty_s, rank, plan_prior,
-                       tau, fsp, kappa, lam, race_state, cover) -> tuple:
+                       tau, fsp, kappa, lam, race_state, cover, rival_field=None, model=None,
+                       event=None, warmup_s: float = OUT_LAP_PENALTY_S,
+                       first_stop_tables=None) -> tuple:
     """Phase 1 of `simulate_model` with the race-state first-stop term.
 
     Three passes.  (1) every plan at every push on everything but the race
     state - tyre, pit lane, traffic, the safety-car credit, the grid penalty,
     the undercut exposure of every stop *after* the first, the plan prior;
     (2) each plan group's cost by first-stop lap (the best plan of the group
-    with its first stop on that lap, at its best push) is solved as a pack
-    (`racestate.pack_equilibrium`); (3) the group's term is charged on every
-    plan's first stop and the best push re-chosen.  A group whose best plan is
-    further behind the overall best than the race-state term could ever make up
-    (four places at the measured value, plus 5 s) is not solved and carries no
-    term: it cannot win either way.
+    with its first stop on that lap, at its best push) is solved against a
+    simulated pack - the heterogeneous rival field by default
+    (`racestate.rival_field`, one equilibrium for all the groups at once) or
+    Task 1's symmetric pack per group (`racestate.pack_equilibrium`);
+    (3) the group's term is charged on every plan's first stop and the best
+    push re-chosen.  A group whose best plan is further behind the overall best
+    than the race-state term could ever make up (four places at the measured
+    value, plus 5 s) is not solved and carries no term: it cannot win either
+    way.  It can still be a *rival* type, because the field is not us - see
+    `_hetero_field`.
     """
     from src import racestate
 
@@ -945,6 +974,9 @@ def _phase1_race_state(seqs, lens_all, starts_all, *, means, expos, push_grid, p
     for g, fis in groups.items():
         Tg = np.full(n_laps + 1, np.inf)
         Pg = np.zeros(n_laps + 1, dtype=int)
+        # the group's own cheapest cost with no prior on it at all: what the
+        # rival field's family logit sorts the groups by
+        cost_g = min(float(per_fam[fi][1].min()) for fi in fis)
         for fi in fis:
             base = per_fam[fi][0]
             pi = np.argmin(base, axis=0)
@@ -958,25 +990,23 @@ def _phase1_race_state(seqs, lens_all, starts_all, *, means, expos, push_grid, p
             Pg[uniq[better]] = pi[o][at][better]
         laps = np.flatnonzero(np.isfinite(Tg))
         if len(laps):
-            curves[g] = (laps, Tg[laps], Pg[laps])
+            curves[g] = (laps, Tg[laps], Pg[laps], cost_g)
     V = float(race_state.place_value_s)
     overall = min(float(c[1].min()) for c in curves.values()) if curves else 0.0
     margin = 4.0 * V + 5.0
-    packs, terms = {}, {}
-    for g, (laps, T, P) in curves.items():
-        if float(T.min()) > overall + margin:
-            continue
-        p = push_grid[int(P[int(np.argmin(T))])]
-        stay_cum = np.asarray(means[p][g[0]][0], dtype=float)
-        fresh_cum = np.asarray(means[p][g[1]], dtype=float)
-        laps_ok = laps[laps < len(stay_cum)]
-        T_ok = T[laps < len(stay_cum)]
-        pk = racestate.pack_equilibrium(T_ok, laps_ok, stay_cum, fresh_cum, race_state, cover=cover)
-        if not pk:
-            continue
-        pk["push"] = float(p)
-        packs[_group_label(g)] = pk
-        terms[g] = racestate.term_by_lap(pk, n_laps)
+    solved = {g: c for g, c in curves.items() if float(c[1].min()) <= overall + margin}
+    cfg = rival_field if rival_field is not None else racestate.RivalFieldConfig()
+    if cfg.symmetric:
+        packs, field = _symmetric_packs(solved, means=means, push_grid=push_grid,
+                                        race_state=race_state, cover=cover)
+    else:
+        packs, field = _hetero_field(solved, curves, means=means, push_grid=push_grid, n_laps=n_laps,
+                                     max_len=max_len, race_state=race_state, cfg=cfg, cover=cover,
+                                     model=model, event=event, warmup_s=warmup_s,
+                                     plan_prior=plan_prior, fs_tables=first_stop_tables, seqs=seqs,
+                                     groups=groups)
+    terms = {g: racestate.term_by_lap(packs[_group_label(g)], n_laps)
+             for g in solved if _group_label(g) in packs}
 
     fam_full, fam_tyre, fam_push, fam_pos, fam_prior, fam_first, fam_rs = [], [], [], [], [], [], []
     n_total = 0
@@ -998,11 +1028,190 @@ def _phase1_race_state(seqs, lens_all, starts_all, *, means, expos, push_grid, p
         fam_rs.append(rs_rows)
         n_total += len(lens)
     info = {"constants": race_state.as_dict(), "cover": bool(cover),
+            "mode": ("symmetric" if cfg.symmetric else "hetero"),
+            "rival_field": field,
             "groups": {k: {kk: v.get(kk) for kk in ("best_lap", "tyre_best_lap", "q_median", "q_p25_p75",
                                                    "iterations", "converged", "push")}
                        for k, v in packs.items()},
             "packs": packs, "n_groups": len(curves), "n_groups_solved": len(packs)}
     return fam_full, fam_tyre, fam_push, fam_pos, fam_prior, fam_first, fam_rs, n_total, info
+
+
+def _symmetric_packs(solved: dict, *, means, push_grid, race_state, cover: bool) -> tuple:
+    """Task 1's pack: each group against four copies of itself, one fixed point
+    per group.  Kept for `mode="symmetric"` and the ablations that switch the
+    heterogeneous field off, and identical to Task 1 line for line."""
+    from src import racestate
+
+    packs = {}
+    for g, (laps, T, P, _cost) in solved.items():
+        p = push_grid[int(P[int(np.argmin(T))])]
+        stay_cum = np.asarray(means[p][g[0]][0], dtype=float)
+        fresh_cum = np.asarray(means[p][g[1]], dtype=float)
+        laps_ok = laps[laps < len(stay_cum)]
+        T_ok = T[laps < len(stay_cum)]
+        pk = racestate.pack_equilibrium(T_ok, laps_ok, stay_cum, fresh_cum, race_state, cover=cover)
+        if not pk:
+            continue
+        pk["push"] = float(p)
+        packs[_group_label(g)] = pk
+    return packs, {"mode": "symmetric", "config": racestate.RivalFieldConfig(mode="symmetric").as_dict(),
+                   "n_types": len(packs),
+                   "note": "four copies of our own car on our own plan (Task 1)"}
+
+
+def _rate_scaled_means(model, event, max_len: int, push: float, factor: float, *,
+                       warmup_s: float, draws: int = RATE_SUBSAMPLE_DRAWS,
+                       seed: int = RATE_SUBSAMPLE_SEED) -> dict:
+    """Posterior-mean stint-cost tables with every wear rate multiplied by `factor`.
+
+    A degradation level is a *scenario*, not a second posterior, and the rival
+    field only needs the mean shift it produces, so it is evaluated on a
+    `draws`-draw subsample of the model's own draws (`scale_model` on a
+    subsample) and used only as a **difference** against the same subsample at
+    factor 1.  The subsampling error then cancels in the difference, and the
+    unit level reproduces the full-draw table exactly rather than approximately.
+    """
+    m = model.subsample(np.random.default_rng(seed).choice(model.n_draws,
+                                                           size=min(draws, model.n_draws),
+                                                           replace=False)) \
+        if model.n_draws > draws else model
+    t = stint_cost_table(scale_model(m, float(factor)), event, max_len, push, warmup_s=warmup_s)
+    return {c: v.mean(0) for c, v in t.items()}
+
+
+def _hetero_field(ours: dict, curves: dict, *, means, push_grid, n_laps, max_len, race_state, cfg,
+                  cover, model, event, warmup_s, plan_prior, fs_tables, seqs, groups) -> tuple:
+    """The heterogeneous rival field: build the types, solve them together.
+
+    A rival **type** is a plan group crossed with a degradation level.  Its cost
+    by first-stop lap is the group's own curve plus what the level's rate factor
+    `f` costs it over the two stints the first stop sits between,
+
+        T_g^f(l) = T_g(l) + (stay^f[l] - stay[l]) + (fresh^f[l, L2] - fresh[l, L2])
+
+    with `L2` the rest of the race shared over the stints still to come.  This
+    is an **approximation** in two ways, both deliberate: the group's plan is
+    not re-optimised for the level (a car that wears its tyres 12 % faster
+    would also consider one more stop, and the family logit already gives it
+    that option as a *different* group), and the later stints are priced at the
+    average remaining stint length rather than the level's own optimum.  What it
+    has to get right is the *tilt* - a faster-degrading car's cost curve rises
+    earlier, so it boxes earlier - and that is the first difference in the
+    formula, which is exact.
+
+    **The field is not us.**  The types are drawn from every plan group the
+    search costed (`curves`), not only from the groups close enough to *our*
+    best to be worth solving (`ours`), and their family weights read the
+    model's own tyre + pit + traffic + safety-car cost rather than the
+    objective our own plan is chosen on.  That is what lets the field contain a
+    start compound our own priors reject, which is exactly Barcelona's defect:
+    its mapped history has no SOFT starts, five of thirteen 2026 finishers
+    started SOFT, and those are the cars that boxed first.  Types below
+    `racestate.FIELD_WEIGHT_FLOOR` of the modal weight are dropped - they are
+    hundredths of a car - except our own groups, which always keep a row,
+    because that row *is* their race-state term.
+    """
+    from src import racestate
+
+    if not ours or not curves:
+        return {}, {"mode": "hetero", "config": cfg.as_dict(), "n_types": 0,
+                    "note": "no plan group close enough to the best to be worth solving"}
+    ln_sd = (racestate.field_rate_ln_sd(getattr(event, "key", None)) if cfg.rate_ln_sd is None
+             else float(cfg.rate_ln_sd))
+    factors, level_w = racestate.rate_nodes(cfg.rate_levels, ln_sd)
+    mid = int(np.argmin(np.abs(factors - 1.0)))          # our own car's rate
+
+    # the family mix: each group's own cost against how often this circuit's
+    # field has run that shape (summed over the sequences the group contains)
+    n_prior = int((plan_prior or {}).get("n", 0) or 0)
+    all_g = list(curves)
+    cost_g = np.array([curves[g][3] for g in all_g], dtype=float)
+    nlp_g = np.zeros(len(all_g))
+    if n_prior > 0:
+        for i, g in enumerate(all_g):
+            shapes = {tuple(seqs[fi]) for fi in groups[g]}
+            p_rel = sum(math.exp(-plan_prior_penalty(list(s), plan_prior, 1.0)) for s in shapes)
+            nlp_g[i] = -math.log(max(p_rel, 1e-12))
+        nlp_g -= nlp_g.min()
+    q = racestate.family_weights(cost_g, nlp_g, n_prior=n_prior, cfg=cfg)
+    floor = racestate.FIELD_WEIGHT_FLOOR * float(q.max())
+    gs = [g for i, g in enumerate(all_g) if q[i] >= floor or g in ours]
+    q_fam = {g: float(q[i]) for i, g in enumerate(all_g)}
+
+    # the shared candidate-lap grid: every lap any type could stop on
+    stay_len = min(len(means[p][c][0]) for p in push_grid for c in means[p])
+    laps = np.unique(np.concatenate([curves[g][0] for g in gs]))
+    laps = laps[laps < stay_len]
+    if not len(laps):
+        return {}, {"mode": "hetero", "config": cfg.as_dict(), "n_types": 0,
+                    "note": "no legal first-stop lap inside the cost tables"}
+    at = {int(l): i for i, l in enumerate(laps)}
+
+    cache: dict = {}
+    types = []
+    for g in gs:
+        g_laps, T_g, P_g, _ = curves[g]
+        p = push_grid[int(P_g[int(np.argmin(T_g))])]
+        stay = np.asarray(means[p][g[0]][0], dtype=float)
+        fresh = np.asarray(means[p][g[1]], dtype=float)
+        jmax = fresh.shape[1] - 1
+        rows = np.array([at[int(l)] for l in g_laps if int(l) in at], dtype=int)
+        keep = np.array([int(l) in at for l in g_laps], dtype=bool)
+        # the second stint's length: the rest of the race over the stints left
+        L2 = np.clip((n_laps - laps) // max(1, int(g[2])), 0, jmax)
+        hist, n_cell = _first_stop_density(fs_tables, g[0], int(g[2]), laps)
+        hist_w = racestate.history_weight(n_cell, cfg)
+        for lv, (f, wl) in enumerate(zip(factors, level_w)):
+            T = np.full(len(laps), np.inf)
+            T[rows] = T_g[keep]
+            stay_f, fresh_f = stay, fresh
+            if lv != mid:
+                for key in ((p, float(f)), (p, 1.0)):
+                    if key not in cache:
+                        cache[key] = _rate_scaled_means(model, event, max_len, key[0], key[1],
+                                                        warmup_s=warmup_s)
+                hi, one = cache[(p, float(f))], cache[(p, 1.0)]
+                d_stay = np.asarray(hi[g[0]][0], dtype=float) - np.asarray(one[g[0]][0], dtype=float)
+                d_fresh = np.asarray(hi[g[1]], dtype=float) - np.asarray(one[g[1]], dtype=float)
+                stay_f = stay + d_stay
+                fresh_f = fresh + d_fresh
+                T[rows] += (d_stay[laps[rows]] + d_fresh[laps[rows], L2[rows]])
+            types.append({"label": _group_label(g), "group": g, "level": lv - mid,
+                          "rate_factor": float(f), "weight": float(q_fam[g] * wl),
+                          "q_family": float(q_fam[g]), "T": T, "stay_cum": stay_f,
+                          "fresh_cum": fresh_f, "hist": hist, "hist_w": hist_w,
+                          "ours": bool(lv == mid and g in ours), "push": float(p)})
+    out = racestate.rival_field(types, laps, race_state, cfg, cover=cover)
+    packs = out.get("packs") or {}
+    for t in types:
+        if t["ours"] and t["label"] in packs:
+            packs[t["label"]]["push"] = t["push"]
+    return packs, {"mode": "hetero", "config": cfg.as_dict(), "rate_ln_sd": float(ln_sd),
+                   "n_types": int(out.get("n_types", len(types))),
+                   "n_groups_in_field": len(gs), "n_groups_costed": len(all_g),
+                   "iterations": out.get("iterations"), "converged": out.get("converged"),
+                   "plan_prior_n": n_prior, "types": out.get("types") or []}
+
+
+def _first_stop_density(fs_tables, start_compound, n_stops: int, laps: np.ndarray) -> tuple:
+    """`(-log p(lap) for each candidate lap, the count the cell was built from)`.
+
+    The same `firststop.first_stop_penalty_table` the objective is handed, read
+    for the *rivals'* behaviour rather than as a charge on our own lap - which
+    is why it is read whatever `first_stop_kappa_s` is (under V4 it is zero).
+    No table, or a cell with no history, means no density and weight zero."""
+    per = fs_tables.get(str(start_compound)) if hasattr(fs_tables, "get") else None
+    if not isinstance(per, dict):
+        return None, 0
+    tbl = per.get(int(n_stops))
+    n = (per.get("n") or {}).get(int(n_stops), 0)
+    if tbl is None:
+        tbl, n = per.get("any"), (per.get("n") or {}).get("any", 0)
+    if tbl is None or not int(n or 0):
+        return None, 0
+    tbl = np.asarray(tbl, dtype=float)
+    return tbl[np.clip(laps, 0, len(tbl) - 1)], int(n)
 
 
 def search_with_pace_calibration(model: TyreModel, event: Event | str, pit_loss_s: float, *,
