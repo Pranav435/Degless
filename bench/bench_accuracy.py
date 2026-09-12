@@ -27,6 +27,17 @@ stint-rate calibration check) is run on:
   sealed_driver_hist      the same factors through `rate_scale_table("hist")`
   sealed_driver_practice_dev  this weekend's own `dev[d, c]` where it exists
   sealed_driver_team_pooled   the same, pooled over the team (V3 ships this)
+  sealed_driver_hier      V4/WP-E: the hierarchical model's own scale
+                          (`haascar.hier_rate_scale_table`) - the team pooling
+                          weighted by each car's real clean-lap count, times
+                          the precision-shrunk race-history prior.  It is the
+                          scale the shipped per-car path applies, and it is
+                          scored through the same code path as the others
+
+Plus a Haas-only block (`per_event[key]["haas"]`, pooled under `haas`): OCO's
+and BEA's stint-rate MAE and bias under `none`, `team_pooled` and `hier`.  Two
+cars is not a population - a Spearman correlation over two points is not a
+number - so the Haas block reports errors only, per car and per weekend.
 
   history_only          the circuit's 2023-25 race degradation (race regime)
   mixedlm_x_regime      the frequentist baseline slope x the regime factor
@@ -240,6 +251,7 @@ def variants_for(key: str) -> dict:
     if cal.driver_factors:
         out["sealed_driver"] = (sealed_draws, sig, {d: float(f) for d, f in cal.driver_factors.items()})
     teams = _teams(key)
+    haas_scales = {"none": None}
     try:
         from src.percar import rate_scale_table
         scales = {}
@@ -249,9 +261,32 @@ def variants_for(key: str) -> dict:
                 out[name] = (sealed_draws, sig, {d: float(v) for d, v in tbl.items()})
             scales[name] = {"n": len(tbl or {}),
                             "range": ([round(min(tbl.values()), 3), round(max(tbl.values()), 3)] if tbl else None)}
+            if kind == "team_pooled":
+                haas_scales["team_pooled"] = ({d: float(v) for d, v in tbl.items()} if tbl else None)
+        # -- V4/WP-E: the hierarchical model's own scale ---------------------
+        # The lap counts are the ones the pipeline pools with
+        # (`clean.groupby("driver").size()`), so this is the scale the shipped
+        # per-car model applies rather than an equal-weight approximation of it.
+        try:
+            from src.haascar import hier_rate_scale_table
+            n_laps = clean_practice(key).groupby("driver").size().to_dict()
+            tbl = hier_rate_scale_table(fit=fit_final, cal=cal, teams=teams,
+                                        n_laps_by_driver={str(k): float(v) for k, v in n_laps.items()})
+            if tbl and any(abs(v - 1.0) > 1e-9 for v in tbl.values()):
+                out["sealed_driver_hier"] = (sealed_draws, sig, {d: float(v) for d, v in tbl.items()})
+            haas_scales["hier"] = ({d: float(v) for d, v in tbl.items()} if tbl else None)
+            scales["sealed_driver_hier"] = {
+                "n": len(tbl or {}),
+                "range": ([round(min(tbl.values()), 3), round(max(tbl.values()), 3)] if tbl else None),
+                "n_laps_by_driver": {str(k): int(v) for k, v in n_laps.items()},
+                "definition": ("team-pooled dev at the driver's own clean-lap count, times the "
+                               "precision-shrunk race-history factor (percar.shrink_factor)")}
+        except Exception as exc:
+            print(f"  sealed_driver_hier unavailable for {key}: {exc}")
         out["_percar_scales"] = scales
     except ImportError:
-        print(f"  src.percar unavailable: the three per-car variants are skipped for {key}")
+        print(f"  src.percar unavailable: the per-car variants are skipped for {key}")
+    out["_haas_scales"] = haas_scales
 
     def lin(rate_by_comp):
         return {c: (AGES * float(r))[None, :] for c, r in rate_by_comp.items() if np.isfinite(r)}
@@ -281,6 +316,47 @@ def variants_for(key: str) -> dict:
     out["oracle_race"] = (lin({c: v["slope"] for c, v in orc.items()}), sig, None)
     out["_oracle_rates"] = {c: v["slope"] for c, v in orc.items()}
     out["_loo_rates"] = {c: float(np.exp(np.mean(v))) for c, v in loo.items()}
+    return out
+
+
+def haas_rows(sealed_draws: dict, rc: pd.DataFrame, ev, sig: float, scales: dict) -> dict:
+    """OCO's and BEA's own stint-rate error under the three per-car scalings.
+
+    The same `stint_rates` call the field variants are scored with, restricted
+    to the two Haas cars afterwards, so the number is comparable to the pooled
+    one line for line.  No Spearman: it would be a rank correlation over two
+    stint populations of three or four stints each, which is not a measurement.
+    """
+    from src.haascar import HAAS_DRIVERS
+
+    out = {"drivers": list(HAAS_DRIVERS), "variants": {},
+           "note": ("stint-rate error for the two Haas cars only; a Spearman correlation over "
+                    "two cars is not meaningful and is not reported")}
+    for name in ("none", "team_pooled", "hier"):
+        if name not in scales:
+            continue
+        scale = scales[name]
+        ps = stint_rates(sealed_draws, rc, ev, sig, driver_scale=(scale or None))
+        if ps.empty:
+            continue
+        h = ps[ps["driver"].isin(HAAS_DRIVERS)]
+        err = h["obs_rate"] - h["pred_rate"]
+        out["variants"][name] = {
+            "n_stints": int(len(h)),
+            "rate_mae": (float(err.abs().mean()) if len(h) else None),
+            "rate_bias": (float(err.mean()) if len(h) else None),
+            "scale": {d: round(float((scale or {}).get(d, 1.0)), 4) for d in HAAS_DRIVERS},
+            "by_driver": {d: {"n_stints": int((h["driver"] == d).sum()),
+                              "rate_mae": (float(err[h["driver"] == d].abs().mean())
+                                           if (h["driver"] == d).any() else None),
+                              "rate_bias": (float(err[h["driver"] == d].mean())
+                                            if (h["driver"] == d).any() else None),
+                              "obs_rate": {c: round(float(x), 4) for c, x in
+                                           h[h["driver"] == d].set_index("compound")["obs_rate"].items()},
+                              "pred_rate": {c: round(float(x), 4) for c, x in
+                                            h[h["driver"] == d].set_index("compound")["pred_rate"].items()}}
+                          for d in HAAS_DRIVERS},
+        }
     return out
 
 
@@ -349,6 +425,7 @@ def main() -> None:
                "percar_scales": v.pop("_percar_scales", {}),
                "first_stop_prior": m.get("first_stop_prior"),
                "variants": {}}
+        haas_scales = v.pop("_haas_scales", {})
         for name, (draws, sig, dscale) in v.items():
             sc = score_race(sealed_dict(draws, sig, {}, cliff), rc, ev)
             ps = stint_rates(draws, rc, ev, sig, driver_scale=dscale)
@@ -363,6 +440,22 @@ def main() -> None:
                   f"  cov95 {s.get('rate_cov95', float('nan')):.2f}"
                   f"  width {s.get('rate_width90', float('nan')):.3f}  rho {s.get('spearman', float('nan')):+.2f}"
                   f"  lapMAE {s['mae_lap']:.2f}  lapcov90 {s['lap_cov90']:.2f}", flush=True)
+        # -- the two Haas cars on their own ----------------------------------
+        try:
+            res["haas"] = haas_rows(v["sealed"][0], rc, ev, v["sealed"][1], haas_scales)
+            for name, blk in (res["haas"].get("variants") or {}).items():
+                per = ", ".join(f"{d} {b['rate_mae']:.3f} (n={b['n_stints']}, x{blk['scale'][d]:.3f})"
+                                if b["rate_mae"] is not None else f"{d} -"
+                                for d, b in blk["by_driver"].items())
+                # A weekend can leave the two cars with no scoreable stint at all
+                # (Japan: neither car's stints clear `stint_rates`' 8-lap / 4-lap-of-age
+                # bar), and that is a fact to print, not an exception to raise.
+                mae = ("-" if blk["rate_mae"] is None else f"{blk['rate_mae']:.3f}")
+                bias = ("-" if blk["rate_bias"] is None else f"{blk['rate_bias']:+.3f}")
+                print(f"{key:16s} haas[{name:11s}] stints {blk['n_stints']:2d}  "
+                      f"rateMAE {mae}  bias {bias}  {per}", flush=True)
+        except Exception as exc:
+            print(f"  haas block unavailable for {key}: {exc}")
         sig_new = float(get_calibration(ev).sigma_race_lap_s)
         brows += frozen_rows("baseline", BASELINE / "processed", baseline_meta(key), key, rc, ev, sig_new)
         brows += frozen_rows("v2", V2 / "processed", v2_meta(key), key, rc, ev, sig_new)
@@ -401,9 +494,44 @@ def main() -> None:
     frozen = {}
     for r in brows:
         frozen.setdefault(r["variant"], {})[r["event"]] = {k: r.get(k) for k in REPORT_KEYS}
+    # -- the Haas summary, pooled over the weekends that have one -------------
+    haas = {"per_event": {k: results[k].get("haas") for k in results if results[k].get("haas")},
+            "pooled": {}}
+    for name in ("none", "team_pooled", "hier"):
+        rows_h = [(k, b["variants"][name]) for k, b in haas["per_event"].items()
+                  if name in (b.get("variants") or {})]
+        if not rows_h:
+            continue
+        mae = [b["rate_mae"] for _, b in rows_h if b["rate_mae"] is not None]
+        n = sum(b["n_stints"] for _, b in rows_h)
+        haas["pooled"][name] = {
+            "n_weekends": len(rows_h), "n_stints": int(n),
+            "rate_mae_mean": (float(np.mean(mae)) if mae else None),
+            "rate_mae_weighted": (float(np.average(mae, weights=[b["n_stints"] for _, b in rows_h
+                                                                 if b["rate_mae"] is not None]))
+                                  if mae else None),
+            "bias_mean": float(np.mean([b["rate_bias"] for _, b in rows_h
+                                        if b["rate_bias"] is not None])) if mae else None,
+            "by_driver": {d: {"rate_mae_mean": float(np.mean(
+                [b["by_driver"][d]["rate_mae"] for _, b in rows_h
+                 if b["by_driver"].get(d, {}).get("rate_mae") is not None]))
+                if any(b["by_driver"].get(d, {}).get("rate_mae") is not None for _, b in rows_h)
+                else None,
+                "n_stints": int(sum(b["by_driver"].get(d, {}).get("n_stints", 0) for _, b in rows_h))}
+                for d in ("OCO", "BEA")},
+        }
+    if haas["pooled"]:
+        print("\n=== Haas only (two cars; no Spearman) ===")
+        for name, b in haas["pooled"].items():
+            per = ", ".join(f"{d} {v['rate_mae_mean']:.3f} (n={v['n_stints']})"
+                            if v["rate_mae_mean"] is not None else f"{d} -"
+                            for d, v in b["by_driver"].items())
+            print(f"  {name:11s} weekends {b['n_weekends']} stints {b['n_stints']:2d}  "
+                  f"rateMAE mean {b['rate_mae_mean']:.4f}  laps-weighted {b['rate_mae_weighted']:.4f}  "
+                  f"bias {b['bias_mean']:+.4f}  [{per}]")
     dump("accuracy.json", {"per_event": results, "pooled": pooled.reset_index().to_dict("records"),
                            "frozen_per_event": frozen, "population": population,
-                           "regime_v3_circuit_check": checks})
+                           "regime_v3_circuit_check": checks, "haas": haas})
     sl = tbl[tbl.variant == "sealed"]
     if len(sl):
         print("\nlaps-weighted sealed rate MAE:",
