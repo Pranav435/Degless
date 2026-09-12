@@ -1,7 +1,20 @@
-# degless — tyre degradation intelligence, live
+# Degless — Haas Race Strategy
 
-Practice data in, race calls out, error bars all the way down — and now on the
-pit wall in real time.
+Practice data in, race calls out, error bars all the way down — on the pit
+wall in real time, for the two Haas cars: **#31 Esteban Ocon** and **#87 Ollie
+Bearman**.  Their antagonists are traffic, tyre degradation, the undercut and
+the overcut, midfield compression, pit loss, safety cars and VSCs, the other
+twenty cars, bad timing and uncertainty; the tool's job is to price every one
+of them in seconds of race time and say PIT NOW, STAY OUT, WAIT or BOX BY, and
+why.
+
+* **V4 (2026-09-13)**: the pit call is made against the cars being raced - a
+  heterogeneous rival field before the race (`src/racestate.py`), the real
+  rivals live (`src/live/rivals.py`) - on one objective (`src/objective.py`),
+  with tyre life stated as a range beyond the practice support (`src/tyre.py`),
+  a per-car model for the two Haas drivers estimated from the weekend alone
+  (`src/haascar.py`), and every recommendation explained from the numbers it
+  was made with (`src/explain.py`).  The report is `results_v4.md`.
 
 * **Offline**: fit a hierarchical Bayesian tyre model on practice long runs
   (fuel-mass physics prior, isotonic track evolution, corner apex speeds as a
