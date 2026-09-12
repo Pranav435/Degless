@@ -22,8 +22,8 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from app.theme import (
-    BLACK, BLACK_2, DEFS, DIM, FAINT, HAIR, LETTER, RED, WHITE, age, badge, badges, card, ccol, chart, how,
-    ink_on, label_text, more, notice, rgba, saving_word, style, tiles, verdict_word,
+    BLACK, DEFS, DIM, FAINT, HAIR, LETTER, RED, WHITE, age, badge, badges, card, ccol, chart, how, ink_on,
+    label_text, more, notice, palette, rgba, saving_word, style, tiles, verdict_word,
 )
 from src import plans as plan_store
 from src import strategy as strat
@@ -241,6 +241,7 @@ def _section_compare(det: list, valid: list, n: int, outlook: dict) -> None:
             m = pd.DataFrame(sc["matrix"])
             piv = m.pivot(index="deg_mult", columns="pit_delta_s", values="best")
             reg = m.pivot(index="deg_mult", columns="pit_delta_s", values="base_plan_regret_s")
+            pal = palette()
             html = "<table style='border-collapse:collapse;font-size:0.84rem;width:100%'><tr><th></th>"
             for col in piv.columns:
                 html += f"<th style='padding:4px 10px;text-align:left'>pit loss {col:+.0f} s</th>"
@@ -249,8 +250,8 @@ def _section_compare(det: list, valid: list, n: int, outlook: dict) -> None:
                 html += f"<tr><td style='padding:4px 10px'>tyre wear ×{dm:.1f}</td>"
                 for col in piv.columns:
                     r = float(reg.loc[dm, col]) if pd.notna(reg.loc[dm, col]) else 0.0
-                    bg = rgba(RED, 0.55) if r > 1.0 else BLACK_2
-                    html += (f"<td style='padding:6px 10px;background:{bg};border:2px solid {BLACK}'>"
+                    bg = rgba(RED, 0.55) if r > 1.0 else pal["paper2"]
+                    html += (f"<td style='padding:6px 10px;background:{bg};border:2px solid {pal['css']['card']}'>"
                              f"<b>{label_text(piv.loc[dm, col])}</b><br>forecast plan +{r:.1f} s</td>")
                 html += "</tr>"
             html += "</table>"

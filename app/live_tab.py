@@ -19,8 +19,8 @@ import streamlit as st
 
 from app.theme import (
     BLACK, DEFS, DIM, FAINT, HAIR, LADDER, LEVEL_KIND, MUTED, WHITE, age, badge, badges, card, ccol, chart,
-    finite, fmt, headline, label_text, more, notice, pct, pit_loss_text, plan_text, rgba, stops_word, style, tiles,
-    tyre_pill, verdict_word, window_line,
+    finite, fmt, headline, label_text, more, notice, palette, pct, pit_loss_text, plan_text, rgba, stops_word, style,
+    tiles, tyre_pill, verdict_word, window_line,
 )
 from src import plans as plan_store
 from src import schedule
@@ -464,22 +464,24 @@ def _plan_status(r: dict, p: dict, lap_now: int) -> dict:
 
 
 FIELD_KEY = ["Pos", "Driver", "Tyre", "Life used", "Laps left", "Plan from here", "Window", "Alert"]
-FIELD_COLS = {
-    "Tyre": st.column_config.TextColumn(help="Tyre and how many laps it has done."),
-    "Life used": st.column_config.ProgressColumn(min_value=0, max_value=1, format="percent", color="#FFFFFF",
-                                                 help=DEFS["life_used"]),
-    "Laps left": st.column_config.TextColumn(help="Laps before the drop-off at the current rate of wear."),
-    "Plan from here": st.column_config.TextColumn(help="The best remaining plan for this car from now on."),
-    "Window": st.column_config.TextColumn(help=DEFS["pit_window"]),
-    "Wear (s/lap)": st.column_config.TextColumn(help="Pace the tyre is expected to lose on its next lap."),
-    "Box now costs": st.column_config.TextColumn(help="Race time lost by pitting at the end of this lap instead "
-                                                      "of following the best plan."),
-    "Drop-off risk": st.column_config.NumberColumn(format="percent", help=DEFS["drop_off"]),
-    "Undercut threat": st.column_config.TextColumn(help="The car behind, and its chance of being ahead three laps "
-                                                        "after pitting now."),
-    "Undercut chance": st.column_config.TextColumn(help="Your chance of being ahead of the car in front three laps "
-                                                        "after pitting now."),
-}
+def _field_cols() -> dict:
+    # Built per render: the progress bar takes the active mode's ink.
+    return {
+        "Tyre": st.column_config.TextColumn(help="Tyre and how many laps it has done."),
+        "Life used": st.column_config.ProgressColumn(min_value=0, max_value=1, format="percent",
+                                                     color=palette()["ink"], help=DEFS["life_used"]),
+        "Laps left": st.column_config.TextColumn(help="Laps before the drop-off at the current rate of wear."),
+        "Plan from here": st.column_config.TextColumn(help="The best remaining plan for this car from now on."),
+        "Window": st.column_config.TextColumn(help=DEFS["pit_window"]),
+        "Wear (s/lap)": st.column_config.TextColumn(help="Pace the tyre is expected to lose on its next lap."),
+        "Box now costs": st.column_config.TextColumn(help="Race time lost by pitting at the end of this lap instead "
+                                                          "of following the best plan."),
+        "Drop-off risk": st.column_config.NumberColumn(format="percent", help=DEFS["drop_off"]),
+        "Undercut threat": st.column_config.TextColumn(help="The car behind, and its chance of being ahead three "
+                                                            "laps after pitting now."),
+        "Undercut chance": st.column_config.TextColumn(help="Your chance of being ahead of the car in front three "
+                                                            "laps after pitting now."),
+    }
 
 
 def _field_rows(field: list) -> pd.DataFrame:
@@ -524,7 +526,7 @@ def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
         df = _field_rows(field)
         with card(f"live-field-{sk}", "Field"):
             st.dataframe(df[FIELD_KEY] if cols == "Key" and not df.empty else df, width="stretch", hide_index=True,
-                         height=min(60 + 36 * len(df), 820), column_config=FIELD_COLS)
+                         height=min(60 + 36 * len(df), 820), column_config=_field_cols())
     with c2:
         with card(f"live-alerts-{sk}", "Latest alerts"):
             if not alerts:

@@ -28,8 +28,8 @@ from app.desk_tab import render_desk  # noqa: E402
 from app.live_tab import render_now, render_strip, render_system, weekend_status  # noqa: E402
 from app.theme import (  # noqa: E402
     BLACK, DEFS, DIM, FAINT, HAIR, LADDER, LETTER, MUTED, WHITE, badge, badges, card, ccol, chart, finite,
-    fmt, headline, how, in_ladder, inject_css, ink_on, label_text, more, notice, pct, rgba, saving_word,
-    stops_word, style, tiles, tyre_pill, window_line,
+    fmt, headline, how, in_ladder, inject_css, ink_on, label_text, more, notice, palette, pct, rgba,
+    saving_word, stops_word, style, tiles, tyre_pill, window_line,
 )
 from src.outlook import load_outlook, load_timeline  # noqa: E402
 from src.engineer import ask as engineer_ask  # noqa: E402
@@ -363,15 +363,17 @@ def _ranking_table(t: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-RANKING_COLS = {
-    "Tyre saving": st.column_config.TextColumn(help=DEFS["saving"]),
-    "Deepest tyre use": st.column_config.ProgressColumn(
-        min_value=0, max_value=1, format="percent", color="#FFFFFF",
-        help="The most of a tyre's usable life any stint uses. 100% is the drop-off."),
-    "Slower by (s)": st.column_config.NumberColumn(help="Race time lost against the top plan, on average."),
-    "Likely range (s)": st.column_config.TextColumn(help=DEFS["likely_range"]),
-    "Chance fastest": st.column_config.NumberColumn(format="percent", help=DEFS["sims"]),
-}
+def _ranking_cols() -> dict:
+    # Built per render: the progress bar takes the active mode's ink.
+    return {
+        "Tyre saving": st.column_config.TextColumn(help=DEFS["saving"]),
+        "Deepest tyre use": st.column_config.ProgressColumn(
+            min_value=0, max_value=1, format="percent", color=palette()["ink"],
+            help="The most of a tyre's usable life any stint uses. 100% is the drop-off."),
+        "Slower by (s)": st.column_config.NumberColumn(help="Race time lost against the top plan, on average."),
+        "Likely range (s)": st.column_config.TextColumn(help=DEFS["likely_range"]),
+        "Chance fastest": st.column_config.NumberColumn(format="percent", help=DEFS["sims"]),
+    }
 
 
 def _tab_race_plan() -> None:
@@ -435,7 +437,7 @@ def _tab_race_plan() -> None:
     with more():
         if not ranking.empty:
             st.markdown("**Every plan, ranked**")
-            st.dataframe(_ranking_table(ranking), width="stretch", hide_index=True, column_config=RANKING_COLS)
+            st.dataframe(_ranking_table(ranking), width="stretch", hide_index=True, column_config=_ranking_cols())
         if not uc.empty:
             caps = meta.get("max_stint_laps", {})
             cap = min([v for k, v in caps.items() if k in ("MEDIUM", "SOFT")]

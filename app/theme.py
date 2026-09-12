@@ -1,11 +1,15 @@
 """Palette, chart chrome and the few components every tab is built from.
 
-TGR Haas red, black and white in a 45 / 45 / 10 split: red is the page and the
-number tiles, black is the sidebar and every card that holds a chart or table,
-white is text, key numbers and the one option a chart is about.  Tyre colours
-are Pirelli's own and only ever sit on black: a SOFT dot on the red page is
-1.35:1 and disappears.  Only pure white text is readable on the red page
-(4.8:1); lighter text goes on the dark-red tiles or on black.
+TGR Haas red, black and white, in two modes.  Dark mode: a black canvas,
+white text, red as the accent (selected controls, the tab underline, primary
+buttons, the number tiles) and a red sidebar.  Light mode swaps black for
+white: a white canvas, black text, the same red accent and sidebar.  Tyre
+colours are Pirelli's own on the dark canvas; the light canvas gets deeper
+versions, because a white HARD or a yellow MEDIUM disappears on white.
+
+Charts are written once, in the dark vocabulary below (WHITE is the ink, BLACK
+the paper), and `style()` re-keys every colour to the active mode.  The page
+is painted by app/theme.css from the --dg-* variables `inject_css()` writes.
 """
 
 from __future__ import annotations
@@ -17,6 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import plotly.graph_objects as go
 import streamlit as st
 
 RED = "#E6002B"
@@ -37,12 +42,96 @@ LADDER = ["SOFT", "MEDIUM", "HARD"]
 LETTER = {"SOFT": "S", "MEDIUM": "M", "HARD": "H"}
 _FROM_LETTER = {v: k for k, v in LETTER.items()}
 
+# Everything that changes between the modes. "ink" and "paper" are what the
+# chart code calls WHITE and BLACK; "css" is written to the page as --dg-*.
+MODES = {
+    "dark": {
+        "ink": WHITE, "paper": BLACK, "paper2": BLACK_2, "unknown": UNKNOWN, "accent": "#FF2E45",
+        "tyre": dict(TYRE),
+        "css": {"page": BLACK, "card": "#17171B", "hair": "rgba(255,255,255,0.12)", "muted": MUTED,
+                "tile": RED_DARK, "panel": "#17171B", "ink": WHITE, "accent": "#FF2E45",
+                "pill": BLACK_2, "pill-edge": "rgba(255,255,255,0.28)"},
+    },
+    "light": {
+        "ink": BLACK, "paper": WHITE, "paper2": "#E4E4E8", "unknown": "#6E6E76", "accent": RED,
+        "tyre": {"SOFT": "#D9261C", "MEDIUM": "#B87A00", "HARD": "#7C7C84"},
+        "css": {"page": WHITE, "card": "#F4F4F6", "hair": "rgba(14,14,16,0.12)", "muted": "rgba(14,14,16,0.62)",
+                "tile": RED_DARK, "panel": "#ECECF0", "ink": BLACK, "accent": RED,
+                "pill": BLACK, "pill-edge": BLACK},
+    },
+}
+
 FONT = "'Source Sans Pro', 'Source Sans 3', system-ui, sans-serif"
 _CSS = Path(__file__).with_name("theme.css")
 
 
+def mode() -> str:
+    """'dark' or 'light': whichever theme the viewer's browser is showing."""
+    try:
+        t = st.context.theme.type
+    except Exception:
+        t = None
+    return t if t in MODES else "dark"
+
+
+def palette() -> dict:
+    return MODES[mode()]
+
+
 def inject_css() -> None:
-    st.html(_CSS)
+    css_vars = "".join(f"--dg-{k}:{v};" for k, v in palette()["css"].items())
+    st.html(f"<style>:root{{{css_vars}}}\n{_CSS.read_text(encoding='utf-8')}</style>")
+
+
+def _hex_rgb(h: str) -> tuple:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _colour_table(target: dict) -> tuple[dict, dict]:
+    """Dark-vocabulary colour -> its value in `target`, as exact strings and as rgb triples."""
+    dark = MODES["dark"]
+    pairs = [(dark[k], target[k]) for k in ("ink", "paper", "paper2", "unknown")]
+    pairs += [(dark["tyre"][c], target["tyre"][c]) for c in LADDER]
+    exact = {d: t for d, t in pairs}
+    triples = {_hex_rgb(d): _hex_rgb(t) for d, t in pairs}
+    return exact, triples
+
+
+_RGBA = re.compile(r"rgba\((\d+),(\d+),(\d+),([\d.]+)\)")
+
+
+def _translate(value, exact: dict, triples: dict):
+    """One colour string re-keyed to the target mode; anything else untouched."""
+    if not isinstance(value, str):
+        return value
+    if value in exact:
+        return exact[value]
+    m = _RGBA.fullmatch(value)
+    if m:
+        rgb = tuple(int(m.group(i)) for i in (1, 2, 3))
+        if rgb in triples:
+            r, g, b = triples[rgb]
+            return f"rgba({r},{g},{b},{m.group(4)})"
+    return value
+
+
+def _walk(obj, exact: dict, triples: dict):
+    if isinstance(obj, dict):
+        # The plotly template carries its own colours; leave it alone.
+        return {k: (v if k == "template" else _walk(v, exact, triples)) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_walk(v, exact, triples) for v in obj]
+    return _translate(obj, exact, triples)
+
+
+def recolor(fig):
+    """A figure written in the dark vocabulary, re-keyed to the active mode."""
+    if mode() == "dark":
+        return fig
+    exact, triples = _colour_table(palette())
+    d = fig.to_plotly_json()
+    return go.Figure(data=_walk(d.get("data", []), exact, triples), layout=_walk(d.get("layout", {}), exact, triples))
 
 
 # --------------------------------------------------------------------------
@@ -68,13 +157,21 @@ def in_ladder(compounds) -> list:
 
 
 def ink_on(fill_hex: str, alpha: float = 1.0) -> str:
-    """Black or white label text for a fill blended onto the black card."""
-    h = fill_hex.lstrip("#")
-    base = (14, 14, 16)
-    rgb = [alpha * int(h[i:i + 2], 16) + (1 - alpha) * base[k] for k, i in enumerate((0, 2, 4))]
+    """Dark or light label text for a fill blended onto the card, in the mode
+    the chart will be shown in.  Returned in the dark vocabulary (BLACK is
+    dark ink, WHITE light ink) so that `recolor()` lands it on the right side:
+    in light mode WHITE becomes the black ink and BLACK the white paper."""
+    pal = palette()
+    exact, _ = _colour_table(pal)
+    fill = _hex_rgb(exact.get(fill_hex, fill_hex))
+    base = _hex_rgb(pal["css"]["card"])
+    rgb = [alpha * f + (1 - alpha) * b for f, b in zip(fill, base)]
     lin = [(v / 255) / 12.92 if v / 255 <= 0.03928 else ((v / 255 + 0.055) / 1.055) ** 2.4 for v in rgb]
     lum = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2]
-    return BLACK if lum > 0.18 else WHITE
+    dark_ink = lum > 0.18
+    if mode() == "dark":
+        return BLACK if dark_ink else WHITE
+    return WHITE if dark_ink else BLACK
 
 
 def finite(x) -> bool:
@@ -230,7 +327,7 @@ def style(fig, height: int = 430, ytitle: str = "", xtitle: str = "", legend: bo
     for axis in (fig.update_xaxes, fig.update_yaxes):
         axis(gridcolor=GRID, zeroline=False, linecolor=HAIR, automargin=True,
              title_font=dict(color=MUTED), tickfont=dict(color=MUTED))
-    return fig
+    return recolor(fig)
 
 
 def chart(fig, key: str | None = None) -> None:
