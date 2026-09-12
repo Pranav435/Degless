@@ -21,6 +21,14 @@ lap, and score the calls against what happened.
     the number that was missing from V2: an alarm that fires every lap catches
     every stop and says nothing.
   * plan stability: how often the leader's recommended plan changed shape
+  * Haas (V4): `stops_haas` — the same stop-call metrics restricted to OCO and
+    BEA, the two cars the tool is built for
+  * decision stability (V4): the share of car-laps whose recommended *action*
+    (`plan["decision"]["action"]`) changed from the previous lap with nothing
+    material having changed — no stop by the car or one of its listed rivals,
+    no safety-car change, and a best-vs-runner-up margin that moved by less
+    than a second.  A pit wall that changes its mind for no reason is not
+    trusted, and this is the number that says whether it does.
 
 Usage: python bench/bench_live.py [--events hungary-2026 barcelona-2026] [--no-race-state]
 
@@ -46,6 +54,14 @@ ARCHIVES = {"hungary-2026": ROOT / "data/raw/livetiming/2026_hungary_race",
 
 LOOKAHEAD = 3          # laps: a signal counts as a call if the stop follows within this many
 BOX_NOW_MAX_S = 1.0    # "boxing now is free": the threshold V2 reported as a median
+
+HAAS_DRIVERS = ("OCO", "BEA")     # #31 and #87, Haas F1 Team, in every 2026 lap table
+# A best-vs-runner-up margin that moved by this much is new information, so an
+# action change it explains is not churn.  Engineering constant of the same
+# order as the engine's own window tolerance (`BOX_NOW_TOL_S`), stated in
+# docs/v4_methodology.md; the block reports the raw counts too, so a different
+# threshold can be applied to the recorded numbers without a re-run.
+DECISION_MARGIN_S = 1.0
 
 
 def _signals(f: dict, lap: int) -> dict:
@@ -89,6 +105,128 @@ def signal_scores(by_lap: dict, stops: dict) -> dict:
     return out
 
 
+def haas_stop_rows(per: pd.DataFrame) -> dict:
+    """`stops_haas`: the two Haas cars' real stops against the engine's call.
+
+    The same four numbers the pooled `stops` block reports — how many stops,
+    the share called within three laps, the median absolute error and the
+    box-now cost the lap before — restricted to OCO and BEA, plus each car on
+    its own, because a team benchmark that pools twenty cars says nothing about
+    the two the engineer is sitting behind.
+    """
+    def _rows(g: pd.DataFrame) -> dict:
+        err = g["err_laps"] if len(g) else pd.Series(dtype=float)
+        box = g["box_now_delta_1_before"] if len(g) else pd.Series(dtype=float)
+        return {"n": int(len(g)),
+                "n_with_recommendation": int(err.notna().sum()) if len(g) else 0,
+                "share_in_window": (float(g["in_window"].mean()) if len(g) else None),
+                "share_err_within_3": (float((err.abs() <= 3).mean()) if err.notna().any() else None),
+                "median_abs_err_laps": (float(err.abs().median()) if err.notna().any() else None),
+                "median_box_now_delta_1_before": (float(box.median()) if box.notna().any() else None),
+                "in_laps": [int(x) for x in g["in_lap"]] if len(g) else [],
+                "recommended_3_before": [(None if pd.isna(x) else int(x)) for x in g["rec_3_before"]] if len(g) else []}
+
+    empty = pd.DataFrame()
+    if not len(per) or "driver" not in per.columns:
+        return {"drivers": list(HAAS_DRIVERS), **_rows(empty),
+                "by_driver": {d: _rows(empty) for d in HAAS_DRIVERS}}
+    return {"drivers": list(HAAS_DRIVERS), **_rows(per[per["driver"].isin(HAAS_DRIVERS)]),
+            "by_driver": {d: _rows(per[per["driver"] == d]) for d in HAAS_DRIVERS}}
+
+
+def _decision_rivals(dec: dict) -> set:
+    """The driver codes (or numbers) the decision says it was priced against."""
+    out = set()
+    for r in (dec.get("rivals") or []):
+        if isinstance(r, dict):
+            for k in ("driver", "code", "driver_number", "number"):
+                if r.get(k) is not None:
+                    out.add(str(r[k]))
+        elif r is not None:
+            out.add(str(r))
+    return out
+
+
+def decision_stability(by_lap: dict, stops: dict, sc_by_lap: dict) -> dict:
+    """Action churn: changes of mind nothing in the state accounts for.
+
+    Over every car-lap that carries a `decision` and had one on the previous
+    lap, the action either held or changed.  A change is *material* — and so
+    not churn — when
+
+      * the car pitted, with an in-lap on this lap or the previous one, or
+      * a driver in either lap's `decision["rivals"]` pitted on those laps, or
+      * `meta["sc_active"]` changed between the two laps, or
+      * the best-vs-runner-up margin `delta_vs_alternative_s` moved by at least
+        `DECISION_MARGIN_S`.
+
+    Everything else is an unexplained change.  Task 1's plans carry no
+    `decision` key at all, so the block reports `n = 0` and nulls rather than a
+    zero that could be mistaken for perfect stability.
+    """
+    laps = sorted(int(l) for l in by_lap)
+    prev: dict = {}
+    pairs = changes = unexplained = 0
+    n_with_decision = 0
+    reasons = {"pit_self": 0, "pit_rival": 0, "sc_change": 0, "margin": 0}
+    per_driver: dict = {}
+    examples = []
+    for lap in laps:
+        field = by_lap.get(lap) or {}
+        for drv, f in field.items():
+            dec = (f or {}).get("decision")
+            if not isinstance(dec, dict) or dec.get("action") is None:
+                continue
+            n_with_decision += 1
+            p = prev.get(drv)
+            prev[drv] = (lap, dec)
+            if p is None or p[0] != lap - 1:
+                continue
+            plap, pdec = p
+            d = per_driver.setdefault(drv, {"pairs": 0, "changes": 0, "unexplained": 0})
+            pairs += 1
+            d["pairs"] += 1
+            if str(dec.get("action")) == str(pdec.get("action")):
+                continue
+            changes += 1
+            d["changes"] += 1
+            mine = set(stops.get(drv, []))
+            pit_self = bool(mine & {lap, plap})
+            rivals = _decision_rivals(dec) | _decision_rivals(pdec)
+            pit_rival = any(set(stops.get(r, [])) & {lap, plap} for r in rivals)
+            sc_change = bool(sc_by_lap.get(lap)) != bool(sc_by_lap.get(plap))
+            a, b = dec.get("delta_vs_alternative_s"), pdec.get("delta_vs_alternative_s")
+            margin = (a is not None and b is not None
+                      and np.isfinite(float(a)) and np.isfinite(float(b))
+                      and abs(float(a) - float(b)) >= DECISION_MARGIN_S)
+            for name, hit in (("pit_self", pit_self), ("pit_rival", pit_rival),
+                              ("sc_change", sc_change), ("margin", margin)):
+                reasons[name] += int(bool(hit))
+            if not (pit_self or pit_rival or sc_change or margin):
+                unexplained += 1
+                d["unexplained"] += 1
+                if len(examples) < 10:
+                    examples.append({"driver": drv, "lap": lap,
+                                     "from": pdec.get("action"), "to": dec.get("action")})
+    if not n_with_decision:
+        return {"n": 0, "n_pairs": 0, "n_changes": None, "n_unexplained": None,
+                "share_changed": None, "share_unexplained": None,
+                "share_of_changes_unexplained": None, "by_driver": {}, "reasons": {},
+                "margin_s": DECISION_MARGIN_S,
+                "note": "the plans carry no decision block (Task 1): nothing to score"}
+    for d in per_driver.values():
+        d["share_unexplained"] = (d["unexplained"] / d["pairs"]) if d["pairs"] else None
+    return {"n": int(n_with_decision), "n_pairs": int(pairs), "n_changes": int(changes),
+            "n_unexplained": int(unexplained),
+            "share_changed": (changes / pairs if pairs else None),
+            "share_unexplained": (unexplained / pairs if pairs else None),
+            "share_of_changes_unexplained": (unexplained / changes if changes else None),
+            "margin_s": DECISION_MARGIN_S, "reasons": reasons,
+            "by_driver": {k: per_driver[k] for k in per_driver if k in HAAS_DRIVERS} or per_driver,
+            "haas": {d: per_driver.get(d) for d in HAAS_DRIVERS},
+            "examples": examples}
+
+
 def replay(key: str, race_state: bool = True) -> dict:
     wm = WeekendModel.load(key)
     eng = RaceEngine(wm, race_state=race_state)
@@ -120,7 +258,10 @@ def replay(key: str, race_state: bool = True) -> dict:
                                                  "alarm": f.get("cliff_alarm"), "p_cliff": f.get("p_past_cliff"),
                                                  "wear": f.get("wear"), "m": f.get("m_mean"),
                                                  "tyre_age": f.get("tyre_age"), "compound": f.get("compound"),
-                                                 "position": f.get("position")} for f in snap["field"]}})
+                                                 "position": f.get("position"),
+                                                 # V4 (WP-D): absent on a Task 1 plan, read defensively
+                                                 "decision": (f.get("plan") or {}).get("decision")}
+                                 for f in snap["field"]}})
     total = time.perf_counter() - t0
     laps = st.laps_df(include_current=False)
     laps = laps[laps["is_complete"]]
@@ -184,6 +325,9 @@ def replay(key: str, race_state: bool = True) -> dict:
         "signals": scores,
         "stops_top10": {"n": int(len(per_top)), "share_in_window": float(per_top["in_window"].mean()) if len(per_top) else None,
                         "median_abs_err_laps": float(per_top["err_laps"].abs().median()) if len(per_top) and per_top["err_laps"].notna().any() else None},
+        # V4: the two Haas cars, and whether the recommended action holds
+        "stops_haas": haas_stop_rows(per),
+        "decision_stability": decision_stability(by_lap, stops, {h["lap"]: h["sc"] for h in hist}),
         "regime": {"self_measured_offline": m_self, "prior_mean": hist[0]["m"]["prior_mean"] if hist else None,
                    "by_lap": m_traj[::5] + [m_traj[-1]], "final": m_traj[-1] if m_traj else None},
         "pit_loss_by_lap": [(h["lap"], round(h["pit_loss"], 2)) for h in hist][::10],
@@ -198,6 +342,8 @@ def replay(key: str, race_state: bool = True) -> dict:
                        f" recall {('%.2f' % scores[n]['recall']) if scores[n]['recall'] is not None else '-'}"
                        f" ({scores[n]['n_signals']} fired)" for n in ("window", "box_now", "collapse")))
     print(f"   top10 stops: {out['stops_top10']}")
+    print(f"   haas stops: {[(k, v) for k, v in out['stops_haas'].items() if k not in ('by_driver',)]}")
+    print(f"   decision stability: { {k: v for k, v in out['decision_stability'].items() if k not in ('examples', 'by_driver', 'haas')} }")
     print(f"   regime m: prior {out['regime']['prior_mean']}, final {out['regime']['final']}, offline self-measured {m_self}")
     print(f"   m by lap: {m_traj[::10]}")
     return out
