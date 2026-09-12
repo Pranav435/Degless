@@ -61,7 +61,7 @@ MODES = {
     },
 }
 
-FONT = "'Source Sans Pro', 'Source Sans 3', system-ui, sans-serif"
+FONT = "'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif"
 _CSS = Path(__file__).with_name("theme.css")
 
 
