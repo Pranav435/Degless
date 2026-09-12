@@ -1,0 +1,6922 @@
+{
+ "shipped": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.37735849056603776,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7930269736994546,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.4011897342889768
+   },
+   "tick_ms": {
+    "mean": 158.9,
+    "median": 156.1,
+    "p95": 204.0,
+    "max": 236.7,
+    "first_tick": 178.5,
+    "by_third": [
+     130.7,
+     170.3,
+     158.9
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.172,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20588235294117646,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29482551143200963,
+    "call_changed_no_state_change": 0.24766355140186916,
+    "held_by_hysteresis": 0.01406799531066823,
+    "mean_confidence": 0.7133919499804611,
+    "mean_n_rivals": 2.488862837045721,
+    "calls": {
+     "BOX_BY": 521,
+     "STAY_OUT": 117,
+     "PIT_NOW": 114,
+     "WAIT": 101
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 10.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 9.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5652173913043478,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6389323235855997,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07327695558145564
+   },
+   "tick_ms": {
+    "mean": 203.8,
+    "median": 189.9,
+    "p95": 259.7,
+    "max": 472.7,
+    "first_tick": 472.7,
+    "by_third": [
+     218.6,
+     199.6,
+     203.8
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18271604938271604,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1873479318734793,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.33840304182509506,
+    "call_changed_no_state_change": 0.2611464968152866,
+    "held_by_hysteresis": 0.035381750465549346,
+    "mean_confidence": 0.63532278088144,
+    "mean_n_rivals": 2.538175046554935,
+    "calls": {
+     "BOX_BY": 597,
+     "PIT_NOW": 181,
+     "WAIT": 173,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.9459459459459459,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "k=3": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.41509433962264153,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5283018867924528,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 2.871780838260946,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.7585773134204032
+   },
+   "tick_ms": {
+    "mean": 200.4,
+    "median": 195.0,
+    "p95": 283.0,
+    "max": 341.0,
+    "first_tick": 305.4,
+    "by_third": [
+     209.7,
+     210.8,
+     200.4
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.1659919028340081,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20446096654275092,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.28399518652226236,
+    "call_changed_no_state_change": 0.22632794457274827,
+    "held_by_hysteresis": 0.01875732708089097,
+    "mean_confidence": 0.7209964830011724,
+    "mean_n_rivals": 2.1852286049237986,
+    "calls": {
+     "BOX_BY": 527,
+     "STAY_OUT": 117,
+     "PIT_NOW": 115,
+     "WAIT": 94
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 16.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 14.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 15.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.358974358974359,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8461538461538461
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5652173913043478,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5869565217391305,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6757300010111607,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.1462948518484808
+   },
+   "tick_ms": {
+    "mean": 228.6,
+    "median": 231.4,
+    "p95": 298.0,
+    "max": 443.4,
+    "first_tick": 443.4,
+    "by_third": [
+     275.2,
+     261.3,
+     228.6
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18952618453865336,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1905940594059406,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.31844106463878324,
+    "call_changed_no_state_change": 0.2334384858044164,
+    "held_by_hysteresis": 0.043761638733705775,
+    "mean_confidence": 0.639764121663563,
+    "mean_n_rivals": 2.2374301675977653,
+    "calls": {
+     "BOX_BY": 616,
+     "PIT_NOW": 176,
+     "WAIT": 159,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 10.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.972972972972973,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7567567567567568,
+     "share_within_2": 0.8918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "k=4": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.37735849056603776,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7930269736994546,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.4011897342889768
+   },
+   "tick_ms": {
+    "mean": 168.5,
+    "median": 154.8,
+    "p95": 239.7,
+    "max": 341.3,
+    "first_tick": 240.6,
+    "by_third": [
+     160.6,
+     185.7,
+     168.5
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.172,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20588235294117646,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29482551143200963,
+    "call_changed_no_state_change": 0.24766355140186916,
+    "held_by_hysteresis": 0.01406799531066823,
+    "mean_confidence": 0.7133919499804611,
+    "mean_n_rivals": 2.488862837045721,
+    "calls": {
+     "BOX_BY": 521,
+     "STAY_OUT": 117,
+     "PIT_NOW": 114,
+     "WAIT": 101
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 10.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 9.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5652173913043478,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6389323235855997,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07327695558145564
+   },
+   "tick_ms": {
+    "mean": 204.7,
+    "median": 201.7,
+    "p95": 284.5,
+    "max": 411.1,
+    "first_tick": 411.1,
+    "by_third": [
+     231.3,
+     224.7,
+     204.7
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18271604938271604,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1873479318734793,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.33840304182509506,
+    "call_changed_no_state_change": 0.2611464968152866,
+    "held_by_hysteresis": 0.035381750465549346,
+    "mean_confidence": 0.63532278088144,
+    "mean_n_rivals": 2.538175046554935,
+    "calls": {
+     "BOX_BY": 597,
+     "PIT_NOW": 181,
+     "WAIT": 173,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.9459459459459459,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "k=5": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.41509433962264153,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7585773134204032,
+    "share_box_now_le_1s": 0.4339622641509434,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4528301886792453,
+    "share_box_now_signal": 0.49056603773584906,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.326469028549866
+   },
+   "tick_ms": {
+    "mean": 121.2,
+    "median": 112.9,
+    "p95": 170.9,
+    "max": 315.0,
+    "first_tick": 315.0,
+    "by_third": [
+     153.3,
+     155.5,
+     121.2
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.17670682730923695,
+     "recall": 0.4528301886792453
+    },
+    "box_now": {
+     "precision": 0.20802919708029197,
+     "recall": 0.49056603773584906
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29121540312876054,
+    "call_changed_no_state_change": 0.22355769230769232,
+    "held_by_hysteresis": 0.01406799531066823,
+    "mean_confidence": 0.7094880812817506,
+    "mean_n_rivals": 2.7104337631887456,
+    "calls": {
+     "BOX_BY": 521,
+     "PIT_NOW": 119,
+     "STAY_OUT": 117,
+     "WAIT": 96
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 13.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 11.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 14.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.358974358974359,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.717948717948718,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5434782608695652,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.5558758674443212,
+    "share_box_now_le_1s": 0.6304347826086957,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.7391304347826086,
+    "share_box_now_signal": 0.6956521739130435,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07453199238452157
+   },
+   "tick_ms": {
+    "mean": 128.9,
+    "median": 111.1,
+    "p95": 198.7,
+    "max": 380.2,
+    "first_tick": 180.1,
+    "by_third": [
+     128.7,
+     163.4,
+     128.9
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18886198547215496,
+     "recall": 0.7391304347826086
+    },
+    "box_now": {
+     "precision": 0.19138755980861244,
+     "recall": 0.6956521739130435
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.34220532319391633,
+    "call_changed_no_state_change": 0.2568218298555377,
+    "held_by_hysteresis": 0.035381750465549346,
+    "mean_confidence": 0.6307107386716325,
+    "mean_n_rivals": 2.7374301675977653,
+    "calls": {
+     "BOX_BY": 592,
+     "PIT_NOW": 185,
+     "WAIT": 174,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 18.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.918918918918919,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7567567567567568,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "k=6": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.4339622641509434,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.888408796475801,
+    "share_box_now_le_1s": 0.4339622641509434,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.49056603773584906,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.7585773134204032
+   },
+   "tick_ms": {
+    "mean": 111.5,
+    "median": 90.8,
+    "p95": 186.9,
+    "max": 261.3,
+    "first_tick": 261.3,
+    "by_third": [
+     181.0,
+     144.7,
+     111.5
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.17479674796747968,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20802919708029197,
+     "recall": 0.49056603773584906
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.2924187725631769,
+    "call_changed_no_state_change": 0.22556390977443608,
+    "held_by_hysteresis": 0.01406799531066823,
+    "mean_confidence": 0.7080656506447831,
+    "mean_n_rivals": 2.8909730363423214,
+    "calls": {
+     "BOX_BY": 522,
+     "PIT_NOW": 119,
+     "STAY_OUT": 117,
+     "WAIT": 95
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 20.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 13.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 16.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 14.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.3846153846153846,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5217391304347826,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.5558758674443212,
+    "share_box_now_le_1s": 0.6304347826086957,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.7391304347826086,
+    "share_box_now_signal": 0.6956521739130435,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07453199091123963
+   },
+   "tick_ms": {
+    "mean": 108.5,
+    "median": 109.2,
+    "p95": 123.3,
+    "max": 270.6,
+    "first_tick": 270.6,
+    "by_third": [
+     128.7,
+     115.7,
+     108.5
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18932038834951456,
+     "recall": 0.7391304347826086
+    },
+    "box_now": {
+     "precision": 0.19184652278177458,
+     "recall": 0.6956521739130435
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.34695817490494296,
+    "call_changed_no_state_change": 0.26198083067092653,
+    "held_by_hysteresis": 0.0335195530726257,
+    "mean_confidence": 0.6285350713842334,
+    "mean_n_rivals": 2.887337057728119,
+    "calls": {
+     "BOX_BY": 588,
+     "PIT_NOW": 185,
+     "WAIT": 178,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.972972972972973,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "hysteresis=0.0": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.37735849056603776,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7930269736994546,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.4011897342889768
+   },
+   "tick_ms": {
+    "mean": 108.3,
+    "median": 105.5,
+    "p95": 142.0,
+    "max": 153.3,
+    "first_tick": 153.3,
+    "by_third": [
+     107.4,
+     104.6,
+     108.3
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.172,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20588235294117646,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.3104693140794224,
+    "call_changed_no_state_change": 0.2777777777777778,
+    "held_by_hysteresis": 0.0,
+    "mean_confidence": 0.7144431418522862,
+    "mean_n_rivals": 2.488862837045721,
+    "calls": {
+     "BOX_BY": 511,
+     "STAY_OUT": 117,
+     "PIT_NOW": 114,
+     "WAIT": 111
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 10.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 9.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5652173913043478,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6389323235855997,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07327695558145564
+   },
+   "tick_ms": {
+    "mean": 162.9,
+    "median": 162.6,
+    "p95": 207.6,
+    "max": 272.5,
+    "first_tick": 272.5,
+    "by_third": [
+     173.3,
+     168.0,
+     162.9
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18271604938271604,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1873479318734793,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.37072243346007605,
+    "call_changed_no_state_change": 0.31319554848966613,
+    "held_by_hysteresis": 0.0,
+    "mean_confidence": 0.6395468653010552,
+    "mean_n_rivals": 2.538175046554935,
+    "calls": {
+     "BOX_BY": 579,
+     "WAIT": 189,
+     "PIT_NOW": 183,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.9459459459459459,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "hysteresis=0.3": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.37735849056603776,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7930269736994546,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.4011897342889768
+   },
+   "tick_ms": {
+    "mean": 148.2,
+    "median": 135.9,
+    "p95": 205.6,
+    "max": 316.8,
+    "first_tick": 316.8,
+    "by_third": [
+     199.3,
+     153.8,
+     148.2
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.172,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20588235294117646,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29482551143200963,
+    "call_changed_no_state_change": 0.24766355140186916,
+    "held_by_hysteresis": 0.01406799531066823,
+    "mean_confidence": 0.7133919499804611,
+    "mean_n_rivals": 2.488862837045721,
+    "calls": {
+     "BOX_BY": 521,
+     "STAY_OUT": 117,
+     "PIT_NOW": 114,
+     "WAIT": 101
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 10.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 9.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5652173913043478,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6389323235855997,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07327695558145564
+   },
+   "tick_ms": {
+    "mean": 180.4,
+    "median": 182.1,
+    "p95": 240.2,
+    "max": 319.6,
+    "first_tick": 295.5,
+    "by_third": [
+     191.2,
+     192.9,
+     180.4
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18271604938271604,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1873479318734793,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.33840304182509506,
+    "call_changed_no_state_change": 0.2611464968152866,
+    "held_by_hysteresis": 0.035381750465549346,
+    "mean_confidence": 0.63532278088144,
+    "mean_n_rivals": 2.538175046554935,
+    "calls": {
+     "BOX_BY": 597,
+     "PIT_NOW": 181,
+     "WAIT": 173,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.9459459459459459,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "hysteresis=0.6": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.37735849056603776,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5471698113207547,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7930269736994546,
+    "share_box_now_le_1s": 0.41509433962264153,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.4339622641509434,
+    "share_box_now_signal": 0.4716981132075472,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.4011897342889768
+   },
+   "tick_ms": {
+    "mean": 175.1,
+    "median": 151.5,
+    "p95": 263.5,
+    "max": 524.2,
+    "first_tick": 357.8,
+    "by_third": [
+     186.5,
+     164.3,
+     175.1
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.172,
+     "recall": 0.4339622641509434
+    },
+    "box_now": {
+     "precision": 0.20588235294117646,
+     "recall": 0.4716981132075472
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.27075812274368233,
+    "call_changed_no_state_change": 0.18854415274463007,
+    "held_by_hysteresis": 0.035169988276670575,
+    "mean_confidence": 0.7092926924579914,
+    "mean_n_rivals": 2.488862837045721,
+    "calls": {
+     "BOX_BY": 537,
+     "STAY_OUT": 118,
+     "PIT_NOW": 112,
+     "WAIT": 86
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 10.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 9.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 2.0,
+    "share_err_within_3": 0.5652173913043478,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.6389323235855997,
+    "share_box_now_le_1s": 0.6086956521739131,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.717391304347826,
+    "share_box_now_signal": 0.6739130434782609,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.07327695558145564
+   },
+   "tick_ms": {
+    "mean": 190.7,
+    "median": 185.0,
+    "p95": 260.3,
+    "max": 418.8,
+    "first_tick": 418.8,
+    "by_third": [
+     250.9,
+     206.5,
+     190.7
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18271604938271604,
+     "recall": 0.717391304347826
+    },
+    "box_now": {
+     "precision": 0.1873479318734793,
+     "recall": 0.6739130434782609
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.3070342205323194,
+    "call_changed_no_state_change": 0.2109500805152979,
+    "held_by_hysteresis": 0.06517690875232775,
+    "mean_confidence": 0.6336685288640596,
+    "mean_n_rivals": 2.538175046554935,
+    "calls": {
+     "BOX_BY": 621,
+     "PIT_NOW": 180,
+     "WAIT": 150,
+     "STAY_OUT": 123
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 17.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 12.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.9459459459459459,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7297297297297297,
+     "share_within_2": 0.918918918918919
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "selection=task1": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.33962264150943394,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5283018867924528,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7585773134204032,
+    "share_box_now_le_1s": 0.4528301886792453,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.41509433962264153,
+    "share_box_now_signal": 0.49056603773584906,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.409818848479432
+   },
+   "tick_ms": {
+    "mean": 175.7,
+    "median": 151.2,
+    "p95": 409.3,
+    "max": 530.6,
+    "first_tick": 410.7,
+    "by_third": [
+     200.6,
+     232.7,
+     175.7
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.16342412451361868,
+     "recall": 0.41509433962264153
+    },
+    "box_now": {
+     "precision": 0.20774647887323944,
+     "recall": 0.49056603773584906
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29362214199759323,
+    "call_changed_no_state_change": 0.19220779220779222,
+    "held_by_hysteresis": 0.010550996483001172,
+    "mean_confidence": 0.7262133645955452,
+    "mean_n_rivals": 2.4771395076201643,
+    "calls": {
+     "BOX_BY": 516,
+     "PIT_NOW": 136,
+     "STAY_OUT": 119,
+     "WAIT": 82
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 10.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5217391304347826,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.2799823040014502,
+    "share_box_now_le_1s": 0.6739130434782609,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.7391304347826086,
+    "share_box_now_signal": 0.7391304347826086,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.04182717720780005
+   },
+   "tick_ms": {
+    "mean": 129.5,
+    "median": 126.7,
+    "p95": 155.4,
+    "max": 221.9,
+    "first_tick": 211.5,
+    "by_third": [
+     140.9,
+     136.4,
+     129.5
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18952618453865336,
+     "recall": 0.7391304347826086
+    },
+    "box_now": {
+     "precision": 0.19239904988123516,
+     "recall": 0.7391304347826086
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.3365019011406844,
+    "call_changed_no_state_change": 0.22909698996655517,
+    "held_by_hysteresis": 0.028864059590316574,
+    "mean_confidence": 0.6387119801365612,
+    "mean_n_rivals": 2.488826815642458,
+    "calls": {
+     "BOX_BY": 591,
+     "PIT_NOW": 191,
+     "WAIT": 166,
+     "STAY_OUT": 126
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 10.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 13.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.972972972972973,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7837837837837838,
+     "share_within_2": 0.9459459459459459
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ },
+ "selection=no_reach_filter": {
+  "barcelona-2026": {
+   "stops": {
+    "n": 53,
+    "share_in_window": 0.33962264150943394,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5283018867924528,
+    "n_with_recommendation": 49,
+    "alarms_before_stop": 11,
+    "median_box_now_delta_1_before": 1.7585773134204032,
+    "share_box_now_le_1s": 0.4528301886792453,
+    "median_p_cliff_1_before": 7.690211869386304e-05,
+    "median_wear_1_before": 0.6581847557538465,
+    "share_window_signal": 0.41509433962264153,
+    "share_box_now_signal": 0.49056603773584906,
+    "share_collapse_signal": 0.05660377358490566,
+    "median_box_now_min_3_before": 1.409818848479432
+   },
+   "tick_ms": {
+    "mean": 115.0,
+    "median": 111.2,
+    "p95": 170.2,
+    "max": 206.9,
+    "first_tick": 206.9,
+    "by_third": [
+     122.9,
+     135.2,
+     115.0
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.16342412451361868,
+     "recall": 0.41509433962264153
+    },
+    "box_now": {
+     "precision": 0.20774647887323944,
+     "recall": 0.49056603773584906
+    },
+    "collapse": {
+     "precision": 0.2,
+     "recall": 0.05660377358490566
+    }
+   },
+   "stability": {
+    "n_car_laps": 831,
+    "call_changed": 0.29362214199759323,
+    "call_changed_no_state_change": 0.19220779220779222,
+    "held_by_hysteresis": 0.010550996483001172,
+    "mean_confidence": 0.7262133645955452,
+    "mean_n_rivals": 2.4771395076201643,
+    "calls": {
+     "BOX_BY": 516,
+     "PIT_NOW": 136,
+     "STAY_OUT": 119,
+     "WAIT": 82
+    }
+   },
+   "rejoin": {
+    "n": 39,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 13,
+      "actual": 19.0,
+      "projected": 20.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 21,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 14,
+      "actual": 4.0,
+      "projected": 4.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 37,
+      "actual": 4.0,
+      "projected": 3.0,
+      "gaps": 3.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 15,
+      "actual": 18.0,
+      "projected": 18.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 14,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "BOT",
+      "in_lap": 15,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 12,
+      "actual": 16.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 34,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 14,
+      "actual": 14.0,
+      "projected": 16.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 40,
+      "actual": 9.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 15,
+      "actual": 10.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 32,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 58,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 11,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 27,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 41,
+      "actual": 1.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 13,
+      "actual": 13.0,
+      "projected": 10.0,
+      "gaps": 17.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 29,
+      "actual": 20.0,
+      "projected": 11.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 11,
+      "actual": 17.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 35,
+      "actual": 12.0,
+      "projected": 11.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 39,
+      "actual": 6.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 22,
+      "actual": 16.0,
+      "projected": 16.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 13,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 35,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 13,
+      "actual": 18.0,
+      "projected": 19.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 12,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 14,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 36,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 12,
+      "actual": 4.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 36,
+      "actual": 3.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 14,
+      "actual": 15.0,
+      "projected": 17.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 30,
+      "actual": 16.0,
+      "projected": 15.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 5,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 12,
+      "actual": 7.0,
+      "projected": 11.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 29,
+      "actual": 7.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 40,
+      "actual": 5.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     }
+    ],
+    "projected": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.4102564102564104,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.6923076923076923,
+     "share_within_2": 0.8205128205128205
+    },
+    "todays_gaps": {
+     "n": 39,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.8461538461538463,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.5384615384615384,
+     "share_within_2": 0.6923076923076923
+    }
+   }
+  },
+  "hungary-2026": {
+   "stops": {
+    "n": 46,
+    "share_in_window": 0.5217391304347826,
+    "median_abs_err_laps": 3.0,
+    "share_err_within_3": 0.5217391304347826,
+    "n_with_recommendation": 43,
+    "alarms_before_stop": 7,
+    "median_box_now_delta_1_before": 0.2799823040014502,
+    "share_box_now_le_1s": 0.6739130434782609,
+    "median_p_cliff_1_before": 1.5255913887342292e-10,
+    "median_wear_1_before": 0.37940344866149533,
+    "share_window_signal": 0.7391304347826086,
+    "share_box_now_signal": 0.7391304347826086,
+    "share_collapse_signal": 0.043478260869565216,
+    "median_box_now_min_3_before": 0.04182717720780005
+   },
+   "tick_ms": {
+    "mean": 124.1,
+    "median": 114.1,
+    "p95": 174.0,
+    "max": 187.0,
+    "first_tick": 187.0,
+    "by_third": [
+     125.0,
+     147.1,
+     124.1
+    ]
+   },
+   "signals": {
+    "window": {
+     "precision": 0.18952618453865336,
+     "recall": 0.7391304347826086
+    },
+    "box_now": {
+     "precision": 0.19239904988123516,
+     "recall": 0.7391304347826086
+    },
+    "collapse": {
+     "precision": 0.14285714285714285,
+     "recall": 0.043478260869565216
+    }
+   },
+   "stability": {
+    "n_car_laps": 1052,
+    "call_changed": 0.3365019011406844,
+    "call_changed_no_state_change": 0.22909698996655517,
+    "held_by_hysteresis": 0.028864059590316574,
+    "mean_confidence": 0.6387119801365612,
+    "mean_n_rivals": 2.488826815642458,
+    "calls": {
+     "BOX_BY": 591,
+     "PIT_NOW": 191,
+     "WAIT": 166,
+     "STAY_OUT": 126
+    }
+   },
+   "rejoin": {
+    "n": 37,
+    "rows": [
+     {
+      "driver": "ALB",
+      "in_lap": 26,
+      "actual": 20.0,
+      "projected": 20.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "ALO",
+      "in_lap": 34,
+      "actual": 19.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 22,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "ANT",
+      "in_lap": 53,
+      "actual": 6.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "BEA",
+      "in_lap": 22,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "BOR",
+      "in_lap": 29,
+      "actual": 14.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "COL",
+      "in_lap": 15,
+      "actual": 20.0,
+      "projected": 21.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 16,
+      "actual": 17.0,
+      "projected": 18.0,
+      "gaps": 19.0
+     },
+     {
+      "driver": "GAS",
+      "in_lap": 39,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 19,
+      "actual": 9.0,
+      "projected": 10.0,
+      "gaps": 11.0
+     },
+     {
+      "driver": "HAD",
+      "in_lap": 42,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 13,
+      "actual": 7.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 30,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "HAM",
+      "in_lap": 56,
+      "actual": 4.0,
+      "projected": 5.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 19,
+      "actual": 13.0,
+      "projected": 13.0,
+      "gaps": 15.0
+     },
+     {
+      "driver": "HUL",
+      "in_lap": 39,
+      "actual": 12.0,
+      "projected": 12.0,
+      "gaps": 13.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 21,
+      "actual": 11.0,
+      "projected": 12.0,
+      "gaps": 12.0
+     },
+     {
+      "driver": "LAW",
+      "in_lap": 42,
+      "actual": 11.0,
+      "projected": 10.0,
+      "gaps": 10.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 16,
+      "actual": 7.0,
+      "projected": 6.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 36,
+      "actual": 6.0,
+      "projected": 7.0,
+      "gaps": 7.0
+     },
+     {
+      "driver": "LEC",
+      "in_lap": 56,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 6.0
+     },
+     {
+      "driver": "LIN",
+      "in_lap": 20,
+      "actual": 12.0,
+      "projected": 13.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 17,
+      "actual": 3.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 39,
+      "actual": 3.0,
+      "projected": 4.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "NOR",
+      "in_lap": 56,
+      "actual": 1.0,
+      "projected": 3.0,
+      "gaps": 4.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 17,
+      "actual": 19.0,
+      "projected": 17.0,
+      "gaps": 18.0
+     },
+     {
+      "driver": "OCO",
+      "in_lap": 35,
+      "actual": 20.0,
+      "projected": 16.0,
+      "gaps": 16.0
+     },
+     {
+      "driver": "PER",
+      "in_lap": 21,
+      "actual": 21.0,
+      "projected": 21.0,
+      "gaps": 21.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 16,
+      "actual": 3.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "PIA",
+      "in_lap": 33,
+      "actual": 5.0,
+      "projected": 5.0,
+      "gaps": 5.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 27,
+      "actual": 8.0,
+      "projected": 9.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "RUS",
+      "in_lap": 54,
+      "actual": 8.0,
+      "projected": 8.0,
+      "gaps": 8.0
+     },
+     {
+      "driver": "SAI",
+      "in_lap": 18,
+      "actual": 20.0,
+      "projected": 19.0,
+      "gaps": 20.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 8,
+      "actual": 22.0,
+      "projected": 22.0,
+      "gaps": 22.0
+     },
+     {
+      "driver": "STR",
+      "in_lap": 37,
+      "actual": 16.0,
+      "projected": 14.0,
+      "gaps": 14.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 14,
+      "actual": 6.0,
+      "projected": 8.0,
+      "gaps": 9.0
+     },
+     {
+      "driver": "VER",
+      "in_lap": 41,
+      "actual": 5.0,
+      "projected": 6.0,
+      "gaps": 5.0
+     }
+    ],
+    "projected": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 0.972972972972973,
+     "median_signed_err": 0.0,
+     "share_within_1": 0.7837837837837838,
+     "share_within_2": 0.9459459459459459
+    },
+    "todays_gaps": {
+     "n": 37,
+     "median_abs_err": 1.0,
+     "mean_abs_err": 1.135135135135135,
+     "median_signed_err": 1.0,
+     "share_within_1": 0.6486486486486487,
+     "share_within_2": 0.8918918918918919
+    }
+   }
+  }
+ }
+}

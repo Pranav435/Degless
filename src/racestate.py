@@ -303,7 +303,7 @@ def softmin(cost: np.ndarray, temper: float = CHOICE_TEMPER_S) -> np.ndarray:
 
 def expected_ahead(P: np.ndarray, q: np.ndarray, T_rival: np.ndarray | None, value_s: float,
                    cover_col: np.ndarray | None, later: np.ndarray | None,
-                   temper: float = CHOICE_TEMPER_S) -> np.ndarray:
+                   temper: float = CHOICE_TEMPER_S, *, rho_out: dict | None = None) -> np.ndarray:
     """Expected P(rival ahead after the round) for each of our stop options.
 
     `P[g, i, j]` is the probability the rival is ahead once both are out of the
@@ -317,8 +317,14 @@ def expected_ahead(P: np.ndarray, q: np.ndarray, T_rival: np.ndarray | None, val
         rho = expit((V * (P_cover - P_planned) - (T[cover] - T[planned])) / temper)
 
     - it boxes early when the place it would otherwise lose is worth more than
-    the stop it moves.  Returns shape (G, n_ours)."""
+    the stop it moves.  Returns shape (G, n_ours).
+
+    `rho_out`, if given, receives `rho` itself under the key `"rho"` (None when
+    there is no cover response), so the live engine can report the pit response
+    per rival without re-pricing the round."""
     if T_rival is None or cover_col is None or later is None or value_s <= 0:
+        if rho_out is not None:
+            rho_out["rho"] = None
         return np.einsum("gij,j->gi", P, q)
     # an option the rival cannot take carries a large finite cost rather than
     # inf: inf - inf in the cover comparison is NaN, and NaN x a zero choice
@@ -330,6 +336,8 @@ def expected_ahead(P: np.ndarray, q: np.ndarray, T_rival: np.ndarray | None, val
     ben = value_s * (Pc - P)                                                  # (G, I, J)
     cst = T_rival[col][:, None] - T_rival[None, :]                            # (I, J)
     rho = expit((ben - cst[None]) / float(temper)) * (later & ok[:, None])[None]
+    if rho_out is not None:
+        rho_out["rho"] = rho
     return np.einsum("gij,j->gi", (1.0 - rho) * P + rho * Pc, q)
 
 
@@ -613,9 +621,23 @@ def live_position_term(me: CarView, rivals: list, cars: dict, S: np.ndarray, *, 
             pos_of = {int(l): j for j, l in enumerate(Lr)}
             cover_col = np.array([pos_of.get(int(s) + 1, -1) for s in S] + [-1])
             later = (Tj > (Oi + 1)) & (Tj >= 0) & (Oi >= 0)
-        pa = expected_ahead(P, q, Tr, V, cover_col, later)[0]                  # (I,)
+        rho_out: dict = {}
+        pa = expected_ahead(P, q, Tr, V, cover_col, later, rho_out=rho_out)[0]  # (I,)
         places += pa
+        # the pit response to our PIT NOW: the chance it boxes the lap after us
+        # instead of the lap it planned, and where that leaves it
+        cov = None
+        rho = rho_out.get("rho")
+        if rho is not None and len(S):
+            i0 = int(np.searchsorted(S, now_lap))
+            if i0 < len(S) and int(S[i0]) == int(now_lap) and cover_col[i0] >= 0:
+                j = int(cover_col[i0])
+                cov = {"p_cover": float((rho[0, i0] * q).sum()),
+                       "p_ahead_if_cover": float(P[0, i0, j]),
+                       "p_ahead_if_plan": float((P[0, i0] * q).sum()),
+                       "cover_lap": int(now_lap) + 1}
         detail.append({"driver": r.code or num, "driver_number": num, "gap_s": round(gap, 2),
+                       "cover": cov,
                        "virtual_gap_s": round(vgap, 2), "compound": r.compound,
                        "tyre_age": (None if r.tyre_age is None else float(r.tyre_age)),
                        "stops": int(r.stops), "in_pit": bool(r.in_pit), "pending_stop": bool(r.pending),
