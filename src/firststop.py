@@ -267,6 +267,15 @@ def first_stop_penalty_table(first_stop_green: dict | None, n_race_laps: int,
     know the plan's stop count — or one whose stop count is outside `n_stops` —
     falls back to.  This is the object the objective and the live engine take:
     `kappa * table[seq[0]][len(seq) - 1][pit_laps[0]]`.
+
+    `table[compound]["n"]` carries how many historical stops each cell was built
+    from — the finest non-empty cell's count, which is the one the mixture gave
+    most of its weight to.  A penalty does not need it (a density is a density
+    however thin), but V4's rival field blends the density into the *rivals'*
+    stop-lap choice at `n / (n + k0)` and cannot weigh a distribution it cannot
+    count.  It is a separate key, never a lap array, so every existing reader
+    (`strategy.first_stop_penalty`, which looks up `"any"` or an int) is
+    untouched.
     """
     if not first_stop_green:
         return None
@@ -277,12 +286,19 @@ def first_stop_penalty_table(first_stop_green: dict | None, n_race_laps: int,
         t[1:] = pr["neglogp"]
         return t
 
+    def cell_n(pr) -> int:
+        """The count behind the density: the finest cell that had anything in it."""
+        for key in ("n_by_compound_stops", "n_by_stops", "n_compound", "n"):
+            if int(pr.get(key) or 0):
+                return int(pr[key])
+        return 0
+
     out = {}
     for c in list(compounds or []):
         pr_any = first_stop_prior(first_stop_green, n, start_compound=c, **kw)
         if pr_any is None:
             return None
-        per = {"any": arr(pr_any)}
+        per = {"any": arr(pr_any), "n": {"any": cell_n(pr_any)}}
         for k in list(n_stops or []):
             pr = first_stop_prior(first_stop_green, n, start_compound=c, n_stops=int(k), **kw)
             if pr is None:
@@ -295,8 +311,10 @@ def first_stop_penalty_table(first_stop_green: dict | None, n_race_laps: int,
                 # lap-9 first stops would drag a one-stop to the same lap.  No
                 # information is no penalty, not a borrowed one.
                 per[int(k)] = np.zeros(n + 1, dtype=float)
+                per["n"][int(k)] = 0
                 continue
             per[int(k)] = arr(pr)
+            per["n"][int(k)] = cell_n(pr)
         out[c] = per
     return out or None
 

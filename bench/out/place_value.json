@@ -1,0 +1,818 @@
+{
+ "donor_events": [
+  "australia-2026",
+  "japan-2026",
+  "barcelona-2026",
+  "austria-2026",
+  "belgium-2026",
+  "hungary-2026",
+  "italy-2026"
+ ],
+ "pooled": {
+  "exclude": null,
+  "donors": [
+   "australia-2026",
+   "japan-2026",
+   "barcelona-2026",
+   "austria-2026",
+   "belgium-2026",
+   "hungary-2026",
+   "italy-2026"
+  ],
+  "n_pairs": 35,
+  "n_kept": 26,
+  "n_races_with_pairs": 6,
+  "psi_raw": 0.7428571428571429,
+  "psi_shrunk": 0.7413204181147944,
+  "prior_mean": 0.726851851851852,
+  "prior_pairs": 3.71739431570027,
+  "tau2": 0.04208641975308641,
+  "between_race_mean": 0.726851851851852,
+  "method": "beta-binomial MoM",
+  "psi_loo_pair": [
+   0.7259,
+   0.7641
+  ],
+  "psi_loo_pair_range": 0.0382,
+  "by_race": {
+   "australia-2026": {
+    "pairs": 1,
+    "kept": 1
+   },
+   "japan-2026": {
+    "pairs": 6,
+    "kept": 5
+   },
+   "barcelona-2026": {
+    "pairs": 5,
+    "kept": 3
+   },
+   "austria-2026": {
+    "pairs": 10,
+    "kept": 9
+   },
+   "belgium-2026": {
+    "pairs": 4,
+    "kept": 1
+   },
+   "hungary-2026": {
+    "pairs": 9,
+    "kept": 7
+   },
+   "italy-2026": {
+    "pairs": 0,
+    "kept": 0
+   }
+  },
+  "n_gaps": 115,
+  "V_all_classified": 5.492999999998574,
+  "V_lead_lap": 3.855999999999767,
+  "V_midfield_p7_p16": 5.850000000000364,
+  "V_ci": [
+   4.3,
+   8.014
+  ],
+  "psi_ci": [
+   0.572,
+   0.8517
+  ],
+  "place_value_sd": 1.117,
+  "place_value_ci": [
+   0.847,
+   4.579
+  ],
+  "place_value_task1": 2.668,
+  "place_gap_task1": 5.493,
+  "persistence_task1": 0.7429,
+  "place_value_lead_lap": 1.873,
+  "place_gap_lead_lap": 3.856,
+  "persistence_lead_lap": 0.7429,
+  "place_value_all_classified": 2.668,
+  "place_gap_all_classified": 5.493,
+  "persistence_all_classified": 0.7429,
+  "place_value_regularized": 2.651,
+  "place_gap_regularized": 5.493,
+  "persistence_regularized": 0.7413
+ },
+ "folds": {
+  "australia-2026": {
+   "exclude": "australia-2026",
+   "donors": [
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 34,
+   "n_kept": 25,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.7352941176470589,
+   "psi_shrunk": 0.7259113820438869,
+   "prior_mean": 0.6722222222222223,
+   "prior_pairs": 5.941851419681055,
+   "tau2": 0.03174074074074075,
+   "between_race_mean": 0.6722222222222223,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.7158,
+    0.7537
+   ],
+   "psi_loo_pair_range": 0.0378,
+   "by_race": {
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 101,
+   "V_all_classified": 5.162000000000262,
+   "V_lead_lap": 3.872000000001208,
+   "V_midfield_p7_p16": 5.162000000000262,
+   "V_ci": [
+    4.22,
+    7.738
+   ],
+   "psi_ci": [
+    0.5391,
+    0.8333
+   ],
+   "place_value_sd": 0.964,
+   "place_value_ci": [
+    0.379,
+    3.724
+   ],
+   "place_value_task1": 2.429,
+   "place_gap_task1": 5.162,
+   "persistence_task1": 0.7353,
+   "place_value_lead_lap": 1.822,
+   "place_gap_lead_lap": 3.872,
+   "persistence_lead_lap": 0.7353,
+   "place_value_all_classified": 2.429,
+   "place_gap_all_classified": 5.162,
+   "persistence_all_classified": 0.7353,
+   "place_value_regularized": 2.332,
+   "place_gap_regularized": 5.162,
+   "persistence_regularized": 0.7259
+  },
+  "japan-2026": {
+   "exclude": "japan-2026",
+   "donors": [
+    "australia-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 29,
+   "n_kept": 21,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.7241379310344828,
+   "psi_shrunk": 0.7225597884000755,
+   "prior_mean": 0.7055555555555555,
+   "prior_pairs": 2.691455522649994,
+   "tau2": 0.056277777777777795,
+   "between_race_mean": 0.7055555555555555,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.7027,
+    0.7487
+   ],
+   "psi_loo_pair_range": 0.0461,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 96,
+   "V_all_classified": 5.751000000001113,
+   "V_lead_lap": 4.189000000000306,
+   "V_midfield_p7_p16": 8.014000000000124,
+   "V_ci": [
+    4.3,
+    9.691
+   ],
+   "psi_ci": [
+    0.5071,
+    0.8627
+   ],
+   "place_value_sd": 1.418,
+   "place_value_ci": [
+    0.083,
+    5.118
+   ],
+   "place_value_task1": 2.578,
+   "place_gap_task1": 5.751,
+   "persistence_task1": 0.7241,
+   "place_value_lead_lap": 1.878,
+   "place_gap_lead_lap": 4.189,
+   "persistence_lead_lap": 0.7241,
+   "place_value_all_classified": 2.578,
+   "place_gap_all_classified": 5.751,
+   "persistence_all_classified": 0.7241,
+   "place_value_regularized": 2.56,
+   "place_gap_regularized": 5.751,
+   "persistence_regularized": 0.7226
+  },
+  "barcelona-2026": {
+   "exclude": "barcelona-2026",
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 30,
+   "n_kept": 23,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.7666666666666667,
+   "psi_shrunk": 0.765746685376782,
+   "prior_mean": 0.7522222222222222,
+   "prior_pairs": 2.0407049345417922,
+   "tau2": 0.0612962962962963,
+   "between_race_mean": 0.7522222222222222,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.7528,
+    0.7928
+   ],
+   "psi_loo_pair_range": 0.04,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 103,
+   "V_all_classified": 4.583999999998923,
+   "V_lead_lap": 3.4780000000000655,
+   "V_midfield_p7_p16": 5.162000000000262,
+   "V_ci": [
+    4.22,
+    5.87
+   ],
+   "psi_ci": [
+    0.5679,
+    0.8793
+   ],
+   "place_value_sd": 1.013,
+   "place_value_ci": [
+    0.674,
+    4.181
+   ],
+   "place_value_task1": 2.445,
+   "place_gap_task1": 4.584,
+   "persistence_task1": 0.7667,
+   "place_value_lead_lap": 1.855,
+   "place_gap_lead_lap": 3.478,
+   "persistence_lead_lap": 0.7667,
+   "place_value_all_classified": 2.445,
+   "place_gap_all_classified": 4.584,
+   "persistence_all_classified": 0.7667,
+   "place_value_regularized": 2.436,
+   "place_gap_regularized": 4.584,
+   "persistence_regularized": 0.7657
+  },
+  "austria-2026": {
+   "exclude": "austria-2026",
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 25,
+   "n_kept": 17,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.68,
+   "psi_shrunk": 0.6815086898693828,
+   "prior_mean": 0.6922222222222223,
+   "prior_pairs": 3.5205239030779296,
+   "tau2": 0.04712962962962963,
+   "between_race_mean": 0.6922222222222223,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.6538,
+    0.7101
+   ],
+   "psi_loo_pair_range": 0.0563,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 99,
+   "V_all_classified": 5.652000000001863,
+   "V_lead_lap": 3.872000000001208,
+   "V_midfield_p7_p16": 4.500999999999294,
+   "V_ci": [
+    4.3,
+    9.649
+   ],
+   "psi_ci": [
+    0.5,
+    0.8129
+   ],
+   "place_value_sd": 1.285,
+   "place_value_ci": [
+    0.004,
+    4.478
+   ],
+   "place_value_task1": 2.035,
+   "place_gap_task1": 5.652,
+   "persistence_task1": 0.68,
+   "place_value_lead_lap": 1.394,
+   "place_gap_lead_lap": 3.872,
+   "persistence_lead_lap": 0.68,
+   "place_value_all_classified": 2.035,
+   "place_gap_all_classified": 5.652,
+   "persistence_all_classified": 0.68,
+   "place_value_regularized": 2.052,
+   "place_gap_regularized": 5.652,
+   "persistence_regularized": 0.6815
+  },
+  "belgium-2026": {
+   "exclude": "belgium-2026",
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 31,
+   "n_kept": 25,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.8064516129032258,
+   "psi_shrunk": 0.796875,
+   "prior_mean": 0.5,
+   "prior_pairs": 1.0,
+   "tau2": -0.001592592592592583,
+   "between_race_mean": 0.8222222222222223,
+   "method": "Jeffreys Beta(1/2,1/2)",
+   "psi_loo_pair": [
+    0.7903,
+    0.8392
+   ],
+   "psi_loo_pair_range": 0.0489,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 97,
+   "V_all_classified": 5.850000000000364,
+   "V_lead_lap": 3.855999999999767,
+   "V_midfield_p7_p16": 6.453000000000429,
+   "V_ci": [
+    4.3,
+    9.691
+   ],
+   "psi_ci": [
+    0.7115,
+    0.8784
+   ],
+   "place_value_sd": 0.876,
+   "place_value_ci": [
+    2.61,
+    5.418
+   ],
+   "place_value_task1": 3.585,
+   "place_gap_task1": 5.85,
+   "persistence_task1": 0.8065,
+   "place_value_lead_lap": 2.363,
+   "place_gap_lead_lap": 3.856,
+   "persistence_lead_lap": 0.8065,
+   "place_value_all_classified": 3.585,
+   "place_gap_all_classified": 5.85,
+   "persistence_all_classified": 0.8065,
+   "place_value_regularized": 3.473,
+   "place_gap_regularized": 5.85,
+   "persistence_regularized": 0.7969
+  },
+  "hungary-2026": {
+   "exclude": "hungary-2026",
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "italy-2026"
+   ],
+   "n_pairs": 26,
+   "n_kept": 19,
+   "n_races_with_pairs": 5,
+   "psi_raw": 0.7307692307692307,
+   "psi_shrunk": 0.72952260316388,
+   "prior_mean": 0.7166666666666667,
+   "prior_pairs": 2.521194605009633,
+   "tau2": 0.05766666666666668,
+   "between_race_mean": 0.7166666666666667,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.7099,
+    0.7595
+   ],
+   "psi_loo_pair_range": 0.0496,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "italy-2026": {
+     "pairs": 0,
+     "kept": 0
+    }
+   },
+   "n_gaps": 97,
+   "V_all_classified": 5.652000000001863,
+   "V_lead_lap": 3.855999999999767,
+   "V_midfield_p7_p16": 5.506000000000313,
+   "V_ci": [
+    4.584,
+    9.511
+   ],
+   "psi_ci": [
+    0.4854,
+    0.8654
+   ],
+   "place_value_sd": 1.418,
+   "place_value_ci": [
+    0.0,
+    5.016
+   ],
+   "place_value_task1": 2.609,
+   "place_gap_task1": 5.652,
+   "persistence_task1": 0.7308,
+   "place_value_lead_lap": 1.78,
+   "place_gap_lead_lap": 3.856,
+   "persistence_lead_lap": 0.7308,
+   "place_value_all_classified": 2.609,
+   "place_gap_all_classified": 5.652,
+   "persistence_all_classified": 0.7308,
+   "place_value_regularized": 2.595,
+   "place_gap_regularized": 5.652,
+   "persistence_regularized": 0.7295
+  },
+  "italy-2026": {
+   "exclude": "italy-2026",
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026"
+   ],
+   "n_pairs": 35,
+   "n_kept": 26,
+   "n_races_with_pairs": 6,
+   "psi_raw": 0.7428571428571429,
+   "psi_shrunk": 0.7413204181147944,
+   "prior_mean": 0.726851851851852,
+   "prior_pairs": 3.71739431570027,
+   "tau2": 0.04208641975308641,
+   "between_race_mean": 0.726851851851852,
+   "method": "beta-binomial MoM",
+   "psi_loo_pair": [
+    0.7259,
+    0.7641
+   ],
+   "psi_loo_pair_range": 0.0382,
+   "by_race": {
+    "australia-2026": {
+     "pairs": 1,
+     "kept": 1
+    },
+    "japan-2026": {
+     "pairs": 6,
+     "kept": 5
+    },
+    "barcelona-2026": {
+     "pairs": 5,
+     "kept": 3
+    },
+    "austria-2026": {
+     "pairs": 10,
+     "kept": 9
+    },
+    "belgium-2026": {
+     "pairs": 4,
+     "kept": 1
+    },
+    "hungary-2026": {
+     "pairs": 9,
+     "kept": 7
+    }
+   },
+   "n_gaps": 97,
+   "V_all_classified": 5.162000000000262,
+   "V_lead_lap": 3.743999999999687,
+   "V_midfield_p7_p16": 5.506000000000313,
+   "V_ci": [
+    4.22,
+    9.691
+   ],
+   "psi_ci": [
+    0.5726,
+    0.8455
+   ],
+   "place_value_sd": 1.177,
+   "place_value_ci": [
+    0.877,
+    4.782
+   ],
+   "place_value_task1": 2.507,
+   "place_gap_task1": 5.162,
+   "persistence_task1": 0.7429,
+   "place_value_lead_lap": 1.819,
+   "place_gap_lead_lap": 3.744,
+   "persistence_lead_lap": 0.7429,
+   "place_value_all_classified": 2.507,
+   "place_gap_all_classified": 5.162,
+   "persistence_all_classified": 0.7429,
+   "place_value_regularized": 2.491,
+   "place_gap_regularized": 5.162,
+   "persistence_regularized": 0.7413
+  }
+ },
+ "sensitivity": {
+  "cycle_window": {
+   "3": {
+    "n_pairs": 31,
+    "psi_raw": 0.7741935483870968,
+    "psi_shrunk": 0.7737391161491703,
+    "psi_loo_pair_range": 0.0362
+   },
+   "5": {
+    "n_pairs": 35,
+    "psi_raw": 0.7428571428571429,
+    "psi_shrunk": 0.7413204181147944,
+    "psi_loo_pair_range": 0.0382
+   },
+   "8": {
+    "n_pairs": 46,
+    "psi_raw": 0.6956521739130435,
+    "psi_shrunk": 0.6964205336900073,
+    "psi_loo_pair_range": 0.0319
+   }
+  },
+  "adjacency": {
+   "1": {
+    "n_pairs": 35,
+    "psi_raw": 0.7428571428571429,
+    "psi_shrunk": 0.7413204181147944,
+    "psi_loo_pair_range": 0.0382
+   },
+   "2": {
+    "n_pairs": 64,
+    "psi_raw": 0.8125,
+    "psi_shrunk": 0.8122103621482154,
+    "psi_loo_pair_range": 0.0244
+   }
+  },
+  "safety_car": {
+   "sc_affected": {
+    "races": [
+     "australia-2026",
+     "japan-2026",
+     "austria-2026",
+     "belgium-2026",
+     "italy-2026"
+    ],
+    "n_pairs": 21,
+    "n_kept": 16,
+    "n_races_with_pairs": 4,
+    "psi_raw": 0.7619047619047619,
+    "psi_shrunk": 0.7610823207052656,
+    "prior_mean": 0.7458333333333333,
+    "prior_pairs": 1.1326171874999993,
+    "tau2": 0.0888888888888889,
+    "between_race_mean": 0.7458333333333333,
+    "method": "beta-binomial MoM",
+    "psi_loo_pair": [
+     0.7443,
+     0.7997
+    ],
+    "psi_loo_pair_range": 0.0554,
+    "by_race": {
+     "australia-2026": {
+      "pairs": 1,
+      "kept": 1
+     },
+     "japan-2026": {
+      "pairs": 6,
+      "kept": 5
+     },
+     "austria-2026": {
+      "pairs": 10,
+      "kept": 9
+     },
+     "belgium-2026": {
+      "pairs": 4,
+      "kept": 1
+     },
+     "italy-2026": {
+      "pairs": 0,
+      "kept": 0
+     }
+    },
+    "n_gaps": 85,
+    "V_all_classified": 5.0240000000012515,
+    "V_lead_lap": 3.157000000000153,
+    "V_midfield_p7_p16": 4.500999999999294,
+    "V_ci": [
+     4.22,
+     7.056
+    ],
+    "psi_ci": [
+     0.4644,
+     0.8846
+    ],
+    "place_value_sd": 1.328,
+    "place_value_ci": [
+     0.0,
+     4.91
+    ]
+   },
+   "green_only": {
+    "races": [
+     "barcelona-2026",
+     "hungary-2026"
+    ],
+    "n_pairs": 14,
+    "n_kept": 10,
+    "n_races_with_pairs": 2,
+    "psi_raw": 0.7142857142857143,
+    "psi_shrunk": 0.7,
+    "prior_mean": 0.5,
+    "prior_pairs": 1.0,
+    "tau2": -0.02499999999999999,
+    "between_race_mean": 0.6888888888888889,
+    "method": "Jeffreys Beta(1/2,1/2)",
+    "psi_loo_pair": [
+     0.6786,
+     0.75
+    ],
+    "psi_loo_pair_range": 0.0714,
+    "by_race": {
+     "barcelona-2026": {
+      "pairs": 5,
+      "kept": 3
+     },
+     "hungary-2026": {
+      "pairs": 9,
+      "kept": 7
+     }
+    },
+    "n_gaps": 30,
+    "V_all_classified": 9.690999999999804,
+    "V_lead_lap": 9.68999999999869,
+    "V_midfield_p7_p16": 8.982999999998356,
+    "V_ci": [
+     3.974,
+     17.471
+    ],
+    "psi_ci": [
+     0.5909,
+     0.7632
+    ],
+    "place_value_sd": 0.728,
+    "place_value_ci": [
+     2.092,
+     3.876
+    ]
+   },
+   "definition": "a race counts as safety-car affected when any lap between the earliest and the latest first stop was run under SC, VSC or a red flag"
+  }
+ },
+ "production_estimator": "regularized",
+ "note": "the estimator is fixed by docs/v4_plan.md on statistical grounds; nothing here is a benchmark score and no race's own result informs its fold"
+}

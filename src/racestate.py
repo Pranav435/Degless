@@ -55,27 +55,51 @@ two seconds ahead), with their real gaps, compounds, tyre ages, stops made,
 pit status and the plan the engine gave them on the previous lap.  **Before
 the race** there is no race state, so it is simulated: a pack of four rivals
 at gaps drawn from the first-stint intervals the 2026 races actually showed,
-all on the same plan family, each choosing its stop against the others.  The
-first stop is the symmetric fixed point of that pack - every car's stop lap a
-best response to every other car's - and the race-state term it produces is
-what the plan search charges on the first stop, in place of V3's undercut
-exposure and first-stop history prior.
+each choosing its stop against the others.  The first stop is the fixed point
+of that pack - every car's stop lap a best response to every other car's - and
+the race-state term it produces is what the plan search charges on the first
+stop, in place of V3's undercut exposure and first-stop history prior.
+
+**V4-final: the pack is heterogeneous** (`rival_field`, the default whenever a
+race state is passed).  Task 1's pack gave every rival *our* plan, and a field
+of clones cannot produce the car that moves first: Barcelona's 2026 field
+stopped at 11-15 because five of thirteen cars started on the SOFT and the
+MEDIUM runners covered them, and a symmetric pack of MEDIUM two-stoppers has
+nobody to cover.  So the pack is filled from a distribution over rival
+**types** - a plan group (start compound, second compound, stop count) crossed
+with a degradation level - whose family weights come from the model's own cost
+of each group blended with how often this circuit's field has run it, and whose
+stop laps come from their own cost curves blended with the circuit's historical
+first-stop density.  The field is the mean-field fixed point over types (an
+exact expectation over the type distribution, not a Monte Carlo draw), and our
+own stop is the best response to it.  History enters as *the rivals'* plausible
+behaviour and never as a term on our own lap.
+
+**The value of a place** rests on the thinnest sample in the model - 25-35
+adjacent pit-cycle pairs pooled over six races - so `psi` is estimated by
+empirical-Bayes shrinkage of the per-race ratios (`estimator="regularized"`,
+the production default) rather than as one pooled ratio, and the place value
+carries a bootstrap standard error and interval.  `estimator="task1"`
+reproduces the Task 1 measurement exactly; `bench/bench_place_value.py` audits
+all four against each other and against the measurement windows.
 
 History is kept for what it is good at: the plan-family prior still decides
-which sequences are plausible, and the circuit's stint caps still bound the
-edge of the window.  It no longer decides the lap.
+which sequences are plausible, the rivals' behaviour is informed by what this
+circuit's field has done, and the circuit's stint caps still bound the edge of
+the window.  It no longer decides *our* lap.
 """
 
 from __future__ import annotations
 
 import logging
 import math
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from functools import lru_cache
 
 import numpy as np
 import pandas as pd
-from scipy.special import expit, ndtr
+from scipy.special import expit, ndtr, ndtri
 
 from src.config import DATA_PROCESSED, get_event
 
@@ -92,6 +116,7 @@ RELEVANT_RANGE_S = 6.0       # ... within this much race time (the engine's unde
 PACK_LAPS = (5, 15)          # first-stint laps the pack intervals are measured on
 PACK_POSITIONS = (2, 15)     # the pack, not the leader's clear air
 CYCLE_PAIR_LAPS = 5          # two first stops this close are one pit cycle
+CYCLE_PAIR_ADJACENCY = 1     # ... and they were this many positions apart the lap before
 GAP_QUANTILES = 8            # each pack rival's gap, as this many equal-mass quantiles
 CHOICE_TEMPER_S = 1.0        # a rival chooses among laps within ~1 s as the pit wall does (WINDOW_TOL_S)
 FIXED_POINT_ITERS = 80
@@ -101,12 +126,26 @@ LIVE_HORIZON_LAPS = 25       # a rival's stop distribution is carried this far a
 TRAFFIC_BAND_S = 3.0         # a car this close ahead on rejoin is traffic (V3's density definition)
 DENSITY_MEAN = 0.4488        # mean of V3's traffic-density quadratic (`strategy.traffic_density`)
 
+# The place value's uncertainty (A2).  The donor *races* are the exchangeable
+# unit - a race is one draw of a field, a track and a pit lane - so the
+# bootstrap resamples races, not pairs.  2000 resamples put the Monte Carlo
+# error on a 5/95 % quantile below a hundredth of a second, which is two orders
+# below the 0.3 s the leave-one-out folds themselves move the place value by.
+PLACE_BOOTSTRAP = 2000
+PLACE_CI = (0.05, 0.95)
+BOOTSTRAP_SEED = 4            # fixed so a fold's constants are reproducible
+MIDFIELD_POSITIONS = (7, 16)  # the finishing band a place is usually contested in (diagnostic)
+JEFFREYS_MEAN = 0.5           # Beta(1/2, 1/2): the reference prior for a binomial
+JEFFREYS_WEIGHT = 1.0         # ... and its weight in pseudo-pairs (a + b = 1)
+ESTIMATORS = ("task1", "lead_lap", "all_classified", "regularized")
+
 ACTIONS = ("PIT NOW", "STAY OUT 1 LAP", "STAY OUT 2 LAPS", "STAY OUT 3 LAPS", "PIT AT EDGE OF WINDOW")
 
 # Pooled over the seven 2026 races (measured 2026-09-13); used only when no
 # donor race is on disk, and said so in `source`.
 _FALLBACK = {"place_gap_s": 3.0, "persistence": 0.74, "cycle_sd_s": 1.9,
              "pack_gaps_s": (0.4, 0.7, 0.9, 1.1, 1.4, 1.8, 2.4, 3.4)}
+_DONOR_ORDER = {k: i for i, k in enumerate(DONOR_EVENTS)}
 
 
 # --------------------------------------------------------------------------
@@ -125,6 +164,17 @@ class RaceStateConstants:
     `cycle_sd_s`    robust SD of one car's green-flag pit loss about its race's
                     median - the in-lap, the stop and the out-lap together
     `pack_gaps_s`   the first-stint intervals between consecutive cars in the pack
+
+    The V4 fields say *how well measured* the place value is, which matters
+    because it rests on the model's thinnest sample: `estimator` names the
+    treatment of that sample (see `measure_constants`), `persistence_raw` is the
+    pooled ratio the shrinkage moved away from, `persistence_by_donor` and
+    `n_cycle_pairs_by_donor` are the per-race counts behind it, and
+    `place_value_sd_s` / `place_value_ci_s` are the bootstrap spread of
+    `V (2 psi - 1)` over the donor races.  They describe the fit that produced
+    the point values, so a `dataclasses.replace` that overrides `persistence` or
+    `place_gap_s` (the ablation variants do) leaves them describing the fit, not
+    the override.
     """
 
     place_gap_s: float
@@ -138,6 +188,13 @@ class RaceStateConstants:
     n_pack_gaps: int = 0
     place_gap_lead_lap_s: float = float("nan")      # diagnostic: lead-lap finishers only
     source: str = ""
+    estimator: str = "task1"
+    persistence_raw: float = float("nan")           # pooled kept / pairs, unshrunk
+    persistence_by_donor: dict = field(default_factory=dict)    # key -> {pairs, kept}
+    n_cycle_pairs_by_donor: dict = field(default_factory=dict)  # key -> pairs
+    place_value_sd_s: float = float("nan")
+    place_value_ci_s: tuple = ()                    # (5 %, 95 %) bootstrap over donor races
+    place_gap_midfield_s: float = float("nan")      # diagnostic: finishers P7-P16
 
     @property
     def place_value_s(self) -> float:
@@ -153,14 +210,26 @@ class RaceStateConstants:
         return {"place_gap_s": round(self.place_gap_s, 3),
                 "place_gap_lead_lap_s": (round(self.place_gap_lead_lap_s, 3)
                                          if np.isfinite(self.place_gap_lead_lap_s) else None),
+                "place_gap_midfield_s": (round(self.place_gap_midfield_s, 3)
+                                         if np.isfinite(self.place_gap_midfield_s) else None),
                 "persistence": round(self.persistence, 3),
-                "place_value_s": round(self.place_value_s, 3), "cycle_sd_s": round(self.cycle_sd_s, 3),
+                "persistence_raw": (round(self.persistence_raw, 3)
+                                    if np.isfinite(self.persistence_raw) else None),
+                "persistence_by_donor": {k: dict(v) for k, v in self.persistence_by_donor.items()},
+                "n_cycle_pairs_by_donor": dict(self.n_cycle_pairs_by_donor),
+                "place_value_s": round(self.place_value_s, 3),
+                "place_value_sd_s": (round(self.place_value_sd_s, 3)
+                                     if np.isfinite(self.place_value_sd_s) else None),
+                "place_value_ci_s": ([round(float(x), 3) for x in self.place_value_ci_s]
+                                     if len(self.place_value_ci_s) else None),
+                "cycle_sd_s": round(self.cycle_sd_s, 3),
                 "sigma_rel_s": round(self.sigma_rel_s, 3),
                 "pack_gap_median_s": round(float(np.median(self.pack_gaps_s)), 3),
                 "pack_gap_p25_p75_s": [round(float(np.quantile(self.pack_gaps_s, q)), 3) for q in (0.25, 0.75)],
                 "donors": list(self.donors), "n_finish_gaps": self.n_finish_gaps,
                 "n_cycle_pairs": self.n_cycle_pairs, "n_pit_stops": self.n_pit_stops,
                 "n_pack_gaps": self.n_pack_gaps, "n_rivals": N_RIVALS,
+                "estimator": self.estimator,
                 "choice_temper_s": CHOICE_TEMPER_S, "source": self.source}
 
 
@@ -180,8 +249,22 @@ def order_table(race: pd.DataFrame) -> pd.DataFrame:
     return pd.concat(out, ignore_index=True) if out else r.iloc[0:0]
 
 
-def _race_measurements(key: str) -> dict | None:
-    """The four race-time quantities measured on one race's lap table."""
+@lru_cache(maxsize=64)
+def race_measurements(key: str, *, window: int = CYCLE_PAIR_LAPS,
+                      adjacency: int = CYCLE_PAIR_ADJACENCY) -> dict | None:
+    """The race-time quantities the constants are measured from, for one race.
+
+    `window` and `adjacency` define a pit *cycle*: two first stops within
+    `window` laps of each other, made by cars that were within `adjacency`
+    positions the lap before the earlier one.  Both are reported settings rather
+    than physical constants, so `bench/bench_place_value.py` varies them (3/5/8
+    laps, 1 vs 2 positions) to show how much of `psi` they own.
+
+    Returns the pack intervals, the three finishing-gap samples (all classified,
+    lead lap only, the P7-P16 midfield band), the cycle pairs as individual
+    outcomes (`pair_kept`, so a leave-one-pair-out influence can be computed),
+    the green pit losses centred on the race's median, and whether the race's
+    first-stop phase was safety-car affected."""
     from src.strategy import is_sc_status
 
     p = DATA_PROCESSED / f"laps_{key}_race.parquet"
@@ -201,7 +284,8 @@ def _race_measurements(key: str) -> dict | None:
     # finishers, measured at the last lap both completed so that lapped
     # midfield cars - the ones a place is usually contested among - count too.
     # (The lead-lap-only interval is kept as a diagnostic: it is a front-runner
-    # sample, four or five cars at some races.)
+    # sample, four or five cars at some races.  The midfield band is the other
+    # diagnostic: the gaps between the cars this tool actually decides for.)
     last = race.groupby("driver")["lap_number"].max()
     cls = set(last[last >= ev.n_race_laps - 2].index)
     tail = o.sort_values("lap_number").groupby("driver").tail(1)
@@ -209,40 +293,49 @@ def _race_measurements(key: str) -> dict | None:
     fpos = {d: i for i, d in enumerate(tail["driver"])}
     t_end = o.set_index(["driver", "lap_number"])["t_end"].to_dict()
     ds_fin = tail["driver"].tolist()
-    fin = []
-    for a, b in zip(ds_fin, ds_fin[1:]):
+    fin, fin_mid = [], []
+    lo_mid, hi_mid = MIDFIELD_POSITIONS
+    for i, (a, b) in enumerate(zip(ds_fin, ds_fin[1:])):
         lap = float(min(last[a], last[b]))
         ta, tb = t_end.get((a, lap)), t_end.get((b, lap))
         if ta is not None and tb is not None and np.isfinite(ta) and np.isfinite(tb) and tb > ta:
             fin.append(tb - ta)
+            if i + 1 >= lo_mid and i + 2 <= hi_mid:        # 1-based finishing positions
+                fin_mid.append(tb - ta)
     fin = np.asarray(fin, dtype=float)
     lead = o[o["lap_number"] == ev.n_race_laps].sort_values("t_end")
     fin_lead = lead["t_end"].diff().dropna().to_numpy(dtype=float)
     # persistence of the order a pit cycle produces
     pos = o.set_index(["driver", "lap_number"])["pos"].to_dict()
     status = o.set_index(["driver", "lap_number"])["track_status"].astype(str).to_dict()
-    first = {}
+    first, first_any = {}, []
     for d, g in race[race["pit_in"]].groupby("driver"):
         lap = int(g["lap_number"].min())
+        first_any.append(lap)
         if d in cls and not is_sc_status(status.get((d, float(lap)), "1")):
             first[d] = lap
-    pairs = kept = 0
+    pair_kept = []
     ds = sorted(first)
     for i, a in enumerate(ds):
         for b in ds[i + 1:]:
             la, lb = first[a], first[b]
-            if abs(la - lb) > CYCLE_PAIR_LAPS:
+            if abs(la - lb) > int(window):
                 continue
             l0 = min(la, lb) - 1
             pa, pb = pos.get((a, float(l0))), pos.get((b, float(l0)))
-            if pa is None or pb is None or abs(pa - pb) != 1:
+            if pa is None or pb is None or not 1 <= abs(pa - pb) <= int(adjacency):
                 continue
             l1 = max(la, lb) + 2
             qa, qb = pos.get((a, float(l1))), pos.get((b, float(l1)))
             if qa is None or qb is None:
                 continue
-            pairs += 1
-            kept += int((qa < qb) == (fpos[a] < fpos[b]))
+            pair_kept.append(int((qa < qb) == (fpos[a] < fpos[b])))
+    # A race whose first-stop phase ran under a safety car is a different
+    # experiment: the stops are cheap and the order is reset behind the car.
+    sc = False
+    if first_any:
+        span = o[o["lap_number"].between(min(first_any), max(first_any))]
+        sc = bool(span["track_status"].astype(str).map(is_sc_status).any())
     stops = np.zeros(0)
     pl = DATA_PROCESSED / f"pitloss_{key}.parquet"
     if pl.exists():
@@ -250,40 +343,195 @@ def _race_measurements(key: str) -> dict | None:
         x = x[(x > 5) & (x < 60)]
         if len(x) >= 3:
             stops = x - np.median(x)
-    return {"gaps": gaps, "fin": fin, "fin_lead": fin_lead, "pairs": pairs, "kept": kept, "stops": stops}
+    return {"gaps": gaps, "fin": fin, "fin_lead": fin_lead, "fin_mid": np.asarray(fin_mid, dtype=float),
+            "pairs": len(pair_kept), "kept": int(sum(pair_kept)),
+            "pair_kept": tuple(pair_kept), "stops": stops, "sc_affected": sc}
 
 
-@lru_cache(maxsize=32)
-def _measure(donors: tuple) -> RaceStateConstants:
-    got = {k: _race_measurements(k) for k in donors}
+def persistence_eb(pairs, kept) -> dict:
+    """Empirical-Bayes (beta-binomial) persistence from per-race pair counts.
+
+    `psi` is the thinnest measurement in the model - 25-35 adjacent pit-cycle
+    pairs pooled over six races, 3-9 of them per race - and the races are not
+    replicates of one experiment: a street circuit's pit-cycle order survives to
+    the flag more often than Spa's.  The pooled ratio ignores that
+    heterogeneity (and lets the race with the most pairs set the number); the
+    per-race ratios are far too noisy to use.  The standard treatment of that
+    situation is beta-binomial shrinkage:
+
+        the races' true rates ~ Beta(a, b) with mean `m` and variance `tau2`,
+        estimated by method of moments - `m` the unweighted mean of the per-race
+        ratios (a race is one draw), `tau2` the sample variance of those ratios
+        less the average within-race binomial variance (DerSimonian-Laird);
+        the prior's weight in pairs is `M = m (1 - m) / tau2 - 1`, and
+
+            psi = (sum kept + m M) / (sum pairs + M)
+
+    which lies between the pooled ratio and `m`, nearer `m` the thinner the
+    pooled sample is relative to the between-race spread.
+
+    `tau2 <= 0` means the races are consistent with one common rate and there is
+    nothing to shrink toward but ignorance, so the **Jeffreys** prior
+    Beta(1/2, 1/2) - the reference prior for a binomial, mean 1/2, weight 1
+    pair - is used instead, pulling `psi` toward "a place in the cycle is worth
+    nothing".  `M <= 0` (a between-race spread at or above the binomial ceiling)
+    leaves the pooled ratio alone.
+
+    Vectorised over leading axes (the last axis is the race axis) so the
+    bootstrap can resample races in one call.  Returns `psi`, the pooled ratio
+    it moved from, and the prior that moved it."""
+    pairs = np.asarray(pairs, dtype=float)
+    kept = np.asarray(kept, dtype=float)
+    ok = pairs > 0
+    n_ok = ok.sum(-1)
+    p = np.where(ok, kept / np.where(ok, pairs, 1.0), 0.0)
+    m = p.sum(-1) / np.maximum(n_ok, 1.0)
+    s2 = (np.where(ok, (p - m[..., None]) ** 2, 0.0).sum(-1) / np.maximum(n_ok - 1.0, 1.0))
+    within = (np.where(ok, p * (1.0 - p) / np.maximum(pairs - 1.0, 1.0), 0.0).sum(-1)
+              / np.maximum(n_ok, 1.0))
+    tau2 = s2 - within
+    K = np.where(ok, kept, 0.0).sum(-1)
+    N = np.where(ok, pairs, 0.0).sum(-1)
+    ceiling = m * (1.0 - m)
+    use_eb = (tau2 > 0.0) & (ceiling > 0.0) & (n_ok >= 2)
+    M = np.where(use_eb, ceiling / np.where(tau2 > 0.0, tau2, 1.0) - 1.0, JEFFREYS_WEIGHT)
+    M = np.maximum(M, 0.0)
+    prior_mean = np.where(use_eb, m, JEFFREYS_MEAN)
+    psi = (K + prior_mean * M) / np.maximum(N + M, 1e-9)
+    raw = np.where(N > 0, K / np.maximum(N, 1e-9), np.nan)
+    return {"psi": psi, "raw": raw, "prior_mean": prior_mean, "prior_pairs": M,
+            "tau2": tau2, "between_race_mean": m, "n_races": n_ok,
+            "method": np.where(use_eb, "beta-binomial MoM", "Jeffreys Beta(1/2,1/2)")}
+
+
+def bootstrap_place_value(fins: list, pairs, kept, *, draws: int = PLACE_BOOTSTRAP,
+                          seed: int = BOOTSTRAP_SEED, ci=PLACE_CI) -> dict:
+    """Bootstrap the place value over the donor *races*.
+
+    `fins[i]` is race `i`'s finishing-gap sample and `pairs[i]`/`kept[i]` its
+    cycle-pair counts.  Races are resampled with replacement (a race is the
+    exchangeable unit: one field, one track, one pit lane), `V` is recomputed as
+    the median of the pooled gaps and `psi` by `persistence_eb` on the resampled
+    counts, so the place value's spread carries both sources of error and their
+    correlation.  Returns the sd and `ci` quantiles of `V`, `psi` and
+    `V (2 psi - 1)`."""
+    pairs = np.asarray(pairs, dtype=float)
+    kept = np.asarray(kept, dtype=float)
+    n = len(pairs)
+    if n == 0 or not any(len(f) for f in fins):
+        return {}
+    width = max(1, max(len(f) for f in fins))
+    padded = np.full((n, width), np.nan)
+    for i, f in enumerate(fins):
+        padded[i, :len(f)] = f
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, n, size=(int(draws), n))
+    with np.errstate(invalid="ignore"):
+        V = np.nanmedian(padded[idx].reshape(int(draws), -1), axis=1)
+    psi = persistence_eb(pairs[idx], kept[idx])["psi"]
+    pv = V * np.maximum(2.0 * psi - 1.0, 0.0)
+
+    def stat(x: np.ndarray) -> dict:
+        x = x[np.isfinite(x)]
+        if not len(x):
+            return {"sd": float("nan"), "ci": ()}
+        return {"sd": float(np.std(x, ddof=1)),
+                "ci": tuple(float(v) for v in np.quantile(x, list(ci)))}
+
+    return {"place_gap": stat(V), "persistence": stat(psi), "place_value": stat(pv),
+            "draws": int(draws), "seed": int(seed), "ci_levels": tuple(ci)}
+
+
+def _ordered(donors: Iterable) -> tuple:
+    """Donor keys in the canonical `DONOR_EVENTS` order, unknown keys last.
+
+    The measurement cache is keyed on the donor *set* and the estimator, so a
+    fold is measured once however the caller ordered it; every pooled statistic
+    below is order-invariant (a median, a sum, a sort) and only `source` and
+    `donors` read the order, which is why it is canonicalised rather than
+    ignored."""
+    return tuple(sorted(set(donors), key=lambda k: (_DONOR_ORDER.get(k, len(DONOR_EVENTS)), str(k))))
+
+
+@lru_cache(maxsize=64)
+def _measure(donors: frozenset, estimator: str) -> RaceStateConstants:
+    if estimator not in ESTIMATORS:
+        raise ValueError(f"unknown place-value estimator {estimator!r}; expected one of {ESTIMATORS}")
+    got = {k: race_measurements(k) for k in _ordered(donors)}
     got = {k: v for k, v in got.items() if v is not None}
     if not got:
-        return RaceStateConstants(**_FALLBACK, source="fallback: no donor race on disk "
-                                  "(pooled 2026 values measured 2026-09-13)")
+        return RaceStateConstants(**_FALLBACK, estimator=estimator,
+                                  source="fallback: no donor race on disk "
+                                         "(pooled 2026 values measured 2026-09-13)")
     gaps = np.concatenate([v["gaps"] for v in got.values()])
     fin = np.concatenate([v["fin"] for v in got.values()])
     fin_lead = np.concatenate([v["fin_lead"] for v in got.values()])
+    fin_mid = np.concatenate([v["fin_mid"] for v in got.values()])
     stops = np.concatenate([v["stops"] for v in got.values()])
     pairs = sum(v["pairs"] for v in got.values())
     kept = sum(v["kept"] for v in got.values())
+    n_pairs = np.array([v["pairs"] for v in got.values()], dtype=float)
+    n_kept = np.array([v["kept"] for v in got.values()], dtype=float)
+    # The thin-sample guards are Task 1's, unchanged: below them the pooled
+    # 2026 fallback is a better estimate than the donors on disk.
     place_gap = float(np.median(fin)) if len(fin) >= 5 else _FALLBACK["place_gap_s"]
-    psi = float(kept / pairs) if pairs >= 10 else _FALLBACK["persistence"]
+    if estimator == "lead_lap":
+        place_gap = float(np.median(fin_lead)) if len(fin_lead) >= 5 else _FALLBACK["place_gap_s"]
+    raw = float(kept / pairs) if pairs >= 10 else _FALLBACK["persistence"]
+    psi = raw
+    eb: dict = {}
+    boot: dict = {}
+    if estimator == "regularized":
+        eb = persistence_eb(n_pairs, n_kept)
+        psi = float(eb["psi"]) if pairs >= 10 else _FALLBACK["persistence"]
+        boot = bootstrap_place_value([v["fin"] for v in got.values()], n_pairs, n_kept)
     sd = float(np.median(np.abs(stops)) * 1.4826) if len(stops) >= 10 else _FALLBACK["cycle_sd_s"]
     pack = tuple(float(x) for x in np.sort(gaps)) if len(gaps) >= 50 else _FALLBACK["pack_gaps_s"]
+    src = f"measured on {len(got)} 2026 races: {', '.join(got)}"
+    if eb:
+        src += (f"; psi shrunk from {raw:.3f} toward {float(eb['prior_mean']):.3f} "
+                f"with {float(eb['prior_pairs']):.1f} prior pairs ({eb['method']})")
     return RaceStateConstants(place_gap_s=place_gap, persistence=psi, cycle_sd_s=sd, pack_gaps_s=pack,
                               donors=tuple(got), n_finish_gaps=int(len(fin)), n_cycle_pairs=int(pairs),
                               n_pit_stops=int(len(stops)), n_pack_gaps=int(len(gaps)),
                               place_gap_lead_lap_s=(float(np.median(fin_lead)) if len(fin_lead) else float("nan")),
-                              source=f"measured on {len(got)} 2026 races: {', '.join(got)}")
+                              place_gap_midfield_s=(float(np.median(fin_mid)) if len(fin_mid) else float("nan")),
+                              estimator=estimator, persistence_raw=raw,
+                              persistence_by_donor={k: {"pairs": int(v["pairs"]), "kept": int(v["kept"])}
+                                                    for k, v in got.items()},
+                              n_cycle_pairs_by_donor={k: int(v["pairs"]) for k, v in got.items()},
+                              place_value_sd_s=float((boot.get("place_value") or {}).get("sd", float("nan"))),
+                              place_value_ci_s=tuple((boot.get("place_value") or {}).get("ci", ())),
+                              source=src)
 
 
-def measure_constants(exclude: str | None = None, donors=DONOR_EVENTS) -> RaceStateConstants:
+def measure_constants(exclude: str | Iterable | None = None, donors=DONOR_EVENTS,
+                      estimator: str = "regularized") -> RaceStateConstants:
     """The race-state constants, measured on every donor race except `exclude`.
 
     Leave-one-out by construction: the decide stage for a scored weekend passes
     its own key, so its race never informs its own race-state term; a new
-    weekend (no race yet) excludes nothing it could have used anyway."""
-    return _measure(tuple(k for k in donors if k != exclude))
+    weekend (no race yet) excludes nothing it could have used anyway.  `exclude`
+    takes a key or any iterable of keys, because the recalibration has to drop
+    two - the weekend being scored *and* the donor whose objective is being
+    searched - and a one-element set must give exactly what the bare key gives.
+
+    `estimator` selects the treatment of the two samples the place value is
+    built from (`bench/bench_place_value.py` reports all four side by side):
+
+    * `task1` - every classified finisher's gap, `psi` the pooled ratio.  Task 1
+      exactly, kept reproducible;
+    * `all_classified` - the same estimator under its descriptive name;
+    * `lead_lap` - `V` from lead-lap finishers only (Task 1's first
+      implementation, a front-runner sample of four or five cars at some races);
+    * `regularized` - **the V4 production default**: `V` as before, `psi` by
+      empirical-Bayes shrinkage of the per-race ratios (`persistence_eb`), with
+      a bootstrap standard error and 5-95 % interval on the place value.  It is
+      chosen on statistical grounds - the standard treatment of a small binomial
+      sample pooled over heterogeneous races - and not by any benchmark score.
+    """
+    ex = ({exclude} if isinstance(exclude, str) else set() if exclude is None else set(exclude))
+    return _measure(frozenset(k for k in donors if k not in ex), str(estimator))
 
 
 # --------------------------------------------------------------------------
@@ -430,6 +678,378 @@ def pack_equilibrium(T: np.ndarray, laps: np.ndarray, stay_cum: np.ndarray, fres
                           int(laps[min(int(np.searchsorted(cq, 0.75)), S - 1)])],
             "iterations": int(it), "converged": bool(converged), "place_value_s": float(V),
             "sigma_rel_s": const.sigma_rel_s}
+
+
+# --------------------------------------------------------------------------
+# Before the race: the heterogeneous rival field
+# --------------------------------------------------------------------------
+
+
+# The field logit's temperature.  Unlike `CHOICE_TEMPER_S` (the pit wall's own
+# window tolerance, measured) this one says how sharply a *field* of nineteen
+# cars sorts itself onto the cheapest plan family, and nothing in the data
+# identifies it before WP-F calibrates it: 3 s is the engineering choice that
+# leaves a family 3 s off the best with about a third of the best family's
+# weight.  Sensitivity: at 1 s the field collapses onto one family (the
+# symmetric pack again), at 10 s it is nearly uniform over families.
+FAMILY_TEMPER_S = 3.0
+# Pseudo-counts: a historical cell with `k0` stops in it gets half the weight.
+# Same form and the same order as `firststop.MIN_COMPOUND_N` (5) and
+# `PLAN_PRIOR_ALPHA`; 10 is deliberately more conservative than the first-stop
+# prior's own back-off because this weight multiplies a *distribution* rather
+# than backing one cell off to another.
+HISTORY_WEIGHT_K0 = 10.0
+FAMILY_PRIOR_WEIGHT_K0 = 10.0
+# A rival type with less than this share of the modal type's weight puts under
+# 0.04 of a car in the four pack slots, which moves the expected places by less
+# than 0.01 of a place: it is dropped so the type x type tensor stays small.
+FIELD_WEIGHT_FLOOR = 0.01
+# Fallback spread of the rival field's degradation rate, in log units, when no
+# calibration is on disk: 0.12 is the sd of the log per-team rate factors in
+# `calibration.json` (0.12-0.14 across the leave-one-out folds, 11 teams).
+RATE_LN_SD_FALLBACK = 0.12
+# The expected-places curve is tabulated this finely and interpolated linearly;
+# its second derivative is under 0.1 places/s^2, so the interpolation error is
+# below 1e-5 places against a term measured in tenths of a second.
+AHEAD_GRID_S = 0.02
+
+
+@dataclass(frozen=True)
+class RivalFieldConfig:
+    """Who the four cars around us are, before the race has run.
+
+    Task 1 filled the pack with copies of our own car on our own plan.  That
+    cannot produce the car that moves first, and the car that moves first is
+    what makes a field stop early: Barcelona 2026's field boxed at 11-15
+    because five of thirteen cars started on the SOFT and the MEDIUM runners
+    covered them.  So the pack is drawn from a distribution over rival
+    **types** - a plan group (start compound, second compound, stop count)
+    crossed with a degradation level - and solved as a mean-field equilibrium.
+
+    * `mode` - `"hetero"` (the default) or `"symmetric"`, which is Task 1's
+      `pack_equilibrium` unchanged.
+    * `family_temper_s` - how sharply the field sorts onto the cheaper plan
+      families (see `FAMILY_TEMPER_S`; WP-F calibrates it).
+    * `use_history_prior` / `history_weight_k0` - the rivals' stop laps are
+      blended toward the circuit's historical first-stop density at weight
+      `n_cell / (n_cell + k0)`.  `False` sets that weight to zero, which is the
+      ablation that answers "is the field's early stop the model's cost surface
+      or the circuit's habit?".  It never touches *our* lap: history is the
+      rivals' behaviour, never a term on our own decision.
+    * `family_prior_weight_k0` - the same back-off for the plan-family mix.
+      `inf` puts no weight on history at all, which with `use_history_prior`
+      off is the "no historical strategy prior" ablation: the field's plan mix
+      and its stop laps then come only from the model's own costs.
+    * `rate_levels` / `rate_ln_sd` - the field's tyre-rate spread, `None`
+      meaning the sd of the calibration's log per-team factors.
+    """
+
+    mode: str = "hetero"
+    family_temper_s: float = FAMILY_TEMPER_S
+    history_weight_k0: float = HISTORY_WEIGHT_K0
+    use_history_prior: bool = True
+    rate_levels: int = 3
+    rate_ln_sd: float | None = None
+    family_prior_weight_k0: float = FAMILY_PRIOR_WEIGHT_K0
+
+    @property
+    def symmetric(self) -> bool:
+        return str(self.mode).lower() == "symmetric"
+
+    def as_dict(self) -> dict:
+        return {"mode": str(self.mode), "family_temper_s": float(self.family_temper_s),
+                "history_weight_k0": float(self.history_weight_k0),
+                "use_history_prior": bool(self.use_history_prior),
+                "rate_levels": int(self.rate_levels),
+                "rate_ln_sd": (None if self.rate_ln_sd is None else float(self.rate_ln_sd)),
+                # None rather than `inf`, which is not JSON
+                "family_prior_weight_k0": (float(self.family_prior_weight_k0)
+                                           if np.isfinite(self.family_prior_weight_k0) else None)}
+
+
+@lru_cache(maxsize=16)
+def field_rate_ln_sd(event_key: str | None = None) -> float:
+    """Spread of the rival field's degradation rate, in log units.
+
+    Measured, not assumed: the calibration's per-team rate factors are what the
+    previous races say about how differently the field wears its tyres, and
+    their log sd is 0.12-0.14 across the leave-one-out folds.  Falls back to
+    `RATE_LN_SD_FALLBACK` when no calibration is on disk."""
+    try:
+        from src.calibration import get_calibration
+
+        tf = getattr(get_calibration(event_key), "team_factors", None) or {}
+        x = np.log(np.array([float(v) for v in tf.values() if float(v) > 0]))
+        if len(x) >= 3:
+            return float(np.std(x, ddof=1))
+    except Exception as exc:                      # a malformed calibration is not fatal
+        log.debug("field rate spread unavailable (%s); using the fallback", exc)
+    return float(RATE_LN_SD_FALLBACK)
+
+
+def rate_nodes(n_levels: int, ln_sd: float) -> tuple:
+    """Degradation levels for the rival field: rate factors and their weights.
+
+    A rival is not our car, and the field's own rate spread is what makes two
+    cars on the same plan stop four laps apart.  It is discretised as
+    `n_levels` equal-mass quantile midpoints of a lognormal with log sd
+    `ln_sd`, exactly as `pack_slots` discretises the gap distribution: three
+    levels then sit at -0.97, 0 and +0.97 sd with weight 1/3 each (the plan's
+    "-1, 0, +1 sd") and the middle level is our own model, factor 1.  An even
+    number of levels has no node at 1 and the level nearest it then stands in
+    for our own car, which is why the default is odd."""
+    n = max(1, int(n_levels))
+    z = ndtri((np.arange(n) + 0.5) / n)
+    return np.exp(z * float(ln_sd)), np.full(n, 1.0 / n)
+
+
+def family_weights(cost_s, neglogp, *, n_prior: int, cfg: RivalFieldConfig) -> np.ndarray:
+    """How much of the field runs each plan group.
+
+    `q_f(g) ~ exp(-C_g / family_temper_s) * p_hist(g) ** w_f`, with `C_g` the
+    group's best tyre + pit lane + traffic + safety-car cost (no priors, so the
+    field is not being told what to run by the same prior twice), `p_hist(g)`
+    the circuit's smoothed frequency of that shape as `-log p` in `neglogp`
+    (`strategy.plan_prior_penalty` at `tau = 1`), and
+    `w_f = n / (n + family_prior_weight_k0)` the weight its `n` classified
+    finishers earn it.  A circuit with no history of its own arrives here with
+    the season pool the pipeline already substitutes, and `n_prior = 0` leaves
+    the model's own costs to decide.
+
+    Because `exp(-C/theta) p^w = exp(-(C + theta w (-log p))/theta)`, the blend
+    is a logit on the cost plus `theta * w_f` seconds per nat of rarity - the
+    same shape as the plan prior's own penalty, at the field's temperature."""
+    cost = np.asarray(cost_s, dtype=float)
+    nlp = np.zeros_like(cost) if neglogp is None else np.asarray(neglogp, dtype=float)
+    n = max(0.0, float(n_prior or 0.0))
+    w_f = n / (n + float(cfg.family_prior_weight_k0)) if n > 0 else 0.0
+    theta = max(float(cfg.family_temper_s), 1e-6)
+    return softmin(cost + theta * w_f * nlp, theta)
+
+
+def history_weight(n_cell, cfg: RivalFieldConfig) -> float:
+    """Weight the circuit's historical first-stop density earns for a rival's
+    stop lap: `n_cell / (n_cell + k0)`, and zero with the prior switched off."""
+    if not cfg.use_history_prior:
+        return 0.0
+    n = max(0.0, float(n_cell or 0.0))
+    return float(n / (n + float(cfg.history_weight_k0))) if n > 0 else 0.0
+
+
+def _ahead_curve(const: RaceStateConstants, lo: float, hi: float, *, n_q: int = GAP_QUANTILES,
+                 step: float = AHEAD_GRID_S) -> tuple:
+    """`F(x)`: expected rivals ahead, of the four pack slots, at race-time
+    difference `x`, tabulated on a uniform grid over `[lo, hi]`.
+
+    The same quantity `pack_equilibrium` forms as `(P * w).sum(0)` - the pack's
+    four slots at `n_q` equal-mass gap quantiles each - but as a function of the
+    one argument it depends on, so the heterogeneous field can look it up
+    instead of evaluating the normal integral once per type pair."""
+    gaps, _ = pack_slots(const, n_q)
+    x = np.arange(float(lo), float(hi) + step, step)
+    F = ndtr((gaps[:, None] + x[None, :]) / const.sigma_rel_s).sum(0) / n_q
+    return F.astype(np.float32), float(lo), float(1.0 / step)
+
+
+def _ahead_lookup(F: np.ndarray, lo: float, inv_step: float, x: np.ndarray) -> np.ndarray:
+    """`F` at `x` by linear interpolation on its uniform grid (clipped at both
+    ends, where `F` is flat at 0 and 4 anyway)."""
+    u = np.clip((x - np.float32(lo)) * np.float32(inv_step), 0.0, len(F) - 1.001)
+    i = u.astype(np.int32)
+    f = u - i
+    return F[i] * (1.0 - f) + F[i + 1] * f
+
+
+def _softmin_rows(cost: np.ndarray, temper: float) -> np.ndarray:
+    """`softmin` along the last axis, non-finite options excluded."""
+    ok = np.isfinite(cost)
+    base = np.where(ok, cost, np.inf).min(-1, keepdims=True)
+    z = np.where(ok, np.exp(-(np.where(ok, cost, 0.0) - base) / float(temper)), 0.0)
+    s = z.sum(-1, keepdims=True)
+    return np.where(s > 0, z / np.where(s > 0, s, 1.0), 1.0 / cost.shape[-1])
+
+
+def _pack_from_curve(laps: np.ndarray, T: np.ndarray, places: np.ndarray, q: np.ndarray,
+                     const: RaceStateConstants, *, iterations: int, converged: bool) -> dict:
+    """One car's first stop, read off its cost curve and the places it expects.
+
+    The shape `scripts/10_pipeline.py::race_state_block`, `bench_ablation.py`
+    and `term_by_lap` consume, identical for the symmetric pack and for a type
+    in the heterogeneous field."""
+    V = float(const.place_value_s)
+    cost = T + V * places
+    i_best = int(np.argmin(cost))
+    S = len(laps)
+    cq = np.cumsum(q)
+    return {"laps": laps.tolist(), "tyre_s": T.tolist(), "places": places.tolist(),
+            "position_s": (V * places).tolist(), "cost_s": cost.tolist(),
+            "term_s": (V * (places - places[i_best])).tolist(), "q": q.tolist(),
+            "best_lap": int(laps[i_best]), "tyre_best_lap": int(laps[int(np.argmin(T))]),
+            "q_median": int(laps[min(int(np.searchsorted(cq, 0.5)), S - 1)]),
+            "q_p25_p75": [int(laps[min(int(np.searchsorted(cq, 0.25)), S - 1)]),
+                          int(laps[min(int(np.searchsorted(cq, 0.75)), S - 1)])],
+            "iterations": int(iterations), "converged": bool(converged),
+            "place_value_s": V, "sigma_rel_s": const.sigma_rel_s}
+
+
+def rival_field(types: list, laps, const: RaceStateConstants, cfg: RivalFieldConfig, *,
+                cover: bool = True, temper: float = CHOICE_TEMPER_S,
+                iters: int = FIXED_POINT_ITERS) -> dict:
+    """The mean-field equilibrium of a heterogeneous pack, and our best response.
+
+    `types` is the rival field as a list of dicts, one per (plan group,
+    degradation level); `laps` the shared candidate-lap grid they are all
+    costed on.  Each type carries
+
+        T          (S,) its race-time cost with its first stop on each lap,
+                   `inf` where that lap is not legal for its group
+        stay_cum   (L+1,) cost of the first k laps on its start compound
+        fresh_cum  (n+1, L+1) cost of j laps on its next set, fitted after s laps
+        weight     its share of the field (family weight x level weight)
+        hist       (S,) `-log p` of each lap in the circuit's first-stop density
+                   for its (start compound, stop count) cell, or None
+        hist_w     the weight that density has earned (`history_weight`)
+        ours       True for the one level that is our own car's rate
+
+    Every type faces the *type-weighted field* on the four pack slots - the
+    expectation over the field's types and their stop laps is taken exactly,
+    not sampled - and chooses its own stop lap by a logit on its own cost plus
+    the places it expects to lose, blended toward the circuit's history.  The
+    map is iterated damped to its fixed point exactly as `pack_equilibrium`
+    iterates the symmetric pack.  Our own stop is then the best response to the
+    converged field: the same row, minimised on cost *without* the history term
+    - a rival's habit is evidence about a rival, never a charge on our lap.
+
+    Vectorised over the whole type x type x lap x lap tensor, which is built
+    once: the field's tables do not change as the fixed point iterates, only
+    the choice probabilities do, so each iteration is one contraction plus the
+    cover logit.  Returns `{"packs": {family label: pack}, "types": [...],
+    "iterations", "converged"}` with one pack per `ours` type, in the shape
+    `pack_equilibrium` returns."""
+    laps = np.asarray(laps, dtype=int)
+    S, nT = len(laps), len(types)
+    V = float(const.place_value_s)
+    if not nT or not S:
+        return {}
+    T = np.stack([np.asarray(t["T"], dtype=float) for t in types])             # (nT, S)
+    w = np.asarray([max(float(t["weight"]), 0.0) for t in types], dtype=float)
+    w = w / w.sum() if w.sum() > 0 else np.full(nT, 1.0 / nT)
+    # The rivals' history term, in seconds at their own logit temperature: a
+    # logit on cost blended with `p_hist ** hist_w` is a logit on the cost plus
+    # `temper * hist_w * (-log p_hist)`.  `use_history_prior` is honoured here
+    # as well as where the weight is built, so the switch holds whatever a
+    # caller put in the types.
+    on = float(bool(cfg.use_history_prior))
+    hist = np.stack([(np.zeros(S) if t.get("hist") is None else np.asarray(t["hist"], dtype=float))
+                     * float(temper) * float(t.get("hist_w") or 0.0) * on for t in types])
+    ours = [i for i, t in enumerate(types) if t.get("ours")]
+
+    def packs_of(places: np.ndarray, q: np.ndarray, it: int, ok_fp: bool) -> dict:
+        out = {}
+        for i in ours:
+            m = np.isfinite(T[i])
+            if not m.any():
+                continue
+            qi = q[i][m]
+            qi = qi / qi.sum() if qi.sum() > 0 else np.full(int(m.sum()), 1.0 / int(m.sum()))
+            out[types[i]["label"]] = _pack_from_curve(laps[m], T[i][m], places[i][m], qi, const,
+                                                     iterations=it, converged=ok_fp)
+        return out
+
+    q = _softmin_rows(T + hist, temper)
+    if S == 1 or V <= 0:
+        # a place worth nothing (or one lap to choose from): the tyre decides,
+        # and every type expects the two cars ahead of it to stay there
+        places = np.full((nT, S), 2.0)
+        return {"packs": packs_of(places, q, 0, True), "iterations": 0, "converged": True,
+                "types": _type_table(types, laps, q, w), "n_types": nT}
+
+    # `B[x, i, j]`: type x's race time to the lap both cars are out of the pits,
+    # for its stop on laps[i] against a rival stopping on laps[j].  Our extra
+    # race time over the cycle is then `D[t, i, u, j] = B[t, i, j] - B[u, j, i]`.
+    L_i, L_j = np.meshgrid(laps, laps, indexing="ij")
+    M = np.maximum(L_i, L_j) + 1
+    B = np.empty((nT, S, S), dtype=np.float32)
+    for x, t in enumerate(types):
+        stay = np.asarray(t["stay_cum"], dtype=float)
+        fresh = np.asarray(t["fresh_cum"], dtype=float)
+        jmax = fresh.shape[1] - 1
+        B[x] = stay[np.clip(L_i, 0, len(stay) - 1)] + fresh[np.clip(L_i, 0, fresh.shape[0] - 1),
+                                                            np.clip(M - L_i, 0, jmax)]
+    Bs = np.ascontiguousarray(B.transpose(2, 0, 1))                 # Bs[i, u, j] = B[u, j, i]
+    # Beyond the widest pack gap plus eight pit-cycle sigmas the normal
+    # integral is 0 or 1 to machine precision, so the lookup's clip is exact
+    # there and the table only has to span the band where it is not.
+    span = float(np.max(np.abs(const.pack_gaps_s)) * 2.0 + 8.0 * const.sigma_rel_s)
+    F, lo, inv = _ahead_curve(const, -span, span)
+
+    cover_col = np.searchsorted(laps, laps + 1)
+    cover_col = np.where((cover_col < S) & (laps[np.clip(cover_col, 0, S - 1)] == laps + 1), cover_col, -1)
+    ok_cov = cover_col >= 0
+    col = np.where(ok_cov, cover_col, 0)
+    later = (L_j > L_i + 1) & ok_cov[:, None]                        # (S, S)
+
+    # P[t, i, u, j], the places a cover would save the rival across the four
+    # slots (`X`) and what the place is worth to *one* rival (`Xv`, seconds):
+    # all fixed for the whole fixed point, because only the choice
+    # probabilities move as it iterates.  `Xv` divides by the slots because the
+    # cover is one car's decision about its own place, while `X` is the change
+    # in the number of cars we expect to be ahead of.
+    P = np.empty((nT, S, nT, S), dtype=np.float32)
+    X = np.zeros((nT, S, nT, S), dtype=np.float32) if cover else None
+    for t in range(nT):
+        P[t] = _ahead_lookup(F, lo, inv, B[t][:, None, :] - Bs)
+        if cover:
+            Pc = np.take_along_axis(P[t], np.broadcast_to(col[:, None, None], (S, nT, 1)), axis=2)
+            X[t] = np.where(later[:, None, :], Pc - P[t], np.float32(0.0))
+    Xv = (np.float32(V / N_RIVALS) * X) if cover else None
+    del Bs
+
+    tmpr = np.float32(temper)
+    places = np.zeros((nT, S))
+    C = np.where(np.isfinite(T), T, 1e6).astype(np.float32)          # an illegal lap is not chosen
+    converged, it = False, 0
+    for it in range(1, int(iters) + 1):
+        if cover:
+            # `cst[i, u, j]`: what boxing the lap after us costs type u against
+            # the lap it planned.  It covers when the place is worth more.
+            cst = C[:, col].T[:, :, None] - C[None, :, :]
+            Z = P + X * expit((Xv - cst[None]) / tmpr)
+        else:
+            Z = P
+        Q = (w[:, None] * q).astype(np.float32)
+        places = np.tensordot(Z, Q, axes=([2, 3], [0, 1])).astype(float)
+        cost = T + V * places
+        C = np.where(np.isfinite(cost), cost, 1e6).astype(np.float32)
+        q_next = DAMPING * q + (1.0 - DAMPING) * _softmin_rows(cost + hist, temper)
+        if np.max(np.abs(q_next - q)) < FIXED_POINT_TOL:
+            q = q_next
+            converged = True
+            break
+        q = q_next
+    return {"packs": packs_of(places, q, it, converged), "iterations": int(it),
+            "converged": bool(converged), "types": _type_table(types, laps, q, w), "n_types": nT}
+
+
+def _type_table(types: list, laps: np.ndarray, q: np.ndarray, w: np.ndarray) -> list:
+    """The rival field as a reader sees it: who runs what, and when they box."""
+    out = []
+    for i, t in enumerate(types):
+        qi = np.asarray(q[i], dtype=float)
+        s = qi.sum()
+        qi = qi / s if s > 0 else np.full(len(laps), 1.0 / max(len(laps), 1))
+        cq = np.cumsum(qi)
+        n = len(laps)
+        out.append({"family": t["label"], "rate_level": int(t.get("level", 0)),
+                    "rate_factor": round(float(t.get("rate_factor", 1.0)), 3),
+                    "weight": round(float(w[i]), 4),
+                    "q_family": round(float(t.get("q_family", float("nan"))), 4),
+                    "history_weight": round(float(t.get("hist_w") or 0.0), 3),
+                    "stop_lap_median": int(laps[min(int(np.searchsorted(cq, 0.5)), n - 1)]),
+                    "stop_lap_p25_p75": [int(laps[min(int(np.searchsorted(cq, 0.25)), n - 1)]),
+                                         int(laps[min(int(np.searchsorted(cq, 0.75)), n - 1)])],
+                    "ours": bool(t.get("ours"))})
+    return out
 
 
 def term_by_lap(pack: dict | None, n_laps: int) -> np.ndarray | None:

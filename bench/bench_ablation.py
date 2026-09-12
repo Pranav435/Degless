@@ -11,6 +11,14 @@ term switched off at a time, and the answer compared with the field:
   no_race_state           V4's race-state term switched off: the V3 objective
                           exactly (undercut exposure and the first-stop prior
                           time the first stop)
+  symmetric_pack          Task 1's rival field: four copies of our own car on
+                          our own plan, with Task 1's place-value estimator -
+                          the variant that reproduces the frozen Task 1 run
+  rivals_no_history       the heterogeneous field with no historical strategy
+                          prior at all: the rivals' plan mix and their stop
+                          laps come only from the model's own costs
+  place_value_task1       the shipped field with Task 1's pooled-ratio place
+                          value instead of the regularised one
   race_state_no_cover     the race state with rivals that never cover
   race_state_lead_lap_value  a place valued at the lead-lap finishing interval
                           (the definition first implemented) instead of every
@@ -47,7 +55,10 @@ how tight the decision is rather than a failure of the benchmark.
 
 Every variant but `no_race_state` and `config_constants` keeps the race state
 on (they switch off one *other* term of the shipped objective); `config_constants`
-is the V1 baseline and has no race state either.
+is the V1 baseline and has no race state either.  The shipped race state is the
+**heterogeneous** rival field on the regularised place value; `symmetric_pack`,
+`rivals_no_history` and `place_value_task1` are the three variants that isolate
+what V4-final's WP-A changed against Task 1.
 
 plus the ladder-vs-race check: per-compound race degradation measured two
 ways against the model's ordering.
@@ -61,8 +72,8 @@ import json
 import numpy as np
 import pandas as pd
 
-from common import (OUT, NON_SC_EVENTS, arg_events, cp_for, dirty_air_of, driver_plans, dump,  # noqa: E402
-                    first_stop_tables, fs_kwargs, kappa_of, memoise_regime, meta, offline,
+from common import (OUT, NON_SC_EVENTS, accepts, arg_events, cp_for, dirty_air_of, driver_plans,  # noqa: E402
+                    dump, first_stop_tables, fs_kwargs, kappa_of, memoise_regime, meta, offline,
                     race_table, v2_calibration)
 from src import racestate, strategy as strat
 from src.calibration import Calibration, get_calibration
@@ -86,16 +97,21 @@ def ordered(rates: dict) -> bool | None:
 
 def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=None, pace_cal=True,
         budgets=None, grid=None, dirty=None, regime=None, plan_prior=None, fs_tables=None,
-        kappa=None, race_state="shipped", race_state_cover: bool = True, n_draws: int = N_DRAWS) -> dict:
+        kappa=None, race_state="shipped", race_state_cover: bool = True, rival_field=None,
+        estimator: str = "regularized", n_draws: int = N_DRAWS) -> dict:
     """One search.  Every switched-off term is a keyword whose default is the
     shipped value, so a variant names exactly what it changed.
 
     `race_state="shipped"` is V4's term with this weekend's leave-one-out
     constants (and the first-stop prior off, as the pipeline runs it); `None`
-    is the V3 objective; a `RaceStateConstants` is that variant's constants."""
+    is the V3 objective; a `RaceStateConstants` is that variant's constants.
+    `estimator` picks the place-value estimator the shipped constants are
+    measured with, and `rival_field` a `racestate.RivalFieldConfig` - `None`
+    being the shipped heterogeneous field and `mode="symmetric"` Task 1's
+    pack."""
     ev = get_event(key)
     if isinstance(race_state, str):
-        race_state = racestate.measure_constants(exclude=key)
+        race_state = racestate.measure_constants(exclude=key, estimator=estimator)
     if race_state is not None and kappa is None:
         kappa = 0.0
     if regime is None:
@@ -114,7 +130,13 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
               grid_penalty_s=(cal.grid_start_penalty_s if grid is None else grid), step=1)
     kw.update(fs_kwargs(strat.simulate_model, fs_tables, kappa_of(cal) if kappa is None else kappa))
     if race_state is not None:
-        kw.update(race_state=race_state, race_state_cover=race_state_cover)
+        kw.update(race_state=race_state, race_state_cover=race_state_cover, rival_field=rival_field)
+        # V4's rival field reads the same first-stop density for the *rivals'*
+        # stop laps, so the tables have to reach the search even at kappa = 0,
+        # where `fs_kwargs` (rightly) does not pass them for a penalty.  With
+        # kappa 0 nothing is charged on our own lap either way.
+        if fs_tables and "first_stop_prior" not in kw and accepts(strat.simulate_model, "first_stop_prior"):
+            kw["first_stop_prior"] = fs_tables
     ns = m.get("net_step") or {}
     if pace_cal and ns.get("measured") is not None:
         _, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]), net_step_s=float(ns["measured"]),
@@ -244,9 +266,16 @@ def main() -> None:
         pp_letters = plan_prior_for(cp, use_nominations=False) if cp is not None else {}
 
         rs_c = racestate.measure_constants(exclude=key)
+        sym = racestate.RivalFieldConfig(mode="symmetric")
+        no_hist = racestate.RivalFieldConfig(use_history_prior=False,
+                                             family_prior_weight_k0=float("inf"))
         variants = {
             "full": run(key, m, f_ship, cal, fs_tables=fs_tables),
             "no_race_state": run(key, m, f_ship, cal, fs_tables=fs_tables, race_state=None),
+            "symmetric_pack": run(key, m, f_ship, cal, fs_tables=fs_tables, rival_field=sym,
+                                  estimator="task1"),
+            "rivals_no_history": run(key, m, f_ship, cal, fs_tables=fs_tables, rival_field=no_hist),
+            "place_value_task1": run(key, m, f_ship, cal, fs_tables=fs_tables, estimator="task1"),
             "race_state_no_cover": run(key, m, f_ship, cal, fs_tables=fs_tables, race_state_cover=False),
             "race_state_lead_lap_value": run(key, m, f_ship, cal, fs_tables=fs_tables,
                                              race_state=dataclasses.replace(rs_c, place_gap_s=rs_c.place_gap_lead_lap_s)),
