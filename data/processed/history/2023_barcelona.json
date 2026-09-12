@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2023,
  "circuit": "Barcelona",
  "event": "Spanish Grand Prix",
@@ -16,7 +17,23 @@
   "S-S-H": 2,
   "S-H-H": 2,
   "S-M-S": 2,
-  "S-M-H-M": 2
+  "S-M-H-M": 2,
+  "M-H-S": 2,
+  "H-S-H": 1,
+  "H-M-S": 1,
+  "M-H-H": 1
+ },
+ "starts": {
+  "SOFT": 15,
+  "MEDIUM": 3,
+  "HARD": 2
+ },
+ "first_stop": {
+  "median_lap": 16.0,
+  "p25": 10.0,
+  "p75": 19.75,
+  "n": 20,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -48,22 +65,41 @@
   "HARD": {
    "slope": 0.042508278074261885,
    "se": 0.003341098595473332,
-   "n_laps": 509
+   "n_laps": 509,
+   "offset_s": -0.13965304121951316,
+   "offset_se": 0.10758460004752317
   },
   "MEDIUM": {
    "slope": 0.05242167663510933,
    "se": 0.004565484985345286,
-   "n_laps": 374
+   "n_laps": 374,
+   "offset_s": -0.1604131289597701,
+   "offset_se": 0.13444048425839922
   },
   "SOFT": {
    "slope": 0.040165758844091126,
    "se": 0.006834895038993963,
-   "n_laps": 324
+   "n_laps": 324,
+   "offset_s": 0.0,
+   "offset_se": 0.1521476004896924
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.055032350919588,
+  "pace_step_se": 0.13132168820682402,
+  "deg_ratio": 0.9887676569113827,
+  "n_pairs": 2
+ },
+ "net_step": {
+  "step_s": -0.041783759941342424,
+  "se": 0.13102208117351782,
+  "n_stints": 61,
+  "median_stint_laps": 20.0
  },
  "pit_loss_s": 23.86100000000002,
  "n_pit_stops": 43,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 31.75,
+ "air_temp_c": 22.2,
  "rain": false
 }

@@ -63,31 +63,52 @@ def _plans_sig(plans: list) -> str:
     return json.dumps(plans, sort_keys=True, default=str)
 
 
+def desk_terms(outlook: dict | None) -> dict:
+    """The position and plan-prior terms the outlook's search used, so a plan
+    built by hand on the desk is priced exactly as the optimiser priced its own."""
+    o = outlook or {}
+    cal = o.get("calibration") or {}
+    pp = o.get("plan_prior") or {}
+    return {"undercut_lambda": float(cal.get("undercut_lambda", 0.0) or 0.0),
+            "plan_prior_tau_s": float(cal.get("plan_prior_tau_s", 0.0) or 0.0),
+            "plan_prior": ({"sequences": pp.get("sequences") or {}, "starts": pp.get("starts") or {},
+                            "stops": {}, "n": int(pp.get("n") or 0), "source": pp.get("source")} if pp.get("n") else None),
+            "traffic_s_per_lap": float(cal.get("dirty_air_s_per_lap", 0.45) or 0.45),
+            "grid_penalty_s": float(cal.get("grid_start_penalty_s", 1.0) if cal.get("grid_start_penalty_s") is not None else 1.0)}
+
+
+def _eval_terms(terms_json: str) -> dict:
+    return json.loads(terms_json) if terms_json else {}
+
+
 @st.cache_data(show_spinner=False)
 def _evaluate(key: str, mtime: float, plans_json: str, deg_mult: float, pit_loss: float, sc_mult: float,
-              alloc_json: str, caps_json: str):
+              alloc_json: str, caps_json: str, terms_json: str = ""):
     model = _model_cached(key, mtime)
     ev = get_event(key)
     plans = json.loads(plans_json)
     tbl, det = strat.evaluate_plans(strat.scale_model(model, deg_mult), ev, plans, pit_loss,
                                     sc_rate=SC_RATE_PER_LAP * sc_mult, allocation=json.loads(alloc_json),
-                                    stint_cap=json.loads(caps_json))
+                                    stint_cap=json.loads(caps_json), **_eval_terms(terms_json))
     return tbl, det
 
 
 @st.cache_data(show_spinner=False)
-def _playbook(key: str, mtime: float, plan_json: str, deg_mult: float, pit_loss: float, alloc_json: str, caps_json: str):
+def _playbook(key: str, mtime: float, plan_json: str, deg_mult: float, pit_loss: float, alloc_json: str, caps_json: str,
+              terms_json: str = ""):
     model = _model_cached(key, mtime)
     ev = get_event(key)
     plan = json.loads(plan_json)
+    terms = _eval_terms(terms_json)
     pb = strat.sc_playbook(strat.scale_model(model, deg_mult), ev, plan, pit_loss, push=plan.get("push"),
-                           allocation=json.loads(alloc_json), stint_cap=json.loads(caps_json))
+                           allocation=json.loads(alloc_json), stint_cap=json.loads(caps_json),
+                           traffic_s_per_lap=terms.get("traffic_s_per_lap", 0.45))
     return pb, strat.playbook_ranges(pb)
 
 
 @st.cache_data(show_spinner=False)
 def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_loss: float,
-                  alloc_json: str, caps_json: str):
+                  alloc_json: str, caps_json: str, terms_json: str = ""):
     """Windows, switch triggers, undercut exposure and the expected wear at each stop."""
     model = _model_cached(key, mtime)
     ev = get_event(key)
@@ -95,20 +116,23 @@ def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_
     others = json.loads(others_json)
     caps = json.loads(caps_json)
     alloc = json.loads(alloc_json)
+    terms = _eval_terms(terms_json)
     push = plan.get("push")
-    tbl, det = strat.evaluate_plans(model, ev, [plan], pit_loss, allocation=alloc, stint_cap=caps)
+    tbl, det = strat.evaluate_plans(model, ev, [plan], pit_loss, allocation=alloc, stint_cap=caps, **terms)
     d = det[0]
     if not d.get("valid"):
         return None
     p_use = float(d["push"])
     pw = strat.pit_window_model(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"], "push": p_use},
-                                pit_loss, max_stint=(caps or None), push=p_use)
+                                pit_loss, max_stint=(caps or None), push=p_use,
+                                undercut_lambda=terms.get("undercut_lambda", 0.0),
+                                traffic_s_per_lap=terms.get("traffic_s_per_lap", 0.45))
     windows = strat.windows_from_sweep(pw, plan)
     switches = []
     for o in others:
         cx = strat.deg_crossover(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"]},
                                  {"compounds": o["compounds"], "pit_laps": o["pit_laps"]}, pit_loss,
-                                 allocation=alloc, stint_cap=caps)
+                                 allocation=alloc, stint_cap=caps, **terms)
         base = next((c for c in cx.get("curve", []) if abs(c["mult"] - 1.0) < 1e-9), None)
         switches.append({"label": o.get("label", plan_store.short_label(o["compounds"], o["pit_laps"])),
                          "mult": cx.get("mult"), "direction": cx.get("direction"),
@@ -207,6 +231,7 @@ def render_desk(key: str, ev, outlook: dict | None, T: dict, ccol, chip, callout
     alloc = outlook.get("allocation") or {}
     caps = outlook.get("stint_cap") or {}
     alloc_json, caps_json = json.dumps(alloc), json.dumps(caps)
+    terms_json = json.dumps(desk_terms(outlook), sort_keys=True, default=str)
     comps = [c for c in ("SOFT", "MEDIUM", "HARD") if c in model.compounds]
     pit_base = float(outlook.get("pit_loss_s", 22.0))
     beta = float((outlook.get("thermal") or {}).get("beta_per_c", 0.025))
@@ -266,7 +291,7 @@ def render_desk(key: str, ev, outlook: dict | None, T: dict, ccol, chip, callout
                          f"at {beta:+.3f}/°C · pit {pit_base + pit_delta:.1f} s"), unsafe_allow_html=True)
     pit_loss = pit_base + pit_delta
     tbl, det = _evaluate(key, mtime, _plans_sig(plans), float(deg_mult), float(pit_loss), float(sc_mult),
-                         alloc_json, caps_json)
+                         alloc_json, caps_json, terms_json)
     valid = [d for d in det if d.get("valid")]
     if not valid:
         callout("None of the plans is valid: stop laps must be in order, one fewer than the stints.", "bad")
@@ -394,7 +419,8 @@ def render_desk(key: str, ev, outlook: dict | None, T: dict, ccol, chip, callout
     pick = st.selectbox("For plan", labels, key=f"desk_{key}_pb_plan")
     dsel = next(d for d in valid if d["label"] == pick)
     plan_sel = {"compounds": dsel["compounds"], "pit_laps": dsel["pit_laps"], "push": float(dsel["push"])}
-    pb, ranges = _playbook(key, mtime, json.dumps(plan_sel), float(deg_mult), float(pit_loss), alloc_json, caps_json)
+    pb, ranges = _playbook(key, mtime, json.dumps(plan_sel), float(deg_mult), float(pit_loss), alloc_json, caps_json,
+                           terms_json)
     if pb.empty:
         st.info("No playbook: the plan leaves no lap on which a stop is possible.")
     else:
@@ -442,7 +468,8 @@ def render_desk(key: str, ev, outlook: dict | None, T: dict, ccol, chip, callout
         plan_card["push"] = float(dcard["push"])
     others = [{"compounds": d["compounds"], "pit_laps": d["pit_laps"], "label": d["label"].split(" · ")[1]}
               for d in valid if d["label"] != card_pick]
-    nums = _card_numbers(key, mtime, json.dumps(plan_card), json.dumps(others), float(pit_base), alloc_json, caps_json)
+    nums = _card_numbers(key, mtime, json.dumps(plan_card), json.dumps(others), float(pit_base), alloc_json, caps_json,
+                         terms_json)
     if nums is None:
         st.info("The chosen plan is not valid.")
         return

@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2023,
  "circuit": "Monza",
  "event": "Italian Grand Prix",
@@ -15,6 +16,17 @@
   "M-H-M": 5,
   "H-M": 2,
   "H-M-M": 1
+ },
+ "starts": {
+  "MEDIUM": 15,
+  "HARD": 3
+ },
+ "first_stop": {
+  "median_lap": 19.5,
+  "p25": 14.0,
+  "p75": 21.0,
+  "n": 18,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -38,17 +50,34 @@
   "HARD": {
    "slope": 0.06275320236167786,
    "se": 0.0032990696571337476,
-   "n_laps": 474
+   "n_laps": 474,
+   "offset_s": -0.1456378918463881,
+   "offset_se": 0.08763444185716077
   },
   "MEDIUM": {
    "slope": 0.05321196665162958,
    "se": 0.005466788296075195,
-   "n_laps": 404
+   "n_laps": 404,
+   "offset_s": 0.0,
+   "offset_se": 0.12393381620539319
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.1456378918463881,
+  "pace_step_se": 0.1517873057895431,
+  "deg_ratio": 0.8479561942503364,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": 0.18810468349702347,
+  "se": 0.1454715645745861,
+  "n_stints": 44,
+  "median_stint_laps": 19.0
  },
  "pit_loss_s": 25.293000000000006,
  "n_pit_stops": 25,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 43.0,
+ "air_temp_c": 29.3,
  "rain": false
 }

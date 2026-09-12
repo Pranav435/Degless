@@ -29,20 +29,15 @@
   "TSU",
   "VER"
  ],
- "corners": [
-  4,
-  5,
-  8,
-  9
- ],
+ "corners": [],
  "w": 1.5,
- "use_hinge": true,
+ "use_hinge": false,
  "n_laps": 262,
- "n_apex": 1048,
- "max_rhat": 1.0023934088494828,
+ "n_apex": 0,
+ "max_rhat": 1.0051202422053567,
  "n_divergences": 0,
  "prior_label": "2026 physics",
- "compound_prior_label": "2026 compound ladder",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
  "event_key": "italy-2026",
  "converged": true
 }

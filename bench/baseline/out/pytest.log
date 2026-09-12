@@ -1,0 +1,22 @@
+....................                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_live.py::test_state_matches_fastf1[session_dir0-13-Practice 2-0.995]
+tests/test_live.py::test_state_matches_fastf1[session_dir1-11-Race-0.97]
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:1474: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    data.loc[mask, 'PitOutTime'] = np.timedelta64("NaT")
+
+tests/test_live.py: 44 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:2155: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    pd.Timedelta(0), *stint_split_times, pd.Timedelta(days=1)
+
+tests/test_live.py: 22 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:1557: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    laps_start_time.insert(0, np.timedelta64("NaT"))
+
+tests/test_live.py: 10 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/pandas/core/internals/concat.py:510: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    return dtype.type("NaT")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+20 passed, 78 warnings in 97.46s (0:01:37)
+exit 0

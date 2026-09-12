@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2023,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -16,6 +17,18 @@
   "H-M-S": 1,
   "S-H": 1,
   "H-M-H": 1
+ },
+ "starts": {
+  "MEDIUM": 9,
+  "HARD": 6,
+  "SOFT": 1
+ },
+ "first_stop": {
+  "median_lap": 8.0,
+  "p25": 8.0,
+  "p75": 8.0,
+  "n": 16,
+  "sc_share": 1.0
  },
  "compounds": {
   "HARD": {
@@ -47,17 +60,32 @@
   "HARD": {
    "slope": 0.0003042820572639604,
    "se": 0.020666604135355274,
-   "n_laps": 655
+   "n_laps": 655,
+   "offset_s": 0.9582432256319003,
+   "offset_se": 1.9279227465972002
   },
   "MEDIUM": {
    "slope": 0.06852161898149467,
    "se": 0.02521942037354893,
-   "n_laps": 93
+   "n_laps": 93,
+   "offset_s": 0.16474537012897617,
+   "offset_se": 1.9600379175618639
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.7934978555029242,
+  "pace_step_se": 2.7492971383841254
+ },
+ "net_step": {
+  "step_s": -0.7060242155752047,
+  "se": 0.15753637459984218,
+  "n_stints": 19,
+  "median_stint_laps": 40.0
  },
  "pit_loss_s": 21.35950000000001,
  "n_pit_stops": 2,
  "sc_share_of_laps": 0.034482758620689655,
  "track_temp_c": 30.95,
+ "air_temp_c": 17.5,
  "rain": false
 }

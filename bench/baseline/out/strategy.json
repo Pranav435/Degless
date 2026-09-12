@@ -1,0 +1,1151 @@
+{
+ "australia-2026": {
+  "recommended": "1-stop H-M @ 36",
+  "rec_stops": 1,
+  "rec_seq": "HARD-MEDIUM",
+  "rec_push": 1.0,
+  "n_classified": 15,
+  "field_stop_counts": {
+   "1": 8,
+   "2": 6,
+   "3": 1
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.5333333333333333,
+  "field_modal_seq": "MEDIUM-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD": 8,
+   "MEDIUM-HARD-SOFT": 2,
+   "MEDIUM-HARD-MEDIUM": 1,
+   "HARD-MEDIUM-HARD": 1,
+   "MEDIUM-HARD-HARD": 1,
+   "HARD-HARD-SOFT": 1
+  },
+  "rec_seq_share": 0.0,
+  "rec_seq_run_by_anyone": false,
+  "start_compound": "HARD",
+  "field_start_counts": {
+   "MEDIUM": 12,
+   "HARD": 2,
+   "SOFT": 1
+  },
+  "start_matches_majority": false,
+  "winner": "RUS",
+  "winner_seq": "MEDIUM-HARD",
+  "winner_stops": 1,
+  "winner_pits": [
+   12
+  ],
+  "stops_match_winner": true,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD-MEDIUM"
+  ],
+  "seq_in_top5": false,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 36,
+    "lo": 32,
+    "hi": 39,
+    "n_actual": 8,
+    "share_inside": 0.0,
+    "median_abs_err": 21.0,
+    "actual_median": 15.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 105.14048427410471,
+    "pred_knee_full_push": 105.14048427410471,
+    "obs_max": 46,
+    "obs_p90": 46.0,
+    "obs_median": 27.0,
+    "n_stints": 18
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 52.91258893099884,
+    "pred_knee_full_push": 52.91258893099884,
+    "obs_max": 28,
+    "obs_p90": 24.6,
+    "obs_median": 12.0,
+    "n_stints": 15
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 36.244138986092494,
+    "pred_knee_full_push": 36.244138986092494,
+    "obs_max": 24,
+    "obs_p90": 24.0,
+    "obs_median": 11.0,
+    "n_stints": 5
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0336,
+    "MEDIUM": 0.0249,
+    "SOFT": 0.0445
+   },
+   "oracle_best": "1-stop M-H @ 36",
+   "costs_s": {
+    "tool": 70.96599813902044,
+    "field_modal": 78.24051831391371,
+    "winner": 82.6146650674941,
+    "oracle_opt": 64.4333269754951
+   },
+   "regret_s": {
+    "tool": 6.53,
+    "field_modal": 13.81,
+    "winner": 18.18,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": true
+  },
+  "counterfactual": {
+   "n": 19,
+   "n_over_30s": 1,
+   "median_loss_s": 6.380650549950058,
+   "top": [
+    {
+     "driver": "ALO",
+     "compounds": "SOFT-SOFT-SOFT",
+     "loss_s": 210.0
+    },
+    {
+     "driver": "LAW",
+     "compounds": "MEDIUM-HARD-SOFT",
+     "loss_s": 15.9
+    },
+    {
+     "driver": "ALB",
+     "compounds": "MEDIUM-HARD-SOFT",
+     "loss_s": 15.8
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 20.07196044921875,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   },
+   "MEDIUM": {
+    "predicted_lap": 17.228370666503906,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   },
+   "SOFT": {
+    "predicted_lap": 14.983085632324219,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.31734968429423893,
+   "measured_net_step_s": 0.032615268357716734,
+   "stint_laps": 29.0
+  },
+  "gates_failed": [
+   "MixedLM MEDIUM slope in 0.12-0.35",
+   "Bayes vs MixedLM pooled degradation within 0.06 s/lap",
+   "practice->race regime transfer removes the bias",
+   "stint degradation-rate MAE < 0.15 s/lap",
+   "90% coverage not below 0.80 (under-coverage is the failure)",
+   "does not open the race on the hardest available compound",
+   "model reproduces the measured net stint-level compound step"
+  ]
+ },
+ "japan-2026": {
+  "recommended": "1-stop S-H @ 21",
+  "rec_stops": 1,
+  "rec_seq": "SOFT-HARD",
+  "rec_push": 0.7,
+  "n_classified": 20,
+  "field_stop_counts": {
+   "1": 18,
+   "2": 2
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.9,
+  "field_modal_seq": "MEDIUM-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD": 17,
+   "MEDIUM-HARD-MEDIUM": 2,
+   "HARD-MEDIUM": 1
+  },
+  "rec_seq_share": 0.0,
+  "rec_seq_run_by_anyone": false,
+  "start_compound": "SOFT",
+  "field_start_counts": {
+   "MEDIUM": 19,
+   "HARD": 1
+  },
+  "start_matches_majority": false,
+  "winner": "ANT",
+  "winner_seq": "MEDIUM-HARD",
+  "winner_stops": 1,
+  "winner_pits": [
+   22
+  ],
+  "stops_match_winner": true,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD"
+  ],
+  "seq_in_top5": false,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 21,
+    "lo": 18,
+    "hi": 22,
+    "n_actual": 18,
+    "share_inside": 0.7777777777777778,
+    "median_abs_err": 1.5,
+    "actual_median": 21.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 77.6560716895434,
+    "pred_knee_full_push": 58.23712465502667,
+    "obs_max": 37,
+    "obs_p90": 36.0,
+    "obs_median": 31.0,
+    "n_stints": 20
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 48.34096624057118,
+    "pred_knee_full_push": 36.25265630421605,
+    "obs_max": 33,
+    "obs_p90": 22.900000000000002,
+    "obs_median": 21.5,
+    "n_stints": 22
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0204,
+    "MEDIUM": 0.0592
+   },
+   "oracle_best": "1-stop H-M @ 36",
+   "costs_s": {
+    "field_modal": 66.70487687925234,
+    "winner": 67.04149099579179,
+    "oracle_opt": 65.52801535109664
+   },
+   "regret_s": {
+    "field_modal": 1.18,
+    "winner": 1.51,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": false,
+   "tool_beats_winner": false
+  },
+  "counterfactual": {
+   "n": 22,
+   "n_over_30s": 0,
+   "median_loss_s": 0.39218297693515064,
+   "top": [
+    {
+     "driver": "ALB",
+     "compounds": "MEDIUM-HARD-SOFT-SOFT-SOFT-SOFT-MEDIUM",
+     "loss_s": 27.4
+    },
+    {
+     "driver": "ALO",
+     "compounds": "MEDIUM-HARD-MEDIUM",
+     "loss_s": 18.7
+    },
+    {
+     "driver": "STR",
+     "compounds": "MEDIUM-HARD-MEDIUM",
+     "loss_s": 16.6
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 22.96388816833496,
+    "observed_lap": 9.0,
+    "error_laps": 13.963888168334961,
+    "detected": true
+   },
+   "MEDIUM": {
+    "predicted_lap": 19.72096824645996,
+    "observed_lap": 22.0,
+    "error_laps": 2.279031753540039,
+    "detected": true
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.05800181430515955,
+   "measured_net_step_s": 0.10974731045013134,
+   "stint_laps": 26.5
+  },
+  "gates_failed": [
+   "MixedLM MEDIUM slope in 0.12-0.35",
+   "model reproduces the measured net stint-level compound step",
+   "every recommended stint length is one the compound was run to"
+  ]
+ },
+ "barcelona-2026": {
+  "recommended": "2-stop M-H-H @ 19,43",
+  "rec_stops": 2,
+  "rec_seq": "MEDIUM-HARD-HARD",
+  "rec_push": 0.55,
+  "n_classified": 13,
+  "field_stop_counts": {
+   "2": 7,
+   "3": 6
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.5384615384615384,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD-HARD": 6,
+   "MEDIUM-HARD-HARD-SOFT": 2,
+   "SOFT-HARD-MEDIUM-HARD": 1,
+   "SOFT-MEDIUM-HARD-MEDIUM": 1,
+   "SOFT-HARD-HARD": 1,
+   "SOFT-HARD-HARD-MEDIUM": 1
+  },
+  "rec_seq_share": 0.46153846153846156,
+  "rec_seq_run_by_anyone": true,
+  "start_compound": "MEDIUM",
+  "field_start_counts": {
+   "MEDIUM": 8,
+   "SOFT": 5
+  },
+  "start_matches_majority": true,
+  "winner": "HAM",
+  "winner_seq": "SOFT-HARD-MEDIUM-HARD",
+  "winner_stops": 3,
+  "winner_pits": [
+   11,
+   27,
+   41
+  ],
+  "stops_match_winner": false,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "SOFT-HARD-MEDIUM-HARD",
+   "MEDIUM-HARD-HARD",
+   "MEDIUM-HARD-HARD",
+   "SOFT-MEDIUM-HARD-MEDIUM",
+   "MEDIUM-HARD-HARD"
+  ],
+  "seq_in_top5": true,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 19,
+    "lo": 17,
+    "hi": 22,
+    "n_actual": 7,
+    "share_inside": 0.14285714285714285,
+    "median_abs_err": 6.0,
+    "actual_median": 13.0
+   },
+   {
+    "stop": 2,
+    "recommended": 43,
+    "lo": 40,
+    "hi": 45,
+    "n_actual": 7,
+    "share_inside": 0.14285714285714285,
+    "median_abs_err": 7.0,
+    "actual_median": 36.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 37.46250496397687,
+    "pred_knee_full_push": 24.31533211429481,
+    "obs_max": 31,
+    "obs_p90": 30.0,
+    "obs_median": 24.0,
+    "n_stints": 24
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 29.091076435724048,
+    "pred_knee_full_push": 18.88179089404585,
+    "obs_max": 26,
+    "obs_p90": 23.6,
+    "obs_median": 14.0,
+    "n_stints": 13
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 23.588955450357165,
+    "pred_knee_full_push": 15.310596196284116,
+    "obs_max": 14,
+    "obs_p90": 13.3,
+    "obs_median": 11.5,
+    "n_stints": 8
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.1105,
+    "MEDIUM": 0.1566,
+    "SOFT": 0.1722
+   },
+   "oracle_best": "2-stop S-H-H @ 17,41",
+   "costs_s": {
+    "tool": 157.88653876453265,
+    "field_modal": 161.70210880869553,
+    "winner": 163.32988079871006,
+    "oracle_opt": 156.5990278122369
+   },
+   "regret_s": {
+    "tool": 1.29,
+    "field_modal": 5.1,
+    "winner": 6.73,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": true
+  },
+  "counterfactual": {
+   "n": 21,
+   "n_over_30s": 2,
+   "median_loss_s": 5.9702710321262025,
+   "top": [
+    {
+     "driver": "BOT",
+     "compounds": "MEDIUM-HARD",
+     "loss_s": 59.4
+    },
+    {
+     "driver": "HUL",
+     "compounds": "SOFT-HARD",
+     "loss_s": 58.2
+    },
+    {
+     "driver": "ALO",
+     "compounds": "HARD-HARD",
+     "loss_s": 20.4
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 19.941495895385742,
+    "observed_lap": 16.0,
+    "error_laps": 3.941495895385742,
+    "detected": true
+   },
+   "MEDIUM": {
+    "predicted_lap": 16.638120651245117,
+    "observed_lap": 19.0,
+    "error_laps": 2.361879348754883,
+    "detected": true
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.1832604042879029,
+   "measured_net_step_s": 0.08393387295842142,
+   "stint_laps": 23.0
+  },
+  "gates_failed": [
+   "model reproduces the measured net stint-level compound step"
+  ]
+ },
+ "austria-2026": {
+  "recommended": "2-stop M-H-H @ 23,47",
+  "rec_stops": 2,
+  "rec_seq": "MEDIUM-HARD-HARD",
+  "rec_push": 0.55,
+  "n_classified": 17,
+  "field_stop_counts": {
+   "2": 14,
+   "3": 3
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.8235294117647058,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD-HARD": 5,
+   "MEDIUM-MEDIUM-HARD": 4,
+   "MEDIUM-HARD-MEDIUM": 4,
+   "MEDIUM-HARD-SOFT-HARD": 1,
+   "MEDIUM-HARD-HARD-SOFT": 1,
+   "SOFT-MEDIUM-HARD": 1
+  },
+  "rec_seq_share": 0.29411764705882354,
+  "rec_seq_run_by_anyone": true,
+  "start_compound": "MEDIUM",
+  "field_start_counts": {
+   "MEDIUM": 16,
+   "SOFT": 1
+  },
+  "start_matches_majority": true,
+  "winner": "RUS",
+  "winner_seq": "MEDIUM-HARD-HARD",
+  "winner_stops": 2,
+  "winner_pits": [
+   19,
+   43
+  ],
+  "stops_match_winner": true,
+  "seq_match_winner": true,
+  "top5_seqs": [
+   "MEDIUM-HARD-HARD",
+   "MEDIUM-HARD-HARD",
+   "MEDIUM-HARD-HARD",
+   "MEDIUM-HARD-HARD",
+   "MEDIUM-HARD-SOFT-HARD"
+  ],
+  "seq_in_top5": true,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 23,
+    "lo": 20,
+    "hi": 26,
+    "n_actual": 14,
+    "share_inside": 0.35714285714285715,
+    "median_abs_err": 4.0,
+    "actual_median": 19.0
+   },
+   {
+    "stop": 2,
+    "recommended": 47,
+    "lo": 44,
+    "hi": 50,
+    "n_actual": 14,
+    "share_inside": 0.5714285714285714,
+    "median_abs_err": 2.5,
+    "actual_median": 45.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 52.205843262437725,
+    "pred_knee_full_push": 33.884611252067174,
+    "obs_max": 36,
+    "obs_p90": 31.0,
+    "obs_median": 26.0,
+    "n_stints": 24
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 45.91526187670692,
+    "pred_knee_full_push": 29.801660159151048,
+    "obs_max": 27,
+    "obs_p90": 24.5,
+    "obs_median": 19.0,
+    "n_stints": 26
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 37.013442173115706,
+    "pred_knee_full_push": 24.023864394491742,
+    "obs_max": 19,
+    "obs_p90": 18.4,
+    "obs_median": 17.0,
+    "n_stints": 4
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0783,
+    "MEDIUM": 0.0703,
+    "SOFT": 0.0504
+   },
+   "oracle_best": "2-stop S-M-S @ 18,53",
+   "costs_s": {
+    "tool": 125.23982460577669,
+    "field_modal": 128.11367654537548,
+    "winner": 128.13372126268166,
+    "oracle_opt": 107.19719558735146
+   },
+   "regret_s": {
+    "tool": 18.04,
+    "field_modal": 20.92,
+    "winner": 20.94,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": true
+  },
+  "counterfactual": {
+   "n": 20,
+   "n_over_30s": 1,
+   "median_loss_s": 1.3275184177912789,
+   "top": [
+    {
+     "driver": "SAI",
+     "compounds": "SOFT-MEDIUM",
+     "loss_s": 47.2
+    },
+    {
+     "driver": "STR",
+     "compounds": "MEDIUM-SOFT",
+     "loss_s": 27.9
+    },
+    {
+     "driver": "OCO",
+     "compounds": "MEDIUM-MEDIUM-HARD",
+     "loss_s": 9.9
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 19.863842010498047,
+    "observed_lap": 26.0,
+    "error_laps": 6.136157989501953,
+    "detected": true
+   },
+   "MEDIUM": {
+    "predicted_lap": 16.731365203857422,
+    "observed_lap": 19.0,
+    "error_laps": 2.268634796142578,
+    "detected": true
+   },
+   "SOFT": {
+    "predicted_lap": 14.204291343688965,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.06436536208655402,
+   "measured_net_step_s": 0.0747964730030953,
+   "stint_laps": 24.0
+  },
+  "gates_failed": [
+   "model reproduces the measured net stint-level compound step"
+  ]
+ },
+ "belgium-2026": {
+  "recommended": "1-stop S-M @ 24",
+  "rec_stops": 1,
+  "rec_seq": "SOFT-MEDIUM",
+  "rec_push": 0.55,
+  "n_classified": 19,
+  "field_stop_counts": {
+   "1": 18,
+   "2": 1
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.9473684210526315,
+  "field_modal_seq": "MEDIUM-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD": 11,
+   "HARD-HARD": 3,
+   "MEDIUM-SOFT": 1,
+   "HARD-MEDIUM": 1,
+   "SOFT-HARD": 1,
+   "HARD-SOFT": 1
+  },
+  "rec_seq_share": 0.0,
+  "rec_seq_run_by_anyone": false,
+  "start_compound": "SOFT",
+  "field_start_counts": {
+   "MEDIUM": 12,
+   "HARD": 6,
+   "SOFT": 1
+  },
+  "start_matches_majority": false,
+  "winner": "ANT",
+  "winner_seq": "MEDIUM-SOFT",
+  "winner_stops": 1,
+  "winner_pits": [
+   18
+  ],
+  "stops_match_winner": true,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "MEDIUM-SOFT",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD"
+  ],
+  "seq_in_top5": false,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 24,
+    "lo": 21,
+    "hi": 27,
+    "n_actual": 18,
+    "share_inside": 0.0,
+    "median_abs_err": 6.0,
+    "actual_median": 19.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 50.747605041383096,
+    "pred_knee_full_push": 32.93813031917717,
+    "obs_max": 31,
+    "obs_p90": 30.0,
+    "obs_median": 24.0,
+    "n_stints": 22
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 41.86130428515115,
+    "pred_knee_full_push": 27.170407248788244,
+    "obs_max": 20,
+    "obs_p90": 20.0,
+    "obs_median": 18.0,
+    "n_stints": 13
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 44.691951517409514,
+    "pred_knee_full_push": 29.00766099401845,
+    "obs_max": 26,
+    "obs_p90": 22.400000000000002,
+    "obs_median": 13.0,
+    "n_stints": 4
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0357,
+    "MEDIUM": 0.1166,
+    "SOFT": 0.0517
+   },
+   "oracle_best": "1-stop S-H @ 23",
+   "costs_s": {
+    "tool": 65.60149928139434,
+    "field_modal": 72.12410714643042,
+    "winner": 65.4984679904565,
+    "oracle_opt": 54.780413642712446
+   },
+   "regret_s": {
+    "tool": 10.82,
+    "field_modal": 17.34,
+    "winner": 10.72,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": false
+  },
+  "counterfactual": {
+   "n": 21,
+   "n_over_30s": 0,
+   "median_loss_s": 2.6110437823389945,
+   "top": [
+    {
+     "driver": "BOT",
+     "compounds": "SOFT-HARD-SOFT",
+     "loss_s": 24.8
+    },
+    {
+     "driver": "PER",
+     "compounds": "HARD-SOFT-HARD",
+     "loss_s": 20.4
+    },
+    {
+     "driver": "HAD",
+     "compounds": "HARD-MEDIUM-HARD-HARD",
+     "loss_s": 17.3
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 19.84044647216797,
+    "observed_lap": 15.0,
+    "error_laps": 4.840446472167969,
+    "detected": true
+   },
+   "MEDIUM": {
+    "predicted_lap": 16.42760467529297,
+    "observed_lap": 8.0,
+    "error_laps": 8.427604675292969,
+    "detected": true
+   },
+   "SOFT": {
+    "predicted_lap": 13.079195022583008,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": 0.22884023160501754,
+   "measured_net_step_s": 0.08105967076208373,
+   "stint_laps": 22.0
+  },
+  "gates_failed": [
+   "clean laps in 120-320",
+   "compound ladder ordered (softer = quicker and higher deg)",
+   "model reproduces the measured net stint-level compound step"
+  ]
+ },
+ "hungary-2026": {
+  "recommended": "2-stop M-H-M @ 23,47",
+  "rec_stops": 2,
+  "rec_seq": "MEDIUM-HARD-MEDIUM",
+  "rec_push": 0.7,
+  "n_classified": 19,
+  "field_stop_counts": {
+   "2": 12,
+   "3": 5,
+   "1": 2
+  },
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.631578947368421,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD-HARD": 6,
+   "MEDIUM-HARD-SOFT": 4,
+   "MEDIUM-HARD-HARD-SOFT": 2,
+   "SOFT-HARD-HARD-SOFT": 2,
+   "SOFT-MEDIUM-SOFT": 2,
+   "MEDIUM-HARD": 1
+  },
+  "rec_seq_share": 0.0,
+  "rec_seq_run_by_anyone": false,
+  "start_compound": "MEDIUM",
+  "field_start_counts": {
+   "MEDIUM": 13,
+   "SOFT": 6
+  },
+  "start_matches_majority": true,
+  "winner": "NOR",
+  "winner_seq": "MEDIUM-HARD-HARD-SOFT",
+  "winner_stops": 3,
+  "winner_pits": [
+   17,
+   39,
+   56
+  ],
+  "stops_match_winner": false,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "MEDIUM-HARD-HARD-SOFT",
+   "MEDIUM-HARD-SOFT",
+   "MEDIUM-HARD-HARD",
+   "SOFT-HARD-HARD-SOFT",
+   "SOFT-HARD-HARD-SOFT"
+  ],
+  "seq_in_top5": false,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 23,
+    "lo": 20,
+    "hi": 26,
+    "n_actual": 12,
+    "share_inside": 0.3333333333333333,
+    "median_abs_err": 4.0,
+    "actual_median": 20.0
+   },
+   {
+    "stop": 2,
+    "recommended": 47,
+    "lo": 44,
+    "hi": 50,
+    "n_actual": 12,
+    "share_inside": 0.0,
+    "median_abs_err": 7.0,
+    "actual_median": 42.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 55.92952293759749,
+    "pred_knee_full_push": 41.943592153807415,
+    "obs_max": 49,
+    "obs_p90": 32.0,
+    "obs_median": 22.5,
+    "n_stints": 26
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 48.52604167085968,
+    "pred_knee_full_push": 36.39145112952456,
+    "obs_max": 29,
+    "obs_p90": 26.5,
+    "obs_median": 20.5,
+    "n_stints": 16
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 35.811616568250926,
+    "pred_knee_full_push": 26.85643933317933,
+    "obs_max": 34,
+    "obs_p90": 30.6,
+    "obs_median": 14.0,
+    "n_stints": 18
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0824,
+    "MEDIUM": 0.0648,
+    "SOFT": 0.0475
+   },
+   "oracle_best": "2-stop S-M-M @ 19,45",
+   "costs_s": {
+    "tool": 119.0980074626018,
+    "field_modal": 130.71795688573354,
+    "winner": 129.92545640734102,
+    "oracle_opt": 103.2416786332671
+   },
+   "regret_s": {
+    "tool": 15.86,
+    "field_modal": 27.48,
+    "winner": 26.68,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": true
+  },
+  "counterfactual": {
+   "n": 21,
+   "n_over_30s": 0,
+   "median_loss_s": 4.029077492899068,
+   "top": [
+    {
+     "driver": "ALO",
+     "compounds": "SOFT-MEDIUM-SOFT",
+     "loss_s": 17.7
+    },
+    {
+     "driver": "STR",
+     "compounds": "SOFT-MEDIUM-SOFT",
+     "loss_s": 15.0
+    },
+    {
+     "driver": "LIN",
+     "compounds": "MEDIUM-HARD",
+     "loss_s": 12.7
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 25.160947799682617,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   },
+   "MEDIUM": {
+    "predicted_lap": 21.745134353637695,
+    "observed_lap": 13.0,
+    "error_laps": 8.745134353637695,
+    "detected": true
+   },
+   "SOFT": {
+    "predicted_lap": 18.512680053710938,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.10789701200678112,
+   "measured_net_step_s": 0.09797670554041163,
+   "stint_laps": 23.0
+  },
+  "gates_failed": [
+   "model reproduces the measured net stint-level compound step"
+  ]
+ },
+ "italy-2026": {
+  "recommended": "1-stop M-H @ 23",
+  "rec_stops": 1,
+  "rec_seq": "MEDIUM-HARD",
+  "rec_push": 1.0,
+  "n_classified": 19,
+  "field_stop_counts": {
+   "1": 10,
+   "2": 9
+  },
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.5263157894736842,
+  "field_modal_seq": "MEDIUM-HARD",
+  "field_seq_counts": {
+   "MEDIUM-HARD": 6,
+   "SOFT-MEDIUM": 2,
+   "MEDIUM-HARD-MEDIUM": 2,
+   "SOFT-HARD-MEDIUM": 2,
+   "HARD-MEDIUM-MEDIUM": 1,
+   "SOFT-MEDIUM-HARD": 1
+  },
+  "rec_seq_share": 0.3157894736842105,
+  "rec_seq_run_by_anyone": true,
+  "start_compound": "MEDIUM",
+  "field_start_counts": {
+   "MEDIUM": 9,
+   "SOFT": 8,
+   "HARD": 2
+  },
+  "start_matches_majority": true,
+  "winner": "ANT",
+  "winner_seq": "HARD-MEDIUM-MEDIUM",
+  "winner_stops": 2,
+  "winner_pits": [
+   3,
+   28
+  ],
+  "stops_match_winner": false,
+  "seq_match_winner": false,
+  "top5_seqs": [
+   "HARD-MEDIUM-MEDIUM",
+   "MEDIUM-HARD",
+   "SOFT-MEDIUM-HARD",
+   "MEDIUM-HARD",
+   "MEDIUM-HARD"
+  ],
+  "seq_in_top5": true,
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 23,
+    "lo": 20,
+    "hi": 26,
+    "n_actual": 10,
+    "share_inside": 0.0,
+    "median_abs_err": 20.0,
+    "actual_median": 3.0
+   }
+  ],
+  "life": [
+   {
+    "compound": "HARD",
+    "pred_life_at_push": 92.59006374799846,
+    "pred_knee_full_push": 92.59006374799846,
+    "obs_max": 50,
+    "obs_p90": 50.0,
+    "obs_median": 43.0,
+    "n_stints": 15
+   },
+   {
+    "compound": "MEDIUM",
+    "pred_life_at_push": 55.07361496052434,
+    "pred_knee_full_push": 55.07361496052434,
+    "obs_max": 50,
+    "obs_p90": 50.0,
+    "obs_median": 25.0,
+    "n_stints": 21
+   },
+   {
+    "compound": "SOFT",
+    "pred_life_at_push": 44.60418070050425,
+    "pred_knee_full_push": 44.60418070050425,
+    "obs_max": 24,
+    "obs_p90": 24.0,
+    "obs_median": 3.0,
+    "n_stints": 11
+   }
+  ],
+  "oracle": {
+   "rates": {
+    "HARD": 0.0039,
+    "MEDIUM": 0.0106,
+    "SOFT": 0.0826
+   },
+   "oracle_best": "1-stop M-H @ 35",
+   "costs_s": {
+    "tool": 53.753246746760034,
+    "field_modal": 63.14074406064926,
+    "winner": 82.82876934332282,
+    "oracle_opt": 52.24986719113469
+   },
+   "regret_s": {
+    "tool": 1.5,
+    "field_modal": 10.89,
+    "winner": 30.58,
+    "oracle_opt": 0.0
+   },
+   "tool_beats_field_modal": true,
+   "tool_beats_winner": true
+  },
+  "counterfactual": {
+   "n": 21,
+   "n_over_30s": 13,
+   "median_loss_s": 34.38130835278707,
+   "top": [
+    {
+     "driver": "ALO",
+     "compounds": "HARD-SOFT",
+     "loss_s": 158.3
+    },
+    {
+     "driver": "TSU",
+     "compounds": "HARD-MEDIUM",
+     "loss_s": 66.3
+    },
+    {
+     "driver": "BOR",
+     "compounds": "SOFT-MEDIUM",
+     "loss_s": 56.6
+    }
+   ]
+  },
+  "cliff": {
+   "HARD": {
+    "predicted_lap": 22.210922241210938,
+    "observed_lap": 33.0,
+    "error_laps": 10.789077758789062,
+    "detected": true
+   },
+   "MEDIUM": {
+    "predicted_lap": 18.850643157958984,
+    "observed_lap": 6.0,
+    "error_laps": 12.850643157958984,
+    "detected": true
+   },
+   "SOFT": {
+    "predicted_lap": 15.832010269165039,
+    "observed_lap": NaN,
+    "error_laps": NaN,
+    "detected": false
+   }
+  },
+  "ladder_check": {
+   "model_net_step_s": -0.07446535868382095,
+   "measured_net_step_s": 0.08002155017864336,
+   "stint_laps": 26.5
+  },
+  "gates_failed": [
+   "MixedLM MEDIUM slope in 0.12-0.35",
+   "Bayes vs MixedLM pooled degradation within 0.06 s/lap",
+   "practice->race regime transfer removes the bias",
+   "stint degradation-rate MAE < 0.15 s/lap",
+   "90% coverage not below 0.80 (under-coverage is the failure)",
+   "model reproduces the measured net stint-level compound step"
+  ]
+ }
+}

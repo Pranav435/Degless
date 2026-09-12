@@ -12,24 +12,34 @@ turbulence, and is working to a fuel and energy-deployment plan.  Every one of
 those reduces the energy going through the contact patch, and degradation is
 driven by exactly that energy.
 
-Measured here, with the same stint-fixed-effects estimator applied to both
-sessions:
+Measured with the same stint-fixed-effects estimator applied to both sessions,
+the race/practice ratio on the seven scored 2026 weekends runs 0.32 (Belgium)
+to 0.81 (Italy).  Pooled as one geometric mean it transferred 0.50-0.60 to
+every weekend and sat below the self-measured value on six of seven, with a
+mean absolute log error of 0.31 (+/-36%).  It is not a constant across
+circuits, and part of the reason is visible in the weather: the practice long
+runs and the race are run at different track temperatures, and degradation
+is thermally sensitive at +2.5% per degree (`history.thermal_sensitivity`,
+fitted on 99 circuit-compound-years of the archive).
 
-    Barcelona 2026    practice          race           race/practice
-      SOFT            +0.261 s/lap      +0.124 s/lap       0.47
-      MEDIUM          +0.295 s/lap      +0.087 s/lap       0.29
-                                        pooled             0.37
+**The transfer is now modelled, not pooled.**  For every donor weekend
 
-Left uncorrected, a 3x overstatement of degradation raises the cumulative cost
-of a stint quadratically in its length while pit loss stays flat, so the
-optimiser answers by pitting as early as the rules allow and taking the maximum
-number of stops.  That is precisely the failure this module removes.
+    log(ratio_w) = log(r0) + beta * (T_race_w - T_practice_w) + e_w
+
+with `beta` the measured thermal sensitivity, so what is pooled across donors
+is the temperature-corrected residual `log(r0)` - the management part - and
+it is pooled with the **median**, so one Belgium cannot drag every other
+weekend 15-30% low.  For the target weekend the practice temperature is
+measured from the sessions that supplied the long runs, and the race
+temperature is a *forecast*: the mean of the circuit's own race-day track
+temperatures in the archive, with the spread of those years added to the
+uncertainty.  A weather forecast can be passed in on the day instead.
 
 **The firewall still holds.**  The factor for a weekend is measured from *other*
-weekends' races and never from the target weekend's — the same thing a race
-team does when it carries a correlation offset from the last round.  For the
-first weekend of a season, with no donor race available, the module falls back
-to a documented default with a wide credible interval, and says so.
+weekends' races and never from the target weekend's; the target's own race
+temperature is never read.  For the first weekend of a season, with no donor
+race available, the module falls back to a documented default with a wide
+credible interval, and says so.
 
 The factor is returned as a *distribution*, not a point estimate, so the extra
 uncertainty it introduces widens the strategy answer honestly instead of being
@@ -61,6 +71,8 @@ log = logging.getLogger("degless.regime")
 MIN_STINT_LAPS_FOR_RATE = 6
 SLOW_LAP_MARGIN_S = 2.5  # tighter than the practice cascade: races have traffic
 REGIME_RATIO_BAND = (0.05, 1.20)  # a donor ratio outside this is not believed
+REGIME_LN_SD_FLOOR = 0.15
+RACE_TEMP_FORECAST_SD_C = 4.0     # least uncertainty a race-day forecast from the archive carries
 
 
 # --------------------------------------------------------------------------
@@ -98,26 +110,19 @@ def _stint_fe_slope(df: pd.DataFrame, ycol: str) -> dict:
 def race_track_evolution(d: pd.DataFrame, ev: Event) -> pd.Series:
     """Track evolution during a race, in seconds, indexed like `d`.
 
-    **This function exists because its absence was the largest single error in
-    this project's math.**  The regime factor is a ratio of a practice
-    degradation slope to a race one, and the practice side has always had track
-    evolution removed (`src.evolution` backfits it).  The race side did not.
-    Within a stint, race lap and tyre age advance together, so an uncorrected
-    race slope absorbs the whole evolution drift and comes out biased low by
-    roughly that amount on every compound - measured at -0.087 s/lap at
-    Barcelona 2026 and -0.079 s/lap at Hungary 2026 after fuel correction.  At
-    Hungary that was enough to drive the measured race degradation *negative*
-    (SOFT -0.022 s/lap), which is not a thing tyres do.  Dividing a corrected
-    numerator by an uncorrected denominator gave 0.37 where the honest answer
-    is 0.57, and every downstream stint length inherited the error.
+    The regime factor is a ratio of a practice degradation slope to a race
+    one, and the practice side has always had track evolution removed
+    (`src.evolution` backfits it).  The race side must too: within a stint,
+    race lap and tyre age advance together, so an uncorrected race slope
+    absorbs the whole evolution drift and comes out biased low by roughly
+    that amount on every compound - measured at -0.087 s/lap at Barcelona
+    2026 and -0.079 s/lap at Hungary 2026 after fuel correction.
 
     Unlike a practice session, a race identifies evolution cleanly and needs no
     backfitting.  All cars run the same lap at the same moment but at
     *different tyre ages*, because they pit at different times, so a race-lap
     fixed effect and a tyre-age slope are separately identified from the
-    cross-section.  Measured on both 2026 weekends, 40-57% of the variance in
-    tyre age survives projecting out driver and lap effects, and the median
-    within-lap spread of tyre age is 3-7 laps: ample.
+    cross-section.
 
     The lap effect absorbs fuel burn as well as evolution, which is why `d["y"]`
     must be the *uncorrected* lap time here - correcting for fuel first and
@@ -288,6 +293,7 @@ class RegimeFactor:
     label: str = "default (no donor race)"
     derivation: str = ""
     donor_detail: list = field(default_factory=list)
+    temperature: dict = field(default_factory=dict)
 
     def draws(self, n: int, *, seed: int = 0) -> np.ndarray:
         """`n` LogNormal draws — the multiplier applied per posterior draw.
@@ -314,37 +320,53 @@ class RegimeFactor:
             "p05": self.p05, "p95": self.p95,
             "measured": bool(self.measured), "label": self.label,
             "sources": list(self.sources), "derivation": self.derivation,
-            "donors": list(self.donor_detail),
+            "donors": list(self.donor_detail), "temperature": dict(self.temperature),
         }
 
 
-def regime_prior(target: Event | str, *, donors: list | None = None) -> RegimeFactor:
-    """Pool the regime factor from every weekend *except* the target.
+def _donor_temps(ev: Event) -> tuple:
+    from src.history import practice_track_temp, race_track_temp
+    return practice_track_temp(ev), race_track_temp(ev)
+
+
+def regime_prior(target: Event | str, *, donors: list | None = None,
+                 race_temp_c: float | None = None, practice_temp_c: float | None = None,
+                 temperature_model: bool = True, clean: pd.DataFrame | None = None) -> RegimeFactor:
+    """The regime factor for a weekend from every weekend *except* the target.
 
     Excluding the target is not a formality.  The factor multiplies the
     degradation curve that the strategy recommendation is built on, so fitting
     it on the target race would let race data set the answer through the back
     door — which is exactly what the sealed-prediction protocol exists to
-    prevent.
+    prevent.  The target's own race temperature is not read either:
+    `race_temp_c` is a forecast (or the archive's race-day mean).
     """
+    from src.history import circuit_prior, practice_track_temp, thermal_sensitivity
+
     ev = get_event(target) if isinstance(target, str) else target
     keys = list(donors) if donors is not None else [k for k in EVENTS if k != ev.key]
     keys = [k for k in keys if k != ev.key]
+    beta = float(thermal_sensitivity().get("beta_per_c", 0.025)) if temperature_model else 0.0
 
-    ms, detail = [], []
+    ms, detail, resid = [], [], []
     for k in keys:
         m = measure_regime(k)
         # A ratio outside this band is a broken measurement, not a regime
-        # difference: below it the race showed no degradation to divide by
-        # (Hungary 2026 pools to -0.11), above it the race would have to
-        # degrade faster than a flat-out practice run, which does not happen.
-        if np.isfinite(m.ratio) and REGIME_RATIO_BAND[0] <= m.ratio <= REGIME_RATIO_BAND[1]:
-            ms.append(m)
-            detail.append({
-                "event": k, "ratio": round(float(m.ratio), 4),
-                "compounds": m.usable_compounds,
-                "n_race_stints": m.n_race_stints,
-            })
+        # difference: below it the race showed no degradation to divide by,
+        # above it the race would have to degrade faster than a flat-out
+        # practice run, which does not happen.
+        if not (np.isfinite(m.ratio) and REGIME_RATIO_BAND[0] <= m.ratio <= REGIME_RATIO_BAND[1]):
+            continue
+        dev = EVENTS[k]
+        t_p, t_r = _donor_temps(dev) if temperature_model else (None, None)
+        dT = (t_r - t_p) if (t_p is not None and t_r is not None) else None
+        r = float(np.log(m.ratio) - (beta * dT if dT is not None else 0.0))
+        ms.append(m)
+        resid.append(r)
+        detail.append({"event": k, "ratio": round(float(m.ratio), 4), "compounds": m.usable_compounds,
+                       "n_race_stints": m.n_race_stints, "t_practice_c": t_p, "t_race_c": t_r,
+                       "delta_t_c": (round(dT, 1) if dT is not None else None),
+                       "residual_ratio": round(float(np.exp(r)), 4)})
 
     if not ms:
         return RegimeFactor(
@@ -355,20 +377,53 @@ def regime_prior(target: Event | str, *, donors: list | None = None) -> RegimeFa
             ),
         )
 
+    resid = np.array(resid)
     logs = np.log([m.ratio for m in ms])
-    ratio = float(np.exp(logs.mean()))
-    # With one donor there is no between-weekend spread to measure, so the
-    # default width is kept rather than reporting a fictitious zero.
-    spread = float(logs.std(ddof=1)) if len(logs) > 1 else DEFAULT_RACE_REGIME_LN_SD
-    ln_sd = float(max(spread, 0.15))
+    centre = float(np.median(resid))
+    if len(resid) > 1:
+        mad = float(np.median(np.abs(resid - centre))) * 1.4826
+        spread = float(max(mad, np.std(resid, ddof=1) * 0.8))
+    else:
+        spread = DEFAULT_RACE_REGIME_LN_SD
+    # -- the target's own temperatures: practice measured, race forecast --------
+    t_prac = practice_temp_c if practice_temp_c is not None else (practice_track_temp(ev, clean) if temperature_model else None)
+    t_race, t_src, t_sd = race_temp_c, "forecast supplied", 0.0
+    if t_race is None and temperature_model:
+        cp = circuit_prior(ev, probe_practice_temp=False)
+        if cp.race_temps:
+            t_race = float(np.mean(cp.race_temps))
+            t_sd = float(max(np.std(cp.race_temps, ddof=1) if len(cp.race_temps) > 1 else RACE_TEMP_FORECAST_SD_C,
+                             RACE_TEMP_FORECAST_SD_C))
+            t_src = f"archive race-day mean at {ev.circuit} {cp.years}"
+        else:
+            t_src = "no forecast: practice temperature assumed"
+    dT = (t_race - t_prac) if (t_prac is not None and t_race is not None) else 0.0
+    ratio = float(np.exp(centre + beta * dT))
+    ln_sd = float(np.sqrt(max(spread, REGIME_LN_SD_FLOOR) ** 2 + (beta * t_sd) ** 2))
+    ratio = float(np.clip(ratio, 0.15, 1.2))
+    geo = float(np.exp(logs.mean()))
+    temp = {"beta_per_c": beta, "t_practice_c": t_prac, "t_race_expected_c": t_race, "t_race_source": t_src,
+            "t_race_forecast_sd_c": t_sd, "delta_t_c": float(dT), "residual_median": float(np.exp(centre)),
+            "residual_spread_ln": float(spread), "pooled_geomean_ratio": geo,
+            "modelled": bool(temperature_model)}
+    label = (f"median of {len(ms)} donors, temperature-corrected" if temperature_model
+             else f"median of {len(ms)} donors")
     return RegimeFactor(
         ratio=ratio, ln_sd=ln_sd, sources=[m.event for m in ms], measured=True,
-        label=f"measured on {', '.join(m.event for m in ms)}",
+        label=label,
         derivation=(
-            "race/practice degradation ratio, stint-fixed-effects estimator on "
-            "both sessions, geometric mean over "
-            + ", ".join(f"{m.event} {m.ratio:.2f}x" for m in ms)
-            + f"; applied to {ev.key}, whose own race is never used"
+            "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; "
+            + ("each donor's log ratio corrected by the thermal sensitivity "
+               f"({beta:+.3f}/degC) times its race-minus-practice track temperature, " if temperature_model else "")
+            + "residuals pooled with the median: "
+            + ", ".join(f"{d['event']} {d['ratio']:.2f}x"
+                        + (f" (dT {d['delta_t_c']:+.0f} degC -> {d['residual_ratio']:.2f})" if d.get("delta_t_c") is not None else "")
+                        for d in detail)
+            + f" -> management residual {np.exp(centre):.2f}x (spread {spread:.2f} ln); "
+            + (f"at {ev.key} practice ran at {t_prac:.0f} degC and the race is expected at {t_race:.0f} degC "
+               f"({t_src}), so {ratio:.2f}x applies" if (t_prac is not None and t_race is not None)
+               else f"no temperature pair for {ev.key}; {ratio:.2f}x applies")
+            + f"; the old pooled geometric mean would have given {geo:.2f}x. {ev.key}'s own race is never used"
         ),
-        donor_detail=detail,
+        donor_detail=detail, temperature=temp,
     )

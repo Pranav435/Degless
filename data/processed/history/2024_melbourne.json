@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2024,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -15,6 +16,18 @@
   "H-M-H": 2,
   "S-H-H": 2,
   "M-H-H-H": 1
+ },
+ "starts": {
+  "MEDIUM": 13,
+  "HARD": 2,
+  "SOFT": 2
+ },
+ "first_stop": {
+  "median_lap": 9.0,
+  "p25": 8.0,
+  "p75": 14.0,
+  "n": 17,
+  "sc_share": 0.17647058823529413
  },
  "compounds": {
   "HARD": {
@@ -46,17 +59,34 @@
   "HARD": {
    "slope": 0.03684289647630476,
    "se": 0.003510416737144069,
-   "n_laps": 692
+   "n_laps": 692,
+   "offset_s": -0.1109214732228967,
+   "offset_se": 0.5107697569085989
   },
   "MEDIUM": {
    "slope": 0.0695472464014179,
    "se": 0.012913107280881067,
-   "n_laps": 148
+   "n_laps": 148,
+   "offset_s": -0.32490630769129236,
+   "offset_se": 0.5316778353156013
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.21398483446839567,
+  "pace_step_se": 0.7372700082997768,
+  "deg_ratio": 1.8876704345475854,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": -0.45933015630284757,
+  "se": 0.23955113658020052,
+  "n_stints": 48,
+  "median_stint_laps": 18.0
  },
  "pit_loss_s": 20.696999999999974,
  "n_pit_stops": 31,
  "sc_share_of_laps": 0.034482758620689655,
  "track_temp_c": 38.55,
+ "air_temp_c": 20.7,
  "rain": false
 }

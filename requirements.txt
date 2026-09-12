@@ -11,6 +11,7 @@ plotly==7.0.0
 pyarrow
 PyJWT
 pytest
+playwright==1.62.0
 requests
 scikit-learn==1.9.0
 signalrcore

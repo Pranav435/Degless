@@ -1,6 +1,24 @@
 """End-to-end: practice laps -> physics -> fits -> sealed predictions -> race score.
 
 Everything the app reads is written here.  The app fits nothing.
+
+Two stages, because the plan-deciding constants are calibrated leave-one-out
+across *every* scored weekend (`scripts/80_recalibrate.py`) and that needs
+all the fits before any weekend's decisions are priced:
+
+    --stage fit      practice laps, physics, the production fit (lap-time only,
+                     no hinge, the circuit's ladder as a soft prior), the
+                     diagnostic variants, the circuit-history fold-in, the seal.
+                     Writes posterior_<key>.npz and fitstage_<key>.json.  Reads
+                     no race lap of its own.
+    --stage decide   race scoring, the strategy search with the calibrated
+                     constants and the ladder gate enforced, windows, the
+                     counterfactual, per-car plans, the backtest, artifacts,
+                     meta_<key>.json.
+    --stage all      both, in order (the default).
+
+    .venv/bin/python scripts/10_pipeline.py --event barcelona-2026
+    .venv/bin/python scripts/10_pipeline.py --event barcelona-2026 --stage fit --joint
 """
 
 from __future__ import annotations
@@ -18,26 +36,28 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src import strategy as strat  # noqa: E402
+from src.calibration import get_calibration  # noqa: E402
 from src.compounds import (  # noqa: E402
-    allocation_prior, hardness_rank, measure_pace_step, model_net_stint_step,
-    pace_step_prior,
-    summary_table as compound_table,
+    allocation_prior, hardness_rank, measure_pace_step, model_net_step_draws,
+    pace_step_prior, summary_table as compound_table,
 )
 from src.config import (  # noqa: E402
-    DATA_PROCESSED, GRID_START_PENALTY_S, GRIP_BUDGET_S,
-    MAX_STINTS_PER_COMPOUND, PUSH_GRID,
-    MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT, get_event,
+    DATA_PROCESSED, MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT, WEEKEND_NUTS_CHAINS,
+    WEEKEND_NUTS_DRAWS, WEEKEND_NUTS_WARMUP, get_event,
 )
-from src.history import apply_circuit_prior, circuit_prior, stint_caps_for  # noqa: E402
-from src.regime import measure_regime, regime_prior  # noqa: E402
+from src.history import (  # noqa: E402
+    CircuitPrior, apply_circuit_prior, circuit_prior, plan_prior_for, race_driver_factors, stint_caps_for,
+)
+from src.regime import RegimeFactor, measure_regime, regime_prior  # noqa: E402
 from src.evolution import add_evolution_correction, fit_evolution_auto  # noqa: E402
 from src.fuel import add_fuel_correction, get_prior, summary_table  # noqa: E402
 from src.ingest import FirewallError, load_for_fitting, load_race  # noqa: E402
 from src.laps import build_lap_table, cascade_counts, clean_laps, compound_summary  # noqa: E402
-from src.model_bayes import fit_bayes  # noqa: E402
+from src.model_bayes import BayesFit, fit_bayes  # noqa: E402
 from src.model_fallback import fit_mixedlm  # noqa: E402
 from src.replay import build_replay, save_replay  # noqa: E402
 from src.telemetry import extract_apex_speeds, load_apex, save_apex, select_corners  # noqa: E402
+from src.tyre import TyreModel  # noqa: E402
 from src.validate import strategy_backtest, load_sealed, score_race, seal_predictions  # noqa: E402
 
 log = logging.getLogger("degless.pipeline")
@@ -55,20 +75,36 @@ def step(msg: str) -> float:
     return time.time()
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--event", default="barcelona-2026")
-    ap.add_argument("--no-apex", action="store_true")
-    ap.add_argument("--mc-draws", type=int, default=MC_DRAWS)
-    ap.add_argument("--boot", type=int, default=200)
-    ap.add_argument("--pit-step", type=int, default=1)
-    args = ap.parse_args()
+def _jd(o):
+    if isinstance(o, (np.floating, float)):
+        return None if not np.isfinite(o) else float(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.bool_):
+        return bool(o)
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    if isinstance(o, pd.DataFrame):
+        return o.to_dict("records")
+    return str(o)
 
-    logging.basicConfig(level=logging.WARNING,
-                        format="%(levelname)s %(name)s: %(message)s")
-    ev = get_event(args.event)
+
+def _regime_from(d: dict) -> RegimeFactor:
+    return RegimeFactor(ratio=float(d["ratio"]), ln_sd=float(d["ln_sd"]), sources=list(d.get("sources", [])),
+                        measured=bool(d.get("measured", False)), label=str(d.get("label", "")),
+                        derivation=str(d.get("derivation", "")), donor_detail=list(d.get("donors", [])),
+                        temperature=dict(d.get("temperature", {})))
+
+
+# ==========================================================================
+# Stage 1: fit
+# ==========================================================================
+
+
+def stage_fit(args, ev) -> dict:
     key = ev.key
     t_all = time.time()
+    timings = {}
 
     # -- 0. firewall ------------------------------------------------------
     step("0. practice-only firewall")
@@ -87,6 +123,7 @@ def main() -> int:
     comp_sum = compound_summary(laps)
     print(casc.to_string(index=False))
     print(comp_sum.to_string(index=False))
+    timings["load_practice_s"] = round(time.time() - t, 1)
     gate("clean laps in 120-320", 120 <= len(clean) <= 320,
          f"{len(clean)} clean laps from {len(laps)} raw ({time.time()-t:.0f}s)")
     gate("no non-green lap survives",
@@ -94,27 +131,26 @@ def main() -> int:
          f"track statuses: {sorted(clean['track_status'].unique())}")
     gate("all compounds valid",
          bool(clean["compound"].isin(["SOFT", "MEDIUM", "HARD"]).all()), "")
+    laps.to_parquet(DATA_PROCESSED / f"laps_{key}_practice.parquet", index=False)
+    casc.to_parquet(DATA_PROCESSED / f"cascade_{key}.parquet", index=False)
 
-    # -- 2. physics -------------------------------------------------------
-    t = step("2. fuel physics + compound ladder + regime transfer")
+    # -- 2. physics + priors ------------------------------------------------
+    t = step("2. fuel physics, circuit history, compound ladder, regime transfer")
     print(summary_table(ev).to_string(index=False))
+    cp = circuit_prior(ev, probe_practice_temp=True)
+    if cp.available:
+        print(f"  circuit history: {ev.circuit} {cp.years}; stops {cp.stops}; plans {cp.plans}; starts {cp.starts}")
+        print(f"    ladder from the circuit's races: {cp.ladder}")
+        print(f"    cliff (longest / p90 stint): " + ", ".join(
+            f"{c} {v['longest_stint']:.0f}/{v['p90_stint']:.0f}" for c, v in cp.cliff().items()))
+    else:
+        print(f"  circuit history: none for {ev.circuit}")
+    pstep = pace_step_prior(ev, circuit=cp if cp.available else None)
+    print(f"\n  compound pace step prior: {pstep['step_s']:.3f} s  [{pstep['label']}]")
+    print(f"    measured net stint step: {pstep.get('net_stint_step_measured', float('nan')):+.3f} "
+          f"+/- {pstep.get('net_stint_step_se', float('nan')):.3f} s")
+    print(compound_table(ev, pace_step_s=pstep["step_s"], circuit_ladder=(cp.ladder if cp.available else None)).to_string(index=False))
 
-    # The compound ladder: sized from other weekends' races, ordered by
-    # construction.  See src/compounds.py.
-    pstep = pace_step_prior(ev)
-    print(f"\n  compound pace step: {pstep['step_s']:.3f} s  [{pstep['label']}]")
-    print(f"    {pstep['derivation']}")
-    print(compound_table(ev, pace_step_s=pstep["step_s"]).to_string(index=False))
-
-    # The practice -> race regime factor, measured on every weekend but this
-    # one.  See src/regime.py.
-    regime = regime_prior(ev)
-    print(f"\n  practice->race degradation factor: {regime.ratio:.3f}x "
-          f"[{regime.p05:.2f}-{regime.p95:.2f}]  [{regime.label}]")
-    print(f"    {regime.derivation}")
-    gate("regime factor is plausible (0.15-1.0)",
-         0.15 <= regime.ratio <= 1.0,
-         f"{regime.ratio:.3f}x from {regime.sources or 'default'}")
     clean = add_fuel_correction(clean, ev, "2026")
     evo = fit_evolution_auto(clean, laps_all=laps, event=ev)
     clean = add_evolution_correction(clean, evo)
@@ -126,6 +162,20 @@ def main() -> int:
          f"push-lap range {evo_rng:.2f}s per session {_it.get('per_session', {})}; "
          f"long-run backfit would have given {_it.get('backfit_range_s', float('nan')):.2f}s; "
          f"sessions on the backfit: {evo.skipped}")
+    clean.to_parquet(DATA_PROCESSED / f"clean_{key}_practice.parquet", index=False)
+
+    # The practice -> race regime factor: measured on every weekend but this
+    # one, temperature-corrected, pooled with the median.  See src/regime.py.
+    regime = regime_prior(ev, clean=clean)
+    print(f"\n  practice->race degradation factor: {regime.ratio:.3f}x "
+          f"[{regime.p05:.2f}-{regime.p95:.2f}]  [{regime.label}]")
+    print(f"    {regime.derivation}")
+    gate("regime factor is plausible (0.15-1.0)",
+         0.15 <= regime.ratio <= 1.0,
+         f"{regime.ratio:.3f}x from {regime.sources or 'default'}")
+    alloc = allocation_prior(ev)
+    plan_prior = plan_prior_for(cp if cp.available else None)
+    timings["priors_s"] = round(time.time() - t, 1)
 
     # -- 3. MixedLM baseline ----------------------------------------------
     t = step("3. MixedLM baseline + stint block bootstrap")
@@ -134,405 +184,419 @@ def main() -> int:
     med = mlm.slopes.get("MEDIUM", np.nan)
     gate("MixedLM MEDIUM slope in 0.12-0.35", 0.12 <= med <= 0.35,
          f"{med:.4f} s/lap ({time.time()-t:.0f}s)")
+    timings["mixedlm_s"] = round(time.time() - t, 1)
 
-    # -- 4. apex speeds ---------------------------------------------------
-    t = step("4. corner apex speeds (second channel)")
-    apex_sel = None
-    apex_use = None
-    if args.no_apex:
-        print("  skipped (--no-apex)")
-    else:
+    # -- 4. apex speeds (diagnostic only) ---------------------------------
+    apex_sel, apex_use = None, None
+    if args.joint:
+        t = step("4. corner apex speeds (diagnostic channel)")
         apex = load_apex(ev)
         need = set(zip(clean["driver"], clean["lap_number"]))
         have = set(zip(apex["driver"], apex["lap_number"])) if len(apex) else set()
         if not need.issubset(have):
-            apex = extract_apex_speeds(clean, ev)
-            save_apex(apex, ev)
+            try:
+                apex = extract_apex_speeds(clean, ev)
+                save_apex(apex, ev)
+            except Exception as exc:
+                print(f"  apex extraction failed: {exc}")
         if len(apex):
             apex_sel = select_corners(apex)
             apex_use = apex[apex["corner"].isin(apex_sel.corners)]
             print(f"  {len(apex)} apex rows, corners selected: {apex_sel.corners}")
-            apex_sel.table.to_parquet(DATA_PROCESSED / f"corners_{key}.parquet",
-                                      index=False)
-            gate("apex channel available", True,
-                 f"{len(apex_use)} rows on {len(apex_sel.corners)} corners "
-                 f"({time.time()-t:.0f}s)")
-        else:
-            gate("apex channel available", False, "no telemetry; lap-time only")
+            apex_sel.table.to_parquet(DATA_PROCESSED / f"corners_{key}.parquet", index=False)
+        timings["apex_s"] = round(time.time() - t, 1)
 
     # -- 5. Bayesian fits -------------------------------------------------
     t = step("5. NumPyro hierarchical fits")
+    ladder = cp.ladder if cp.available else None
     fits = {}
-    fits["2026"] = fit_bayes(clean, ev, prior="2026", apex=apex_use,
-                             pace_step_s=pstep["step_s"])
+    t0 = time.time()
+    fits["2026"] = fit_bayes(clean, ev, prior="2026", compound_prior="soft", circuit_ladder=ladder,
+                             pace_step_s=pstep["step_s"] if not (ladder or {}).get("pace_step_usable") else None)
+    timings["fit_production_s"] = round(time.time() - t0, 1)
     f = fits["2026"]
-    print(f"  2026 joint : rhat={f.max_rhat:.4f} div={f.n_divergences} "
-          f"laps={f.n_laps} apex={f.n_apex}")
+    print(f"  production (lap-time only, linear, soft ladder): rhat={f.max_rhat:.4f} div={f.n_divergences} "
+          f"laps={f.n_laps} ({timings['fit_production_s']}s)")
     gate("convergence: r_hat < 1.01 and zero divergences",
          f.max_rhat < RHAT_GATE and f.n_divergences == 0,
          f"max r_hat {f.max_rhat:.4f}, {f.n_divergences} divergences")
-
     f.save(DATA_PROCESSED / f"posterior_{key}_practice.npz")
-    cp = circuit_prior(ev)
+
     hist_moved = pd.DataFrame()
     if cp.available and cp.rate_prior:
         f, hist_moved = apply_circuit_prior(f, ev, regime, cp)
         fits["2026"] = f
-        print(f"  circuit history {ev.circuit} {cp.years} folded in (practice-regime rate, s/lap):")
+        print(f"  circuit history {ev.circuit} {cp.years} folded in (rate only, capped 3x, floored):")
         print(hist_moved.round(4).to_string(index=False))
     f.save(DATA_PROCESSED / f"posterior_{key}.npz")
-    fits["2026_laponly"] = fit_bayes(clean, ev, prior="2026",
-                                     pace_step_s=pstep["step_s"])
-    fits["2025"] = fit_bayes(clean, ev, prior="2025", apex=apex_use,
-                             pace_step_s=pstep["step_s"])
-    fits["none"] = fit_bayes(clean, ev, prior="none", apex=apex_use,
-                             pace_step_s=pstep["step_s"])
-    # The ladder switched off — the compound-ordering equivalent of the "no
-    # fuel prior" variant, and the one that shows why the ladder is there.
-    fits["noladder"] = fit_bayes(clean, ev, prior="2026", apex=apex_use,
-                                 compound_prior="flat")
+
+    # diagnostics: the sensitivity slides, at the quick sampler settings
+    qk = {} if args.full_diagnostics else dict(chains=WEEKEND_NUTS_CHAINS, warmup=WEEKEND_NUTS_WARMUP, draws=WEEKEND_NUTS_DRAWS)
+    diag_t = time.time()
+    if not args.no_diagnostics:
+        fits["hinge"] = fit_bayes(clean, ev, prior="2026", compound_prior="soft", circuit_ladder=ladder,
+                                  use_hinge=True, **qk)
+        fits["hardladder"] = fit_bayes(clean, ev, prior="2026", compound_prior="ladder",
+                                       pace_step_s=pstep["step_s"], **qk)
+        fits["2025"] = fit_bayes(clean, ev, prior="2025", compound_prior="soft", circuit_ladder=ladder, **qk)
+        fits["none"] = fit_bayes(clean, ev, prior="none", compound_prior="soft", circuit_ladder=ladder, **qk)
+        fits["noladder"] = fit_bayes(clean, ev, prior="2026", compound_prior="flat", **qk)
+        if apex_use is not None and len(apex_use):
+            fits["joint"] = fit_bayes(clean, ev, prior="2026", compound_prior="soft", circuit_ladder=ladder,
+                                      apex=apex_use, **qk)
+    timings["fit_diagnostics_s"] = round(time.time() - diag_t, 1)
     for k, v in fits.items():
-        print(f"  {k:16s} rhat={v.max_rhat:.4f} div={v.n_divergences}")
+        print(f"  {k:12s} rhat={v.max_rhat:.4f} div={v.n_divergences} laps={v.n_laps} apex={v.n_apex}")
     print(f.slope_table().round(4).to_string(index=False))
     print(f"  ({time.time()-t:.0f}s)")
 
-    # Bayes vs MixedLM, on the observed age support of each compound.
-    # The MixedLM baseline fits each compound freely, which means it cannot
-    # cross-check the *split between* compounds — that split is precisely what
-    # practice data does not identify, and on Barcelona 2026 the baseline duly
-    # returns HARD degrading faster than MEDIUM off 9 clean HARD laps.  Asking
-    # the laddered fit to agree with that would be asking it to reproduce the
-    # noise it was built to reject.
-    #
-    # What both estimators *can* speak to is the overall level of degradation
-    # across the weekend's running, so that is what is gated: the laps-weighted
-    # pooled slope.  The per-compound differences are printed beside it, and
-    # where they are large they are the ladder working, not a disagreement to
-    # be resolved.
+    # Bayes vs MixedLM on the pooled slope, both on practice alone: the
+    # baseline fits each compound freely and cannot cross-check the split
+    # *between* compounds, but the overall level of degradation across the
+    # weekend's running is something both estimators speak to.
+    f_prac = BayesFit.load(DATA_PROCESSED / f"posterior_{key}_practice.npz")
     diffs, eff_slopes = {}, {}
-    for c in f.compounds:
+    for c in f_prac.compounds:
         a = clean.loc[clean["compound"] == c, "tyre_age"].to_numpy(float)
         A = np.column_stack([np.ones_like(a), a])
-        eff = np.linalg.lstsq(A, f.deg_loss(c, a).mean(0), rcond=None)[0][1]
+        eff = np.linalg.lstsq(A, f_prac.deg_loss(c, a).mean(0), rcond=None)[0][1]
         eff_slopes[c] = float(eff)
         diffs[c] = abs(eff - mlm.slopes.get(c, np.nan))
     w = clean["compound"].value_counts()
     n_tot = float(w.sum())
-    pooled_bayes = sum(eff_slopes[c] * w.get(c, 0) for c in f.compounds) / n_tot
-    pooled_mlm = sum(mlm.slopes.get(c, np.nan) * w.get(c, 0) for c in f.compounds) / n_tot
+    pooled_bayes = sum(eff_slopes[c] * w.get(c, 0) for c in f_prac.compounds) / n_tot
+    pooled_mlm = sum(mlm.slopes.get(c, np.nan) * w.get(c, 0) for c in f_prac.compounds) / n_tot
     pooled_diff = abs(pooled_bayes - pooled_mlm)
-    gate("Bayes vs MixedLM pooled degradation within 0.06 s/lap",
+    gate("Bayes vs MixedLM pooled degradation within 0.06 s/lap (practice-only posterior)",
          pooled_diff < 0.06,
-         f"pooled {pooled_bayes:.3f} vs {pooled_mlm:.3f} (diff {pooled_diff:.3f}); "
-         "per-compound differences are the ladder overriding an unordered "
-         "baseline: " + ", ".join(f"{c} {v:.3f}" for c, v in diffs.items()))
+         f"pooled {pooled_bayes:.3f} vs MixedLM {pooled_mlm:.3f} (diff {pooled_diff:.3f}); "
+         "per-compound differences are the ladder prior overriding an unordered baseline: "
+         + ", ".join(f"{c} {v:.3f}" for c, v in diffs.items()))
 
-    # The ladder is structural, so this cannot fail by construction — which is
-    # exactly why it is worth asserting.  The unladdered variant is printed
-    # beside it so a reader can see what the same laps produce without it.
+    # The ladder: with the soft prior the ordering is what the data and the
+    # circuit say, and it is reported rather than asserted.
     rank = hardness_rank(f.compounds)
-    by_rank = [c for _, c in sorted(zip(rank, f.compounds))]  # softest first
+    by_rank = [c for _, c in sorted(zip(rank, f.compounds))]
     slopes = {r["compound"]: r["slope_s_per_lap"] for _, r in f.slope_table().iterrows()}
     offs = f.comp_offset
-    ordered_ok = (all(slopes[a] > slopes[b] for a, b in zip(by_rank, by_rank[1:]))
-                  and all(offs[a] < offs[b] for a, b in zip(by_rank, by_rank[1:])))
-    flat_slopes = {r["compound"]: r["slope_s_per_lap"]
-                   for _, r in fits["noladder"].slope_table().iterrows()}
-    flat_ok = all(flat_slopes[a] > flat_slopes[b] for a, b in zip(by_rank, by_rank[1:]))
-    gate("compound ladder ordered (softer = quicker and higher deg)", ordered_ok,
-         "deg " + " > ".join(f"{c} {slopes[c]:.3f}" for c in by_rank)
-         + "; pace " + " < ".join(f"{c} {offs[c]:.2f}" for c in by_rank)
-         + f"; without the ladder the same laps order as "
-         + " ".join(f"{c} {flat_slopes[c]:.3f}" for c in by_rank)
-         + (" (also ordered)" if flat_ok else " (INVERTED)"))
+    deg_ordered = all(slopes[a] > slopes[b] for a, b in zip(by_rank, by_rank[1:]))
+    pace_ordered = all(offs[a] < offs[b] for a, b in zip(by_rank, by_rank[1:]))
+    flat_slopes = ({r["compound"]: r["slope_s_per_lap"] for _, r in fits["noladder"].slope_table().iterrows()}
+                   if "noladder" in fits else {})
+    print(f"\n  compound ordering (soft ladder): deg " + " > ".join(f"{c} {slopes[c]:.3f}" for c in by_rank)
+          + f" ({'ordered' if deg_ordered else 'INVERTED by the data'}); pace "
+          + " < ".join(f"{c} {offs[c]:.2f}" for c in by_rank) + f" ({'ordered' if pace_ordered else 'inverted'})"
+          + (f"; without any ladder: " + " ".join(f"{c} {flat_slopes[c]:.3f}" for c in by_rank) if flat_slopes else ""))
 
-    # The identifiability story, quantified.
     prior_shift = {}
     for c in f.compounds:
         a = np.arange(1, 21.0)
-        s26 = np.polyfit(a, fits["2026"].deg_loss(c, a).mean(0), 1)[0]
-        s25 = np.polyfit(a, fits["2025"].deg_loss(c, a).mean(0), 1)[0]
-        s00 = np.polyfit(a, fits["none"].deg_loss(c, a).mean(0), 1)[0]
-        prior_shift[c] = {"none": float(s00), "2026": float(s26), "2025": float(s25)}
+        prior_shift[c] = {name: float(np.polyfit(a, fits[name].deg_loss(c, a).mean(0), 1)[0])
+                          for name in ("2026", "2025", "none") if name in fits}
     print("\n  prior sensitivity (mean slope over ages 1-20, s/lap):")
     print(pd.DataFrame(prior_shift).T.round(4).to_string())
 
     # -- 6. seal ----------------------------------------------------------
     t = step("6. seal predictions (before any race lap is read)")
     sealed_path, sha = seal_predictions(
-        f, ev, regime=regime,
-        note=("fitted on practice only; joint lap-time + apex channels; "
-              f"race-regime curves scaled by {regime.ratio:.3f}x "
+        f, ev, regime=regime, cliff=(cp.cliff() if cp.available else {}),
+        note=("fitted on practice only; lap-time channel, linear in age, soft per-circuit ladder; "
+              f"circuit history folded into the rate; race-regime curves scaled by {regime.ratio:.3f}x "
               f"({regime.label})"))
     print(f"  {sealed_path.name}  sha256 {sha[:32]}...")
-    sealed = load_sealed(sealed_path)
-    sealed["_file"] = sealed_path.name
     gate("sealed file verifies against its sha256", True, sha[:16])
 
-    # -- 7. race scoring --------------------------------------------------
-    t = step("7. race data (validation only)")
-    race_raw = load_race(ev)
-    race = build_lap_table(race_raw, ev)
-    race_clean = clean_laps(race)
-    print(f"  race: {len(race)} laps, {len(race_clean)} clean")
-    # Measured on *this* weekend: never used to set anything, reported so a
-    # reader can see how far the transferred numbers landed from the truth.
-    _self_regime = measure_regime(ev, race=race, practice=clean)
-    _self_step = measure_pace_step(ev, race=race)
-    print(f"  self-measured regime factor {_self_regime.ratio:.3f}x "
-          f"(transferred: {regime.ratio:.3f}x, never fitted here)")
-    print(f"  self-measured pace step {_self_step.step_s:+.3f} +/- "
-          f"{_self_step.se:.3f} s (transferred: {pstep['step_s']:.3f} s)")
-
-    sc = score_race(sealed, race_clean, ev)
-    print(f"  {sc.summary()}")
-    print("  MAE by compound:", {k: round(v, 3) for k, v in sc.mae_by_compound.items()})
-    print("  calibration:", {f"{k:.0%}": f"{v:.1%}" for k, v in sc.coverage.items()})
-    if sc.cliff:
-        print("  cliff:", {k: {kk: round(vv, 1) for kk, vv in v.items()}
-                           for k, v in sc.cliff.items()})
-    print("  bias by compound (observed - predicted, s/lap):",
-          {k: round(v, 3) for k, v in sc.bias_by_compound.items()})
-    # A near-total negative bias is a regime difference, not scatter.  Practice
-    # long runs at Barcelona 2026 degrade about twice as fast as race stints
-    # (verified in the raw data: GAS's FP2 MEDIUM run climbs 82.05 -> 88.00 s
-    # over 10 laps, while his 26-lap race HARD stint gains only 0.11 s/lap).
-    # Hotter practice track temperatures and the complete absence of tyre
-    # management in a long run are the physical explanation.
-    gate("practice->race regime transfer removes the bias",
-         abs(sc.bias) < 0.06,
-         f"bias {sc.bias:+.3f} s/lap against {sc.regime_label} curves "
-         f"(transferred factor {regime.ratio:.2f}x from "
-         f"{regime.sources or 'the default'}; this weekend's own races to "
-         f"{_self_regime.ratio:.2f}x, which was never used)")
-    gate("stint degradation-rate MAE < 0.15 s/lap", sc.passes_mae,
-         f"{sc.mae:.4f} s/lap over {sc.n_rate_stints} stints "
-         f"(per-lap MAE {sc.mae_lap:.3f} s, noise floor ~{sealed['sigma_obs']:.2f} s)")
-    gate("90% coverage not below 0.80 (under-coverage is the failure)",
-         sc.passes_coverage,
-         f"{sc.coverage.get(0.90, float('nan')):.1%} — {sc.coverage_direction}"
-         + ("; intervals are conservative because sigma_obs is practice per-lap "
-            "noise (~0.9 s) while stints are scored centred, and the regime "
-            "factor's own spread widens the band further"
-            if sc.coverage_direction == "over" else ""))
-
-    # -- 8. strategy ------------------------------------------------------
-    t = step("8. pit loss, strategy MC, pit window, undercut, counterfactual")
-    # The degradation curve is only supported out to the oldest tyre each
-    # compound was actually run on in practice, and beyond its knee it is a
-    # straight-line extrapolation, so evaluating it at an age nothing was run
-    # at claims a car many seconds off the pace.  Each compound gets its own
-    # cap, because the support is wildly uneven: Barcelona 2026 has MEDIUM out
-    # to age 22 and SOFT only to 15.
-    age_support = float(clean["tyre_age"].max())
-    per_comp_support = clean.groupby("compound")["tyre_age"].max().to_dict()
-    print("  practice age support (per compound, laps):",
-          {c: int(v) for c, v in per_comp_support.items()})
-    alloc = allocation_prior(ev)
-    print(f"  tyre allocation ({alloc['label'] if 'label' in alloc else ('measured' if alloc['measured'] else 'default')}): "
-          f"{alloc['caps']}")
-    print(f"    {alloc['derivation']}")
-    print(f"  grid-start penalty: {GRID_START_PENALTY_S:.1f} s per step of hardness "
-          f"on the opening stint")
-    print(f"  grip budget {GRIP_BUDGET_S:.2f} s; tyre life is derived as "
-          f"budget / degradation rate, not fitted separately")
-    print(f"  fuel-load wear multiplier: exponent {TYRE_LOAD_EXPONENT:.1f} "
-          f"(lap 1 = {(838/803)**TYRE_LOAD_EXPONENT:.2f}x, "
-          f"flag = {(768/803)**TYRE_LOAD_EXPONENT:.2f}x)")
-    print(f"  push levels searched: {PUSH_GRID}")
-
-    pl = strat.measure_pit_loss(race)
-    print(f"  pit loss: {pl.seconds:.2f}s from {pl.n_stops} green-flag stops")
-    gate("pit loss measured and plausible (12-35s)",
-         np.isfinite(pl.seconds) and 12 <= pl.seconds <= 35, f"{pl.seconds:.2f}s")
-
-    hist_caps = stint_caps_for(ev, cp) if cp.available else None
-    if hist_caps:
-        print(f"  stint caps from this circuit's history: {hist_caps}")
-    res = strat.simulate(f, ev, float(pl.seconds), regime=regime,
-                         n_draws=args.mc_draws, step=args.pit_step,
-                         support=per_comp_support,
-                         max_per_compound=alloc["caps"], max_stint=hist_caps)
-    max_stint = res.max_stint
-    print("  stint caps (min of the wear bound and the practice-support bound):",
-          max_stint)
-    print(f"  {res.n_strategies:,} plans searched, {res.n_scored:,} scored "
-          f"x {res.n_draws} draws")
-    print(res.head(8).drop(columns=["pit_laps"]).round(3).to_string(index=False))
-    print("\n  best plan at each stop count:")
-    print(res.by_stops.drop(columns=["pit_laps"]).round(3).to_string(index=False))
-    print("\n  compound life (cliff = grip budget / degradation rate):")
-    print(res.life.round(2).to_string(index=False))
-    print(f"\n  the optimiser chose push {res.best['push']:.2f}, which implies a "
-          f"practice->race degradation factor of {res.implied_regime:.2f}")
-    print(f"  measured on other weekends' races: {regime.ratio:.2f} "
-          f"({regime.label}) — the model predicts this number rather than "
-          f"being given it, so the two agreeing is a real check")
-    # A plan that pits inside the first few laps or runs every stint to its cap
-    # is the signature of the failure this rebuild targets: over-stated
-    # degradation makes stopping look free.
-    lens = res.best.get("stint_lens", [])
-    gate("recommended plan has realistic stint lengths",
-         bool(lens) and min(lens) >= 8 and 1 <= res.best["n_stops"] <= 3,
-         f"{res.best_label} -> stints {lens}")
-    # No stint may be recommended past its cliff.  This is the check that the
-    # old model could not have passed and could not even have stated: with a
-    # linear degradation curve there is no cliff to be past.
-    worst = float(res.table.iloc[0]["max_wear"])
-    gate("no stint in the recommended plan runs past the cliff",
-         worst <= 1.0,
-         f"deepest stint reaches {worst:.0%} of the grip budget")
-    # The model's chosen push implies a practice->race degradation factor, and
-    # that factor is measured independently from other weekends' races and
-    # never fed in.  The check is deliberately one-sided.
-    #
-    # The two numbers are estimates of overlapping but not identical
-    # quantities.  The measured ratio is everything that makes a race stint
-    # degrade differently from a practice long run - tyre management, but also
-    # a cooler track, dirty air and lower average speeds, none of which is a
-    # driver's choice.  The model's implied factor is the management part
-    # alone.  So they should be in the same neighbourhood, but the model's may
-    # sit *above* the measurement with no contradiction: at a
-    # low-degradation circuit there is nothing to manage, the optimiser picks
-    # full attack, and it is right to.
-    #
-    # The failure this guards against is one-directional - a model that
-    # assumes *more* management than anyone was observed to use, which is what
-    # produces stints longer than any team runs. That is the failure the old
-    # exogenous 0.40 constant actually was.
-    gate("model does not assume more tyre management than was observed",
-         res.implied_regime > regime.ratio - 0.25,
-         f"implied {res.implied_regime:.2f} vs measured {regime.ratio:.2f}"
-         + ("; the optimiser chose full attack, which at this degradation "
-            "level is the right call and not a disagreement"
-            if res.implied_regime >= regime.ratio else ""))
-
-    # How much of the recommendation is the *order* of the compounds, as
-    # opposed to the stop count and the stint lengths?  Almost none of it, and
-    # saying so is the honest reading: at Barcelona 2026 the best plan for each
-    # ordering of the same compounds spans ~1 s, well inside the posterior's
-    # own width.  Order is decided here by the fuel-load term alone, which is
-    # small at a physical load exponent, and the thing that actually decides a
-    # starting compound in reality - track position off the line - is not in
-    # this objective at all.  Reporting the spread is what stops a reader
-    # taking "HARD first" as a finding.
-    _ord = (res.table[res.table["n_stops"] == res.best["n_stops"]]
-            .sort_values("mean_s").groupby("compounds", as_index=False).first()
-            .sort_values("mean_s"))
-    _spread = float(_ord["mean_s"].iloc[-1] - _ord["mean_s"].iloc[0]) if len(_ord) > 1 else 0.0
-    print(f"\n  compound ordering is weakly identified: the best {res.best['n_stops']}-stop "
-          f"plan for each of {len(_ord)} orderings spans {_spread:.1f} s")
-    print("  " + " | ".join(f"{r.compounds} {r.mean_s - _ord['mean_s'].iloc[0]:+.1f}"
-                            for r in _ord.head(4).itertuples()))
-    print("  track position off the line, which is what decides a starting "
-          "compound in reality, is not priced here")
-
-    pw = strat.pit_window(f, ev, res.best, float(pl.seconds), regime=regime,
-                          max_stint=max_stint, push=res.best["push"])
-    if not pw.empty:
-        for k, g in pw.groupby("stop"):
-            win = g[g["in_window"]]["lap"]
-            print(f"  stop {k}: recommended lap {res.best['pit_laps'][k-1]}, "
-                  f"within 1.0 s over laps {win.min():.0f}-{win.max():.0f}")
-
-    # Only out to where both compounds have support: past that the curve is
-    # the hinge extrapolating, and an undercut gain computed there is fiction.
-    _uc_age = int(min(max_stint.get("MEDIUM", 40), max_stint.get("SOFT", 40)))
-    uc = strat.undercut_window(f, "MEDIUM", "SOFT", event=ev, regime=regime,
-                               max_age=_uc_age, push=res.best["push"])
-    cf = strat.counterfactual(f, ev, race, float(pl.seconds), regime=regime,
-                              max_stint=max_stint, push=res.best["push"])
-    if not cf.empty:
-        print("\n  counterfactual (top 5):")
-        print(cf.head(5).round(2).to_string(index=False))
-    print(f"  ({time.time()-t:.0f}s)")
-
-    # The compound ladder's two halves are not separately identified, but their
-    # net effect over a stint is, and that net is what the optimiser consumes.
-    # This gate is the one that would have caught a fresh-tyre pace step
-    # calibrated from equal-tyre-age pace: at 0.45% of lap time the model's net
-    # came out around +0.15 s/step against a measured +0.03, and it answered by
-    # ruling out the HARD entirely at circuits where the field ran half its
-    # race laps on it.
-    # Across both 2026 weekends, 0 of 32 classified finishers started on the
-    # hardest compound available. A model that opens on it is wrong about the
-    # one part of the plan the whole field agreed on.
-    _ranks = dict(zip(f.compounds, hardness_rank(list(f.compounds))))
-    _open = res.best["compounds"][0]
-    gate("does not open the race on the hardest available compound",
-         _ranks[_open] < max(_ranks.values()),
-         f"opens on {_open} (hardness rank {_ranks[_open]} of "
-         f"{max(_ranks.values())}); no classified finisher at either 2026 "
-         f"weekend started on the hardest tyre")
-
-    _life = {r["compound"]: r["life_laps"] for _, r in res.life.iterrows()}
-    _L = float(np.median(res.best["stint_lens"]))
-    _model_net = model_net_stint_step(_life, _L, pstep["step_s"])
-    _meas_net = pstep.get("net_stint_step_measured", float("nan"))
-    print(f"\n  compound ladder check — net cost of one step harder over a "
-          f"{_L:.0f}-lap stint:")
-    print(f"    model {_model_net:+.3f} s/lap   measured on donor races "
-          f"{_meas_net:+.3f} s/lap")
-    if np.isfinite(_meas_net):
-        gate("model reproduces the measured net stint-level compound step",
-             abs(_model_net - _meas_net) < 0.12,
-             f"model {_model_net:+.3f} vs measured {_meas_net:+.3f} s/lap "
-             f"per step over a {_L:.0f}-lap stint")
-
-    # -- 8b. strategy backtest --------------------------------------------
-    # The curve gates above check the degradation *curve*.  This checks the
-    # *decision*, which is what the project is for and what the curve metrics
-    # cannot see: the previous model passed every curve gate while recommending
-    # a 33-lap SOFT stint and a one-stop at a circuit where nobody one-stopped.
-    bt = strategy_backtest(res, race, ev)
-    if bt:
-        print("\n  strategy backtest (race data, validation only):")
-        print(f"    recommended {bt['recommended_stops']} stops; the field ran "
-              f"{bt['observed_stop_counts']} among classified finishers")
-        print(pd.DataFrame(bt["per_stint"]).to_string(index=False))
-        print("    grip budget implied by this race, per compound: "
-              + ", ".join(f"{c} {v:.2f}s" for c, v in
-                          sorted(bt["grip_budget_implied"].items()))
-              + f"  (model uses {bt['grip_budget_config']:.2f}s)")
-        gate("recommended stop count is one the field actually ran",
-             bt["stops_observed_share"] > 0,
-             f"{bt['recommended_stops']} stops — {bt['stops_observed_share']:.0%} "
-             f"of finishers, mode was {bt['modal_stops']}")
-        gate("every recommended stint length is one the compound was run to",
-             bt["all_stints_inside_observed_range"],
-             "; ".join(f"{r['compound']} {r['recommended_laps']} laps "
-                       f"(observed median {r['observed_median']:.0f}, "
-                       f"max {r['observed_max']:.0f})"
-                       for r in bt["per_stint"]))
-
-    # -- 9. replay --------------------------------------------------------
-    t = step("9. replay precompute")
-    rp = build_replay(f, ev, race)
-    save_replay(rp, ev)
-    print(f"  {len(rp)} replay states, {rp['driver'].nunique()} drivers "
-          f"({time.time()-t:.0f}s)")
-
-    # -- 10. write artifacts ----------------------------------------------
-    step("10. write artifacts")
+    # -- artifacts of the fit stage ------------------------------------------
     ages = np.arange(0, 41, dtype=float)
     curves = []
     for name, fitobj in fits.items():
         c = fitobj.curve_table(ages)
         c["variant"] = name
         curves.append(c)
-    # The same posterior in the regime the race is actually run in — the curve
-    # the strategy simulator and the sealed prediction both use.
     _rmult = regime.draws(f.posterior["lin"].shape[0], seed=5)
     for c in f.compounds:
         d = f.deg_loss(c, ages) * _rmult[:, None]
-        curves.append(pd.DataFrame({
-            "compound": c, "tyre_age": ages, "mean": d.mean(0),
-            "lo": np.quantile(d, 0.05, axis=0), "hi": np.quantile(d, 0.95, axis=0),
-            "variant": "2026_race"}))
-    pd.concat(curves, ignore_index=True).to_parquet(
-        DATA_PROCESSED / f"curves_{key}.parquet", index=False)
+        curves.append(pd.DataFrame({"compound": c, "tyre_age": ages, "mean": d.mean(0),
+                                    "lo": np.quantile(d, 0.05, axis=0), "hi": np.quantile(d, 0.95, axis=0),
+                                    "variant": "2026_race"}))
+    pd.concat(curves, ignore_index=True).to_parquet(DATA_PROCESSED / f"curves_{key}.parquet", index=False)
+    knee = [pd.DataFrame({"variant": name, "compound": c, "knee": fitobj.posterior["knee"][:, i]})
+            for name, fitobj in fits.items() if fitobj.has_hinge for i, c in enumerate(fitobj.compounds)]
+    if knee:
+        pd.concat(knee, ignore_index=True).to_parquet(DATA_PROCESSED / f"knee_{key}.parquet", index=False)
+    ec = [pd.DataFrame({"session": s, "lap_start_s": g["lap_start_s"].to_numpy(), "evo_s": g["evo_s"].to_numpy()})
+          .sort_values("lap_start_s") for s, g in clean.groupby("session")]
+    pd.concat(ec, ignore_index=True).to_parquet(DATA_PROCESSED / f"evolution_{key}.parquet", index=False)
 
-    # What the field actually ran — the comparison the plan is read against.
+    per_comp_support = clean.groupby("compound")["tyre_age"].max().to_dict()
+    fp26 = get_prior(ev, "2026")
+    fs = {
+        "event": key, "event_name": ev.name, "n_race_laps": ev.n_race_laps,
+        "sessions_used": list(ev.practice_sessions),
+        "sealed_file": sealed_path.name, "sealed_sha256": sha,
+        "physics": {"burn_kg_per_lap": fp26.burn_kg_per_lap, "k_track_s_per_kg": fp26.k_track_s_per_kg,
+                    "fuel_effect_s_per_lap": fp26.s_per_lap, "derivation": fp26.derivation},
+        "prior_table": summary_table(ev).to_dict("records"),
+        "compound_ladder": {
+            "pace_step_s": float(pstep["step_s"]), "measured": bool(pstep["measured"]), "label": pstep["label"],
+            "derivation": pstep.get("derivation", ""), "donors": pstep["detail"],
+            "circuit_ladder": (cp.ladder if cp.available else {}),
+            "table": compound_table(ev, f.compounds, pace_step_s=pstep["step_s"], circuit_ladder=ladder).to_dict("records"),
+            "deg_ratio": float(np.exp(np.log1p(fits["2026"].posterior["deg_gap"]).mean())),
+            "fitted_offsets": f.comp_offset,
+            "unladdered_slopes": flat_slopes, "deg_ordered": bool(deg_ordered), "pace_ordered": bool(pace_ordered),
+            "prior_label": f.compound_prior_label,
+        },
+        "net_step": {"measured": pstep.get("net_stint_step_measured"), "se": pstep.get("net_stint_step_se"),
+                     "derivation": pstep.get("derivation", ""), "detail": pstep["detail"]},
+        "circuit_history": (cp.as_dict() if cp.available else {}),
+        "cliff_history": (cp.cliff() if cp.available else {}),
+        "history_combination": hist_moved.to_dict("records") if not hist_moved.empty else [],
+        "plan_prior": plan_prior,
+        "regime": regime.as_dict(),
+        "allocation": alloc,
+        "load_effect": {"exponent": float(TYRE_LOAD_EXPONENT),
+                        "start_multiplier": float((838 / 803) ** TYRE_LOAD_EXPONENT),
+                        "flag_multiplier": float((768 / 803) ** TYRE_LOAD_EXPONENT)},
+        "n_raw_laps": int(len(laps)), "n_clean_laps": int(len(clean)),
+        "compound_counts": comp_sum.to_dict("records"),
+        "mixedlm": {"slopes": mlm.slopes, "table": mlm.table().to_dict("records"), "n_stints": mlm.n_stints},
+        "bayes": {
+            "max_rhat": float(f.max_rhat), "n_divergences": int(f.n_divergences),
+            "n_laps": int(f.n_laps), "n_apex": int(f.n_apex), "use_hinge": bool(f.use_hinge),
+            "corners": [int(c) for c in (apex_sel.corners if apex_sel else [])],
+            "slopes": f.slope_table().to_dict("records"),
+            "k_track_mean": float(f.k_track.mean()), "k_track_sd": float(f.k_track.std()),
+            "k_track_rel_sd": float(f.k_track.std() / f.k_track.mean()),
+            "comp_offset": f.comp_offset, "drivers": list(f.drivers),
+            "variants": {k: {"rhat": float(v.max_rhat), "div": int(v.n_divergences), "n_apex": int(v.n_apex),
+                             "slopes": v.slope_table().to_dict("records"), "hinge": bool(v.has_hinge),
+                             "k_track_rel_sd": float(v.k_track.std() / max(v.k_track.mean(), 1e-9))}
+                         for k, v in fits.items()},
+        },
+        "bayes_vs_mixedlm": {k: float(v) for k, v in diffs.items()},
+        "bayes_vs_mixedlm_pooled": {"bayes": float(pooled_bayes), "mixedlm": float(pooled_mlm), "diff": float(pooled_diff)},
+        "prior_sensitivity": prior_shift,
+        "evolution": {"range_s": float(evo_rng), "iterations": evo.iterations, "skipped": evo.skipped},
+        "age_support_laps": float(clean["tyre_age"].max()),
+        "age_support_by_compound": {k: float(v) for k, v in per_comp_support.items()},
+        "gates_fit": list(GATES),
+        "timings": timings,
+        "runtime_fit_s": round(time.time() - t_all, 1),
+    }
+    (DATA_PROCESSED / f"fitstage_{key}.json").write_text(json.dumps(fs, indent=2, default=_jd))
+    print(f"\n=== fit stage done in {time.time() - t_all:.0f}s ===")
+    return fs
+
+
+# ==========================================================================
+# Stage 2: decide
+# ==========================================================================
+
+
+def stage_decide(args, ev, fs: dict | None = None) -> int:
+    key = ev.key
+    t_all = time.time()
+    timings = {}
+    if fs is None:
+        p = DATA_PROCESSED / f"fitstage_{key}.json"
+        if not p.exists():
+            print(f"no fit stage for {key}: run --stage fit first")
+            return 1
+        fs = json.loads(p.read_text())
+    f = BayesFit.load(DATA_PROCESSED / f"posterior_{key}.npz")
+    clean = pd.read_parquet(DATA_PROCESSED / f"clean_{key}_practice.parquet")
+    regime = _regime_from(fs["regime"])
+    cp = CircuitPrior(**{k: v for k, v in (fs.get("circuit_history") or {}).items()
+                         if k in CircuitPrior.__dataclass_fields__}) if fs.get("circuit_history") else CircuitPrior(event=key, circuit=ev.circuit)
+    cal = get_calibration(ev)
+    print(f"\n  calibration: {cal.source}")
+    print(f"    budgets {cal.budgets}; manage cost {cal.manage_cost_s:.2f} s, floor {cal.manage_wear_floor:.2f}; "
+          f"grid penalty {cal.grid_start_penalty_s:.2f} s; dirty air {cal.dirty_air_s_per_lap:.2f} s/lap; "
+          f"undercut lambda {cal.undercut_lambda:.3f}; plan prior tau {cal.plan_prior_tau_s:.2f} s")
+    sealed = load_sealed(Path(__file__).resolve().parents[1] / "predictions" / "sealed" / fs["sealed_file"])
+    sealed["_file"] = fs["sealed_file"]
+    pstep = fs["net_step"]
+    alloc = fs["allocation"]
+    plan_prior = fs.get("plan_prior") or {}
+    per_comp_support = {k: float(v) for k, v in fs["age_support_by_compound"].items()}
+
+    # -- 7. race scoring --------------------------------------------------
+    t = step("7. race data (validation only)")
+    race_raw = load_race(ev)
+    race = build_lap_table(race_raw, ev)
+    race_clean = clean_laps(race)
+    race.to_parquet(DATA_PROCESSED / f"laps_{key}_race.parquet", index=False)
+    print(f"  race: {len(race)} laps, {len(race_clean)} clean")
+    _self_regime = measure_regime(ev, race=race, practice=clean)
+    _self_step = measure_pace_step(ev, race=race)
+    print(f"  self-measured regime factor {_self_regime.ratio:.3f}x "
+          f"(transferred: {regime.ratio:.3f}x, never fitted here)")
+    print(f"  self-measured net stint step {_self_step.step_s:+.3f} +/- "
+          f"{_self_step.se:.3f} s (transferred: {pstep.get('measured', float('nan')):+.3f} s)")
+
+    sc = score_race(sealed, race_clean, ev)
+    print(f"  {sc.summary()}")
+    print("  MAE by compound:", {k: round(v, 3) for k, v in sc.mae_by_compound.items()})
+    print("  calibration:", {f"{k:.0%}": f"{v:.1%}" for k, v in sc.coverage.items()})
+    if sc.cliff:
+        print("  cliff:", {k: {kk: (round(vv, 1) if isinstance(vv, float) else vv) for kk, vv in v.items()}
+                           for k, v in sc.cliff.items()})
+    print("  bias by compound (observed - predicted, s/lap):",
+          {k: round(v, 3) for k, v in sc.bias_by_compound.items()})
+    gate("practice->race regime transfer removes the bias",
+         abs(sc.bias) < 0.06,
+         f"bias {sc.bias:+.3f} s/lap against {sc.regime_label} curves "
+         f"(transferred factor {regime.ratio:.2f}x; this weekend's own race says "
+         f"{_self_regime.ratio:.2f}x, which was never used)")
+    gate("stint degradation-rate MAE < 0.15 s/lap", sc.passes_mae,
+         f"{sc.mae:.4f} s/lap over {sc.n_rate_stints} stints "
+         f"(per-lap MAE {sc.mae_lap:.3f} s, race noise {sc.sigma_used:.2f} s)")
+    gate("90% coverage not below 0.80 (under-coverage is the failure)",
+         sc.passes_coverage,
+         f"{sc.coverage.get(0.90, float('nan')):.1%} per lap, {sc.rate_coverage90:.1%} on the stint rate "
+         f"(width {sc.rate_width90:.3f} s/lap) — {sc.coverage_direction}")
+    timings["score_s"] = round(time.time() - t, 1)
+
+    # -- 8. strategy ------------------------------------------------------
+    t = step("8. pit loss, strategy search (ladder gate enforced), windows, counterfactual, per-car plans")
+    print("  practice age support (per compound, laps):", {c: int(v) for c, v in per_comp_support.items()})
+    print(f"  tyre allocation: {alloc['caps']}")
+    pl = strat.measure_pit_loss(race)
+    print(f"  pit loss: {pl.seconds:.2f}s from {pl.n_stops} green-flag stops")
+    gate("pit loss measured and plausible (12-35s)",
+         np.isfinite(pl.seconds) and 12 <= pl.seconds <= 35, f"{pl.seconds:.2f}s")
+    hist_caps = stint_caps_for(ev, cp) if cp.available else None
+    if hist_caps:
+        print(f"  stint caps from this circuit's history: {hist_caps}")
+    if plan_prior:
+        print(f"  plan-shape prior ({plan_prior.get('source')}): " + ", ".join(
+            f"{k} {v}" for k, v in list(plan_prior["sequences"].items())[:6]) + f"; starts {plan_prior.get('starts')}")
+
+    total = f.posterior["lin"].shape[0]
+    rng = np.random.default_rng(0)
+    draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
+    model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets,
+                               manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+    sim_kw = dict(regime=regime, step=args.pit_step, support=per_comp_support, max_per_compound=alloc["caps"],
+                  max_stint=hist_caps, undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior,
+                  plan_prior_tau_s=cal.plan_prior_tau_s, traffic_s_per_lap=cal.dirty_air_s_per_lap,
+                  grid_penalty_s=cal.grid_start_penalty_s)
+    t0 = time.time()
+    model, res, pace_cal = strat.search_with_pace_calibration(
+        model, ev, float(pl.seconds), net_step_s=float(pstep.get("measured") if pstep.get("measured") is not None else np.nan),
+        net_step_se_s=float(pstep.get("se") or 0.0), **sim_kw)
+    timings["search_s"] = round(time.time() - t0, 1)
+    max_stint = res.max_stint
+    print(f"  pace calibration: {pace_cal}")
+    print("  stint caps (min of the wear bound and the circuit's history):", max_stint)
+    print(f"  {res.n_strategies:,} plans searched, {res.n_scored:,} scored x {res.n_draws} draws in {timings['search_s']}s")
+    print(res.head(8).drop(columns=["pit_laps"]).round(3).to_string(index=False))
+    print("\n  best plan at each stop count:")
+    print(res.by_stops.drop(columns=["pit_laps"]).round(3).to_string(index=False))
+    print(f"\n  tyre-optimal plan (no position term, no plan prior): {res.tyre_optimal_label} "
+          f"({res.tyre_optimal.get('delta_s', 0):+.1f} s under the full objective); "
+          f"position term of the chosen plan {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s")
+    print("\n  compound life (budget / rate, bounded by the race and the circuit's history):")
+    print(res.life.round(2).to_string(index=False))
+    print(f"\n  the optimiser chose push {res.best['push']:.2f}, which implies a "
+          f"practice->race degradation factor of {res.implied_regime:.2f} (transferred {regime.ratio:.2f})")
+    lens = res.best.get("stint_lens", [])
+    gate("recommended plan has realistic stint lengths",
+         bool(lens) and min(lens) >= 8 and 1 <= res.best["n_stops"] <= 3,
+         f"{res.best_label} -> stints {lens}")
+    worst = float(res.table.iloc[0]["max_wear"])
+    gate("no stint in the recommended plan runs past the cliff",
+         worst <= 1.0, f"deepest stint reaches {worst:.0%} of the grip budget")
+    gate("model does not assume more tyre management than was observed",
+         res.implied_regime > regime.ratio - 0.25,
+         f"implied {res.implied_regime:.2f} vs transferred {regime.ratio:.2f}")
+
+    _ord = (res.table[res.table["n_stops"] == res.best["n_stops"]]
+            .sort_values("mean_s").groupby("compounds", as_index=False).first()
+            .sort_values("mean_s"))
+    _spread = float(_ord["mean_s"].iloc[-1] - _ord["mean_s"].iloc[0]) if len(_ord) > 1 else 0.0
+    print(f"\n  the best {res.best['n_stops']}-stop plan for each of {len(_ord)} orderings spans {_spread:.1f} s: "
+          + " | ".join(f"{r.compounds} {r.mean_s - _ord['mean_s'].iloc[0]:+.1f}" for r in _ord.head(4).itertuples()))
+
+    pw = strat.pit_window_model(model, ev, res.best, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
+                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
+    if not pw.empty:
+        for k, g in pw.groupby("stop"):
+            win = g[g["in_window"]]["lap"]
+            print(f"  stop {k}: recommended lap {res.best['pit_laps'][k-1]}, "
+                  f"within 1.0 s over laps {win.min():.0f}-{win.max():.0f}")
+    _uc_age = int(min(max_stint.get("MEDIUM", 40), max_stint.get("SOFT", 40)))
+    uc = strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=max(_uc_age, 8), push=res.best["push"]) \
+        if ("MEDIUM" in model.compounds and "SOFT" in model.compounds) else pd.DataFrame()
+    t0 = time.time()
+    cf = strat.counterfactual(model, ev, race, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
+                              race_factors=cal.driver_factors, traffic_s_per_lap=cal.dirty_air_s_per_lap,
+                              undercut_lambda=cal.undercut_lambda)
+    timings["counterfactual_s"] = round(time.time() - t0, 1)
+    if not cf.empty:
+        print(f"\n  counterfactual (top 5, SC stops held fixed, {timings['counterfactual_s']}s):")
+        print(cf.head(5)[["driver", "compounds", "actual_pit_laps", "model_pit_laps", "loss_s", "n_sc_stops", "classified"]]
+              .round(2).to_string(index=False))
+    t0 = time.time()
+    drivers_on_grid = sorted(race["driver"].unique())
+    pdp = strat.per_driver_plans(model, ev, float(pl.seconds), drivers_on_grid, race_factors=cal.driver_factors,
+                                 **{k: v for k, v in sim_kw.items() if k != "step"})
+    timings["per_driver_s"] = round(time.time() - t0, 1)
+    if not pdp.empty:
+        print(f"\n  per-car plans ({timings['per_driver_s']}s): {int(pdp['same_shape_as_field'].sum())}/{len(pdp)} "
+              f"share the field plan's shape; first stops "
+              f"{int(pdp['first_stop'].min()) if pdp['first_stop'].notna().any() else '-'}-"
+              f"{int(pdp['first_stop'].max()) if pdp['first_stop'].notna().any() else '-'}")
+        print(pdp[["driver", "race_factor", "best", "first_stop_vs_field"]].head(8).round(2).to_string(index=False))
+    print(f"  ({time.time()-t:.0f}s)")
+
+    # -- the ladder gate, enforced ------------------------------------------
+    _ranks = dict(zip(f.compounds, hardness_rank(list(f.compounds))))
+    _open = res.best["compounds"][0]
+    gate("does not open the race on the hardest available compound",
+         _ranks[_open] < max(_ranks.values()),
+         f"opens on {_open} (hardness rank {_ranks[_open]} of {max(_ranks.values())})")
+    _L = float(np.median(res.best["stint_lens"]))
+    _model_net = float(model_net_step_draws(model, _L, float(res.best["push"]), ev).mean())
+    _meas_net = float(pstep.get("measured") if pstep.get("measured") is not None else np.nan)
+    print(f"\n  compound ladder check - net cost of one step harder over a {_L:.0f}-lap stint: "
+          f"model {_model_net:+.3f} s/lap, measured {_meas_net:+.3f} s/lap (this race: {_self_step.step_s:+.3f})")
+    if np.isfinite(_meas_net):
+        gate("model reproduces the measured net stint-level compound step (enforced)",
+             abs(_model_net - _meas_net) < 0.12,
+             f"model {_model_net:+.3f} vs measured {_meas_net:+.3f} s/lap per step over a {_L:.0f}-lap stint"
+             + (" (offsets clipped to the physical band)" if pace_cal.get("clipped") else ""))
+
+    # -- 8b. strategy backtest --------------------------------------------
+    bt = strategy_backtest(res, race, ev)
+    if bt:
+        print("\n  strategy backtest (race data, validation only):")
+        print(f"    recommended {bt['recommended_stops']} stops; the field ran {bt['observed_stop_counts']}")
+        print(pd.DataFrame(bt["per_stint"]).to_string(index=False))
+        print("    grip budget implied by this race, per compound: "
+              + ", ".join(f"{c} {v:.2f}s" for c, v in sorted(bt["grip_budget_implied"].items()))
+              + f"  (model uses {bt['grip_budget_used']})")
+        fsb = bt["first_stop"]
+        print(f"    first stops: field median (green) {fsb['field_median_green']}, {fsb['share_under_sc']:.0%} under SC; "
+              f"recommended {fsb['recommended']} ({fsb['recommended_minus_field']}), tyre-optimal {fsb['tyre_optimal']} "
+              f"({fsb['tyre_optimal_minus_field']})")
+        gate("recommended stop count is one the field actually ran",
+             bt["stops_observed_share"] > 0,
+             f"{bt['recommended_stops']} stops — {bt['stops_observed_share']:.0%} of finishers, mode was {bt['modal_stops']}")
+        gate("every recommended stint length is one the compound was run to",
+             bt["all_stints_inside_observed_range"],
+             "; ".join(f"{r['compound']} {r['recommended_laps']} laps (observed median {r['observed_median']:.0f}, "
+                       f"max {r['observed_max']:.0f})" for r in bt["per_stint"]))
+
+    # -- 9. replay --------------------------------------------------------
+    t = step("9. replay precompute")
+    rp = build_replay(f, ev, race)
+    save_replay(rp, ev)
+    print(f"  {len(rp)} replay states, {rp['driver'].nunique()} drivers ({time.time()-t:.0f}s)")
+
+    # -- 10. write artifacts ----------------------------------------------
+    step("10. write artifacts")
     field = []
     for drv, g in race.groupby("driver"):
         g = g.sort_values("lap_number")
@@ -550,212 +614,143 @@ def main() -> int:
         st["finished_lap"] = int(g["lap_number"].max())
         field.append(st)
     if field:
-        pd.concat(field, ignore_index=True).to_parquet(
-            DATA_PROCESSED / f"fieldplan_{key}.parquet", index=False)
+        pd.concat(field, ignore_index=True).to_parquet(DATA_PROCESSED / f"fieldplan_{key}.parquet", index=False)
 
-    knee = []
-    for name, fitobj in fits.items():
-        for i, c in enumerate(fitobj.compounds):
-            knee.append(pd.DataFrame({
-                "variant": name, "compound": c,
-                "knee": fitobj.posterior["knee"][:, i]}))
-    pd.concat(knee, ignore_index=True).to_parquet(
-        DATA_PROCESSED / f"knee_{key}.parquet", index=False)
-
-    laps.to_parquet(DATA_PROCESSED / f"laps_{key}_practice.parquet", index=False)
-    clean.to_parquet(DATA_PROCESSED / f"clean_{key}_practice.parquet", index=False)
-    race.to_parquet(DATA_PROCESSED / f"laps_{key}_race.parquet", index=False)
-    casc.to_parquet(DATA_PROCESSED / f"cascade_{key}.parquet", index=False)
     res.table.head(400).assign(
         pit_laps=res.table.head(400)["pit_laps"].astype(str),
         stint_lens=res.table.head(400)["stint_lens"].astype(str),
     ).to_parquet(DATA_PROCESSED / f"strategy_{key}.parquet", index=False)
-    res.by_stops.assign(
-        pit_laps=res.by_stops["pit_laps"].astype(str),
-        stint_lens=res.by_stops["stint_lens"].astype(str),
-    ).to_parquet(DATA_PROCESSED / f"bystops_{key}.parquet", index=False)
+    res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),
+                        stint_lens=res.by_stops["stint_lens"].astype(str)).to_parquet(
+        DATA_PROCESSED / f"bystops_{key}.parquet", index=False)
     res.life.to_parquet(DATA_PROCESSED / f"life_{key}.parquet", index=False)
     if not pw.empty:
         pw.to_parquet(DATA_PROCESSED / f"pitwindow_{key}.parquet", index=False)
-    # The winning plan as a stint timeline — the Gantt the Strategy tab draws.
     plan_rows, lap0 = [], 0
     for i, (c, L) in enumerate(zip(res.best["compounds"], res.best["stint_lens"])):
-        plan_rows.append({"stint": i + 1, "compound": c, "start_lap": lap0 + 1,
-                          "end_lap": lap0 + L, "laps": int(L)})
+        plan_rows.append({"stint": i + 1, "compound": c, "start_lap": lap0 + 1, "end_lap": lap0 + L, "laps": int(L)})
         lap0 += L
-    pd.DataFrame(plan_rows).to_parquet(
-        DATA_PROCESSED / f"plan_{key}.parquet", index=False)
-    uc.to_parquet(DATA_PROCESSED / f"undercut_{key}.parquet", index=False)
+    pd.DataFrame(plan_rows).to_parquet(DATA_PROCESSED / f"plan_{key}.parquet", index=False)
+    if not uc.empty:
+        uc.to_parquet(DATA_PROCESSED / f"undercut_{key}.parquet", index=False)
     if not cf.empty:
         cf.assign(actual_pit_laps=cf["actual_pit_laps"].astype(str),
-                  model_pit_laps=cf["model_pit_laps"].astype(str)).to_parquet(
+                  model_pit_laps=cf["model_pit_laps"].astype(str),
+                  sc_stop_laps=cf["sc_stop_laps"].astype(str)).to_parquet(
             DATA_PROCESSED / f"counterfactual_{key}.parquet", index=False)
+    if not pdp.empty:
+        pdp.assign(pit_laps=pdp["pit_laps"].astype(str), practice_dev_s_per_lap=pdp["practice_dev_s_per_lap"].astype(str),
+                   eff_rate=pdp["eff_rate"].astype(str)).to_parquet(DATA_PROCESSED / f"perdriver_{key}.parquet", index=False)
     if sc.per_lap is not None:
         sc.per_lap.to_parquet(DATA_PROCESSED / f"score_{key}.parquet", index=False)
     if sc.per_stint is not None:
-        sc.per_stint.to_parquet(DATA_PROCESSED / f"scorestint_{key}.parquet",
-                                index=False)
+        sc.per_stint.to_parquet(DATA_PROCESSED / f"scorestint_{key}.parquet", index=False)
     if pl.per_stop is not None:
         pl.per_stop.to_parquet(DATA_PROCESSED / f"pitloss_{key}.parquet", index=False)
 
-    # evolution curves for the Decompose tab
-    ec = []
-    for sess, g in clean.groupby("session"):
-        ec.append(pd.DataFrame({
-            "session": sess,
-            "lap_start_s": g["lap_start_s"].to_numpy(),
-            "evo_s": g["evo_s"].to_numpy()}).sort_values("lap_start_s"))
-    pd.concat(ec, ignore_index=True).to_parquet(
-        DATA_PROCESSED / f"evolution_{key}.parquet", index=False)
-
-    fp26 = get_prior(ev, "2026")
+    gates_all = list(fs.get("gates_fit", [])) + list(GATES)
     meta = {
-        "event": key, "event_name": ev.name,
-        "n_race_laps": ev.n_race_laps,
-        "sealed_file": sealed_path.name, "sealed_sha256": sha,
-        "physics": {
-            "burn_kg_per_lap": fp26.burn_kg_per_lap,
-            "k_track_s_per_kg": fp26.k_track_s_per_kg,
-            "fuel_effect_s_per_lap": fp26.s_per_lap,
-            "derivation": fp26.derivation,
-        },
-        "prior_table": summary_table(ev).to_dict("records"),
-        "compound_ladder": {
-            "pace_step_s": float(pstep["step_s"]),
-            "measured": bool(pstep["measured"]),
-            "label": pstep["label"],
-            "derivation": pstep["derivation"],
-            "donors": pstep["detail"],
-            "self_measured": {
-                "step_s": float(_self_step.step_s), "se": float(_self_step.se),
-                "n_laps": int(_self_step.n_laps),
-                "phase_bias_s": float(_self_step.phase_bias_s),
-            },
-            "table": compound_table(ev, f.compounds,
-                                    pace_step_s=pstep["step_s"]).to_dict("records"),
-            "deg_ratio": float(fits["2026"].posterior["deg_gap"].mean() + 1.0),
-            "fitted_offsets": f.comp_offset,
-            "unladdered_slopes": {
-                r["compound"]: float(r["slope_s_per_lap"])
-                for _, r in fits["noladder"].slope_table().iterrows()},
-            "ordered": bool(ordered_ok),
-            "unladdered_ordered": bool(flat_ok),
-        },
-        "circuit_history": (cp.as_dict() if cp.available else {}),
-        "history_combination": hist_moved.to_dict("records") if not hist_moved.empty else [],
-        "regime": {
-            **regime.as_dict(),
-            "self_measured": {
-                "ratio": (float(_self_regime.ratio)
-                          if np.isfinite(_self_regime.ratio) else None),
-                "per_compound": _self_regime.per_compound,
-                "n_race_stints": int(_self_regime.n_race_stints),
-            },
-        },
-        "load_effect": {
-            "exponent": float(TYRE_LOAD_EXPONENT),
-            "start_multiplier": float((838 / 803) ** TYRE_LOAD_EXPONENT),
-            "flag_multiplier": float((768 / 803) ** TYRE_LOAD_EXPONENT),
-        },
-        "n_raw_laps": int(len(laps)), "n_clean_laps": int(len(clean)),
-        "compound_counts": comp_sum.to_dict("records"),
-        "mixedlm": {
-            "slopes": mlm.slopes,
-            "table": mlm.table().to_dict("records"),
-            "n_stints": mlm.n_stints,
-        },
-        "bayes": {
-            "max_rhat": float(f.max_rhat), "n_divergences": int(f.n_divergences),
-            "n_laps": int(f.n_laps), "n_apex": int(f.n_apex),
-            "corners": [int(c) for c in (apex_sel.corners if apex_sel else [])],
-            "slopes": f.slope_table().to_dict("records"),
-            "k_track_mean": float(f.k_track.mean()),
-            "k_track_sd": float(f.k_track.std()),
-            "k_track_rel_sd": float(f.k_track.std() / f.k_track.mean()),
-            "k_track_laponly_rel_sd": float(
-                fits["2026_laponly"].k_track.std() / fits["2026_laponly"].k_track.mean()),
-            "comp_offset": f.comp_offset,
-        },
-        "bayes_vs_mixedlm": {k: float(v) for k, v in diffs.items()},
-        "bayes_vs_mixedlm_pooled": {
-            "bayes": float(pooled_bayes), "mixedlm": float(pooled_mlm),
-            "diff": float(pooled_diff)},
-        "prior_sensitivity": prior_shift,
-        "evolution": {"range_s": float(evo_rng), "iterations": evo.iterations,
-                      "skipped": evo.skipped},
+        **{k: v for k, v in fs.items() if k not in ("gates_fit", "timings", "runtime_fit_s")},
+        "regime": {**fs["regime"],
+                   "self_measured": {"ratio": (float(_self_regime.ratio) if np.isfinite(_self_regime.ratio) else None),
+                                     "per_compound": _self_regime.per_compound,
+                                     "n_race_stints": int(_self_regime.n_race_stints)}},
+        "compound_ladder": {**fs["compound_ladder"],
+                            "self_measured": {"step_s": float(_self_step.step_s), "se": float(_self_step.se),
+                                              "n_laps": int(_self_step.n_laps), "phase_bias_s": float(_self_step.phase_bias_s)}},
+        "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source,
+                        "n_driver_factors": len(cal.driver_factors)},
+        "pace_calibration": pace_cal,
         "score": {
-            "mae": float(sc.mae), "mae_lap": float(sc.mae_lap),
-            "rmse": float(sc.rmse), "n_rate_stints": int(sc.n_rate_stints),
-            "n_laps": int(sc.n_laps), "n_stints": int(sc.n_stints),
+            "mae": float(sc.mae), "mae_lap": float(sc.mae_lap), "rmse": float(sc.rmse),
+            "n_rate_stints": int(sc.n_rate_stints), "n_laps": int(sc.n_laps), "n_stints": int(sc.n_stints),
             "mae_by_compound": sc.mae_by_compound,
             "coverage": {str(k): float(v) for k, v in sc.coverage.items()},
-            "cliff": sc.cliff,
-            "bias": float(sc.bias),
-            "bias_by_compound": sc.bias_by_compound,
-            "regime_label": sc.regime_label,
-            "passes_mae": bool(sc.passes_mae),
-            "passes_coverage": bool(sc.passes_coverage),
+            "rate_coverage90": float(sc.rate_coverage90), "rate_width90": float(sc.rate_width90),
+            "sigma_used": float(sc.sigma_used),
+            "cliff": sc.cliff, "bias": float(sc.bias), "bias_by_compound": sc.bias_by_compound,
+            "regime_label": sc.regime_label, "passes_mae": bool(sc.passes_mae), "passes_coverage": bool(sc.passes_coverage),
         },
         "pit_loss_s": float(pl.seconds), "pit_stops_measured": int(pl.n_stops),
-        "age_support_laps": age_support,
-        "age_support_by_compound": {k: float(v) for k, v in per_comp_support.items()},
-        "max_stint_laps": max_stint,
-        "max_stints_per_compound": alloc["caps"],
-        "allocation": alloc,
-        "grid_start_penalty_s": float(GRID_START_PENALTY_S),
+        "max_stint_laps": max_stint, "max_stints_per_compound": alloc["caps"],
+        "grid_start_penalty_s": float(cal.grid_start_penalty_s),
         "backtest": bt,
-        "ladder_check": {"model_net_step_s": float(_model_net),
-                         "measured_net_step_s": float(_meas_net),
-                         "stint_laps": float(_L)},
+        "ladder_check": {"model_net_step_s": float(_model_net), "measured_net_step_s": float(_meas_net),
+                         "self_measured_net_step_s": float(_self_step.step_s), "stint_laps": float(_L)},
         "strategy": {
-            "n_strategies": int(res.n_strategies), "n_scored": int(res.n_scored),
-            "n_draws": int(res.n_draws),
+            "n_strategies": int(res.n_strategies), "n_scored": int(res.n_scored), "n_draws": int(res.n_draws),
             "best": res.best_label,
-            "best_plan": {k: (list(v) if isinstance(v, list) else v)
-                          for k, v in res.best.items()},
-            "warmup_s": float(res.warmup_s),
-            "push": float(res.best.get("push", float("nan"))),
-            "push_grid": list(res.push_grid),
-            "implied_regime": float(res.implied_regime),
-            "ordering_spread_s": float(_spread),
-            "ordering": _ord[["compounds", "mean_s"]].to_dict("records"),
-            "grip_budget_s": float(GRIP_BUDGET_S),
-            "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"])
+            "best_plan": {k: (list(v) if isinstance(v, list) else v) for k, v in res.best.items()},
+            "tyre_optimal": {**res.tyre_optimal, "label": res.tyre_optimal_label},
+            "warmup_s": float(res.warmup_s), "push": float(res.best.get("push", float("nan"))),
+            "push_grid": list(res.push_grid), "implied_regime": float(res.implied_regime),
+            "ordering_spread_s": float(_spread), "ordering": _ord[["compounds", "mean_s"]].to_dict("records"),
+            "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
+            "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
+            "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
+            "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"], s_per_lap=cal.dirty_air_s_per_lap)
                                         / max(1, len(res.best["pit_laps"]))),
-            "safety_car_credit_s": float(
-                strat.safety_car_credit(ev, res.best["pit_laps"], float(pl.seconds))),
-            "by_stops": res.by_stops.assign(
-                pit_laps=res.by_stops["pit_laps"].astype(str),
-                stint_lens=res.by_stops["stint_lens"].astype(str),
-            ).to_dict("records"),
+            "safety_car_credit_s": float(strat.safety_car_credit(ev, res.best["pit_laps"], float(pl.seconds))),
+            "by_stops": res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),
+                                            stint_lens=res.by_stops["stint_lens"].astype(str)).to_dict("records"),
             "life": res.life.to_dict("records"),
-            "pit_windows": ([
-                {"stop": int(k),
-                 "recommended": int(res.best["pit_laps"][int(k) - 1]),
-                 "lo": int(g[g["in_window"]]["lap"].min()),
-                 "hi": int(g[g["in_window"]]["lap"].max())}
-                for k, g in pw.groupby("stop")] if not pw.empty else []),
-            "top": res.table.head(5).assign(
-                pit_laps=res.table.head(5)["pit_laps"].astype(str),
-                stint_lens=res.table.head(5)["stint_lens"].astype(str),
-            ).to_dict("records"),
+            "pit_windows": ([{"stop": int(k), "recommended": int(res.best["pit_laps"][int(k) - 1]),
+                              "lo": int(g[g["in_window"]]["lap"].min()), "hi": int(g[g["in_window"]]["lap"].max())}
+                             for k, g in pw.groupby("stop")] if not pw.empty else []),
+            "top": res.table.head(5).assign(pit_laps=res.table.head(5)["pit_laps"].astype(str),
+                                            stint_lens=res.table.head(5)["stint_lens"].astype(str)).to_dict("records"),
         },
-        "counterfactual_top": (cf.head(3).assign(
-            actual_pit_laps=cf.head(3)["actual_pit_laps"].astype(str),
-            model_pit_laps=cf.head(3)["model_pit_laps"].astype(str),
-        ).to_dict("records") if not cf.empty else []),
-        "gates": GATES,
-        "runtime_s": round(time.time() - t_all, 1),
+        "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
+        "counterfactual_top": (cf.head(3).assign(actual_pit_laps=cf.head(3)["actual_pit_laps"].astype(str),
+                                                 model_pit_laps=cf.head(3)["model_pit_laps"].astype(str),
+                                                 sc_stop_laps=cf.head(3)["sc_stop_laps"].astype(str)).to_dict("records")
+                               if not cf.empty else []),
+        "counterfactual_summary": ({"n": int(len(cf)), "n_over_30s": int((cf["loss_s"] > 30).sum()),
+                                    "n_with_sc_stops": int((cf["n_sc_stops"] > 0).sum()),
+                                    "median_loss_s": float(cf["loss_s"].median())} if not cf.empty else {}),
+        "gates": gates_all,
+        "timings": {**fs.get("timings", {}), **timings},
+        "runtime_s": round(float(fs.get("runtime_fit_s", 0.0)) + time.time() - t_all, 1),
+        "runtime_decide_s": round(time.time() - t_all, 1),
     }
-    (DATA_PROCESSED / f"meta_{key}.json").write_text(json.dumps(meta, indent=2,
-                                                                default=str))
+    (DATA_PROCESSED / f"meta_{key}.json").write_text(json.dumps(meta, indent=2, default=_jd))
 
-    n_fail = sum(1 for g in GATES if not g["pass"])
-    print(f"\n=== {len(GATES) - n_fail}/{len(GATES)} gates passed "
-          f"in {time.time() - t_all:.0f}s ===")
-    for g in GATES:
+    n_fail = sum(1 for g in gates_all if not g["pass"])
+    print(f"\n=== {len(gates_all) - n_fail}/{len(gates_all)} gates passed "
+          f"(decide stage {time.time() - t_all:.0f}s) ===")
+    for g in gates_all:
         if not g["pass"]:
             print(f"  FAILED: {g['gate']} — {g['detail']}")
+    return 0
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--event", default="barcelona-2026")
+    ap.add_argument("--stage", choices=["all", "fit", "decide"], default="all")
+    ap.add_argument("--joint", action="store_true", help="also fit the joint lap-time + apex diagnostic")
+    ap.add_argument("--no-diagnostics", action="store_true", help="production fit only")
+    ap.add_argument("--full-diagnostics", action="store_true", help="diagnostic variants at 4x1500 instead of 2x800")
+    ap.add_argument("--mc-draws", type=int, default=MC_DRAWS)
+    ap.add_argument("--boot", type=int, default=200)
+    ap.add_argument("--pit-step", type=int, default=1)
+    ap.add_argument("--offline", action="store_true",
+                    help="keep FastF1 off the network (every session already cached): the Ergast mirror's "
+                         "timeouts turned a 15 s practice load into 5 minutes on the benchmark run")
+    args = ap.parse_args()
+
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
+    if args.offline:
+        import fastf1
+        from src.config import FASTF1_CACHE
+        fastf1.Cache.enable_cache(str(FASTF1_CACHE))
+        fastf1.Cache.offline_mode(True)
+    ev = get_event(args.event)
+    fs = None
+    if args.stage in ("all", "fit"):
+        fs = stage_fit(args, ev)
+    if args.stage in ("all", "decide"):
+        return stage_decide(args, ev, fs)
     return 0
 
 

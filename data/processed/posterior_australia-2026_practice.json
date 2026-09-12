@@ -25,20 +25,15 @@
   "SAI",
   "STR"
  ],
- "corners": [
-  1,
-  2,
-  11,
-  14
- ],
+ "corners": [],
  "w": 1.5,
- "use_hinge": true,
+ "use_hinge": false,
  "n_laps": 233,
- "n_apex": 932,
- "max_rhat": 1.0058830895255981,
+ "n_apex": 0,
+ "max_rhat": 1.0033127445081242,
  "n_divergences": 0,
  "prior_label": "2026 physics",
- "compound_prior_label": "2026 compound ladder",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
  "event_key": "australia-2026",
  "converged": true
 }

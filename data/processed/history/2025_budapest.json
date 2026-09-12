@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2025,
  "circuit": "Budapest",
  "event": "Hungarian Grand Prix",
@@ -16,7 +17,20 @@
   "H-M": 2,
   "S-M-H": 1,
   "S-M-M": 1,
-  "S-H-M": 1
+  "S-H-M": 1,
+  "M-S-H": 1
+ },
+ "starts": {
+  "MEDIUM": 14,
+  "SOFT": 3,
+  "HARD": 2
+ },
+ "first_stop": {
+  "median_lap": 20.0,
+  "p25": 16.0,
+  "p75": 34.5,
+  "n": 19,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -48,22 +62,41 @@
   "HARD": {
    "slope": 0.03903718557919825,
    "se": 0.0028028288050976394,
-   "n_laps": 724
+   "n_laps": 724,
+   "offset_s": 0.8559700481841066,
+   "offset_se": 0.23902158158582554
   },
   "MEDIUM": {
    "slope": 0.061240734974656486,
    "se": 0.004137309768333579,
-   "n_laps": 522
+   "n_laps": 522,
+   "offset_s": 0.5972035267565143,
+   "offset_se": 0.2573582040138771
   },
   "SOFT": {
    "slope": 0.11284662124737244,
    "se": 0.025210597031933117,
-   "n_laps": 43
+   "n_laps": 43,
+   "offset_s": 0.0,
+   "offset_se": 0.3380275623785417
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.3961688527089274,
+  "pace_step_se": 0.2707021924680636,
+  "deg_ratio": 1.5881103388707543,
+  "n_pairs": 2
+ },
+ "net_step": {
+  "step_s": -0.028478165307283376,
+  "se": 0.3067455997402949,
+  "n_stints": 48,
+  "median_stint_laps": 28.0
  },
  "pit_loss_s": 20.99800000000002,
  "n_pit_stops": 29,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 31.8,
+ "air_temp_c": 22.1,
  "rain": false
 }

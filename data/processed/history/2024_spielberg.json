@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2024,
  "circuit": "Spielberg",
  "event": "Austrian Grand Prix",
@@ -17,6 +18,17 @@
   "H-M-M-M": 1,
   "M-H-M-S": 1,
   "H-M-H": 1
+ },
+ "starts": {
+  "MEDIUM": 17,
+  "HARD": 2
+ },
+ "first_stop": {
+  "median_lap": 20.0,
+  "p25": 14.0,
+  "p75": 21.5,
+  "n": 19,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -48,17 +60,34 @@
   "HARD": {
    "slope": 0.06290181820506013,
    "se": 0.002560318855194311,
-   "n_laps": 660
+   "n_laps": 660,
+   "offset_s": 0.7370531871368509,
+   "offset_se": 0.5401066983078158
   },
   "MEDIUM": {
    "slope": 0.07419634371182166,
    "se": 0.00401534391019741,
-   "n_laps": 584
+   "n_laps": 584,
+   "offset_s": 0.5682319177439099,
+   "offset_se": 0.5439526293552185
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.16882126939294093,
+  "pace_step_se": 0.7665505257577125,
+  "deg_ratio": 1.179558013250767,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": -0.011861975320275775,
+  "se": 0.15212847034906177,
+  "n_stints": 61,
+  "median_stint_laps": 21.0
  },
  "pit_loss_s": 20.90249999999999,
  "n_pit_stops": 44,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 46.5,
+ "air_temp_c": 29.5,
  "rain": true
 }

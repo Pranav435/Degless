@@ -18,13 +18,18 @@ Two errors are reported, and they measure different things:
 
 * `mae_stint_rate` (**the headline**, s/lap) — per stint, the observed
   degradation *rate* from the mean of the first three laps to the mean of the
-  last three, against the same quantity from the sealed curve.  This is the
-  quantity the plan's own race cross-check uses (GAS stint 2: +3.58 s over 26
-  laps ~ 0.14 s/lap), and the < 0.15 s/lap target is on this scale.
+  last three, against the same quantity from the sealed curve.  The < 0.15
+  s/lap target is on this scale.
 * `mae_lap` (s) — raw per-lap error.  This one is bounded below by the per-lap
-  noise of a racing lap (`sigma_obs` ~ 0.9 s: traffic, defending, fuel saving,
-  engine modes) and no tyre model can drive it to 0.15.  Reported for honesty,
-  not as a target.
+  noise of a racing lap and no tyre model can drive it to 0.15.  Reported for
+  honesty, not as a target.
+
+**The noise the intervals use.**  Race stints are scored with the per-lap
+noise of a *racing* lap (`sigma_race`, 0.5 s), not the practice `sigma_obs`
+(0.74-1.05 s of engine modes, fuel saving and traffic that centring removes).
+With the practice value the 90% intervals covered 95-100% at 1.5x the width
+the metric's own noise floor needs; the sealed file carries both and the
+scorer uses the race value where it exists.
 """
 
 from __future__ import annotations
@@ -41,6 +46,7 @@ import pandas as pd
 from src.config import (
     GRIP_BUDGET_S,
     SEALED_DIR,
+    SIGMA_RACE_LAP_S,
     VALID_COMPOUNDS,
     Event,
     get_event,
@@ -69,7 +75,8 @@ def _curve_block(d: np.ndarray) -> dict:
 
 
 def seal_predictions(fit, event: Event | str, *, ages=None, regime=None,
-                     max_age: int = 40, note: str = "") -> tuple:
+                     max_age: int = 40, note: str = "", sigma_race: float = SIGMA_RACE_LAP_S,
+                     cliff: dict | None = None, extra: dict | None = None) -> tuple:
     """Freeze the posterior degradation curves to JSON + sha256.  Returns (path, sha).
 
     Two curve sets are sealed and both are checked in:
@@ -78,11 +85,15 @@ def seal_predictions(fit, event: Event | str, *, ages=None, regime=None,
     * `race_curves` — the same posterior scaled by the practice -> race regime
       factor (`src.regime`), i.e. what a *race stint* is predicted to do.
 
-    The second is the one that gets scored, because it is the one that makes a
-    claim about the race.  Scaling is applied draw by draw against draws from
-    the regime factor's own distribution, so the extra uncertainty in the
-    transfer widens the predictive band rather than vanishing into a point
-    multiplier — which is what lets the coverage test police it.
+    The second is the one that gets scored.  Scaling is applied draw by draw
+    against draws from the regime factor's own distribution, so the extra
+    uncertainty in the transfer widens the predictive band rather than
+    vanishing into a point multiplier — which is what lets the coverage test
+    police it.
+
+    `cliff` is the circuit history's statement of where each compound ends
+    (`CircuitPrior.cliff()`), sealed as such: a practice fit cannot identify
+    a knee, and the file says so instead of carrying a prior.
     """
     ev = get_event(event) if isinstance(event, str) else event
     ages = np.arange(0, max_age + 1, dtype=float) if ages is None else np.asarray(ages)
@@ -95,6 +106,7 @@ def seal_predictions(fit, event: Event | str, *, ages=None, regime=None,
             race_curves[c] = _curve_block(d * regime.draws(d.shape[0], seed=5)[:, None])
 
     j = {name: i for i, name in enumerate(fit.compounds)}
+    has_knee = bool(getattr(fit, "has_hinge", False))
     payload = {
         "product": "degless",
         "event": ev.key,
@@ -103,34 +115,52 @@ def seal_predictions(fit, event: Event | str, *, ages=None, regime=None,
         "fitted_on": "practice sessions only (firewall enforced in src.ingest)",
         "sessions": list(ev.practice_sessions),
         "prior": fit.prior_label,
+        "compound_prior": getattr(fit, "compound_prior_label", ""),
         "n_laps": int(fit.n_laps),
         "n_apex_rows": int(fit.n_apex),
         "max_rhat": float(fit.max_rhat),
         "n_divergences": int(fit.n_divergences),
         "converged": bool(fit.converged),
+        "hinge": has_knee,
         "ages": ages.tolist(),
         "curves": curves,
         "race_curves": race_curves,
         "regime": (regime.as_dict() if regime is not None else {}),
-        "knee": {c: {"mean": float(fit.posterior["knee"][:, j[c]].mean()),
-                     "p05": float(np.quantile(fit.posterior["knee"][:, j[c]], 0.05)),
-                     "p95": float(np.quantile(fit.posterior["knee"][:, j[c]], 0.95))}
-                 for c in fit.compounds},
+        "knee": ({c: {"mean": float(fit.posterior["knee"][:, j[c]].mean()),
+                      "p05": float(np.quantile(fit.posterior["knee"][:, j[c]], 0.05)),
+                      "p95": float(np.quantile(fit.posterior["knee"][:, j[c]], 0.95))}
+                  for c in fit.compounds} if has_knee else {}),
+        "cliff_history": dict(cliff or {}),
         "k_track": {"mean": float(fit.k_track.mean()),
                     "sd": float(fit.k_track.std())},
         "sigma_obs": float(fit.posterior["sigma_obs"].mean()),
+        "sigma_race": float(sigma_race),
         "comp_offset": fit.comp_offset,
         "note": note,
     }
+    if extra:
+        payload.update(extra)
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     path = SEALED_DIR / f"{ev.key}_{stamp}.json"
-    blob = json.dumps(payload, indent=2, sort_keys=True).encode()
+    blob = json.dumps(payload, indent=2, sort_keys=True, default=_json_default).encode()
     path.write_bytes(blob)
     sha = hashlib.sha256(blob).hexdigest()
     (path.with_suffix(".json.sha256")).write_text(f"{sha}  {path.name}\n")
     log.info("sealed %s (sha256 %s)", path.name, sha[:16])
     return path, sha
+
+
+def _json_default(o):
+    if isinstance(o, (np.floating, float)):
+        return None if not np.isfinite(o) else float(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.bool_):
+        return bool(o)
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    return str(o)
 
 
 def load_sealed(path) -> dict:
@@ -177,10 +207,13 @@ class Scorecard:
     bias_by_compound: dict = field(default_factory=dict)
     per_stint: pd.DataFrame | None = None
     mae_by_compound: dict = field(default_factory=dict)
-    coverage: dict = field(default_factory=dict)   # nominal -> empirical
+    coverage: dict = field(default_factory=dict)   # nominal -> empirical (per lap)
+    rate_coverage90: float = np.nan                 # stint-rate 90% interval coverage
+    rate_width90: float = np.nan
     coverage_direction: str = ""   # "under" (a real failure) | "ok" | "over"
     cliff: dict = field(default_factory=dict)      # compound -> {pred, obs, err}
     per_lap: pd.DataFrame | None = None
+    sigma_used: float = np.nan
     passes_mae: bool = False
     passes_coverage: bool = False
 
@@ -190,18 +223,14 @@ class Scorecard:
             f"{self.event}: stint-rate MAE {self.mae:.3f} s/lap over "
             f"{self.n_rate_stints} race stints (target < {MAE_TARGET}); "
             f"per-lap MAE {self.mae_lap:.3f} s over {self.n_laps} laps; "
-            f"90% coverage {cov90:.2%} (band {COVERAGE_BAND[0]:.0%}-{COVERAGE_BAND[1]:.0%}); "
+            f"90% coverage {cov90:.2%} per lap, {self.rate_coverage90:.2%} on the stint rate "
+            f"(band {COVERAGE_BAND[0]:.0%}-{COVERAGE_BAND[1]:.0%}); "
             f"bias {self.bias:+.3f} s/lap"
         )
 
 
 def scored_curves(sealed: dict) -> tuple:
-    """The curve set that is actually scored, and a label for it.
-
-    `race_curves` when the sealed file carries them, `curves` otherwise — so a
-    file sealed before the regime transfer existed still scores, against the
-    practice-regime curves it was written with.
-    """
+    """The curve set that is actually scored, and a label for it."""
     rc = sealed.get("race_curves")
     if rc:
         return rc, "race regime"
@@ -215,15 +244,19 @@ def _interp(sealed: dict, compound: str, key: str, ages: np.ndarray) -> np.ndarr
 
 
 def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
-               *, prior: str = "2026", min_stint: int = 6) -> Scorecard:
-    """Score the sealed practice prediction against clean race laps."""
+               *, prior: str = "2026", min_stint: int = 6, sigma: float | None = None) -> Scorecard:
+    """Score the sealed practice prediction against clean race laps.
+
+    `sigma` overrides the per-lap noise; by default the sealed file's
+    `sigma_race` is used, falling back to its practice `sigma_obs`.
+    """
     ev = get_event(event) if isinstance(event, str) else event
     fp = get_prior(ev, prior)
 
     curves, regime_label = scored_curves(sealed)
     d = race_clean.dropna(subset=["lap_time_s", "tyre_age", "compound"]).copy()
     d = d[d["compound"].isin(curves.keys())]
-    sigma_obs = float(sealed["sigma_obs"])
+    sigma_obs = float(sigma if sigma is not None else (sealed.get("sigma_race") or sealed["sigma_obs"]))
 
     rows = []
     for uid, g in d.groupby("stint_uid"):
@@ -249,11 +282,11 @@ def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
             "stint_uid": uid, "driver": g["driver"].to_numpy(),
             "lap_number": g["lap_number"].to_numpy(), "compound": comp,
             "tyre_age": ages, "obs_centred": obs_c, "pred_centred": pred_c,
-            "err": obs_c - pred_c, "pred_sd": tot_sd,
+            "err": obs_c - pred_c, "pred_sd": tot_sd, "curve_sd": sd,
         }))
 
     sc = Scorecard(event=ev.key, sealed_file=sealed.get("_file", ""),
-                   sealed_sha=sealed.get("_sha256", ""), regime_label=regime_label)
+                   sealed_sha=sealed.get("_sha256", ""), regime_label=regime_label, sigma_used=sigma_obs)
     if not rows:
         log.warning("no race stints long enough to score for %s", ev.key)
         return sc
@@ -277,10 +310,16 @@ def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
             continue
         obs_rate = float(last["obs_centred"].mean() - first["obs_centred"].mean()) / d_age
         pred_rate = float(last["pred_centred"].mean() - first["pred_centred"].mean()) / d_age
+        # rate interval: curve uncertainty on the rate plus the noise of two 3-lap means
+        curve_sd = float(np.sqrt(last["curve_sd"].mean() ** 2 + first["curve_sd"].mean() ** 2)) / d_age
+        noise = sigma_obs * np.sqrt(2.0 / 3.0) / d_age
+        rate_sd = float(np.sqrt(curve_sd ** 2 + noise ** 2))
         srows.append({"stint_uid": uid, "driver": g["driver"].iloc[0],
                       "compound": g["compound"].iloc[0], "n_laps": len(g),
                       "age_span": d_age, "obs_rate": obs_rate,
-                      "pred_rate": pred_rate, "err": obs_rate - pred_rate})
+                      "pred_rate": pred_rate, "err": obs_rate - pred_rate,
+                      "rate_sd": rate_sd,
+                      "inside90": bool(abs(obs_rate - pred_rate) <= 1.645 * rate_sd)})
     if srows:
         ps = pd.DataFrame(srows)
         sc.per_stint = ps
@@ -293,6 +332,8 @@ def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
         # regimes differ, not that it is noisy.
         sc.bias = float(ps["err"].mean())
         sc.bias_by_compound = ps.groupby("compound")["err"].mean().to_dict()
+        sc.rate_coverage90 = float(ps["inside90"].mean())
+        sc.rate_width90 = float((2 * 1.645 * ps["rate_sd"]).mean())
     else:
         sc.mae = sc.mae_lap
         sc.mae_by_compound = per.groupby("compound")["err"].apply(
@@ -309,17 +350,9 @@ def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
     sc.passes_mae = sc.mae < MAE_TARGET
     c90 = sc.coverage.get(0.90, np.nan)
     # Under- and over-coverage are not the same failure.  An interval that
-    # contains the truth less often than it claims is *dishonest* — it asserts
-    # confidence it has not earned.  One that contains it more often is merely
-    # inefficient: the answer is right and the error bar is wider than it needs
-    # to be.  Only the first is allowed to fail the gate; the second is
-    # reported as what it is.
-    #
-    # This build over-covers, and for a known reason: `sigma_obs` is the
-    # per-lap noise of a *practice* lap (~0.9 s of traffic, engine modes and
-    # fuel saving), while each race stint is scored centred on its own mean,
-    # which removes most of that.  The regime factor's own spread widens the
-    # band further.  Both are deliberate and neither is tuned away.
+    # contains the truth less often than it claims is *dishonest*.  One that
+    # contains it more often is merely inefficient.  Only the first is
+    # allowed to fail the gate; the second is reported as what it is.
     if not np.isfinite(c90):
         sc.coverage_direction = ""
     elif c90 < COVERAGE_BAND[0]:
@@ -336,13 +369,17 @@ def score_race(sealed: dict, race_clean: pd.DataFrame, event: Event | str,
 
 
 def _cliff_error(sealed: dict, per: pd.DataFrame, w: float = 1.5) -> dict:
-    """Compare the posterior knee to the observed race pace-collapse lap.
+    """Compare the sealed cliff to the observed race pace-collapse lap.
 
-    The observed knee is found by fitting the same softplus hinge shape to the
+    The observed knee is found by fitting a softplus hinge shape to the
     pooled, stint-centred race profile and scanning the knee on a 1-lap grid.
+    The sealed cliff is the posterior knee where the fit carried a hinge, else
+    the circuit history's p90 stint (the reported cliff), labelled as such.
     """
     out = {}
     sp = lambda x: np.logaddexp(0.0, x)  # noqa: E731
+    knee = sealed.get("knee") or {}
+    hist = sealed.get("cliff_history") or {}
     for comp, g in per.groupby("compound"):
         ages = g["tyre_age"].to_numpy(dtype=float)
         y = g["obs_centred"].to_numpy(dtype=float)
@@ -359,15 +396,16 @@ def _cliff_error(sealed: dict, per: pd.DataFrame, w: float = 1.5) -> dict:
             rss = float(np.sum((y - X @ beta) ** 2))
             if rss < best:
                 best, best_k = rss, float(k)
-        pred = float(sealed["knee"][comp]["mean"])
-        # A best fit sitting on the edge of the scan grid means the scan never
-        # found an interior collapse — the race simply did not run these tyres
-        # far enough to show a cliff.  Reporting the boundary as if it were a
-        # detected knee would be a fabricated number.
+        if comp in knee:
+            pred, src = float(knee[comp]["mean"]), "posterior knee"
+        elif comp in hist and np.isfinite(hist[comp].get("p90_stint", np.nan)):
+            pred, src = float(hist[comp]["p90_stint"]), "circuit history p90 stint"
+        else:
+            pred, src = float("nan"), "none"
         detected = bool(grid[0] < best_k < grid[-1])
-        out[comp] = {"predicted_lap": pred,
+        out[comp] = {"predicted_lap": pred, "source": src,
                      "observed_lap": best_k if detected else float("nan"),
-                     "error_laps": abs(pred - best_k) if detected else float("nan"),
+                     "error_laps": abs(pred - best_k) if (detected and np.isfinite(pred)) else float("nan"),
                      "detected": detected}
     return out
 
@@ -388,27 +426,22 @@ def strategy_backtest(res, race: pd.DataFrame, event: Event | str,
                       *, min_stint: int = 3) -> dict:
     """Score the recommended plan against what the field actually did.
 
-    `score_race` checks the degradation *curve*; this checks the *decision*,
-    which is a different question and the one this project exists to answer.  A
-    curve can be within its error bars and still produce a plan no team would
-    run, and that is exactly the failure this rebuild was aimed at: the previous
-    model passed every curve gate while recommending a 33-lap stint on the SOFT
-    at Hungary 2026 and a one-stop at a circuit where nobody one-stopped.
-
+    `score_race` checks the degradation *curve*; this checks the *decision*.
     Three things are checked, none of which the curve metrics can see:
 
-    * **stop count** - against the distribution among classified finishers,
-      which is the field's own revealed answer to the same question;
+    * **stop count** - against the distribution among classified finishers;
     * **stint length per compound** - whether each recommended stint sits
-      inside the range the compound was actually run to, per compound, because
-      "18 laps on the SOFT" is right or wrong only relative to the SOFT;
+      inside the range the compound was actually run to;
     * **the grip-budget invariant** - degradation rate times longest observed
-      stint, per compound, which should come out near `GRIP_BUDGET_S` if the
-      premise the tyre model is built on holds at this circuit.
+      stint, per compound, against the budget the model used;
 
-    The race is validation data throughout.  Nothing here feeds a fit; it is
-    read after the prediction is sealed.
+    plus, **safety-car aware**, the field's first-stop laps: the median in-lap
+    of first stops taken under green, the share taken under a safety car,
+    and where the tyre-optimal and position-aware recommendations sit
+    against it.  The race is validation data throughout.
     """
+    from src.strategy import race_stops
+
     ev = get_event(event) if isinstance(event, str) else event
 
     st = (race.groupby(["driver", "stint"])
@@ -444,19 +477,33 @@ def strategy_backtest(res, race: pd.DataFrame, event: Event | str,
                           "observed_max": (o or {}).get("max", float("nan")),
                           "inside_observed_range": inside})
 
-    # The invariant is stated at the push the race was actually run at, so the
-    # full-push rate the model reports has to be scaled by the same wear
-    # multiplier the plan assumes.  Comparing a full-push rate against a
-    # managed stint length would overstate the implied budget by 1/psi (~1.5x)
-    # and make a consistent measurement look like a contradiction.
-    from src.tyre import wear_multiplier
-
-    psi = float(wear_multiplier(float(res.best.get("push", 1.0))))
+    # The invariant is stated at the push the race was actually run at.
+    model = getattr(res, "model", None)
+    psi = float(model.psi(float(res.best.get("push", 1.0)))) if model is not None else 1.0
     budget = {}
     for c, g in st.groupby("compound"):
         rate = res.life.loc[res.life["compound"] == c, "deg_s_per_lap"]
         if len(rate) and np.isfinite(float(rate.iloc[0])):
             budget[c] = float(rate.iloc[0]) * psi * float(g["n"].max())
+    budget_used = {c: (model.budget_of(c) if model is not None else float(GRIP_BUDGET_S)) for c in budget}
+
+    # -- first stops, safety-car aware ---------------------------------------
+    rs = race_stops(race, ev)
+    firsts = [(v["in_laps"][0], v["sc"][0]) for d, v in rs.items() if v["classified"] and v["in_laps"]]
+    green = [p for p, sc_ in firsts if not sc_]
+    rec_first = int(res.best["pit_laps"][0]) if res.best.get("pit_laps") else None
+    tyre_first = (int(res.tyre_optimal["pit_laps"][0]) if getattr(res, "tyre_optimal", None)
+                  and res.tyre_optimal.get("pit_laps") else None)
+    first_stop = {
+        "n": len(firsts), "n_green": len(green), "share_under_sc": (float(np.mean([s for _, s in firsts])) if firsts else None),
+        "field_median_green": (float(np.median(green)) if green else None),
+        "field_p25_green": (float(np.quantile(green, 0.25)) if green else None),
+        "field_p75_green": (float(np.quantile(green, 0.75)) if green else None),
+        "recommended": rec_first, "tyre_optimal": tyre_first,
+        "recommended_minus_field": ((rec_first - float(np.median(green))) if (green and rec_first is not None) else None),
+        "tyre_optimal_minus_field": ((tyre_first - float(np.median(green))) if (green and tyre_first is not None) else None),
+        "sc_set_the_stops": bool(firsts and np.mean([s for _, s in firsts]) > 0.4),
+    }
 
     return {
         "recommended_stops": rec_stops,
@@ -468,5 +515,7 @@ def strategy_backtest(res, race: pd.DataFrame, event: Event | str,
         "per_stint": per_stint,
         "all_stints_inside_observed_range": n_ok == len(lens),
         "grip_budget_implied": budget,
+        "grip_budget_used": budget_used,
         "grip_budget_config": float(GRIP_BUDGET_S),
+        "first_stop": first_stop,
     }

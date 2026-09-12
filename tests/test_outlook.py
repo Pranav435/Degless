@@ -102,7 +102,7 @@ def test_simulate_model_equals_simulate_from_fit(italy):
 
 def test_evaluate_plans_flags_and_invalid(italy):
     ev, fit = italy
-    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, 6000, 60))
+    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, fit.posterior["lin"].shape[0], max(fit.posterior["lin"].shape[0] // 100, 1)))
     plans = [{"compounds": ["MEDIUM", "MEDIUM"], "pit_laps": [25]},            # one compound
              {"compounds": ["SOFT", "HARD"], "pit_laps": [40, 10]},              # out of order
              {"compounds": ["MEDIUM", "HARD"], "pit_laps": [24], "push": 0.7}]
@@ -116,7 +116,7 @@ def test_evaluate_plans_flags_and_invalid(italy):
 
 def test_sc_playbook_verdicts(italy):
     ev, fit = italy
-    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, 6000, 60))
+    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, fit.posterior["lin"].shape[0], max(fit.posterior["lin"].shape[0] // 100, 1)))
     plan = {"compounds": ["MEDIUM", "HARD"], "pit_laps": [24], "push": 1.0}
     pb = strat.sc_playbook(model, ev, plan, 25.3, allocation={"SOFT": 2, "MEDIUM": 2, "HARD": 2})
     assert set(pb["verdict"]) <= {"PIT", "STAY", "MARGINAL", "PLANNED"}
@@ -129,7 +129,7 @@ def test_sc_playbook_verdicts(italy):
 
 def test_crossover_and_duel(italy):
     ev, fit = italy
-    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, 6000, 60))
+    model = strat.TyreModel.from_fit(fit, draws=np.arange(0, fit.posterior["lin"].shape[0], max(fit.posterior["lin"].shape[0] // 100, 1)))
     a = {"compounds": ["MEDIUM", "HARD"], "pit_laps": [24], "push": 1.0}
     b = {"compounds": ["MEDIUM", "HARD", "MEDIUM"], "pit_laps": [17, 37], "push": 1.0}
     cx = strat.deg_crossover(model, ev, a, b, 25.3, mults=[1.0, 2.0, 3.0, 4.0])
@@ -157,7 +157,9 @@ def test_value_of_information(italy):
 def test_outlook_prior_only_new_circuit(tmp_path, monkeypatch):
     from src import outlook
 
-    out = outlook.build("spain-2026", quick=True, n_draws=120, write=False)
+    # Madring may have a sealed fit by now (the supervisor refits during the
+    # weekend); the pre-practice picture is what this test is about
+    out = outlook.build("spain-2026", quick=True, n_draws=120, write=False, force_prior=True)
     assert out["stage"] == "prior"
     st = out["strategy"]
     assert st["best"] and abs(sum(st["p_stops"].values()) - 1.0) < 1e-9
@@ -171,7 +173,7 @@ def test_outlook_live_board_folds_in(tmp_path):
     from src import outlook
 
     ev = get_event("spain-2026")
-    base = outlook.load_base(ev, n_draws=120)
+    base = outlook.load_base(ev, n_draws=120, force_prior=True)
     pooled = {"MEDIUM": {"slope_s_per_lap": 0.30, "se": 0.03, "n_stints": 5, "n_laps": 40},
               "SOFT": {"slope_s_per_lap": 0.005, "se": 0.02, "n_stints": 1, "n_laps": 6}}
     model, rows = outlook.fold_live_board(base, pooled, session_name="Practice 1")

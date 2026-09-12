@@ -1,0 +1,50 @@
+{
+ "compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "drivers": [
+  "ALB",
+  "ANT",
+  "ARO",
+  "BEA",
+  "BEG",
+  "BOR",
+  "BOT",
+  "COL",
+  "FOR",
+  "GAS",
+  "HAD",
+  "HAM",
+  "HER",
+  "HUL",
+  "IWA",
+  "LEC",
+  "LIN",
+  "NOR",
+  "OCO",
+  "PER",
+  "PIA",
+  "RUS",
+  "SAI",
+  "VER",
+  "VES"
+ ],
+ "corners": [
+  1,
+  2,
+  8,
+  11
+ ],
+ "w": 1.5,
+ "use_hinge": true,
+ "n_laps": 225,
+ "n_apex": 900,
+ "max_rhat": 1.0024649136214314,
+ "n_divergences": 0,
+ "prior_label": "2026 physics + circuit history",
+ "compound_prior_label": "2026 compound ladder",
+ "event_key": "barcelona-2026",
+ "converged": true
+}

@@ -5,10 +5,11 @@ Between races the model knows nothing about the coming weekend from practice,
 because there has been none - but it is not ignorant.  It has the compound
 ladder, three years of races at the circuit (or, for a circuit nobody has
 raced, the 2026 season so far), a practice->race regime factor measured on
-every scored weekend, a pit-loss and allocation prior from the same, and the
-thermal sensitivity of degradation.  That is enough to run the same strategy
-search the sealed model runs, with honest (wide) uncertainty, and to say
-which of that uncertainty the decision actually hinges on.
+every scored weekend, a pit-loss and allocation prior from the same, the
+thermal sensitivity of degradation, the circuit's revealed plan shapes and
+the leave-one-out calibration of the plan-deciding constants.  That is enough
+to run the same strategy search the sealed model runs, with honest (wide)
+uncertainty, and to say which of that uncertainty the decision hinges on.
 
 From then on every new piece of information tightens the picture, in order:
 
@@ -20,11 +21,12 @@ From then on every new piece of information tightens the picture, in order:
 
 Every build appends a line to a timeline, so the app can show how the
 recommended stop count, the stint lengths and the tyre lives have moved as
-data came in - which is the picture a strategist wants on Thursday: not just
-the answer, but how settled it is.
+data came in.
 
 What a build produces, beyond the plan itself:
 
+* **the tyre-optimal plan** beside the position-aware one, so the reader
+  sees what the undercut-exposure term and the plan-shape prior changed;
 * **scenarios** - the search re-run with degradation x0.7 / x1.4 and the pit
   lane 3 s quicker / slower, and the minimax-regret plan across them;
 * **value of information** - which compound's uncertainty the decision hinges
@@ -47,11 +49,12 @@ import numpy as np
 import pandas as pd
 
 from src import strategy as strat
-from src.compounds import allocation_prior
-from src.config import DATA_PROCESSED, GRIP_BUDGET_S, MAX_STINTS_PER_COMPOUND, VALID_COMPOUNDS, Event, get_event
+from src.calibration import Calibration, get_calibration
+from src.compounds import allocation_prior, pace_step_prior
+from src.config import DATA_PROCESSED, MAX_STINTS_PER_COMPOUND, VALID_COMPOUNDS, Event, get_event
 from src.history import (
-    THERMAL_BETA_DEFAULT, apply_rate_prior_to_model, circuit_prior, season_prior, stint_caps_for,
-    summarise_race, thermal_sensitivity, YEARS,
+    THERMAL_BETA_DEFAULT, apply_rate_prior_to_model, circuit_prior, plan_prior_for, season_prior,
+    stint_caps_for, summarise_race, thermal_sensitivity, YEARS,
 )
 from src.live.store import LIVE_DIR, atomic_write, read_snapshot
 from src.regime import RegimeFactor, regime_prior
@@ -104,13 +107,17 @@ class BaseModel:
     combination: list = field(default_factory=list)
     n_practice_laps: int = 0
     prior_basis: str = ""
+    calibration: Calibration = field(default_factory=Calibration)
+    plan_prior: dict = field(default_factory=dict)
+    net_step: dict = field(default_factory=dict)      # {measured, se, derivation}
+    pace_calibration: dict = field(default_factory=dict)
 
 
 def _regime_from_meta(rg: dict) -> RegimeFactor:
     return RegimeFactor(ratio=float(rg.get("ratio", 0.65)), ln_sd=float(rg.get("ln_sd", 0.35)),
                         sources=list(rg.get("sources", [])), measured=bool(rg.get("measured", False)),
                         label=str(rg.get("label", "")), derivation=str(rg.get("derivation", "")),
-                        donor_detail=list(rg.get("donors", [])))
+                        donor_detail=list(rg.get("donors", [])), temperature=dict(rg.get("temperature", {})))
 
 
 def _history_temps(ev: Event) -> list:
@@ -122,23 +129,43 @@ def _history_temps(ev: Event) -> list:
     return out
 
 
+def sim_kwargs(base: BaseModel) -> dict:
+    """The keyword arguments every search on this base model shares."""
+    cal = base.calibration
+    return dict(regime=base.regime, support=base.support, max_per_compound=base.allocation,
+                max_stint=(base.stint_cap or None), undercut_lambda=cal.undercut_lambda,
+                plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
+                traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+
+
+def eval_kwargs(base: BaseModel) -> dict:
+    cal = base.calibration
+    return dict(allocation=base.allocation, stint_cap=base.stint_cap, undercut_lambda=cal.undercut_lambda,
+                plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
+                traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+
+
 def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_OUTLOOK_DRAWS,
-              seed: int = 0) -> BaseModel:
+              seed: int = 0, force_prior: bool = False) -> BaseModel:
+    """`force_prior=True` composes the pre-practice prior even when a sealed
+    fit exists - the benchmark's "what would the outlook have said on Thursday"."""
     from src.live.engine import WeekendModel, pit_loss_prior
 
     rng = np.random.default_rng(seed)
+    cal = get_calibration(ev)
     post = DATA_PROCESSED / f"posterior_{ev.key}.npz"
     meta_p = DATA_PROCESSED / f"weekend_{ev.key}.json"
     if not meta_p.exists():
         meta_p = DATA_PROCESSED / f"meta_{ev.key}.json"
-    if post.exists() and meta_p.exists():
+    if post.exists() and meta_p.exists() and not force_prior:
         from src.model_bayes import BayesFit
 
         meta = json.loads(meta_p.read_text())
         fit = BayesFit.load(post)
         total = fit.posterior["lin"].shape[0]
         idx = rng.choice(total, size=min(n_draws, total), replace=False)
-        model = TyreModel.from_fit(fit, draws=idx, budget=GRIP_BUDGET_S)
+        model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets,
+                                   manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
         hist = meta.get("circuit_history") or {}
         caps = {k: int(v) for k, v in (hist.get("stint_cap") or {}).items()}
         used = list(meta.get("sessions_used", []))
@@ -149,6 +176,11 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
         th = dict(hist.get("thermal") or {})
         if track_temp_c is not None:
             th["track_temp_live"] = float(track_temp_c)
+        pp = meta.get("plan_prior") or plan_prior_for(None)
+        ns = meta.get("net_step") or {}
+        sources.append(f"calibration: {cal.source}")
+        if pp:
+            sources.append(f"plan-shape prior from {pp.get('source')}")
         return BaseModel(model=model, regime=_regime_from_meta(meta.get("regime", {})), stage="sealed",
                          sources=sources, pit_loss_s=float(meta.get("pit_loss_s", 22.0)),
                          pit_loss_source=str(meta.get("pit_loss_source", "")),
@@ -157,10 +189,11 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
                          stint_cap=caps, support={k: float(v) for k, v in (meta.get("age_support_by_compound") or {}).items()},
                          sessions_used=used, sealed_file=str(meta.get("sealed_file", "")), history=hist,
                          thermal=th, combination=list(meta.get("history_combination") or []),
-                         n_practice_laps=int(meta.get("n_clean_laps", 0)), prior_basis="sealed fit")
+                         n_practice_laps=int(meta.get("n_clean_laps", 0)), prior_basis="sealed fit",
+                         calibration=cal, plan_prior=pp, net_step=ns)
 
     # -- no practice yet: compose the prior --------------------------------
-    model = WeekendModel.prior_model(ev, n_draws, rng)
+    model = WeekendModel.prior_model(ev, n_draws, rng, calibration=cal)
     regime = regime_prior(ev)
     sources = [f"compound-ladder prior (MEDIUM 0.10 s/lap, factor-2 spread), regime factor "
                f"{regime.ratio:.2f}x [{regime.p05:.2f}-{regime.p95:.2f}] {regime.label}"]
@@ -195,11 +228,18 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
     if caps:
         sources.append("stint caps from this circuit's races: " + ", ".join(f"{c} {v}" for c, v in caps.items()))
     sources.append(f"pit loss {pit:.1f} s ({pit_src}); allocation {alloc['caps']}")
+    pp = plan_prior_for(cp if cp.available else None)
+    if pp:
+        sources.append(f"plan-shape prior from {pp.get('source')}: " + ", ".join(f"{k} {v}" for k, v in list(pp['sequences'].items())[:4]))
+    ps = pace_step_prior(ev, circuit=cp if cp.available else None)
+    ns = {"measured": ps.get("net_stint_step_measured"), "se": ps.get("net_stint_step_se"),
+          "derivation": ps.get("derivation", "")}
+    sources.append(f"calibration: {cal.source}")
     return BaseModel(model=model, regime=regime, stage="prior", sources=sources, pit_loss_s=float(pit),
                      pit_loss_source=pit_src, allocation=dict(alloc["caps"]), stint_cap=caps, support=None,
                      history=(cp.as_dict() if cp.available else {}), season=season,
                      thermal=dict(cp.thermal) if cp.available else {}, combination=combination,
-                     n_practice_laps=0, prior_basis=basis)
+                     n_practice_laps=0, prior_basis=basis, calibration=cal, plan_prior=pp, net_step=ns)
 
 
 # --------------------------------------------------------------------------
@@ -247,17 +287,15 @@ def fold_live_board(base: BaseModel, pooled: dict, *, session_name: str = "", se
 # --------------------------------------------------------------------------
 
 
-def _life_summary(model: TyreModel, push: float) -> dict:
+def _life_summary(model: TyreModel, ev: Event, push: float, caps: dict | None) -> dict:
     out = {}
-    for c in model.compounds:
-        rate = model.wear_rate[c] * model.budget
-        life = model.life_laps(c, push)
-        full = model.life_laps(c, 1.0)
-        out[c] = {"deg_s_per_lap": float(rate.mean()), "deg_lo": float(np.quantile(rate, 0.05)),
-                  "deg_hi": float(np.quantile(rate, 0.95)),
-                  "life_laps": float(life.mean()), "life_lo": float(np.quantile(life, 0.05)),
-                  "life_hi": float(np.quantile(life, 0.95)), "life_full_push": float(full.mean()),
-                  "pace_offset_s": float(model.pace_offset[c].mean())}
+    t = model.life_table(ev, push, caps=caps)
+    for r in t.to_dict("records"):
+        out[r["compound"]] = {"deg_s_per_lap": r["deg_s_per_lap"], "deg_lo": r["deg_lo"], "deg_hi": r["deg_hi"],
+                              "life_laps": r["life_laps"], "life_lo": r["life_lo"], "life_hi": r["life_hi"],
+                              "life_full_push": r["life_full_push"], "life_model_uncapped": r["life_model_uncapped"],
+                              "longer_than_race": r["longer_than_race"], "bound_by": r["bound_by"],
+                              "pace_offset_s": r["pace_offset_s"], "grip_budget_s": r["grip_budget_s"]}
     return out
 
 
@@ -265,7 +303,8 @@ def _plan_dict(row) -> dict:
     return {"label": str(row["strategy"]), "compounds": str(row["compounds"]).split("-"),
             "pit_laps": [int(x) for x in row["pit_laps"]], "stint_lens": [int(x) for x in row["stint_lens"]],
             "push": float(row["push"]), "n_stops": int(row["n_stops"]),
-            "delta_s": float(row.get("delta_s", 0.0)), "win_prob": float(row.get("win_prob", 0.0))}
+            "delta_s": float(row.get("delta_s", 0.0)), "win_prob": float(row.get("win_prob", 0.0)),
+            "position_s": float(row.get("position_s", 0.0)), "prior_s": float(row.get("prior_s", 0.0))}
 
 
 def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, sim_kw: dict) -> dict:
@@ -273,10 +312,7 @@ def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, si
     regrets least across all of them."""
     rng = np.random.default_rng(3)
     idx = np.sort(rng.choice(model.n_draws, size=min(SCENARIO_DRAWS, model.n_draws), replace=False))
-    small = TyreModel(compounds=list(model.compounds),
-                      wear_rate={c: model.wear_rate[c][idx] for c in model.compounds},
-                      pace_offset={c: model.pace_offset[c][idx] for c in model.compounds},
-                      budget=model.budget, load_exponent=model.load_exponent, n_draws=len(idx))
+    small = model.subsample(idx)
     cells, cands = [], {best_plan["label"]: best_plan}
     for dm in DEG_SCENARIOS:
         for dp in PIT_SCENARIOS:
@@ -292,10 +328,10 @@ def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, si
     # regret of every candidate in every scenario, on the full draw set
     plans = list(cands.values())
     regret = {p["label"]: [] for p in plans}
+    ek = eval_kwargs(base)
     for cell in cells:
         sm = strat.scale_model(model, cell["deg_mult"])
-        tbl, det = strat.evaluate_plans(sm, ev, plans, base.pit_loss_s + cell["pit_delta_s"],
-                                        allocation=base.allocation, stint_cap=base.stint_cap)
+        tbl, det = strat.evaluate_plans(sm, ev, plans, base.pit_loss_s + cell["pit_delta_s"], **ek)
         means = {d["label"]: float(d["times"].mean()) for d in det if d.get("valid")}
         floor = min(means.values())
         for lab, m in means.items():
@@ -321,9 +357,6 @@ def practice_programme(voi: dict, base: BaseModel, life: dict) -> list:
     ranked = sorted(voi["by_compound"].items(), key=lambda kv: -kv[1]["gain_s"])
     for c, v in ranked:
         sup = (base.support or {}).get(c)
-        # A practice long run is fuel- and time-limited: 8-18 laps is what a
-        # team actually runs, and the useful target is deep enough into the
-        # tyre's life to see the rate, not the cliff.
         target = int(np.clip(round(0.4 * life.get(c, {}).get("life_laps", 20)), 8, 18))
         bins = v.get("best_by_rate_bin") or []
         lo, hi = bins[0], bins[-1]
@@ -341,8 +374,9 @@ def practice_programme(voi: dict, base: BaseModel, life: dict) -> list:
 
 
 def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OUTLOOK_DRAWS,
-          quick: bool = False, seed: int = 0, write: bool = True) -> dict:
-    """Build the outlook for a weekend and (by default) write it to disk."""
+          quick: bool = False, seed: int = 0, write: bool = True, force_prior: bool = False) -> dict:
+    """Build the outlook for a weekend and (by default) write it to disk.
+    `force_prior=True` ignores a sealed fit and builds the pre-practice picture."""
     ev = get_event(event) if isinstance(event, str) else event
     t0 = time.time()
     # -- what the live feed knows, if a practice session is on or just ended
@@ -355,7 +389,7 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         track_temp = float(tt) if tt is not None else None
     except (TypeError, ValueError):
         track_temp = None
-    base = load_base(ev, track_temp_c=track_temp, n_draws=n_draws, seed=seed)
+    base = load_base(ev, track_temp_c=track_temp, n_draws=n_draws, seed=seed, force_prior=force_prior)
     model = base.model
     live_rows, live_used, live_note = [], False, ""
     sess_name = str(live_session.get("Name") or "")
@@ -375,10 +409,14 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
                     "sealed": f"sealed fit on {', '.join(base.sessions_used) or 'practice'}"}[base.stage]
                    + (f" + live {sess_name or 'practice'} board" if live_used else ""))
 
-    # -- the search -------------------------------------------------------
-    sim_kw = dict(regime=base.regime, support=base.support, max_per_compound=base.allocation,
-                  max_stint=(base.stint_cap or None))
-    res = strat.simulate_model(model, ev, base.pit_loss_s, **sim_kw)
+    # -- the search, with the ladder gate enforced --------------------------
+    sim_kw = sim_kwargs(base)
+    net = base.net_step or {}
+    model, res, pace_cal = strat.search_with_pace_calibration(
+        model, ev, base.pit_loss_s, net_step_s=float(net.get("measured") if net.get("measured") is not None else np.nan),
+        net_step_se_s=float(net.get("se") or 0.0), **sim_kw)
+    base.pace_calibration = pace_cal
+    cal = base.calibration
     out = {"event": ev.key, "event_name": ev.name, "circuit": ev.circuit, "n_race_laps": ev.n_race_laps,
            "updated_utc": datetime.now(timezone.utc).isoformat(), "stage": stage, "stage_label": stage_label,
            "prior_basis": base.prior_basis, "sources": base.sources, "sessions_used": base.sessions_used,
@@ -389,11 +427,17 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
            "regime": base.regime.as_dict(), "pit_loss_s": base.pit_loss_s, "pit_loss_source": base.pit_loss_source,
            "allocation": base.allocation, "stint_cap": base.stint_cap, "support": base.support,
            "thermal": {**base.thermal, "beta_per_c": float(thermal_sensitivity().get("beta_per_c", THERMAL_BETA_DEFAULT))},
-           "history": {k: v for k, v in base.history.items() if k in ("circuit", "years", "stops", "plans",
-                                                                       "stint_typical", "stint_cap", "pit_loss_s",
-                                                                       "sc_share", "soft_race_tyre", "season", "thermal")},
+           "history": {k: v for k, v in base.history.items() if k in ("circuit", "years", "stops", "plans", "starts",
+                                                                       "stint_typical", "stint_cap", "stint_longest",
+                                                                       "pit_loss_s", "sc_share", "soft_race_tyre",
+                                                                       "season", "thermal", "ladder", "first_stop")},
            "season": {k: v for k, v in base.season.items() if k != "rate_prior"},
-           "combination": base.combination, "n_draws": model.n_draws}
+           "combination": base.combination, "n_draws": model.n_draws,
+           "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source},
+           "plan_prior": {"source": base.plan_prior.get("source"), "n": base.plan_prior.get("n"),
+                          "sequences": dict(list((base.plan_prior.get("sequences") or {}).items())[:8]),
+                          "starts": base.plan_prior.get("starts")},
+           "net_step": net, "pace_calibration": {k: v for k, v in pace_cal.items() if k != "model_net_draws"}}
     if res.table.empty:
         out["strategy"] = {}
         out["runtime_s"] = round(time.time() - t0, 1)
@@ -402,9 +446,10 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         return out
     best = _plan_dict(res.table.iloc[0])
     push = best["push"]
-    pw = strat.pit_window_model(model, ev, res.best, base.pit_loss_s, max_stint=res.max_stint, push=push)
+    pw = strat.pit_window_model(model, ev, res.best, base.pit_loss_s, max_stint=res.max_stint, push=push,
+                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
     windows = strat.windows_from_sweep(pw, res.best)
-    life = _life_summary(model, push)
+    life = _life_summary(model, ev, push, res.max_stint if isinstance(res.max_stint, dict) else None)
     comps_present = [c for c in ("SOFT", "MEDIUM", "HARD") if c in model.compounds]
     uc_old = "MEDIUM" if "MEDIUM" in comps_present else comps_present[-1]
     uc_new = "SOFT" if "SOFT" in comps_present else comps_present[0]
@@ -417,18 +462,15 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
                 for _, r in strat.best_by_start(res).iterrows()]
     # plan B (one more stop) and plan C (one fewer), with the deg multiplier at which each overtakes A
     alts = {}
+    ek = eval_kwargs(base)
     for name, k in (("plan_b", best["n_stops"] + 1), ("plan_c", best["n_stops"] - 1)):
         row = res.by_stops[res.by_stops["n_stops"] == k]
         if row.empty:
             continue
         alt = _plan_dict(row.iloc[0])
-        # Each plan re-optimises its push at every multiplier: a managed
-        # one-stop and a flat-out two-stop compared at fixed pushes never
-        # cross, and the trigger a strategist wants is "when does the other
-        # plan, driven as well as it can be, become the faster one".
         cx = strat.deg_crossover(model, ev, {"compounds": res.best["compounds"], "pit_laps": res.best["pit_laps"]},
                                  {"compounds": alt["compounds"], "pit_laps": alt["pit_laps"]},
-                                 base.pit_loss_s, allocation=base.allocation, stint_cap=base.stint_cap)
+                                 base.pit_loss_s, **ek)
         alt["switch_mult"] = cx.get("mult")
         alt["switch_direction"] = cx.get("direction")
         alt["crossover_curve"] = cx.get("curve", [])
@@ -436,7 +478,7 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
     voi = strat.value_of_information(res)
     programme = practice_programme(voi, base, life)
     pb = strat.sc_playbook(model, ev, res.best, base.pit_loss_s, push=push, allocation=base.allocation,
-                           stint_cap=base.stint_cap)
+                           stint_cap=base.stint_cap, traffic_s_per_lap=cal.dirty_air_s_per_lap)
     out["strategy"] = {
         "best": best["label"], "best_plan": {**res.best, "label": best["label"]}, "push": push,
         "implied_regime": float(res.implied_regime), "n_strategies": int(res.n_strategies),
@@ -444,7 +486,10 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         "p_stops": {str(k): v for k, v in res.p_stops.items()}, "by_stops": by_stops, "by_start": by_start,
         "pit_windows": windows, "life": life,
         "top": [_plan_dict(r) for _, r in res.table.head(12).iterrows()],
-        "grip_budget_s": float(model.budget),
+        "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
+        "tyre_optimal": {**res.tyre_optimal, "label": res.tyre_optimal_label},
+        "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
+        "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
     }
     out["alternatives"] = alts
     out["voi"] = voi
@@ -464,8 +509,10 @@ def _write(ev: Event, out: dict, model: TyreModel, res, pw: pd.DataFrame, uc: pd
     atomic_write(outlook_path(key), json.dumps(out, indent=1, default=_json_default))
     arrays = {f"wear_{c}": model.wear_rate[c] for c in model.compounds}
     arrays.update({f"pace_{c}": model.pace_offset[c] for c in model.compounds})
+    arrays.update({f"budget_{c}": np.array(model.budget_of(c)) for c in model.compounds})
     np.savez_compressed(draws_path(key), compounds=np.array(model.compounds), budget=np.array(model.budget),
-                        load_exponent=np.array(model.load_exponent), **arrays)
+                        load_exponent=np.array(model.load_exponent),
+                        manage_floor=np.array(model.manage_floor), manage_cost_s=np.array(model.manage_cost_s), **arrays)
     if res is not None and not res.table.empty:
         t = res.table.head(400).copy()
         t["pit_laps"] = t["pit_laps"].astype(str)
@@ -494,6 +541,7 @@ def _write(ev: Event, out: dict, model: TyreModel, res, pw: pd.DataFrame, uc: pd
            "n_long_runs": (out.get("live") or {}).get("n_long_runs", 0),
            "best": st.get("best"), "n_stops": (st.get("best_plan") or {}).get("n_stops"),
            "stint_lens": (st.get("best_plan") or {}).get("stint_lens"), "push": st.get("push"),
+           "tyre_optimal": (st.get("tyre_optimal") or {}).get("label"),
            "p_stops": st.get("p_stops", {}),
            "life": {c: {"mean": v["life_laps"], "lo": v["life_lo"], "hi": v["life_hi"]} for c, v in (st.get("life") or {}).items()},
            "deg": {c: v["deg_s_per_lap"] for c, v in (st.get("life") or {}).items()},
@@ -540,11 +588,14 @@ def load_model(key: str) -> TyreModel | None:
         return None
     with np.load(p, allow_pickle=False) as z:
         comps = [str(c) for c in z["compounds"]]
+        budgets = {c: float(z[f"budget_{c}"]) for c in comps if f"budget_{c}" in z.files}
         return TyreModel(compounds=comps,
                          wear_rate={c: z[f"wear_{c}"] for c in comps},
                          pace_offset={c: z[f"pace_{c}"] for c in comps},
-                         budget=float(z["budget"]), load_exponent=float(z["load_exponent"]),
-                         n_draws=int(len(z[f"wear_{comps[0]}"])), source=f"outlook {key}")
+                         budget=float(z["budget"]), budgets=budgets, load_exponent=float(z["load_exponent"]),
+                         n_draws=int(len(z[f"wear_{comps[0]}"])), source=f"outlook {key}",
+                         manage_floor=float(z["manage_floor"]) if "manage_floor" in z.files else 0.45,
+                         manage_cost_s=float(z["manage_cost_s"]) if "manage_cost_s" in z.files else 0.9)
 
 
 def load_timeline(key: str) -> list:

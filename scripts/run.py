@@ -39,12 +39,43 @@ sys.path.insert(0, str(ROOT))
 
 from src import schedule  # noqa: E402
 from src.config import DATA_PROCESSED  # noqa: E402
+from src.live import auth  # noqa: E402
 from src.live.store import LIVE_DIR, atomic_write  # noqa: E402
 
 log = logging.getLogger("degless.run")
 PY = sys.executable
 LOG_DIR = LIVE_DIR / "logs"
 STATE_FILE = LIVE_DIR / "supervisor.json"
+
+
+def ask_yes_no(prompt: str, *, timeout_s: float = 45.0, on_timeout: bool = False) -> bool:
+    """A yes/no question that answers itself if nobody is there.
+
+    `make run` has to start whether or not a person is watching the terminal,
+    so an unattended run (cron, a pipe, a closed laptop) must never hang here.
+    """
+    import threading
+
+    try:
+        if not sys.stdin or not sys.stdin.isatty():
+            return on_timeout
+    except Exception:
+        return on_timeout
+    box: dict = {}
+
+    def read() -> None:
+        try:
+            box["v"] = input(prompt)
+        except Exception:
+            box["v"] = ""
+
+    t = threading.Thread(target=read, daemon=True)
+    t.start()
+    t.join(timeout_s)
+    if "v" not in box:
+        print(f"  (no answer in {timeout_s:.0f}s — carrying on)", flush=True)
+        return on_timeout
+    return (box["v"] or "").strip().lower() in ("", "y", "yes")
 
 
 class Job:
@@ -66,7 +97,12 @@ class Job:
     def stop(self, grace: float = 10.0) -> None:
         if not self.alive():
             return
-        self.proc.send_signal(signal.SIGINT)
+        # SIGINT lets the live daemon close its recorder and write a last
+        # snapshot; Windows has no console-independent SIGINT, so terminate.
+        try:
+            self.proc.send_signal(signal.SIGINT if os.name != "nt" else signal.SIGTERM)
+        except Exception:
+            self.proc.terminate()
         t0 = time.time()
         while self.alive() and time.time() - t0 < grace:
             time.sleep(0.2)
@@ -85,8 +121,10 @@ class Job:
 
 class Supervisor:
     def __init__(self, *, app: bool = True, port: int = 8501, poll_s: float = 20.0,
-                 rehearse: str | None = None, speed: float = 20.0):
+                 rehearse: str | None = None, speed: float = 20.0,
+                 interactive_login: bool = True):
         self.app = app
+        self.interactive_login = interactive_login
         self.rehearse = Path(rehearse) if rehearse else None
         self.speed = speed
         self.port = port
@@ -100,6 +138,10 @@ class Supervisor:
         self.history: list = []
         self.streamlit: Job | None = None
         self._stop = False
+        self.auth_state: dict = {}
+        self._auth_checked = 0.0
+        self._app_restarts = 0
+        self._app_last_start = 0.0
 
     # -- helpers ------------------------------------------------------------
 
@@ -118,6 +160,7 @@ class Supervisor:
             "done": sorted(self.done), "history": self.history[-20:],
             "app_url": f"http://localhost:{self.port}" if self.app else None,
             "outlook": self._outlook_state(),
+            "auth": self.auth_state,
             "pid": os.getpid(),
         }
         LIVE_DIR.mkdir(parents=True, exist_ok=True)
@@ -126,7 +169,68 @@ class Supervisor:
     def _has_weekend_model(self, event_key: str) -> bool:
         return (DATA_PROCESSED / f"posterior_{event_key}.npz").exists()
 
+    # -- the F1TV token, kept fresh without being a chore --------------------
+
+    def ensure_login(self, *, interactive: bool = True) -> None:
+        """Top up the car-telemetry token, prompting only if it cannot be done quietly.
+
+        Tokens last about four days, so one expires most weeks.  The saved
+        browser profile usually still holds the sign-in cookie, which is all a
+        new token needs — so the common case costs nobody anything.  Timing
+        never depends on this, and neither does starting up.
+        """
+        due, st, detail = auth.needs_refresh()
+        if not due:
+            self._note(f"F1TV: {detail}")
+            self.auth_state = {"status": "ok", "detail": detail}
+            return
+        self._note(f"F1TV: {detail}")
+        ok, msg = auth.silent_refresh()
+        if ok:
+            self._note(f"F1TV: {msg}")
+            self.auth_state = {"status": "ok", "detail": msg}
+            return
+        self._note(f"F1TV: {msg}")
+        if interactive and ask_yes_no(
+                "  Sign in to F1TV now to restore car telemetry? [Y/n] ", on_timeout=False):
+            ok, msg = auth.browser_login()
+            if not ok and "playwright" in msg.lower():
+                ok, msg = auth.paste_login()
+            self._note(f"F1TV: {msg}")
+            self.auth_state = {"status": "ok" if ok else st, "detail": msg}
+            if ok:
+                return
+        else:
+            self.auth_state = {"status": st, "detail": msg}
+        self._note("F1TV: carrying on without car telemetry — "
+                   "every timing topic works without it; `make login` when you want it back")
+
+    def maybe_refresh_login(self) -> None:
+        """Mid-run top-up: silent only, so the loop never blocks on a person."""
+        if time.time() - self._auth_checked < AUTH_RECHECK_S:
+            return
+        self._auth_checked = time.time()
+        due, st, detail = auth.needs_refresh()
+        if not due:
+            self.auth_state = {"status": "ok", "detail": detail}
+            return
+        ok, msg = auth.silent_refresh()
+        self.auth_state = {"status": "ok" if ok else st, "detail": msg}
+        if ok:
+            self._note(f"F1TV: {msg}")
+
     # -- actions ------------------------------------------------------------
+
+    def start_app(self) -> None:
+        """The dashboard, launched through `python -m streamlit` so the same
+        command works on Windows, where the venv has no `bin/streamlit`."""
+        self.streamlit = Job("app", [PY, "-m", "streamlit", "run",
+                                     str(ROOT / "app" / "dashboard.py"),
+                                     "--server.port", str(self.port),
+                                     "--server.headless", "true",
+                                     "--browser.gatherUsageStats", "false"],
+                             LOG_DIR / "app.log")
+        self._app_last_start = time.time()
 
     def start_feed(self, s: dict) -> None:
         ev = s.get("event_key")
@@ -255,6 +359,21 @@ class Supervisor:
                 "minutes_to_start": -1.0, "minutes_to_end": 999.0, "rehearsal": True}
 
     def tick(self) -> None:
+        # 0. the dashboard and the token: both have to survive the weekend
+        if self.app and self.streamlit is not None and not self.streamlit.alive():
+            if time.time() - self._app_last_start < APP_RESTART_MIN_S:
+                pass                      # crashing on startup: let it settle
+            elif self._app_restarts < APP_RESTART_MAX:
+                self._app_restarts += 1
+                self._note(f"dashboard exited (code {self.streamlit.proc.poll()}); restarting "
+                           f"[{self._app_restarts}/{APP_RESTART_MAX}]")
+                self.start_app()
+            elif self._app_restarts == APP_RESTART_MAX:
+                self._app_restarts += 1
+                self._note(f"dashboard keeps exiting; leaving it down — see "
+                           f"{(LOG_DIR / 'app.log').relative_to(ROOT)}. The feed and refits "
+                           f"carry on regardless.")
+        self.maybe_refresh_login()
         sessions = schedule.load()
         st = schedule.status(sessions=sessions)
         reh = self._rehearsal_session()
@@ -302,11 +421,11 @@ class Supervisor:
     def run(self) -> int:
         LIVE_DIR.mkdir(parents=True, exist_ok=True)
         if self.app:
-            self.streamlit = Job("app", [str(ROOT / ".venv" / "bin" / "streamlit"), "run",
-                                         str(ROOT / "app" / "dashboard.py"), "--server.port", str(self.port),
-                                         "--server.headless", "true", "--browser.gatherUsageStats", "false"],
-                                 LOG_DIR / "app.log")
+            # The dashboard first: a token top-up can take half a minute, and
+            # there is no reason to stare at a blank terminal while it runs.
+            self.start_app()
             self._note(f"dashboard at http://localhost:{self.port}")
+        self.ensure_login(interactive=self.interactive_login)
         signal.signal(signal.SIGINT, lambda *_: setattr(self, "_stop", True))
         signal.signal(signal.SIGTERM, lambda *_: setattr(self, "_stop", True))
         try:
@@ -332,6 +451,9 @@ class Supervisor:
 LIVE_TAIL_MIN_REFIT = 5   # minutes after the scheduled end before a practice refit starts
 OUTLOOK_IDLE_S = 30 * 60  # between sessions: the priors only change when something is scored
 OUTLOOK_LIVE_S = 3 * 60   # during practice: fold the live long-run board in as it grows
+AUTH_RECHECK_S = 30 * 60  # token top-up cadence; tokens last days, so this is plenty
+APP_RESTART_MAX = 5       # dashboard restarts before we leave it down and say so
+APP_RESTART_MIN_S = 20    # a dashboard that dies faster than this is broken, not unlucky
 
 
 def main() -> int:
@@ -342,12 +464,15 @@ def main() -> int:
     ap.add_argument("--rehearse", default=None, metavar="SESSION_DIR",
                     help="present a recorded session as live (e.g. data/raw/livetiming/2026_hungary_race)")
     ap.add_argument("--speed", type=float, default=20.0, help="rehearsal replay speed")
+    ap.add_argument("--no-login", action="store_true",
+                    help="never prompt for an F1TV sign-in (still refreshes silently)")
     args = ap.parse_args()
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     st = schedule.status()
     print(f"degless — {schedule.describe(st)}", flush=True)
     return Supervisor(app=not args.no_app, port=args.port, poll_s=args.poll,
-                      rehearse=args.rehearse, speed=args.speed).run()
+                      rehearse=args.rehearse, speed=args.speed,
+                      interactive_login=not args.no_login).run()
 
 
 if __name__ == "__main__":

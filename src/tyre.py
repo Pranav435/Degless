@@ -29,7 +29,7 @@ a decision the driver is making every lap.
 reaches its cliff after it has surrendered a roughly fixed amount of lap time,
 not after a fixed number of laps.  A tyre is a finite quantity of rubber in a
 working temperature window; the cliff is what happens when the tread is worn
-through and the carcass starts overheating, and by then the tyre is some 3-5 s
+through and the carcass starts overheating, and by then the tyre is some 2-4 s
 off its fresh pace regardless of which compound it is or how quickly it got
 there.  Measured on Barcelona 2026 race stints - degradation rate from a
 two-way fixed-effects fit, stint length from the longest stint each compound
@@ -41,15 +41,20 @@ was actually run to:
 
 Three compounds with a 1.7x spread in degradation rate and a 1.5x spread in
 stint length agree on the budget to within +/-9%.  That is the invariant.
-`GRIP_BUDGET_S` is set from it.
+Across the seven scored 2026 weekends the same quantity runs 1.9-3.8 s, so the
+budget is now fitted per compound by `scripts/80_recalibrate.py` from every
+scored race but the target's and carried on the model as `budgets`; the
+`GRIP_BUDGET_S` constant is the fallback.
 
 The consequence is that tyre life is *derived*, not fitted:
 
-        life_c = GRIP_BUDGET_S / degradation_rate_c
+        life_c = budget_c / degradation_rate_c
 
 which forces the ordering the old model kept getting backwards - a compound
 cannot both degrade quickly and last a long time - and gives the cliff a
-location on a compound that was never run near its cliff in practice.
+location on a compound that was never run near its cliff in practice.  Where
+that quotient exceeds the race distance the honest statement is "longer than
+the race", and `life_table` says so rather than printing 2,900 laps.
 
 **The push level.**  A driver can trade lap time for tyre life: lift and coast
 into the braking zones, short-shift, roll more speed through the middle of the
@@ -68,9 +73,7 @@ must choose both.
 This is what makes the model self-checking.  The old code *assumed* a regime
 factor of 0.40.  This model instead *predicts* one: it is whatever
 `wear_multiplier(p*)` comes out to at the optimiser's chosen push, and it can
-be compared against the measured value.  On Barcelona 2026 the economics pick
-p* giving ~0.6, and an evolution-corrected measurement of the real race gives
-0.57.  The model earns the number instead of being told it.
+be compared against the measured value.
 
 **Fuel load.**  Wear accumulates faster on a heavy car, because wear is driven
 by the energy through the contact patch and that scales with vertical load.
@@ -200,6 +203,16 @@ def load_profile(event: Event | str, *, exponent: float = TYRE_LOAD_EXPONENT) ->
 # --------------------------------------------------------------------------
 
 
+def _budget_map(budget, compounds: list) -> tuple:
+    """`(pooled float, {compound: float})` from a float or a per-compound dict."""
+    if isinstance(budget, dict):
+        vals = {c: float(budget.get(c, budget.get("_pooled", GRIP_BUDGET_S))) for c in compounds}
+        pooled = float(budget.get("_pooled", np.mean(list(vals.values())) if vals else GRIP_BUDGET_S))
+        return pooled, vals
+    b = float(budget)
+    return b, {c: b for c in compounds}
+
+
 @dataclass
 class TyreModel:
     """A calibrated tyre model: per-compound wear rate, life and pace offset.
@@ -212,6 +225,9 @@ class TyreModel:
 
     `pace_offset[c]` has shape (draws,) and is the compound's intrinsic pace
     deficit in s/lap relative to the softest compound, before any degradation.
+
+    `budgets[c]` is the compound's grip budget in seconds; `budget` is the
+    pooled value kept for callers that need one number.
     """
 
     compounds: list = field(default_factory=list)
@@ -221,13 +237,38 @@ class TyreModel:
     load_exponent: float = TYRE_LOAD_EXPONENT
     n_draws: int = 0
     source: str = ""
+    budgets: dict = field(default_factory=dict)      # compound -> seconds
+    # per-draw additive slope deviation per driver and compound, s/lap per lap
+    # of age, from the practice fit (`dev[d, c]`); empty when not carried
+    driver_dev: dict = field(default_factory=dict)   # driver -> {compound: (draws,)}
+    # the management trade-off this model runs with (recalibrated per weekend)
+    manage_floor: float = MANAGE_WEAR_FLOOR
+    manage_cost_s: float = MANAGE_COST_S
+
+    def __post_init__(self):
+        if not self.budgets:
+            self.budgets = {c: float(self.budget) for c in self.compounds}
+        else:
+            self.budgets = {c: float(self.budgets.get(c, self.budget)) for c in self.compounds}
+
+    def psi(self, push: float) -> float:
+        """Wear multiplier at `push` under this model's management trade-off."""
+        return float(wear_multiplier(push, floor=self.manage_floor))
+
+    def mcost(self, push: float) -> float:
+        """Lap-time cost of managing at `push` under this model's trade-off."""
+        return float(manage_cost(push, cost_s=self.manage_cost_s))
 
     # -- construction ------------------------------------------------------
 
     @classmethod
     def from_fit(cls, fit, *, draws: np.ndarray | None = None,
-                 budget: float = GRIP_BUDGET_S,
-                 load_exponent: float = TYRE_LOAD_EXPONENT) -> "TyreModel":
+                 budget=GRIP_BUDGET_S,
+                 load_exponent: float = TYRE_LOAD_EXPONENT,
+                 rate_floor: dict | None = None,
+                 carry_drivers: bool = True,
+                 manage_floor: float = MANAGE_WEAR_FLOOR,
+                 manage_cost_s: float = MANAGE_COST_S) -> "TyreModel":
         """Build from a `BayesFit` of *practice* long runs.
 
         A practice long run is a full-push experiment by construction - that is
@@ -239,29 +280,95 @@ class TyreModel:
         The rate is read off the fitted curve as its average slope over the
         span practice actually supports, rather than from the `lin` parameter
         alone, so that whatever curvature the fit did find is included.
+
+        `budget` may be one number or a per-compound dict (the recalibrated
+        values).  `rate_floor[c]`, in s/lap at full push, is the smallest rate
+        the model is allowed to believe for a compound - the circuit's own race
+        history says a tyre never degrades slower than that here - and it is
+        what stops a flat practice fit deriving a 2,900-lap tyre.
         """
         total = fit.posterior["lin"].shape[0]
         idx = np.arange(total) if draws is None else np.asarray(draws)
         span = np.array([1.0, 10.0])
+        pooled, bmap = _budget_map(budget, list(fit.compounds))
         wear, pace = {}, {}
         for c in fit.compounds:
             d = fit.deg_loss(c, span)[idx]                 # (nd, 2)
             rate = (d[:, 1] - d[:, 0]) / (span[1] - span[0])
             # A non-positive fitted slope is physically impossible and would
-            # make life infinite; floor it well below any real measurement.
-            rate = np.maximum(rate, 1e-3)
-            wear[c] = rate / float(budget)
+            # make life infinite; floor it well below any real measurement,
+            # and at the circuit's historical minimum where one is known.
+            floor = max(1e-3, float((rate_floor or {}).get(c, 0.0) or 0.0))
+            rate = np.maximum(rate, floor)
+            wear[c] = rate / bmap[c]
             j = fit.compounds.index(c)
             pace[c] = fit.posterior["comp_offset"][idx, j]
+        dev = {}
+        if carry_drivers and "dev" in fit.posterior and getattr(fit, "drivers", None):
+            D = np.asarray(fit.posterior["dev"])           # (draws, n_drv, n_comp)
+            if D.ndim == 3 and D.shape[1] == len(fit.drivers) and D.shape[2] == len(fit.compounds):
+                for i, drv in enumerate(fit.drivers):
+                    dev[drv] = {c: D[idx, i, j] for j, c in enumerate(fit.compounds)}
         return cls(compounds=list(fit.compounds), wear_rate=wear, pace_offset=pace,
-                   budget=float(budget), load_exponent=float(load_exponent),
-                   n_draws=len(idx), source="practice long runs (full push)")
+                   budget=pooled, budgets=bmap, load_exponent=float(load_exponent),
+                   n_draws=len(idx), source="practice long runs (full push)", driver_dev=dev,
+                   manage_floor=float(manage_floor), manage_cost_s=float(manage_cost_s))
+
+    def copy_with(self, *, wear_rate: dict | None = None, pace_offset: dict | None = None,
+                  source: str | None = None, n_draws: int | None = None,
+                  driver_dev: dict | None = None, budgets: dict | None = None,
+                  manage_floor: float | None = None, manage_cost_s: float | None = None) -> "TyreModel":
+        """The same model with some arrays replaced; budgets and exponent carried."""
+        wr = wear_rate if wear_rate is not None else {c: self.wear_rate[c].copy() for c in self.compounds}
+        po = pace_offset if pace_offset is not None else {c: self.pace_offset[c].copy() for c in self.compounds}
+        b = dict(self.budgets) if budgets is None else {c: float(budgets.get(c, self.budget)) for c in self.compounds}
+        return TyreModel(compounds=list(self.compounds), wear_rate=wr, pace_offset=po,
+                         budget=(self.budget if budgets is None else float(np.mean(list(b.values())))),
+                         budgets=b, load_exponent=self.load_exponent,
+                         n_draws=(self.n_draws if n_draws is None else int(n_draws)),
+                         source=(self.source if source is None else source),
+                         driver_dev=(self.driver_dev if driver_dev is None else driver_dev),
+                         manage_floor=(self.manage_floor if manage_floor is None else float(manage_floor)),
+                         manage_cost_s=(self.manage_cost_s if manage_cost_s is None else float(manage_cost_s)))
+
+    def subsample(self, idx: np.ndarray, *, source: str | None = None) -> "TyreModel":
+        idx = np.asarray(idx, dtype=int)
+        dev = {d: {c: v[idx] for c, v in dc.items()} for d, dc in self.driver_dev.items()}
+        return self.copy_with(wear_rate={c: self.wear_rate[c][idx] for c in self.compounds},
+                              pace_offset={c: self.pace_offset[c][idx] for c in self.compounds},
+                              n_draws=len(idx), source=source, driver_dev=dev)
+
+    def for_driver(self, driver: str, *, race_factor: float = 1.0, practice_dev: bool = True) -> "TyreModel":
+        """This model as it applies to one car.
+
+        Two per-car terms.  `race_factor` is the driver's multiplicative rate
+        factor measured on previous 2026 races (how much harder or gentler
+        than the field this car is on its tyres); the practice fit's own
+        per-driver, per-compound slope deviation `dev[d, c]` is added where
+        the driver ran long runs this weekend.  Both are shrunk toward the
+        field by their estimators, so an unknown driver gets the field model.
+        """
+        wr = {}
+        dd = self.driver_dev.get(driver, {}) if practice_dev else {}
+        for c in self.compounds:
+            rate = self.wear_rate[c] * self.budgets[c]
+            if c in dd:
+                rate = np.maximum(rate + dd[c], 1e-3)
+            wr[c] = rate * float(race_factor) / self.budgets[c]
+        return self.copy_with(wear_rate=wr, source=f"{self.source} [{driver} x{race_factor:.2f}]")
 
     # -- derived quantities ------------------------------------------------
 
+    def budget_of(self, compound: str) -> float:
+        return float(self.budgets.get(compound, self.budget))
+
+    def rate(self, compound: str) -> np.ndarray:
+        """Degradation rate at full push, s/lap, per draw."""
+        return self.wear_rate[compound] * self.budget_of(compound)
+
     def life_laps(self, compound: str, push: float = 1.0) -> np.ndarray:
         """Laps to the cliff at push level `p` and reference load, per draw."""
-        return 1.0 / (self.wear_rate[compound] * wear_multiplier(push))
+        return 1.0 / (self.wear_rate[compound] * self.psi(push))
 
     def cost_table(self, event: Event | str, max_len: int, push: float,
                    *, warmup_s: float = 0.0) -> dict:
@@ -292,8 +399,8 @@ class TyreModel:
         n_laps = ev.n_race_laps
         nd = self.n_draws
         lf = load_profile(ev, exponent=self.load_exponent)
-        psi = float(wear_multiplier(push))
-        mcost = float(manage_cost(push))
+        psi = self.psi(push)
+        mcost = self.mcost(push)
 
         # Wear multiplier of the a-th lap of a stint that starts after s laps.
         idx = np.clip(np.arange(n_laps + 1)[:, None] + np.arange(1, max_len + 1)[None, :],
@@ -314,7 +421,7 @@ class TyreModel:
             dwear = np.empty_like(w)
             dwear[:, :, 0] = w[:, :, 0]
             dwear[:, :, 1:] = np.diff(w, axis=2)
-            loss = grip_loss(w - 0.5 * dwear, budget=self.budget)
+            loss = grip_loss(w - 0.5 * dwear, budget=self.budget_of(c))
             cum = np.cumsum(loss, axis=2)
 
             cost = np.zeros((nd, n_laps + 1, max_len + 1), dtype=np.float64)
@@ -333,30 +440,59 @@ class TyreModel:
         """
         ev = get_event(event) if isinstance(event, str) else event
         lf = load_profile(ev, exponent=self.load_exponent)
-        psi = float(wear_multiplier(push))
+        psi = self.psi(push)
         out = np.zeros((self.n_draws, len(lengths)))
         for i, (L, s) in enumerate(zip(np.asarray(lengths, int), np.asarray(starts, int))):
             laps = np.clip(np.arange(s + 1, s + L + 1), 1, ev.n_race_laps) - 1
             out[:, i] = self.wear_rate[compound] * psi * lf[laps].sum()
         return out
 
-    def summary(self, event: Event | str, push: float = 1.0):
-        """Per-compound table: full-push life, managed life, and the rates."""
+    def life_table(self, event: Event | str, push: float = 1.0, *,
+                   caps: dict | None = None, support: dict | None = None):
+        """Per-compound life, honestly stated.
+
+        `life_laps` is budget / rate at the given push; `life_capped` is the
+        same number bounded by the race distance and by the longest stint the
+        circuit's races have supported (`caps`), and `longer_than_race` says
+        whether the quotient exceeded the race - the case where the number an
+        engineer wants is not "112 laps" but "this tyre is not what limits the
+        stint here".
+        """
         import pandas as pd
 
         ev = get_event(event) if isinstance(event, str) else event
+        n = int(ev.n_race_laps)
         rows = []
         for c in self.compounds:
             full = self.life_laps(c, 1.0)
             man = self.life_laps(c, push)
+            cap = int((caps or {}).get(c, n) or n)
+            bound = min(n, cap)
+            mean_life = float(man.mean())
             rows.append({
                 "compound": c,
-                "deg_s_per_lap_full_push": float(
-                    (self.wear_rate[c] * self.budget).mean()),
-                "life_laps_full_push": float(full.mean()),
-                "life_laps_at_push": float(man.mean()),
-                "life_lo": float(np.quantile(man, 0.05)),
-                "life_hi": float(np.quantile(man, 0.95)),
+                "deg_s_per_lap": float(self.rate(c).mean()),
+                "deg_lo": float(np.quantile(self.rate(c), 0.05)),
+                "deg_hi": float(np.quantile(self.rate(c), 0.95)),
+                "knee_lap": float(min(full.mean(), n)),
+                "life_laps": float(min(mean_life, bound)),
+                "life_lo": float(min(np.quantile(man, 0.05), bound)),
+                "life_hi": float(min(np.quantile(man, 0.95), bound)),
+                "life_model_uncapped": mean_life,
+                "life_full_push": float(full.mean()),
+                "longer_than_race": bool(mean_life >= n),
+                "bound_by": ("race distance" if mean_life >= n and n <= cap else
+                             "circuit history" if mean_life >= cap else "the tyre"),
+                "max_stint_laps": float(cap) if caps else float("nan"),
+                "practice_support_laps": float((support or {}).get(c, np.nan)),
                 "pace_offset_s": float(self.pace_offset[c].mean()),
+                "grip_budget_s": self.budget_of(c),
             })
         return pd.DataFrame(rows)
+
+    def summary(self, event: Event | str, push: float = 1.0):
+        """Per-compound table: full-push life, managed life, and the rates."""
+        t = self.life_table(event, push)
+        return t.rename(columns={"deg_s_per_lap": "deg_s_per_lap_full_push",
+                                 "life_full_push": "life_laps_full_push",
+                                 "life_laps": "life_laps_at_push"})

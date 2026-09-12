@@ -29,7 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.config import current_event, get_event  # noqa: E402
+from src.config import DATA_PROCESSED, current_event, get_event  # noqa: E402
 from src.live.engine import PracticeEngine, RaceEngine, WeekendModel  # noqa: E402
 from src.live.sources import (  # noqa: E402
     JsonlSource, RecordedSource, Recorder, SignalRSource, StaticPollSource,
@@ -65,6 +65,50 @@ def main() -> int:
     wm = WeekendModel.load(ev)
     print(f"event: {ev.name} ({ev.n_race_laps} laps)\nmodel: {wm.source}\n"
           f"pit loss prior: {wm.pit_loss_s:.1f} s ({wm.pit_loss_source})", flush=True)
+
+    def model_stamp() -> tuple:
+        """Modification times of everything `WeekendModel.load` reads."""
+        out = []
+        for p in (DATA_PROCESSED / f"posterior_{ev.key}.npz",
+                  DATA_PROCESSED / f"weekend_{ev.key}.json",
+                  DATA_PROCESSED / f"meta_{ev.key}.json"):
+            try:
+                out.append(p.stat().st_mtime)
+            except OSError:
+                out.append(0.0)
+        return tuple(out)
+
+    model_seen = model_stamp()
+
+    def reload_model() -> None:
+        """A refit landed while we were running: pick it up.
+
+        The supervisor starts this daemon and the weekend refit in the same
+        tick, so on the first session of a weekend the fit lands seconds after
+        we have already loaded the prior-only model.  Without this the whole
+        session runs on the prior and ignores the practice already on disk.
+        """
+        nonlocal wm, engine
+        try:
+            fresh = WeekendModel.load(ev)
+        except Exception:
+            log.exception("could not reload the weekend model")
+            return
+        if fresh.source == wm.source:
+            return
+        if isinstance(engine, RaceEngine) and engine.tyres:
+            # Mid-race the engine carries a per-driver posterior sized to the
+            # model it started with; swapping it out would throw that away.
+            log.warning("a new fit landed mid-race; keeping the running model")
+            return
+        wm = fresh
+        print(f"model reloaded: {wm.source}", flush=True)
+        if engine is not None:
+            new = type(engine)(wm)
+            for attr in ("alerts", "_seen", "tick_no"):   # keep what it has already said
+                if hasattr(engine, attr):
+                    setattr(new, attr, getattr(engine, attr))
+            engine = new
 
     state = LiveState(session_type=args.session_type)
     engine = None
@@ -106,7 +150,14 @@ def main() -> int:
                     "SessionInfo", "SessionStatus", "SessionData", "DriverList", "TrackStatus",
                     "LapCount", "TimingData", "TimingAppData", "TyreStintSeries", "WeatherData",
                     "RaceControlMessages", "Heartbeat", "ExtrapolatedClock"])
-                if got:
+                denied = got.pop("_denied", 0)
+                if denied and not any(k != "SessionInfo" for k in got):
+                    # F1 publishes the per-topic files only once the session's
+                    # archive is complete; until then every one of them is 403.
+                    print(f"backfill: this session's archive is not published yet "
+                          f"({denied} topics denied); the live keyframe carries the "
+                          f"current state instead", flush=True)
+                elif got:
                     backfill_msgs = RecordedSource(bdir).messages()
                     print(f"backfill: {len(backfill_msgs)} archived messages "
                           f"({sum(got.values())/1e6:.1f} MB)", flush=True)
@@ -127,18 +178,27 @@ def main() -> int:
     n = 0
     status = {"source": args.source, "event": ev.key, "session_key": session_key,
               "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-              "auth": bool(getattr(src, "token", None)), "messages": 0}
+              "auth": bool(getattr(src, "token", None)),
+              "auth_status": getattr(src, "auth_status", "n/a"),
+              "auth_detail": getattr(src, "auth_detail", ""), "messages": 0}
+    if status["auth_status"] in ("expired", "invalid", "none"):
+        print(f"F1TV: {status['auth_detail']} — timing is unaffected, "
+              f"car telemetry is not available", flush=True)
 
     instant = speed is None and args.source in ("recorded", "jsonl")
 
     def do_tick(force: bool = False):
-        nonlocal engine, last_tick, state, store
+        nonlocal engine, last_tick, state, store, model_seen
         now = time.time()
         if instant and not force:
             return          # instant replay: only the lap-driven ticks
         if not force and now - last_tick < args.tick:
             return
         last_tick = now
+        stamp = model_stamp()
+        if stamp != model_seen:
+            model_seen = stamp
+            reload_model()
         if engine is None:
             if state.session_type is None and state.n_messages < 50:
                 return
@@ -154,6 +214,7 @@ def main() -> int:
         status.update(messages=n, last_message_utc=(state.utc_now.isoformat() if state.utc_now else None),
                       connected=bool(getattr(src, "connected", True)), t_session=state.t_now,
                       session_status=state.session_status, engine=type(engine).__name__,
+                      model_source=wm.source,
                       n_laps=int(sum(t.n_complete for t in state.tracks.values())))
         store.write_status(status)
         if not args.quiet:

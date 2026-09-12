@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2025,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -13,6 +14,11 @@
   "H": 8,
   "M": 6
  },
+ "starts": {
+  "HARD": 8,
+  "MEDIUM": 6
+ },
+ "first_stop": {},
  "compounds": {
   "HARD": {
    "n_stints": 8,
@@ -32,9 +38,12 @@
   }
  },
  "deg": {},
+ "ladder": {},
+ "net_step": {},
  "pit_loss_s": null,
  "n_pit_stops": 0,
  "sc_share_of_laps": 0.2807017543859649,
  "track_temp_c": 19.0,
+ "air_temp_c": 15.7,
  "rain": true
 }

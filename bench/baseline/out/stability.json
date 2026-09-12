@@ -1,0 +1,414 @@
+{
+ "barcelona-2026": [
+  {
+   "sessions": [
+    "Practice 1"
+   ],
+   "seed": 0,
+   "n_clean": 83,
+   "n_apex": 420,
+   "rhat": 1.0094,
+   "div": 0,
+   "slopes_practice": {
+    "MEDIUM": 0.1175,
+    "SOFT": 0.147
+   },
+   "slopes_final": {
+    "MEDIUM": 0.1563,
+    "SOFT": 0.1921
+   },
+   "best": "2-stop S-M-M @ 20,43",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "SOFT-MEDIUM-MEDIUM",
+     0.0,
+     1.0
+    ],
+    "3": [
+     "SOFT-MEDIUM-MEDIUM-SOFT",
+     6.5,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0859,
+   "rate_bias": 0.0587,
+   "cov90": 0.983,
+   "t_prep_s": 7.2,
+   "t_fit_s": 11.7,
+   "t_strategy_s": 0.4
+  },
+  {
+   "sessions": [
+    "Practice 1",
+    "Practice 2"
+   ],
+   "seed": 0,
+   "n_clean": 222,
+   "n_apex": 888,
+   "rhat": 1.008,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.1843,
+    "MEDIUM": 0.2372,
+    "SOFT": 0.2775
+   },
+   "slopes_final": {
+    "HARD": 0.1519,
+    "MEDIUM": 0.2019,
+    "SOFT": 0.2664
+   },
+   "best": "2-stop M-H-H @ 19,43",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-HARD",
+     0.0,
+     0.99
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     5.8,
+     0.01
+    ],
+    "1": [
+     "HARD-MEDIUM",
+     18.8,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0441,
+   "rate_bias": 0.0226,
+   "cov90": 0.982,
+   "t_prep_s": 7.3,
+   "t_fit_s": 21.2,
+   "t_strategy_s": 0.5
+  },
+  {
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 0,
+   "n_clean": 225,
+   "n_apex": 900,
+   "rhat": 1.0046,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.1867,
+    "MEDIUM": 0.24,
+    "SOFT": 0.2806
+   },
+   "slopes_final": {
+    "HARD": 0.153,
+    "MEDIUM": 0.2031,
+    "SOFT": 0.2683
+   },
+   "best": "2-stop M-H-H @ 19,43",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-HARD",
+     0.0,
+     0.99
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     5.8,
+     0.01
+    ],
+    "1": [
+     "HARD-MEDIUM",
+     19.1,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0438,
+   "rate_bias": 0.022,
+   "cov90": 0.982,
+   "t_prep_s": 0.8,
+   "t_fit_s": 21.4,
+   "t_strategy_s": 0.5
+  },
+  {
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 1,
+   "n_clean": 225,
+   "n_apex": 900,
+   "rhat": 1.0163,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.1854,
+    "MEDIUM": 0.2389,
+    "SOFT": 0.2791
+   },
+   "slopes_final": {
+    "HARD": 0.1521,
+    "MEDIUM": 0.2024,
+    "SOFT": 0.2673
+   },
+   "best": "2-stop M-H-H @ 19,43",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-HARD",
+     0.0,
+     0.98
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     5.9,
+     0.02
+    ],
+    "1": [
+     "HARD-MEDIUM",
+     18.8,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0439,
+   "rate_bias": 0.0222,
+   "cov90": 0.982,
+   "t_prep_s": 0.8,
+   "t_fit_s": 14.2,
+   "t_strategy_s": 0.5
+  },
+  {
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 2,
+   "n_clean": 225,
+   "n_apex": 900,
+   "rhat": 1.0044,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.1865,
+    "MEDIUM": 0.2401,
+    "SOFT": 0.2811
+   },
+   "slopes_final": {
+    "HARD": 0.1528,
+    "MEDIUM": 0.2033,
+    "SOFT": 0.2688
+   },
+   "best": "2-stop M-H-H @ 19,43",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-HARD",
+     0.0,
+     0.96
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     5.8,
+     0.04
+    ],
+    "1": [
+     "HARD-MEDIUM",
+     19.6,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0438,
+   "rate_bias": 0.0218,
+   "cov90": 0.982,
+   "t_prep_s": 0.8,
+   "t_fit_s": 24.1,
+   "t_strategy_s": 0.5
+  }
+ ],
+ "hungary-2026": [
+  {
+   "sessions": [
+    "Practice 2"
+   ],
+   "seed": 0,
+   "n_clean": 155,
+   "n_apex": 636,
+   "rhat": 1.0086,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.0817,
+    "MEDIUM": 0.1027,
+    "SOFT": 0.1265
+   },
+   "slopes_final": {
+    "HARD": 0.1148,
+    "MEDIUM": 0.1333,
+    "SOFT": 0.1962
+   },
+   "best": "2-stop M-H-M @ 23,47",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-MEDIUM",
+     0.0,
+     1.0
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     4.3,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     11.5,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0477,
+   "rate_bias": -0.0015,
+   "cov90": 0.968,
+   "t_prep_s": 3.7,
+   "t_fit_s": 25.7,
+   "t_strategy_s": 0.5
+  },
+  {
+   "sessions": [
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 0,
+   "n_clean": 184,
+   "n_apex": 736,
+   "rhat": 1.0059,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.0738,
+    "MEDIUM": 0.0908,
+    "SOFT": 0.0997
+   },
+   "slopes_final": {
+    "HARD": 0.1096,
+    "MEDIUM": 0.1257,
+    "SOFT": 0.1738
+   },
+   "best": "2-stop M-H-M @ 23,47",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-MEDIUM",
+     0.0,
+     1.0
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     4.4,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     10.1,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0451,
+   "rate_bias": 0.0061,
+   "cov90": 0.97,
+   "t_prep_s": 0.6,
+   "t_fit_s": 28.9,
+   "t_strategy_s": 0.5
+  },
+  {
+   "sessions": [
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 1,
+   "n_clean": 184,
+   "n_apex": 736,
+   "rhat": 1.0067,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.0731,
+    "MEDIUM": 0.0898,
+    "SOFT": 0.0986
+   },
+   "slopes_final": {
+    "HARD": 0.1091,
+    "MEDIUM": 0.125,
+    "SOFT": 0.1727
+   },
+   "best": "2-stop M-H-M @ 23,47",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-MEDIUM",
+     0.0,
+     1.0
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     4.5,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     9.9,
+     0.0
+    ]
+   },
+   "rate_mae": 0.0451,
+   "rate_bias": 0.0063,
+   "cov90": 0.97,
+   "t_prep_s": 0.5,
+   "t_fit_s": 15.9,
+   "t_strategy_s": 0.6
+  },
+  {
+   "sessions": [
+    "Practice 2",
+    "Practice 3"
+   ],
+   "seed": 2,
+   "n_clean": 184,
+   "n_apex": 736,
+   "rhat": 1.0133,
+   "div": 0,
+   "slopes_practice": {
+    "HARD": 0.0728,
+    "MEDIUM": 0.0896,
+    "SOFT": 0.0984
+   },
+   "slopes_final": {
+    "HARD": 0.1083,
+    "MEDIUM": 0.1243,
+    "SOFT": 0.1712
+   },
+   "best": "2-stop M-H-M @ 23,47",
+   "push": 0.55,
+   "by_stops": {
+    "2": [
+     "MEDIUM-HARD-MEDIUM",
+     0.0,
+     0.99
+    ],
+    "3": [
+     "MEDIUM-HARD-HARD-MEDIUM",
+     4.4,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     9.5,
+     0.01
+    ]
+   },
+   "rate_mae": 0.0451,
+   "rate_bias": 0.0069,
+   "cov90": 0.97,
+   "t_prep_s": 0.6,
+   "t_fit_s": 28.7,
+   "t_strategy_s": 0.5
+  }
+ ]
+}

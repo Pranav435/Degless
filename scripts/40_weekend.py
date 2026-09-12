@@ -1,19 +1,21 @@
 """Weekend model: fit on whatever practice has run so far, seal, and write the
 pre-race plan.  No race data is needed, or read.
 
-This is the script to run on Friday night and again after FP3.  It is the
-practice half of `10_pipeline.py` — same cascade, same physics, same fits —
-without the race-scoring half, plus the posterior draws persisted so the live
-engine can load the sealed model during the race without refitting.
+This is the script to run on Friday night and again after FP3 - the
+supervisor does it by itself after every practice session.  One fit, at the
+quick sampler settings, on the lap-time channel alone; the circuit's history
+folded into the rate; the calibrated constants; the ladder gate enforced.
+Under 30 s on a quiet disk.
 
     .venv/bin/python scripts/40_weekend.py --event italy-2026
     .venv/bin/python scripts/40_weekend.py --event italy-2026 --sessions "Practice 1" "Practice 2"
-    .venv/bin/python scripts/40_weekend.py --event italy-2026 --quick     # lap-time channel only, fewer draws
+    .venv/bin/python scripts/40_weekend.py --event italy-2026 --full     # 4 chains x 1500 + 1500
+    .venv/bin/python scripts/40_weekend.py --event italy-2026 --apex     # add the apex-speed channel (diagnostic)
 
 Outputs (all under data/processed/):
     posterior_<key>.npz/.json   posterior draws for the live engine
     weekend_<key>.json          everything the app's pre-race view and the engine need
-    curves_/knee_/life_/plan_/bystops_/pitwindow_/undercut_/strategy_<key>.parquet
+    curves_/life_/plan_/bystops_/pitwindow_/undercut_/strategy_/perdriver_<key>.parquet
     clean_<key>_practice.parquet, cascade_<key>.parquet, laps_<key>_practice.parquet
 predictions/sealed/<key>_<utc>.json (+ sha256)
 """
@@ -33,21 +35,23 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src import strategy as strat  # noqa: E402
-from src.compounds import allocation_prior, pace_step_prior, summary_table as compound_table  # noqa: E402
+from src.calibration import get_calibration  # noqa: E402
+from src.compounds import allocation_prior, model_net_step_draws, pace_step_prior, summary_table as compound_table  # noqa: E402
 from src.config import (  # noqa: E402
-    DATA_PROCESSED, GRIP_BUDGET_S, MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT,
-    PRACTICE_SESSIONS, get_event,
+    DATA_PROCESSED, MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT, WEEKEND_NUTS_CHAINS, WEEKEND_NUTS_DRAWS,
+    WEEKEND_NUTS_WARMUP, get_event,
 )
 from src.evolution import add_evolution_correction, fit_evolution_auto  # noqa: E402
 from src.fuel import add_fuel_correction, get_prior, summary_table  # noqa: E402
 from src.ingest import FirewallError, load_for_fitting  # noqa: E402
 from src.laps import build_lap_table, cascade_counts, clean_laps, compound_summary  # noqa: E402
-from src.history import apply_circuit_prior, circuit_prior, stint_caps_for  # noqa: E402
+from src.history import apply_circuit_prior, circuit_prior, plan_prior_for, stint_caps_for  # noqa: E402
 from src.live.engine import pit_loss_prior  # noqa: E402
 from src.model_bayes import fit_bayes  # noqa: E402
 from src.model_fallback import fit_mixedlm  # noqa: E402
 from src.regime import regime_prior  # noqa: E402
 from src.telemetry import extract_apex_speeds, load_apex, save_apex, select_corners  # noqa: E402
+from src.tyre import TyreModel  # noqa: E402
 from src.validate import load_sealed, seal_predictions  # noqa: E402
 
 log = logging.getLogger("degless.weekend")
@@ -64,21 +68,36 @@ def step(msg: str) -> float:
     return time.time()
 
 
+def _jd(o):
+    if isinstance(o, (np.floating, float)):
+        return None if not np.isfinite(o) else float(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.bool_):
+        return bool(o)
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    return str(o)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--event", required=True)
     ap.add_argument("--sessions", nargs="*", default=None,
                     help="practice sessions to fit on (default: every one that has run)")
-    ap.add_argument("--no-apex", action="store_true")
-    ap.add_argument("--quick", action="store_true", help="lap-time channel only, 2 chains x 800 draws")
+    ap.add_argument("--apex", action="store_true", help="add the apex-speed channel (diagnostic; 3x the fit time)")
+    ap.add_argument("--full", action="store_true", help="4 chains x 1500 + 1500 instead of 2 x 800 + 800")
+    ap.add_argument("--quick", action="store_true", help="(kept for the supervisor; the quick settings are the default)")
     ap.add_argument("--mc-draws", type=int, default=MC_DRAWS)
-    ap.add_argument("--boot", type=int, default=100)
+    ap.add_argument("--boot", type=int, default=50)
     ap.add_argument("--pit-loss", type=float, default=None, help="override the pit-loss prior (s)")
+    ap.add_argument("--race-temp", type=float, default=None, help="race-day track temperature forecast (degC)")
     args = ap.parse_args()
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     ev = get_event(args.event)
     key = ev.key
     t_all = time.time()
+    timings = {}
 
     # -- 0. firewall ---------------------------------------------------------
     step(f"0. {ev.name}: practice-only firewall")
@@ -109,6 +128,7 @@ def main() -> int:
     clean = clean_laps(laps)
     comp_sum = compound_summary(laps)
     print(casc.to_string(index=False)); print(comp_sum.to_string(index=False))
+    timings["load_s"] = round(time.time() - t, 1)
     gate("enough clean long-run laps (>= 60)", len(clean) >= 60,
          f"{len(clean)} clean laps from {len(laps)} raw over {used} ({time.time()-t:.0f}s)")
     gate("no non-green lap survives", bool((clean["track_status"].astype(str) == "1").all()), "")
@@ -116,24 +136,18 @@ def main() -> int:
         return 1
 
     # -- 2. physics + priors ------------------------------------------------
-    step("2. fuel physics, compound ladder, regime, allocation, pit loss")
+    t = step("2. fuel physics, circuit history, compound ladder, regime, allocation, pit loss, calibration")
     print(summary_table(ev).to_string(index=False))
-    pstep = pace_step_prior(ev)
-    print(f"  compound pace step: {pstep['step_s']:.3f} s [{pstep['label']}]")
-    regime = regime_prior(ev)
-    print(f"  practice->race factor: {regime.ratio:.3f}x [{regime.p05:.2f}-{regime.p95:.2f}] ({regime.label})")
-    alloc = allocation_prior(ev)
-    print(f"  allocation: {alloc['caps']} ({'measured' if alloc['measured'] else 'default'})")
-    # What this circuit has done before: the prior that practice cannot supply.
     cp = circuit_prior(ev)
     if cp.available:
-        print(f"  circuit history: {ev.circuit} {cp.years}; stops {cp.stops}; plans {cp.plans}")
+        print(f"  circuit history: {ev.circuit} {cp.years}; stops {cp.stops}; plans {cp.plans}; starts {cp.starts}")
         for c in ("SOFT", "MEDIUM", "HARD"):
             if c in cp.stint_typical:
                 t_ = cp.stint_typical[c]
-                print(f"    {c:7s} stints p50 {t_['p50']:.0f} p90 {t_['p90']:.0f} cap {cp.stint_cap.get(c)} laps"
-                      f"  race deg {cp.rate_prior.get(c, {}).get('raw_mean_s_per_lap', float('nan')):.3f} s/lap"
-                      f" x season {cp.season.get('factor', 1):.2f} ({cp.season.get('n_circuits', 0)} shared circuits)")
+                print(f"    {c:7s} stints p50 {t_['p50']:.0f} p90 {t_['p90']:.0f} longest {cp.stint_longest.get(c, float('nan')):.0f} "
+                      f"cap {cp.stint_cap.get(c)} laps  race deg {cp.rate_prior.get(c, {}).get('raw_mean_s_per_lap', float('nan')):.3f} s/lap"
+                      f" x season {cp.season.get('factor', 1):.2f}")
+        print(f"    ladder from the circuit's races: {cp.ladder}")
         th = cp.thermal
         if th.get("track_temp_now") is not None and th.get("track_temp_hist") is not None:
             print(f"    track {th['track_temp_now']:.0f}°C this weekend vs {th['track_temp_hist']:.0f}°C in those races: "
@@ -142,12 +156,9 @@ def main() -> int:
             print("    the SOFT has not been a race tyre here")
     else:
         print(f"  circuit history: none for {ev.circuit}")
-    pit_loss, pit_src = pit_loss_prior(ev)
-    if cp.available and cp.pit_loss_s:
-        pit_loss, pit_src = float(cp.pit_loss_s), f"this pit lane, {cp.years}"
-    if args.pit_loss:
-        pit_loss, pit_src = float(args.pit_loss), "override"
-    print(f"  pit loss prior: {pit_loss:.1f} s ({pit_src})")
+    pstep = pace_step_prior(ev, circuit=cp if cp.available else None)
+    print(f"  compound pace step prior: {pstep['step_s']:.3f} s [{pstep['label']}]; measured net "
+          f"{pstep.get('net_stint_step_measured', float('nan')):+.3f} +/- {pstep.get('net_stint_step_se', float('nan')):.3f} s")
     clean = add_fuel_correction(clean, ev, "2026")
     evo = fit_evolution_auto(clean, laps_all=laps, event=ev)
     clean = add_evolution_correction(clean, evo)
@@ -156,16 +167,35 @@ def main() -> int:
     gate("track evolution identified & plausible (0-5 s)", 0.0 < evo_rng < 5.0,
          f"push-lap range {evo_rng:.2f}s per session {_it.get('per_session', {})}; long-run backfit "
          f"would have given {_it.get('backfit_range_s', float('nan')):.2f}s; sessions on the backfit: {evo.skipped}")
+    regime = regime_prior(ev, clean=clean, race_temp_c=args.race_temp)
+    print(f"  practice->race factor: {regime.ratio:.3f}x [{regime.p05:.2f}-{regime.p95:.2f}] ({regime.label})")
+    print(f"    {regime.derivation}")
+    alloc = allocation_prior(ev)
+    print(f"  allocation: {alloc['caps']} ({'measured' if alloc['measured'] else 'default'})")
+    pit_loss, pit_src = pit_loss_prior(ev)
+    if cp.available and cp.pit_loss_s:
+        pit_loss, pit_src = float(cp.pit_loss_s), f"this pit lane, {cp.years}"
+    if args.pit_loss:
+        pit_loss, pit_src = float(args.pit_loss), "override"
+    print(f"  pit loss prior: {pit_loss:.1f} s ({pit_src})")
+    cal = get_calibration(ev)
+    print(f"  calibration: {cal.source}; budgets {cal.budgets}; lambda {cal.undercut_lambda:.3f}; tau {cal.plan_prior_tau_s:.2f}")
+    plan_prior = plan_prior_for(cp if cp.available else None)
+    if plan_prior:
+        print(f"  plan-shape prior ({plan_prior.get('source')}): "
+              + ", ".join(f"{k} {v}" for k, v in list(plan_prior["sequences"].items())[:5]))
+    timings["priors_s"] = round(time.time() - t, 1)
 
     # -- 3. baseline -----------------------------------------------------------
     t = step("3. MixedLM baseline")
     mlm = fit_mixedlm(clean, n_boot=args.boot)
     print(mlm.table().round(4).to_string(index=False))
+    timings["mixedlm_s"] = round(time.time() - t, 1)
 
-    # -- 4. apex ---------------------------------------------------------------
+    # -- 4. apex (diagnostic) --------------------------------------------------
     apex_use, apex_sel = None, None
-    if not args.no_apex and not args.quick:
-        t = step("4. apex speeds")
+    if args.apex:
+        t = step("4. apex speeds (diagnostic channel)")
         apex = load_apex(ev)
         need = set(zip(clean["driver"], clean["lap_number"]))
         have = set(zip(apex["driver"], apex["lap_number"])) if len(apex) else set()
@@ -181,60 +211,87 @@ def main() -> int:
             print(f"  {len(apex_use)} apex rows on corners {apex_sel.corners} ({time.time()-t:.0f}s)")
 
     # -- 5. Bayes ------------------------------------------------------------
-    t = step("5. hierarchical fit")
-    kw = dict(pace_step_s=pstep["step_s"])
-    if args.quick:
-        kw.update(chains=2, warmup=800, draws=800)
+    t = step("5. hierarchical fit (lap-time channel, linear, soft per-circuit ladder)")
+    ladder = cp.ladder if cp.available else None
+    kw = dict(compound_prior="soft", circuit_ladder=ladder,
+              pace_step_s=(pstep["step_s"] if not (ladder or {}).get("pace_step_usable") else None))
+    if not args.full:
+        kw.update(chains=WEEKEND_NUTS_CHAINS, warmup=WEEKEND_NUTS_WARMUP, draws=WEEKEND_NUTS_DRAWS)
     f = fit_bayes(clean, ev, prior="2026", apex=apex_use, **kw)
+    timings["fit_s"] = round(time.time() - t, 1)
     print(f.slope_table().round(4).to_string(index=False))
     gate("convergence: r_hat < 1.01 and zero divergences",
          f.max_rhat < RHAT_GATE and f.n_divergences == 0,
-         f"max r_hat {f.max_rhat:.4f}, {f.n_divergences} divergences ({time.time()-t:.0f}s)")
+         f"max r_hat {f.max_rhat:.4f}, {f.n_divergences} divergences ({timings['fit_s']}s)")
     f_practice = f
     f_practice.save(DATA_PROCESSED / f"posterior_{key}_practice.npz")
     moved = pd.DataFrame()
     if cp.available and cp.rate_prior:
         f, moved = apply_circuit_prior(f_practice, ev, regime, cp)
-        print("  practice posterior combined with circuit history (practice-regime rate, s/lap):")
+        print("  practice posterior combined with circuit history (rate only, capped 3x, floored; practice-regime s/lap):")
         print(moved.round(4).to_string(index=False))
     post_path = f.save(DATA_PROCESSED / f"posterior_{key}.npz")
     print(f"  posterior saved: {post_path.name}")
 
     # -- 6. seal -------------------------------------------------------------
     step("6. seal")
-    sealed_path, sha = seal_predictions(f, ev, regime=regime,
-                                        note=f"weekend model on {used}; no race data read")
+    sealed_path, sha = seal_predictions(f, ev, regime=regime, cliff=(cp.cliff() if cp.available else {}),
+                                        note=f"weekend model on {used}; lap-time channel, linear, soft ladder; no race data read")
     sealed = load_sealed(sealed_path)
     print(f"  {sealed_path.name} sha256 {sha[:24]}...")
 
     # -- 7. pre-race plan ----------------------------------------------------
-    t = step("7. pre-race strategy")
+    t = step("7. pre-race strategy (calibrated constants, ladder gate enforced, position term)")
     per_comp_support = clean.groupby("compound")["tyre_age"].max().to_dict()
     caps = stint_caps_for(ev, cp) if cp.available else None
     if caps:
         print(f"  stint caps from this circuit's history: {caps}")
-    res = strat.simulate(f, ev, pit_loss, regime=regime, n_draws=args.mc_draws,
-                         support=per_comp_support, max_per_compound=alloc["caps"],
-                         max_stint=caps)
+    total = f.posterior["lin"].shape[0]
+    rng = np.random.default_rng(0)
+    draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
+    model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets, manage_floor=cal.manage_wear_floor,
+                               manage_cost_s=cal.manage_cost_s)
+    sim_kw = dict(regime=regime, support=per_comp_support, max_per_compound=alloc["caps"], max_stint=caps,
+                  undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
+                  traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+    net = pstep.get("net_stint_step_measured", float("nan"))
+    model, res, pace_cal = strat.search_with_pace_calibration(
+        model, ev, pit_loss, net_step_s=float(net if net is not None else np.nan),
+        net_step_se_s=float(pstep.get("net_stint_step_se") or 0.0), **sim_kw)
+    pw, uc, pdp = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
     if res.table.empty:
-        print("  no legal plan"); pw = pd.DataFrame(); uc = pd.DataFrame()
+        print("  no legal plan")
     else:
+        print(f"  pace calibration: {pace_cal}")
         print(res.head(6).drop(columns=["pit_laps"]).round(2).to_string(index=False))
         print(res.by_stops.drop(columns=["pit_laps"]).round(2).to_string(index=False))
         print(res.life.round(2).to_string(index=False))
-        pw = strat.pit_window(f, ev, res.best, pit_loss, regime=regime, max_stint=res.max_stint,
-                              push=res.best["push"])
+        print(f"  tyre-optimal plan: {res.tyre_optimal_label} ({res.tyre_optimal.get('delta_s', 0):+.1f} s under the full objective); "
+              f"position term {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s")
+        pw = strat.pit_window_model(model, ev, res.best, pit_loss, max_stint=res.max_stint, push=res.best["push"],
+                                    undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
         if cp.available:
-            lens = dict(zip(res.best["compounds"], res.best["stint_lens"]))
             ok = all(L <= cp.stint_cap.get(c, 10 ** 6) for c, L in zip(res.best["compounds"], res.best["stint_lens"]))
             gate("every recommended stint is within what this circuit has supported", ok,
                  "; ".join(f"{c} {L} laps (cap {cp.stint_cap.get(c, '—')})" for c, L in zip(res.best["compounds"], res.best["stint_lens"])))
             modal = max(cp.stops, key=cp.stops.get) if cp.stops else None
             gate("recommended stop count matches the circuit's usual", modal is None or res.best["n_stops"] == modal,
                  f"{res.best['n_stops']} stops; history {cp.stops}")
-        uc_age = int(min(res.max_stint.get("MEDIUM", 40), res.max_stint.get("SOFT", 40)))
-        uc = strat.undercut_window(f, "MEDIUM", "SOFT", event=ev, regime=regime, max_age=uc_age,
-                                   push=res.best["push"])
+        _L = float(np.median(res.best["stint_lens"]))
+        _model_net = float(model_net_step_draws(model, _L, float(res.best["push"]), ev).mean())
+        if net is not None and np.isfinite(net):
+            gate("model reproduces the measured net stint-level compound step (enforced)", abs(_model_net - net) < 0.12,
+                 f"model {_model_net:+.3f} vs measured {net:+.3f} s/lap over a {_L:.0f}-lap stint")
+        if "MEDIUM" in model.compounds and "SOFT" in model.compounds:
+            uc_age = int(min(res.max_stint.get("MEDIUM", 40), res.max_stint.get("SOFT", 40)))
+            uc = strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=max(uc_age, 8), push=res.best["push"])
+        t0 = time.time()
+        pdp = strat.per_driver_plans(model, ev, pit_loss, sorted(clean["driver"].unique()), race_factors=cal.driver_factors,
+                                     **sim_kw)
+        timings["per_driver_s"] = round(time.time() - t0, 1)
+        if not pdp.empty:
+            print(f"  per-car plans: {int(pdp['same_shape_as_field'].sum())}/{len(pdp)} share the field plan's shape")
+    timings["strategy_s"] = round(time.time() - t, 1)
     print(f"  ({time.time()-t:.0f}s)")
 
     # -- 8. artifacts --------------------------------------------------------
@@ -249,8 +306,6 @@ def main() -> int:
                                 "lo": np.quantile(d, 0.05, axis=0), "hi": np.quantile(d, 0.95, axis=0),
                                 "variant": "2026_race"}))
     pd.concat([c] + rc, ignore_index=True).to_parquet(DATA_PROCESSED / f"curves_{key}.parquet", index=False)
-    pd.concat([pd.DataFrame({"variant": "2026", "compound": comp, "knee": f.posterior["knee"][:, i]})
-               for i, comp in enumerate(f.compounds)]).to_parquet(DATA_PROCESSED / f"knee_{key}.parquet", index=False)
     laps.to_parquet(DATA_PROCESSED / f"laps_{key}_practice.parquet", index=False)
     clean.to_parquet(DATA_PROCESSED / f"clean_{key}_practice.parquet", index=False)
     casc.to_parquet(DATA_PROCESSED / f"cascade_{key}.parquet", index=False)
@@ -271,6 +326,9 @@ def main() -> int:
             pw.to_parquet(DATA_PROCESSED / f"pitwindow_{key}.parquet", index=False)
         if not uc.empty:
             uc.to_parquet(DATA_PROCESSED / f"undercut_{key}.parquet", index=False)
+        if not pdp.empty:
+            pdp.assign(pit_laps=pdp["pit_laps"].astype(str), practice_dev_s_per_lap=pdp["practice_dev_s_per_lap"].astype(str),
+                       eff_rate=pdp["eff_rate"].astype(str)).to_parquet(DATA_PROCESSED / f"perdriver_{key}.parquet", index=False)
     ec = [pd.DataFrame({"session": s, "lap_start_s": g["lap_start_s"].to_numpy(), "evo_s": g["evo_s"].to_numpy()})
           .sort_values("lap_start_s") for s, g in clean.groupby("session")]
     pd.concat(ec, ignore_index=True).to_parquet(DATA_PROCESSED / f"evolution_{key}.parquet", index=False)
@@ -282,25 +340,32 @@ def main() -> int:
         "physics": {"burn_kg_per_lap": fp26.burn_kg_per_lap, "k_track_s_per_kg": fp26.k_track_s_per_kg,
                     "fuel_effect_s_per_lap": fp26.s_per_lap, "derivation": fp26.derivation},
         "compound_ladder": {"pace_step_s": float(pstep["step_s"]), "label": pstep["label"],
-                            "derivation": pstep.get("derivation", ""),
-                            "table": compound_table(ev, f.compounds, pace_step_s=pstep["step_s"]).to_dict("records"),
-                            "fitted_offsets": f.comp_offset},
+                            "derivation": pstep.get("derivation", ""), "circuit_ladder": (cp.ladder if cp.available else {}),
+                            "table": compound_table(ev, f.compounds, pace_step_s=pstep["step_s"], circuit_ladder=ladder).to_dict("records"),
+                            "fitted_offsets": f.comp_offset, "prior_label": f.compound_prior_label},
+        "net_step": {"measured": pstep.get("net_stint_step_measured"), "se": pstep.get("net_stint_step_se"),
+                     "derivation": pstep.get("derivation", ""), "detail": pstep["detail"]},
+        "pace_calibration": pace_cal,
         "regime": regime.as_dict(),
         "circuit_history": (cp.as_dict() if cp.available else {}),
+        "cliff_history": (cp.cliff() if cp.available else {}),
         "history_combination": moved.to_dict("records") if not moved.empty else [],
+        "plan_prior": plan_prior,
         "allocation": alloc,
+        "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source},
         "pit_loss_s": float(pit_loss), "pit_loss_source": pit_src, "pit_stops_measured": 0,
         "load_effect": {"exponent": float(TYRE_LOAD_EXPONENT)},
         "n_raw_laps": int(len(laps)), "n_clean_laps": int(len(clean)),
         "compound_counts": comp_sum.to_dict("records"),
         "mixedlm": {"slopes": mlm.slopes, "table": mlm.table().to_dict("records"), "n_stints": mlm.n_stints},
         "bayes": {"max_rhat": float(f.max_rhat), "n_divergences": int(f.n_divergences),
-                  "n_laps": int(f.n_laps), "n_apex": int(f.n_apex),
+                  "n_laps": int(f.n_laps), "n_apex": int(f.n_apex), "use_hinge": bool(f.use_hinge),
                   "corners": [int(x) for x in (apex_sel.corners if apex_sel else [])],
                   "slopes": f.slope_table().to_dict("records"),
                   "k_track_mean": float(f.k_track.mean()), "k_track_sd": float(f.k_track.std()),
                   "k_track_rel_sd": float(f.k_track.std() / f.k_track.mean()),
-                  "comp_offset": f.comp_offset},
+                  "comp_offset": f.comp_offset, "drivers": list(f.drivers),
+                  "chains": (4 if args.full else WEEKEND_NUTS_CHAINS), "draws": (1500 if args.full else WEEKEND_NUTS_DRAWS)},
         "evolution": {"range_s": float(evo_rng), "iterations": evo.iterations, "skipped": evo.skipped},
         "age_support_by_compound": {k: float(v) for k, v in per_comp_support.items()},
         "max_stint_laps": (res.max_stint if not res.table.empty else {}),
@@ -308,8 +373,11 @@ def main() -> int:
             "n_strategies": int(res.n_strategies), "n_scored": int(res.n_scored), "n_draws": int(res.n_draws),
             "best": res.best_label,
             "best_plan": {k: (list(v) if isinstance(v, list) else v) for k, v in res.best.items()},
+            "tyre_optimal": {**res.tyre_optimal, "label": res.tyre_optimal_label},
             "push": float(res.best.get("push", float("nan"))), "implied_regime": float(res.implied_regime),
-            "grip_budget_s": float(GRIP_BUDGET_S),
+            "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
+            "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
+            "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
             "by_stops": res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),
                                             stint_lens=res.by_stops["stint_lens"].astype(str)).to_dict("records"),
             "life": res.life.to_dict("records"),
@@ -317,12 +385,14 @@ def main() -> int:
                               "lo": int(g[g["in_window"]]["lap"].min()), "hi": int(g[g["in_window"]]["lap"].max())}
                              for k, g in pw.groupby("stop")] if not pw.empty else []),
         } if not res.table.empty else {}),
-        "gates": GATES, "runtime_s": round(time.time() - t_all, 1),
+        "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
+        "gates": GATES, "timings": timings, "runtime_s": round(time.time() - t_all, 1),
         "written_utc": pd.Timestamp.utcnow().isoformat(),
     }
-    (DATA_PROCESSED / f"weekend_{key}.json").write_text(json.dumps(meta, indent=2, default=str))
+    (DATA_PROCESSED / f"weekend_{key}.json").write_text(json.dumps(meta, indent=2, default=_jd))
     n_fail = sum(1 for g in GATES if not g["pass"])
-    print(f"\n=== {len(GATES) - n_fail}/{len(GATES)} gates passed in {time.time() - t_all:.0f}s ===")
+    print(f"\n=== {len(GATES) - n_fail}/{len(GATES)} gates passed in {time.time() - t_all:.0f}s "
+          f"(fit {timings.get('fit_s')}s) ===")
     return 0
 
 

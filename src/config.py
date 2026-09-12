@@ -293,6 +293,22 @@ NUTS_TARGET_ACCEPT = 0.98
 RHAT_GATE = 1.01
 BOOTSTRAP_N = 200  # block bootstrap resamples for the MixedLM baseline
 
+# The hinge is unidentified on every scored weekend (the knee posterior equals
+# its prior everywhere: practice long runs end before any compound reaches its
+# cliff), and it is what let the circuit-history fold-in amplify a near-zero
+# post-knee slope 30-80x at Australia and Italy.  The production fit is now
+# linear in tyre age; the cliff comes from the circuit's race history (longest
+# and p90 stint per compound) and is reported as such.  The hinge survives as
+# a diagnostic variant of the retrospective pipeline.
+USE_HINGE_DEFAULT = False
+
+# Race-weekend sampler settings.  The quick fit (2 chains x 800 + 800) scores
+# within 0.003 s/lap of the production 4 x 1500 + 1500 on every weekend
+# benchmarked, in a third of the time; the weekend refit runs it by default.
+WEEKEND_NUTS_CHAINS = 2
+WEEKEND_NUTS_WARMUP = 800
+WEEKEND_NUTS_DRAWS = 800
+
 # --------------------------------------------------------------------------
 # Tyre model: the grip budget and the push/wear trade-off  (see src/tyre.py)
 # --------------------------------------------------------------------------
@@ -318,6 +334,13 @@ BOOTSTRAP_N = 200  # block bootstrap resamples for the MixedLM baseline
 # ~4 s - and no more.
 GRIP_BUDGET_S = 3.8
 GRIP_BUDGET_REL_SD = 0.20
+# 3.8 s is the Barcelona 2026 number.  Across the seven scored weekends the
+# race-measured rate times the longest stint each compound was run to comes out
+# between 1.9 and 3.8 s, and the model over-stated tyre life on 19 of 19
+# compound-weekends with the constant.  The recalibration script now fits it
+# per compound from every scored race but the target's (a stint that ends
+# before the cliff is a lower bound, so the upper quartile across weekends is
+# taken); this constant is the fallback for a season with no scored race.
 
 # Past the cliff, pace loss runs away.  `grip_loss` adds
 # `kappa * softmax(w-1)**q` to the linear-in-wear term, so at w = 1.25 the tyre
@@ -417,6 +440,42 @@ GRID_START_PENALTY_S = 1.0
 # which is measured on the in-lap and out-lap themselves.  It is what makes an
 # extra stop cost more than just the pit-lane time.
 OUT_LAP_PENALTY_S = 0.7
+
+# --------------------------------------------------------------------------
+# Track position: the undercut exposure of a stop lap, and the field's plan shapes
+# --------------------------------------------------------------------------
+#
+# The tyre-optimal stop lap is not the lap teams stop on.  Benchmarked on the
+# seven dry 2026 weekends, the tyre-only objective called the first stop 3-6
+# laps *after* the field's median, because the field is covering the undercut:
+# every lap a car stays out past the point where a rival on a fresh tyre would
+# gain on it is a lap on which it can lose the place.  The exposure of a stop
+# lap is the cumulative undercut gain a rival would have had over the laps the
+# car stayed out with the undercut open (see `strategy.undercut_exposure`), and
+# it enters the objective at this weight, in seconds per second of exposure,
+# scaled by how dense the field is at the stop lap.  Calibrated leave-one-out
+# against the field's median first-stop lap (`scripts/80_recalibrate.py`); the
+# tyre-optimal plan (lambda = 0) is reported beside the position-aware one.
+UNDERCUT_EXPOSURE_LAMBDA = 0.15
+
+# A sequence nobody has run at this circuit needs a large time gain to be
+# recommended.  The circuit's historical plan and start-compound frequencies
+# enter as a prior over plan families: cost += tau * (-log p(family)), with a
+# smoothed frequency that backs off to the start-compound and stop-count
+# marginals for a family never seen.  tau is seconds per nat; at 2.5 s a plan
+# ten times rarer than the modal one carries a 5.8 s handicap.  Calibrated
+# leave-one-out against the share of the field that ran the recommended
+# sequence.  Zero switches the prior off.
+PLAN_PRIOR_TAU_S = 2.5
+PLAN_PRIOR_ALPHA = 2.0      # pseudo-counts of back-off mass in the smoothed frequency
+
+# Per-lap noise of a clean racing lap, used to score the sealed curves against
+# race stints.  The practice `sigma_obs` (0.74-1.05 s) describes practice
+# laps - engine modes, fuel saving, traffic - and race stints are scored
+# centred on their own mean, which removes most of that; 0.5 s is what the
+# live engine has used since Barcelona and what the stint-rate intervals need
+# to cover 90% without covering 100%.
+SIGMA_RACE_LAP_S = 0.5
 
 # A driver cannot run the same compound three times.  Pirelli's dry allocation
 # is 13 sets, but most are surrendered or scrubbed through practice and

@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2025,
  "circuit": "Barcelona",
  "event": "Spanish Grand Prix",
@@ -17,7 +18,19 @@
   "S-M-S": 2,
   "S-S-M-S": 2,
   "S-M-M": 1,
-  "M-S-S-S-S": 1
+  "M-S-S-S-S": 1,
+  "S-S-M-S-H": 1
+ },
+ "starts": {
+  "SOFT": 16,
+  "MEDIUM": 1
+ },
+ "first_stop": {
+  "median_lap": 16.0,
+  "p25": 10.0,
+  "p75": 19.0,
+  "n": 17,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -49,17 +62,34 @@
   "MEDIUM": {
    "slope": 0.060640729245121094,
    "se": 0.004919738066564533,
-   "n_laps": 457
+   "n_laps": 457,
+   "offset_s": 0.7881124682486289,
+   "offset_se": 1.9759340176353424
   },
   "SOFT": {
    "slope": 0.11736338901650756,
    "se": 0.007366131457488087,
-   "n_laps": 526
+   "n_laps": 526,
+   "offset_s": 0.0,
+   "offset_se": 1.9730906359607105
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.7881124682486289,
+  "pace_step_se": 2.792382835458703,
+  "deg_ratio": 1.9353888133848611,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": 0.3433079453371766,
+  "se": 0.4890708281552444,
+  "n_stints": 67,
+  "median_stint_laps": 14.0
  },
  "pit_loss_s": 22.320999999999984,
  "n_pit_stops": 40,
  "sc_share_of_laps": 0.07575757575757576,
  "track_temp_c": 48.7,
+ "air_temp_c": 29.2,
  "rain": false
 }

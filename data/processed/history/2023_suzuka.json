@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2023,
  "circuit": "Suzuka",
  "event": "Japanese Grand Prix",
@@ -17,7 +18,21 @@
   "S-M-H": 2,
   "S-H-H": 1,
   "S-M-H-M": 1,
-  "H-H": 1
+  "H-H": 1,
+  "M-H": 1,
+  "S-S-H": 1
+ },
+ "starts": {
+  "MEDIUM": 9,
+  "SOFT": 5,
+  "HARD": 1
+ },
+ "first_stop": {
+  "median_lap": 16.0,
+  "p25": 10.5,
+  "p75": 17.5,
+  "n": 15,
+  "sc_share": 0.06666666666666667
  },
  "compounds": {
   "HARD": {
@@ -49,22 +64,41 @@
   "HARD": {
    "slope": 0.10453634815849516,
    "se": 0.006195431110981263,
-   "n_laps": 418
+   "n_laps": 418,
+   "offset_s": -0.19873542584811155,
+   "offset_se": 0.266337450100669
   },
   "MEDIUM": {
    "slope": 0.1010307562040081,
    "se": 0.009829742562157866,
-   "n_laps": 212
+   "n_laps": 212,
+   "offset_s": -0.025448262409316413,
+   "offset_se": 0.3019633137029851
   },
   "SOFT": {
    "slope": 0.0848103334865965,
    "se": 0.02477592202522227,
-   "n_laps": 56
+   "n_laps": 56,
+   "offset_s": 0.0,
+   "offset_se": 0.3766580341002336
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.11263672474982378,
+  "pace_step_se": 0.3092075351828208,
+  "deg_ratio": 0.9384260968757487,
+  "n_pairs": 2
+ },
+ "net_step": {
+  "step_s": 0.3142178150532044,
+  "se": 0.5174708533835181,
+  "n_stints": 45,
+  "median_stint_laps": 15.0
  },
  "pit_loss_s": 22.46950000000001,
  "n_pit_stops": 28,
  "sc_share_of_laps": 0.03773584905660377,
  "track_temp_c": 43.2,
+ "air_temp_c": 27.3,
  "rain": false
 }

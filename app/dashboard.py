@@ -888,9 +888,11 @@ def _tab_tyre_model():
                 "deg (s/lap)": [round(slopes.get(c, np.nan), 3) for c in order],
                 "pace vs softest (s/lap)": [round(offs.get(c, np.nan), 3)
                                             for c in order],
-                "cliff (lap)": [round(next(
-                    (r["knee_lap"] for r in meta["bayes"]["slopes"]
-                     if r["compound"] == c), np.nan), 1) for c in order],
+                # the cliff the sealed file reports: the circuit's longest / p90
+                # stint where the fit carries no hinge, the posterior knee otherwise
+                "cliff (lap)": [round(float((meta.get("cliff_history") or {}).get(c, {}).get("p90_stint",
+                                      next((r.get("knee_lap", np.nan) for r in meta["bayes"]["slopes"]
+                                            if r["compound"] == c), np.nan))), 1) for c in order],
             })
             st.dataframe(tbl, width="stretch", hide_index=True)
         ul = ladder.get("unladdered_slopes", {})
@@ -1014,16 +1016,24 @@ weekends' races, never on the target weekend's.
     c1, c2 = st.columns([1, 1])
     with c1:
         st.markdown("#### The cliff, as a distribution")
-        ks = knee[knee["variant"] == "2026"]
-        fig = go.Figure()
-        for cmp_ in in_ladder(ks["compound"].unique()):
-            g = ks[ks["compound"] == cmp_]
-            fig.add_trace(go.Histogram(
-                x=g["knee"], name=cmp_, opacity=0.62, nbinsx=45,
-                marker_color=ccol(cmp_)))
-        fig.update_layout(barmode="overlay")
-        st.plotly_chart(style(fig, 330, "posterior draws", "cliff lap"),
-                        width="stretch")
+        _kv = "2026" if (not knee.empty and (knee["variant"] == "2026").any()) else "hinge"
+        ks = knee[knee["variant"] == _kv] if not knee.empty else knee
+        if ks.empty:
+            st.caption("The production fit carries no hinge: the knee is unidentified on every "
+                       "scored weekend, and the cliff is reported from the circuit's race history instead.")
+        else:
+            fig = go.Figure()
+            for cmp_ in in_ladder(ks["compound"].unique()):
+                g = ks[ks["compound"] == cmp_]
+                fig.add_trace(go.Histogram(
+                    x=g["knee"], name=cmp_, opacity=0.62, nbinsx=45,
+                    marker_color=ccol(cmp_)))
+            fig.update_layout(barmode="overlay")
+            st.plotly_chart(style(fig, 330, "posterior draws", "cliff lap"),
+                            width="stretch")
+            if _kv == "hinge":
+                st.caption("Diagnostic hinge variant: the knee posterior equals its prior, which is why "
+                           "the production fit is linear and the cliff comes from the circuit's races.")
     with c2:
         st.markdown("#### What the fuel prior is worth")
         ps = pd.DataFrame(meta["prior_sensitivity"]).T

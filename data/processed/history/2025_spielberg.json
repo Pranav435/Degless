@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2025,
  "circuit": "Spielberg",
  "event": "Austrian Grand Prix",
@@ -17,7 +18,21 @@
   "S-H-M": 2,
   "M-M-H": 2,
   "S-M-H": 1,
-  "S-M-M": 1
+  "S-M-M": 1,
+  "M-H-H": 1,
+  "M-H-S": 1,
+  "M-H-M-S": 1
+ },
+ "starts": {
+  "MEDIUM": 12,
+  "SOFT": 4
+ },
+ "first_stop": {
+  "median_lap": 20.5,
+  "p25": 16.75,
+  "p75": 26.0,
+  "n": 16,
+  "sc_share": 0.0
  },
  "compounds": {
   "HARD": {
@@ -49,22 +64,41 @@
   "HARD": {
    "slope": 0.05118789548486003,
    "se": 0.003000285627010941,
-   "n_laps": 408
+   "n_laps": 408,
+   "offset_s": -0.6823035600643106,
+   "offset_se": 0.18849787665481382
   },
   "MEDIUM": {
    "slope": 0.054282823103524724,
    "se": 0.0033205776664924002,
-   "n_laps": 533
+   "n_laps": 533,
+   "offset_s": -0.6408679782825324,
+   "offset_se": 0.20368023557949622
   },
   "SOFT": {
    "slope": -0.020777628900994327,
    "se": 0.020255444484407935,
-   "n_laps": 54
+   "n_laps": 54,
+   "offset_s": 0.0,
+   "offset_se": 0.2665762536437685
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.2849741320545426,
+  "pace_step_se": 0.21383740751864455,
+  "deg_ratio": 1.0604620992785314,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": -0.09695582827784532,
+  "se": 0.32089288679881506,
+  "n_stints": 47,
+  "median_stint_laps": 22.0
  },
  "pit_loss_s": 20.989000000000004,
  "n_pit_stops": 30,
  "sc_share_of_laps": 0.014285714285714285,
  "track_temp_c": 49.2,
+ "air_temp_c": 30.5,
  "rain": false
 }

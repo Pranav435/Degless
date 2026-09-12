@@ -1,0 +1,8 @@
+event,recommended,winner,winner_pits,field_modal,stops_match_mode,stops_share,seq_share,seq_in_top5,start_ok,regret_tool,regret_field,regret_winner,win1_inside,win1_err
+australia-2026,1-stop H-M @ 36,MEDIUM-HARD,[12],MEDIUM-HARD,True,0.53,0.0,False,False,6.53,13.81,18.18,0.0,21.0
+japan-2026,1-stop S-H @ 21,MEDIUM-HARD,[22],MEDIUM-HARD,True,0.9,0.0,False,False,,1.18,1.51,0.7777777777777778,1.5
+barcelona-2026,"2-stop M-H-H @ 19,43",SOFT-HARD-MEDIUM-HARD,"[11, 27, 41]",MEDIUM-HARD-HARD,True,0.54,0.46,True,True,1.29,5.1,6.73,0.14285714285714285,6.0
+austria-2026,"2-stop M-H-H @ 23,47",MEDIUM-HARD-HARD,"[19, 43]",MEDIUM-HARD-HARD,True,0.82,0.29,True,True,18.04,20.92,20.94,0.35714285714285715,4.0
+belgium-2026,1-stop S-M @ 24,MEDIUM-SOFT,[18],MEDIUM-HARD,True,0.95,0.0,False,False,10.82,17.34,10.72,0.0,6.0
+hungary-2026,"2-stop M-H-M @ 23,47",MEDIUM-HARD-HARD-SOFT,"[17, 39, 56]",MEDIUM-HARD-HARD,True,0.63,0.0,False,True,15.86,27.48,26.68,0.3333333333333333,4.0
+italy-2026,1-stop M-H @ 23,HARD-MEDIUM-MEDIUM,"[3, 28]",MEDIUM-HARD,True,0.53,0.32,True,True,1.5,10.89,30.58,0.0,20.0

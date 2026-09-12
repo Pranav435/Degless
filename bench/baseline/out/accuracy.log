@@ -1,0 +1,71 @@
+australia-2026   sealed             stints  23  rateMAE 0.434  bias -0.417  cov90 0.91  width 1.767  rho -0.08  lapMAE 4.52  lapcov90 0.76
+australia-2026   practice_only      stints  23  rateMAE 0.054  bias +0.042  cov90 0.83  width 0.203  rho -0.13  lapMAE 0.42  lapcov90 0.97
+australia-2026   practice_no_regime stints  23  rateMAE 0.052  bias +0.038  cov90 0.83  width 0.211  rho -0.13  lapMAE 0.41  lapcov90 0.98
+australia-2026   history_only       stints  19  rateMAE 0.052  bias -0.004  cov90 0.74  width 0.159  rho +0.02  lapMAE 0.41  lapcov90 0.98
+australia-2026   mixedlm_x_regime   stints  23  rateMAE 0.043  bias +0.016  cov90 0.87  width 0.187  rho +0.23  lapMAE 0.38  lapcov90 0.98
+australia-2026   season_loo         stints  23  rateMAE 0.049  bias +0.003  cov90 0.83  width 0.187  rho -0.16  lapMAE 0.39  lapcov90 0.98
+australia-2026   zero               stints  23  rateMAE 0.059  bias +0.049  cov90 0.70  width 0.187  rho +nan  lapMAE 0.46  lapcov90 0.97
+australia-2026   oracle_race        stints  23  rateMAE 0.045  bias +0.015  cov90 0.87  width 0.187  rho +0.35  lapMAE 0.38  lapcov90 0.98
+japan-2026       sealed             stints  19  rateMAE 0.024  bias -0.021  cov90 1.00  width 0.295  rho +0.28  lapMAE 0.27  lapcov90 1.00
+japan-2026       practice_only      stints  19  rateMAE 0.020  bias +0.002  cov90 1.00  width 0.270  rho -0.05  lapMAE 0.25  lapcov90 1.00
+japan-2026       practice_no_regime stints  19  rateMAE 0.029  bias -0.026  cov90 1.00  width 0.282  rho -0.03  lapMAE 0.28  lapcov90 1.00
+japan-2026       history_only       stints  19  rateMAE 0.049  bias -0.049  cov90 0.95  width 0.212  rho +0.37  lapMAE 0.35  lapcov90 1.00
+japan-2026       mixedlm_x_regime   stints  19  rateMAE 0.024  bias +0.009  cov90 1.00  width 0.212  rho +0.50  lapMAE 0.29  lapcov90 1.00
+japan-2026       season_loo         stints  19  rateMAE 0.019  bias -0.009  cov90 1.00  width 0.212  rho +0.38  lapMAE 0.26  lapcov90 1.00
+japan-2026       zero               stints  19  rateMAE 0.036  bias +0.036  cov90 1.00  width 0.212  rho +nan  lapMAE 0.30  lapcov90 0.99
+japan-2026       oracle_race        stints  19  rateMAE 0.017  bias -0.002  cov90 1.00  width 0.212  rho +0.44  lapMAE 0.27  lapcov90 1.00
+barcelona-2026   sealed             stints  31  rateMAE 0.041  bias +0.013  cov90 1.00  width 0.335  rho -0.02  lapMAE 0.38  lapcov90 0.99
+barcelona-2026   practice_only      stints  31  rateMAE 0.041  bias +0.003  cov90 1.00  width 0.350  rho -0.02  lapMAE 0.39  lapcov90 0.99
+barcelona-2026   practice_no_regime stints  31  rateMAE 0.088  bias -0.084  cov90 0.77  width 0.273  rho -0.02  lapMAE 0.56  lapcov90 0.96
+barcelona-2026   history_only       stints  31  rateMAE 0.051  bias +0.039  cov90 0.87  width 0.187  rho +0.10  lapMAE 0.40  lapcov90 0.97
+barcelona-2026   mixedlm_x_regime   stints  31  rateMAE 0.064  bias -0.049  cov90 0.71  width 0.187  rho -0.25  lapMAE 0.48  lapcov90 0.97
+barcelona-2026   season_loo         stints  31  rateMAE 0.087  bias +0.086  cov90 0.58  width 0.187  rho +0.08  lapMAE 0.52  lapcov90 0.96
+barcelona-2026   zero               stints  31  rateMAE 0.119  bias +0.119  cov90 0.29  width 0.187  rho +nan  lapMAE 0.64  lapcov90 0.94
+barcelona-2026   oracle_race        stints  31  rateMAE 0.040  bias -0.003  cov90 0.90  width 0.187  rho +0.18  lapMAE 0.38  lapcov90 0.98
+austria-2026     sealed             stints  40  rateMAE 0.032  bias -0.010  cov90 1.00  width 0.306  rho +0.07  lapMAE 0.35  lapcov90 0.99
+austria-2026     practice_only      stints  40  rateMAE 0.030  bias +0.004  cov90 1.00  width 0.285  rho +0.05  lapMAE 0.34  lapcov90 0.98
+austria-2026     practice_no_regime stints  40  rateMAE 0.055  bias -0.050  cov90 0.90  width 0.255  rho +0.05  lapMAE 0.43  lapcov90 0.97
+austria-2026     history_only       stints  35  rateMAE 0.029  bias +0.004  cov90 0.97  width 0.175  rho -0.06  lapMAE 0.34  lapcov90 0.98
+austria-2026     mixedlm_x_regime   stints  40  rateMAE 0.033  bias -0.001  cov90 0.90  width 0.186  rho +0.13  lapMAE 0.35  lapcov90 0.97
+austria-2026     season_loo         stints  40  rateMAE 0.043  bias +0.031  cov90 0.90  width 0.186  rho -0.03  lapMAE 0.38  lapcov90 0.97
+austria-2026     zero               stints  40  rateMAE 0.074  bias +0.073  cov90 0.60  width 0.186  rho +nan  lapMAE 0.50  lapcov90 0.96
+austria-2026     oracle_race        stints  40  rateMAE 0.030  bias +0.001  cov90 0.97  width 0.186  rho +0.01  lapMAE 0.35  lapcov90 0.98
+belgium-2026     sealed             stints  19  rateMAE 0.030  bias -0.009  cov90 1.00  width 0.191  rho -0.53  lapMAE 0.29  lapcov90 0.98
+belgium-2026     practice_only      stints  19  rateMAE 0.038  bias -0.019  cov90 1.00  width 0.208  rho -0.54  lapMAE 0.31  lapcov90 0.98
+belgium-2026     practice_no_regime stints  19  rateMAE 0.080  bias -0.076  cov90 0.68  width 0.193  rho -0.54  lapMAE 0.48  lapcov90 0.93
+belgium-2026     history_only       stints  19  rateMAE 0.028  bias +0.011  cov90 0.84  width 0.101  rho +0.34  lapMAE 0.28  lapcov90 0.96
+belgium-2026     mixedlm_x_regime   stints  19  rateMAE 0.042  bias -0.031  cov90 0.74  width 0.101  rho -0.55  lapMAE 0.32  lapcov90 0.96
+belgium-2026     season_loo         stints  19  rateMAE 0.042  bias +0.031  cov90 0.63  width 0.101  rho -0.27  lapMAE 0.31  lapcov90 0.94
+belgium-2026     zero               stints  19  rateMAE 0.071  bias +0.071  cov90 0.21  width 0.101  rho +nan  lapMAE 0.43  lapcov90 0.87
+belgium-2026     oracle_race        stints  19  rateMAE 0.048  bias +0.025  cov90 0.58  width 0.101  rho -0.41  lapMAE 0.31  lapcov90 0.94
+hungary-2026     sealed             stints  43  rateMAE 0.046  bias +0.017  cov90 0.95  width 0.240  rho -0.25  lapMAE 0.42  lapcov90 0.97
+hungary-2026     practice_only      stints  43  rateMAE 0.049  bias +0.032  cov90 0.91  width 0.228  rho -0.25  lapMAE 0.41  lapcov90 0.96
+hungary-2026     practice_no_regime stints  43  rateMAE 0.045  bias -0.005  cov90 0.93  width 0.227  rho -0.25  lapMAE 0.43  lapcov90 0.96
+hungary-2026     history_only       stints  43  rateMAE 0.045  bias +0.008  cov90 0.77  width 0.151  rho -0.18  lapMAE 0.43  lapcov90 0.94
+hungary-2026     mixedlm_x_regime   stints  43  rateMAE 0.048  bias +0.020  cov90 0.81  width 0.151  rho -0.11  lapMAE 0.41  lapcov90 0.95
+hungary-2026     season_loo         stints  43  rateMAE 0.053  bias +0.035  cov90 0.79  width 0.151  rho -0.17  lapMAE 0.43  lapcov90 0.94
+hungary-2026     zero               stints  43  rateMAE 0.083  bias +0.080  cov90 0.40  width 0.151  rho +nan  lapMAE 0.52  lapcov90 0.92
+hungary-2026     oracle_race        stints  43  rateMAE 0.042  bias +0.010  cov90 0.81  width 0.151  rho +0.15  lapMAE 0.41  lapcov90 0.95
+italy-2026       sealed             stints  21  rateMAE 0.154  bias -0.153  cov90 0.86  width 0.581  rho +0.02  lapMAE 1.75  lapcov90 0.79
+italy-2026       practice_only      stints  21  rateMAE 0.029  bias +0.012  cov90 0.95  width 0.136  rho +0.06  lapMAE 0.27  lapcov90 0.98
+italy-2026       practice_no_regime stints  21  rateMAE 0.028  bias +0.003  cov90 1.00  width 0.150  rho +0.06  lapMAE 0.28  lapcov90 0.98
+italy-2026       history_only       stints  19  rateMAE 0.043  bias -0.039  cov90 0.58  width 0.095  rho -0.08  lapMAE 0.45  lapcov90 0.96
+italy-2026       mixedlm_x_regime   stints  21  rateMAE 0.030  bias +0.012  cov90 0.76  width 0.102  rho +0.28  lapMAE 0.29  lapcov90 0.98
+italy-2026       season_loo         stints  21  rateMAE 0.038  bias -0.028  cov90 0.57  width 0.102  rho -0.11  lapMAE 0.39  lapcov90 0.96
+italy-2026       zero               stints  21  rateMAE 0.035  bias +0.027  cov90 0.62  width 0.102  rho +nan  lapMAE 0.33  lapcov90 0.98
+italy-2026       oracle_race        stints  21  rateMAE 0.032  bias +0.013  cov90 0.67  width 0.102  rho -0.06  lapMAE 0.31  lapcov90 0.98
+
+=== pooled over weekends ===
+                    rate_mae_mean  rate_mae_median  rate_mae_max  bias_mean  cov90_mean  width_mean  spearman_mean  lap_mae_mean  n_pass
+variant                                                                                                                                 
+oracle_race                 0.036            0.040         0.048      0.008       0.830       0.161          0.096         0.345       7
+practice_only               0.037            0.038         0.054      0.011       0.955       0.240         -0.126         0.342       7
+mixedlm_x_regime            0.040            0.042         0.064     -0.003       0.827       0.161          0.033         0.360       7
+history_only                0.042            0.045         0.052     -0.004       0.816       0.154          0.073         0.379       7
+season_loo                  0.047            0.043         0.087      0.021       0.757       0.161         -0.040         0.383       7
+practice_no_regime          0.054            0.052         0.088     -0.029       0.874       0.227         -0.124         0.411       7
+zero                        0.068            0.071         0.119      0.065       0.544       0.161            NaN         0.453       7
+sealed                      0.109            0.041         0.434     -0.083       0.961       0.531         -0.073         1.140       5
+
+laps-weighted sealed rate MAE: 0.0959
+exit 0

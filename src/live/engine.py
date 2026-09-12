@@ -25,25 +25,29 @@ pace, only its shape).  That is a particle approximation to the posterior, it
 costs microseconds per lap, and everything downstream — wear, cliff
 probability, plan costs, undercut gains — is evaluated on the weighted draws,
 so the uncertainty shown on screen is the model's, not a heuristic.
+
+**The plan search is the offline objective, vectorised.**  Every one-stop and
+two-stop continuation is costed in a handful of array operations over the
+cached fresh-stint cost tables, with the same undercut-exposure term the
+offline search carries (at the weight the weekend was calibrated with), so
+the live call and the pre-race plan cannot disagree about what a late stop
+costs.  About 0.1-0.2 s per tick for the whole field.
 """
 
 from __future__ import annotations
 
-import itertools
 import logging
-import math
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
+from src.calibration import get_calibration
 from src.config import (
     DATA_PROCESSED,
     DEFAULT_RACE_REGIME_LN_SD,
     DEFAULT_RACE_REGIME_RATIO,
-    DIRTY_AIR_S_PER_LAP,
     GRIP_BUDGET_S,
     MAX_STINTS_PER_COMPOUND,
     OUT_LAP_PENALTY_S,
@@ -76,6 +80,7 @@ VSC_PIT_LOSS_FRACTION = 0.55
 UNDERCUT_RANGE_S = 6.0       # only cars this close can be undercut / undercut you
 CLIFF_ALARM_P = 0.5
 ALERT_COOLDOWN_LAPS = 3
+PLAN_SHORTLIST = 48          # options priced draw by draw per car per lap (the rest on the expected cost)
 
 
 def _temper_for_ess(ll: np.ndarray, min_ess: float) -> float:
@@ -114,11 +119,15 @@ class WeekendModel:
     source: str = ""
     sealed_file: str = ""
     n_draws: int = N_DRAWS
+    undercut_lambda: float = 0.0
+    dirty_air_s_per_lap: float = 0.45
+    calibration_source: str = ""
 
     @classmethod
     def load(cls, event: Event | str, *, n_draws: int = N_DRAWS, seed: int = 0) -> "WeekendModel":
         ev = get_event(event) if isinstance(event, str) else event
         rng = np.random.default_rng(seed)
+        cal = get_calibration(ev)
         post = DATA_PROCESSED / f"posterior_{ev.key}.npz"
         regime_ratio, regime_sd, sealed = DEFAULT_RACE_REGIME_RATIO, DEFAULT_RACE_REGIME_LN_SD, ""
         meta_p = DATA_PROCESSED / f"weekend_{ev.key}.json"
@@ -138,10 +147,15 @@ class WeekendModel:
             fit = BayesFit.load(post)
             total = fit.posterior["lin"].shape[0]
             idx = rng.choice(total, size=min(n_draws, total), replace=False)
-            model = TyreModel.from_fit(fit, draws=idx, budget=GRIP_BUDGET_S)
+            model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets,
+                                       manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+            # the weekend script's calibrated pace offsets, if it wrote them
+            pc = (meta.get("pace_calibration") or {}).get("offsets_after")
+            if pc and all(c in pc for c in model.compounds):
+                model = model.copy_with(pace_offset={c: np.full(model.n_draws, float(pc[c])) for c in model.compounds})
             source = f"sealed fit {post.name} ({fit.prior_label}, {fit.n_laps} practice laps)"
         else:
-            model = cls.prior_model(ev, n_draws, rng)
+            model = cls.prior_model(ev, n_draws, rng, calibration=cal)
             source = "prior only: no practice fit for this weekend yet"
         n = model.n_draws
         m_prior = np.exp(rng.normal(np.log(max(regime_ratio, 1e-3)), regime_sd, size=n))
@@ -156,10 +170,12 @@ class WeekendModel:
             source += f"; circuit history {hist.get('years')}"
         return cls(event=ev, model=model, m_prior=m_prior, pit_loss_s=pit,
                    pit_loss_source=pit_src, allocation=alloc, stint_cap=caps, history=hist,
-                   source=source, sealed_file=sealed, n_draws=n)
+                   source=source, sealed_file=sealed, n_draws=n,
+                   undercut_lambda=float(cal.undercut_lambda), dirty_air_s_per_lap=float(cal.dirty_air_s_per_lap),
+                   calibration_source=cal.source)
 
     @staticmethod
-    def prior_model(ev: Event, n: int, rng: np.random.Generator) -> TyreModel:
+    def prior_model(ev: Event, n: int, rng: np.random.Generator, calibration=None) -> TyreModel:
         """A tyre model from the compound ladder alone, for a weekend with no fit.
 
         Wide on purpose: the MEDIUM rate is LogNormal around 0.10 s/lap with a
@@ -168,19 +184,23 @@ class WeekendModel:
         """
         from src.config import COMPOUND_DEG_RATIO, COMPOUND_PACE_STEP_FRAC
 
+        cal = calibration if calibration is not None else get_calibration(ev)
         comps = list(VALID_COMPOUNDS)
         rank = dict(zip(comps, hardness_rank(comps)))
         med = np.exp(rng.normal(np.log(0.10), 0.5, size=n))
         ratio = np.exp(rng.normal(np.log(COMPOUND_DEG_RATIO), 0.25, size=n))
         step = COMPOUND_PACE_STEP_FRAC * ev.t_lap_ref_s
+        budgets = cal.budgets
         wear, pace = {}, {}
         for c in comps:
             r = rank[c] - rank["MEDIUM"]
             rate = med * ratio ** (-r)
-            wear[c] = rate / GRIP_BUDGET_S
+            wear[c] = rate / budgets[c]
             pace[c] = np.full(n, step * rank[c]) + rng.normal(0, 0.05, size=n)
         return TyreModel(compounds=comps, wear_rate=wear, pace_offset=pace,
-                         budget=GRIP_BUDGET_S, n_draws=n, source="compound-ladder prior")
+                         budget=float(np.mean(list(budgets.values()))), budgets=budgets, n_draws=n,
+                         source="compound-ladder prior", manage_floor=cal.manage_wear_floor,
+                         manage_cost_s=cal.manage_cost_s)
 
 
 def pit_loss_prior(ev: Event, meta: dict | None = None) -> tuple:
@@ -256,6 +276,8 @@ class RaceEngine:
         self._last_plan_lap: dict = {}
         self._cost_cache: dict = {}
         self.tick_no = 0
+        self.lam = float(getattr(wm, "undercut_lambda", 0.0) or 0.0)
+        self.dirty_air = float(getattr(wm, "dirty_air_s_per_lap", 0.45) or 0.45)
 
     # -- helpers ------------------------------------------------------------
 
@@ -360,7 +382,7 @@ class RaceEngine:
                 k = np.clip(ln.astype(int) - first, 0, len(cum_load) - 1)
                 w_mid = (cum_load[k][None, :] - 0.5 * self._load_vec(ln)[None, :]) \
                     * (rate * self.m_prior)[:, None]
-                D = grip_loss(w_mid, budget=self.model.budget)            # (n, L)
+                D = grip_loss(w_mid, budget=self.model.budget_of(c))            # (n, L)
                 resid = y[None, :] - D
                 wt = 1.0 / sig ** 2
                 level = (resid * wt).sum(1, keepdims=True) / wt.sum()
@@ -374,18 +396,10 @@ class RaceEngine:
             else:
                 dt._ll = None
         # Field posterior: every car's laps, tempered.  Driver posterior: own
-        # laps at full weight plus the rest of the field tempered, which is a
-        # cheap stand-in for a hierarchical model and keeps one coherent set of
-        # draws per car for both the tyre it is on and the ones it will fit.
+        # laps at full weight plus the rest of the field tempered.
         ll_field = np.zeros(self.n)
         for ll in ll_by_driver.values():
             ll_field += FIELD_TEMPER * ll
-        # A particle approximation degenerates once a few hundred laps of
-        # likelihood pile onto one draw.  Temper the field's evidence so the
-        # effective sample size stays above a floor: the posterior is then
-        # honestly wider than the raw likelihood would make it, which is the
-        # right side to err on for a model that ignores driver-to-driver
-        # differences in management.
         self.field_temperature = _temper_for_ess(ll_field, MIN_ESS)
         ll_field = ll_field * self.field_temperature
         fw = np.exp(ll_field - ll_field.max())
@@ -407,6 +421,7 @@ class RaceEngine:
             # --- wear now, cliff, projection -------------------------------
             c = dt.compound
             rate = rate_draws[c]
+            b = self.model.budget_of(c)
             first = int(dt.stint_first_lap or 1)
             cur_lap = int(tr.current["lap_number"]) if tr.current else first
             cum_load = np.cumsum(self._load_vec(np.arange(first, cur_lap + 1)))
@@ -426,11 +441,10 @@ class RaceEngine:
             cw = np.cumsum(w[o])
             dt.laps_to_cliff = tuple(float(ltc[o][min(np.searchsorted(cw, q), self.n - 1)])
                                      for q in (0.1, 0.5, 0.9))
-            loss_now = grip_loss(wear_now, budget=self.model.budget)
-            dt.proj = [float(((grip_loss(wear_now + per_lap * j, budget=self.model.budget) - loss_now) * w).sum())
+            loss_now = grip_loss(wear_now, budget=b)
+            dt.proj = [float(((grip_loss(wear_now + per_lap * j, budget=b) - loss_now) * w).sum())
                        for j in range(1, 6)]
-            dt.deg_now_s_per_lap = float(((grip_loss(wear_now + per_lap, budget=self.model.budget)
-                                           - loss_now) * w).sum())
+            dt.deg_now_s_per_lap = float(((grip_loss(wear_now + per_lap, budget=b) - loss_now) * w).sum())
 
     def _resample(self, weights: np.ndarray | None) -> np.ndarray:
         """Draw indices proportional to weights (systematic resampling)."""
@@ -441,27 +455,36 @@ class RaceEngine:
 
     # -- costs --------------------------------------------------------------
 
-    def _future_cost_tables(self, total: int, idx: np.ndarray) -> dict:
-        """cost[c][d, s, L] for fresh stints, on the field-weighted draws `idx`.
+    def _future_cost_tables(self, total: int) -> tuple:
+        """cost[c][d, s, L] for fresh stints on *every* draw (draw d paired with
+        its regime multiplier), plus the undercut-exposure tables.
 
-        Cached per tick on the resampled index set: the same table serves every
-        driver's plan search.
+        Built once per race: the tables depend only on the sealed model, the
+        regime prior and the race distance, none of which change between
+        laps.  Each car's own posterior enters as a *weight vector* over the
+        draws - its weighted-mean table prices every option in one gather,
+        and only the shortlist is priced draw by draw.  A previous version
+        rebuilt the table per car per lap on that car's resampled draws, which
+        was 95% of a 1.1 s tick.
         """
-        key = (self.tick_no, total, int(idx[:8].sum()), int(idx[-8:].sum()), len(idx))
+        key = ("tables", int(total))
         if self._cost_cache.get("key") == key:
-            return self._cost_cache["tables"]
-        scaled = TyreModel(
-            compounds=list(self.model.compounds),
-            wear_rate={c: self.model.wear_rate[c][idx] * self.m_prior[idx] for c in self.model.compounds},
-            pace_offset={c: self.model.pace_offset[c][idx] for c in self.model.compounds},
-            budget=self.model.budget, load_exponent=self.model.load_exponent, n_draws=len(idx))
+            return self._cost_cache["tables"], self._cost_cache["expo"]
+        scaled = self.model.copy_with(
+            wear_rate={c: self.model.wear_rate[c] * self.m_prior for c in self.model.compounds},
+            driver_dev={})
         ev = self.ev
         if total != ev.n_race_laps:
             from dataclasses import replace
             ev = replace(ev, n_race_laps=int(total))
-        tables = scaled.cost_table(ev, int(total), 1.0, warmup_s=OUT_LAP_PENALTY_S)
-        self._cost_cache = {"key": key, "tables": tables, "idx": idx}
-        return tables
+        tables = {c: v.astype(np.float32) for c, v in
+                  scaled.cost_table(ev, int(total), 1.0, warmup_s=OUT_LAP_PENALTY_S).items()}
+        expo = None
+        if self.lam > 0:
+            from src.strategy import undercut_exposure_tables
+            expo = undercut_exposure_tables(scaled, ev, 1.0, int(total))
+        self._cost_cache = {"key": key, "tables": tables, "expo": expo}
+        return tables, expo
 
     def _continue_cost(self, dt: DriverTyre, idx: np.ndarray, cur_lap: int, n_more: int,
                        total: int) -> np.ndarray:
@@ -474,7 +497,7 @@ class RaceEngine:
         loads = self._load_vec(laps) if n_more > 0 else np.zeros(0)
         inc = rate[:, None] * loads[None, :]
         w_end = w0[:, None] + np.cumsum(inc, axis=1)
-        loss = grip_loss(w_end - 0.5 * inc, budget=self.model.budget) + pace[:, None]
+        loss = grip_loss(w_end - 0.5 * inc, budget=self.model.budget_of(c)) + pace[:, None]
         out = np.zeros((len(idx), n_more + 1))
         out[:, 1:] = np.cumsum(loss, axis=1)
         return out
@@ -490,12 +513,9 @@ class RaceEngine:
         R = total - cur_lap
         if R <= 0:
             return None
-        # One coherent set of draws per car, for the tyre it is on and the
-        # ones it will fit: its own posterior (which already carries the field's
-        # laps, tempered).
-        idx = self._resample(dt.weights if dt.weights is not None else self.field_weights)
-        idx_d = idx
-        tables = self._future_cost_tables(total, idx)
+        n = self.n
+        w = dt.weights if dt.weights is not None else self.field_weights          # (n,) this car's posterior
+        tables, expo = self._future_cost_tables(total)
         margin = PIT_WINDOW_MARGIN
         used = {}
         for s in tr.stints:
@@ -506,106 +526,168 @@ class RaceEngine:
                  if used.get(c, 0) < int(self.wm.allocation.get(c, MAX_STINTS_PER_COMPOUND))]
         if not avail:
             avail = list(self.model.compounds)
-        cont = self._continue_cost(dt, idx_d, cur_lap, R, total)      # (n, R+1)
-        n = len(idx)
+        cont = self._continue_cost(dt, np.arange(n), cur_lap, R, total)      # (n, R+1) on every draw
+        cont_m = w @ cont                                                     # (R+1,) this car's expectation
+        mean_t = {c: np.tensordot(w, tables[c], axes=1) for c in avail}      # (total+1, total+1) per compound
         pit_now_factor = (SC_PIT_LOSS_FRACTION if state.track_status == "4" else
                           VSC_PIT_LOSS_FRACTION if state.track_status in ("6", "7") else 1.0)
         pit = self.pit_loss_s
         dens = self._density(total)
-
-        options = []   # (label, times(n,), kind, next_stop_lap, compounds)
+        traffic = TRAFFIC_LAPS_PER_STOP * self.dirty_air
         caps = self.wm.stint_cap
         stint_len_now = cur_lap - int(dt.stint_first_lap or 1) + 1      # laps run on this set so far
         BIG = 10 ** 6
-
-        def cap_ok(c: str, L: int) -> bool:
-            return L <= caps.get(c, BIG)
-
-        over_cap = stint_len_now > caps.get(dt.compound, BIG) + 1
-
-        def cont_ok(k: int) -> bool:   # continuing this set k more laps
-            if over_cap:               # already past what this circuit has ever supported: stop within 2 laps
-                return k <= 2
-            return (stint_len_now + k) <= caps.get(dt.compound, BIG) + 1
-        # 0 stops
-        legal0 = (len(compounds_used) >= 2 or not state.is_race) and cont_ok(R)
-        t0 = cont[:, R].copy()
-        options.append({"label": "stay out", "kind": 0, "stop": None, "compounds": [], "times": t0,
-                        "legal": legal0})
-        # 1 stop with lap p as the in-lap (p = cur_lap + 1 is "box at the end
-        # of this lap"); the car reaches the pit having completed p laps.
+        cap_cur = caps.get(dt.compound, BIG)
+        over_cap = stint_len_now > cap_cur + 1
         now_lap = cur_lap + 1
-        for p in range(now_lap, total - margin + 1):
-            k = p - cur_lap
-            if k > R - margin:
-                break
-            rem = total - p
+        cur_c = dt.compound
+
+        def cont_ok_vec(k):   # continuing this set k more laps
+            k = np.asarray(k)
+            return (k <= 2) if over_cap else ((stint_len_now + k) <= cap_cur + 1)
+
+        def cap_ok_vec(c, L):
+            return np.asarray(L) <= caps.get(c, BIG)
+
+        def expo_cont(c_new, k):
+            """Exposure added by staying out k more laps before fitting `c_new`."""
+            if expo is None:
+                return np.zeros(np.shape(k))
+            e = expo[(cur_c, c_new)]
+            a0 = min(stint_len_now, len(e) - 1)
+            a1 = np.clip(stint_len_now + np.asarray(k), 0, len(e) - 1)
+            return self.lam * (e[a1] - e[a0]) * dens[np.clip(cur_lap + np.asarray(k), 1, total) - 1]
+
+        # -- phase 1: every option on this car's expected cost -------------------
+        # per option: expected cost, kind, stop lap, legality, and the recipe
+        # (compounds and laps) to price it on the draws if it makes the shortlist
+        means, kinds, stops, legals, recipes = [], [], [], [], []
+        legal0 = bool((len(compounds_used) >= 2 or not state.is_race) and cont_ok_vec(R))
+        means.append(np.array([cont_m[R]])); kinds.append(np.array([0])); stops.append(np.array([-1]))
+        legals.append(np.array([legal0])); recipes.append([("stay", None, None, None, None)])
+        P1 = np.arange(now_lap, total - margin + 1)
+        K1 = P1 - cur_lap
+        keep = K1 <= R - margin
+        P1, K1 = P1[keep], K1[keep]
+        if len(P1):
+            rem = total - P1
+            fixed1 = pit * np.where(P1 == now_lap, pit_now_factor, 1.0) + traffic * dens[np.clip(P1, 1, total) - 1]
             for c2 in avail:
-                legal = not (c2 == dt.compound and len(compounds_used) < 2) and cont_ok(k) and cap_ok(c2, rem)
-                loss = pit * (pit_now_factor if p == now_lap else 1.0)
-                t = cont[:, k] + loss + TRAFFIC_LAPS_PER_STOP * DIRTY_AIR_S_PER_LAP * dens[min(p, total) - 1] \
-                    + tables[c2][:, p, rem]
-                options.append({"label": f"1 stop: {c2} on lap {p}", "kind": 1, "stop": p,
-                                "compounds": [c2], "times": t, "legal": legal})
-        # 2 stops, coarse grid
+                legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
+                means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + expo_cont(c2, K1))
+                kinds.append(np.full(len(P1), 1)); stops.append(P1)
+                legals.append(np.asarray(legal, bool) & np.ones(len(P1), bool))
+                recipes.append([(c2, int(p), int(r), None, None) for p, r in zip(P1, rem)])
         step = 2 if R > 30 else 1
-        for p1 in range(now_lap, total - 2 * margin + 1, step):
-            k1 = p1 - cur_lap
-            for p2 in range(p1 + margin, total - margin + 1, step):
-                for c2, c3 in itertools.product(avail, repeat=2):
+        p1s = np.arange(now_lap, total - 2 * margin + 1, step)
+        pairs = [(p1, p2) for p1 in p1s for p2 in range(p1 + margin, total - margin + 1, step)]
+        if pairs:
+            P1p = np.array([a for a, _ in pairs]); P2p = np.array([b for _, b in pairs])
+            K1p = P1p - cur_lap
+            fixed2 = (pit * np.where(P1p == now_lap, pit_now_factor, 1.0) + pit
+                      + traffic * (dens[P1p - 1] + dens[P2p - 1]))
+            for c2 in avail:
+                e1 = expo_cont(c2, K1p)
+                for c3 in avail:
                     if c2 == c3 and used.get(c2, 0) + 2 > int(self.wm.allocation.get(c2, MAX_STINTS_PER_COMPOUND)):
                         continue
-                    if not (cont_ok(k1) and cap_ok(c2, p2 - p1) and cap_ok(c3, total - p2)):
+                    legal = cont_ok_vec(K1p) & cap_ok_vec(c2, P2p - P1p) & cap_ok_vec(c3, total - P2p)
+                    if not np.any(legal):
                         continue
-                    loss1 = pit * (pit_now_factor if p1 == now_lap else 1.0)
-                    t = (cont[:, k1] + loss1 + pit
-                         + TRAFFIC_LAPS_PER_STOP * DIRTY_AIR_S_PER_LAP * (dens[p1 - 1] + dens[p2 - 1])
-                         + tables[c2][:, p1, p2 - p1] + tables[c3][:, p2, total - p2])
-                    options.append({"label": f"2 stops: {c2} lap {p1}, {c3} lap {p2}", "kind": 2,
-                                    "stop": p1, "compounds": [c2, c3], "times": t, "legal": True})
-        legal = [o for o in options if o["legal"]]
-        if not legal:
-            legal = options
-        means = np.array([o["times"].mean() for o in legal])
-        best_i = int(np.argmin(means))
-        best = legal[best_i]
-        T = np.stack([o["times"] for o in legal])                      # (n_opt, n)
-        win = np.bincount(np.argmin(T, axis=0), minlength=len(legal)) / n
-        # next-stop window: best cost per candidate stop lap, over 1-stop and 2-stop plans
-        by_lap: dict = {}
-        for o, mu in zip(legal, means):
-            if o["stop"] is None:
-                continue
-            if o["stop"] not in by_lap or mu < by_lap[o["stop"]]:
-                by_lap[o["stop"]] = mu
-        window = []
-        if by_lap:
-            floor = min(by_lap.values())
-            window = [{"lap": int(p), "loss_s": float(v - floor)} for p, v in sorted(by_lap.items())]
-        in_win = [w["lap"] for w in window if w["loss_s"] <= WINDOW_TOL_S]
-        cands = [(o, mu) for o, mu in zip(legal, means) if o["stop"] == now_lap]
-        box_now = min(cands, key=lambda t: t[1])[0] if cands else None
-        stay = legal[0] if legal[0]["kind"] == 0 else None
-        delta_box_now = float(box_now["times"].mean() - best["times"].mean()) if box_now else float("nan")
-        delta_stay = float(stay["times"].mean() - best["times"].mean()) if stay else float("nan")
-        # p(best beats stay out) draw by draw
-        p_best_vs_stay = float(((best["times"] - stay["times"]) < 0).mean()) if stay and stay is not best else float("nan")
-        top = sorted(zip(legal, means, win), key=lambda t: t[1])[:6]
+                    m2 = cont_m[K1p] + fixed2 + mean_t[c2][P1p, P2p - P1p] + mean_t[c3][P2p, total - P2p] + e1
+                    if expo is not None:
+                        e2 = expo[(c2, c3)]
+                        m2 = m2 + self.lam * e2[np.clip(P2p - P1p, 0, len(e2) - 1)] * dens[P2p - 1]
+                    means.append(m2); kinds.append(np.full(len(P1p), 2)); stops.append(P1p)
+                    legals.append(np.asarray(legal, bool))
+                    recipes.append([(c2, int(a), int(b - a), c3, int(total - b)) for a, b in pairs])
+        mean_all = np.concatenate(means)
+        kind = np.concatenate(kinds)
+        stop = np.concatenate(stops)
+        legal = np.concatenate(legals)
+        recipe = [r for blk in recipes for r in blk]
+        if not legal.any():
+            legal = np.ones(len(stop), bool)
+        li = np.flatnonzero(legal)
+        ml = mean_all[li]
+        j_best = int(np.argmin(ml))
+        best_i = int(li[j_best])
+        # next-stop window: best expected cost per candidate stop lap
+        st_l = stop[li]
+        has_stop = st_l >= 0
+        window, in_win = [], []
+        if has_stop.any():
+            laps_u = np.unique(st_l[has_stop])
+            best_by_lap = np.full(len(laps_u), np.inf)
+            np.minimum.at(best_by_lap, np.searchsorted(laps_u, st_l[has_stop]), ml[has_stop])
+            floor = float(best_by_lap.min())
+            window = [{"lap": int(p), "loss_s": float(v - floor)} for p, v in zip(laps_u, best_by_lap)]
+            in_win = [x["lap"] for x in window if x["loss_s"] <= WINDOW_TOL_S]
+        now_mask = st_l == now_lap
+        box_i = int(li[np.flatnonzero(now_mask)[np.argmin(ml[now_mask])]]) if now_mask.any() else None
+        stay_i = int(li[0]) if (kind[li[0]] == 0) else None
+
+        # -- phase 2: the shortlist on the draws -------------------------------
+        # the best options by expected cost, plus box-now and stay-out, priced
+        # draw by draw on this car's resampled posterior for the win probabilities
+        top_j = np.argsort(ml)[:PLAN_SHORTLIST]
+        short = list(dict.fromkeys([int(li[j]) for j in top_j] + [x for x in (box_i, stay_i) if x is not None]))
+        idx = self._resample(w)
+        rows = []
+        for i in short:
+            c2, p, r1, c3, r2 = recipe[i]
+            if c2 == "stay":
+                t = cont[idx, R]
+            elif c3 is None:
+                k = p - cur_lap
+                t = (cont[idx, k] + float(pit * (pit_now_factor if p == now_lap else 1.0) + traffic * dens[min(p, total) - 1])
+                     + tables[c2][idx, p, r1] + float(expo_cont(c2, np.array([k]))[0]))
+            else:
+                k = p - cur_lap
+                p2 = p + r1
+                t = (cont[idx, k] + float(pit * (pit_now_factor if p == now_lap else 1.0) + pit
+                                          + traffic * (dens[p - 1] + dens[p2 - 1]))
+                     + tables[c2][idx, p, r1] + tables[c3][idx, p2, r2] + float(expo_cont(c2, np.array([k]))[0]))
+                if expo is not None:
+                    e2 = expo[(c2, c3)]
+                    t = t + self.lam * e2[min(r1, len(e2) - 1)] * dens[p2 - 1]
+            rows.append(np.asarray(t, dtype=np.float64))
+        T = np.stack(rows)                                                   # (n_short, n)
+        win_short = np.bincount(np.argmin(T, axis=0), minlength=len(short)) / n
+        win_of = dict(zip(short, win_short))
+        pos_of = {i: j for j, i in enumerate(short)}
+        best_t = T[pos_of[best_i]]
+        delta_box_now = float(mean_all[box_i] - mean_all[best_i]) if box_i is not None else float("nan")
+        delta_stay = float(mean_all[stay_i] - mean_all[best_i]) if stay_i is not None else float("nan")
+        p_best_vs_stay = (float(((best_t - T[pos_of[stay_i]]) < 0).mean())
+                          if stay_i is not None and stay_i != best_i else float("nan"))
+
+        def label_of(i):
+            c2, p, r1, c3, r2 = recipe[i]
+            if c2 == "stay":
+                return "stay out", []
+            if c3 is None:
+                return f"1 stop: {c2} on lap {p}", [c2]
+            return f"2 stops: {c2} lap {p}, {c3} lap {p + r1}", [c2, c3]
+
+        best_label, best_comps = label_of(best_i)
         return {
-            "best": best["label"], "best_kind": best["kind"], "next_stop": best["stop"],
-            "next_compound": (best["compounds"][0] if best["compounds"] else None),
-            "compounds": best["compounds"], "win_prob": float(win[best_i]),
+            "best": best_label, "best_kind": int(kind[best_i]),
+            "next_stop": (int(stop[best_i]) if stop[best_i] >= 0 else None),
+            "next_compound": (best_comps[0] if best_comps else None),
+            "compounds": list(best_comps), "win_prob": float(win_of.get(best_i, 0.0)),
             "window_lo": (min(in_win) if in_win else None), "window_hi": (max(in_win) if in_win else None),
             "window": window[:60],
             "delta_box_now_s": delta_box_now, "delta_stay_out_s": delta_stay,
             "p_best_vs_stay": p_best_vs_stay,
             "stay_out_legal": bool(legal0), "compounds_used": sorted(compounds_used),
             "available": avail, "pit_now_factor": pit_now_factor,
-            "options": [{"label": o["label"], "delta_s": float(mu - means[best_i]),
-                         "win_prob": float(w)} for o, mu, w in top],
-            "laps_remaining": int(R), "n_options": len(legal), "now_lap": int(now_lap),
+            "options": [{"label": label_of(int(li[j]))[0], "delta_s": float(ml[j] - ml[j_best]),
+                         "win_prob": float(win_of.get(int(li[j]), 0.0))} for j in top_j[:6]],
+            "laps_remaining": int(R), "n_options": int(len(li)), "now_lap": int(now_lap),
             "stint_cap": caps.get(dt.compound), "stint_len_now": int(stint_len_now),
-            "box_now_label": (box_now["label"] if box_now else None),
+            "box_now_label": (label_of(box_i)[0] if box_i is not None else None),
+            "undercut_lambda": self.lam,
         }
 
     def _density(self, total: int) -> np.ndarray:
@@ -620,10 +702,11 @@ class RaceEngine:
 
         If the attacker pits now and the defender stays out `k` more laps
         before its own stop, the attacker gains, over those laps, the pace the
-        defender's tyre keeps losing plus the compound difference, less what
-        its own fresh tyre loses and the cold first lap.  The undercut works if
-        that cumulative gain exceeds the gap.  Reported per lap of exposure,
-        as a probability over the driver's posterior draws.
+        defender's aged tyre is *slower than fresh by* plus the compound
+        difference, less what its own fresh tyre loses and the cold first lap.
+        The undercut works if that cumulative gain exceeds the gap.  Level-
+        based, like the offline calculator: a 15-lap-old tyre is slower by its
+        accumulated degradation, not by its last lap's increment.
         """
         out = {"threat": None, "opportunity": None}
         pos = {r["driver_number"]: r for r in order}
@@ -640,10 +723,9 @@ class RaceEngine:
             rate_d = self.model.wear_rate[defender.compound] * self.m_prior
             rate_n = self.model.wear_rate[new_c] * self.m_prior
             w0 = defender.wear
-            loss0 = grip_loss(w0, budget=self.model.budget)
             ks = np.arange(1, K + 1)
-            def_loss = grip_loss(w0[:, None] + rate_d[:, None] * ks[None, :], budget=self.model.budget) - loss0[:, None]
-            att_loss = grip_loss(rate_n[:, None] * ks[None, :], budget=self.model.budget)
+            def_loss = grip_loss(w0[:, None] + rate_d[:, None] * ks[None, :], budget=self.model.budget_of(defender.compound))
+            att_loss = grip_loss(rate_n[:, None] * ks[None, :], budget=self.model.budget_of(new_c))
             off = (self.model.pace_offset[defender.compound] - self.model.pace_offset[new_c])[:, None]
             per_lap = def_loss - att_loss + off
             return np.cumsum(per_lap, axis=1) - OUT_LAP_PENALTY_S
@@ -705,7 +787,6 @@ class RaceEngine:
                 continue
             g = r.get("gap_leader_s") if (r.get("position") or 99) > 1 else 0.0
             if g is None:
-                # lapped car: behind everyone with a time gap
                 continue
             ahead.append((g, r))
         ahead_sorted = sorted(ahead, key=lambda t: t[0])
@@ -799,7 +880,6 @@ class RaceEngine:
                             "cliff_alarm": bool(dt.p_past_cliff >= CLIFF_ALARM_P
                                                 or dt.laps_to_cliff[1] <= 2.0)})
             lap_no = int(tr.current["lap_number"]) if tr.current else 0
-            # plans: recompute on a new lap (or when asked), reuse otherwise
             if dt is not None and dt.wear is not None and not tr.retired and state.is_race \
                     and state.session_status not in ("Finished", "Finalised", "Ends"):
                 if replan and (self._last_plan_lap.get(num) != lap_no or sc):
@@ -816,7 +896,6 @@ class RaceEngine:
                 if plan is not None:
                     factor = plan.get("pit_now_factor", 1.0)
                     row["rejoin_if_box_now"] = self._rejoin(order, num, self.pit_loss_s * factor)
-                    # -- alerts ------------------------------------------------
                     if row["cliff_alarm"]:
                         self._alert(state, num, "cliff", "bad",
                                     f"CLIFF: P(past grip budget) {row['p_past_cliff']:.0%}, "
@@ -863,12 +942,13 @@ class RaceEngine:
                      "regime_multiplier": m_summary, "model_source": self.wm.source,
                      "field_temperature": float(getattr(self, "field_temperature", 1.0)),
                      "sealed_file": self.wm.sealed_file, "n_draws": self.n,
-                     "sc_active": sc, "tick": self.tick_no,
+                     "sc_active": sc, "tick": self.tick_no, "undercut_lambda": self.lam,
                      "tick_utc": datetime.now(timezone.utc).isoformat()},
             "field": field,
             "alerts": list(self.alerts[-60:]),
             "compounds": {c: {"life_full_push": float(self.model.life_laps(c, 1.0).mean()),
-                              "pace_offset_s": float(self.model.pace_offset[c].mean())}
+                              "pace_offset_s": float(self.model.pace_offset[c].mean()),
+                              "grip_budget_s": float(self.model.budget_of(c))}
                           for c in self.model.compounds},
         }
 
@@ -897,7 +977,6 @@ class PracticeEngine:
         if not laps.empty:
             d = laps[laps["is_accurate"] & (laps["track_status"] == "1") & ~laps["pit_in"] & ~laps["pit_out"]
                      & laps["compound"].isin(VALID_COMPOUNDS) & laps["lap_time_s"].notna()].copy()
-            # traffic from lap start times, as the offline cascade does
             d = d.sort_values("lap_start_s")
             starts = d["lap_start_s"].to_numpy(dtype=float)
             drivers = d["driver_number"].to_numpy()
@@ -941,7 +1020,6 @@ class PracticeEngine:
                                         "text": f"{g['driver'].iloc[0]} {len(g)}-lap {comp} run: "
                                                 f"{beta[1]:+.3f} ± {se:.3f} s/lap (age {a.min():.0f}-{a.max():.0f})"})
             board = sorted(rows, key=lambda r: -r["n_laps"])
-            # pooled per compound with stint fixed effects
             if rows:
                 for comp in VALID_COMPOUNDS:
                     sub = [r for r in rows if r["compound"] == comp]
@@ -959,9 +1037,9 @@ class PracticeEngine:
                         se = float(np.sqrt(resid @ resid / max(len(y) - len(sub) - 1, 1) / den))
                         pooled[comp] = {"slope_s_per_lap": slope, "se": se, "n_stints": len(sub),
                                         "n_laps": int(len(y))}
-        prior = {c: {"rate_s_per_lap": float((self.model.wear_rate[c] * self.model.budget).mean()),
-                     "lo": float(np.quantile(self.model.wear_rate[c] * self.model.budget, 0.05)),
-                     "hi": float(np.quantile(self.model.wear_rate[c] * self.model.budget, 0.95))}
+        prior = {c: {"rate_s_per_lap": float(self.model.rate(c).mean()),
+                     "lo": float(np.quantile(self.model.rate(c), 0.05)),
+                     "hi": float(np.quantile(self.model.rate(c), 0.95))}
                  for c in self.model.compounds}
         return {
             "engine": "practice",

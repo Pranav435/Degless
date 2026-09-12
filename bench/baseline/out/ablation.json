@@ -1,0 +1,522 @@
+{
+ "australia-2026": {
+  "practice_only": {
+   "best": "1-stop M-H @ 40",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 2896.8,
+    "MEDIUM": 2593.2,
+    "SOFT": 2116.6
+   },
+   "deg_full_push": {
+    "HARD": 0.0019,
+    "MEDIUM": 0.0024,
+    "SOFT": 0.0033
+   },
+   "caps": {
+    "HARD": 42,
+    "MEDIUM": 40,
+    "SOFT": 10
+   }
+  },
+  "shipped": {
+   "best": "1-stop H-M @ 36",
+   "p_stops": {
+    "1": 0.7866666666666666,
+    "2": 0.21333333333333332,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 99.6,
+    "MEDIUM": 51.9,
+    "SOFT": 35.0
+   },
+   "deg_full_push": {
+    "HARD": 0.048,
+    "MEDIUM": 0.085,
+    "SOFT": 0.1229
+   },
+   "caps": {
+    "HARD": 42,
+    "MEDIUM": 40,
+    "SOFT": 10
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0336,
+    "MEDIUM": 0.0249,
+    "SOFT": 0.0445
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0389,
+    "MEDIUM": 0.0049,
+    "SOFT": 0.0515
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0311,
+    "MEDIUM": -0.1498,
+    "SOFT": 0.0886
+   },
+   "practice_stint_fe_ordered": false,
+   "model_practice_rate": {
+    "HARD": 0.0019,
+    "MEDIUM": 0.0024,
+    "SOFT": 0.0033
+   }
+  }
+ },
+ "japan-2026": {
+  "practice_only": {
+   "best": "1-stop S-M @ 22",
+   "p_stops": {
+    "1": 0.9766666666666667,
+    "2": 0.023333333333333334,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 96.7,
+    "MEDIUM": 78.9,
+    "SOFT": 56.5
+   },
+   "deg_full_push": {
+    "HARD": 0.0466,
+    "MEDIUM": 0.0568,
+    "SOFT": 0.0802
+   },
+   "caps": {
+    "HARD": 42,
+    "MEDIUM": 36,
+    "SOFT": 22
+   }
+  },
+  "shipped": {
+   "best": "1-stop S-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "life": {
+    "HARD": 78.0,
+    "MEDIUM": 48.3,
+    "SOFT": 40.2
+   },
+   "deg_full_push": {
+    "HARD": 0.0685,
+    "MEDIUM": 0.1075,
+    "SOFT": 0.1292
+   },
+   "caps": {
+    "HARD": 42,
+    "MEDIUM": 36,
+    "SOFT": 22
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0204,
+    "MEDIUM": 0.0592
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "HARD": 0.0201,
+    "MEDIUM": 0.0538
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "HARD": -0.0909,
+    "MEDIUM": 0.0735
+   },
+   "practice_stint_fe_ordered": true,
+   "model_practice_rate": {
+    "HARD": 0.0466,
+    "MEDIUM": 0.0568,
+    "SOFT": 0.0802
+   }
+  }
+ },
+ "barcelona-2026": {
+  "practice_only": {
+   "best": "2-stop S-H-H @ 18,42",
+   "p_stops": {
+    "2": 0.5933333333333334,
+    "3": 0.4066666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "life": {
+    "HARD": 33.6,
+    "MEDIUM": 26.8,
+    "SOFT": 23.6
+   },
+   "deg_full_push": {
+    "HARD": 0.1786,
+    "MEDIUM": 0.2228,
+    "SOFT": 0.2526
+   },
+   "caps": {
+    "HARD": 34,
+    "MEDIUM": 39,
+    "SOFT": 28
+   }
+  },
+  "shipped": {
+   "best": "2-stop M-H-H @ 19,43",
+   "p_stops": {
+    "2": 0.9000000000000001,
+    "3": 0.1,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "life": {
+    "HARD": 37.4,
+    "MEDIUM": 28.8,
+    "SOFT": 23.3
+   },
+   "deg_full_push": {
+    "HARD": 0.1601,
+    "MEDIUM": 0.2078,
+    "SOFT": 0.2566
+   },
+   "caps": {
+    "HARD": 34,
+    "MEDIUM": 40,
+    "SOFT": 28
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.1105,
+    "MEDIUM": 0.1566,
+    "SOFT": 0.1722
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "MEDIUM": 0.1725,
+    "SOFT": 0.2094
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "MEDIUM": 0.2822,
+    "SOFT": 0.2533
+   },
+   "practice_stint_fe_ordered": false,
+   "model_practice_rate": {
+    "HARD": 0.1786,
+    "MEDIUM": 0.2228,
+    "SOFT": 0.2526
+   }
+  }
+ },
+ "austria-2026": {
+  "practice_only": {
+   "best": "2-stop S-H-H @ 18,45",
+   "p_stops": {
+    "2": 0.8966666666666666,
+    "3": 0.06666666666666667,
+    "1": 0.03666666666666667
+   },
+   "push": 0.7,
+   "life": {
+    "HARD": 59.1,
+    "MEDIUM": 45.3,
+    "SOFT": 38.1
+   },
+   "deg_full_push": {
+    "HARD": 0.0955,
+    "MEDIUM": 0.1194,
+    "SOFT": 0.1392
+   },
+   "caps": {
+    "HARD": 46,
+    "MEDIUM": 37,
+    "SOFT": 18
+   }
+  },
+  "shipped": {
+   "best": "2-stop M-H-H @ 23,47",
+   "p_stops": {
+    "2": 0.86,
+    "3": 0.13999999999999996,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "life": {
+    "HARD": 52.1,
+    "MEDIUM": 45.6,
+    "SOFT": 36.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1147,
+    "MEDIUM": 0.1311,
+    "SOFT": 0.1616
+   },
+   "caps": {
+    "HARD": 46,
+    "MEDIUM": 37,
+    "SOFT": 18
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0783,
+    "MEDIUM": 0.0703,
+    "SOFT": 0.0504
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0753,
+    "MEDIUM": 0.0897,
+    "SOFT": 0.0663
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0604,
+    "MEDIUM": 0.1885,
+    "SOFT": 0.0925
+   },
+   "practice_stint_fe_ordered": false,
+   "model_practice_rate": {
+    "HARD": 0.0955,
+    "MEDIUM": 0.1194,
+    "SOFT": 0.1392
+   }
+  }
+ },
+ "belgium-2026": {
+  "practice_only": {
+   "best": "1-stop S-H @ 19",
+   "p_stops": {
+    "1": 0.9366666666666668,
+    "2": 0.06333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life": {
+    "HARD": 48.1,
+    "MEDIUM": 37.0,
+    "SOFT": 29.8
+   },
+   "deg_full_push": {
+    "HARD": 0.1262,
+    "MEDIUM": 0.1629,
+    "SOFT": 0.2022
+   },
+   "caps": {
+    "HARD": 36,
+    "MEDIUM": 34,
+    "SOFT": 28
+   }
+  },
+  "shipped": {
+   "best": "1-stop S-M @ 24",
+   "p_stops": {
+    "1": 0.9966666666666667,
+    "2": 0.0033333333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "life": {
+    "HARD": 50.6,
+    "MEDIUM": 41.8,
+    "SOFT": 44.6
+   },
+   "deg_full_push": {
+    "HARD": 0.1181,
+    "MEDIUM": 0.143,
+    "SOFT": 0.1337
+   },
+   "caps": {
+    "HARD": 36,
+    "MEDIUM": 34,
+    "SOFT": 28
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0357,
+    "MEDIUM": 0.1166,
+    "SOFT": 0.0517
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0384,
+    "MEDIUM": 0.0746,
+    "SOFT": 0.0569
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.1711,
+    "MEDIUM": 0.1946,
+    "SOFT": 0.2063
+   },
+   "practice_stint_fe_ordered": true,
+   "model_practice_rate": {
+    "HARD": 0.1262,
+    "MEDIUM": 0.1629,
+    "SOFT": 0.2022
+   }
+  }
+ },
+ "hungary-2026": {
+  "practice_only": {
+   "best": "2-stop S-H-H @ 19,45",
+   "p_stops": {
+    "2": 0.9599999999999999,
+    "3": 0.04,
+    "1": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 59.1,
+    "MEDIUM": 48.2,
+    "SOFT": 44.2
+   },
+   "deg_full_push": {
+    "HARD": 0.0711,
+    "MEDIUM": 0.0872,
+    "SOFT": 0.0952
+   },
+   "caps": {
+    "HARD": 50,
+    "MEDIUM": 44,
+    "SOFT": 19
+   }
+  },
+  "shipped": {
+   "best": "2-stop M-H-M @ 23,47",
+   "p_stops": {
+    "2": 1.0,
+    "3": 0.0,
+    "1": 0.0
+   },
+   "push": 0.7,
+   "life": {
+    "HARD": 56.4,
+    "MEDIUM": 49.0,
+    "SOFT": 36.1
+   },
+   "deg_full_push": {
+    "HARD": 0.0919,
+    "MEDIUM": 0.1059,
+    "SOFT": 0.1435
+   },
+   "caps": {
+    "HARD": 50,
+    "MEDIUM": 44,
+    "SOFT": 19
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0824,
+    "MEDIUM": 0.0648,
+    "SOFT": 0.0475
+   },
+   "race_lap_fe_ordered": false,
+   "race_stint_fe": {
+    "HARD": 0.0873,
+    "MEDIUM": 0.0606,
+    "SOFT": 0.0568
+   },
+   "race_stint_fe_ordered": false,
+   "practice_stint_fe": {
+    "HARD": 0.0826,
+    "MEDIUM": 0.1602,
+    "SOFT": 0.03
+   },
+   "practice_stint_fe_ordered": false,
+   "model_practice_rate": {
+    "HARD": 0.0711,
+    "MEDIUM": 0.0872,
+    "SOFT": 0.0952
+   }
+  }
+ },
+ "italy-2026": {
+  "practice_only": {
+   "best": "1-stop M-S @ 43",
+   "p_stops": {
+    "1": 0.9999999999999999,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 1036.5,
+    "MEDIUM": 827.7,
+    "SOFT": 643.3
+   },
+   "deg_full_push": {
+    "HARD": 0.0078,
+    "MEDIUM": 0.0102,
+    "SOFT": 0.0134
+   },
+   "caps": {
+    "HARD": 44,
+    "MEDIUM": 44,
+    "SOFT": 10
+   }
+  },
+  "shipped": {
+   "best": "1-stop M-H @ 23",
+   "p_stops": {
+    "1": 0.9799999999999999,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "life": {
+    "HARD": 93.2,
+    "MEDIUM": 55.3,
+    "SOFT": 45.3
+   },
+   "deg_full_push": {
+    "HARD": 0.0525,
+    "MEDIUM": 0.0775,
+    "SOFT": 0.0984
+   },
+   "caps": {
+    "HARD": 44,
+    "MEDIUM": 44,
+    "SOFT": 10
+   }
+  },
+  "ladder": {
+   "race_lap_fe": {
+    "HARD": 0.0039,
+    "MEDIUM": 0.0106,
+    "SOFT": 0.0826
+   },
+   "race_lap_fe_ordered": true,
+   "race_stint_fe": {
+    "HARD": 0.0144,
+    "MEDIUM": 0.0204,
+    "SOFT": 0.0428
+   },
+   "race_stint_fe_ordered": true,
+   "practice_stint_fe": {
+    "HARD": 0.0067,
+    "MEDIUM": -0.0156,
+    "SOFT": 0.0528
+   },
+   "practice_stint_fe_ordered": false,
+   "model_practice_rate": {
+    "HARD": 0.0078,
+    "MEDIUM": 0.0102,
+    "SOFT": 0.0134
+   }
+  }
+ }
+}

@@ -27,20 +27,15 @@
   "STR",
   "VER"
  ],
- "corners": [
-  1,
-  11,
-  16,
-  17
- ],
+ "corners": [],
  "w": 1.5,
- "use_hinge": true,
+ "use_hinge": false,
  "n_laps": 269,
- "n_apex": 1070,
- "max_rhat": 1.0031067876423603,
+ "n_apex": 0,
+ "max_rhat": 1.0027310133987515,
  "n_divergences": 0,
  "prior_label": "2026 physics + circuit history",
- "compound_prior_label": "2026 compound ladder",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
  "event_key": "japan-2026",
  "converged": true
 }

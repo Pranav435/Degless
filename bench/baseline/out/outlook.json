@@ -1,0 +1,205 @@
+{
+ "australia-2026": {
+  "basis": "circuit history [2023, 2024]",
+  "best": "2-stop M-H-H @ 18,38",
+  "p_stops": {
+   "2": 0.9666666666666667,
+   "1": 0.03333333333333333,
+   "3": 0.0
+  },
+  "push": 0.85,
+  "life_laps_at_push": {
+   "SOFT": 28.3,
+   "MEDIUM": 35.5,
+   "HARD": 47.3
+  },
+  "caps": {
+   "SOFT": 10,
+   "MEDIUM": 41,
+   "HARD": 52
+  },
+  "pit_loss": 21.0,
+  "mode_stops": 1,
+  "stops_match_mode": false,
+  "stops_share": 0.4,
+  "seq_share": 0.06666666666666667,
+  "field_modal_seq": "MEDIUM-HARD",
+  "sealed_best": "1-stop H-M @ 36",
+  "same_as_sealed_stops": false,
+  "seconds": 0.6
+ },
+ "japan-2026": {
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "1-stop M-H @ 25",
+  "p_stops": {
+   "1": 0.45333333333333337,
+   "2": 0.5466666666666666,
+   "3": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 31.3,
+   "MEDIUM": 39.2,
+   "HARD": 52.3
+  },
+  "caps": {
+   "SOFT": 22,
+   "MEDIUM": 36,
+   "HARD": 42
+  },
+  "pit_loss": 22.5,
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.9,
+  "seq_share": 0.85,
+  "field_modal_seq": "MEDIUM-HARD",
+  "sealed_best": "1-stop S-H @ 21",
+  "same_as_sealed_stops": true,
+  "seconds": 0.5
+ },
+ "barcelona-2026": {
+  "basis": "circuit history [2023, 2025]",
+  "best": "2-stop M-H-H @ 20,43",
+  "p_stops": {
+   "2": 0.9766666666666668,
+   "1": 0.023333333333333334,
+   "3": 0.0
+  },
+  "push": 0.7,
+  "life_laps_at_push": {
+   "SOFT": 32.8,
+   "MEDIUM": 41.2,
+   "HARD": 54.9
+  },
+  "caps": {
+   "SOFT": 28,
+   "MEDIUM": 40,
+   "HARD": 37
+  },
+  "pit_loss": 23.1,
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.5384615384615384,
+  "seq_share": 0.46153846153846156,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "sealed_best": "2-stop M-H-H @ 19,43",
+  "same_as_sealed_stops": true,
+  "seconds": 0.5
+ },
+ "austria-2026": {
+  "basis": "circuit history [2025]",
+  "best": "2-stop M-H-H @ 21,46",
+  "p_stops": {
+   "2": 1.0,
+   "3": 0.0,
+   "1": 0.0
+  },
+  "push": 0.7,
+  "life_laps_at_push": {
+   "SOFT": 32.7,
+   "MEDIUM": 41.0,
+   "HARD": 54.6
+  },
+  "caps": {
+   "SOFT": 18,
+   "MEDIUM": 37,
+   "HARD": 46
+  },
+  "pit_loss": 21.0,
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.8235294117647058,
+  "seq_share": 0.29411764705882354,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "sealed_best": "2-stop M-H-H @ 23,47",
+  "same_as_sealed_stops": true,
+  "seconds": 0.6
+ },
+ "belgium-2026": {
+  "basis": "circuit history [2024]",
+  "best": "1-stop S-M @ 20",
+  "p_stops": {
+   "1": 0.9600000000000001,
+   "2": 0.04,
+   "3": 0.0
+  },
+  "push": 0.7,
+  "life_laps_at_push": {
+   "SOFT": 42.6,
+   "MEDIUM": 53.4,
+   "HARD": 71.1
+  },
+  "caps": {
+   "SOFT": 32,
+   "MEDIUM": 35,
+   "HARD": 37
+  },
+  "pit_loss": 18.5,
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.9473684210526315,
+  "seq_share": 0.0,
+  "field_modal_seq": "MEDIUM-HARD",
+  "sealed_best": "1-stop S-M @ 24",
+  "same_as_sealed_stops": true,
+  "seconds": 0.4
+ },
+ "hungary-2026": {
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "2-stop M-H-H @ 21,46",
+  "p_stops": {
+   "2": 0.8699999999999999,
+   "3": 0.13,
+   "1": 0.0
+  },
+  "push": 0.55,
+  "life_laps_at_push": {
+   "SOFT": 31.9,
+   "MEDIUM": 40.0,
+   "HARD": 53.3
+  },
+  "caps": {
+   "SOFT": 19,
+   "MEDIUM": 44,
+   "HARD": 61
+  },
+  "pit_loss": 21.0,
+  "mode_stops": 2,
+  "stops_match_mode": true,
+  "stops_share": 0.631578947368421,
+  "seq_share": 0.3157894736842105,
+  "field_modal_seq": "MEDIUM-HARD-HARD",
+  "sealed_best": "2-stop M-H-M @ 23,47",
+  "same_as_sealed_stops": true,
+  "seconds": 0.6
+ },
+ "italy-2026": {
+  "basis": "circuit history [2023, 2024, 2025]",
+  "best": "1-stop M-H @ 25",
+  "p_stops": {
+   "1": 0.9333333333333333,
+   "2": 0.06666666666666667,
+   "3": 0.0
+  },
+  "push": 0.7,
+  "life_laps_at_push": {
+   "SOFT": 39.8,
+   "MEDIUM": 49.9,
+   "HARD": 66.5
+  },
+  "caps": {
+   "SOFT": 10,
+   "MEDIUM": 51,
+   "HARD": 56
+  },
+  "pit_loss": 25.3,
+  "mode_stops": 1,
+  "stops_match_mode": true,
+  "stops_share": 0.5263157894736842,
+  "seq_share": 0.3157894736842105,
+  "field_modal_seq": "MEDIUM-HARD",
+  "sealed_best": "1-stop M-H @ 23",
+  "same_as_sealed_stops": true,
+  "seconds": 0.5
+ }
+}

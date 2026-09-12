@@ -142,15 +142,25 @@ class LiveState:
 
     def apply(self, msg: Message) -> None:
         self.n_messages += 1
-        if msg.t_session is not None:
-            self.t_now = max(self.t_now, float(msg.t_session))
+        t_msg = msg.t_session
+        if t_msg is None and msg.utc is not None:
+            # The live hub carries wall clock only; the archive files carry a
+            # session clock.  Derive one from the first message seen so a live
+            # session times laps and stints the way a replay does — without it
+            # every lap_start_s is 0 and the board's traffic filter
+            # (gap to the car ahead) drops every lap.
+            if self.epoch_utc is None:
+                self.epoch_utc = msg.utc
+            t_msg = max(0.0, (msg.utc - self.epoch_utc).total_seconds())
+        if t_msg is not None:
+            self.t_now = max(self.t_now, float(t_msg))
         if msg.utc is not None:
             self.utc_now = msg.utc
             if self.epoch_utc is None and msg.t_session is not None:
                 from datetime import timedelta
                 self.epoch_utc = msg.utc - timedelta(seconds=float(msg.t_session))
         topic, p = msg.topic, msg.payload
-        t = float(msg.t_session) if msg.t_session is not None else self.t_now
+        t = float(t_msg) if t_msg is not None else self.t_now
 
         handler = getattr(self, f"_on_{topic.replace('.', '_')}", None)
         if topic not in ("CarData.z", "Position.z"):

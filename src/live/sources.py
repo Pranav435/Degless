@@ -103,6 +103,7 @@ def download_session(path: str, out_dir: str | Path, topics: list | None = None,
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     got = {}
+    denied = []
     r = requests.get(f"{STATIC}/{path}/SessionInfo.json", headers=HEADERS, timeout=timeout)
     if r.ok:
         (out / "SessionInfo.json").write_bytes(r.content)
@@ -117,6 +118,14 @@ def download_session(path: str, out_dir: str | Path, topics: list | None = None,
         if r.ok and r.content:
             (out / f"{t}.jsonStream").write_bytes(r.content)
             got[t] = len(r.content)
+        elif r.status_code == 403:
+            denied.append(t)
+    if denied and not any(k != "SessionInfo" for k in got):
+        # F1 serves the per-topic files only once the session's archive is
+        # complete; during and just after a session every one of them is 403.
+        log.warning("the archive for %s is not published yet (%d topics denied): "
+                    "a late join starts from the live keyframe instead", path, len(denied))
+        got["_denied"] = len(denied)
     return got
 
 
@@ -239,23 +248,58 @@ class JsonlSource:
 # --------------------------------------------------------------------------
 
 
-def stored_f1tv_token() -> str | None:
-    """The F1TV subscription token FastF1's browser login stored, if valid."""
+def f1tv_token_status() -> tuple[str | None, str, str]:
+    """`(token, status, detail)` for the token FastF1's browser login stored.
+
+    `status` is one of `ok`, `expired`, `invalid`, `none`.  The token only
+    unlocks the car telemetry topics (`CarData.z` / `Position.z`); every timing
+    topic works without it, so an expired token degrades the feed rather than
+    breaking it — but it has to be said out loud, because the tokens last about
+    four days and the failure is otherwise silent.
+    """
     try:
         from fastf1.internals.f1auth import AUTH_DATA_FILE, JWKS_URL, _verify_jwt
-    except Exception:
-        return None
+    except Exception as exc:
+        return None, "none", f"FastF1 auth support unavailable ({exc})"
     try:
         tok = Path(AUTH_DATA_FILE).read_text().strip()
-    except Exception:
-        return None
+    except FileNotFoundError:
+        return None, "none", "no F1TV login stored; run `make login`"
+    except Exception as exc:
+        return None, "none", f"could not read the stored login ({exc})"
     if not tok:
-        return None
+        return None, "none", "no F1TV login stored; run `make login`"
     try:
         _verify_jwt(tok, JWKS_URL)
     except Exception as exc:
-        log.warning("stored F1TV token did not verify (%s); connecting without it", exc)
+        detail = f"{exc}"
+        expiry = _token_expiry(tok)
+        if expiry is not None:
+            ago = (datetime.now(timezone.utc) - expiry).total_seconds() / 3600.0
+            if ago > 0:
+                detail = (f"expired {expiry:%Y-%m-%d %H:%M} UTC ({ago:.0f} h ago); "
+                          f"run `make login` to sign in again")
+                return None, "expired", detail
+        return None, "invalid", f"{detail}; run `make login` to sign in again"
+    return tok, "ok", "F1TV token valid"
+
+
+def _token_expiry(tok: str) -> datetime | None:
+    """The `exp` claim, without verifying the signature (it may be expired)."""
+    try:
+        import jwt
+
+        exp = jwt.decode(tok, options={"verify_signature": False}).get("exp")
+        return datetime.fromtimestamp(float(exp), timezone.utc) if exp else None
+    except Exception:
         return None
+
+
+def stored_f1tv_token() -> str | None:
+    """The F1TV subscription token FastF1's browser login stored, if valid."""
+    tok, status, detail = f1tv_token_status()
+    if tok is None:
+        log.warning("F1TV telemetry not available: %s (timing topics are unaffected)", detail)
     return tok
 
 
@@ -272,7 +316,15 @@ class SignalRSource:
                  use_auth: bool = True, timeout_s: float = 0.0,
                  reconnect: bool = True):
         self.topics = list(topics or TOPICS)
-        self.token = token if token is not None else (stored_f1tv_token() if use_auth else None)
+        if token is not None:
+            self.token, self.auth_status, self.auth_detail = token, "ok", "token supplied"
+        elif use_auth:
+            self.token, self.auth_status, self.auth_detail = f1tv_token_status()
+            if self.token is None:
+                log.warning("F1TV telemetry not available: %s (timing topics are unaffected)",
+                            self.auth_detail)
+        else:
+            self.token, self.auth_status, self.auth_detail = None, "off", "--no-auth"
         self.timeout_s = timeout_s
         self.reconnect = reconnect
         self._q: queue.Queue = queue.Queue()
@@ -281,16 +333,19 @@ class SignalRSource:
         self._stop = threading.Event()
         self.last_message_at = None
         self.errors = 0
+        self.keyframes = 0        # Subscribe completions: one per (re)connect
 
     # -- callbacks ----------------------------------------------------------
 
     def _on_feed(self, args):
         try:
             if isinstance(args, dict):  # completion of Subscribe: keyframe
+                now = datetime.now(timezone.utc)   # one instant for the whole keyframe
                 for topic, state in args.items():
                     self._q.put(Message(topic, decode_payload(topic, state),
-                                        utc=datetime.now(timezone.utc),
-                                        meta={"snapshot": True}))
+                                        utc=now, meta={"snapshot": True}))
+                self.last_message_at = time.time()
+                self.keyframes += 1
                 return
             topic, payload, utc = args[0], args[1], (args[2] if len(args) > 2 else "")
             u = parse_utc(utc) or datetime.now(timezone.utc)

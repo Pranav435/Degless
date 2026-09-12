@@ -1,0 +1,6780 @@
+{
+ "accuracy": {
+  "per_event": {
+   "australia-2026": {
+    "event": "australia-2026",
+    "old_sealed": 0.43440460140864834,
+    "new_sealed": 0.048926073242024956,
+    "old_practice": 0.05440132332711562,
+    "new_practice": 0.05529379153670663,
+    "oracle": 0.044712030413067476,
+    "new_bias": 0.011897132561047992,
+    "old_bias": -0.41744528427527533,
+    "new_cov90": 0.782608695652174,
+    "old_cov90": 0.9130434782608695,
+    "new_width": 0.14860985121685652,
+    "old_width": 1.7670979974891865,
+    "new_geomean": 0.04896100050004064,
+    "new_perfect_t": 0.048857181971274005,
+    "new_driver_rho": -0.09636768270473543,
+    "new_rho": -0.14080011984168564,
+    "old_rho": -0.08201581027667984,
+    "regime_new": 0.6099483065355343,
+    "regime_old": 0.5725216858607738,
+    "regime_self": 0.7533372118384194,
+    "n_stints": 23
+   },
+   "japan-2026": {
+    "event": "japan-2026",
+    "old_sealed": 0.023756889692429034,
+    "new_sealed": 0.029014425668219393,
+    "old_practice": 0.019520842812053168,
+    "new_practice": 0.01757506592857131,
+    "oracle": 0.017307472130541207,
+    "new_bias": -0.028868403403796733,
+    "old_bias": -0.02110232664709729,
+    "new_cov90": 1.0,
+    "old_cov90": 1.0,
+    "new_width": 0.19934651780073495,
+    "old_width": 0.2953167810472922,
+    "new_geomean": 0.027196063352417824,
+    "new_perfect_t": 0.02652541067186262,
+    "new_driver_rho": 0.29473684210526313,
+    "new_rho": 0.4245166957273495,
+    "old_rho": 0.2834576841549152,
+    "regime_new": 0.6283181503863764,
+    "regime_old": 0.5038020471595313,
+    "regime_self": 0.7326987078892557,
+    "n_stints": 19
+   },
+   "barcelona-2026": {
+    "event": "barcelona-2026",
+    "old_sealed": 0.04099488039009148,
+    "new_sealed": 0.039823348676900266,
+    "old_practice": 0.0412896128868867,
+    "new_practice": 0.04992896281388472,
+    "oracle": 0.04032492840535775,
+    "new_bias": 0.010024088353506783,
+    "old_bias": 0.012987445917689236,
+    "new_cov90": 1.0,
+    "old_cov90": 1.0,
+    "new_width": 0.2513174620539515,
+    "old_width": 0.334871506645166,
+    "new_geomean": 0.04295380480804435,
+    "new_perfect_t": 0.04405052570360827,
+    "new_driver_rho": 0.08594776681328659,
+    "new_rho": 0.2404431742156174,
+    "old_rho": -0.018145161290322582,
+    "regime_new": 0.5135330875720632,
+    "regime_old": 0.5216865441165056,
+    "regime_self": 0.7011865645099894,
+    "n_stints": 31
+   },
+   "austria-2026": {
+    "event": "austria-2026",
+    "old_sealed": 0.0319916451452865,
+    "new_sealed": 0.03292387999638983,
+    "old_practice": 0.030197578162773554,
+    "new_practice": 0.0362430178827967,
+    "oracle": 0.030300683102312664,
+    "new_bias": -0.016983582075112646,
+    "old_bias": -0.010236572990210364,
+    "new_cov90": 0.975,
+    "old_cov90": 1.0,
+    "new_width": 0.19905435150067138,
+    "old_width": 0.3056787012137711,
+    "new_geomean": 0.030631441842356465,
+    "new_perfect_t": 0.0343322813143606,
+    "new_driver_rho": 0.1233872893436277,
+    "new_rho": -0.0022933919376306334,
+    "old_rho": 0.0727954971857411,
+    "regime_new": 0.6878953096005579,
+    "regime_old": 0.514570996264869,
+    "regime_self": 0.5849966598531712,
+    "n_stints": 40
+   },
+   "belgium-2026": {
+    "event": "belgium-2026",
+    "old_sealed": 0.03028211424909071,
+    "new_sealed": 0.05234410482926047,
+    "old_practice": 0.03786126897626417,
+    "new_practice": 0.0831344353509116,
+    "oracle": 0.04843918468316152,
+    "new_bias": -0.04558777094975741,
+    "old_bias": -0.008967774725044978,
+    "new_cov90": 1.0,
+    "old_cov90": 1.0,
+    "new_width": 0.19851066370403608,
+    "old_width": 0.19110371469008056,
+    "new_geomean": 0.04075728527972802,
+    "new_perfect_t": 0.03105070060460728,
+    "new_driver_rho": 0.1105263157894737,
+    "new_rho": 0.028331999871919412,
+    "old_rho": -0.5325140034074743,
+    "regime_new": 0.8004340896397352,
+    "regime_old": 0.580804122107965,
+    "regime_self": 0.32017820583491197,
+    "n_stints": 19
+   },
+   "hungary-2026": {
+    "event": "hungary-2026",
+    "old_sealed": 0.04626701956464353,
+    "new_sealed": 0.044091487396936975,
+    "old_practice": 0.04862216042855328,
+    "new_practice": 0.04487323389101422,
+    "oracle": 0.04185511734200952,
+    "new_bias": -0.004186235828744333,
+    "old_bias": 0.016591645531223453,
+    "new_cov90": 0.9069767441860465,
+    "old_cov90": 0.9534883720930233,
+    "new_width": 0.19877148385501037,
+    "old_width": 0.23980031128908322,
+    "new_geomean": 0.04531486075594473,
+    "new_perfect_t": 0.04881017744546883,
+    "new_driver_rho": -0.3089007320642114,
+    "new_rho": -0.17436929079443161,
+    "old_rho": -0.25445484747810326,
+    "regime_new": 0.8333149062838321,
+    "regime_old": 0.5184489538783513,
+    "regime_self": 0.639227635679555,
+    "n_stints": 43
+   },
+   "italy-2026": {
+    "event": "italy-2026",
+    "old_sealed": 0.15439528383905257,
+    "new_sealed": 0.030334324895567998,
+    "old_practice": 0.0287951679028726,
+    "new_practice": 0.031113999772657597,
+    "oracle": 0.03237687288575859,
+    "new_bias": -0.0088665503063647,
+    "old_bias": -0.1528100427830909,
+    "new_cov90": 0.9523809523809523,
+    "old_cov90": 0.8571428571428571,
+    "new_width": 0.12274222311535965,
+    "old_width": 0.58126479541004,
+    "new_geomean": 0.032179013811212805,
+    "new_perfect_t": 0.032949124175161014,
+    "new_driver_rho": -0.03506493506493507,
+    "new_rho": -0.05228869856160021,
+    "old_rho": 0.01948051948051948,
+    "regime_new": 0.4913308038537918,
+    "regime_old": 0.5993191955844782,
+    "regime_self": 0.8095785283832064,
+    "n_stints": 21
+   }
+  },
+  "pooled_new": {
+   "oracle_race": {
+    "variant": "oracle_race",
+    "rate_mae_mean": 0.03647375556602982,
+    "rate_mae_median": 0.04032492840535775,
+    "rate_mae_max": 0.04843918468316152,
+    "bias_mean": 0.00843389249671852,
+    "cov90_mean": 0.7060287324668229,
+    "width_mean": 0.09575714456235895,
+    "spearman_mean": 0.09582176193648413,
+    "lap_mae_mean": 0.3450998382642963,
+    "n_pass": 7
+   },
+   "baseline_practice_only[old_sigma]": {
+    "variant": "baseline_practice_only[old_sigma]",
+    "rate_mae_mean": 0.03724113635664559,
+    "rate_mae_median": 0.03786126897626417,
+    "rate_mae_max": 0.05440132332711562,
+    "bias_mean": 0.010682104030006509,
+    "cov90_mean": 0.9550635218698197,
+    "width_mean": 0.23978135467703954,
+    "spearman_mean": -0.12592161608689104,
+    "lap_mae_mean": 0.3423570834444381,
+    "n_pass": 7
+   },
+   "baseline_practice_only[race_sigma]": {
+    "variant": "baseline_practice_only[race_sigma]",
+    "rate_mae_mean": 0.03724113635664559,
+    "rate_mae_median": 0.03786126897626417,
+    "rate_mae_max": 0.05440132332711562,
+    "bias_mean": 0.010682104030006509,
+    "cov90_mean": 0.9160770671816135,
+    "width_mean": 0.17481974924483287,
+    "spearman_mean": -0.12592161608689104,
+    "lap_mae_mean": 0.3423570834444381,
+    "n_pass": 7
+   },
+   "sealed_perfect_t": {
+    "variant": "sealed_perfect_t",
+    "rate_mae_mean": 0.03808220026947751,
+    "rate_mae_median": 0.0343322813143606,
+    "rate_mae_max": 0.048857181971274005,
+    "bias_mean": -0.01523255358258504,
+    "cov90_mean": 0.9178505862046701,
+    "width_mean": 0.17811133685948835,
+    "spearman_mean": 0.0626286643156885,
+    "lap_mae_mean": 0.3610095790322997,
+    "n_pass": 7
+   },
+   "sealed_geomean": {
+    "variant": "sealed_geomean",
+    "rate_mae_mean": 0.03828478147853498,
+    "rate_mae_median": 0.04075728527972802,
+    "rate_mae_max": 0.04896100050004064,
+    "bias_mean": -0.009510087442630205,
+    "cov90_mean": 0.9206718272292119,
+    "width_mean": 0.18747004475520282,
+    "spearman_mean": 0.037185198298464804,
+    "lap_mae_mean": 0.35480117420988316,
+    "n_pass": 7
+   },
+   "sealed": {
+    "variant": "sealed",
+    "rate_mae_mean": 0.039636806386471414,
+    "rate_mae_median": 0.039823348676900266,
+    "rate_mae_max": 0.05234410482926047,
+    "bias_mean": -0.011795903092745863,
+    "cov90_mean": 0.9452809131741675,
+    "width_mean": 0.1883360790352315,
+    "spearman_mean": 0.046220052668505464,
+    "lap_mae_mean": 0.36048540803001056,
+    "n_pass": 7
+   },
+   "history_only": {
+    "variant": "history_only",
+    "rate_mae_mean": 0.04368717444307726,
+    "rate_mae_median": 0.04533142208258394,
+    "rate_mae_max": 0.06163271640929436,
+    "bias_mean": -0.008363170078241198,
+    "cov90_mean": 0.5785354501890778,
+    "width_mean": 0.09213785283245732,
+    "spearman_mean": -0.0073231806989791075,
+    "lap_mae_mean": 0.38388166193545864,
+    "n_pass": 7
+   },
+   "sealed_driver": {
+    "variant": "sealed_driver",
+    "rate_mae_mean": 0.044337167821419776,
+    "rate_mae_median": 0.04176981766576307,
+    "rate_mae_max": 0.061373383421562636,
+    "bias_mean": -0.01838654894852993,
+    "cov90_mean": 0.9051358943738176,
+    "width_mean": 0.19671307825901382,
+    "spearman_mean": 0.02489498060253845,
+    "lap_mae_mean": 0.36048540803001056,
+    "n_pass": 7
+   },
+   "practice_only": {
+    "variant": "practice_only",
+    "rate_mae_mean": 0.04545178673950611,
+    "rate_mae_median": 0.04487323389101422,
+    "rate_mae_max": 0.0831344353509116,
+    "bias_mean": -0.012200682659882636,
+    "cov90_mean": 0.8576430288863955,
+    "width_mean": 0.20223832673515488,
+    "spearman_mean": 0.022517582432985045,
+    "lap_mae_mean": 0.3902532130332098,
+    "n_pass": 7
+   },
+   "mixedlm_x_regime": {
+    "variant": "mixedlm_x_regime",
+    "rate_mae_mean": 0.04715842554798989,
+    "rate_mae_median": 0.04222825695130673,
+    "rate_mae_max": 0.07271837975680559,
+    "bias_mean": -0.018143672527294104,
+    "cov90_mean": 0.4988834965010808,
+    "width_mean": 0.09575714456235897,
+    "spearman_mean": 0.04647700199826822,
+    "lap_mae_mean": 0.38966090096556466,
+    "n_pass": 7
+   },
+   "season_loo": {
+    "variant": "season_loo",
+    "rate_mae_mean": 0.04718367719672961,
+    "rate_mae_median": 0.043465072922380284,
+    "rate_mae_max": 0.08700547867884882,
+    "bias_mean": 0.021259126776152878,
+    "cov90_mean": 0.5872155553482309,
+    "width_mean": 0.09575714456235895,
+    "spearman_mean": -0.040057363139260296,
+    "lap_mae_mean": 0.3827175156296853,
+    "n_pass": 7
+   },
+   "practice_no_regime": {
+    "variant": "practice_no_regime",
+    "rate_mae_mean": 0.06762051925747674,
+    "rate_mae_median": 0.05419962700402046,
+    "rate_mae_max": 0.1395280810869601,
+    "bias_mean": -0.04454143131160778,
+    "cov90_mean": 0.7659639688678066,
+    "width_mean": 0.19804962381384,
+    "spearman_mean": -0.011891517080854909,
+    "lap_mae_mean": 0.4783279816120078,
+    "n_pass": 7
+   },
+   "zero": {
+    "variant": "zero",
+    "rate_mae_mean": 0.06808292814722136,
+    "rate_mae_median": 0.07084107307829227,
+    "rate_mae_max": 0.11869086431624022,
+    "bias_mean": 0.06490567608377039,
+    "cov90_mean": 0.34124247828640947,
+    "width_mean": 0.09575714456235895,
+    "spearman_mean": NaN,
+    "lap_mae_mean": 0.4533217033883251,
+    "n_pass": 7
+   },
+   "baseline_sealed[old_sigma]": {
+    "variant": "baseline_sealed[old_sigma]",
+    "rate_mae_mean": 0.10887034775560601,
+    "rate_mae_median": 0.04099488039009148,
+    "rate_mae_max": 0.43440460140864834,
+    "bias_mean": -0.08299755856740089,
+    "cov90_mean": 0.9605249582138214,
+    "width_mean": 0.5307334011120884,
+    "spearman_mean": -0.07305658880448632,
+    "lap_mae_mean": 1.1399244259976602,
+    "n_pass": 5
+   },
+   "baseline_sealed[race_sigma]": {
+    "variant": "baseline_sealed[race_sigma]",
+    "rate_mae_mean": 0.10887034775560601,
+    "rate_mae_median": 0.04099488039009148,
+    "rate_mae_max": 0.43440460140864834,
+    "bias_mean": -0.08299755856740089,
+    "cov90_mean": 0.8788441564694633,
+    "width_mean": 0.465771795679882,
+    "spearman_mean": -0.07305658880448632,
+    "lap_mae_mean": 1.1399244259976602,
+    "n_pass": 5
+   }
+  },
+  "pooled_old": {
+   "oracle_race": {
+    "variant": "oracle_race",
+    "rate_mae_mean": 0.03647375556602982,
+    "rate_mae_median": 0.04032492840535775,
+    "rate_mae_max": 0.04843918468316152,
+    "bias_mean": 0.00843389249671852,
+    "cov90_mean": 0.8296226496146756,
+    "width_mean": 0.16071874999456562,
+    "spearman_mean": 0.09582176193648413,
+    "lap_mae_mean": 0.3450998382642963,
+    "n_pass": 7
+   },
+   "practice_only": {
+    "variant": "practice_only",
+    "rate_mae_mean": 0.03724113635664559,
+    "rate_mae_median": 0.03786126897626417,
+    "rate_mae_max": 0.05440132332711562,
+    "bias_mean": 0.010682104030006509,
+    "cov90_mean": 0.9550635218698197,
+    "width_mean": 0.23978135467703954,
+    "spearman_mean": -0.12592161608689104,
+    "lap_mae_mean": 0.3423570834444381,
+    "n_pass": 7
+   },
+   "mixedlm_x_regime": {
+    "variant": "mixedlm_x_regime",
+    "rate_mae_mean": 0.04041151651242838,
+    "rate_mae_median": 0.04168130304693624,
+    "rate_mae_max": 0.06399186051721621,
+    "bias_mean": -0.0034372666206140623,
+    "cov90_mean": 0.8274204274694509,
+    "width_mean": 0.16071874999456562,
+    "spearman_mean": 0.0334405112343391,
+    "lap_mae_mean": 0.35991175833090777,
+    "n_pass": 7
+   },
+   "history_only": {
+    "variant": "history_only",
+    "rate_mae_mean": 0.04240901218322146,
+    "rate_mae_median": 0.04505985744063554,
+    "rate_mae_max": 0.05209478145017923,
+    "bias_mean": -0.004458747109348534,
+    "cov90_mean": 0.8164430473891298,
+    "width_mean": 0.15416295631804153,
+    "spearman_mean": 0.07348751768614216,
+    "lap_mae_mean": 0.37882485319278725,
+    "n_pass": 7
+   },
+   "season_loo": {
+    "variant": "season_loo",
+    "rate_mae_mean": 0.04718367719672961,
+    "rate_mae_median": 0.043465072922380284,
+    "rate_mae_max": 0.08700547867884882,
+    "bias_mean": 0.021259126776152878,
+    "cov90_mean": 0.7572053301468085,
+    "width_mean": 0.16071874999456562,
+    "spearman_mean": -0.040057363139260296,
+    "lap_mae_mean": 0.3827175156296853,
+    "n_pass": 7
+   },
+   "practice_no_regime": {
+    "variant": "practice_no_regime",
+    "rate_mae_mean": 0.05393544878906698,
+    "rate_mae_median": 0.05235484385533641,
+    "rate_mae_max": 0.08834179403055398,
+    "bias_mean": -0.028529433660423147,
+    "cov90_mean": 0.8735319413377373,
+    "width_mean": 0.22733645099825453,
+    "spearman_mean": -0.12391572358513135,
+    "lap_mae_mean": 0.4108699578458753,
+    "n_pass": 7
+   },
+   "zero": {
+    "variant": "zero",
+    "rate_mae_mean": 0.06808292814722136,
+    "rate_mae_median": 0.07084107307829227,
+    "rate_mae_max": 0.11869086431624022,
+    "bias_mean": 0.06490567608377039,
+    "cov90_mean": 0.5444139323720857,
+    "width_mean": 0.16071874999456562,
+    "spearman_mean": NaN,
+    "lap_mae_mean": 0.4533217033883251,
+    "n_pass": 7
+   },
+   "sealed": {
+    "variant": "sealed",
+    "rate_mae_mean": 0.10887034775560601,
+    "rate_mae_median": 0.04099488039009148,
+    "rate_mae_max": 0.43440460140864834,
+    "bias_mean": -0.08299755856740089,
+    "cov90_mean": 0.9605249582138214,
+    "width_mean": 0.5307334011120884,
+    "spearman_mean": -0.07305658880448632,
+    "lap_mae_mean": 1.1399244259976602,
+    "n_pass": 5
+   }
+  }
+ },
+ "decisions": [
+  {
+   "event": "australia-2026",
+   "prev": "1-stop H-M @ 36",
+   "new": "1-stop M-H @ 23",
+   "tyre_opt": "1-stop H-M @ 34",
+   "modal": "MEDIUM-HARD",
+   "winner": "MEDIUM-HARD",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.0,
+   "new_share": 0.5333333333333333,
+   "prev_start_ok": false,
+   "new_start_ok": true,
+   "prev_first": 11.0,
+   "new_first": -2.0,
+   "tyre_first": 9.0,
+   "sc_set": true,
+   "field_first": 25.0,
+   "regret_prev": 11.19,
+   "regret_new": 9.49,
+   "regret_field": 20.52,
+   "regret_winner": 25.77,
+   "win1_prev": 0.0,
+   "win1_new": 0.5,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 42.0,
+     "pred_life_uncapped": 88.11463730592068,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 58.0,
+     "baseline_life": 105.14048427410471,
+     "obs_max": 46,
+     "obs_p90": 46.0,
+     "obs_median": 27.0,
+     "n_stints": 18,
+     "ratio_to_max": 0.9130434782608695,
+     "baseline_ratio_to_max": 2.285662701610972
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 40.0,
+     "pred_life_uncapped": 47.138863389667996,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 47.138863389667996,
+     "baseline_life": 52.91258893099884,
+     "obs_max": 28,
+     "obs_p90": 24.6,
+     "obs_median": 12.0,
+     "n_stints": 15,
+     "ratio_to_max": 1.4285714285714286,
+     "baseline_ratio_to_max": 1.889735318964244
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 10.0,
+     "pred_life_uncapped": 59.64784851962632,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 58.0,
+     "baseline_life": 36.244138986092494,
+     "obs_max": 24,
+     "obs_p90": 24.0,
+     "obs_median": 11.0,
+     "n_stints": 5,
+     "ratio_to_max": 0.4166666666666667,
+     "baseline_ratio_to_max": 1.510172457753854
+    }
+   ],
+   "per_driver": {
+    "n": 15,
+    "share_same_shape_as_field": 0.7333333333333333,
+    "stops_match_actual": 0.3333333333333333,
+    "seq_match_actual": 0.3333333333333333,
+    "first_stop_spearman_vs_actual": null,
+    "first_stop_spread": 28.0,
+    "race_factor_range": [
+     0.9097912739069367,
+     1.3854264171904107
+    ]
+   },
+   "cf": {
+    "n": 15,
+    "n_over_30s": 2,
+    "n_with_sc_stops": 12,
+    "n_over_30s_classified": 2,
+    "median_loss_s": 0.0,
+    "top": [
+     {
+      "driver": "LEC",
+      "compounds": "MEDIUM-HARD",
+      "loss_s": 43.7
+     },
+     {
+      "driver": "COL",
+      "compounds": "HARD-HARD-SOFT",
+      "loss_s": 35.0
+     },
+     {
+      "driver": "VER",
+      "compounds": "HARD-MEDIUM-HARD",
+      "loss_s": 2.2
+     }
+    ],
+    "baseline_n_over_30s": 1
+   },
+   "gates_failed": [
+    "MixedLM MEDIUM slope in 0.12-0.35",
+    "model reproduces the measured net stint-level compound step (enforced)"
+   ]
+  },
+  {
+   "event": "japan-2026",
+   "prev": "1-stop S-H @ 21",
+   "new": "1-stop M-H @ 23",
+   "tyre_opt": "1-stop M-S @ 31",
+   "modal": "MEDIUM-HARD",
+   "winner": "MEDIUM-HARD",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.0,
+   "new_share": 0.85,
+   "prev_start_ok": false,
+   "new_start_ok": true,
+   "prev_first": 3.0,
+   "new_first": 5.0,
+   "tyre_first": 13.0,
+   "sc_set": true,
+   "field_first": 18.0,
+   "regret_prev": null,
+   "regret_new": 0.46,
+   "regret_field": 0.36,
+   "regret_winner": 0.37,
+   "win1_prev": 0.7777777777777778,
+   "win1_new": 0.1111111111111111,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 42.0,
+     "pred_life_uncapped": 99.84088633343448,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 53.0,
+     "baseline_life": 77.6560716895434,
+     "obs_max": 37,
+     "obs_p90": 36.0,
+     "obs_median": 31.0,
+     "n_stints": 20,
+     "ratio_to_max": 1.135135135135135,
+     "baseline_ratio_to_max": 2.0988127483660377
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 36.0,
+     "pred_life_uncapped": 54.42130826513613,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 31.850079408146172,
+     "baseline_life": 48.34096624057118,
+     "obs_max": 33,
+     "obs_p90": 22.900000000000002,
+     "obs_median": 21.5,
+     "n_stints": 22,
+     "ratio_to_max": 1.0909090909090908,
+     "baseline_ratio_to_max": 1.4648777648657934
+    }
+   ],
+   "per_driver": {
+    "n": 20,
+    "share_same_shape_as_field": 1.0,
+    "stops_match_actual": 0.9,
+    "seq_match_actual": 0.85,
+    "first_stop_spearman_vs_actual": -0.2665569949915915,
+    "first_stop_spread": 2.0,
+    "race_factor_range": [
+     0.9034043212604691,
+     1.3050991494199686
+    ]
+   },
+   "cf": {
+    "n": 20,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 11,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 0.0,
+    "top": [
+     {
+      "driver": "BOT",
+      "compounds": "HARD-MEDIUM",
+      "loss_s": 8.7
+     },
+     {
+      "driver": "NOR",
+      "compounds": "MEDIUM-HARD",
+      "loss_s": 3.8
+     },
+     {
+      "driver": "COL",
+      "compounds": "MEDIUM-HARD",
+      "loss_s": 2.6
+     }
+    ],
+    "baseline_n_over_30s": 0
+   },
+   "gates_failed": [
+    "MixedLM MEDIUM slope in 0.12-0.35"
+   ]
+  },
+  {
+   "event": "barcelona-2026",
+   "prev": "2-stop M-H-H @ 19,43",
+   "new": "2-stop S-M-S @ 21,43",
+   "tyre_opt": "3-stop M-M-S-S @ 16,32,49",
+   "modal": "MEDIUM-HARD-HARD",
+   "winner": "SOFT-HARD-MEDIUM-HARD",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.46153846153846156,
+   "new_share": 0.0,
+   "prev_start_ok": true,
+   "new_start_ok": false,
+   "prev_first": 6.0,
+   "new_first": 8.0,
+   "tyre_first": 3.0,
+   "sc_set": false,
+   "field_first": 13.0,
+   "regret_prev": 5.35,
+   "regret_new": 5.52,
+   "regret_field": 10.6,
+   "regret_winner": 8.1,
+   "win1_prev": 0.14285714285714285,
+   "win1_new": 0.14285714285714285,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 34.0,
+     "pred_life_uncapped": 36.74490826868622,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 21.504963469473395,
+     "baseline_life": 37.46250496397687,
+     "obs_max": 31,
+     "obs_p90": 30.0,
+     "obs_median": 24.0,
+     "n_stints": 24,
+     "ratio_to_max": 1.096774193548387,
+     "baseline_ratio_to_max": 1.2084679020637699
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 28.645744211214275,
+     "pred_life_uncapped": 28.645744211214275,
+     "bound_by": "the tyre",
+     "longer_than_race": false,
+     "pred_knee_full_push": 16.76492640323218,
+     "baseline_life": 29.091076435724048,
+     "obs_max": 26,
+     "obs_p90": 23.6,
+     "obs_median": 14.0,
+     "n_stints": 13,
+     "ratio_to_max": 1.1017593927390106,
+     "baseline_ratio_to_max": 1.1188875552201556
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 25.657787761803757,
+     "pred_life_uncapped": 25.657787761803757,
+     "bound_by": "the tyre",
+     "longer_than_race": false,
+     "pred_knee_full_push": 15.01622441102421,
+     "baseline_life": 23.588955450357165,
+     "obs_max": 14,
+     "obs_p90": 13.3,
+     "obs_median": 11.5,
+     "n_stints": 8,
+     "ratio_to_max": 1.8326991258431256,
+     "baseline_ratio_to_max": 1.6849253893112262
+    }
+   ],
+   "per_driver": {
+    "n": 13,
+    "share_same_shape_as_field": 0.6923076923076923,
+    "stops_match_actual": 0.6153846153846154,
+    "seq_match_actual": 0.0,
+    "first_stop_spearman_vs_actual": 0.2828349444338056,
+    "first_stop_spread": 8.0,
+    "race_factor_range": [
+     0.9258068194510778,
+     1.384647586389122
+    ]
+   },
+   "cf": {
+    "n": 13,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 3,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 7.378043949339288,
+    "top": [
+     {
+      "driver": "PIA",
+      "compounds": "MEDIUM-HARD-HARD",
+      "loss_s": 11.2
+     },
+     {
+      "driver": "HAD",
+      "compounds": "MEDIUM-HARD-HARD-SOFT",
+      "loss_s": 11.1
+     },
+     {
+      "driver": "LAW",
+      "compounds": "MEDIUM-HARD-HARD",
+      "loss_s": 9.5
+     }
+    ],
+    "baseline_n_over_30s": 2
+   },
+   "gates_failed": [
+    "every recommended stint length is one the compound was run to"
+   ]
+  },
+  {
+   "event": "austria-2026",
+   "prev": "2-stop M-H-H @ 23,47",
+   "new": "2-stop M-H-M @ 22,46",
+   "tyre_opt": "3-stop M-S-S-M @ 17,35,53",
+   "modal": "MEDIUM-HARD-HARD",
+   "winner": "MEDIUM-HARD-HARD",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.29411764705882354,
+   "new_share": 0.23529411764705882,
+   "prev_start_ok": true,
+   "new_start_ok": true,
+   "prev_first": 5.0,
+   "new_first": 4.0,
+   "tyre_first": -1.0,
+   "sc_set": false,
+   "field_first": 18.0,
+   "regret_prev": 22.4,
+   "regret_new": 13.36,
+   "regret_field": 25.8,
+   "regret_winner": 25.82,
+   "win1_prev": 0.35714285714285715,
+   "win1_new": 0.5384615384615384,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 46.0,
+     "pred_life_uncapped": 48.21780905206714,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 34.372812359918655,
+     "baseline_life": 52.205843262437725,
+     "obs_max": 36,
+     "obs_p90": 31.0,
+     "obs_median": 26.0,
+     "n_stints": 24,
+     "ratio_to_max": 1.2777777777777777,
+     "baseline_ratio_to_max": 1.4501623128454924
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 37.0,
+     "pred_life_uncapped": 39.21876349897923,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 27.957703289312917,
+     "baseline_life": 45.91526187670692,
+     "obs_max": 27,
+     "obs_p90": 24.5,
+     "obs_median": 19.0,
+     "n_stints": 26,
+     "ratio_to_max": 1.3703703703703705,
+     "baseline_ratio_to_max": 1.700565254692849
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 18.0,
+     "pred_life_uncapped": 41.05788012166721,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 29.268746072517747,
+     "baseline_life": 37.013442173115706,
+     "obs_max": 19,
+     "obs_p90": 18.4,
+     "obs_median": 17.0,
+     "n_stints": 4,
+     "ratio_to_max": 0.9473684210526315,
+     "baseline_ratio_to_max": 1.948075903848195
+    }
+   ],
+   "per_driver": {
+    "n": 17,
+    "share_same_shape_as_field": 0.8235294117647058,
+    "stops_match_actual": 0.7647058823529411,
+    "seq_match_actual": 0.17647058823529413,
+    "first_stop_spearman_vs_actual": 0.20901483117353756,
+    "first_stop_spread": 4.0,
+    "race_factor_range": [
+     0.9052611952195119,
+     1.3225609037419446
+    ]
+   },
+   "cf": {
+    "n": 17,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 3,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 1.709398598776304,
+    "top": [
+     {
+      "driver": "OCO",
+      "compounds": "MEDIUM-MEDIUM-HARD",
+      "loss_s": 8.7
+     },
+     {
+      "driver": "LEC",
+      "compounds": "MEDIUM-HARD-HARD-SOFT",
+      "loss_s": 6.4
+     },
+     {
+      "driver": "GAS",
+      "compounds": "MEDIUM-HARD-MEDIUM-SOFT",
+      "loss_s": 4.7
+     }
+    ],
+    "baseline_n_over_30s": 1
+   },
+   "gates_failed": []
+  },
+  {
+   "event": "belgium-2026",
+   "prev": "1-stop S-M @ 24",
+   "new": "1-stop M-S @ 20",
+   "tyre_opt": "1-stop S-M @ 24",
+   "modal": "MEDIUM-HARD",
+   "winner": "MEDIUM-SOFT",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.0,
+   "new_share": 0.05263157894736842,
+   "prev_start_ok": false,
+   "new_start_ok": true,
+   "prev_first": 8.0,
+   "new_first": 4.0,
+   "tyre_first": 8.0,
+   "sc_set": true,
+   "field_first": 16.0,
+   "regret_prev": 13.93,
+   "regret_new": 16.04,
+   "regret_field": 10.62,
+   "regret_winner": 14.43,
+   "win1_prev": 0.0,
+   "win1_new": 0.1111111111111111,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 36.0,
+     "pred_life_uncapped": 38.63581778318157,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 27.542141402552478,
+     "baseline_life": 50.747605041383096,
+     "obs_max": 31,
+     "obs_p90": 30.0,
+     "obs_median": 24.0,
+     "n_stints": 22,
+     "ratio_to_max": 1.1612903225806452,
+     "baseline_ratio_to_max": 1.6370195174639708
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 34.0,
+     "pred_life_uncapped": 35.630330945516675,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 25.399633537674035,
+     "baseline_life": 41.86130428515115,
+     "obs_max": 20,
+     "obs_p90": 20.0,
+     "obs_median": 18.0,
+     "n_stints": 13,
+     "ratio_to_max": 1.7,
+     "baseline_ratio_to_max": 2.0930652142575576
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 28.0,
+     "pred_life_uncapped": 42.003021341851706,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 29.94250463711668,
+     "baseline_life": 44.691951517409514,
+     "obs_max": 26,
+     "obs_p90": 22.400000000000002,
+     "obs_median": 13.0,
+     "n_stints": 4,
+     "ratio_to_max": 1.0769230769230769,
+     "baseline_ratio_to_max": 1.7189212122080582
+    }
+   ],
+   "per_driver": {
+    "n": 19,
+    "share_same_shape_as_field": 0.7368421052631579,
+    "stops_match_actual": 0.8421052631578947,
+    "seq_match_actual": 0.10526315789473684,
+    "first_stop_spearman_vs_actual": -0.7472647177570731,
+    "first_stop_spread": 10.0,
+    "race_factor_range": [
+     0.8954333108598633,
+     1.6534953262052612
+    ]
+   },
+   "cf": {
+    "n": 19,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 12,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 0.0,
+    "top": [
+     {
+      "driver": "SAI",
+      "compounds": "SOFT-HARD",
+      "loss_s": 13.2
+     },
+     {
+      "driver": "GAS",
+      "compounds": "MEDIUM-HARD",
+      "loss_s": 8.3
+     },
+     {
+      "driver": "NOR",
+      "compounds": "HARD-MEDIUM",
+      "loss_s": 6.7
+     }
+    ],
+    "baseline_n_over_30s": 0
+   },
+   "gates_failed": [
+    "clean laps in 120-320"
+   ]
+  },
+  {
+   "event": "hungary-2026",
+   "prev": "2-stop M-H-M @ 23,47",
+   "new": "2-stop M-H-H @ 22,46",
+   "tyre_opt": "2-stop M-M-S @ 25,51",
+   "modal": "MEDIUM-HARD-HARD",
+   "winner": "MEDIUM-HARD-HARD-SOFT",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.0,
+   "new_share": 0.3157894736842105,
+   "prev_start_ok": true,
+   "new_start_ok": true,
+   "prev_first": 4.0,
+   "new_first": 3.0,
+   "tyre_first": 6.0,
+   "sc_set": false,
+   "field_first": 19.0,
+   "regret_prev": 16.81,
+   "regret_new": 26.33,
+   "regret_field": 28.82,
+   "regret_winner": 27.43,
+   "win1_prev": 0.3333333333333333,
+   "win1_new": 0.4166666666666667,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 50.0,
+     "pred_life_uncapped": 56.4178506824739,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 40.218339102976024,
+     "baseline_life": 55.92952293759749,
+     "obs_max": 49,
+     "obs_p90": 32.0,
+     "obs_median": 22.5,
+     "n_stints": 26,
+     "ratio_to_max": 1.0204081632653061,
+     "baseline_ratio_to_max": 1.1414188354611732
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 44.0,
+     "pred_life_uncapped": 55.03952962731244,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 39.2357815805131,
+     "baseline_life": 48.52604167085968,
+     "obs_max": 29,
+     "obs_p90": 26.5,
+     "obs_median": 20.5,
+     "n_stints": 16,
+     "ratio_to_max": 1.5172413793103448,
+     "baseline_ratio_to_max": 1.673311781753782
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 19.0,
+     "pred_life_uncapped": 46.274102441466226,
+     "bound_by": "circuit history",
+     "longer_than_race": false,
+     "pred_knee_full_push": 32.987210983116675,
+     "baseline_life": 35.811616568250926,
+     "obs_max": 34,
+     "obs_p90": 30.6,
+     "obs_median": 14.0,
+     "n_stints": 18,
+     "ratio_to_max": 0.5588235294117647,
+     "baseline_ratio_to_max": 1.0532828402426744
+    }
+   ],
+   "per_driver": {
+    "n": 19,
+    "share_same_shape_as_field": 0.5789473684210527,
+    "stops_match_actual": 0.631578947368421,
+    "seq_match_actual": 0.21052631578947367,
+    "first_stop_spearman_vs_actual": -0.06153694363653293,
+    "first_stop_spread": 6.0,
+    "race_factor_range": [
+     0.8461314390432605,
+     1.3451289659824035
+    ]
+   },
+   "cf": {
+    "n": 19,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 7,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 3.4427902352501003,
+    "top": [
+     {
+      "driver": "STR",
+      "compounds": "SOFT-MEDIUM-SOFT",
+      "loss_s": 17.8
+     },
+     {
+      "driver": "ALO",
+      "compounds": "SOFT-MEDIUM-SOFT",
+      "loss_s": 13.0
+     },
+     {
+      "driver": "RUS",
+      "compounds": "MEDIUM-HARD-HARD",
+      "loss_s": 12.3
+     }
+    ],
+    "baseline_n_over_30s": 0
+   },
+   "gates_failed": []
+  },
+  {
+   "event": "italy-2026",
+   "prev": "1-stop M-H @ 23",
+   "new": "1-stop M-H @ 25",
+   "tyre_opt": "1-stop H-M @ 28",
+   "modal": "MEDIUM-HARD",
+   "winner": "HARD-MEDIUM-MEDIUM",
+   "prev_stops_ok": true,
+   "new_stops_ok": true,
+   "prev_share": 0.3157894736842105,
+   "new_share": 0.3157894736842105,
+   "prev_start_ok": true,
+   "new_start_ok": true,
+   "prev_first": null,
+   "new_first": null,
+   "tyre_first": null,
+   "sc_set": true,
+   "field_first": null,
+   "regret_prev": 2.66,
+   "regret_new": 2.12,
+   "regret_field": 12.82,
+   "regret_winner": 30.69,
+   "win1_prev": 0.0,
+   "win1_new": null,
+   "life": [
+    {
+     "compound": "HARD",
+     "pred_life_at_push": 44.0,
+     "pred_life_uncapped": 105.41658182367267,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 53.0,
+     "baseline_life": 92.59006374799846,
+     "obs_max": 50,
+     "obs_p90": 50.0,
+     "obs_median": 43.0,
+     "n_stints": 15,
+     "ratio_to_max": 0.88,
+     "baseline_ratio_to_max": 1.851801274959969
+    },
+    {
+     "compound": "MEDIUM",
+     "pred_life_at_push": 44.0,
+     "pred_life_uncapped": 75.98037628683863,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 49.315658025539825,
+     "baseline_life": 55.07361496052434,
+     "obs_max": 50,
+     "obs_p90": 50.0,
+     "obs_median": 25.0,
+     "n_stints": 21,
+     "ratio_to_max": 0.88,
+     "baseline_ratio_to_max": 1.1014722992104868
+    },
+    {
+     "compound": "SOFT",
+     "pred_life_at_push": 10.0,
+     "pred_life_uncapped": 76.74879345801617,
+     "bound_by": "circuit history",
+     "longer_than_race": true,
+     "pred_knee_full_push": 49.814405205886544,
+     "baseline_life": 44.60418070050425,
+     "obs_max": 24,
+     "obs_p90": 24.0,
+     "obs_median": 3.0,
+     "n_stints": 11,
+     "ratio_to_max": 0.4166666666666667,
+     "baseline_ratio_to_max": 1.8585075291876771
+    }
+   ],
+   "per_driver": {
+    "n": 19,
+    "share_same_shape_as_field": 1.0,
+    "stops_match_actual": 0.5263157894736842,
+    "seq_match_actual": 0.3157894736842105,
+    "first_stop_spearman_vs_actual": null,
+    "first_stop_spread": 4.0,
+    "race_factor_range": [
+     0.9082598329030268,
+     1.7187539627635564
+    ]
+   },
+   "cf": {
+    "n": 19,
+    "n_over_30s": 0,
+    "n_with_sc_stops": 19,
+    "n_over_30s_classified": 0,
+    "median_loss_s": 0.0,
+    "top": [
+     {
+      "driver": "ALB",
+      "compounds": "MEDIUM-HARD-SOFT",
+      "loss_s": 0.0
+     },
+     {
+      "driver": "LIN",
+      "compounds": "MEDIUM-HARD",
+      "loss_s": 0.0
+     },
+     {
+      "driver": "TSU",
+      "compounds": "HARD-MEDIUM",
+      "loss_s": 0.0
+     }
+    ],
+    "baseline_n_over_30s": 13
+   },
+   "gates_failed": [
+    "MixedLM MEDIUM slope in 0.12-0.35",
+    "convergence: r_hat < 1.01 and zero divergences"
+   ]
+  }
+ ],
+ "life": [
+  {
+   "event": "australia-2026",
+   "compound": "HARD",
+   "new": 0.9130434782608695,
+   "prev": 2.285662701610972,
+   "bound_by": "circuit history",
+   "obs_max": 46,
+   "life": 42.0,
+   "uncapped": 88.11463730592068
+  },
+  {
+   "event": "australia-2026",
+   "compound": "MEDIUM",
+   "new": 1.4285714285714286,
+   "prev": 1.889735318964244,
+   "bound_by": "circuit history",
+   "obs_max": 28,
+   "life": 40.0,
+   "uncapped": 47.138863389667996
+  },
+  {
+   "event": "australia-2026",
+   "compound": "SOFT",
+   "new": 0.4166666666666667,
+   "prev": 1.510172457753854,
+   "bound_by": "circuit history",
+   "obs_max": 24,
+   "life": 10.0,
+   "uncapped": 59.64784851962632
+  },
+  {
+   "event": "japan-2026",
+   "compound": "HARD",
+   "new": 1.135135135135135,
+   "prev": 2.0988127483660377,
+   "bound_by": "circuit history",
+   "obs_max": 37,
+   "life": 42.0,
+   "uncapped": 99.84088633343448
+  },
+  {
+   "event": "japan-2026",
+   "compound": "MEDIUM",
+   "new": 1.0909090909090908,
+   "prev": 1.4648777648657934,
+   "bound_by": "circuit history",
+   "obs_max": 33,
+   "life": 36.0,
+   "uncapped": 54.42130826513613
+  },
+  {
+   "event": "barcelona-2026",
+   "compound": "HARD",
+   "new": 1.096774193548387,
+   "prev": 1.2084679020637699,
+   "bound_by": "circuit history",
+   "obs_max": 31,
+   "life": 34.0,
+   "uncapped": 36.74490826868622
+  },
+  {
+   "event": "barcelona-2026",
+   "compound": "MEDIUM",
+   "new": 1.1017593927390106,
+   "prev": 1.1188875552201556,
+   "bound_by": "the tyre",
+   "obs_max": 26,
+   "life": 28.645744211214275,
+   "uncapped": 28.645744211214275
+  },
+  {
+   "event": "barcelona-2026",
+   "compound": "SOFT",
+   "new": 1.8326991258431256,
+   "prev": 1.6849253893112262,
+   "bound_by": "the tyre",
+   "obs_max": 14,
+   "life": 25.657787761803757,
+   "uncapped": 25.657787761803757
+  },
+  {
+   "event": "austria-2026",
+   "compound": "HARD",
+   "new": 1.2777777777777777,
+   "prev": 1.4501623128454924,
+   "bound_by": "circuit history",
+   "obs_max": 36,
+   "life": 46.0,
+   "uncapped": 48.21780905206714
+  },
+  {
+   "event": "austria-2026",
+   "compound": "MEDIUM",
+   "new": 1.3703703703703705,
+   "prev": 1.700565254692849,
+   "bound_by": "circuit history",
+   "obs_max": 27,
+   "life": 37.0,
+   "uncapped": 39.21876349897923
+  },
+  {
+   "event": "austria-2026",
+   "compound": "SOFT",
+   "new": 0.9473684210526315,
+   "prev": 1.948075903848195,
+   "bound_by": "circuit history",
+   "obs_max": 19,
+   "life": 18.0,
+   "uncapped": 41.05788012166721
+  },
+  {
+   "event": "belgium-2026",
+   "compound": "HARD",
+   "new": 1.1612903225806452,
+   "prev": 1.6370195174639708,
+   "bound_by": "circuit history",
+   "obs_max": 31,
+   "life": 36.0,
+   "uncapped": 38.63581778318157
+  },
+  {
+   "event": "belgium-2026",
+   "compound": "MEDIUM",
+   "new": 1.7,
+   "prev": 2.0930652142575576,
+   "bound_by": "circuit history",
+   "obs_max": 20,
+   "life": 34.0,
+   "uncapped": 35.630330945516675
+  },
+  {
+   "event": "belgium-2026",
+   "compound": "SOFT",
+   "new": 1.0769230769230769,
+   "prev": 1.7189212122080582,
+   "bound_by": "circuit history",
+   "obs_max": 26,
+   "life": 28.0,
+   "uncapped": 42.003021341851706
+  },
+  {
+   "event": "hungary-2026",
+   "compound": "HARD",
+   "new": 1.0204081632653061,
+   "prev": 1.1414188354611732,
+   "bound_by": "circuit history",
+   "obs_max": 49,
+   "life": 50.0,
+   "uncapped": 56.4178506824739
+  },
+  {
+   "event": "hungary-2026",
+   "compound": "MEDIUM",
+   "new": 1.5172413793103448,
+   "prev": 1.673311781753782,
+   "bound_by": "circuit history",
+   "obs_max": 29,
+   "life": 44.0,
+   "uncapped": 55.03952962731244
+  },
+  {
+   "event": "hungary-2026",
+   "compound": "SOFT",
+   "new": 0.5588235294117647,
+   "prev": 1.0532828402426744,
+   "bound_by": "circuit history",
+   "obs_max": 34,
+   "life": 19.0,
+   "uncapped": 46.274102441466226
+  },
+  {
+   "event": "italy-2026",
+   "compound": "HARD",
+   "new": 0.88,
+   "prev": 1.851801274959969,
+   "bound_by": "circuit history",
+   "obs_max": 50,
+   "life": 44.0,
+   "uncapped": 105.41658182367267
+  },
+  {
+   "event": "italy-2026",
+   "compound": "MEDIUM",
+   "new": 0.88,
+   "prev": 1.1014722992104868,
+   "bound_by": "circuit history",
+   "obs_max": 50,
+   "life": 44.0,
+   "uncapped": 75.98037628683863
+  },
+  {
+   "event": "italy-2026",
+   "compound": "SOFT",
+   "new": 0.4166666666666667,
+   "prev": 1.8585075291876771,
+   "bound_by": "circuit history",
+   "obs_max": 24,
+   "life": 10.0,
+   "uncapped": 76.74879345801617
+  }
+ ],
+ "decision_summary": {
+  "stops_match_prev": 7,
+  "stops_match_new": 7,
+  "seq_run_prev": 3,
+  "seq_run_new": 6,
+  "seq_share_prev": 0.15306365461164223,
+  "seq_share_new": 0.3289768538994545,
+  "start_prev": 4,
+  "start_new": 6,
+  "first_err_prev": 5.0,
+  "first_err_new": 5.0,
+  "first_err_tyre": 3.3333333333333335,
+  "first_bias_prev": 5.0,
+  "first_bias_new": 5.0,
+  "regret_prev": 12.056666666666665,
+  "regret_new": 10.474285714285713,
+  "regret_field": 15.648571428571428,
+  "beats_field_new": 5,
+  "beats_winner_new": 5,
+  "win1_prev": 0.23015873015873017,
+  "win1_new": 0.30336792836792836,
+  "life_over_prev": 20,
+  "life_over_new": 13,
+  "life_median_prev": 1.6791185855325041,
+  "life_median_new": 1.093841642228739,
+  "life_n": 20,
+  "cf_over30_prev": 17,
+  "cf_over30_new": 2,
+  "cf_n_new": 122,
+  "gates_failed_new": 7,
+  "per_driver": {
+   "australia-2026": {
+    "n": 15,
+    "share_same_shape_as_field": 0.7333333333333333,
+    "stops_match_actual": 0.3333333333333333,
+    "seq_match_actual": 0.3333333333333333,
+    "first_stop_spearman_vs_actual": null,
+    "first_stop_spread": 28.0,
+    "race_factor_range": [
+     0.9097912739069367,
+     1.3854264171904107
+    ]
+   },
+   "japan-2026": {
+    "n": 20,
+    "share_same_shape_as_field": 1.0,
+    "stops_match_actual": 0.9,
+    "seq_match_actual": 0.85,
+    "first_stop_spearman_vs_actual": -0.2665569949915915,
+    "first_stop_spread": 2.0,
+    "race_factor_range": [
+     0.9034043212604691,
+     1.3050991494199686
+    ]
+   },
+   "barcelona-2026": {
+    "n": 13,
+    "share_same_shape_as_field": 0.6923076923076923,
+    "stops_match_actual": 0.6153846153846154,
+    "seq_match_actual": 0.0,
+    "first_stop_spearman_vs_actual": 0.2828349444338056,
+    "first_stop_spread": 8.0,
+    "race_factor_range": [
+     0.9258068194510778,
+     1.384647586389122
+    ]
+   },
+   "austria-2026": {
+    "n": 17,
+    "share_same_shape_as_field": 0.8235294117647058,
+    "stops_match_actual": 0.7647058823529411,
+    "seq_match_actual": 0.17647058823529413,
+    "first_stop_spearman_vs_actual": 0.20901483117353756,
+    "first_stop_spread": 4.0,
+    "race_factor_range": [
+     0.9052611952195119,
+     1.3225609037419446
+    ]
+   },
+   "belgium-2026": {
+    "n": 19,
+    "share_same_shape_as_field": 0.7368421052631579,
+    "stops_match_actual": 0.8421052631578947,
+    "seq_match_actual": 0.10526315789473684,
+    "first_stop_spearman_vs_actual": -0.7472647177570731,
+    "first_stop_spread": 10.0,
+    "race_factor_range": [
+     0.8954333108598633,
+     1.6534953262052612
+    ]
+   },
+   "hungary-2026": {
+    "n": 19,
+    "share_same_shape_as_field": 0.5789473684210527,
+    "stops_match_actual": 0.631578947368421,
+    "seq_match_actual": 0.21052631578947367,
+    "first_stop_spearman_vs_actual": -0.06153694363653293,
+    "first_stop_spread": 6.0,
+    "race_factor_range": [
+     0.8461314390432605,
+     1.3451289659824035
+    ]
+   },
+   "italy-2026": {
+    "n": 19,
+    "share_same_shape_as_field": 1.0,
+    "stops_match_actual": 0.5263157894736842,
+    "seq_match_actual": 0.3157894736842105,
+    "first_stop_spearman_vs_actual": null,
+    "first_stop_spread": 4.0,
+    "race_factor_range": [
+     0.9082598329030268,
+     1.7187539627635564
+    ]
+   }
+  }
+ },
+ "live": [
+  {
+   "event": "hungary-2026",
+   "tick_ms_prev": 1155.5,
+   "tick_ms_new": 73.2,
+   "tick_p95_prev": 1375.1,
+   "tick_p95_new": 80.6,
+   "inwin_prev": 0.4782608695652174,
+   "inwin_new": 0.5434782608695652,
+   "err_prev": 4.0,
+   "err_new": 3.0,
+   "within3_prev": 0.32608695652173914,
+   "within3_new": 0.5,
+   "boxnow_prev": 1.7818150504736074,
+   "boxnow_new": 0.670794548254662,
+   "alarm_prev": 0,
+   "alarm_new": 0,
+   "n_stops": 46,
+   "m_final_prev": 0.669,
+   "m_final_new": 0.776,
+   "m_self": 0.639227635679555,
+   "n_options_prev": 277.0,
+   "n_options_new": 601.0
+  },
+  {
+   "event": "barcelona-2026",
+   "tick_ms_prev": 984.8,
+   "tick_ms_new": 68.5,
+   "tick_p95_prev": 1319.9,
+   "tick_p95_new": 73.7,
+   "inwin_prev": 0.24528301886792453,
+   "inwin_new": 0.33962264150943394,
+   "err_prev": 3.5,
+   "err_new": 2.0,
+   "within3_prev": 0.4716981132075472,
+   "within3_new": 0.5660377358490566,
+   "boxnow_prev": 3.2496638579557526,
+   "boxnow_new": 2.2850958306996034,
+   "alarm_prev": 9,
+   "alarm_new": 2,
+   "n_stops": 53,
+   "m_final_prev": 0.626,
+   "m_final_new": 0.57,
+   "m_self": 0.7011865645099894,
+   "n_options_prev": 731.0,
+   "n_options_new": 665.0
+  }
+ ],
+ "calibration": {
+  "global": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.6,
+   "manage_wear_floor": 0.45,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.12036153825116466,
+   "undercut_lambda": 0.3,
+   "plan_prior_tau_s": 4.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.1275693922400545,
+    "BEA": 1.3184896918552167,
+    "BOR": 1.1347504973856133,
+    "COL": 0.9722064787870822,
+    "GAS": 1.0421657176244854,
+    "HAM": 1.2745900039877642,
+    "LAW": 0.9536151307152333,
+    "LEC": 1.0403564506369805,
+    "LIN": 0.910738592529615,
+    "OCO": 1.1152809928705076,
+    "PER": 1.0999458843491237,
+    "RUS": 0.9657079178992387,
+    "SAI": 1.2692244365516896,
+    "STR": 1.1402965385660024,
+    "VER": 0.9950789742766276,
+    "ALO": 1.3199369592166743,
+    "ANT": 0.9097912739069367,
+    "BOT": 1.6953553395727992,
+    "HAD": 0.9274126947400944,
+    "NOR": 1.0063707635888952,
+    "PIA": 1.234179996265814,
+    "HUL": 0.9108952479055555,
+    "TSU": 1.0479001996489103
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "seconds": 38.5
+  },
+  "loo": {
+   "australia-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.9,
+    "manage_wear_floor": 0.45,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.06714154486582084,
+    "undercut_lambda": 0.3,
+    "plan_prior_tau_s": 2.5
+   },
+   "japan-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.9,
+    "manage_wear_floor": 0.35,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.13724036279951204,
+    "undercut_lambda": 0.2,
+    "plan_prior_tau_s": 6.0
+   },
+   "barcelona-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.8,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.9,
+    "manage_wear_floor": 0.35,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.06714154486582084,
+    "undercut_lambda": 0.1,
+    "plan_prior_tau_s": 4.0
+   },
+   "austria-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.6,
+    "manage_wear_floor": 0.55,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.08402036941416823,
+    "undercut_lambda": 0.15,
+    "plan_prior_tau_s": 4.0
+   },
+   "belgium-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.6,
+    "manage_wear_floor": 0.55,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.13724036279951204,
+    "undercut_lambda": 0.15,
+    "plan_prior_tau_s": 4.0
+   },
+   "hungary-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.2659415451184075,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.6,
+    "manage_wear_floor": 0.55,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.06714154486582084,
+    "undercut_lambda": 0.15,
+    "plan_prior_tau_s": 2.5
+   },
+   "italy-2026": {
+    "grip_budget_by_compound": {
+     "HARD": 3.8387290213510443,
+     "MEDIUM": 3.826672916916292,
+     "SOFT": 3.8
+    },
+    "manage_cost_s": 0.6,
+    "manage_wear_floor": 0.45,
+    "grid_start_penalty_s": 0.0,
+    "dirty_air_s_per_lap": 0.13724036279951204,
+    "undercut_lambda": 0.3,
+    "plan_prior_tau_s": 4.0
+   }
+  },
+  "raw": {
+   "implied_budgets": {
+    "HARD": {
+     "raw": [
+      1.55,
+      0.75,
+      3.42,
+      2.82,
+      1.11,
+      4.04
+     ],
+     "lower": [
+      1.3,
+      0.45,
+      3.27,
+      2.69,
+      0.92,
+      3.84
+     ],
+     "informative": true
+    },
+    "MEDIUM": {
+     "raw": [
+      0.7,
+      1.95,
+      4.07,
+      1.9,
+      2.33,
+      1.88,
+      0.53
+     ],
+     "lower": [
+      0.35,
+      1.59,
+      3.83,
+      1.75,
+      1.96,
+      1.63,
+      0.3
+     ],
+     "informative": true
+    },
+    "SOFT": {
+     "raw": [
+      1.07,
+      2.41,
+      0.96,
+      1.34,
+      1.62,
+      1.98
+     ],
+     "lower": [
+      0.68,
+      2.12,
+      0.77,
+      0.95,
+      1.41,
+      1.66
+     ],
+     "informative": false
+    }
+   },
+   "dirty_air": [
+    0.252,
+    -0.094,
+    0.154,
+    0.12,
+    0.014,
+    0.43,
+    -0.198
+   ]
+  },
+  "sweeps": {
+   "manage": [
+    {
+     "floor": 0.35,
+     "cost": 0.6,
+     "objective": 0.23917055894333789,
+     "implied": [
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59
+     ]
+    },
+    {
+     "floor": 0.35,
+     "cost": 0.9,
+     "objective": 0.19269617389215568,
+     "implied": [
+      0.84,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.7
+     ]
+    },
+    {
+     "floor": 0.35,
+     "cost": 1.2,
+     "objective": 0.24228053744831546,
+     "implied": [
+      1.0,
+      0.84,
+      0.59,
+      0.59,
+      0.59,
+      0.84,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 0.6,
+     "objective": 0.1785431753482302,
+     "implied": [
+      0.75,
+      0.65,
+      0.65,
+      0.65,
+      0.65,
+      0.65,
+      0.65
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 0.9,
+     "objective": 0.20326084454658533,
+     "implied": [
+      1.0,
+      0.75,
+      0.65,
+      0.65,
+      0.65,
+      0.75,
+      0.87
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 1.2,
+     "objective": 0.3882159050817814,
+     "implied": [
+      1.0,
+      1.0,
+      0.65,
+      0.75,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 0.6,
+     "objective": 0.19100082628431556,
+     "implied": [
+      0.89,
+      0.71,
+      0.71,
+      0.71,
+      0.71,
+      0.71,
+      0.8
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 0.9,
+     "objective": 0.38794825296904134,
+     "implied": [
+      1.0,
+      1.0,
+      0.71,
+      0.8,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 1.2,
+     "objective": 0.4363000417833134,
+     "implied": [
+      1.0,
+      1.0,
+      0.8,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ],
+   "lambda": [
+    {
+     "lambda": 0.0,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.28386407194456725,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.05,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.1,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.15,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.2,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.3,
+     "objective": 2.6666666666666665,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.45,
+     "objective": 2.6666666666666665,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ],
+   "tau": [
+    {
+     "tau": 0.0,
+     "objective": -0.4145363408521303,
+     "mean_first_err": 0.0,
+     "mean_abs_first_err": 0.6666666666666666,
+     "mean_seq_share": 0.12882205513784462,
+     "start_ok": 0.42857142857142855,
+     "stops_ok": 0.7142857142857143,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 1.0,
+     "objective": -0.49695392326971277,
+     "mean_first_err": 0.6666666666666666,
+     "mean_abs_first_err": 2.0,
+     "mean_seq_share": 0.1398110661268556,
+     "start_ok": 0.7142857142857143,
+     "stops_ok": 0.7142857142857143,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 2.5,
+     "objective": -0.7234245115050069,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.2948530829335783,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 4.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 6.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ],
+   "grid": [
+    {
+     "grid": 0.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 0.5,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 1.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 1.5,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ]
+  },
+  "per_weekend": {
+   "australia-2026": {
+    "implied_budgets": {
+     "HARD": 1.545733450062188,
+     "MEDIUM": 0.6963180833931495,
+     "SOFT": 1.0679438918843367
+    },
+    "longest_stint": {
+     "HARD": 46,
+     "MEDIUM": 28,
+     "SOFT": 24
+    },
+    "dirty_air": {
+     "s_per_lap": 0.2518771183320618,
+     "se": 0.05873940616152541,
+     "n_laps": 831,
+     "share_close": 0.5090252707581228,
+     "event": "australia-2026"
+    },
+    "first_stop_median_green": 25.0,
+    "sc_set_first_stops": true,
+    "field_modal_seq": "MEDIUM-HARD",
+    "field_stop_mode": 1,
+    "net_step": -0.06571170103726837,
+    "self_regime": 0.7533372118384194,
+    "pit_loss": 23.415999999999997
+   },
+   "japan-2026": {
+    "implied_budgets": {
+     "HARD": 0.7539445005352154,
+     "MEDIUM": 1.9547227058660457
+    },
+    "longest_stint": {
+     "HARD": 37,
+     "MEDIUM": 33
+    },
+    "dirty_air": {
+     "s_per_lap": -0.09413803693727182,
+     "se": 0.04136024214547518,
+     "n_laps": 916,
+     "share_close": 0.6899563318777293,
+     "event": "japan-2026"
+    },
+    "first_stop_median_green": 18.0,
+    "sc_set_first_stops": true,
+    "field_modal_seq": "MEDIUM-HARD",
+    "field_stop_mode": 1,
+    "net_step": 0.07220192520525458,
+    "self_regime": 0.7326987078892557,
+    "pit_loss": 24.382000000000005
+   },
+   "barcelona-2026": {
+    "implied_budgets": {
+     "HARD": 3.424636506726823,
+     "MEDIUM": 4.07234619528275,
+     "SOFT": 2.41060003539694
+    },
+    "longest_stint": {
+     "HARD": 31,
+     "MEDIUM": 26,
+     "SOFT": 14
+    },
+    "dirty_air": {
+     "s_per_lap": 0.15411918734785943,
+     "se": 0.042786577234724954,
+     "n_laps": 1028,
+     "share_close": 0.5885214007782101,
+     "event": "barcelona-2026"
+    },
+    "first_stop_median_green": 13.0,
+    "sc_set_first_stops": false,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "field_stop_mode": 2,
+    "net_step": 0.04248275661273313,
+    "self_regime": 0.7011865645099894,
+    "pit_loss": 23.64500000000001
+   },
+   "austria-2026": {
+    "implied_budgets": {
+     "HARD": 2.819213790357193,
+     "MEDIUM": 1.8992149708678698,
+     "SOFT": 0.9574269795969996
+    },
+    "longest_stint": {
+     "HARD": 36,
+     "MEDIUM": 27,
+     "SOFT": 19
+    },
+    "dirty_air": {
+     "s_per_lap": 0.12036153825116466,
+     "se": 0.03374087851425388,
+     "n_laps": 1156,
+     "share_close": 0.5908304498269896,
+     "event": "austria-2026"
+    },
+    "first_stop_median_green": 18.0,
+    "sc_set_first_stops": false,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "field_stop_mode": 2,
+    "net_step": 0.07319917786952798,
+    "self_regime": 0.5849966598531712,
+    "pit_loss": 21.005000000000024
+   },
+   "belgium-2026": {
+    "implied_budgets": {
+     "HARD": 1.107976964144224,
+     "MEDIUM": 2.3325688083556804,
+     "SOFT": 1.34298683425738
+    },
+    "longest_stint": {
+     "HARD": 31,
+     "MEDIUM": 20,
+     "SOFT": 26
+    },
+    "dirty_air": {
+     "s_per_lap": 0.013921551480477024,
+     "se": 0.05351469093990022,
+     "n_laps": 681,
+     "share_close": 0.566813509544787,
+     "event": "belgium-2026"
+    },
+    "first_stop_median_green": 15.0,
+    "sc_set_first_stops": true,
+    "field_modal_seq": "MEDIUM-HARD",
+    "field_stop_mode": 1,
+    "net_step": 0.055813217590648875,
+    "self_regime": 0.32017820583491197,
+    "pit_loss": 21.798000000000002
+   },
+   "hungary-2026": {
+    "implied_budgets": {
+     "HARD": 4.037742881807318,
+     "MEDIUM": 1.878386318285218,
+     "SOFT": 1.6151520590760757
+    },
+    "longest_stint": {
+     "HARD": 49,
+     "MEDIUM": 29,
+     "SOFT": 34
+    },
+    "dirty_air": {
+     "s_per_lap": 0.43031484882419047,
+     "se": 0.04457002812343028,
+     "n_laps": 1231,
+     "share_close": 0.5629569455727051,
+     "event": "hungary-2026"
+    },
+    "first_stop_median_green": 19.0,
+    "sc_set_first_stops": false,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "field_stop_mode": 2,
+    "net_step": 0.064455102956817,
+    "self_regime": 0.639227635679555,
+    "pit_loss": 21.90249999999999
+   },
+   "italy-2026": {
+    "implied_budgets": {
+     "MEDIUM": 0.5284722527365199,
+     "SOFT": 1.9821465553526991
+    },
+    "longest_stint": {
+     "HARD": 50,
+     "MEDIUM": 50,
+     "SOFT": 24
+    },
+    "dirty_air": {
+     "s_per_lap": -0.19768606981026293,
+     "se": 0.04369926571393781,
+     "n_laps": 887,
+     "share_close": 0.6031567080045096,
+     "event": "italy-2026"
+    },
+    "first_stop_median_green": null,
+    "sc_set_first_stops": true,
+    "field_modal_seq": "MEDIUM-HARD",
+    "field_stop_mode": 1,
+    "net_step": 0.05633275767894693,
+    "self_regime": 0.8095785283832064,
+    "pit_loss": 31.470000000000013
+   }
+  },
+  "n_driver_factors": 23,
+  "driver_factors_top": [
+   [
+    "ANT",
+    0.9097912739069367
+   ],
+   [
+    "LIN",
+    0.910738592529615
+   ],
+   [
+    "HUL",
+    0.9108952479055555
+   ],
+   [
+    "BOT",
+    1.6953553395727992
+   ],
+   [
+    "ALO",
+    1.3199369592166743
+   ],
+   [
+    "BEA",
+    1.3184896918552167
+   ]
+  ]
+ },
+ "outlook": {
+  "australia-2026": {
+   "new": {
+    "basis": "circuit history [2023, 2024]",
+    "best": "2-stop M-H-H @ 16,36",
+    "tyre_optimal": "2-stop H-H-M @ 20,41",
+    "p_stops": {
+     "2": 0.8633333333333333,
+     "1": 0.13666666666666666,
+     "3": 0.0
+    },
+    "push": 0.7,
+    "life_laps_at_push": {
+     "SOFT": 10.0,
+     "MEDIUM": 41.0,
+     "HARD": 52.0
+    },
+    "caps": {
+     "SOFT": 10,
+     "MEDIUM": 41,
+     "HARD": 52
+    },
+    "pit_loss": 21.0,
+    "regime": 0.61,
+    "plan_prior_source": "Melbourne races [2023, 2024]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.0705296539827099,
+     "model_net_after": -0.056934449277312116
+    },
+    "mode_stops": 1,
+    "stops_match_mode": false,
+    "stops_share": 0.4,
+    "seq_share": 0.06666666666666667,
+    "field_modal_seq": "MEDIUM-HARD",
+    "start_ok": true,
+    "first_minus_field": null,
+    "sealed_best": "1-stop M-H @ 23",
+    "same_as_sealed_stops": false,
+    "baseline_prior_best": "2-stop M-H-H @ 18,38",
+    "baseline_prior_seq_share": 0.06666666666666667,
+    "seconds": 3.5
+   },
+   "prev": {
+    "basis": "circuit history [2023, 2024]",
+    "best": "2-stop M-H-H @ 18,38",
+    "p_stops": {
+     "2": 0.9666666666666667,
+     "1": 0.03333333333333333,
+     "3": 0.0
+    },
+    "push": 0.85,
+    "life_laps_at_push": {
+     "SOFT": 28.3,
+     "MEDIUM": 35.5,
+     "HARD": 47.3
+    },
+    "caps": {
+     "SOFT": 10,
+     "MEDIUM": 41,
+     "HARD": 52
+    },
+    "pit_loss": 21.0,
+    "mode_stops": 1,
+    "stops_match_mode": false,
+    "stops_share": 0.4,
+    "seq_share": 0.06666666666666667,
+    "field_modal_seq": "MEDIUM-HARD",
+    "sealed_best": "1-stop H-M @ 36",
+    "same_as_sealed_stops": false,
+    "seconds": 0.6
+   }
+  },
+  "japan-2026": {
+   "new": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "1-stop M-H @ 25",
+    "tyre_optimal": "2-stop M-S-S @ 18,36",
+    "p_stops": {
+     "1": 0.8899999999999999,
+     "2": 0.10999999999999999,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 22.0,
+     "MEDIUM": 36.0,
+     "HARD": 42.0
+    },
+    "caps": {
+     "SOFT": 22,
+     "MEDIUM": 36,
+     "HARD": 42
+    },
+    "pit_loss": 22.5,
+    "regime": 0.628,
+    "plan_prior_source": "Suzuka races [2023, 2024, 2025]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.1860988593111055,
+     "model_net_after": 0.025530794332981898
+    },
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.9,
+    "seq_share": 0.85,
+    "field_modal_seq": "MEDIUM-HARD",
+    "start_ok": true,
+    "first_minus_field": null,
+    "sealed_best": "1-stop M-H @ 23",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "1-stop M-H @ 25",
+    "baseline_prior_seq_share": 0.85,
+    "seconds": 3.9
+   },
+   "prev": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 0.45333333333333337,
+     "2": 0.5466666666666666,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 31.3,
+     "MEDIUM": 39.2,
+     "HARD": 52.3
+    },
+    "caps": {
+     "SOFT": 22,
+     "MEDIUM": 36,
+     "HARD": 42
+    },
+    "pit_loss": 22.5,
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.9,
+    "seq_share": 0.85,
+    "field_modal_seq": "MEDIUM-HARD",
+    "sealed_best": "1-stop S-H @ 21",
+    "same_as_sealed_stops": true,
+    "seconds": 0.5
+   }
+  },
+  "barcelona-2026": {
+   "new": {
+    "basis": "circuit history [2023, 2025]",
+    "best": "2-stop S-M-S @ 20,44",
+    "tyre_optimal": "2-stop M-S-S @ 24,45",
+    "p_stops": {
+     "2": 0.9766666666666667,
+     "3": 0.023333333333333334,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 28.0,
+     "MEDIUM": 40.0,
+     "HARD": 37.0
+    },
+    "caps": {
+     "SOFT": 28,
+     "MEDIUM": 40,
+     "HARD": 37
+    },
+    "pit_loss": 23.1,
+    "regime": 0.514,
+    "plan_prior_source": "Barcelona races [2023, 2025]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.13908431792086606,
+     "model_net_after": 0.030954804456940377
+    },
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.5384615384615384,
+    "seq_share": 0.0,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "start_ok": false,
+    "first_minus_field": 7.0,
+    "sealed_best": "2-stop S-M-S @ 21,43",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "2-stop M-H-H @ 20,43",
+    "baseline_prior_seq_share": 0.46153846153846156,
+    "seconds": 1.1
+   },
+   "prev": {
+    "basis": "circuit history [2023, 2025]",
+    "best": "2-stop M-H-H @ 20,43",
+    "p_stops": {
+     "2": 0.9766666666666668,
+     "1": 0.023333333333333334,
+     "3": 0.0
+    },
+    "push": 0.7,
+    "life_laps_at_push": {
+     "SOFT": 32.8,
+     "MEDIUM": 41.2,
+     "HARD": 54.9
+    },
+    "caps": {
+     "SOFT": 28,
+     "MEDIUM": 40,
+     "HARD": 37
+    },
+    "pit_loss": 23.1,
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.5384615384615384,
+    "seq_share": 0.46153846153846156,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "sealed_best": "2-stop M-H-H @ 19,43",
+    "same_as_sealed_stops": true,
+    "seconds": 0.5
+   }
+  },
+  "austria-2026": {
+   "new": {
+    "basis": "circuit history [2025]",
+    "best": "2-stop M-H-M @ 22,47",
+    "tyre_optimal": "3-stop M-M-S-S @ 18,37,54",
+    "p_stops": {
+     "2": 0.9466666666666667,
+     "3": 0.05,
+     "1": 0.0033333333333333335
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 18.0,
+     "MEDIUM": 37.0,
+     "HARD": 46.0
+    },
+    "caps": {
+     "SOFT": 18,
+     "MEDIUM": 37,
+     "HARD": 46
+    },
+    "pit_loss": 21.0,
+    "regime": 0.688,
+    "plan_prior_source": "Spielberg races [2025]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.10386954006461133,
+     "model_net_after": 0.06895966378811831
+    },
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.8235294117647058,
+    "seq_share": 0.23529411764705882,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "start_ok": true,
+    "first_minus_field": 4.0,
+    "sealed_best": "2-stop M-H-M @ 22,46",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "2-stop M-H-H @ 21,46",
+    "baseline_prior_seq_share": 0.29411764705882354,
+    "seconds": 4.2
+   },
+   "prev": {
+    "basis": "circuit history [2025]",
+    "best": "2-stop M-H-H @ 21,46",
+    "p_stops": {
+     "2": 1.0,
+     "3": 0.0,
+     "1": 0.0
+    },
+    "push": 0.7,
+    "life_laps_at_push": {
+     "SOFT": 32.7,
+     "MEDIUM": 41.0,
+     "HARD": 54.6
+    },
+    "caps": {
+     "SOFT": 18,
+     "MEDIUM": 37,
+     "HARD": 46
+    },
+    "pit_loss": 21.0,
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.8235294117647058,
+    "seq_share": 0.29411764705882354,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "sealed_best": "2-stop M-H-H @ 23,47",
+    "same_as_sealed_stops": true,
+    "seconds": 0.6
+   }
+  },
+  "belgium-2026": {
+   "new": {
+    "basis": "circuit history [2024]",
+    "best": "1-stop M-S @ 22",
+    "tyre_optimal": "1-stop M-S @ 23",
+    "p_stops": {
+     "1": 0.97,
+     "2": 0.030000000000000002,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 32.0,
+     "MEDIUM": 35.0,
+     "HARD": 37.0
+    },
+    "caps": {
+     "SOFT": 32,
+     "MEDIUM": 35,
+     "HARD": 37
+    },
+    "pit_loss": 18.5,
+    "regime": 0.8,
+    "plan_prior_source": "Spa-Francorchamps races [2024]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.0015749263877482315,
+     "model_net_after": 0.05447330066733521
+    },
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.9473684210526315,
+    "seq_share": 0.05263157894736842,
+    "field_modal_seq": "MEDIUM-HARD",
+    "start_ok": true,
+    "first_minus_field": null,
+    "sealed_best": "1-stop M-S @ 20",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "1-stop S-M @ 20",
+    "baseline_prior_seq_share": 0.0,
+    "seconds": 2.2
+   },
+   "prev": {
+    "basis": "circuit history [2024]",
+    "best": "1-stop S-M @ 20",
+    "p_stops": {
+     "1": 0.9600000000000001,
+     "2": 0.04,
+     "3": 0.0
+    },
+    "push": 0.7,
+    "life_laps_at_push": {
+     "SOFT": 42.6,
+     "MEDIUM": 53.4,
+     "HARD": 71.1
+    },
+    "caps": {
+     "SOFT": 32,
+     "MEDIUM": 35,
+     "HARD": 37
+    },
+    "pit_loss": 18.5,
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.9473684210526315,
+    "seq_share": 0.0,
+    "field_modal_seq": "MEDIUM-HARD",
+    "sealed_best": "1-stop S-M @ 24",
+    "same_as_sealed_stops": true,
+    "seconds": 0.4
+   }
+  },
+  "hungary-2026": {
+   "new": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "2-stop M-H-H @ 21,45",
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "p_stops": {
+     "2": 1.0,
+     "3": 0.0,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 19.0,
+     "MEDIUM": 44.0,
+     "HARD": 53.3
+    },
+    "caps": {
+     "SOFT": 19,
+     "MEDIUM": 44,
+     "HARD": 61
+    },
+    "pit_loss": 21.0,
+    "regime": 0.833,
+    "plan_prior_source": "Budapest races [2023, 2024, 2025]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.08556769285366236,
+     "model_net_after": 0.061517116488288545
+    },
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.631578947368421,
+    "seq_share": 0.3157894736842105,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "start_ok": true,
+    "first_minus_field": 2.0,
+    "sealed_best": "2-stop M-H-H @ 22,46",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "2-stop M-H-H @ 21,46",
+    "baseline_prior_seq_share": 0.3157894736842105,
+    "seconds": 2.7
+   },
+   "prev": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "2-stop M-H-H @ 21,46",
+    "p_stops": {
+     "2": 0.8699999999999999,
+     "3": 0.13,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 31.9,
+     "MEDIUM": 40.0,
+     "HARD": 53.3
+    },
+    "caps": {
+     "SOFT": 19,
+     "MEDIUM": 44,
+     "HARD": 61
+    },
+    "pit_loss": 21.0,
+    "mode_stops": 2,
+    "stops_match_mode": true,
+    "stops_share": 0.631578947368421,
+    "seq_share": 0.3157894736842105,
+    "field_modal_seq": "MEDIUM-HARD-HARD",
+    "sealed_best": "2-stop M-H-M @ 23,47",
+    "same_as_sealed_stops": true,
+    "seconds": 0.6
+   }
+  },
+  "italy-2026": {
+   "new": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "1-stop M-H @ 24",
+    "tyre_optimal": "1-stop H-M @ 28",
+    "p_stops": {
+     "1": 0.9966666666666667,
+     "2": 0.0033333333333333335,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "life_laps_at_push": {
+     "SOFT": 10.0,
+     "MEDIUM": 51.0,
+     "HARD": 53.0
+    },
+    "caps": {
+     "SOFT": 10,
+     "MEDIUM": 51,
+     "HARD": 56
+    },
+    "pit_loss": 25.3,
+    "regime": 0.491,
+    "plan_prior_source": "Monza races [2023, 2024, 2025]",
+    "pace_calibration": {
+     "applied": true,
+     "model_net_before": -0.10603635049042111,
+     "model_net_after": 0.04329909685330713
+    },
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.5263157894736842,
+    "seq_share": 0.3157894736842105,
+    "field_modal_seq": "MEDIUM-HARD",
+    "start_ok": true,
+    "first_minus_field": null,
+    "sealed_best": "1-stop M-H @ 25",
+    "same_as_sealed_stops": true,
+    "baseline_prior_best": "1-stop M-H @ 25",
+    "baseline_prior_seq_share": 0.3157894736842105,
+    "seconds": 13.9
+   },
+   "prev": {
+    "basis": "circuit history [2023, 2024, 2025]",
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 0.9333333333333333,
+     "2": 0.06666666666666667,
+     "3": 0.0
+    },
+    "push": 0.7,
+    "life_laps_at_push": {
+     "SOFT": 39.8,
+     "MEDIUM": 49.9,
+     "HARD": 66.5
+    },
+    "caps": {
+     "SOFT": 10,
+     "MEDIUM": 51,
+     "HARD": 56
+    },
+    "pit_loss": 25.3,
+    "mode_stops": 1,
+    "stops_match_mode": true,
+    "stops_share": 0.5263157894736842,
+    "seq_share": 0.3157894736842105,
+    "field_modal_seq": "MEDIUM-HARD",
+    "sealed_best": "1-stop M-H @ 23",
+    "same_as_sealed_stops": true,
+    "seconds": 0.5
+   }
+  }
+ },
+ "ablation": {
+  "australia-2026": {
+   "full": {
+    "best": "1-stop M-H @ 23",
+    "p_stops": {
+     "1": 0.9833333333333334,
+     "2": 0.016666666666666666,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 23,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_position": {
+    "best": "1-stop M-H @ 24",
+    "p_stops": {
+     "1": 0.9800000000000002,
+     "2": 0.02,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 24,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_plan_prior": {
+    "best": "1-stop M-H @ 23",
+    "p_stops": {
+     "1": 0.9033333333333334,
+     "2": 0.07999999999999999,
+     "3": 0.016666666666666666
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 23,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_pace_cal": {
+    "best": "1-stop M-H @ 20",
+    "p_stops": {
+     "1": 0.9533333333333333,
+     "2": 0.04666666666666667,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 20,
+    "tyre_optimal": "1-stop H-M @ 36",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "config_constants": {
+    "best": "1-stop H-M @ 36",
+    "p_stops": {
+     "1": 0.9666666666666667,
+     "2": 0.03333333333333333,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "HARD-MEDIUM",
+    "first": 36,
+    "tyre_optimal": "1-stop H-M @ 36",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "practice_only": {
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 25,
+    "tyre_optimal": "1-stop H-M @ 39",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0067,
+     "MEDIUM": 0.0124,
+     "SOFT": 0.0259
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "old_budget": {
+    "best": "1-stop M-H @ 23",
+    "p_stops": {
+     "1": 0.9833333333333334,
+     "2": 0.016666666666666666,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 23,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 40.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0437,
+     "MEDIUM": 0.0815,
+     "SOFT": 0.0862
+    },
+    "seq_share": 0.5333333333333333,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0336,
+     "MEDIUM": 0.0249,
+     "SOFT": 0.0445
+    },
+    "race_lap_fe_ordered": false,
+    "race_stint_fe": {
+     "HARD": 0.0389,
+     "MEDIUM": 0.0049,
+     "SOFT": 0.0515
+    },
+    "race_stint_fe_ordered": false,
+    "practice_stint_fe": {
+     "HARD": 0.0311,
+     "MEDIUM": -0.1498,
+     "SOFT": 0.0886
+    },
+    "practice_stint_fe_ordered": false,
+    "model_rate": {
+     "HARD": 0.044,
+     "MEDIUM": 0.0816,
+     "SOFT": 0.0852
+    },
+    "model_ordered": true,
+    "circuit_ladder": {
+     "n_races": 2,
+     "deg_ratio": 1.8876704345475854,
+     "deg_ratio_ln_sd": 0.25,
+     "deg_ratio_by_year": [
+      1.888
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.044,
+       "MEDIUM": 0.0816,
+       "SOFT": 0.0852
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.0071,
+       "MEDIUM": 0.0162,
+       "SOFT": 0.0418
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.0088,
+       "MEDIUM": 0.0115,
+       "SOFT": 0.0153
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.0097,
+       "MEDIUM": 0.0175,
+       "SOFT": 0.0381
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.1994,
+       "MEDIUM": 2.7534,
+       "SOFT": 0.7397
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.011,
+       "MEDIUM": 0.011,
+       "SOFT": 0.011
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.0014,
+       "MEDIUM": 0.0026,
+       "SOFT": 0.0033
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 1,
+    "modal_seq": "MEDIUM-HARD",
+    "first_median_green": 25.0,
+    "sc_set": true
+   }
+  },
+  "japan-2026": {
+   "full": {
+    "best": "1-stop M-H @ 23",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 23,
+    "tyre_optimal": "1-stop M-S @ 31",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.85,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_position": {
+    "best": "1-stop M-H @ 24",
+    "p_stops": {
+     "1": 0.9999999999999999,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 24,
+    "tyre_optimal": "1-stop M-S @ 31",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.85,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_plan_prior": {
+    "best": "1-stop S-M @ 22",
+    "p_stops": {
+     "1": 0.7166666666666667,
+     "2": 0.2833333333333333,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "SOFT-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "1-stop M-S @ 31",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_pace_cal": {
+    "best": "1-stop M-H @ 18",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 18,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.85,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "config_constants": {
+    "best": "1-stop H-M @ 34",
+    "p_stops": {
+     "1": 0.7866666666666666,
+     "2": 0.21333333333333335,
+     "3": 0.0
+    },
+    "push": 0.85,
+    "n_stops": 1,
+    "seq": "HARD-MEDIUM",
+    "first": 34,
+    "tyre_optimal": "1-stop H-M @ 34",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.05,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "practice_only": {
+    "best": "1-stop M-H @ 22",
+    "p_stops": {
+     "1": 0.9933333333333335,
+     "2": 0.006666666666666667,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 22,
+    "tyre_optimal": "1-stop M-S @ 31",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0418,
+     "MEDIUM": 0.0807,
+     "SOFT": 0.1662
+    },
+    "seq_share": 0.85,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "old_budget": {
+    "best": "1-stop M-H @ 23",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 23,
+    "tyre_optimal": "1-stop M-S @ 31",
+    "life": {
+     "HARD": 42.0,
+     "MEDIUM": 36.0,
+     "SOFT": 22.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0655,
+     "MEDIUM": 0.1231,
+     "SOFT": 0.1732
+    },
+    "seq_share": 0.85,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0204,
+     "MEDIUM": 0.0592
+    },
+    "race_lap_fe_ordered": true,
+    "race_stint_fe": {
+     "HARD": 0.0201,
+     "MEDIUM": 0.0538
+    },
+    "race_stint_fe_ordered": true,
+    "practice_stint_fe": {
+     "HARD": -0.0909,
+     "MEDIUM": 0.0735
+    },
+    "practice_stint_fe_ordered": true,
+    "model_rate": {
+     "HARD": 0.0669,
+     "MEDIUM": 0.1227,
+     "SOFT": 0.1726
+    },
+    "model_ordered": true,
+    "circuit_ladder": {
+     "n_races": 3,
+     "pace_step_s": 0.049767710994324456,
+     "pace_step_se": 0.12614159458722693,
+     "pace_step_by_year": [
+      -0.113,
+      -0.12,
+      0.123
+     ],
+     "pace_step_usable": true,
+     "deg_ratio": 1.1883326240331602,
+     "deg_ratio_ln_sd": 0.4003393289752875,
+     "deg_ratio_by_year": [
+      0.938,
+      0.948,
+      1.887
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.0669,
+       "MEDIUM": 0.1227,
+       "SOFT": 0.1726
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.0424,
+       "MEDIUM": 0.0798,
+       "SOFT": 0.178
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.0579,
+       "MEDIUM": 0.0786,
+       "SOFT": 0.1082
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.0501,
+       "MEDIUM": 0.0916,
+       "SOFT": 0.19
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.1922,
+       "MEDIUM": 2.7524,
+       "SOFT": 0.7396
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.0536,
+       "MEDIUM": 0.0537,
+       "SOFT": 0.0538
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.0721,
+       "MEDIUM": 0.0407,
+       "SOFT": 0.0755
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 1,
+    "modal_seq": "MEDIUM-HARD",
+    "first_median_green": 18.0,
+    "sc_set": true
+   }
+  },
+  "barcelona-2026": {
+   "full": {
+    "best": "2-stop S-M-S @ 21,43",
+    "p_stops": {
+     "2": 0.62,
+     "3": 0.38,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-MEDIUM-SOFT",
+    "first": 21,
+    "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+    "life": {
+     "HARD": 34.0,
+     "MEDIUM": 28.7,
+     "SOFT": 25.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 8.0
+   },
+   "no_position": {
+    "best": "2-stop S-M-S @ 21,44",
+    "p_stops": {
+     "2": 0.74,
+     "3": 0.26,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-MEDIUM-SOFT",
+    "first": 21,
+    "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+    "life": {
+     "HARD": 34.0,
+     "MEDIUM": 28.7,
+     "SOFT": 25.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 8.0
+   },
+   "no_plan_prior": {
+    "best": "3-stop S-M-M-S @ 16,32,49",
+    "p_stops": {
+     "3": 0.4866666666666667,
+     "2": 0.5133333333333334,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 3,
+    "seq": "SOFT-MEDIUM-MEDIUM-SOFT",
+    "first": 16,
+    "tyre_optimal": "3-stop M-M-S-S @ 16,33,50",
+    "life": {
+     "HARD": 34.0,
+     "MEDIUM": 28.7,
+     "SOFT": 25.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": false,
+    "first_minus_field": 3.0
+   },
+   "no_pace_cal": {
+    "best": "2-stop S-H-H @ 18,41",
+    "p_stops": {
+     "2": 0.8733333333333334,
+     "3": 0.12666666666666668,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-HARD-HARD",
+    "first": 18,
+    "tyre_optimal": "2-stop H-H-M @ 23,47",
+    "life": {
+     "HARD": 34.0,
+     "MEDIUM": 28.7,
+     "SOFT": 25.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.07692307692307693,
+    "stops_match_mode": true,
+    "first_minus_field": 5.0
+   },
+   "config_constants": {
+    "best": "2-stop S-H-H @ 18,42",
+    "p_stops": {
+     "2": 0.5066666666666666,
+     "3": 0.49333333333333335,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-HARD-HARD",
+    "first": 18,
+    "tyre_optimal": "2-stop S-H-H @ 18,42",
+    "life": {
+     "HARD": 33.4,
+     "MEDIUM": 25.9,
+     "SOFT": 23.3
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.07692307692307693,
+    "stops_match_mode": true,
+    "first_minus_field": 5.0
+   },
+   "practice_only": {
+    "best": "3-stop S-M-M-S @ 16,32,48",
+    "p_stops": {
+     "3": 0.5599999999999999,
+     "2": 0.44,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 3,
+    "seq": "SOFT-MEDIUM-MEDIUM-SOFT",
+    "first": 16,
+    "tyre_optimal": "3-stop M-S-S-M @ 16,33,50",
+    "life": {
+     "HARD": 30.1,
+     "MEDIUM": 24.9,
+     "SOFT": 26.3
+    },
+    "deg_full_push": {
+     "HARD": 0.2524,
+     "MEDIUM": 0.2655,
+     "SOFT": 0.2539
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": false,
+    "first_minus_field": 3.0
+   },
+   "old_budget": {
+    "best": "2-stop S-M-S @ 21,43",
+    "p_stops": {
+     "2": 0.62,
+     "3": 0.38,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-MEDIUM-SOFT",
+    "first": 21,
+    "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+    "life": {
+     "HARD": 34.0,
+     "MEDIUM": 28.7,
+     "SOFT": 25.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1796,
+     "MEDIUM": 0.2325,
+     "SOFT": 0.2583
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 8.0
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.1105,
+     "MEDIUM": 0.1566,
+     "SOFT": 0.1722
+    },
+    "race_lap_fe_ordered": true,
+    "race_stint_fe": {
+     "MEDIUM": 0.1725,
+     "SOFT": 0.2094
+    },
+    "race_stint_fe_ordered": true,
+    "practice_stint_fe": {
+     "MEDIUM": 0.2822,
+     "SOFT": 0.2533
+    },
+    "practice_stint_fe_ordered": false,
+    "model_rate": {
+     "HARD": 0.1804,
+     "MEDIUM": 0.2322,
+     "SOFT": 0.2597
+    },
+    "model_ordered": true,
+    "circuit_ladder": {
+     "n_races": 2,
+     "pace_step_s": -0.055032350919588,
+     "pace_step_se": 0.13132168820682402,
+     "pace_step_by_year": [
+      -0.055
+     ],
+     "pace_step_usable": false,
+     "deg_ratio": 1.2368553449039656,
+     "deg_ratio_ln_sd": 0.47489584569346316,
+     "deg_ratio_by_year": [
+      0.989,
+      1.935
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.1804,
+       "MEDIUM": 0.2322,
+       "SOFT": 0.2597
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.2344,
+       "MEDIUM": 0.2479,
+       "SOFT": 0.2593
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.1841,
+       "MEDIUM": 0.2387,
+       "SOFT": 0.2995
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.2788,
+       "MEDIUM": 0.2896,
+       "SOFT": 0.2768
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.2137,
+       "MEDIUM": 2.7559,
+       "SOFT": 0.7403
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.2646,
+       "MEDIUM": 0.265,
+       "SOFT": 0.2654
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.2623,
+       "MEDIUM": 0.2729,
+       "SOFT": 0.2117
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 2,
+    "modal_seq": "MEDIUM-HARD-HARD",
+    "first_median_green": 13.0,
+    "sc_set": false
+   }
+  },
+  "austria-2026": {
+   "full": {
+    "best": "2-stop M-H-M @ 22,47",
+    "p_stops": {
+     "2": 0.8966666666666668,
+     "3": 0.10333333333333333,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.23529411764705882,
+    "stops_match_mode": true,
+    "first_minus_field": 4.0
+   },
+   "no_position": {
+    "best": "2-stop M-H-M @ 23,48",
+    "p_stops": {
+     "2": 0.9300000000000002,
+     "3": 0.07,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 23,
+    "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.23529411764705882,
+    "stops_match_mode": true,
+    "first_minus_field": 5.0
+   },
+   "no_plan_prior": {
+    "best": "3-stop S-M-S-M @ 18,35,53",
+    "p_stops": {
+     "3": 0.59,
+     "2": 0.41,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 3,
+    "seq": "SOFT-MEDIUM-SOFT-MEDIUM",
+    "first": 18,
+    "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": false,
+    "first_minus_field": 0.0
+   },
+   "no_pace_cal": {
+    "best": "2-stop M-H-M @ 21,47",
+    "p_stops": {
+     "2": 0.9666666666666666,
+     "3": 0.03333333333333333,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 21,
+    "tyre_optimal": "2-stop H-H-M @ 25,50",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.23529411764705882,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "config_constants": {
+    "best": "2-stop M-H-H @ 21,46",
+    "p_stops": {
+     "2": 0.6800000000000002,
+     "3": 0.32000000000000006,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 21,
+    "tyre_optimal": "2-stop M-H-H @ 21,46",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.29411764705882354,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "practice_only": {
+    "best": "2-stop M-H-M @ 22,47",
+    "p_stops": {
+     "2": 0.7366666666666667,
+     "3": 0.2633333333333333,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "3-stop S-S-M-M @ 18,36,54",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 36.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1166,
+     "MEDIUM": 0.1535,
+     "SOFT": 0.1479
+    },
+    "seq_share": 0.23529411764705882,
+    "stops_match_mode": true,
+    "first_minus_field": 4.0
+   },
+   "old_budget": {
+    "best": "2-stop M-H-M @ 22,47",
+    "p_stops": {
+     "2": 0.8966666666666668,
+     "3": 0.10333333333333333,
+     "1": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+    "life": {
+     "HARD": 46.0,
+     "MEDIUM": 37.0,
+     "SOFT": 18.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1118,
+     "MEDIUM": 0.1394,
+     "SOFT": 0.139
+    },
+    "seq_share": 0.23529411764705882,
+    "stops_match_mode": true,
+    "first_minus_field": 4.0
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0783,
+     "MEDIUM": 0.0703,
+     "SOFT": 0.0504
+    },
+    "race_lap_fe_ordered": false,
+    "race_stint_fe": {
+     "HARD": 0.0753,
+     "MEDIUM": 0.0897,
+     "SOFT": 0.0663
+    },
+    "race_stint_fe_ordered": false,
+    "practice_stint_fe": {
+     "HARD": 0.0604,
+     "MEDIUM": 0.1885,
+     "SOFT": 0.0925
+    },
+    "practice_stint_fe_ordered": false,
+    "model_rate": {
+     "HARD": 0.1135,
+     "MEDIUM": 0.1409,
+     "SOFT": 0.1369
+    },
+    "model_ordered": false,
+    "circuit_ladder": {
+     "n_races": 1,
+     "pace_step_s": -0.2849741320545426,
+     "pace_step_se": 0.21383740751864455,
+     "pace_step_by_year": [
+      -0.285
+     ],
+     "pace_step_usable": false,
+     "deg_ratio": 1.0604620992785314,
+     "deg_ratio_ln_sd": 0.25,
+     "deg_ratio_by_year": [
+      1.06
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.1135,
+       "MEDIUM": 0.1409,
+       "SOFT": 0.1369
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.0719,
+       "MEDIUM": 0.1062,
+       "SOFT": 0.1166
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.1086,
+       "MEDIUM": 0.1446,
+       "SOFT": 0.1846
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.1419,
+       "MEDIUM": 0.1865,
+       "SOFT": 0.1711
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.1788,
+       "MEDIUM": 2.7503,
+       "SOFT": 0.7398
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.145,
+       "MEDIUM": 0.1453,
+       "SOFT": 0.1455
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.1202,
+       "MEDIUM": 0.1418,
+       "SOFT": 0.1293
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 2,
+    "modal_seq": "MEDIUM-HARD-HARD",
+    "first_median_green": 18.0,
+    "sc_set": false
+   }
+  },
+  "belgium-2026": {
+   "full": {
+    "best": "1-stop M-S @ 20",
+    "p_stops": {
+     "1": 0.8166666666666667,
+     "2": 0.18333333333333335,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-SOFT",
+    "first": 20,
+    "tyre_optimal": "1-stop S-M @ 23",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.05263157894736842,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_position": {
+    "best": "1-stop M-S @ 21",
+    "p_stops": {
+     "1": 0.8566666666666668,
+     "2": 0.1433333333333333,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-SOFT",
+    "first": 21,
+    "tyre_optimal": "1-stop S-M @ 23",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.05263157894736842,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_plan_prior": {
+    "best": "1-stop S-M @ 22",
+    "p_stops": {
+     "1": 0.98,
+     "2": 0.02,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "SOFT-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "1-stop S-M @ 23",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_pace_cal": {
+    "best": "1-stop M-S @ 19",
+    "p_stops": {
+     "1": 0.6699999999999999,
+     "2": 0.33,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-SOFT",
+    "first": 19,
+    "tyre_optimal": "1-stop S-M @ 24",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.05263157894736842,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "config_constants": {
+    "best": "1-stop S-M @ 25",
+    "p_stops": {
+     "1": 0.8966666666666667,
+     "2": 0.10333333333333333,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "SOFT-MEDIUM",
+    "first": 25,
+    "tyre_optimal": "1-stop S-M @ 25",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "practice_only": {
+    "best": "2-stop M-H-H @ 15,29",
+    "p_stops": {
+     "2": 0.7533333333333333,
+     "1": 0.24666666666666667,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 15,
+    "tyre_optimal": "2-stop M-S-S @ 15,30",
+    "life": {
+     "HARD": 31.1,
+     "MEDIUM": 30.0,
+     "SOFT": 27.8
+    },
+    "deg_full_push": {
+     "HARD": 0.1838,
+     "MEDIUM": 0.1844,
+     "SOFT": 0.2001
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": false,
+    "first_minus_field": null
+   },
+   "old_budget": {
+    "best": "1-stop M-S @ 20",
+    "p_stops": {
+     "1": 0.8166666666666667,
+     "2": 0.18333333333333335,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-SOFT",
+    "first": 20,
+    "tyre_optimal": "1-stop S-M @ 23",
+    "life": {
+     "HARD": 36.0,
+     "MEDIUM": 34.0,
+     "SOFT": 28.0
+    },
+    "deg_full_push": {
+     "HARD": 0.1414,
+     "MEDIUM": 0.1522,
+     "SOFT": 0.133
+    },
+    "seq_share": 0.05263157894736842,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0357,
+     "MEDIUM": 0.1166,
+     "SOFT": 0.0517
+    },
+    "race_lap_fe_ordered": false,
+    "race_stint_fe": {
+     "HARD": 0.0384,
+     "MEDIUM": 0.0746,
+     "SOFT": 0.0569
+    },
+    "race_stint_fe_ordered": false,
+    "practice_stint_fe": {
+     "HARD": 0.1711,
+     "MEDIUM": 0.1946,
+     "SOFT": 0.2063
+    },
+    "practice_stint_fe_ordered": true,
+    "model_rate": {
+     "HARD": 0.1416,
+     "MEDIUM": 0.1525,
+     "SOFT": 0.1301
+    },
+    "model_ordered": false,
+    "circuit_ladder": {
+     "n_races": 1,
+     "pace_step_s": -0.1374088933412806,
+     "pace_step_se": 0.19514209379333278,
+     "pace_step_by_year": [
+      -0.137
+     ],
+     "pace_step_usable": false,
+     "deg_ratio": 0.9648221233955439,
+     "deg_ratio_ln_sd": 0.25,
+     "deg_ratio_by_year": [
+      0.965
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.1416,
+       "MEDIUM": 0.1525,
+       "SOFT": 0.1301
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.182,
+       "MEDIUM": 0.188,
+       "SOFT": 0.2055
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.1326,
+       "MEDIUM": 0.1728,
+       "SOFT": 0.2236
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.1766,
+       "MEDIUM": 0.1759,
+       "SOFT": 0.1842
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.2151,
+       "MEDIUM": 2.7561,
+       "SOFT": 0.7405
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.1896,
+       "MEDIUM": 0.1899,
+       "SOFT": 0.1903
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.1571,
+       "MEDIUM": 0.1808,
+       "SOFT": 0.1782
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 1,
+    "modal_seq": "MEDIUM-HARD",
+    "first_median_green": 16.0,
+    "sc_set": true
+   }
+  },
+  "hungary-2026": {
+   "full": {
+    "best": "2-stop M-H-H @ 22,46",
+    "p_stops": {
+     "2": 1.0,
+     "1": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 22,
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "no_position": {
+    "best": "2-stop M-H-H @ 22,46",
+    "p_stops": {
+     "2": 0.9966666666666666,
+     "1": 0.0033333333333333335,
+     "3": 0.0
+    },
+    "push": 0.7,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 22,
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "no_plan_prior": {
+    "best": "2-stop S-M-M @ 19,44",
+    "p_stops": {
+     "2": 0.99,
+     "3": 0.0,
+     "1": 0.01
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "SOFT-MEDIUM-MEDIUM",
+    "first": 19,
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 0.0
+   },
+   "no_pace_cal": {
+    "best": "2-stop M-H-M @ 22,46",
+    "p_stops": {
+     "2": 1.0,
+     "1": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-MEDIUM",
+    "first": 22,
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "config_constants": {
+    "best": "2-stop S-M-M @ 19,45",
+    "p_stops": {
+     "2": 1.0,
+     "3": 0.0,
+     "1": 0.0
+    },
+    "push": 0.7,
+    "n_stops": 2,
+    "seq": "SOFT-MEDIUM-MEDIUM",
+    "first": 19,
+    "tyre_optimal": "2-stop S-M-M @ 19,45",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.0,
+    "stops_match_mode": true,
+    "first_minus_field": 0.0
+   },
+   "practice_only": {
+    "best": "2-stop M-H-H @ 21,45",
+    "p_stops": {
+     "2": 0.9233333333333333,
+     "3": 0.0,
+     "1": 0.07666666666666666
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 21,
+    "tyre_optimal": "2-stop S-M-M @ 19,45",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0882,
+     "MEDIUM": 0.112,
+     "SOFT": 0.102
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": 2.0
+   },
+   "old_budget": {
+    "best": "2-stop M-H-H @ 22,46",
+    "p_stops": {
+     "2": 1.0,
+     "1": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 2,
+    "seq": "MEDIUM-HARD-HARD",
+    "first": 22,
+    "tyre_optimal": "2-stop M-M-S @ 25,51",
+    "life": {
+     "HARD": 50.0,
+     "MEDIUM": 44.0,
+     "SOFT": 19.0
+    },
+    "deg_full_push": {
+     "HARD": 0.083,
+     "MEDIUM": 0.0992,
+     "SOFT": 0.1171
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": 3.0
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0824,
+     "MEDIUM": 0.0648,
+     "SOFT": 0.0475
+    },
+    "race_lap_fe_ordered": false,
+    "race_stint_fe": {
+     "HARD": 0.0873,
+     "MEDIUM": 0.0606,
+     "SOFT": 0.0568
+    },
+    "race_stint_fe_ordered": false,
+    "practice_stint_fe": {
+     "HARD": 0.0826,
+     "MEDIUM": 0.1602,
+     "SOFT": 0.03
+    },
+    "practice_stint_fe_ordered": false,
+    "model_rate": {
+     "HARD": 0.0837,
+     "MEDIUM": 0.1001,
+     "SOFT": 0.1174
+    },
+    "model_ordered": true,
+    "circuit_ladder": {
+     "n_races": 3,
+     "pace_step_s": 0.26123663305153366,
+     "pace_step_se": 0.17787886984281104,
+     "pace_step_by_year": [
+      0.096,
+      0.196,
+      0.396
+     ],
+     "pace_step_usable": true,
+     "deg_ratio": 1.1589114544161736,
+     "deg_ratio_ln_sd": 0.3083055464191739,
+     "deg_ratio_by_year": [
+      0.912,
+      0.954,
+      1.588
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.0837,
+       "MEDIUM": 0.1001,
+       "SOFT": 0.1174
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.053,
+       "MEDIUM": 0.1077,
+       "SOFT": 0.0956
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.0758,
+       "MEDIUM": 0.0992,
+       "SOFT": 0.1265
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.112,
+       "MEDIUM": 0.1428,
+       "SOFT": 0.1232
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.1825,
+       "MEDIUM": 2.7508,
+       "SOFT": 0.7395
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.1034,
+       "MEDIUM": 0.1035,
+       "SOFT": 0.1037
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.0765,
+       "MEDIUM": 0.0975,
+       "SOFT": 0.0757
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 2,
+    "modal_seq": "MEDIUM-HARD-HARD",
+    "first_median_green": 19.0,
+    "sc_set": false
+   }
+  },
+  "italy-2026": {
+   "full": {
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 25,
+    "tyre_optimal": "1-stop H-M @ 28",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_position": {
+    "best": "1-stop M-H @ 26",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 26,
+    "tyre_optimal": "1-stop H-M @ 28",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_plan_prior": {
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 0.9933333333333334,
+     "2": 0.006666666666666667,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 25,
+    "tyre_optimal": "1-stop H-M @ 28",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "no_pace_cal": {
+    "best": "1-stop M-H @ 24",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 24,
+    "tyre_optimal": "1-stop H-M @ 29",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "config_constants": {
+    "best": "1-stop M-H @ 24",
+    "p_stops": {
+     "1": 0.9933333333333333,
+     "2": 0.006666666666666667,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 24,
+    "tyre_optimal": "1-stop M-H @ 24",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "practice_only": {
+    "best": "1-stop M-H @ 28",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 1.0,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 28,
+    "tyre_optimal": "1-stop H-M @ 29",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0178,
+     "MEDIUM": 0.0221,
+     "SOFT": 0.0337
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "old_budget": {
+    "best": "1-stop M-H @ 25",
+    "p_stops": {
+     "1": 1.0,
+     "2": 0.0,
+     "3": 0.0
+    },
+    "push": 0.55,
+    "n_stops": 1,
+    "seq": "MEDIUM-HARD",
+    "first": 25,
+    "tyre_optimal": "1-stop H-M @ 28",
+    "life": {
+     "HARD": 44.0,
+     "MEDIUM": 44.0,
+     "SOFT": 10.0
+    },
+    "deg_full_push": {
+     "HARD": 0.0637,
+     "MEDIUM": 0.0841,
+     "SOFT": 0.107
+    },
+    "seq_share": 0.3157894736842105,
+    "stops_match_mode": true,
+    "first_minus_field": null
+   },
+   "ladder": {
+    "race_lap_fe": {
+     "HARD": 0.0039,
+     "MEDIUM": 0.0106,
+     "SOFT": 0.0826
+    },
+    "race_lap_fe_ordered": true,
+    "race_stint_fe": {
+     "HARD": 0.0144,
+     "MEDIUM": 0.0204,
+     "SOFT": 0.0428
+    },
+    "race_stint_fe_ordered": true,
+    "practice_stint_fe": {
+     "HARD": 0.0067,
+     "MEDIUM": -0.0156,
+     "SOFT": 0.0528
+    },
+    "practice_stint_fe_ordered": false,
+    "model_rate": {
+     "HARD": 0.065,
+     "MEDIUM": 0.0852,
+     "SOFT": 0.1078
+    },
+    "model_ordered": true,
+    "circuit_ladder": {
+     "n_races": 3,
+     "pace_step_s": -0.1070855656847332,
+     "pace_step_se": 0.11065223558328521,
+     "pace_step_by_year": [
+      -0.146,
+      -0.204,
+      0.212
+     ],
+     "pace_step_usable": false,
+     "deg_ratio": 1.2245652081630902,
+     "deg_ratio_ln_sd": 0.36531591432416716,
+     "deg_ratio_by_year": [
+      0.848,
+      1.23,
+      1.761
+     ]
+    },
+    "fit_variants": {
+     "2026": {
+      "slopes": {
+       "HARD": 0.065,
+       "MEDIUM": 0.0852,
+       "SOFT": 0.1078
+      }
+     },
+     "hinge": {
+      "slopes": {
+       "HARD": 0.0173,
+       "MEDIUM": 0.0234,
+       "SOFT": 0.0416
+      }
+     },
+     "hardladder": {
+      "slopes": {
+       "HARD": 0.0189,
+       "MEDIUM": 0.0248,
+       "SOFT": 0.0331
+      }
+     },
+     "2025": {
+      "slopes": {
+       "HARD": 0.026,
+       "MEDIUM": 0.0317,
+       "SOFT": 0.0489
+      }
+     },
+     "none": {
+      "slopes": {
+       "HARD": 11.2067,
+       "MEDIUM": 2.7546,
+       "SOFT": 0.7398
+      }
+     },
+     "noladder": {
+      "slopes": {
+       "HARD": 0.0224,
+       "MEDIUM": 0.0225,
+       "SOFT": 0.0225
+      }
+     },
+     "joint": {
+      "slopes": {
+       "HARD": 0.019,
+       "MEDIUM": 0.0194,
+       "SOFT": 0.0153
+      }
+     }
+    }
+   },
+   "field": {
+    "mode_stops": 1,
+    "modal_seq": "MEDIUM-HARD",
+    "first_median_green": null,
+    "sc_set": true
+   }
+  }
+ },
+ "speed": {
+  "new": {
+   "event": "barcelona-2026",
+   "n_clean_laps": 225,
+   "n_apex": 900,
+   "n_strategies": 619896,
+   "stages": [
+    {
+     "stage": "import jax+numpyro",
+     "seconds": 0.456
+    },
+    {
+     "stage": "load practice laps (FastF1 cache)",
+     "seconds": 0.778
+    },
+    {
+     "stage": "lap table + clean cascade",
+     "seconds": 0.008
+    },
+    {
+     "stage": "fuel + track evolution",
+     "seconds": 0.016
+    },
+    {
+     "stage": "circuit history prior (cached) + ladder + plan prior",
+     "seconds": 0.068
+    },
+    {
+     "stage": "compound pace-step prior (donor races + circuit)",
+     "seconds": 0.025
+    },
+    {
+     "stage": "regime prior (donor races, temperature model)",
+     "seconds": 0.057
+    },
+    {
+     "stage": "MixedLM, no bootstrap",
+     "seconds": 0.04
+    },
+    {
+     "stage": "MixedLM, 50 stint bootstraps",
+     "seconds": 1.665
+    },
+    {
+     "stage": "NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)",
+     "seconds": 6.648
+    },
+    {
+     "stage": "NUTS 2x800x800 lap-time only (weekend refit)",
+     "seconds": 3.58
+    },
+    {
+     "stage": "NUTS 2x800x800 lap-time only, hinge (diagnostic)",
+     "seconds": 4.323
+    },
+    {
+     "stage": "apex speeds (cached) + corner selection",
+     "seconds": 6.063
+    },
+    {
+     "stage": "NUTS 4x1500x1500 joint lap-time + apex (diagnostic)",
+     "seconds": 12.572
+    },
+    {
+     "stage": "circuit history combination",
+     "seconds": 0.004
+    },
+    {
+     "stage": "seal predictions",
+     "seconds": 0.015
+    },
+    {
+     "stage": "load race laps + lap table",
+     "seconds": 1.401
+    },
+    {
+     "stage": "score race",
+     "seconds": 0.019
+    },
+    {
+     "stage": "strategy search 500 draws, 1-lap grid, full objective (production)",
+     "seconds": 0.68
+    },
+    {
+     "stage": "strategy search with pace calibration (2-3 searches)",
+     "seconds": 1.314
+    },
+    {
+     "stage": "strategy search 500 draws, 2-lap grid",
+     "seconds": 0.588
+    },
+    {
+     "stage": "strategy search 200 draws, 1-lap grid",
+     "seconds": 0.477
+    },
+    {
+     "stage": "pit window sweep (position term)",
+     "seconds": 0.058
+    },
+    {
+     "stage": "undercut window",
+     "seconds": 0.001
+    },
+    {
+     "stage": "counterfactual (all drivers, vectorised, SC-aware, per-car)",
+     "seconds": 1.281
+    },
+    {
+     "stage": "per-car plans (20 drivers, 2-lap grid)",
+     "seconds": 7.073
+    },
+    {
+     "stage": "replay precompute",
+     "seconds": 0.042
+    },
+    {
+     "stage": "desk: evaluate 3 plans",
+     "seconds": 0.019
+    },
+    {
+     "stage": "desk: degradation crossover (21 multipliers)",
+     "seconds": 0.114
+    },
+    {
+     "stage": "desk: safety-car playbook",
+     "seconds": 0.092
+    },
+    {
+     "stage": "desk: value of information",
+     "seconds": 0.007
+    },
+    {
+     "stage": "desk: undercut duel",
+     "seconds": 0.0
+    },
+    {
+     "stage": "outlook build (300 draws, scenarios)",
+     "seconds": 3.43
+    },
+    {
+     "stage": "app cold start (streamlit AppTest)",
+     "seconds": 265.948
+    }
+   ],
+   "peak_rss_mb": 2090.0,
+   "app_exceptions": 0,
+   "import_retimed_s": "0.569674015045166",
+   "pipeline_runtime_recorded_s": {
+    "australia-2026": {
+     "total": 364.3,
+     "decide": 11.3,
+     "timings": {
+      "load_practice_s": 305.4,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.2,
+      "apex_s": 0.0,
+      "fit_production_s": 6.9,
+      "fit_diagnostics_s": 39.0,
+      "score_s": 2.9,
+      "search_s": 1.1,
+      "counterfactual_s": 1.1,
+      "per_driver_s": 6.0
+     }
+    },
+    "japan-2026": {
+     "total": 265.0,
+     "decide": 200.0,
+     "timings": {
+      "load_practice_s": 14.9,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.4,
+      "apex_s": 0.0,
+      "fit_production_s": 6.7,
+      "fit_diagnostics_s": 41.6,
+      "score_s": 1.0,
+      "search_s": 1.1,
+      "counterfactual_s": 33.8,
+      "per_driver_s": 6.6
+     }
+    },
+    "barcelona-2026": {
+     "total": 249.1,
+     "decide": 119.7,
+     "timings": {
+      "load_practice_s": 77.8,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.6,
+      "apex_s": 0.0,
+      "fit_production_s": 7.9,
+      "fit_diagnostics_s": 41.6,
+      "score_s": 103.3,
+      "search_s": 1.3,
+      "counterfactual_s": 1.2,
+      "per_driver_s": 7.1
+     }
+    },
+    "austria-2026": {
+     "total": 221.6,
+     "decide": 42.2,
+     "timings": {
+      "load_practice_s": 121.8,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.5,
+      "apex_s": 0.0,
+      "fit_production_s": 7.7,
+      "fit_diagnostics_s": 48.0,
+      "score_s": 13.4,
+      "search_s": 1.4,
+      "counterfactual_s": 1.9,
+      "per_driver_s": 8.4
+     }
+    },
+    "belgium-2026": {
+     "total": 113.6,
+     "decide": 16.5,
+     "timings": {
+      "load_practice_s": 57.3,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.7,
+      "apex_s": 0.0,
+      "fit_production_s": 7.0,
+      "fit_diagnostics_s": 30.6,
+      "score_s": 3.0,
+      "search_s": 0.9,
+      "counterfactual_s": 0.8,
+      "per_driver_s": 4.8
+     }
+    },
+    "hungary-2026": {
+     "total": 85.1,
+     "decide": 26.4,
+     "timings": {
+      "load_practice_s": 6.7,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.3,
+      "apex_s": 0.0,
+      "fit_production_s": 7.3,
+      "fit_diagnostics_s": 43.1,
+      "score_s": 5.7,
+      "search_s": 1.3,
+      "counterfactual_s": 2.1,
+      "per_driver_s": 8.7
+     }
+    },
+    "italy-2026": {
+     "total": 132.6,
+     "decide": 33.4,
+     "timings": {
+      "load_practice_s": 49.2,
+      "priors_s": 0.2,
+      "mixedlm_s": 1.4,
+      "apex_s": 0.0,
+      "fit_production_s": 7.8,
+      "fit_diagnostics_s": 40.4,
+      "score_s": 6.8,
+      "search_s": 1.0,
+      "counterfactual_s": 1.2,
+      "per_driver_s": 6.3
+     }
+    }
+   },
+   "weekend_runtime_recorded": {}
+  },
+  "prev": {
+   "event": "barcelona-2026",
+   "n_clean_laps": 225,
+   "n_apex": 900,
+   "n_strategies": 619896,
+   "stages": [
+    {
+     "stage": "import jax+numpyro",
+     "seconds": 48.281
+    },
+    {
+     "stage": "load practice laps (FastF1 cache)",
+     "seconds": 49.142
+    },
+    {
+     "stage": "lap table + clean cascade",
+     "seconds": 0.01
+    },
+    {
+     "stage": "fuel + track evolution",
+     "seconds": 3.377
+    },
+    {
+     "stage": "compound pace-step prior (donor races)",
+     "seconds": 0.105
+    },
+    {
+     "stage": "regime prior (donor races)",
+     "seconds": 0.05
+    },
+    {
+     "stage": "circuit history prior (cached)",
+     "seconds": 0.001
+    },
+    {
+     "stage": "MixedLM, no bootstrap",
+     "seconds": 0.04
+    },
+    {
+     "stage": "MixedLM, 50 stint bootstraps",
+     "seconds": 1.58
+    },
+    {
+     "stage": "apex speeds (cached) + corner selection",
+     "seconds": 0.003
+    },
+    {
+     "stage": "NUTS 4x1500x1500 joint (production)",
+     "seconds": 247.372
+    },
+    {
+     "stage": "NUTS 4x1500x1500 lap-time only",
+     "seconds": 8.624
+    },
+    {
+     "stage": "NUTS 2x800x800 joint (--quick)",
+     "seconds": 21.297
+    },
+    {
+     "stage": "NUTS 2x800x800 lap-time only",
+     "seconds": 6.23
+    },
+    {
+     "stage": "circuit history combination",
+     "seconds": 0.004
+    },
+    {
+     "stage": "seal predictions",
+     "seconds": 0.033
+    },
+    {
+     "stage": "load race laps + lap table",
+     "seconds": 16.029
+    },
+    {
+     "stage": "score race",
+     "seconds": 0.019
+    },
+    {
+     "stage": "strategy search 500 draws, 1-lap grid (production)",
+     "seconds": 0.636
+    },
+    {
+     "stage": "strategy search 500 draws, 2-lap grid",
+     "seconds": 0.587
+    },
+    {
+     "stage": "strategy search 200 draws, 1-lap grid",
+     "seconds": 0.432
+    },
+    {
+     "stage": "pit window sweep",
+     "seconds": 0.061
+    },
+    {
+     "stage": "undercut window",
+     "seconds": 0.001
+    },
+    {
+     "stage": "counterfactual (all drivers)",
+     "seconds": 4.721
+    },
+    {
+     "stage": "replay precompute",
+     "seconds": 0.117
+    },
+    {
+     "stage": "desk: evaluate 3 plans",
+     "seconds": 0.009
+    },
+    {
+     "stage": "desk: degradation crossover (21 multipliers)",
+     "seconds": 0.166
+    },
+    {
+     "stage": "desk: safety-car playbook",
+     "seconds": 0.12
+    },
+    {
+     "stage": "desk: value of information",
+     "seconds": 0.01
+    },
+    {
+     "stage": "desk: undercut duel",
+     "seconds": 0.0
+    },
+    {
+     "stage": "app cold start (streamlit AppTest)",
+     "seconds": 420.455
+    }
+   ],
+   "peak_rss_mb": 1310.0,
+   "app_exceptions": 0,
+   "pipeline_runtime_recorded_s": {
+    "australia-2026": 439.6,
+    "japan-2026": 421.4,
+    "barcelona-2026": 666.9,
+    "austria-2026": 567.3,
+    "belgium-2026": 273.2,
+    "hungary-2026": 490.9,
+    "italy-2026": 269.7
+   },
+   "weekend_runtime_recorded": {
+    "hungary-2026": {
+     "runtime_s": 36.7,
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ]
+    },
+    "italy-2026": {
+     "runtime_s": 199.2,
+     "sessions": [
+      "Practice 1",
+      "Practice 2"
+     ]
+    },
+    "barcelona-2026": {
+     "runtime_s": 31.8,
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ]
+    }
+   }
+  }
+ },
+ "stability": {
+  "new": {
+   "barcelona-2026": [
+    {
+     "sessions": [
+      "Practice 1"
+     ],
+     "seed": 0,
+     "n_clean": 83,
+     "n_apex": 0,
+     "rhat": 1.0045,
+     "div": 0,
+     "slopes_practice": {
+      "MEDIUM": 0.1231,
+      "SOFT": 0.2339
+     },
+     "slopes_final": {
+      "MEDIUM": 0.1402,
+      "SOFT": 0.2223
+     },
+     "best": "2-stop S-M-S @ 20,44",
+     "tyre_optimal": "2-stop M-S-S @ 24,45",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-SOFT",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       7.8,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0821,
+     "rate_bias": 0.0666,
+     "cov90": 0.923,
+     "rate_cov90": 0.571,
+     "t_prep_s": 17.8,
+     "t_fit_s": 463.5,
+     "t_strategy_s": 0.8
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2"
+     ],
+     "seed": 0,
+     "n_clean": 222,
+     "n_apex": 0,
+     "rhat": 1.0043,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.2557,
+      "MEDIUM": 0.2661,
+      "SOFT": 0.2483
+     },
+     "slopes_final": {
+      "HARD": 0.1594,
+      "MEDIUM": 0.2115,
+      "SOFT": 0.2395
+     },
+     "best": "2-stop S-M-S @ 21,43",
+     "tyre_optimal": "2-stop M-S-S @ 22,44",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-SOFT",
+       0.0,
+       0.88
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       2.3,
+       0.12
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       55.9,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0427,
+     "rate_bias": 0.0224,
+     "cov90": 0.953,
+     "rate_cov90": 0.935,
+     "t_prep_s": 9.3,
+     "t_fit_s": 4.4,
+     "t_strategy_s": 1.1
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 0,
+     "n_clean": 225,
+     "n_apex": 0,
+     "rhat": 1.0049,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.2549,
+      "MEDIUM": 0.2665,
+      "SOFT": 0.2548
+     },
+     "slopes_final": {
+      "HARD": 0.159,
+      "MEDIUM": 0.2117,
+      "SOFT": 0.2438
+     },
+     "best": "2-stop S-M-S @ 21,43",
+     "tyre_optimal": "2-stop M-S-S @ 22,44",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-SOFT",
+       0.0,
+       0.85
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       2.1,
+       0.15
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       56.1,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0427,
+     "rate_bias": 0.0224,
+     "cov90": 0.953,
+     "rate_cov90": 0.935,
+     "t_prep_s": 4.7,
+     "t_fit_s": 3.9,
+     "t_strategy_s": 1.1
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 1,
+     "n_clean": 225,
+     "n_apex": 0,
+     "rhat": 1.0085,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.2524,
+      "MEDIUM": 0.2654,
+      "SOFT": 0.2552
+     },
+     "slopes_final": {
+      "HARD": 0.1608,
+      "MEDIUM": 0.211,
+      "SOFT": 0.244
+     },
+     "best": "2-stop S-M-S @ 21,43",
+     "tyre_optimal": "2-stop M-S-S @ 22,44",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-SOFT",
+       0.0,
+       0.83
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       2.4,
+       0.17
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       56.8,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0425,
+     "rate_bias": 0.0218,
+     "cov90": 0.955,
+     "rate_cov90": 0.935,
+     "t_prep_s": 0.8,
+     "t_fit_s": 2.9,
+     "t_strategy_s": 1.1
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 2,
+     "n_clean": 225,
+     "n_apex": 0,
+     "rhat": 1.0028,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.2549,
+      "MEDIUM": 0.2668,
+      "SOFT": 0.2549
+     },
+     "slopes_final": {
+      "HARD": 0.1613,
+      "MEDIUM": 0.2117,
+      "SOFT": 0.2439
+     },
+     "best": "2-stop S-M-S @ 21,43",
+     "tyre_optimal": "2-stop M-S-S @ 22,44",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-SOFT",
+       0.0,
+       0.83
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       2.1,
+       0.17
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       56.0,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0424,
+     "rate_bias": 0.0215,
+     "cov90": 0.957,
+     "rate_cov90": 0.935,
+     "t_prep_s": 0.8,
+     "t_fit_s": 2.8,
+     "t_strategy_s": 1.1
+    }
+   ],
+   "hungary-2026": [
+    {
+     "sessions": [
+      "Practice 2"
+     ],
+     "seed": 0,
+     "n_clean": 155,
+     "n_apex": 0,
+     "rhat": 1.003,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0932,
+      "MEDIUM": 0.1231,
+      "SOFT": 0.1392
+     },
+     "slopes_final": {
+      "HARD": 0.094,
+      "MEDIUM": 0.1141,
+      "SOFT": 0.1532
+     },
+     "best": "2-stop M-H-H @ 21,45",
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-SOFT",
+       9.0,
+       0.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       10.9,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0489,
+     "rate_bias": -0.0184,
+     "cov90": 0.941,
+     "rate_cov90": 0.884,
+     "t_prep_s": 3.2,
+     "t_fit_s": 3.7,
+     "t_strategy_s": 1.0
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 0,
+     "n_clean": 184,
+     "n_apex": 0,
+     "rhat": 1.0051,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0884,
+      "MEDIUM": 0.1125,
+      "SOFT": 0.1019
+     },
+     "slopes_final": {
+      "HARD": 0.0912,
+      "MEDIUM": 0.1077,
+      "SOFT": 0.1291
+     },
+     "best": "2-stop M-H-H @ 22,45",
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       1.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       9.6,
+       0.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-SOFT",
+       9.7,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0449,
+     "rate_bias": -0.0112,
+     "cov90": 0.941,
+     "rate_cov90": 0.907,
+     "t_prep_s": 0.5,
+     "t_fit_s": 3.8,
+     "t_strategy_s": 1.0
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 1,
+     "n_clean": 184,
+     "n_apex": 0,
+     "rhat": 1.0049,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0892,
+      "MEDIUM": 0.1142,
+      "SOFT": 0.1027
+     },
+     "slopes_final": {
+      "HARD": 0.0917,
+      "MEDIUM": 0.1089,
+      "SOFT": 0.1295
+     },
+     "best": "2-stop M-H-H @ 22,45",
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       1.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       9.6,
+       0.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-SOFT",
+       9.7,
+       0.0
+      ]
+     },
+     "rate_mae": 0.045,
+     "rate_bias": -0.0117,
+     "cov90": 0.941,
+     "rate_cov90": 0.884,
+     "t_prep_s": 0.6,
+     "t_fit_s": 2.0,
+     "t_strategy_s": 1.0
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 2,
+     "n_clean": 184,
+     "n_apex": 0,
+     "rhat": 1.0085,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0877,
+      "MEDIUM": 0.1103,
+      "SOFT": 0.1001
+     },
+     "slopes_final": {
+      "HARD": 0.0909,
+      "MEDIUM": 0.1065,
+      "SOFT": 0.1279
+     },
+     "best": "2-stop M-H-H @ 22,45",
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       0.99
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       8.8,
+       0.01
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-SOFT",
+       9.9,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0446,
+     "rate_bias": -0.0104,
+     "cov90": 0.939,
+     "rate_cov90": 0.884,
+     "t_prep_s": 0.5,
+     "t_fit_s": 2.5,
+     "t_strategy_s": 1.0
+    }
+   ]
+  },
+  "prev": {
+   "barcelona-2026": [
+    {
+     "sessions": [
+      "Practice 1"
+     ],
+     "seed": 0,
+     "n_clean": 83,
+     "n_apex": 420,
+     "rhat": 1.0094,
+     "div": 0,
+     "slopes_practice": {
+      "MEDIUM": 0.1175,
+      "SOFT": 0.147
+     },
+     "slopes_final": {
+      "MEDIUM": 0.1563,
+      "SOFT": 0.1921
+     },
+     "best": "2-stop S-M-M @ 20,43",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "SOFT-MEDIUM-MEDIUM",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "SOFT-MEDIUM-MEDIUM-SOFT",
+       6.5,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0859,
+     "rate_bias": 0.0587,
+     "cov90": 0.983,
+     "t_prep_s": 7.2,
+     "t_fit_s": 11.7,
+     "t_strategy_s": 0.4
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2"
+     ],
+     "seed": 0,
+     "n_clean": 222,
+     "n_apex": 888,
+     "rhat": 1.008,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.1843,
+      "MEDIUM": 0.2372,
+      "SOFT": 0.2775
+     },
+     "slopes_final": {
+      "HARD": 0.1519,
+      "MEDIUM": 0.2019,
+      "SOFT": 0.2664
+     },
+     "best": "2-stop M-H-H @ 19,43",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       0.99
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       5.8,
+       0.01
+      ],
+      "1": [
+       "HARD-MEDIUM",
+       18.8,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0441,
+     "rate_bias": 0.0226,
+     "cov90": 0.982,
+     "t_prep_s": 7.3,
+     "t_fit_s": 21.2,
+     "t_strategy_s": 0.5
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 0,
+     "n_clean": 225,
+     "n_apex": 900,
+     "rhat": 1.0046,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.1867,
+      "MEDIUM": 0.24,
+      "SOFT": 0.2806
+     },
+     "slopes_final": {
+      "HARD": 0.153,
+      "MEDIUM": 0.2031,
+      "SOFT": 0.2683
+     },
+     "best": "2-stop M-H-H @ 19,43",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       0.99
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       5.8,
+       0.01
+      ],
+      "1": [
+       "HARD-MEDIUM",
+       19.1,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0438,
+     "rate_bias": 0.022,
+     "cov90": 0.982,
+     "t_prep_s": 0.8,
+     "t_fit_s": 21.4,
+     "t_strategy_s": 0.5
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 1,
+     "n_clean": 225,
+     "n_apex": 900,
+     "rhat": 1.0163,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.1854,
+      "MEDIUM": 0.2389,
+      "SOFT": 0.2791
+     },
+     "slopes_final": {
+      "HARD": 0.1521,
+      "MEDIUM": 0.2024,
+      "SOFT": 0.2673
+     },
+     "best": "2-stop M-H-H @ 19,43",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       0.98
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       5.9,
+       0.02
+      ],
+      "1": [
+       "HARD-MEDIUM",
+       18.8,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0439,
+     "rate_bias": 0.0222,
+     "cov90": 0.982,
+     "t_prep_s": 0.8,
+     "t_fit_s": 14.2,
+     "t_strategy_s": 0.5
+    },
+    {
+     "sessions": [
+      "Practice 1",
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 2,
+     "n_clean": 225,
+     "n_apex": 900,
+     "rhat": 1.0044,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.1865,
+      "MEDIUM": 0.2401,
+      "SOFT": 0.2811
+     },
+     "slopes_final": {
+      "HARD": 0.1528,
+      "MEDIUM": 0.2033,
+      "SOFT": 0.2688
+     },
+     "best": "2-stop M-H-H @ 19,43",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-HARD",
+       0.0,
+       0.96
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       5.8,
+       0.04
+      ],
+      "1": [
+       "HARD-MEDIUM",
+       19.6,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0438,
+     "rate_bias": 0.0218,
+     "cov90": 0.982,
+     "t_prep_s": 0.8,
+     "t_fit_s": 24.1,
+     "t_strategy_s": 0.5
+    }
+   ],
+   "hungary-2026": [
+    {
+     "sessions": [
+      "Practice 2"
+     ],
+     "seed": 0,
+     "n_clean": 155,
+     "n_apex": 636,
+     "rhat": 1.0086,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0817,
+      "MEDIUM": 0.1027,
+      "SOFT": 0.1265
+     },
+     "slopes_final": {
+      "HARD": 0.1148,
+      "MEDIUM": 0.1333,
+      "SOFT": 0.1962
+     },
+     "best": "2-stop M-H-M @ 23,47",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-MEDIUM",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       4.3,
+       0.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       11.5,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0477,
+     "rate_bias": -0.0015,
+     "cov90": 0.968,
+     "t_prep_s": 3.7,
+     "t_fit_s": 25.7,
+     "t_strategy_s": 0.5
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 0,
+     "n_clean": 184,
+     "n_apex": 736,
+     "rhat": 1.0059,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0738,
+      "MEDIUM": 0.0908,
+      "SOFT": 0.0997
+     },
+     "slopes_final": {
+      "HARD": 0.1096,
+      "MEDIUM": 0.1257,
+      "SOFT": 0.1738
+     },
+     "best": "2-stop M-H-M @ 23,47",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-MEDIUM",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       4.4,
+       0.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       10.1,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0451,
+     "rate_bias": 0.0061,
+     "cov90": 0.97,
+     "t_prep_s": 0.6,
+     "t_fit_s": 28.9,
+     "t_strategy_s": 0.5
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 1,
+     "n_clean": 184,
+     "n_apex": 736,
+     "rhat": 1.0067,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0731,
+      "MEDIUM": 0.0898,
+      "SOFT": 0.0986
+     },
+     "slopes_final": {
+      "HARD": 0.1091,
+      "MEDIUM": 0.125,
+      "SOFT": 0.1727
+     },
+     "best": "2-stop M-H-M @ 23,47",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-MEDIUM",
+       0.0,
+       1.0
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       4.5,
+       0.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       9.9,
+       0.0
+      ]
+     },
+     "rate_mae": 0.0451,
+     "rate_bias": 0.0063,
+     "cov90": 0.97,
+     "t_prep_s": 0.5,
+     "t_fit_s": 15.9,
+     "t_strategy_s": 0.6
+    },
+    {
+     "sessions": [
+      "Practice 2",
+      "Practice 3"
+     ],
+     "seed": 2,
+     "n_clean": 184,
+     "n_apex": 736,
+     "rhat": 1.0133,
+     "div": 0,
+     "slopes_practice": {
+      "HARD": 0.0728,
+      "MEDIUM": 0.0896,
+      "SOFT": 0.0984
+     },
+     "slopes_final": {
+      "HARD": 0.1083,
+      "MEDIUM": 0.1243,
+      "SOFT": 0.1712
+     },
+     "best": "2-stop M-H-M @ 23,47",
+     "push": 0.55,
+     "by_stops": {
+      "2": [
+       "MEDIUM-HARD-MEDIUM",
+       0.0,
+       0.99
+      ],
+      "3": [
+       "MEDIUM-HARD-HARD-MEDIUM",
+       4.4,
+       0.0
+      ],
+      "1": [
+       "MEDIUM-HARD",
+       9.5,
+       0.01
+      ]
+     },
+     "rate_mae": 0.0451,
+     "rate_bias": 0.0069,
+     "cov90": 0.97,
+     "t_prep_s": 0.6,
+     "t_fit_s": 28.7,
+     "t_strategy_s": 0.5
+    }
+   ]
+  }
+ },
+ "apex": {
+  "new": {
+   "australia-2026": {
+    "lap_only": {
+     "rate_mae": 0.05529379153670663,
+     "rate_bias": 0.04175520886886228,
+     "rate_cov90": 0.4782608695652174,
+     "rate_width90": 0.11598831741399458,
+     "rates": {
+      "HARD": 0.0066,
+      "MEDIUM": 0.012,
+      "SOFT": 0.0254
+     },
+     "k_track_rel_sd": 0.26069873571395874,
+     "rhat": 1.0033127445081242,
+     "div": 0,
+     "best": "1-stop M-H @ 32",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.05800918505974034,
+     "rate_bias": 0.047346946570951454,
+     "rate_cov90": 0.34782608695652173,
+     "rate_width90": 0.10045671207852352,
+     "rates": {
+      "HARD": 0.0015,
+      "MEDIUM": 0.0028,
+      "SOFT": 0.0035
+     },
+     "k_track_rel_sd": 0.2502014935016632,
+     "rhat": 1.0082336354769352,
+     "div": 0,
+     "best": "1-stop M-H @ 40",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 932
+    },
+    "t_fit_joint_s": 11.8,
+    "t_fit_lap_only_s": 6.9
+   },
+   "japan-2026": {
+    "lap_only": {
+     "rate_mae": 0.01757506592857131,
+     "rate_bias": -0.006186870917087088,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.17799144574063394,
+     "rates": {
+      "HARD": 0.0438,
+      "MEDIUM": 0.0801,
+      "SOFT": 0.1651
+     },
+     "k_track_rel_sd": 0.26514631509780884,
+     "rhat": 1.0027310133987515,
+     "div": 0,
+     "best": "1-stop M-H @ 18",
+     "p_stops": {
+      "1": 0.9966666666666666,
+      "2": 0.0033333333333333335,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.025356494376595273,
+     "rate_bias": -0.0035352111280491177,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.1679022187074196,
+     "rates": {
+      "HARD": 0.072,
+      "MEDIUM": 0.0403,
+      "SOFT": 0.075
+     },
+     "k_track_rel_sd": 0.2384066879749298,
+     "rhat": 1.001743576231711,
+     "div": 0,
+     "best": "1-stop M-H @ 33",
+     "p_stops": {
+      "1": 0.9966666666666666,
+      "2": 0.0033333333333333335,
+      "3": 0.0
+     },
+     "n_apex": 1070
+    },
+    "t_fit_joint_s": 11.8,
+    "t_fit_lap_only_s": 6.7
+   },
+   "barcelona-2026": {
+    "lap_only": {
+     "rate_mae": 0.04992896281388472,
+     "rate_bias": -0.02594057255350153,
+     "rate_cov90": 0.967741935483871,
+     "rate_width90": 0.3401421760733758,
+     "rates": {
+      "HARD": 0.2547,
+      "MEDIUM": 0.2655,
+      "SOFT": 0.2557
+     },
+     "k_track_rel_sd": 0.2600683271884918,
+     "rhat": 1.0023261484740407,
+     "div": 0,
+     "best": "3-stop S-M-M-S @ 17,32,48",
+     "p_stops": {
+      "3": 0.39,
+      "2": 0.6100000000000001,
+      "1": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.052533839160774906,
+     "rate_bias": -0.029388125491790776,
+     "rate_cov90": 0.967741935483871,
+     "rate_width90": 0.3127287165659879,
+     "rates": {
+      "HARD": 0.2627,
+      "MEDIUM": 0.274,
+      "SOFT": 0.2126
+     },
+     "k_track_rel_sd": 0.2593470811843872,
+     "rhat": 1.0035782015736698,
+     "div": 0,
+     "best": "2-stop S-M-S @ 23,41",
+     "p_stops": {
+      "2": 0.9799999999999999,
+      "3": 0.02,
+      "1": 0.0
+     },
+     "n_apex": 900
+    },
+    "t_fit_joint_s": 13.1,
+    "t_fit_lap_only_s": 7.9
+   },
+   "austria-2026": {
+    "lap_only": {
+     "rate_mae": 0.0362430178827967,
+     "rate_bias": -0.02355376437344442,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.2128515556137162,
+     "rates": {
+      "HARD": 0.1194,
+      "MEDIUM": 0.1554,
+      "SOFT": 0.1465
+     },
+     "k_track_rel_sd": 0.2576791048049927,
+     "rhat": 1.0036178621343008,
+     "div": 0,
+     "best": "2-stop M-H-H @ 19,44",
+     "p_stops": {
+      "2": 0.9199999999999999,
+      "3": 0.08,
+      "1": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.033322429354607365,
+     "rate_bias": -0.018592425717138743,
+     "rate_cov90": 0.975,
+     "rate_width90": 0.202486930421328,
+     "rates": {
+      "HARD": 0.1196,
+      "MEDIUM": 0.1408,
+      "SOFT": 0.1286
+     },
+     "k_track_rel_sd": 0.2507101893424988,
+     "rhat": 1.0067317165059249,
+     "div": 0,
+     "best": "2-stop S-H-M @ 18,45",
+     "p_stops": {
+      "2": 0.8033333333333333,
+      "3": 0.19666666666666668,
+      "1": 0.0
+     },
+     "n_apex": 1048
+    },
+    "t_fit_joint_s": 17.0,
+    "t_fit_lap_only_s": 7.7
+   },
+   "belgium-2026": {
+    "lap_only": {
+     "rate_mae": 0.0831344353509116,
+     "rate_bias": -0.08154571944166213,
+     "rate_cov90": 0.8421052631578947,
+     "rate_width90": 0.25503060383445203,
+     "rates": {
+      "HARD": 0.1842,
+      "MEDIUM": 0.1847,
+      "SOFT": 0.1938
+     },
+     "k_track_rel_sd": 0.24719960987567902,
+     "rhat": 1.001174610592499,
+     "div": 0,
+     "best": "2-stop M-S-S @ 14,28",
+     "p_stops": {
+      "2": 0.7999999999999999,
+      "1": 0.2,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.06596209873014926,
+     "rate_bias": -0.06178690779767901,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.22312204729956656,
+     "rates": {
+      "HARD": 0.1566,
+      "MEDIUM": 0.1805,
+      "SOFT": 0.1774
+     },
+     "k_track_rel_sd": 0.24686980247497559,
+     "rhat": 1.0019934668207948,
+     "div": 0,
+     "best": "2-stop M-S-S @ 13,28",
+     "p_stops": {
+      "2": 0.5900000000000001,
+      "1": 0.41000000000000003,
+      "3": 0.0
+     },
+     "n_apex": 412
+    },
+    "t_fit_joint_s": 11.2,
+    "t_fit_lap_only_s": 7.0
+   },
+   "hungary-2026": {
+    "lap_only": {
+     "rate_mae": 0.04487323389101422,
+     "rate_bias": -0.007298754035270503,
+     "rate_cov90": 0.9534883720930233,
+     "rate_width90": 0.22203784559474876,
+     "rates": {
+      "HARD": 0.0895,
+      "MEDIUM": 0.1136,
+      "SOFT": 0.1024
+     },
+     "k_track_rel_sd": 0.2548251748085022,
+     "rhat": 1.0048856056026707,
+     "div": 0,
+     "best": "2-stop S-H-H @ 19,44",
+     "p_stops": {
+      "2": 0.9766666666666666,
+      "3": 0.0,
+      "1": 0.023333333333333334
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.04358429102187142,
+     "rate_bias": 0.006573410308876839,
+     "rate_cov90": 0.9302325581395349,
+     "rate_width90": 0.2055998573520282,
+     "rates": {
+      "HARD": 0.0774,
+      "MEDIUM": 0.0982,
+      "SOFT": 0.0761
+     },
+     "k_track_rel_sd": 0.2501072883605957,
+     "rhat": 1.003267852128789,
+     "div": 0,
+     "best": "2-stop S-H-H @ 19,44",
+     "p_stops": {
+      "2": 0.9566666666666668,
+      "3": 0.0,
+      "1": 0.043333333333333335
+     },
+     "n_apex": 736
+    },
+    "t_fit_joint_s": 19.4,
+    "t_fit_lap_only_s": 7.3
+   },
+   "italy-2026": {
+    "lap_only": {
+     "rate_mae": 0.031113999772657597,
+     "rate_bias": 0.01736569383292494,
+     "rate_cov90": 0.7619047619047619,
+     "rate_width90": 0.09162634287516296,
+     "rates": {
+      "HARD": 0.018,
+      "MEDIUM": 0.0223,
+      "SOFT": 0.0341
+     },
+     "k_track_rel_sd": 0.24111367762088776,
+     "rhat": 1.0021667395721867,
+     "div": 1,
+     "best": "1-stop M-H @ 29",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.03097004893226189,
+     "rate_bias": 0.01848944114327992,
+     "rate_cov90": 0.7142857142857143,
+     "rate_width90": 0.0867811581732636,
+     "rates": {
+      "HARD": 0.0197,
+      "MEDIUM": 0.0197,
+      "SOFT": 0.0152
+     },
+     "k_track_rel_sd": 0.22736480832099915,
+     "rhat": 1.0024449110625866,
+     "div": 0,
+     "best": "1-stop M-H @ 33",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 1048
+    },
+    "t_fit_joint_s": 11.4,
+    "t_fit_lap_only_s": 7.8
+   }
+  },
+  "prev": {
+   "australia-2026": {
+    "lap_only": {
+     "rate_mae": 0.051305126127580085,
+     "rate_bias": 0.034341208521857784,
+     "rate_cov90": 0.8260869565217391,
+     "rate_width90": 0.2204640221568539,
+     "rates": {
+      "HARD": 0.0081,
+      "MEDIUM": 0.011,
+      "SOFT": 0.0181
+     },
+     "k_track_rel_sd": 0.2645016610622406,
+     "rhat": 1.001749713271595,
+     "div": 0,
+     "best": "1-stop M-H @ 36",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.05440132332711562,
+     "rate_bias": 0.04216717063097443,
+     "rate_cov90": 0.8260869565217391,
+     "rate_width90": 0.20262020793289826,
+     "rates": {
+      "HARD": 0.0016,
+      "MEDIUM": 0.0021,
+      "SOFT": 0.0031
+     },
+     "k_track_rel_sd": 0.24688224494457245,
+     "rhat": 1.0058830895255981,
+     "div": 0,
+     "best": "1-stop M-H @ 40",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 932
+    },
+    "t_fit_lap_only_s": 9.0
+   },
+   "japan-2026": {
+    "lap_only": {
+     "rate_mae": 0.019364595156817425,
+     "rate_bias": -0.006553272357042243,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.2835682929496327,
+     "rates": {
+      "HARD": 0.0491,
+      "MEDIUM": 0.0674,
+      "SOFT": 0.0974
+     },
+     "k_track_rel_sd": 0.26218390464782715,
+     "rhat": 1.0039452077239341,
+     "div": 0,
+     "best": "1-stop M-H @ 24",
+     "p_stops": {
+      "1": 0.9500000000000001,
+      "2": 0.05,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.019520842812053168,
+     "rate_bias": 0.0022342596234480373,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.26964354461150086,
+     "rates": {
+      "HARD": 0.0471,
+      "MEDIUM": 0.0573,
+      "SOFT": 0.0808
+     },
+     "k_track_rel_sd": 0.24843695759773254,
+     "rhat": 1.0031067876423603,
+     "div": 0,
+     "best": "1-stop S-M @ 22",
+     "p_stops": {
+      "1": 0.9766666666666667,
+      "2": 0.023333333333333334,
+      "3": 0.0
+     },
+     "n_apex": 1070
+    },
+    "t_fit_lap_only_s": 8.6
+   },
+   "barcelona-2026": {
+    "lap_only": {
+     "rate_mae": 0.04114845604684586,
+     "rate_bias": 0.011073310949195525,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.341269356465188,
+     "rates": {
+      "HARD": 0.1534,
+      "MEDIUM": 0.2013,
+      "SOFT": 0.2605
+     },
+     "k_track_rel_sd": 0.26105383038520813,
+     "rhat": 1.0044752381273794,
+     "div": 0,
+     "best": "2-stop M-H-H @ 19,43",
+     "p_stops": {
+      "2": 0.8833333333333333,
+      "3": 0.09333333333333332,
+      "1": 0.023333333333333334
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.0412896128868867,
+     "rate_bias": 0.002529503360898205,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.34956687645455103,
+     "rates": {
+      "HARD": 0.1789,
+      "MEDIUM": 0.2222,
+      "SOFT": 0.2515
+     },
+     "k_track_rel_sd": 0.24610015749931335,
+     "rhat": 1.0024649136214314,
+     "div": 0,
+     "best": "2-stop S-H-H @ 18,42",
+     "p_stops": {
+      "2": 0.5933333333333334,
+      "3": 0.4066666666666667,
+      "1": 0.0
+     },
+     "n_apex": 900
+    },
+    "t_fit_lap_only_s": 9.8
+   },
+   "austria-2026": {
+    "lap_only": {
+     "rate_mae": 0.0345517637301125,
+     "rate_bias": 0.013866319162698065,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.27341218842092746,
+     "rates": {
+      "HARD": 0.0537,
+      "MEDIUM": 0.0723,
+      "SOFT": 0.0981
+     },
+     "k_track_rel_sd": 0.2587944567203522,
+     "rhat": 1.0103267862847227,
+     "div": 0,
+     "best": "2-stop M-H-H @ 21,46",
+     "p_stops": {
+      "2": 0.66,
+      "1": 0.29,
+      "3": 0.05
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.030197578162773554,
+     "rate_bias": 0.0035026251632570516,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.28532896432275084,
+     "rates": {
+      "HARD": 0.0955,
+      "MEDIUM": 0.1189,
+      "SOFT": 0.1383
+     },
+     "k_track_rel_sd": 0.2576422393321991,
+     "rhat": 1.0070048211176597,
+     "div": 0,
+     "best": "2-stop S-H-H @ 18,45",
+     "p_stops": {
+      "2": 0.8966666666666666,
+      "3": 0.06666666666666667,
+      "1": 0.03666666666666667
+     },
+     "n_apex": 1048
+    },
+    "t_fit_lap_only_s": 13.5
+   },
+   "belgium-2026": {
+    "lap_only": {
+     "rate_mae": 0.040394427088534635,
+     "rate_bias": -0.023066828832809153,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.2119095579790866,
+     "rates": {
+      "HARD": 0.1291,
+      "MEDIUM": 0.1685,
+      "SOFT": 0.2199
+     },
+     "k_track_rel_sd": 0.24843834340572357,
+     "rhat": 1.0026460304461835,
+     "div": 0,
+     "best": "1-stop M-H @ 20",
+     "p_stops": {
+      "1": 0.9533333333333334,
+      "2": 0.04666666666666667,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.03786126897626417,
+     "rate_bias": -0.019288867923033453,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.20801699866180168,
+     "rates": {
+      "HARD": 0.1269,
+      "MEDIUM": 0.1637,
+      "SOFT": 0.2037
+     },
+     "k_track_rel_sd": 0.2439238429069519,
+     "rhat": 1.0027742840072345,
+     "div": 0,
+     "best": "1-stop S-H @ 19",
+     "p_stops": {
+      "1": 0.9366666666666668,
+      "2": 0.06333333333333334,
+      "3": 0.0
+     },
+     "n_apex": 412
+    },
+    "t_fit_lap_only_s": 7.6
+   },
+   "hungary-2026": {
+    "lap_only": {
+     "rate_mae": 0.05620743092435541,
+     "rate_bias": 0.023465611330558068,
+     "rate_cov90": 0.8837209302325582,
+     "rate_width90": 0.23342719859245734,
+     "rates": {
+      "HARD": 0.0279,
+      "MEDIUM": 0.0422,
+      "SOFT": 0.0678
+     },
+     "k_track_rel_sd": 0.2538907527923584,
+     "rhat": 1.001948006522022,
+     "div": 0,
+     "best": "1-stop M-H @ 31",
+     "p_stops": {
+      "1": 0.7433333333333334,
+      "2": 0.25666666666666665,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.04862216042855328,
+     "rate_bias": 0.03161976404818789,
+     "rate_cov90": 0.9069767441860465,
+     "rate_width90": 0.22759919171581808,
+     "rates": {
+      "HARD": 0.0726,
+      "MEDIUM": 0.0889,
+      "SOFT": 0.0972
+     },
+     "k_track_rel_sd": 0.24603845179080963,
+     "rhat": 1.009306967925833,
+     "div": 0,
+     "best": "2-stop S-H-H @ 19,45",
+     "p_stops": {
+      "2": 0.9599999999999999,
+      "3": 0.04,
+      "1": 0.0
+     },
+     "n_apex": 736
+    },
+    "t_fit_lap_only_s": 10.3
+   },
+   "italy-2026": {
+    "lap_only": {
+     "rate_mae": 0.02832991530551235,
+     "rate_bias": 0.005938689439224731,
+     "rate_cov90": 1.0,
+     "rate_width90": 0.1438370888613211,
+     "rates": {
+      "HARD": 0.0156,
+      "MEDIUM": 0.0208,
+      "SOFT": 0.029
+     },
+     "k_track_rel_sd": 0.23844444751739502,
+     "rhat": 1.001916116577654,
+     "div": 0,
+     "best": "1-stop M-H @ 30",
+     "p_stops": {
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 0
+    },
+    "joint": {
+     "rate_mae": 0.0287951679028726,
+     "rate_bias": 0.012010273306313404,
+     "rate_cov90": 0.9523809523809523,
+     "rate_width90": 0.13569369903995604,
+     "rates": {
+      "HARD": 0.0075,
+      "MEDIUM": 0.0099,
+      "SOFT": 0.013
+     },
+     "k_track_rel_sd": 0.22175714373588562,
+     "rhat": 1.0023934088494828,
+     "div": 0,
+     "best": "1-stop M-S @ 43",
+     "p_stops": {
+      "1": 0.9999999999999999,
+      "2": 0.0,
+      "3": 0.0
+     },
+     "n_apex": 1048
+    },
+    "t_fit_lap_only_s": 9.5
+   },
+   "_retime": {
+    "joint_4x1500_s": 30.1,
+    "lap_only_4x1500_s": 11.0,
+    "import_jax_numpyro_s": "0.5877780914306641",
+    "app_cold_start_s": "1.2775788307189941 0"
+   }
+  }
+ },
+ "speed_table": {
+  "new": {
+   "import jax+numpyro": 0.456,
+   "load practice laps (FastF1 cache)": 0.778,
+   "lap table + clean cascade": 0.008,
+   "fuel + track evolution": 0.016,
+   "circuit history prior (cached) + ladder + plan prior": 0.068,
+   "compound pace-step prior (donor races + circuit)": 0.025,
+   "regime prior (donor races, temperature model)": 0.057,
+   "MixedLM, no bootstrap": 0.04,
+   "MixedLM, 50 stint bootstraps": 1.665,
+   "NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)": 6.648,
+   "NUTS 2x800x800 lap-time only (weekend refit)": 3.58,
+   "NUTS 2x800x800 lap-time only, hinge (diagnostic)": 4.323,
+   "apex speeds (cached) + corner selection": 6.063,
+   "NUTS 4x1500x1500 joint lap-time + apex (diagnostic)": 12.572,
+   "circuit history combination": 0.004,
+   "seal predictions": 0.015,
+   "load race laps + lap table": 1.401,
+   "score race": 0.019,
+   "strategy search 500 draws, 1-lap grid, full objective (production)": 0.68,
+   "strategy search with pace calibration (2-3 searches)": 1.314,
+   "strategy search 500 draws, 2-lap grid": 0.588,
+   "strategy search 200 draws, 1-lap grid": 0.477,
+   "pit window sweep (position term)": 0.058,
+   "undercut window": 0.001,
+   "counterfactual (all drivers, vectorised, SC-aware, per-car)": 1.281,
+   "per-car plans (20 drivers, 2-lap grid)": 7.073,
+   "replay precompute": 0.042,
+   "desk: evaluate 3 plans": 0.019,
+   "desk: degradation crossover (21 multipliers)": 0.114,
+   "desk: safety-car playbook": 0.092,
+   "desk: value of information": 0.007,
+   "desk: undercut duel": 0.0,
+   "outlook build (300 draws, scenarios)": 3.43,
+   "app cold start (streamlit AppTest)": 265.948
+  },
+  "prev": {
+   "import jax+numpyro": 48.281,
+   "load practice laps (FastF1 cache)": 49.142,
+   "lap table + clean cascade": 0.01,
+   "fuel + track evolution": 3.377,
+   "compound pace-step prior (donor races)": 0.105,
+   "regime prior (donor races)": 0.05,
+   "circuit history prior (cached)": 0.001,
+   "MixedLM, no bootstrap": 0.04,
+   "MixedLM, 50 stint bootstraps": 1.58,
+   "apex speeds (cached) + corner selection": 0.003,
+   "NUTS 4x1500x1500 joint (production)": 247.372,
+   "NUTS 4x1500x1500 lap-time only": 8.624,
+   "NUTS 2x800x800 joint (--quick)": 21.297,
+   "NUTS 2x800x800 lap-time only": 6.23,
+   "circuit history combination": 0.004,
+   "seal predictions": 0.033,
+   "load race laps + lap table": 16.029,
+   "score race": 0.019,
+   "strategy search 500 draws, 1-lap grid (production)": 0.636,
+   "strategy search 500 draws, 2-lap grid": 0.587,
+   "strategy search 200 draws, 1-lap grid": 0.432,
+   "pit window sweep": 0.061,
+   "undercut window": 0.001,
+   "counterfactual (all drivers)": 4.721,
+   "replay precompute": 0.117,
+   "desk: evaluate 3 plans": 0.009,
+   "desk: degradation crossover (21 multipliers)": 0.166,
+   "desk: safety-car playbook": 0.12,
+   "desk: value of information": 0.01,
+   "desk: undercut duel": 0.0,
+   "app cold start (streamlit AppTest)": 420.455
+  }
+ }
+}

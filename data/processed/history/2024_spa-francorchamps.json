@@ -1,4 +1,5 @@
 {
+ "version": 2,
  "year": 2024,
  "circuit": "Spa-Francorchamps",
  "event": "Belgian Grand Prix",
@@ -16,7 +17,21 @@
   "M-H-M": 3,
   "M-M": 2,
   "M-H": 2,
-  "S-M-S": 1
+  "S-M-S": 1,
+  "H-M-H": 1,
+  "M-S": 1
+ },
+ "starts": {
+  "MEDIUM": 17,
+  "SOFT": 1,
+  "HARD": 1
+ },
+ "first_stop": {
+  "median_lap": 11.0,
+  "p25": 9.5,
+  "p75": 12.5,
+  "n": 19,
+  "sc_share": 0.10526315789473684
  },
  "compounds": {
   "HARD": {
@@ -48,22 +63,41 @@
   "HARD": {
    "slope": 0.05532300669690299,
    "se": 0.004939260171588557,
-   "n_laps": 367
+   "n_laps": 367,
+   "offset_s": -0.23075056212403222,
+   "offset_se": 0.16916729216257673
   },
   "MEDIUM": {
    "slope": 0.05885819963161426,
    "se": 0.005670803668767465,
-   "n_laps": 310
+   "n_laps": 310,
+   "offset_s": 0.005905204334571312,
+   "offset_se": 0.189298866475179
   },
   "SOFT": {
    "slope": 0.03337062566741111,
    "se": 0.00867518559032634,
-   "n_laps": 57
+   "n_laps": 57,
+   "offset_s": 0.0,
+   "offset_se": 0.23923867888624778
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.1374088933412806,
+  "pace_step_se": 0.19514209379333278,
+  "deg_ratio": 0.9648221233955439,
+  "n_pairs": 2
+ },
+ "net_step": {
+  "step_s": -0.043283355851198205,
+  "se": 0.18630298825472635,
+  "n_stints": 50,
+  "median_stint_laps": 13.0
  },
  "pit_loss_s": 18.507000000000005,
  "n_pit_stops": 32,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 42.6,
+ "air_temp_c": 21.4,
  "rain": false
 }

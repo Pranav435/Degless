@@ -31,20 +31,15 @@
   "VER",
   "VES"
  ],
- "corners": [
-  1,
-  2,
-  8,
-  11
- ],
+ "corners": [],
  "w": 1.5,
- "use_hinge": true,
+ "use_hinge": false,
  "n_laps": 225,
- "n_apex": 900,
- "max_rhat": 1.0024649136214314,
+ "n_apex": 0,
+ "max_rhat": 1.0046575538695974,
  "n_divergences": 0,
  "prior_label": "2026 physics",
- "compound_prior_label": "2026 compound ladder",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
  "event_key": "barcelona-2026",
  "converged": true
 }

@@ -93,6 +93,11 @@ def render_strip(wk: dict, T: dict, chip, callout) -> None:
                            (f", next in {ol['next_in_s'] / 60:.0f} min" if ol.get("next_in_s") is not None else "")))
         st.caption("Supervisor · " + (" · ".join(bits) if bits else "idle, watching the calendar")
                    + f" · updated {sup['_age_s']:.0f} s ago")
+        a = sup.get("auth") or {}
+        if a.get("status") not in (None, "ok"):
+            callout(f"F1TV car telemetry is off: {a.get('detail', 'no valid token')}. Timing, "
+                    f"degradation and strategy are unaffected — run <code>make login</code> "
+                    f"when you want telemetry back.", "warn")
 
 
 def render_now(wk: dict, T: dict, ccol, chip, callout, style, rgba, compound_pill, meta: dict, ev,
@@ -346,7 +351,7 @@ def _render_header(snap, status, T, chip):
     st.markdown(
         chip("Session", f"{sess.get('meeting') or ''} · {sess.get('Name') or ''}".strip(" ·"), T["accent"],
              f"{meta.get('status') or '—'} · feed {status.get('source', '?')}"
-             + (" · F1TV auth" if status.get("auth") else "") + f" · {_age(meta.get('tick_utc'))}")
+             + _auth_note(status) + f" · {_age(meta.get('tick_utc'))}")
         + chip("Track", ts_label, ts_col, f"lap {lc.get('current') or '—'} / {meta.get('total_laps') or lc.get('total') or '—'}")
         + (chip("Pit loss", _fmt(meta.get("pit_loss_s"), 1, " s"), T["muted"], meta.get("pit_loss_source", "")[:48])
            if engine == "race" else "")
@@ -375,6 +380,19 @@ def _age(iso: str | None) -> str:
         return f"{s:.0f} s ago" if s < 120 else f"{s/60:.0f} min ago"
     except Exception:
         return "—"
+
+
+def _auth_note(status: dict) -> str:
+    """What the F1TV login is doing, including when it has quietly lapsed.
+
+    The token only unlocks car telemetry, so an expired one degrades the feed
+    rather than stopping it — which is exactly why it has to be shown.
+    """
+    if status.get("auth"):
+        return " · F1TV auth"
+    return {"expired": " · F1TV token expired — make login",
+            "invalid": " · F1TV token invalid — make login",
+            "none": " · no F1TV login"}.get(status.get("auth_status"), "")
 
 
 def _sessions() -> list:
@@ -422,7 +440,7 @@ def render_live(T: dict, ccol, chip, callout, style, rgba, compound_pill) -> Non
         st.markdown(
             chip("Session", f"{sess.get('meeting') or ''} · {sess.get('Name') or ''}".strip(" ·"), T["accent"],
                  f"{meta.get('status') or '—'} · feed {status.get('source', '?')}"
-                 + (" · F1TV auth" if status.get("auth") else "") + f" · {_age(meta.get('tick_utc'))}")
+                 + _auth_note(status) + f" · {_age(meta.get('tick_utc'))}")
             + chip("Track", ts_label, ts_col, f"lap {lc.get('current') or '—'} / {meta.get('total_laps') or lc.get('total') or '—'}")
             + (chip("Pit loss", _fmt(meta.get("pit_loss_s"), 1, " s"), T["muted"], meta.get("pit_loss_source", "")[:48])
                if engine == "race" else "")

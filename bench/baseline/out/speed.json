@@ -1,0 +1,167 @@
+{
+ "event": "barcelona-2026",
+ "n_clean_laps": 225,
+ "n_apex": 900,
+ "n_strategies": 619896,
+ "stages": [
+  {
+   "stage": "import jax+numpyro",
+   "seconds": 48.281
+  },
+  {
+   "stage": "load practice laps (FastF1 cache)",
+   "seconds": 49.142
+  },
+  {
+   "stage": "lap table + clean cascade",
+   "seconds": 0.01
+  },
+  {
+   "stage": "fuel + track evolution",
+   "seconds": 3.377
+  },
+  {
+   "stage": "compound pace-step prior (donor races)",
+   "seconds": 0.105
+  },
+  {
+   "stage": "regime prior (donor races)",
+   "seconds": 0.05
+  },
+  {
+   "stage": "circuit history prior (cached)",
+   "seconds": 0.001
+  },
+  {
+   "stage": "MixedLM, no bootstrap",
+   "seconds": 0.04
+  },
+  {
+   "stage": "MixedLM, 50 stint bootstraps",
+   "seconds": 1.58
+  },
+  {
+   "stage": "apex speeds (cached) + corner selection",
+   "seconds": 0.003
+  },
+  {
+   "stage": "NUTS 4x1500x1500 joint (production)",
+   "seconds": 247.372
+  },
+  {
+   "stage": "NUTS 4x1500x1500 lap-time only",
+   "seconds": 8.624
+  },
+  {
+   "stage": "NUTS 2x800x800 joint (--quick)",
+   "seconds": 21.297
+  },
+  {
+   "stage": "NUTS 2x800x800 lap-time only",
+   "seconds": 6.23
+  },
+  {
+   "stage": "circuit history combination",
+   "seconds": 0.004
+  },
+  {
+   "stage": "seal predictions",
+   "seconds": 0.033
+  },
+  {
+   "stage": "load race laps + lap table",
+   "seconds": 16.029
+  },
+  {
+   "stage": "score race",
+   "seconds": 0.019
+  },
+  {
+   "stage": "strategy search 500 draws, 1-lap grid (production)",
+   "seconds": 0.636
+  },
+  {
+   "stage": "strategy search 500 draws, 2-lap grid",
+   "seconds": 0.587
+  },
+  {
+   "stage": "strategy search 200 draws, 1-lap grid",
+   "seconds": 0.432
+  },
+  {
+   "stage": "pit window sweep",
+   "seconds": 0.061
+  },
+  {
+   "stage": "undercut window",
+   "seconds": 0.001
+  },
+  {
+   "stage": "counterfactual (all drivers)",
+   "seconds": 4.721
+  },
+  {
+   "stage": "replay precompute",
+   "seconds": 0.117
+  },
+  {
+   "stage": "desk: evaluate 3 plans",
+   "seconds": 0.009
+  },
+  {
+   "stage": "desk: degradation crossover (21 multipliers)",
+   "seconds": 0.166
+  },
+  {
+   "stage": "desk: safety-car playbook",
+   "seconds": 0.12
+  },
+  {
+   "stage": "desk: value of information",
+   "seconds": 0.01
+  },
+  {
+   "stage": "desk: undercut duel",
+   "seconds": 0.0
+  },
+  {
+   "stage": "app cold start (streamlit AppTest)",
+   "seconds": 420.455
+  }
+ ],
+ "peak_rss_mb": 1310.0,
+ "app_exceptions": 0,
+ "pipeline_runtime_recorded_s": {
+  "australia-2026": 439.6,
+  "japan-2026": 421.4,
+  "barcelona-2026": 666.9,
+  "austria-2026": 567.3,
+  "belgium-2026": 273.2,
+  "hungary-2026": 490.9,
+  "italy-2026": 269.7
+ },
+ "weekend_runtime_recorded": {
+  "hungary-2026": {
+   "runtime_s": 36.7,
+   "sessions": [
+    "Practice 2",
+    "Practice 3"
+   ]
+  },
+  "italy-2026": {
+   "runtime_s": 199.2,
+   "sessions": [
+    "Practice 1",
+    "Practice 2"
+   ]
+  },
+  "barcelona-2026": {
+   "runtime_s": 31.8,
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ]
+  }
+ }
+}
