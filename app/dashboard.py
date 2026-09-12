@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -107,30 +108,61 @@ def in_ladder(compounds) -> list:
 # --------------------------------------------------------------------------
 # Cached loaders (pure disk reads)
 # --------------------------------------------------------------------------
+#
+# Every loader is keyed on the file's mtime, the way the Strategy desk already
+# keys its posterior.  The supervisor refits the weekend model after each
+# practice session and rewrites these files underneath an open dashboard; a
+# cache keyed on the filename alone would pin every tab to whatever was on disk
+# when the page first rendered — the Evidence tab showing FP1/FP2 long after
+# FP3 had been fitted in.
+
+
+def _stamp(p: Path) -> float | None:
+    """The file's mtime, or None when it is not there."""
+    try:
+        return p.stat().st_mtime
+    except OSError:
+        return None
 
 
 @st.cache_data(show_spinner=False)
+def _read_json(path: str, mtime: float) -> dict:
+    return json.loads(Path(path).read_text())
+
+
+@st.cache_data(show_spinner=False)
+def _read_pq(path: str, mtime: float) -> pd.DataFrame:
+    return pd.read_parquet(path)
+
+
 def load_meta(key: str) -> dict | None:
     p = DATA_PROCESSED / f"meta_{key}.json"
-    return json.loads(p.read_text()) if p.exists() else None
+    m = _stamp(p)
+    return _read_json(str(p), m) if m is not None else None
 
 
-@st.cache_data(show_spinner=False)
 def load_pq(name: str) -> pd.DataFrame:
     p = DATA_PROCESSED / name
-    return pd.read_parquet(p) if p.exists() else pd.DataFrame()
+    m = _stamp(p)
+    return _read_pq(str(p), m) if m is not None else pd.DataFrame()
 
 
-@st.cache_data(show_spinner=False)
 def load_sealed_json(fname: str) -> dict:
     p = SEALED_DIR / fname
-    return json.loads(p.read_text()) if p.exists() else {}
+    m = _stamp(p)
+    return _read_json(str(p), m) if m is not None else {}
 
 
-@st.cache_data(show_spinner=False)
 def load_weekend(key: str) -> dict | None:
     p = DATA_PROCESSED / f"weekend_{key}.json"
-    return json.loads(p.read_text()) if p.exists() else None
+    m = _stamp(p)
+    return _read_json(str(p), m) if m is not None else None
+
+
+def _built_at(name: str) -> str:
+    """Local time a processed file was last written — when its evidence was built."""
+    m = _stamp(DATA_PROCESSED / name)
+    return datetime.fromtimestamp(m).strftime("%H:%M") if m is not None else "—"
 
 
 def available_events() -> list:
@@ -1068,6 +1100,31 @@ weekends' races, never on the target weekend's.
 def _tab_evidence():
     casc = load_pq(f"cascade_{key}.parquet")
     clean = load_pq(f"clean_{key}_practice.parquet")
+    if casc.empty:
+        st.warning(f"No clean-lap cascade on disk for {ev.name}. Build one with "
+                   f"`make weekend EVENT={key}`.")
+        return
+
+    # Which practice sessions actually reached the fit.  The pipeline skips a
+    # session whose timing archive is not published yet — the normal state of
+    # FP3 on a Saturday morning — and says so only on its own stdout, so
+    # without this the tab simply looks short of laps for no stated reason.
+    used = list(meta.get("sessions_used") or [])
+    if not used and not clean.empty:
+        used = list(clean["session"].unique())
+    missing = [s for s in ev.practice_sessions if s not in used]
+    st.markdown(
+        chip("Practice fitted", f"{len(used)}/{len(ev.practice_sessions)}",
+             T["warn"] if missing else T["good"], ", ".join(used) or "none")
+        + chip("Built", _built_at(f"clean_{key}_practice.parquet"), T["muted"],
+               "from the files on disk"),
+        unsafe_allow_html=True)
+    if missing:
+        callout(
+            f"<b>{', '.join(missing)} is not in this fit.</b> Its timing archive had not been "
+            f"published when the model was last built, so the pipeline fitted on "
+            f"{', '.join(used) or 'nothing'} alone. The supervisor folds it in at the next refit; "
+            f"<code>make weekend EVENT={key}</code> forces one now.", "warn")
 
     c1, c2 = st.columns([1.2, 1])
     with c1:

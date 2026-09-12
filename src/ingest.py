@@ -46,6 +46,15 @@ class FirewallError(RuntimeError):
     """Raised when race data is requested through a fitting-only entry point."""
 
 
+class SessionNotPublished(RuntimeError):
+    """FastF1's load completed, but the session's archive carries no laps yet.
+
+    The usual Saturday-morning case: FP3 has run, the timing archive is not up.
+    Distinct from a network failure — no amount of retrying publishes it — so
+    the caller should fall back to OpenF1 rather than wait.
+    """
+
+
 # --------------------------------------------------------------------------
 # FastF1
 # --------------------------------------------------------------------------
@@ -61,7 +70,15 @@ def _fastf1():
 
 def load_session(event: Event | str, session_name: str, *, telemetry: bool = False,
                  retries: int = 2):
-    """Load and return a FastF1 Session object (cached on disk)."""
+    """Load and return a FastF1 Session object (cached on disk).
+
+    FastF1 swallows a failed lap load: `Session.load` logs a warning of its own
+    and returns normally, leaving `.laps` unset, so an unpublished session comes
+    back looking loaded and only fails at the first attribute access — several
+    frames away from the reason.  Check the laps here, and raise
+    `SessionNotPublished` without retrying, since retrying cannot publish an
+    archive.
+    """
     ev = get_event(event) if isinstance(event, str) else event
     ff1 = _fastf1()
     last = None
@@ -69,12 +86,20 @@ def load_session(event: Event | str, session_name: str, *, telemetry: bool = Fal
         try:
             s = ff1.get_session(ev.ff1_year, ev.ff1_round, session_name)
             s.load(laps=True, telemetry=telemetry, weather=True, messages=True)
-            return s
-        except Exception as exc:  # network / upstream hiccup
+        except Exception as exc:  # network / upstream hiccup: worth another go
             last = exc
             log.warning("FastF1 load failed (%s %s, attempt %d): %s",
                         ev.key, session_name, attempt + 1, exc)
             time.sleep(2 * (attempt + 1))
+            continue
+        try:
+            s.laps
+        except Exception as exc:
+            raise SessionNotPublished(
+                f"{ev.key} {session_name}: FastF1 loaded the session but has no "
+                f"lap data for it yet (the timing archive is not up)"
+            ) from exc
+        return s
     raise RuntimeError(f"could not load {ev.key} {session_name}: {last}")
 
 
