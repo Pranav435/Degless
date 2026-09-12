@@ -244,7 +244,11 @@ def main() -> None:
             except Exception as exc:   # one weekend must not take the grid down
                 rows[key] = {"error": str(exc)[:200]}
                 print(f"  {name} {key}: {exc}", flush=True)
-        out[name] = {"by_event": rows, "pooled": pooled({k: v for k, v in rows.items() if "error" not in v}),
+        pool = pooled({k: v for k, v in rows.items() if "error" not in v})
+        # the pooled scalars sit at the top level too: `bench_v4_compare`
+        # carries a variant's scalar fields and nothing nested
+        out[name] = {**{k: v for k, v in pool.items() if not isinstance(v, dict)},
+                     "by_event": rows, "pooled": pool,
                      "seconds": round(time.time() - t0, 1), "spec": {k: (v.as_dict() if hasattr(v, "as_dict") else v)
                                                                       for k, v in variants(get_calibration(get_event(args.events[0])))[name].items()}}
         p = out[name]["pooled"]
@@ -254,7 +258,9 @@ def main() -> None:
               f"[{out[name]['seconds']}s]", flush=True)
         dump("experiments.json", out)
     if out.get("E0_task1"):
-        out["E0_task1"] = {"by_event": out["E0_task1"], "pooled": pooled(out["E0_task1"])}
+        pool0 = pooled(out["E0_task1"])
+        out["E0_task1"] = {**{k: v for k, v in pool0.items() if not isinstance(v, dict)},
+                           "by_event": out["E0_task1"], "pooled": pool0}
     out["_note"] = ("pre-race variants at 300 draws on the same search bench_ablation runs; E0 is the frozen Task 1 "
                     "run at the pipeline's 500 draws; first-stop errors on the non-safety-car weekends "
                     f"{NON_SC_EVENTS}; R_pos per docs/v4_methodology.md")
