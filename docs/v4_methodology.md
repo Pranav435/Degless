@@ -106,3 +106,42 @@ Every metric is leave-one-out: a weekend's own race never informs its own decisi
 ### Reproducibility note
 
 Task 1's frozen `bench/out/*.json` were produced on a different machine. Re-running the unchanged `bench_strategy.py` here reproduces every integer, boolean, count and rounded figure exactly, and the unrounded `oracle.costs_s` floats to ~1 part in 10¹² (float summation order under a different BLAS). Tick latencies in `live.json` are machine-dependent by nature and are compared only through `bench_tick_paired.py`, which measures both objectives in one process.
+
+## Amendments made before the final run (integration, 2026-09-13)
+
+These three decisions were taken on the fit's own diagnostics or on the rivals'
+behaviour, before the final benchmark was run, and none of them reads a
+benchmark outcome of our own plan.
+
+1. **The rival model is validated on the field's stops, and the mode is chosen
+   by that.** A rival model exists to say when the cars around us box, so each
+   leave-one-out block of `scripts/80_recalibrate.py` scores the first-stop
+   distribution each model implies for the field (`field_stop_distribution`,
+   the type mixture of the heterogeneous field; the recommended group's own
+   choice distribution for the symmetric pack, whose field is four copies of
+   us) against the donors' actual green first stops: the mean log-likelihood
+   per stop, with `src.firststop`'s 5 % uniform floor over the race. The
+   family temperature is the grid value with the highest likelihood under the
+   heterogeneous field; the heterogeneous field is kept for the block only if
+   its likelihood is at least the symmetric pack's, otherwise the block
+   records `rival_field_mode = "symmetric"` and the search runs Task 1's pack.
+   A uniform-over-the-race baseline is recorded beside both, because a model
+   that does not beat it has predicted nothing. This replaces the plan's
+   share-based maximum likelihood for the family temperature, whose likelihood
+   was monotone on the seven weekends and could not identify the constant.
+2. **The family-temperature grid runs to 200 s** (1, 2, 3, 5, 8, 12, 20, 50,
+   200) instead of stopping at 8 s, because on the plan's grid the maximum sat
+   on the edge in every fold. At 200 s the rivals' plan mix is the circuit's
+   history alone.
+3. **The place-value estimator is the regularised one, as the plan fixed it.**
+   The audit (`bench/out/place_value.json`) shows the choice moves the constant
+   by at most 0.11 s at any fold while its bootstrap standard deviation is
+   1.0–1.4 s; the four estimators are still reported side by side (E2).
+
+Two things the final run does **not** do, stated here so they are not read
+as omissions: the Belgium gate is not closed by a cap or a circuit rule (the
+extrapolation widening at its measured scale adds 0.22 s where 2.3 s would be
+needed; the residual is the fitted SOFT rate sitting below MEDIUM's on a
+103-clean-lap practice, and a physical ladder projection of the rates does not
+move the plan either); and the per-car degradation scaling stays team-pooled,
+because the hierarchical variant is no more accurate on the 196 stints (E4).
