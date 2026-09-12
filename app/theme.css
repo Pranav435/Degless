@@ -1,0 +1,276 @@
+/* ==========================================================================
+   DEGLESS // HAAS F1 STRATEGY & TYRE INTELLIGENCE THEME
+   Strict Haas F1 Racing palette: Haas Red (#E6002B / #FF2E45), Carbon (#0E0E10),
+   Surface (#17171B / #1C1C21), Pirelli Tyres (Soft #FF3B30, Medium #FFD12E, Hard #F2F2F2).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+
+/* Global Typography & Canvas */
+html, body, [class*="css"], .stApp {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], [data-testid="stHeader"] {
+    background-color: var(--dg-page);
+    background-image: radial-gradient(var(--dg-mesh, rgba(255,255,255,0.035)) 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+[data-testid="stDecoration"] {
+    display: none;
+}
+
+/* Sidebar Styling: Haas Red Rail */
+[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+    color: rgba(255, 255, 255, 0.92);
+    opacity: 1;
+    font-size: 0.85rem;
+}
+
+[data-testid="stSidebar"] [data-testid="stMetric"] {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 12px 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em;
+}
+
+/* Surface Cards: elevated dark glass containers with hairlines */
+.stApp [class*="st-key-card-"] {
+    background: var(--dg-card);
+    border: 1px solid var(--dg-hair);
+    border-radius: 14px;
+    padding: 16px 20px 12px;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stApp [class*="st-key-card-"]:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.stApp [class*="st-key-card-"] [data-testid="stSubheader"] {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.stApp [class*="st-key-card-"] [data-testid="stCaptionContainer"] {
+    color: var(--dg-muted);
+    opacity: 1;
+    font-size: 0.86rem;
+    margin-top: -2px;
+    margin-bottom: 6px;
+}
+
+/* Number Tiles: Haas Red gradient with micro-glow */
+.stApp [class*="st-key-tiles-"] [data-testid="stMetric"] {
+    background: var(--dg-tile);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    padding: 12px 16px;
+    height: 100% !important;
+    box-shadow: 0 4px 16px rgba(230, 0, 43, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stApp [class*="st-key-tiles-"] [data-testid="stMetric"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(230, 0, 43, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.stApp [class*="st-key-tiles-"] [data-testid="stMetricLabel"],
+.stApp [class*="st-key-tiles-"] [data-testid="stMetricValue"],
+.stApp [class*="st-key-tiles-"] [data-testid="stMetric"] [data-testid="stTooltipIcon"],
+.stApp [class*="st-key-tiles-"] [data-testid="stMetric"] [data-testid="stTooltipIcon"] svg {
+    color: #FFFFFF !important;
+}
+
+.stApp [class*="st-key-tiles-"] [data-testid="stMetricValue"] {
+    font-family: 'Space Grotesk', 'JetBrains Mono', sans-serif;
+    font-weight: 800 !important;
+    font-feature-settings: "tnum" 1, "zero" 1;
+    letter-spacing: -0.02em;
+}
+
+.stApp [class*="st-key-tiles-"] {
+    align-items: stretch !important;
+}
+
+.stApp [class*="st-key-tiles-"] > [data-testid="stElementContainer"] {
+    align-self: stretch !important;
+}
+
+.stApp [class*="st-key-editor-"] {
+    background: var(--dg-panel);
+    border: 1px solid var(--dg-hair);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.stApp [data-testid="stMetricLabel"] p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Tabs: sleek motorsport telemetry tabs */
+.stApp [data-testid="stTabs"] {
+    border-bottom: 1px solid var(--dg-hair);
+    margin-bottom: 1rem;
+}
+
+.stApp [data-testid="stTab"] {
+    padding-top: 8px;
+    padding-bottom: 10px;
+    transition: color 0.15s ease;
+}
+
+.stApp [data-testid="stTab"] p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.stApp [data-testid="stTab"][aria-selected="true"] p {
+    font-weight: 800;
+    color: var(--dg-accent) !important;
+}
+
+/* Headline, Tyre Pills, Strategic Notices */
+.dg-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    color: var(--dg-accent);
+}
+
+.dg-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.dg-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: var(--dg-muted);
+    margin-top: 4px;
+}
+
+/* Tyre Pills: sleek carbon capsules */
+.dg-tyre {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--dg-pill);
+    color: #FFFFFF;
+    border: 1px solid var(--dg-pill-edge);
+    border-radius: 9999px;
+    padding: 2px 11px 2px 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+    margin: 0 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.dg-dot {
+    width: 0.82em;
+    height: 0.82em;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px currentColor;
+}
+
+/* Strategic Notices & Critical Alerts */
+.dg-notice {
+    background: var(--dg-card);
+    border: 1px solid var(--dg-hair);
+    border-left: 4px solid var(--dg-ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 6px 0 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    font-size: 0.94rem;
+    line-height: 1.5;
+}
+
+@keyframes dg-pulse-alert {
+    0%, 100% {
+        border-left-color: var(--dg-accent);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        border-left-color: #FF7576;
+        box-shadow: 0 0 22px rgba(230, 0, 43, 0.35);
+    }
+}
+
+.dg-notice.dg-alert {
+    border-left-color: var(--dg-accent);
+    background: linear-gradient(90deg, rgba(230, 0, 43, 0.14) 0%, var(--dg-card) 100%);
+    animation: dg-pulse-alert 3s infinite ease-in-out;
+}
+
+/* Buttons & Inputs Polish */
+.stButton > button {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    border-radius: 10px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #E6002B 0%, #B30022 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(230, 0, 43, 0.35) !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    box-shadow: 0 6px 20px rgba(230, 0, 43, 0.5) !important;
+    transform: translateY(-1px);
+}
+
+/* Expanders */
+.stApp [data-testid="stExpander"] {
+    background: var(--dg-card);
+    border: 1px solid var(--dg-hair);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Dataframe custom numbers */
+[data-testid="stDataFrame"] {
+    font-feature-settings: "tnum" 1, "zero" 1;
+}
