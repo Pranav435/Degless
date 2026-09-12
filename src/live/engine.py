@@ -57,7 +57,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-from src import cliff, firststop, percar, racestate
+from src import cliff, explain, firststop, percar, racestate
 from src.calibration import get_calibration
 from src.config import (
     DATA_PROCESSED,
@@ -75,6 +75,7 @@ from src.config import (
 )
 from src.compounds import hardness_rank
 from src.fuel import get_prior
+from src.live import rivals as rivals_mod
 from src.live.state import LiveState
 from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel, grip_loss, load_profile
 
@@ -98,6 +99,65 @@ ALERT_COOLDOWN_LAPS = 3
 PLAN_SHORTLIST = 48          # options priced draw by draw per car per lap (the rest on the expected cost)
 COLLAPSE_MIN_LAPS = 6        # green laps a stint needs before the collapse detector will call it
 BOX_NOW_TOL_S = 0.5          # box-now within this of the best plan is a live decision, not a hypothetical
+
+# V4 WP-D.  The cap on the strategic rivals each option's next stop is priced
+# against (`src.live.rivals.strategic_rivals`).  Measured at k = 3, 4, 5, 6 on
+# both replays (`bench/bench_wpd_live.py --k 3 4 5 6`): the mean set is 2.5
+# cars, so the cap binds only in a crowded midfield, and k = 4 is the smallest
+# value that is not worse - k = 3 loses a lap of median stop-call error and a
+# second of box-now cost at Barcelona, k = 5 and 6 buy nothing (see the k table
+# in the WP-D report).
+STRATEGIC_RIVALS_K = 4
+# How far ahead the rejoin is projected.  Task 1's horizon, kept unchanged so
+# that the projection is the only thing that changed inside it: beyond four laps
+# the rivals' own stops dominate the arithmetic and the charge would be a
+# forecast of a forecast.
+REJOIN_HORIZON_LAPS = 3
+# The call is kept unless another lap is better by this much.  Engineering
+# constant, of the order of V3's `BOX_NOW_TOL_S` (0.5 s) and `WINDOW_TOL_S`
+# (1.0 s) - the tolerances at which this engine already treats two laps as the
+# same call - and smaller than both, because holding a call can only cost
+# accuracy.  Measured at 0.0 / 0.3 / 0.6 s on both replays
+# (`bench/bench_wpd_live.py --hysteresis 0.0 0.3 0.6`): every stop-call metric
+# is *identical* at all three, while the share of car-laps whose call changes
+# with no state change behind it falls 0.313 -> 0.261 -> 0.211 (Hungary) and
+# 0.278 -> 0.248 -> 0.189 (Barcelona).  0.6 s is equally free on these two
+# races; 0.3 s is kept because it is the smaller intervention and two races
+# cannot show what a longer hold costs elsewhere.
+DECISION_HYSTERESIS_S = 0.3
+
+
+def _action_label(cand: dict, now_lap: int) -> tuple:
+    """One of the four things a pit wall says, from the action and its lap.
+
+    `(label, kind, wait_laps, box_by_lap)`.  The five race-state actions are a
+    cost comparison over laps; these four are the instruction that comes out of
+    it, so STAY OUT 1-3 LAPS becomes WAIT k LAPS and the edge of the window
+    becomes BOX BY LAP x."""
+    if cand.get("stay"):
+        return "STAY OUT", "STAY_OUT", None, None
+    lap = int(cand["lap"])
+    k = lap - int(now_lap)
+    if k <= 0:
+        return "PIT NOW", "PIT_NOW", 0, None
+    if (cand.get("row") or {}).get("action") == racestate.ACTIONS[-1] or k > 3:
+        return f"BOX BY LAP {lap}", "BOX_BY", None, lap
+    return f"WAIT {k} LAP" + ("S" if k > 1 else ""), "WAIT", k, None
+
+
+def _same_call(cand: dict, prev: dict) -> bool:
+    """Is this candidate the call the pit wall is already holding?
+
+    For PIT NOW and WAIT k the lap *is* the instruction, so the lap must match.
+    BOX BY LAP x is the instruction "not yet - you have until the window shuts",
+    and the edge of the window moves by a lap as the window slides; treating
+    that as a new decision every lap would make the call change on nine
+    car-laps in ten while saying the same thing."""
+    if cand.get("kind") != prev.get("kind"):
+        return False
+    if cand.get("kind") in ("PIT_NOW", "WAIT"):
+        return cand.get("lap") == prev.get("lap")
+    return True
 
 
 def _temper_for_ess(ll: np.ndarray, min_ess: float) -> float:
@@ -352,6 +412,9 @@ class DriverTyre:
     wear: np.ndarray | None = None         # (n,) wear now
     p_past_cliff: float = 0.0
     laps_to_cliff: tuple = (float("nan"),) * 3
+    ltc: np.ndarray | None = None          # (n,) laps to the cliff, per draw (the p10/p50/p90 above)
+    pace_s: float | None = None            # fuel-corrected stint pace for the rejoin projection
+    pace_source: str = ""
     proj: list = field(default_factory=list)   # next laps' expected pace loss vs now
     deg_now_s_per_lap: float = float("nan")
     collapse: dict = field(default_factory=dict)   # cliff.detect_stint_collapse on this stint
@@ -376,7 +439,8 @@ class RaceEngine:
     model without the constants, the engine is V3's, number for number.
     """
 
-    def __init__(self, wm: WeekendModel, *, seed: int = 0, race_state: bool = True):
+    def __init__(self, wm: WeekendModel, *, seed: int = 0, race_state: bool = True,
+                 n_rivals: int | None = None):
         self.wm = wm
         self.ev = wm.event
         self.n_laps = wm.event.n_race_laps
@@ -404,8 +468,10 @@ class RaceEngine:
         self.pooled_dev = dict(getattr(wm, "driver_dev_pooled", {}) or {})
         self._rate_cache: dict = {}
         self.race_state = getattr(wm, "race_state", None) if race_state else None
+        self.n_rivals = int(n_rivals) if n_rivals else int(STRATEGIC_RIVALS_K)
         self._ctx: dict = {}            # num -> the car's last plan context (phase 1)
         self._rs_curves: dict = {}      # num -> (laps, cost, stay) from the previous tick's race-state plan
+        self._decision: dict = {}       # num -> the call as it stood last lap (hysteresis)
 
     # -- helpers ------------------------------------------------------------
 
@@ -538,6 +604,23 @@ class RaceEngine:
             sig = np.where(soft, SIGMA_RACE_LAP_S * DIRTY_SIGMA_MULT, SIGMA_RACE_LAP_S)[~dirty]
             clean = clean[~dirty]
             dt.n_clean = len(clean)
+            # Stint pace for the rejoin projection (`src.live.rivals`): the median
+            # of the last three fuel- and evolution-corrected clean laps of this
+            # stint, the last lap where there are fewer than three.  Only
+            # differences between two cars projected to the same lap are used, so
+            # both corrections cancel and what is left is the pace it runs now.
+            dt.pace_s, dt.pace_source = None, ""
+            src = clean if len(clean) else g[g["lap_time_s"].notna() & ~g["pit_in"] & ~g["pit_out"]
+                                             & (g["track_status"] == "1")]
+            if len(src):
+                lnp = src["lap_number"].to_numpy(dtype=float)
+                yp = self._fuel_corrected(src["lap_time_s"].to_numpy(dtype=float), lnp, total)
+                yp = yp - self.evo[np.clip(lnp.astype(int), 1, len(self.evo)) - 1]
+                yp = yp[np.isfinite(yp)]
+                if len(yp) >= 3:
+                    dt.pace_s, dt.pace_source = float(np.median(yp[-3:])), "median of the last 3 clean laps"
+                elif len(yp):
+                    dt.pace_s, dt.pace_source = float(yp[-1]), ("last clean lap" if len(clean) else "last lap")
             ll = None
             if len(clean) >= MIN_LAPS_FOR_UPDATE:
                 ln = clean["lap_number"].to_numpy(dtype=float)
@@ -618,6 +701,7 @@ class RaceEngine:
             per_lap = rate * m * self._load_vec(np.array([cur_lap]))[0]
             ltc = np.where(per_lap > 0, (1.0 - wear_now) / np.maximum(per_lap, 1e-9), np.inf)
             ltc = np.clip(ltc, 0, 99)
+            dt.ltc = ltc                    # the draws behind laps_to_cliff, for the action table's risk
             o = np.argsort(ltc)
             cw = np.cumsum(w[o])
             dt.laps_to_cliff = tuple(float(ltc[o][min(np.searchsorted(cw, q), self.n - 1)])
@@ -906,8 +990,9 @@ class RaceEngine:
         top_j = np.argsort(ml)[:PLAN_SHORTLIST]
         short = list(dict.fromkeys([int(li[j]) for j in top_j] + [x for x in (box_i, stay_i) if x is not None]))
         idx = self._resample(w)
-        rows = []
-        for i in short:
+
+        def price(i: int) -> np.ndarray:
+            """Option `i` on this car's resampled draws: the expected-cost recipe, draw by draw."""
             c2, p, r1, c3, r2 = recipe[i]
             if c2 == "stay":
                 t = cont[idx, R]
@@ -928,7 +1013,9 @@ class RaceEngine:
                     t = t + self.lam * e2[min(r1, len(e2) - 1)] * dens[p2 - 1]
             if rs_adj is not None:
                 t = t + float(rs_adj[i])
-            rows.append(np.asarray(t, dtype=np.float64))
+            return np.asarray(t, dtype=np.float64)
+
+        rows = [price(i) for i in short]
         T = np.stack(rows)                                                   # (n_short, n)
         win_short = np.bincount(np.argmin(T, axis=0), minlength=len(short)) / n
         win_of = dict(zip(short, win_short))
@@ -948,7 +1035,7 @@ class RaceEngine:
             return f"2 stops: {c2} lap {p}, {c3} lap {p + r1}", [c2, c3]
 
         best_label, best_comps = label_of(best_i)
-        rs_report = None
+        rs_report, decision = None, None
         if rs is not None:
             # the five actions, on the race-state curve: cost by next-stop lap,
             # best continuation at each lap
@@ -975,8 +1062,17 @@ class RaceEngine:
             rs_report = {**tbl, "rivals": rs["rivals"], "place_value_s": rs["place_value_s"],
                          "sigma_rel_s": rs["sigma_rel_s"], "n_rivals": len(rs["rivals"]),
                          "position_s_stay": rs["position_stay_s"]}
+            try:
+                decision = self._decide(
+                    state, num, dt, rs, tbl, now_lap=now_lap, cur_lap=cur_lap, R=R,
+                    stops_taken=stops_taken, window_hi=(max(in_win) if in_win else None),
+                    stay_legal=bool(legal0 and stay_i is not None), T=T, pos_of=pos_of, price=price,
+                    li=li, st_l=st_l, mean_all=mean_all, stay_i=stay_i, best_label=best_label)
+            except Exception:
+                log.exception("the decision block failed for %s; the plan keeps the action table", num)
+                decision = None
         return {
-            "race_state": rs_report,
+            "race_state": rs_report, "decision": decision,
             "best": best_label, "best_kind": int(kind[best_i]),
             "next_stop": (int(stop[best_i]) if stop[best_i] >= 0 else None),
             "next_compound": (best_comps[0] if best_comps else None),
@@ -1000,6 +1096,171 @@ class RaceEngine:
                              if (stop[best_i] >= 0 and rs is None) else 0.0),
             "first_stop_n_stops": (stops_taken + int(kind[best_i]) if stop[best_i] >= 0 else None),
         }
+
+    # -- the call: one of four actions, held until the numbers move ----------
+
+    def _p_cliff(self, dt: DriverTyre, laps_more) -> float | None:
+        """P(this set reaches its cliff before it is changed `laps_more` laps from now).
+
+        From the car's own `laps_to_cliff` posterior draws, on its own weights -
+        the same posterior the p10/p50/p90 on screen come from.  Reported on
+        every action and never added to a cost: the cliff forecast is the least
+        identified quantity in the model (no practice long run reaches one), so
+        it informs the call and does not make it."""
+        if dt.ltc is None or dt.weights is None:
+            return None
+        k = max(int(laps_more), 0)
+        return float((dt.weights * (dt.ltc <= k)).sum())
+
+    def _material_change(self, prev: dict | None, rs: dict, stops_taken: int, sc: bool,
+                         window_hi: int | None, now_lap: int) -> list:
+        """Why the previous lap's call may not simply be repeated.
+
+        Everything here is a change in the *state* the call was made on, not in
+        its cost: our own stop, a relevant rival's stop, a safety car coming out
+        or going in, and the window having moved past the lap we were holding."""
+        if prev is None:
+            return ["first call for this car"]
+        out = []
+        if int(prev.get("stops", -1)) != int(stops_taken):
+            out.append("we have stopped")
+        if bool(prev.get("sc")) != bool(sc):
+            out.append("the safety-car status changed")
+        was = prev.get("rival_stops") or {}
+        for d in rs.get("rivals") or []:
+            k = d.get("driver_number")
+            if k in was and int(was[k]) != int(d.get("stops", was[k])):
+                out.append(f"{d.get('driver') or k} has stopped")
+        lap = prev.get("lap")
+        if lap is not None:
+            if int(lap) < int(now_lap):
+                out.append(f"lap {int(lap)} has passed")
+            elif window_hi is not None and int(lap) > int(window_hi):
+                out.append(f"the window now closes on lap {int(window_hi)}")
+        return out
+
+    def _decide(self, state: LiveState, num: str, dt: DriverTyre, rs: dict, tbl: dict, *,
+                now_lap: int, cur_lap: int, R: int, stops_taken: int, window_hi: int | None,
+                stay_legal: bool, T: np.ndarray, pos_of: dict, price, li: np.ndarray,
+                st_l: np.ndarray, mean_all: np.ndarray, stay_i: int | None,
+                best_label: str = "") -> dict | None:
+        """PIT NOW / STAY OUT / WAIT k LAPS / BOX BY LAP x, with its confidence.
+
+        The five race-state actions are each priced on the car's posterior draws
+        (the option the action would actually take - from the shortlist where it
+        is already there, priced here where it is not), plus running to the end
+        on this set where that is legal.  `confidence` is the share of draws on
+        which the chosen action is the cheapest of that set, so a flat surface
+        reports a flat confidence instead of a false certainty.
+
+        The call is then **held**: the lap chosen last time stays chosen unless
+        another lap is better by `DECISION_HYSTERESIS_S` or the state it was
+        made on has moved (`_material_change`).  A pit wall that changes its
+        mind every lap is not giving an instruction, and the cost surface within
+        a tenth of a second of its minimum is flat over three laps."""
+        V = float(rs.get("place_value_s") or 0.0)
+        sc = bool(state.track_status in ("4", "6", "7"))
+        cands, seen = [], set()
+        for r in tbl.get("actions") or []:
+            if not r.get("legal"):
+                continue
+            # present on every legal row, so a reader never has to ask whether
+            # the key exists: None where the action shares a lap with another
+            # (the edge of the window can be STAY OUT 3's lap) or the car has no
+            # cliff posterior yet
+            r.setdefault("p_best", None)
+            r.setdefault("p_cliff_before_stop", None)
+            L = int(r["lap"])
+            if L in seen:                      # the edge of the window can be STAY OUT 3's lap
+                continue
+            cand = li[st_l == L]
+            if not len(cand):
+                continue
+            seen.add(L)
+            i_star = int(cand[int(np.argmin(mean_all[cand]))])
+            cands.append({"row": r, "lap": L, "stay": False, "cost_s": float(r["cost_s"]),
+                          "draws": (T[pos_of[i_star]] if i_star in pos_of else price(i_star))})
+        if stay_legal and stay_i is not None and stay_i in pos_of:
+            cands.append({"row": None, "lap": None, "stay": True, "cost_s": float(mean_all[stay_i]),
+                          "draws": T[pos_of[stay_i]]})
+        if not cands:
+            return None
+        D = np.stack([c["draws"] for c in cands])
+        share = np.bincount(np.argmin(D, axis=0), minlength=len(cands)) / D.shape[1]
+        for c, p in zip(cands, share):
+            c["p_best"] = float(p)
+            if c["row"] is not None:
+                c["row"]["p_best"] = float(p)
+                c["row"]["p_cliff_before_stop"] = self._p_cliff(dt, int(c["lap"]) - int(cur_lap))
+        for c in cands:
+            c["label"], c["kind"], c["wait"], c["box_by"] = _action_label(c, now_lap)
+        i_best = int(min(range(len(cands)), key=lambda i: cands[i]["cost_s"]))
+        material = self._material_change(self._decision.get(num), rs, stops_taken, sc, window_hi, now_lap)
+        prev = self._decision.get(num)
+        i_pick, held_i = i_best, None
+        if prev is not None and not material:
+            held_i = next((i for i, c in enumerate(cands) if _same_call(c, prev)), None)
+            if held_i is not None and cands[held_i]["cost_s"] - cands[i_best]["cost_s"] <= DECISION_HYSTERESIS_S:
+                i_pick = held_i
+        ch = cands[i_pick]
+        alt = [c["cost_s"] for i, c in enumerate(cands) if i != i_pick]
+        action, kind_s, wait, box_by = ch["label"], ch["kind"], ch["wait"], ch["box_by"]
+        same = prev is not None and _same_call(ch, prev)
+        held_since = int(prev.get("held_since_lap", now_lap)) if same else int(now_lap)
+        # Where the projection says we come out, at the lap the call names -
+        # only within the horizon it is projected over.  A call several laps out
+        # ("BOX BY LAP 41") carries the rejoin it would have *this* lap instead,
+        # because projecting twenty laps of everyone's pace is not a number.
+        det = rs.get("rejoin_detail") or {}
+        rj = None if ch["stay"] else det.get(int(ch["lap"]))
+        rj_now = det.get(int(now_lap))
+        me = rs.get("me") or {}
+        dec = {
+            "action": action, "action_kind": kind_s, "lap": ch["lap"],
+            "wait_laps": wait, "box_by_lap": box_by,
+            "confidence": float(ch["p_best"]), "n_actions": len(cands),
+            "projected_position": ((rj or {}).get("rejoin_position") if not ch["stay"] else me.get("position")),
+            "projected_position_if_now": (rj_now or {}).get("rejoin_position"),
+            "delta_vs_alternative_s": (float(min(alt) - ch["cost_s"]) if alt else float("nan")),
+            "cost_s": float(ch["cost_s"]),
+            "held_by_hysteresis": bool(i_pick != i_best),
+            "hysteresis_s": float(DECISION_HYSTERESIS_S),
+            "held_since_lap": held_since,
+            "changed": bool(prev is None or not same),
+            "state_change": material,
+            "rivals": rs.get("rivals") or [],
+            "if_cover": rs.get("if_cover"),
+            "rejoin": rj, "rejoin_if_now": rj_now, "rejoin_if_now_gaps": rs.get("rejoin_gaps_now"),
+            "life": {"p_cliff_before_stop": (self._p_cliff(dt, (int(ch["lap"]) - int(cur_lap))
+                                                           if not ch["stay"] else R)),
+                     "life_p10": float(dt.laps_to_cliff[0]), "life_p50": float(dt.laps_to_cliff[1]),
+                     "life_p90": float(dt.laps_to_cliff[2]), "tyre_age": me.get("tyre_age"),
+                     "compound": dt.compound},
+            "actions": [{"action": (c["row"]["action"] if c["row"] else "RUN TO THE END"),
+                         "lap": c["lap"], "cost_s": c["cost_s"], "p_best": c["p_best"],
+                         "delta_s": float(c["cost_s"] - cands[i_best]["cost_s"])} for c in cands],
+            "place_value_s": V, "plan": best_label,
+        }
+        self._decision[num] = {"action": action, "kind": kind_s, "lap": ch["lap"],
+                               "stay": bool(ch["stay"]),
+                               "held_since_lap": held_since, "stops": int(stops_taken), "sc": sc,
+                               "rival_stops": {d.get("driver_number"): int(d.get("stops", 0))
+                                               for d in (rs.get("rivals") or [])},
+                               "lap_no": int(now_lap)}
+        try:
+            ex = explain.explain_decision(
+                {"race_state": {**tbl, "rivals": rs.get("rivals") or [], "place_value_s": V,
+                                "position_s_stay": rs.get("position_stay_s")},
+                 "decision": dec, "best": best_label},
+                {"driver": dt.code, "compound": dt.compound, **me,
+                 "laps_to_cliff_p50": float(dt.laps_to_cliff[1]),
+                 "deg_now_s_per_lap": float(dt.deg_now_s_per_lap)},
+                {"laps_remaining": int(R), "sc_active": sc, "now_lap": int(now_lap)})
+            dec.update({k: ex[k] for k in ("headline", "principal", "reasons")})
+        except Exception:
+            log.exception("the explanation failed for %s", num)
+            dec.setdefault("reasons", [])
+        return dec
 
     # -- race state ---------------------------------------------------------
 
@@ -1056,26 +1317,40 @@ class RaceEngine:
             if not nxt and comp_at:
                 nxt = comp_at[min(comp_at)]
             gl = 0.0 if r.get("position") == 1 else r.get("gap_leader_s")
+            # What the rival selection and the rejoin projection need about this
+            # car, on top of the position term's own view: the pace it is running
+            # at, the stop the engine gave it on the previous lap, and whether it
+            # still owes a stop by its own cost curve (`pending` on the view is
+            # the *relative* flag the position term wants and is set there).
+            dt = self.tyres.get(num)
+            best_stop = float(np.min(c_cost)) if len(c_cost) else float("inf")
+            extra = {"pace_s": (dt.pace_s if dt is not None else None),
+                     "pace_source": (dt.pace_source if dt is not None else ""),
+                     "next_stop": plan.get("next_stop"),
+                     "pending_own": bool(not (np.isfinite(stay) and stay <= best_stop))}
             views[num] = racestate.CarView(
                 number=num, code=state.driver_label(num), cur_lap=int(ctx["cur_lap"]),
                 gap_leader_s=(float(gl) if gl is not None else None),
                 position=r.get("position"), stops=int(ctx["stops_taken"]), in_pit=bool(r.get("in_pit")),
                 compound=ctx["cur_c"], tyre_age=r.get("tyre_age"), cont=np.asarray(ctx["cont_m"], dtype=float),
                 fresh_rows=fresh, next_compound=nxt, curve_laps=np.asarray(c_laps, dtype=int),
-                curve_cost=np.asarray(c_cost, dtype=float), stay_cost=float(stay))
+                curve_cost=np.asarray(c_cost, dtype=float), stay_cost=float(stay), extra=extra)
         return views
 
     def _race_state_extra(self, state: LiveState, num: str, ctx: dict, views: dict, order: list,
                           total: int) -> dict | None:
         """The race-state charge on each of this car's options' next stop.
 
-        The four cars nearest in virtual race position, their gaps, sets, tyre
-        ages, stops made, pit status and last lap's plans (`racestate.
-        live_position_term`), plus the traffic the timing screen says the car
-        would rejoin into over the next four laps (`racestate.rejoin_traffic`,
-        replacing the V3 density model's charge there).  None when the car has
-        no race-time gap to price it with (lapped, or before the first timing
-        line) - the plan then keeps V3's terms."""
+        The `k` strategically relevant cars - nearest in virtual race position
+        plus the two on-track neighbours, less the lapped and the unreachable
+        (`src.live.rivals.strategic_rivals`) - with their gaps, sets, tyre ages,
+        stops made, pit status and last lap's plans (`racestate.
+        live_position_term`), plus the traffic and the rejoin position the
+        *projected* field gives over the next four laps
+        (`rivals.rejoin_or_fallback`, replacing the V3 density model's charge
+        there).  None when the car has no race-time gap to price it with
+        (lapped, or before the first timing line) - the plan then keeps V3's
+        terms."""
         me = views.get(num)
         if me is None or me.gap_leader_s is None or not np.isfinite(me.gap_leader_s):
             return None
@@ -1084,40 +1359,73 @@ class RaceEngine:
         if not len(S):
             return None
         pit, factor, now_lap = ctx["pit"], ctx["pit_now_factor"], ctx["now_lap"]
-        same_lap = {k: v for k, v in views.items() if abs(v.cur_lap - me.cur_lap) <= 1}
-        riv = racestate.relevant_rivals(me, same_lap, pit)
+        picks = rivals_mod.strategic_rivals(me, views, order, pit, self.race_state.sigma_rel_s,
+                                            k=self.n_rivals)
+        riv = [p.as_triple() for p in picks]
         for k, _, _ in riv:
-            r = same_lap[k]
+            r = views[k]
             best_stop = float(np.min(r.curve_cost)) if len(r.curve_cost) else float("inf")
             done = np.isfinite(r.stay_cost) and r.stay_cost <= best_stop
             r.pending = bool(r.stops <= me.stops and not done)
-        pos, detail = racestate.live_position_term(me, riv, same_lap, S, pit_now_s=pit * factor, pit_s=pit,
+        pos, detail = racestate.live_position_term(me, riv, views, S, pit_now_s=pit * factor, pit_s=pit,
                                                    now_lap=now_lap, const=self.race_state)
-        # traffic on rejoin, from the screen, over the laps it can be seen for
-        others = [v.gap_leader_s for k, v in same_lap.items() if k != num and not v.in_pit]
+        for d, p in zip(detail, picks):
+            d["why"], d["on_track"], d["relevance"] = p.why, p.on_track, round(float(p.score), 3)
+            d["cycle_gap_s"] = round(float(p.cycle_gap_s), 2)
+        # Traffic and rejoin position from the *projected* field: every car
+        # carried forward on its own stint pace and the stop the engine gave it
+        # last lap, over the laps the projection is worth making (Task 1's
+        # horizon).  A car with no pace estimate keeps Task 1's gap arithmetic.
+        fp = rivals_mod.field_projection(me, views)
+
+        def project(s: int) -> dict:
+            return rivals_mod.rejoin_or_fallback(
+                me, views, int(s), pit_loss_s=pit, pit_now_s=pit * factor, now_lap=now_lap,
+                sigma_rel_s=self.race_state.sigma_rel_s, dirty_air_s_per_lap=self.dirty_air,
+                laps_per_stop=TRAFFIC_LAPS_PER_STOP, proj=fp)
+
+        # Task 1's gap-based rejoin for boxing *now*, kept beside the projection
+        # so the two can be scored against what happened on the same replay
+        # (one vectorised call over the field per car-lap).
+        others = [v.gap_leader_s for kk, v in views.items() if kk != num and not v.in_pit]
+        rj_gaps = racestate.rejoin_traffic(me.gap_leader_s, others, pit * factor,
+                                           dirty_air_s_per_lap=self.dirty_air,
+                                           laps_per_stop=TRAFFIC_LAPS_PER_STOP,
+                                           sigma_s=self.race_state.sigma_rel_s)
+        rj_gaps = {**rj_gaps, "stop_lap": int(now_lap), "n_cars": len(others),
+                   "source": "today's gaps (the Task 1 method)"}
         traffic_l = np.array([float(ctx["traffic"] * ctx["dens"][int(s) - 1]) for s in S])
-        rejoin = {}
+        rejoin, rejoin_detail = {}, {}
         for i, s in enumerate(S):
-            if s > now_lap + 3:
+            if s > now_lap + REJOIN_HORIZON_LAPS:
                 break
-            rj = racestate.rejoin_traffic(me.gap_leader_s, others, pit * (factor if s == now_lap else 1.0),
-                                          dirty_air_s_per_lap=self.dirty_air,
-                                          laps_per_stop=TRAFFIC_LAPS_PER_STOP, sigma_s=self.race_state.sigma_rel_s)
+            rj = project(int(s))
             if np.isfinite(rj["traffic_s"]):
                 traffic_l[i] = rj["traffic_s"]
                 rejoin[int(s)] = rj["rejoin_position"]
+                rejoin_detail[int(s)] = rj
         tadj = traffic_l - np.array([float(ctx["traffic"] * ctx["dens"][int(s) - 1]) for s in S])
         base = float(np.min(pos))
         pos_s = pos[:-1] - base
         at = np.searchsorted(S, np.clip(stop, S[0], S[-1]))
         opt = np.where(stop >= 0, pos_s[at] + tadj[at], pos[-1] - base)
+        V = float(self.race_state.place_value_s)
         for d in detail:
             d["p_ahead_now"] = float(d["p_ahead"][0]) if len(d["p_ahead"]) else None
             d["p_ahead_stay_3"] = float(d["p_ahead"][min(3, len(d["p_ahead"]) - 1)]) if len(d["p_ahead"]) else None
             d["p_ahead"] = None
+            # what this rival does if we box now, and what it costs if it does
+            d["if_cover"] = rivals_mod.cover_response(d, V)
+            d["p_cover"] = (d["if_cover"] or {}).get("p_cover")
+            d.pop("cover", None)
         return {"opt_extra": opt, "laps": [int(s) for s in S], "position_s": [float(x) for x in pos_s],
                 "traffic_s": [float(x) for x in traffic_l], "rejoin": rejoin, "rivals": detail,
-                "place_value_s": float(self.race_state.place_value_s),
+                "rejoin_detail": rejoin_detail, "rejoin_gaps_now": rj_gaps,
+                "if_cover": rivals_mod.cover_summary(detail, V),
+                "me": {"position": me.position, "compound": me.compound, "tyre_age": me.tyre_age,
+                       "stops": int(me.stops), "gap_leader_s": me.gap_leader_s,
+                       "pace_source": me.extra.get("pace_source", "")},
+                "place_value_s": V,
                 "sigma_rel_s": float(self.race_state.sigma_rel_s), "position_stay_s": float(pos[-1] - base)}
 
     def _density(self, total: int) -> np.ndarray:
@@ -1338,7 +1646,15 @@ class RaceEngine:
         # -- pass 2: the race state against the nearest rivals, then the call -------
         views = None
         if self.race_state is not None:
-            ctxs = {t[1]: self._ctx.get(t[1]) for t in todo if t[6] and self._ctx.get(t[1]) is not None}
+            # Every eligible car, not only the cars re-planning on this tick: a
+            # tick that arrives mid-lap re-plans the one car that has crossed
+            # the line, and pricing its stop against a field of one is what Task
+            # 1 did whenever the daemon ticked faster than a lap.  A car that is
+            # not re-planning contributes the context it had on its last lap,
+            # which is exactly the "plan the engine gave it last lap" the term
+            # is defined on.  (In `bench_live`, which ticks once a lap, every
+            # eligible car re-plans, so this changes no benchmark number.)
+            ctxs = {t[1]: self._ctx.get(t[1]) for t in todo if t[5] and self._ctx.get(t[1]) is not None}
             try:
                 views = self._car_views(state, order, ctxs, total)
             except Exception:
