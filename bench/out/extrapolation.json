@@ -532,7 +532,7 @@
     "bias_se": 0.28177688530281625,
     "bias_t": 0.45265982586457243,
     "ratio_max": 2.1904761904761907,
-    "n_beyond_support": 14
+    "n_beyond_support": 13
    },
    "austria-2026": {
     "n": 39,
@@ -612,7 +612,7 @@
     "bias_se": 0.1868148566068976,
     "bias_t": -0.7413512933360304,
     "ratio_max": 2.272727272727273,
-    "n_beyond_support": 20
+    "n_beyond_support": 14
    },
    "japan-2026": {
     "n": 19,

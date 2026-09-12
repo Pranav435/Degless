@@ -628,7 +628,8 @@ def main() -> None:
         sens["per_event"][k] = {
             **describe(g["log_ratio"].to_numpy(), noise=g["noise_ln_sd"].to_numpy()),
             "ratio_max": float(g["ratio"].max()),
-            "n_beyond_support": int((g["ratio"] > 1).sum()),
+            # counted on the same rows `n` is, i.e. those with a log ratio
+            "n_beyond_support": int(((g["ratio"] > 1) & np.isfinite(g["log_ratio"])).sum()),
         }
     # Leave-one-weekend-out on the headline estimate: the number wired into
     # `src/tyre.py` must not be one weekend's.
