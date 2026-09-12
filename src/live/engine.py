@@ -76,7 +76,7 @@ from src.config import (
 from src.compounds import hardness_rank
 from src.fuel import get_prior
 from src.live.state import LiveState
-from src.tyre import TyreModel, grip_loss, load_profile
+from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel, grip_loss, load_profile
 
 log = logging.getLogger("degless.live.engine")
 
@@ -170,8 +170,16 @@ class WeekendModel:
             fit = BayesFit.load(post)
             total = fit.posterior["lin"].shape[0]
             idx = rng.choice(total, size=min(n_draws, total), replace=False)
+            # V4/WP-B: the practice age support, where the weekend's metadata
+            # recorded one, and the log-sd of the wear rate at twice it.  A car
+            # already older than the support is then priced as the
+            # extrapolation it is.  No support in the metadata (a V2/V3 file, or
+            # a weekend with no fit) leaves the widening off, not guessed.
+            sup = {k: float(v) for k, v in (meta.get("age_support_by_compound") or {}).items()}
             model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets,
-                                       manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+                                       manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                                       support=sup,
+                                       extrap_ln_sd=(EXTRAP_LN_SD_MEASURED if sup else 0.0))
             # the weekend script's calibrated pace offsets, if it wrote them
             pc = (meta.get("pace_calibration") or {}).get("offsets_after")
             if pc and all(c in pc for c in model.compounds):
@@ -664,7 +672,14 @@ class RaceEngine:
         """(len(idx), n_more+1): cumulative cost of running this tyre k more laps.
 
         On this car's own rate (team-pooled practice deviation folded in), the
-        same rate its wear and cliff were computed from."""
+        same rate its wear and cliff were computed from.
+
+        Past the practice age support the rate carries the model's
+        extrapolation widening, at the age *this set* will be on each future
+        lap - not at a fresh set's - so that staying out on a tyre already
+        beyond the evidence is priced on the same terms as the fresh-stint
+        tables in `_future_cost_tables`.  Without it the engine would charge
+        the premium for pitting onto a long stint and not for running one."""
         c = dt.compound
         rate = (self._rates(dt.code)[c] * self.m_prior)[idx]
         pace = self.model.pace_offset[c][idx]
@@ -672,6 +687,12 @@ class RaceEngine:
         laps = np.arange(cur_lap, cur_lap + max(n_more, 0)) + 1
         loads = self._load_vec(laps) if n_more > 0 else np.zeros(0)
         inc = rate[:, None] * loads[None, :]
+        # `or 1` is the same fallback `dt.wear` uses when the stint's first lap
+        # is not known yet, so the two agree about how old this set is
+        age_now = max(0, cur_lap - int(dt.stint_first_lap or 1) + 1)
+        wide = self.model.extrap_multiplier(c, age_now + np.arange(1, max(n_more, 0) + 1))
+        if wide is not None:
+            inc = inc * wide[idx]
         w_end = w0[:, None] + np.cumsum(inc, axis=1)
         loss = grip_loss(w_end - 0.5 * inc, budget=self.model.budget_of(c)) + pace[:, None]
         out = np.zeros((len(idx), n_more + 1))

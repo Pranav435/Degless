@@ -1,0 +1,4607 @@
+{
+ "measured": 0.4604221085804146,
+ "basis": "the pooled practice->race transfer dispersion, deflated by the scorer's own three-lap-mean noise: no growth with extrapolation is detectable (a = 0.000, 95% profile CI 0-0.426, noise-deflated WLS slope -0.377), so the plan's fallback applies",
+ "levels": [
+  0.0,
+  0.2302110542902073,
+  0.4604221085804146,
+  0.9208442171608292
+ ],
+ "per_event": {
+  "australia-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 15,
+     "min": 11,
+     "p10": 11.0,
+     "median": 12.0,
+     "max": 28
+    },
+    "HARD": {
+     "n": 18,
+     "min": 9,
+     "p10": 16.4,
+     "median": 27.0,
+     "max": 46
+    },
+    "SOFT": {
+     "n": 5,
+     "min": 10,
+     "p10": 10.4,
+     "median": 11.0,
+     "max": 24
+    }
+   },
+   "shipped": "1-stop M-H @ 21",
+   "support": {
+    "HARD": 21.0,
+    "MEDIUM": 20.0,
+    "SOFT": 21.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-H @ 11,35",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 1.0,
+     "first_stop": 11,
+     "pit_laps": [
+      11,
+      35
+     ],
+     "stint_lens": [
+      11,
+      24,
+      23
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.55,
+      1.14,
+      1.1
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 36",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 11,
+       "start_lap": 0,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2485938209276053e-14,
+       "wear_end_mean": 0.2144493986831339,
+       "wear_end_p90": 0.22663840558415477,
+       "life_p10": 50.90265774465203,
+       "life_p50": 56.52459963444167,
+       "life_p90": 56.52459963444167,
+       "life_censored_share": 0.0,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 24,
+       "start_lap": 11,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.6340838573873576e-12,
+       "wear_end_mean": 0.23069963341166508,
+       "wear_end_p90": 0.24667987601274696,
+       "life_p10": 47.0,
+       "life_p50": 47.0,
+       "life_p90": 47.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 23,
+       "start_lap": 35,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.610523239913845e-13,
+       "wear_end_mean": 0.20862452713017754,
+       "wear_end_p90": 0.22307565783538852,
+       "life_p10": 23.0,
+       "life_p50": 23.0,
+       "life_p90": 23.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "2-stop M-H-H @ 11,35",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-H @ 11,35",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 1.0,
+     "first_stop": 11,
+     "pit_laps": [
+      11,
+      35
+     ],
+     "stint_lens": [
+      11,
+      24,
+      23
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.55,
+      1.14,
+      1.1
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 36",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 11,
+       "start_lap": 0,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2485938209276053e-14,
+       "wear_end_mean": 0.2144493986831339,
+       "wear_end_p90": 0.22663840558415477,
+       "life_p10": 46.73232604917315,
+       "life_p50": 55.67189856620667,
+       "life_p90": 58.0,
+       "life_censored_share": 0.37666666666666665,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 24,
+       "start_lap": 11,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.73160325735004e-12,
+       "wear_end_mean": 0.23070540604322892,
+       "wear_end_p90": 0.24705266320765268,
+       "life_p10": 47.0,
+       "life_p50": 47.0,
+       "life_p90": 47.0,
+       "life_censored_share": 0.9933333333333333,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0328872934700296
+      },
+      {
+       "compound": "HARD",
+       "laps": 23,
+       "start_lap": 35,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.657478272368659e-13,
+       "wear_end_mean": 0.20862642877183507,
+       "wear_end_p90": 0.22327150259036135,
+       "life_p10": 23.0,
+       "life_p50": 23.0,
+       "life_p90": 23.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0219248623133531
+      }
+     ],
+     "search_s": 1.0,
+     "best_inside_observed": "2-stop M-H-H @ 11,35",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-H @ 11,35",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 1.0,
+     "first_stop": 11,
+     "pit_laps": [
+      11,
+      35
+     ],
+     "stint_lens": [
+      11,
+      24,
+      23
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.55,
+      1.14,
+      1.1
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 36",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 11,
+       "start_lap": 0,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2485938209276053e-14,
+       "wear_end_mean": 0.2144493986831339,
+       "wear_end_p90": 0.22663840558415477,
+       "life_p10": 43.16571584800037,
+       "life_p50": 55.16363732987275,
+       "life_p90": 58.0,
+       "life_censored_share": 0.4166666666666667,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 24,
+       "start_lap": 11,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.838402641501223e-12,
+       "wear_end_mean": 0.2307233737654018,
+       "wear_end_p90": 0.2473140312872851,
+       "life_p10": 47.0,
+       "life_p50": 47.0,
+       "life_p90": 47.0,
+       "life_censored_share": 0.9933333333333333,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0657745869400592
+      },
+      {
+       "compound": "HARD",
+       "laps": 23,
+       "start_lap": 35,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.707405001786052e-13,
+       "wear_end_mean": 0.20863243685213265,
+       "wear_end_p90": 0.2234261314151713,
+       "life_p10": 23.0,
+       "life_p50": 23.0,
+       "life_p90": 23.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0438497246267062
+      }
+     ],
+     "search_s": 1.2,
+     "best_inside_observed": "2-stop M-H-H @ 11,35",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-H @ 11,35",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 1.0,
+     "first_stop": 11,
+     "pit_laps": [
+      11,
+      35
+     ],
+     "stint_lens": [
+      11,
+      24,
+      23
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.55,
+      1.14,
+      1.1
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 36",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 11,
+       "start_lap": 0,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2485938209276053e-14,
+       "wear_end_mean": 0.2144493986831339,
+       "wear_end_p90": 0.22663840558415477,
+       "life_p10": 38.991607247152935,
+       "life_p50": 54.95028356695038,
+       "life_p90": 58.0,
+       "life_censored_share": 0.44666666666666666,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 24,
+       "start_lap": 11,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.081758717532617e-12,
+       "wear_end_mean": 0.23079604623426145,
+       "wear_end_p90": 0.24633032307068423,
+       "life_p10": 47.0,
+       "life_p50": 47.0,
+       "life_p90": 47.0,
+       "life_censored_share": 0.9633333333333334,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.1315491738801184
+      },
+      {
+       "compound": "HARD",
+       "laps": 23,
+       "start_lap": 35,
+       "push": 1.0,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.815237263424478e-13,
+       "wear_end_mean": 0.20865679688534944,
+       "wear_end_p90": 0.22362031462232926,
+       "life_p10": 23.0,
+       "life_p50": 23.0,
+       "life_p90": 23.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0876994492534124
+      }
+     ],
+     "search_s": 1.1,
+     "best_inside_observed": "2-stop M-H-H @ 11,35",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "japan-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 22,
+     "min": 2,
+     "p10": 17.0,
+     "median": 21.5,
+     "max": 33
+    },
+    "HARD": {
+     "n": 20,
+     "min": 2,
+     "p10": 22.6,
+     "median": 31.0,
+     "max": 37
+    }
+   },
+   "shipped": "1-stop M-H @ 19",
+   "support": {
+    "HARD": 23.0,
+    "MEDIUM": 21.0,
+    "SOFT": 14.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-H @ 14",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14
+     ],
+     "stint_lens": [
+      14,
+      39
+     ],
+     "inside_observed": [
+      false,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.67,
+      1.7
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 34",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4691487275454825e-11,
+       "wear_end_mean": 0.25904854261482785,
+       "wear_end_p90": 0.33518574983738053,
+       "life_p10": 43.40617283516923,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6566666666666666,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 39,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.310053826460918e-09,
+       "wear_end_mean": 0.33536453524918586,
+       "wear_end_p90": 0.461145797767571,
+       "life_p10": 39.0,
+       "life_p50": 39.0,
+       "life_p90": 39.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.0,
+     "best_inside_observed": "1-stop M-H @ 16",
+     "gap_to_inside_s": 0.34710272765423156
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-H @ 14",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14
+     ],
+     "stint_lens": [
+      14,
+      39
+     ],
+     "inside_observed": [
+      false,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.67,
+      1.7
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 34",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4691487275454825e-11,
+       "wear_end_mean": 0.25904854261482785,
+       "wear_end_p90": 0.33518574983738053,
+       "life_p10": 42.55315948825096,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6833333333333333,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 39,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.2791545303186472e-09,
+       "wear_end_mean": 0.3359073663204807,
+       "wear_end_p90": 0.45831647268685594,
+       "life_p10": 39.0,
+       "life_p50": 39.0,
+       "life_p90": 39.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.1601468203757964
+      }
+     ],
+     "search_s": 1.0,
+     "best_inside_observed": "1-stop M-H @ 16",
+     "gap_to_inside_s": 0.3417088739627019
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-H @ 14",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14
+     ],
+     "stint_lens": [
+      14,
+      39
+     ],
+     "inside_observed": [
+      false,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.67,
+      1.7
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 34",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4691487275454825e-11,
+       "wear_end_mean": 0.25904854261482785,
+       "wear_end_p90": 0.33518574983738053,
+       "life_p10": 41.51483382760384,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6566666666666666,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 39,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.5022471913875514e-09,
+       "wear_end_mean": 0.33744458868159477,
+       "wear_end_p90": 0.4589360631279378,
+       "life_p10": 39.0,
+       "life_p50": 39.0,
+       "life_p90": 39.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.3202936407515928
+      }
+     ],
+     "search_s": 0.9,
+     "best_inside_observed": "1-stop M-H @ 16",
+     "gap_to_inside_s": 0.32652971715002366
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-H @ 14",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14
+     ],
+     "stint_lens": [
+      14,
+      39
+     ],
+     "inside_observed": [
+      false,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.67,
+      1.7
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 34",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4691487275454825e-11,
+       "wear_end_mean": 0.25904854261482785,
+       "wear_end_p90": 0.33518574983738053,
+       "life_p10": 38.39305838248569,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.5733333333333334,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 39,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.7714599302219119e-06,
+       "wear_end_mean": 0.3437924985474479,
+       "wear_end_p90": 0.4759637972925629,
+       "life_p10": 39.0,
+       "life_p50": 39.0,
+       "life_p90": 39.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.6405872815031856
+      }
+     ],
+     "search_s": 0.9,
+     "best_inside_observed": "1-stop M-H @ 16",
+     "gap_to_inside_s": 0.2638980265844424
+    }
+   ]
+  },
+  "barcelona-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 13,
+     "min": 9,
+     "p10": 11.2,
+     "median": 14.0,
+     "max": 26
+    },
+    "HARD": {
+     "n": 24,
+     "min": 11,
+     "p10": 16.0,
+     "median": 24.0,
+     "max": 31
+    },
+    "SOFT": {
+     "n": 8,
+     "min": 6,
+     "p10": 6.7,
+     "median": 11.5,
+     "max": 14
+    }
+   },
+   "shipped": "2-stop M-H-H @ 15,40",
+   "support": {
+    "HARD": 17.0,
+    "MEDIUM": 22.0,
+    "SOFT": 15.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-H @ 14,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14,
+      40
+     ],
+     "stint_lens": [
+      14,
+      26,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.64,
+      1.53,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-S @ 24,48",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.8947674462778497e-05,
+       "wear_end_mean": 0.6165821830033025,
+       "wear_end_p90": 0.750549604449085,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.193419487283915,
+       "life_p90": 29.20251119892424,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.07666666666666666,
+       "expected_excess_s": 0.18363735526707353,
+       "wear_end_mean": 0.7099904491624185,
+       "wear_end_p90": 0.962836608380322,
+       "life_p10": 27.03319174611305,
+       "life_p50": 38.24253985561109,
+       "life_p90": 52.0,
+       "life_censored_share": 0.15666666666666668,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.043333333333333335,
+       "expected_excess_s": 0.09959243820776252,
+       "wear_end_mean": 0.6711077350010425,
+       "wear_end_p90": 0.9101067432505499,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9566666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.1,
+     "best_inside_observed": "2-stop M-H-H @ 14,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-H @ 14,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14,
+      40
+     ],
+     "stint_lens": [
+      14,
+      26,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.64,
+      1.53,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-S @ 24,48",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.8947674462778497e-05,
+       "wear_end_mean": 0.6165821830033025,
+       "wear_end_p90": 0.750549604449085,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.195771455721683,
+       "life_p90": 29.194019763828386,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.07666666666666666,
+       "expected_excess_s": 0.17754844739650208,
+       "wear_end_mean": 0.7108199328495063,
+       "wear_end_p90": 0.9594382521319865,
+       "life_p10": 27.1671806712922,
+       "life_p50": 37.84794722630458,
+       "life_p90": 52.0,
+       "life_censored_share": 0.17,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.12187644050658031
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.043333333333333335,
+       "expected_excess_s": 0.09287872835912096,
+       "wear_end_mean": 0.6718911632893648,
+       "wear_end_p90": 0.9068972654821074,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9566666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.12187644050658031
+      }
+     ],
+     "search_s": 1.8,
+     "best_inside_observed": "2-stop M-H-H @ 14,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-H @ 14,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14,
+      40
+     ],
+     "stint_lens": [
+      14,
+      26,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.64,
+      1.53,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-S @ 24,48",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.8947674462778497e-05,
+       "wear_end_mean": 0.6165821830033025,
+       "wear_end_p90": 0.750549604449085,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.19815637624425,
+       "life_p90": 29.174748406524127,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.08,
+       "expected_excess_s": 0.1771804808595204,
+       "wear_end_mean": 0.7127211271776747,
+       "wear_end_p90": 0.9533311824545267,
+       "life_p10": 27.242993722902536,
+       "life_p50": 37.929615592202346,
+       "life_p90": 52.0,
+       "life_censored_share": 0.2,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.24375288101316062
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.04666666666666667,
+       "expected_excess_s": 0.08979520397955575,
+       "wear_end_mean": 0.6736867746959196,
+       "wear_end_p90": 0.9011308835067413,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9533333333333334,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.24375288101316062
+      }
+     ],
+     "search_s": 1.5,
+     "best_inside_observed": "2-stop M-H-H @ 14,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-H @ 14,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 14,
+     "pit_laps": [
+      14,
+      40
+     ],
+     "stint_lens": [
+      14,
+      26,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.64,
+      1.53,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-S @ 24,48",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 14,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.8947674462778497e-05,
+       "wear_end_mean": 0.6165821830033025,
+       "wear_end_p90": 0.750549604449085,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.18768158655798,
+       "life_p90": 29.08086951156037,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 14,
+       "push": 0.55,
+       "p_cliff": 0.09666666666666666,
+       "expected_excess_s": 0.19851446405147896,
+       "wear_end_mean": 0.7199071583461562,
+       "wear_end_p90": 0.9858923741279149,
+       "life_p10": 26.291722262839688,
+       "life_p50": 37.76148964373169,
+       "life_p90": 52.0,
+       "life_censored_share": 0.29,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.48750576202632123
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.06,
+       "expected_excess_s": 0.09754258491432445,
+       "wear_end_mean": 0.6804736882324094,
+       "wear_end_p90": 0.9319077700259596,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.94,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.48750576202632123
+      }
+     ],
+     "search_s": 1.0,
+     "best_inside_observed": "2-stop M-H-H @ 14,40",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "austria-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 26,
+     "min": 12,
+     "p10": 13.0,
+     "median": 19.0,
+     "max": 27
+    },
+    "HARD": {
+     "n": 24,
+     "min": 13,
+     "p10": 21.3,
+     "median": 26.0,
+     "max": 36
+    },
+    "SOFT": {
+     "n": 4,
+     "min": 12,
+     "p10": 13.5,
+     "median": 17.0,
+     "max": 19
+    }
+   },
+   "shipped": "2-stop M-H-M @ 20,45",
+   "support": {
+    "HARD": 24.0,
+    "MEDIUM": 25.0,
+    "SOFT": 18.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-M @ 19,46",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19,
+      46
+     ],
+     "stint_lens": [
+      19,
+      27,
+      25
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.76,
+      1.12,
+      1.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-M @ 25,50",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.957241800755223e-09,
+       "wear_end_mean": 0.46134186395820004,
+       "wear_end_p90": 0.551712373273519,
+       "life_p10": 34.97413988038712,
+       "life_p50": 42.66262852696565,
+       "life_p90": 51.60273580962219,
+       "life_censored_share": 0.0033333333333333335,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.7128596588311674e-08,
+       "wear_end_mean": 0.46952984162299893,
+       "wear_end_p90": 0.583061521455494,
+       "life_p10": 47.24917452548421,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.8033333333333333,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 25,
+       "start_lap": 46,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2828029659398924e-06,
+       "wear_end_mean": 0.5506581941920519,
+       "wear_end_p90": 0.6585245409415814,
+       "life_p10": 25.0,
+       "life_p50": 25.0,
+       "life_p90": 25.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "2-stop M-H-M @ 19,46",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-M @ 19,46",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19,
+      46
+     ],
+     "stint_lens": [
+      19,
+      27,
+      25
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.76,
+      1.12,
+      1.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-M @ 25,50",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.957241800755223e-09,
+       "wear_end_mean": 0.46134186395820004,
+       "wear_end_p90": 0.551712373273519,
+       "life_p10": 34.74834378388502,
+       "life_p50": 42.36960892293332,
+       "life_p90": 52.03049215569232,
+       "life_censored_share": 0.013333333333333334,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.699577929559215e-08,
+       "wear_end_mean": 0.4695508277171417,
+       "wear_end_p90": 0.5828470963489034,
+       "life_p10": 47.714972229994224,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.7666666666666667,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.028776381786275913
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 25,
+       "start_lap": 46,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2828029659398924e-06,
+       "wear_end_mean": 0.5506581941920519,
+       "wear_end_p90": 0.6585245409415814,
+       "life_p10": 25.0,
+       "life_p50": 25.0,
+       "life_p90": 25.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.9,
+     "best_inside_observed": "2-stop M-H-M @ 19,46",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-M @ 19,46",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19,
+      46
+     ],
+     "stint_lens": [
+      19,
+      27,
+      25
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.76,
+      1.12,
+      1.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-M @ 25,50",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.957241800755223e-09,
+       "wear_end_mean": 0.46134186395820004,
+       "wear_end_p90": 0.551712373273519,
+       "life_p10": 34.54225051792724,
+       "life_p50": 42.435157764377216,
+       "life_p90": 54.15287435702642,
+       "life_censored_share": 0.043333333333333335,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.688851077633983e-08,
+       "wear_end_mean": 0.46958833396682736,
+       "wear_end_p90": 0.5825743607520381,
+       "life_p10": 45.627286865207815,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.7066666666666667,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.057552763572551825
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 25,
+       "start_lap": 46,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2828029659398924e-06,
+       "wear_end_mean": 0.5506581941920519,
+       "wear_end_p90": 0.6585245409415814,
+       "life_p10": 25.0,
+       "life_p50": 25.0,
+       "life_p90": 25.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.9,
+     "best_inside_observed": "2-stop M-H-M @ 19,46",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-M @ 19,46",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19,
+      46
+     ],
+     "stint_lens": [
+      19,
+      27,
+      25
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.76,
+      1.12,
+      1.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop H-H-M @ 25,50",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 4.957241800755223e-09,
+       "wear_end_mean": 0.46134186395820004,
+       "wear_end_p90": 0.551712373273519,
+       "life_p10": 34.34437874130719,
+       "life_p50": 41.92395226286146,
+       "life_p90": 65.63742016309808,
+       "life_censored_share": 0.07666666666666666,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.6744351889289946e-08,
+       "wear_end_mean": 0.46971314815680026,
+       "wear_end_p90": 0.5817589412730956,
+       "life_p10": 42.62214030589659,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.6466666666666666,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.11510552714510365
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 25,
+       "start_lap": 46,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2828029659398924e-06,
+       "wear_end_mean": 0.5506581941920519,
+       "wear_end_p90": 0.6585245409415814,
+       "life_p10": 25.0,
+       "life_p50": 25.0,
+       "life_p90": 25.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.0,
+     "best_inside_observed": "2-stop M-H-M @ 19,46",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "belgium-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 13,
+     "min": 14,
+     "p10": 14.2,
+     "median": 18.0,
+     "max": 20
+    },
+    "HARD": {
+     "n": 22,
+     "min": 11,
+     "p10": 18.1,
+     "median": 24.0,
+     "max": 31
+    },
+    "SOFT": {
+     "n": 4,
+     "min": 11,
+     "p10": 11.3,
+     "median": 13.0,
+     "max": 26
+    }
+   },
+   "shipped": "1-stop M-S @ 16",
+   "support": {
+    "HARD": 18.0,
+    "MEDIUM": 17.0,
+    "SOFT": 14.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 24",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 29.216226143141352,
+       "life_p50": 35.69021656233207,
+       "life_p90": 43.339100972910884,
+       "life_censored_share": 0.08666666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.04666666666666667,
+       "expected_excess_s": 0.015569133989847288,
+       "wear_end_mean": 0.7536788001289566,
+       "wear_end_p90": 0.922761608087211,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9533333333333334,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.6,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 3.013645514148749
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 24",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 28.797420523748098,
+       "life_p50": 35.40423995875196,
+       "life_p90": 44.0,
+       "life_censored_share": 0.12333333333333334,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.056666666666666664,
+       "expected_excess_s": 0.023239624979236085,
+       "wear_end_mean": 0.7568694614405383,
+       "wear_end_p90": 0.9426939493894538,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9433333333333334,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.2302110542902073
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 2.982457205306247
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 24",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 28.493436364610048,
+       "life_p50": 36.07048242167248,
+       "life_p90": 44.0,
+       "life_censored_share": 0.17666666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.09333333333333334,
+       "expected_excess_s": 0.060720400637704695,
+       "wear_end_mean": 0.7658991487376194,
+       "wear_end_p90": 0.9811271304414318,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9066666666666666,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.4604221085804146
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "2-stop S-M-S @ 12,26",
+     "gap_to_inside_s": 2.860700585108958
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 23",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 27.324222194722775,
+       "life_p50": 35.95651893838203,
+       "life_p90": 44.0,
+       "life_censored_share": 0.31,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.18,
+       "expected_excess_s": 0.7923619196377387,
+       "wear_end_mean": 0.8046972379697702,
+       "wear_end_p90": 1.1175474428296956,
+       "life_p10": 26.046643178656435,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.82,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.9208442171608292
+      }
+     ],
+     "search_s": 0.9,
+     "best_inside_observed": "2-stop S-M-S @ 12,26",
+     "gap_to_inside_s": 1.6059238593399243
+    }
+   ]
+  },
+  "hungary-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 16,
+     "min": 14,
+     "p10": 15.5,
+     "median": 20.5,
+     "max": 29
+    },
+    "HARD": {
+     "n": 26,
+     "min": 16,
+     "p10": 17.0,
+     "median": 22.5,
+     "max": 49
+    },
+    "SOFT": {
+     "n": 18,
+     "min": 8,
+     "p10": 12.4,
+     "median": 14.0,
+     "max": 34
+    }
+   },
+   "shipped": "2-stop M-H-M @ 18,43",
+   "support": {
+    "HARD": 25.0,
+    "MEDIUM": 22.0,
+    "SOFT": 22.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-H @ 18,43",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.08
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 41.98429621940838,
+       "life_p50": 53.34640365518035,
+       "life_p90": 68.89888965859635,
+       "life_censored_share": 0.09666666666666666,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 51.000300661124754,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.88,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4230192469397736e-09,
+       "wear_end_mean": 0.39808469677593206,
+       "wear_end_p90": 0.5153556513780105,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.1,
+     "best_inside_observed": "2-stop M-H-H @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-H @ 18,43",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.08
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 41.36562745697365,
+       "life_p50": 52.937987085098,
+       "life_p90": 70.0,
+       "life_censored_share": 0.14,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 50.312848223915594,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.8766666666666667,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.4106370435290265e-09,
+       "wear_end_mean": 0.3980861487262213,
+       "wear_end_p90": 0.5148567120206313,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0184168843432166
+      }
+     ],
+     "search_s": 1.5,
+     "best_inside_observed": "2-stop M-H-H @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-H @ 18,43",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.08
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 40.66911251367874,
+       "life_p50": 52.27235981375818,
+       "life_p90": 70.0,
+       "life_censored_share": 0.2,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 49.41925050941535,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.85,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.3985033805657613e-09,
+       "wear_end_mean": 0.3980921747819826,
+       "wear_end_p90": 0.5143655449147454,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0368337686864332
+      }
+     ],
+     "search_s": 1.1,
+     "best_inside_observed": "2-stop M-H-H @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-H @ 18,43",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.08
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 38.33172098454585,
+       "life_p50": 52.70031430741568,
+       "life_p90": 70.0,
+       "life_censored_share": 0.3333333333333333,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 45.737009716113846,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.7566666666666667,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.374962064632096e-09,
+       "wear_end_mean": 0.3981179644815778,
+       "wear_end_p90": 0.5139174939447517,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0736675373728664
+      }
+     ],
+     "search_s": 1.1,
+     "best_inside_observed": "2-stop M-H-H @ 18,43",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "italy-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 21,
+     "min": 3,
+     "p10": 3.0,
+     "median": 25.0,
+     "max": 50
+    },
+    "HARD": {
+     "n": 15,
+     "min": 3,
+     "p10": 5.4,
+     "median": 43.0,
+     "max": 50
+    },
+    "SOFT": {
+     "n": 11,
+     "min": 3,
+     "p10": 3.0,
+     "median": 3.0,
+     "max": 24
+    }
+   },
+   "shipped": "1-stop M-H @ 21",
+   "support": {
+    "HARD": 22.0,
+    "MEDIUM": 22.0,
+    "SOFT": 20.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-H @ 20",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 20,
+     "pit_laps": [
+      20
+     ],
+     "stint_lens": [
+      20,
+      33
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.91,
+      1.5
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 29",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.574266060360099e-05,
+       "wear_end_mean": 0.28085401174349645,
+       "wear_end_p90": 0.442877449752469,
+       "life_p10": 46.77395598870075,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.8433333333333334,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 33,
+       "start_lap": 20,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0006867614902602056,
+       "wear_end_mean": 0.3112615897090195,
+       "wear_end_p90": 0.5187010159364464,
+       "life_p10": 33.0,
+       "life_p50": 33.0,
+       "life_p90": 33.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 0.5,
+     "best_inside_observed": "1-stop M-H @ 20",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-H @ 20",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 20,
+     "pit_laps": [
+      20
+     ],
+     "stint_lens": [
+      20,
+      33
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.91,
+      1.5
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 29",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.574266060360099e-05,
+       "wear_end_mean": 0.28085401174349645,
+       "wear_end_p90": 0.442877449752469,
+       "life_p10": 47.216501201824904,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.84,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 33,
+       "start_lap": 20,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0008109528345922504,
+       "wear_end_mean": 0.3112108926776271,
+       "wear_end_p90": 0.5203343899719689,
+       "life_p10": 33.0,
+       "life_p50": 33.0,
+       "life_p90": 33.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.11510552714510365
+      }
+     ],
+     "search_s": 0.7,
+     "best_inside_observed": "1-stop M-H @ 20",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-H @ 20",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 20,
+     "pit_laps": [
+      20
+     ],
+     "stint_lens": [
+      20,
+      33
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.91,
+      1.5
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 29",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.574266060360099e-05,
+       "wear_end_mean": 0.28085401174349645,
+       "wear_end_p90": 0.442877449752469,
+       "life_p10": 46.59153753590933,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.8366666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 33,
+       "start_lap": 20,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0009572883190605257,
+       "wear_end_mean": 0.3115286821231867,
+       "wear_end_p90": 0.5165918413713275,
+       "life_p10": 33.0,
+       "life_p50": 33.0,
+       "life_p90": 33.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.2302110542902073
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "1-stop M-H @ 20",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-H @ 20",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 20,
+     "pit_laps": [
+      20
+     ],
+     "stint_lens": [
+      20,
+      33
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.91,
+      1.5
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 29",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.574266060360099e-05,
+       "wear_end_mean": 0.28085401174349645,
+       "wear_end_p90": 0.442877449752469,
+       "life_p10": 44.21260431151223,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.7666666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 33,
+       "start_lap": 20,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0013286566452834837,
+       "wear_end_mean": 0.31330242924890556,
+       "wear_end_p90": 0.5088271926837341,
+       "life_p10": 33.0,
+       "life_p50": 33.0,
+       "life_p90": 33.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.4604221085804146
+      }
+     ],
+     "search_s": 0.8,
+     "best_inside_observed": "1-stop M-H @ 20",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  }
+ },
+ "per_event_pace_calibrated": {
+  "australia-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 15,
+     "min": 11,
+     "p10": 11.0,
+     "median": 12.0,
+     "max": 28
+    },
+    "HARD": {
+     "n": 18,
+     "min": 9,
+     "p10": 16.4,
+     "median": 27.0,
+     "max": 46
+    },
+    "SOFT": {
+     "n": 5,
+     "min": 10,
+     "p10": 10.4,
+     "median": 11.0,
+     "max": 24
+    }
+   },
+   "shipped": "1-stop M-H @ 21",
+   "support": {
+    "HARD": 21.0,
+    "MEDIUM": 20.0,
+    "SOFT": 21.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      37
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      1.05,
+      1.76
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.1784183325031e-12,
+       "wear_end_mean": 0.3034171433480058,
+       "wear_end_p90": 0.3206629536737391,
+       "life_p10": 58.0,
+       "life_p50": 58.0,
+       "life_p90": 58.0,
+       "life_censored_share": 0.9333333333333333,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 37,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.826880653380366e-11,
+       "wear_end_mean": 0.25615349016397926,
+       "wear_end_p90": 0.2738968860047081,
+       "life_p10": 37.0,
+       "life_p50": 37.0,
+       "life_p90": 37.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.8,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      37
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      1.05,
+      1.76
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.195687481576802e-12,
+       "wear_end_mean": 0.3034197830886714,
+       "wear_end_p90": 0.3203343747332447,
+       "life_p10": 58.0,
+       "life_p50": 58.0,
+       "life_p90": 58.0,
+       "life_censored_share": 0.9133333333333333,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.011510552714510375
+      },
+      {
+       "compound": "HARD",
+       "laps": 37,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.3667849925920923e-10,
+       "wear_end_mean": 0.256614436364852,
+       "wear_end_p90": 0.28014751838127183,
+       "life_p10": 37.0,
+       "life_p50": 37.0,
+       "life_p90": 37.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.1753988985068246
+      }
+     ],
+     "search_s": 2.4,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      37
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      1.05,
+      1.76
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.213038047005644e-12,
+       "wear_end_mean": 0.3034238638805813,
+       "wear_end_p90": 0.32002300109931775,
+       "life_p10": 52.896331374955295,
+       "life_p50": 58.0,
+       "life_p90": 58.0,
+       "life_censored_share": 0.7666666666666667,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.02302110542902075
+      },
+      {
+       "compound": "HARD",
+       "laps": 37,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.3173047198076233e-10,
+       "wear_end_mean": 0.25802727518469953,
+       "wear_end_p90": 0.29094530738181285,
+       "life_p10": 37.0,
+       "life_p50": 37.0,
+       "life_p90": 37.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.3507977970136492
+      }
+     ],
+     "search_s": 2.9,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      37
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      1.05,
+      1.76
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 6.248682127285576e-12,
+       "wear_end_mean": 0.3034363538036496,
+       "wear_end_p90": 0.32022140786403047,
+       "life_p10": 45.21299196338646,
+       "life_p50": 58.0,
+       "life_p90": 58.0,
+       "life_censored_share": 0.6633333333333333,
+       "support_laps": 20.0,
+       "extrap_ln_sd_at_end": 0.0460422108580415
+      },
+      {
+       "compound": "HARD",
+       "laps": 37,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.0667633754699607e-09,
+       "wear_end_mean": 0.26399774794560377,
+       "wear_end_p90": 0.3190325515290496,
+       "life_p10": 37.0,
+       "life_p50": 37.0,
+       "life_p90": 37.0,
+       "life_censored_share": 1.0,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.7015955940272984
+      }
+     ],
+     "search_s": 2.6,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "japan-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 22,
+     "min": 2,
+     "p10": 17.0,
+     "median": 21.5,
+     "max": 33
+    },
+    "HARD": {
+     "n": 20,
+     "min": 2,
+     "p10": 22.6,
+     "median": 31.0,
+     "max": 37
+    }
+   },
+   "shipped": "1-stop M-H @ 19",
+   "support": {
+    "HARD": 23.0,
+    "MEDIUM": 21.0,
+    "SOFT": 14.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-H @ 19",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19
+     ],
+     "stint_lens": [
+      19,
+      34
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.9,
+      1.48
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-S @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.9413406636118828e-07,
+       "wear_end_mean": 0.34929200089685186,
+       "wear_end_p90": 0.45195275005615415,
+       "life_p10": 43.40617283516923,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6566666666666666,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 34,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.2633293836975903e-10,
+       "wear_end_mean": 0.2903759423124723,
+       "wear_end_p90": 0.39928385829676155,
+       "life_p10": 34.0,
+       "life_p50": 34.0,
+       "life_p90": 34.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.6,
+     "best_inside_observed": "1-stop M-H @ 19",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-H @ 19",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19
+     ],
+     "stint_lens": [
+      19,
+      34
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.9,
+      1.48
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-S @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.9413406636118828e-07,
+       "wear_end_mean": 0.34929200089685186,
+       "wear_end_p90": 0.45195275005615415,
+       "life_p10": 42.55315948825096,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6833333333333333,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 34,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 9.911452381050623e-11,
+       "wear_end_mean": 0.29056683898996283,
+       "wear_end_p90": 0.3964629198451373,
+       "life_p10": 34.0,
+       "life_p50": 34.0,
+       "life_p90": 34.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.11010093900835999
+      }
+     ],
+     "search_s": 1.6,
+     "best_inside_observed": "1-stop M-H @ 19",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-H @ 19",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19
+     ],
+     "stint_lens": [
+      19,
+      34
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.9,
+      1.48
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-S @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.9413406636118828e-07,
+       "wear_end_mean": 0.34929200089685186,
+       "wear_end_p90": 0.45195275005615415,
+       "life_p10": 41.51483382760384,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.6566666666666666,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 34,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 9.399410601703314e-11,
+       "wear_end_mean": 0.29108856144323636,
+       "wear_end_p90": 0.39620465382746306,
+       "life_p10": 34.0,
+       "life_p50": 34.0,
+       "life_p90": 34.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.22020187801671998
+      }
+     ],
+     "search_s": 1.5,
+     "best_inside_observed": "1-stop M-H @ 19",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-H @ 19",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 19,
+     "pit_laps": [
+      19
+     ],
+     "stint_lens": [
+      19,
+      34
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.9,
+      1.48
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-S @ 33",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 19,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.9413406636118828e-07,
+       "wear_end_mean": 0.34929200089685186,
+       "wear_end_p90": 0.45195275005615415,
+       "life_p10": 38.39305838248569,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.5733333333333334,
+       "support_laps": 21.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 34,
+       "start_lap": 19,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.925700734058585e-10,
+       "wear_end_mean": 0.2931726104959417,
+       "wear_end_p90": 0.3997605622891636,
+       "life_p10": 34.0,
+       "life_p50": 34.0,
+       "life_p90": 34.0,
+       "life_censored_share": 1.0,
+       "support_laps": 23.0,
+       "extrap_ln_sd_at_end": 0.44040375603343995
+      }
+     ],
+     "search_s": 2.3,
+     "best_inside_observed": "1-stop M-H @ 19",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "barcelona-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 13,
+     "min": 9,
+     "p10": 11.2,
+     "median": 14.0,
+     "max": 26
+    },
+    "HARD": {
+     "n": 24,
+     "min": 11,
+     "p10": 16.0,
+     "median": 24.0,
+     "max": 31
+    },
+    "SOFT": {
+     "n": 8,
+     "min": 6,
+     "p10": 6.7,
+     "median": 11.5,
+     "max": 14
+    }
+   },
+   "shipped": "2-stop M-H-H @ 15,40",
+   "support": {
+    "HARD": 17.0,
+    "MEDIUM": 22.0,
+    "SOFT": 15.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-H @ 15,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 15,
+     "pit_laps": [
+      15,
+      40
+     ],
+     "stint_lens": [
+      15,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.68,
+      1.47,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 15,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.000255127826146477,
+       "wear_end_mean": 0.6599402981293303,
+       "wear_end_p90": 0.8033283208222824,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.193419487283915,
+       "life_p90": 29.20251119892424,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 15,
+       "push": 0.55,
+       "p_cliff": 0.043333333333333335,
+       "expected_excess_s": 0.11417938797107745,
+       "wear_end_mean": 0.6819542432568162,
+       "wear_end_p90": 0.9248159766410531,
+       "life_p10": 27.092638255078704,
+       "life_p50": 38.32829852101416,
+       "life_p90": 51.0,
+       "life_censored_share": 0.16,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.043333333333333335,
+       "expected_excess_s": 0.09959243820776252,
+       "wear_end_mean": 0.6711077350010425,
+       "wear_end_p90": 0.9101067432505499,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9566666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 2.2,
+     "best_inside_observed": "2-stop M-H-H @ 15,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-H @ 15,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 15,
+     "pit_laps": [
+      15,
+      40
+     ],
+     "stint_lens": [
+      15,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.68,
+      1.47,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 15,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.000255127826146477,
+       "wear_end_mean": 0.6599402981293303,
+       "wear_end_p90": 0.8033283208222824,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.195771455721683,
+       "life_p90": 29.194019763828386,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 15,
+       "push": 0.55,
+       "p_cliff": 0.05,
+       "expected_excess_s": 0.10886436578236655,
+       "wear_end_mean": 0.6825727082787656,
+       "wear_end_p90": 0.9219923420825256,
+       "life_p10": 27.228986761985126,
+       "life_p50": 37.93042568940853,
+       "life_p90": 51.0,
+       "life_censored_share": 0.18666666666666668,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.10833461378362699
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.043333333333333335,
+       "expected_excess_s": 0.09287872835912096,
+       "wear_end_mean": 0.6718911632893648,
+       "wear_end_p90": 0.9068972654821074,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9566666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.12187644050658031
+      }
+     ],
+     "search_s": 3.8,
+     "best_inside_observed": "2-stop M-H-H @ 15,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-H @ 15,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 15,
+     "pit_laps": [
+      15,
+      40
+     ],
+     "stint_lens": [
+      15,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.68,
+      1.47,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 15,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.000255127826146477,
+       "wear_end_mean": 0.6599402981293303,
+       "wear_end_p90": 0.8033283208222824,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.19815637624425,
+       "life_p90": 29.174748406524127,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 15,
+       "push": 0.55,
+       "p_cliff": 0.05333333333333334,
+       "expected_excess_s": 0.10619012001410119,
+       "wear_end_mean": 0.683955809732185,
+       "wear_end_p90": 0.9176701900331996,
+       "life_p10": 27.31160968538993,
+       "life_p50": 38.003800398477466,
+       "life_p90": 51.0,
+       "life_censored_share": 0.21666666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.21666922756725399
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.04666666666666667,
+       "expected_excess_s": 0.08979520397955575,
+       "wear_end_mean": 0.6736867746959196,
+       "wear_end_p90": 0.9011308835067413,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.9533333333333334,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.24375288101316062
+      }
+     ],
+     "search_s": 3.6,
+     "best_inside_observed": "2-stop M-H-H @ 15,40",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-H @ 15,40",
+     "seq": "MEDIUM-HARD-HARD",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 15,
+     "pit_laps": [
+      15,
+      40
+     ],
+     "stint_lens": [
+      15,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.68,
+      1.47,
+      1.53
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 15,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.000255127826146477,
+       "wear_end_mean": 0.6599402981293303,
+       "wear_end_p90": 0.8033283208222824,
+       "life_p10": 18.745128111142783,
+       "life_p50": 23.18768158655798,
+       "life_p90": 29.08086951156037,
+       "life_censored_share": 0.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 15,
+       "push": 0.55,
+       "p_cliff": 0.06666666666666667,
+       "expected_excess_s": 0.11041936045777376,
+       "wear_end_mean": 0.6891126616605701,
+       "wear_end_p90": 0.9356450096308999,
+       "life_p10": 26.326111619506044,
+       "life_p50": 37.9183482635778,
+       "life_p90": 51.0,
+       "life_censored_share": 0.2966666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.43333845513450797
+      },
+      {
+       "compound": "HARD",
+       "laps": 26,
+       "start_lap": 40,
+       "push": 0.55,
+       "p_cliff": 0.06,
+       "expected_excess_s": 0.09754258491432445,
+       "wear_end_mean": 0.6804736882324094,
+       "wear_end_p90": 0.9319077700259596,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 0.94,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.48750576202632123
+      }
+     ],
+     "search_s": 3.3,
+     "best_inside_observed": "2-stop M-H-H @ 15,40",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "austria-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 26,
+     "min": 12,
+     "p10": 13.0,
+     "median": 19.0,
+     "max": 27
+    },
+    "HARD": {
+     "n": 24,
+     "min": 13,
+     "p10": 21.3,
+     "median": 26.0,
+     "max": 36
+    },
+    "SOFT": {
+     "n": 4,
+     "min": 12,
+     "p10": 13.5,
+     "median": 17.0,
+     "max": 19
+    }
+   },
+   "shipped": "2-stop M-H-M @ 20,45",
+   "support": {
+    "HARD": 24.0,
+    "MEDIUM": 25.0,
+    "SOFT": 18.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-M @ 20,45",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 20,
+     "pit_laps": [
+      20,
+      45
+     ],
+     "stint_lens": [
+      20,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.8,
+      1.04,
+      1.04
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1079223024855763e-08,
+       "wear_end_mean": 0.4851555793617671,
+       "wear_end_p90": 0.5801908671371337,
+       "life_p10": 34.97413988038712,
+       "life_p50": 42.66262852696565,
+       "life_p90": 51.60273580962219,
+       "life_censored_share": 0.0033333333333333335,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 20,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.125108596688167e-09,
+       "wear_end_mean": 0.434747069480819,
+       "wear_end_p90": 0.5398683221147305,
+       "life_p10": 47.34907200139872,
+       "life_p50": 51.0,
+       "life_p90": 51.0,
+       "life_censored_share": 0.8266666666666667,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 26,
+       "start_lap": 45,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.0033297049878464e-06,
+       "wear_end_mean": 0.5732738932251595,
+       "wear_end_p90": 0.6855703435482271,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 2.3,
+     "best_inside_observed": "2-stop M-H-M @ 20,45",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-M @ 20,45",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 20,
+     "pit_laps": [
+      20,
+      45
+     ],
+     "stint_lens": [
+      20,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.8,
+      1.04,
+      1.04
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1079223024855763e-08,
+       "wear_end_mean": 0.4851555793617671,
+       "wear_end_p90": 0.5801908671371337,
+       "life_p10": 34.74834378388502,
+       "life_p50": 42.36960892293332,
+       "life_p90": 52.03049215569232,
+       "life_censored_share": 0.013333333333333334,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 20,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1235848747987636e-09,
+       "wear_end_mean": 0.4347497835818186,
+       "wear_end_p90": 0.5398324904257584,
+       "life_p10": 47.82187881461994,
+       "life_p50": 51.0,
+       "life_p90": 51.0,
+       "life_censored_share": 0.7933333333333333,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.009592127262091988
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 26,
+       "start_lap": 45,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.003255264597698e-06,
+       "wear_end_mean": 0.5732751431540709,
+       "wear_end_p90": 0.6853622072260688,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0092084421716083
+      }
+     ],
+     "search_s": 3.4,
+     "best_inside_observed": "2-stop M-H-M @ 20,45",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-M @ 20,45",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 20,
+     "pit_laps": [
+      20,
+      45
+     ],
+     "stint_lens": [
+      20,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.8,
+      1.04,
+      1.04
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1079223024855763e-08,
+       "wear_end_mean": 0.4851555793617671,
+       "wear_end_p90": 0.5801908671371337,
+       "life_p10": 34.54225051792724,
+       "life_p50": 42.435157764377216,
+       "life_p90": 54.15287435702642,
+       "life_censored_share": 0.043333333333333335,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 20,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1221358205888073e-09,
+       "wear_end_mean": 0.43475367733898035,
+       "wear_end_p90": 0.5397967641171864,
+       "life_p10": 45.695954762391395,
+       "life_p50": 51.0,
+       "life_p90": 51.0,
+       "life_censored_share": 0.7433333333333333,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.019184254524183975
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 26,
+       "start_lap": 45,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.00323044201667e-06,
+       "wear_end_mean": 0.5732777711098656,
+       "wear_end_p90": 0.6851560818446057,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0184168843432166
+      }
+     ],
+     "search_s": 4.5,
+     "best_inside_observed": "2-stop M-H-M @ 20,45",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-M @ 20,45",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 20,
+     "pit_laps": [
+      20,
+      45
+     ],
+     "stint_lens": [
+      20,
+      25,
+      26
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.8,
+      1.04,
+      1.04
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 20,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1079223024855763e-08,
+       "wear_end_mean": 0.4851555793617671,
+       "wear_end_p90": 0.5801908671371337,
+       "life_p10": 34.34437874130719,
+       "life_p50": 41.92395226286146,
+       "life_p90": 65.63742016309808,
+       "life_censored_share": 0.07666666666666666,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 20,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.1194572128827954e-09,
+       "wear_end_mean": 0.4347650077489567,
+       "wear_end_p90": 0.5397256270075687,
+       "life_p10": 42.69943853362007,
+       "life_p50": 51.0,
+       "life_p90": 51.0,
+       "life_censored_share": 0.6833333333333333,
+       "support_laps": 24.0,
+       "extrap_ln_sd_at_end": 0.03836850904836795
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 26,
+       "start_lap": 45,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 5.003331999486512e-06,
+       "wear_end_mean": 0.5732871636111639,
+       "wear_end_p90": 0.6852222254911271,
+       "life_p10": 26.0,
+       "life_p50": 26.0,
+       "life_p90": 26.0,
+       "life_censored_share": 1.0,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0368337686864332
+      }
+     ],
+     "search_s": 3.5,
+     "best_inside_observed": "2-stop M-H-M @ 20,45",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "belgium-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 13,
+     "min": 14,
+     "p10": 14.2,
+     "median": 18.0,
+     "max": 20
+    },
+    "HARD": {
+     "n": 22,
+     "min": 11,
+     "p10": 18.1,
+     "median": 24.0,
+     "max": 31
+    },
+    "SOFT": {
+     "n": 4,
+     "min": 11,
+     "p10": 11.3,
+     "median": 13.0,
+     "max": 26
+    }
+   },
+   "shipped": "1-stop M-S @ 16",
+   "support": {
+    "HARD": 18.0,
+    "MEDIUM": 17.0,
+    "SOFT": 14.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 23",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 29.216226143141352,
+       "life_p50": 35.69021656233207,
+       "life_p90": 43.339100972910884,
+       "life_censored_share": 0.08666666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.04666666666666667,
+       "expected_excess_s": 0.015569133989847288,
+       "wear_end_mean": 0.7536788001289566,
+       "wear_end_p90": 0.922761608087211,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9533333333333334,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.8,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 2.2879047808202273
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 23",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 28.797420523748098,
+       "life_p50": 35.40423995875196,
+       "life_p90": 44.0,
+       "life_censored_share": 0.12333333333333334,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.056666666666666664,
+       "expected_excess_s": 0.023239624979236085,
+       "wear_end_mean": 0.7568694614405383,
+       "wear_end_p90": 0.9426939493894538,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9433333333333334,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.2302110542902073
+      }
+     ],
+     "search_s": 2.6,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 2.253149868220248
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 23",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 28.493436364610048,
+       "life_p50": 36.07048242167248,
+       "life_p90": 44.0,
+       "life_censored_share": 0.17666666666666667,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.09333333333333334,
+       "expected_excess_s": 0.060720400637704695,
+       "wear_end_mean": 0.7658991487376194,
+       "wear_end_p90": 0.9811271304414318,
+       "life_p10": 28.0,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.9066666666666666,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.4604221085804146
+      }
+     ],
+     "search_s": 2.2,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 2.1393655356690573
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-S @ 16",
+     "seq": "MEDIUM-SOFT",
+     "n_stops": 1,
+     "push": 0.55,
+     "first_stop": 16,
+     "pit_laps": [
+      16
+     ],
+     "stint_lens": [
+      16,
+      28
+     ],
+     "inside_observed": [
+      true,
+      false
+     ],
+     "all_inside_observed": false,
+     "extrap_ratio": [
+      0.94,
+      2.0
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop S-M @ 23",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 16,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 2.0507534923922913e-09,
+       "wear_end_mean": 0.4694976169021255,
+       "wear_end_p90": 0.5592032225988731,
+       "life_p10": 27.324222194722775,
+       "life_p50": 35.95651893838203,
+       "life_p90": 44.0,
+       "life_censored_share": 0.31,
+       "support_laps": 17.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "SOFT",
+       "laps": 28,
+       "start_lap": 16,
+       "push": 0.55,
+       "p_cliff": 0.18,
+       "expected_excess_s": 0.7923619196377387,
+       "wear_end_mean": 0.8046972379697702,
+       "wear_end_p90": 1.1175474428296956,
+       "life_p10": 26.046643178656435,
+       "life_p50": 28.0,
+       "life_p90": 28.0,
+       "life_censored_share": 0.82,
+       "support_laps": 14.0,
+       "extrap_ln_sd_at_end": 0.9208442171608292
+      }
+     ],
+     "search_s": 2.3,
+     "best_inside_observed": "1-stop M-S @ 18",
+     "gap_to_inside_s": 1.0472932371007175
+    }
+   ]
+  },
+  "hungary-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 16,
+     "min": 14,
+     "p10": 15.5,
+     "median": 20.5,
+     "max": 29
+    },
+    "HARD": {
+     "n": 26,
+     "min": 16,
+     "p10": 17.0,
+     "median": 22.5,
+     "max": 49
+    },
+    "SOFT": {
+     "n": 18,
+     "min": 8,
+     "p10": 12.4,
+     "median": 14.0,
+     "max": 34
+    }
+   },
+   "shipped": "2-stop M-H-M @ 18,43",
+   "support": {
+    "HARD": 25.0,
+    "MEDIUM": 22.0,
+    "SOFT": 22.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "2-stop M-H-M @ 18,43",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.23
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 41.98429621940838,
+       "life_p50": 53.34640365518035,
+       "life_p90": 68.89888965859635,
+       "life_censored_share": 0.09666666666666666,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 51.000300661124754,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.88,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.08157397641932e-08,
+       "wear_end_mean": 0.4856276447200008,
+       "wear_end_p90": 0.5983096292644312,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 2.2,
+     "best_inside_observed": "2-stop M-H-M @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "2-stop M-H-M @ 18,43",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.23
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 41.36562745697365,
+       "life_p50": 52.937987085098,
+       "life_p90": 70.0,
+       "life_censored_share": 0.14,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 50.312848223915594,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.8766666666666667,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.224202568097301e-08,
+       "wear_end_mean": 0.48571152640436954,
+       "wear_end_p90": 0.5998202559154688,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0523206941568653
+      }
+     ],
+     "search_s": 2.5,
+     "best_inside_observed": "2-stop M-H-M @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "2-stop M-H-M @ 18,43",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.23
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 40.66911251367874,
+       "life_p50": 52.27235981375818,
+       "life_p90": 70.0,
+       "life_censored_share": 0.2,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 49.41925050941535,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.85,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.3879430526388235e-08,
+       "wear_end_mean": 0.48587514085244426,
+       "wear_end_p90": 0.602625819016427,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.1046413883137306
+      }
+     ],
+     "search_s": 2.9,
+     "best_inside_observed": "2-stop M-H-M @ 18,43",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "2-stop M-H-M @ 18,43",
+     "seq": "MEDIUM-HARD-MEDIUM",
+     "n_stops": 2,
+     "push": 0.55,
+     "first_stop": 18,
+     "pit_laps": [
+      18,
+      43
+     ],
+     "stint_lens": [
+      18,
+      25,
+      27
+     ],
+     "inside_observed": [
+      true,
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.82,
+      1.0,
+      1.23
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "2-stop M-M-S @ 25,51",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 18,
+       "start_lap": 0,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.5157864223051356e-11,
+       "wear_end_mean": 0.3562812514543269,
+       "wear_end_p90": 0.4389505123712874,
+       "life_p10": 38.33172098454585,
+       "life_p50": 52.70031430741568,
+       "life_p90": 70.0,
+       "life_censored_share": 0.3333333333333333,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 25,
+       "start_lap": 18,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 1.702108511728954e-09,
+       "wear_end_mean": 0.38870704471090733,
+       "wear_end_p90": 0.5032154560188119,
+       "life_p10": 45.737009716113846,
+       "life_p50": 52.0,
+       "life_p90": 52.0,
+       "life_censored_share": 0.7566666666666667,
+       "support_laps": 25.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "MEDIUM",
+       "laps": 27,
+       "start_lap": 43,
+       "push": 0.55,
+       "p_cliff": 0.0,
+       "expected_excess_s": 3.790754576885972e-08,
+       "wear_end_mean": 0.486444798837956,
+       "wear_end_p90": 0.6012371486070847,
+       "life_p10": 27.0,
+       "life_p50": 27.0,
+       "life_p90": 27.0,
+       "life_censored_share": 1.0,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.2092827766274612
+      }
+     ],
+     "search_s": 3.2,
+     "best_inside_observed": "2-stop M-H-M @ 18,43",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  },
+  "italy-2026": {
+   "observed_stints": {
+    "MEDIUM": {
+     "n": 21,
+     "min": 3,
+     "p10": 3.0,
+     "median": 25.0,
+     "max": 50
+    },
+    "HARD": {
+     "n": 15,
+     "min": 3,
+     "p10": 5.4,
+     "median": 43.0,
+     "max": 50
+    },
+    "SOFT": {
+     "n": 11,
+     "min": 3,
+     "p10": 3.0,
+     "median": 3.0,
+     "max": 24
+    }
+   },
+   "shipped": "1-stop M-H @ 21",
+   "support": {
+    "HARD": 22.0,
+    "MEDIUM": 22.0,
+    "SOFT": 20.0
+   },
+   "levels": [
+    {
+     "extrap_ln_sd": 0.0,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      32
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.95,
+      1.45
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 28",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0001683460481814993,
+       "wear_end_mean": 0.29451326622874513,
+       "wear_end_p90": 0.4644166677767848,
+       "life_p10": 46.77395598870075,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.8433333333333334,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 32,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.00026861026061252474,
+       "wear_end_mean": 0.3014156163500694,
+       "wear_end_p90": 0.5022932208437562,
+       "life_p10": 32.0,
+       "life_p50": 32.0,
+       "life_p90": 32.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      }
+     ],
+     "search_s": 1.6,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.2302110542902073,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      32
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.95,
+      1.45
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 28",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0001683460481814993,
+       "wear_end_mean": 0.29451326622874513,
+       "wear_end_p90": 0.4644166677767848,
+       "life_p10": 47.216501201824904,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.84,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 32,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.00031530855345366184,
+       "wear_end_mean": 0.3013601422326421,
+       "wear_end_p90": 0.5043169438428536,
+       "life_p10": 32.0,
+       "life_p50": 32.0,
+       "life_p90": 32.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.1046413883137306
+      }
+     ],
+     "search_s": 1.9,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.4604221085804146,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      32
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.95,
+      1.45
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 28",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0001683460481814993,
+       "wear_end_mean": 0.29451326622874513,
+       "wear_end_p90": 0.4644166677767848,
+       "life_p10": 46.59153753590933,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.8366666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 32,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.00037046597659665706,
+       "wear_end_mean": 0.30158458282217016,
+       "wear_end_p90": 0.5013564631791122,
+       "life_p10": 32.0,
+       "life_p50": 32.0,
+       "life_p90": 32.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.2092827766274612
+      }
+     ],
+     "search_s": 2.1,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    },
+    {
+     "extrap_ln_sd": 0.9208442171608292,
+     "best": "1-stop M-H @ 21",
+     "seq": "MEDIUM-HARD",
+     "n_stops": 1,
+     "push": 0.7,
+     "first_stop": 21,
+     "pit_laps": [
+      21
+     ],
+     "stint_lens": [
+      21,
+      32
+     ],
+     "inside_observed": [
+      true,
+      true
+     ],
+     "all_inside_observed": true,
+     "extrap_ratio": [
+      0.95,
+      1.45
+     ],
+     "mean_s": NaN,
+     "race_state_s": 0.0,
+     "tyre_optimal": "1-stop H-M @ 28",
+     "life_risk": [
+      {
+       "compound": "MEDIUM",
+       "laps": 21,
+       "start_lap": 0,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0001683460481814993,
+       "wear_end_mean": 0.29451326622874513,
+       "wear_end_p90": 0.4644166677767848,
+       "life_p10": 44.21260431151223,
+       "life_p50": 53.0,
+       "life_p90": 53.0,
+       "life_censored_share": 0.7666666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.0
+      },
+      {
+       "compound": "HARD",
+       "laps": 32,
+       "start_lap": 21,
+       "push": 0.7,
+       "p_cliff": 0.0033333333333333335,
+       "expected_excess_s": 0.0005115990424024012,
+       "wear_end_mean": 0.3028930315673567,
+       "wear_end_p90": 0.4948378089445265,
+       "life_p10": 32.0,
+       "life_p50": 32.0,
+       "life_p90": 32.0,
+       "life_censored_share": 0.9966666666666667,
+       "support_laps": 22.0,
+       "extrap_ln_sd_at_end": 0.4185655532549224
+      }
+     ],
+     "search_s": 2.3,
+     "best_inside_observed": "1-stop M-H @ 21",
+     "gap_to_inside_s": 0.0
+    }
+   ]
+  }
+ },
+ "note": "simulate_model at 300 draws, 1-lap grid, bench_ablation.run's keywords, leave-one-out race state; `per_event_pace_calibrated` adds the search_with_pace_calibration iteration the pipeline ships"
+}

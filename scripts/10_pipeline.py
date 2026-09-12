@@ -64,7 +64,7 @@ from src.model_bayes import BayesFit, fit_bayes  # noqa: E402
 from src.model_fallback import fit_mixedlm, stint_fe_baseline  # noqa: E402
 from src.replay import build_replay, save_replay  # noqa: E402
 from src.telemetry import extract_apex_speeds, load_apex, save_apex, select_corners  # noqa: E402
-from src.tyre import TyreModel  # noqa: E402
+from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel  # noqa: E402
 from src.validate import strategy_backtest, load_sealed, score_race, seal_predictions  # noqa: E402
 
 log = logging.getLogger("degless.pipeline")
@@ -552,8 +552,16 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     total = f.posterior["lin"].shape[0]
     rng = np.random.default_rng(0)
     draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
+    # V4/WP-B: laps past the practice age support are an extrapolation of the
+    # fitted curve, so the model carries the support and the log-sd of the rate
+    # at twice it (measured on the seven scored weekends by
+    # `bench/bench_extrapolation.py`).  `--no-extrap` is the ablation.
+    extrap_ln_sd = 0.0 if getattr(args, "no_extrap", False) else EXTRAP_LN_SD_MEASURED
     model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets,
-                               manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+                               manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                               support=per_comp_support, extrap_ln_sd=extrap_ln_sd)
+    print(f"  tyre-life extrapolation: rate log-sd {extrap_ln_sd:.3f} at 2x the practice support"
+          + ("" if extrap_ln_sd else " (off: --no-extrap)"))
     # The circuit's first-stop density, as a per-lap penalty table per start
     # compound *and stop count*.  Built from the historical races only, so it
     # carries no information about this weekend's race.  `None` where the circuit
@@ -888,6 +896,13 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
             "race_state_s": float(res.best.get("race_state_s", 0.0)),
             "race_state_enabled": bool(use_rs),
             "race_state_terms": obj.terms_json(res),
+            "extrap_ln_sd": float(model.extrap_ln_sd),
+            "extrap_support_laps": dict(model.support),
+            # what the plan's own stints risk past the practice support: the
+            # number the report quotes as "28 +/- k", per stint of the best plan
+            "life_risk": [model.life_risk(c, int(L), int(s), float(res.best.get("push", 1.0)), ev)
+                          for c, L, s in zip(res.best["compounds"], res.best["stint_lens"],
+                                             np.concatenate([[0], np.cumsum(res.best["stint_lens"])[:-1]]))],
             "first_stop_prior": fs_summary,
             "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"], s_per_lap=dirty_air)
                                         / max(1, len(res.best["pit_laps"]))),
@@ -939,6 +954,9 @@ def main() -> int:
     ap.add_argument("--pit-step", type=int, default=1)
     ap.add_argument("--no-race-state", action="store_true",
                     help="V3's first-stop objective (undercut exposure + first-stop prior) instead of the race state")
+    ap.add_argument("--no-extrap", action="store_true",
+                    help="price a stint past the practice age support as certainly as one inside it "
+                         "(extrap_ln_sd = 0, the pre-V4 tyre model) - the ablation")
     ap.add_argument("--offline", action="store_true",
                     help="keep FastF1 off the network (every session already cached): the Ergast mirror's "
                          "timeouts turned a 15 s practice load into 5 minutes on the benchmark run")

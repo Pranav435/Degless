@@ -52,7 +52,7 @@ from src.model_bayes import fit_bayes  # noqa: E402
 from src.model_fallback import fit_mixedlm  # noqa: E402
 from src.regime import regime_prior  # noqa: E402
 from src.telemetry import extract_apex_speeds, load_apex, save_apex, select_corners  # noqa: E402
-from src.tyre import TyreModel  # noqa: E402
+from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel  # noqa: E402
 from src.validate import load_sealed, seal_predictions  # noqa: E402
 
 log = logging.getLogger("degless.weekend")
@@ -272,8 +272,13 @@ def main() -> int:
     total = f.posterior["lin"].shape[0]
     rng = np.random.default_rng(0)
     draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
+    # V4/WP-B: the practice age support and the log-sd of the wear rate at twice
+    # it, so a stint planned past the evidence is priced as an extrapolation
+    # (`src.tyre.EXTRAP_LN_SD_MEASURED`, measured by bench/bench_extrapolation.py)
     model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets, manage_floor=cal.manage_wear_floor,
-                               manage_cost_s=cal.manage_cost_s)
+                               manage_cost_s=cal.manage_cost_s,
+                               support={k: float(v) for k, v in per_comp_support.items()},
+                               extrap_ln_sd=EXTRAP_LN_SD_MEASURED)
     # V4: the race state times the first stop (constants from every 2026 race
     # but this weekend's); the circuit's first-stop history is then only a
     # plausibility prior through the plan family, so its lap term is off.  One

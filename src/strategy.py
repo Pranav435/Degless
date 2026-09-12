@@ -1685,7 +1685,12 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
 
 
 def scale_model(model: TyreModel, deg_mult: float = 1.0, pace_mult: float = 1.0) -> TyreModel:
-    """The same draws with every wear rate scaled - a degradation scenario."""
+    """The same draws with every wear rate scaled - a degradation scenario.
+
+    `copy_with` carries `support` and `extrap_ln_sd`: a scenario that scales the
+    rate does not change where the practice evidence ends, so the scaled model
+    prices an extrapolated stint exactly as the unscaled one does.
+    """
     if deg_mult == 1.0 and pace_mult == 1.0:
         return model
     return model.copy_with(
@@ -1707,6 +1712,11 @@ def stint_lap_losses(model: TyreModel, event: Event | str, compound: str, start:
     laps = np.clip(np.arange(start + 1, start + L + 1), 1, n) - 1
     psi = model.psi(push)
     inc = model.wear_rate[compound][:, None] * psi * lf[laps][None, :]
+    # the same extrapolation widening `cost_table` charges, so the lap-by-lap
+    # trace of a plan sums to the cost the search ranked it on
+    wide = model.extrap_multiplier(compound, np.arange(1, L + 1))
+    if wide is not None:
+        inc = inc * wide
     w = np.cumsum(inc, axis=1)
     loss = grip_loss(w - 0.5 * inc, budget=model.budget_of(compound))
     loss = loss + model.pace_offset[compound][:, None] + model.mcost(push)
