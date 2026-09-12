@@ -85,7 +85,7 @@ telemetry does not. So `make run`:
   — the sign-in cookie there outlives the token, so the usual case costs you
   nothing and you never see a prompt;
 * only if that profile has lapsed too, **asks** whether to sign in, and opens
-  the window for you. Answer `n`, or say nothing for 45 seconds, and it
+  the window for you. Answer `n`, or say nothing for three minutes, and it
   carries on without telemetry rather than blocking;
 * never prompts when nothing is attached to the terminal (a pipe, a service,
   a closed laptop), so an unattended start always proceeds.

@@ -3,7 +3,7 @@
  "event_name": "Spain 2026",
  "circuit": "Madring",
  "n_race_laps": 57,
- "updated_utc": "2026-09-12T11:18:59.632050+00:00",
+ "updated_utc": "2026-09-12T11:48:59.250945+00:00",
  "stage": "sealed",
  "stage_label": "sealed fit on Practice 1, Practice 2",
  "prior_basis": "sealed fit",
@@ -1965,5 +1965,5 @@
    3.0
   ]
  },
- "runtime_s": 2.6
+ "runtime_s": 5.2
 }

@@ -192,7 +192,8 @@ class Supervisor:
             return
         self._note(f"F1TV: {msg}")
         if interactive and ask_yes_no(
-                "  Sign in to F1TV now to restore car telemetry? [Y/n] ", on_timeout=False):
+                "  Sign in to F1TV now to restore car telemetry? [Y/n] ",
+                timeout_s=LOGIN_PROMPT_S, on_timeout=False):
             ok, msg = auth.browser_login()
             if not ok and "playwright" in msg.lower():
                 ok, msg = auth.paste_login()
@@ -452,6 +453,7 @@ LIVE_TAIL_MIN_REFIT = 5   # minutes after the scheduled end before a practice re
 OUTLOOK_IDLE_S = 30 * 60  # between sessions: the priors only change when something is scored
 OUTLOOK_LIVE_S = 3 * 60   # during practice: fold the live long-run board in as it grows
 AUTH_RECHECK_S = 30 * 60  # token top-up cadence; tokens last days, so this is plenty
+LOGIN_PROMPT_S = 180      # the dashboard is already up by now, so give a real chance to answer
 APP_RESTART_MAX = 5       # dashboard restarts before we leave it down and say so
 APP_RESTART_MIN_S = 20    # a dashboard that dies faster than this is broken, not unlucky
 
