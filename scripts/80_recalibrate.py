@@ -120,7 +120,13 @@ GRIDS = {
     # the rival field's family logit temperature, in seconds of family cost
     # (WP-A's `RivalFieldConfig.family_temper_s`); scored by likelihood on the
     # donors' revealed shares, not by a search, so the grid costs arithmetic
-    "family_temper": [1.0, 2.0, 3.0, 5.0, 8.0],
+    # 1-8 s was the plan's grid; the likelihood was monotone up to its edge on
+    # every fold (the field's start/stop variety is wider than the model's family
+    # costs imply), so the grid was widened before the final calibration to let
+    # the maximum sit inside it - 200 s is a family distribution that is the
+    # history prior alone, in effect.  A widening decided on the fit's own
+    # diagnostic, never on a benchmark outcome.
+    "family_temper": [1.0, 2.0, 3.0, 5.0, 8.0, 12.0, 20.0, 50.0, 200.0],
 }
 GRIDS_QUICK = {"lambda": [0.0, 0.1, 0.2, 0.3], "tau": [0.0, 2.5, 5.0],
                "grid": [0.0, 1.0], "floor": [0.45], "cost": [0.9],
@@ -483,10 +489,9 @@ def sweep_family_temper(donors: list, final: dict, grid: list) -> tuple:
     best = max(rows, key=lambda r: r["loglik"])
     spread = best["loglik"] - min(r["loglik"] for r in rows)
     identified = bool(spread >= FAMILY_LL_IDENTIFIED_NATS)
-    # the likelihood is monotone over this grid on the seven 2026 weekends - the
-    # field's start-compound and stop-count variety is wider than the model's
-    # family costs imply at any temperature in it - so the maximum sits on the
-    # edge.  The grid is frozen by the plan; the flag is how the report says so.
+    # on the plan's original 1-8 s grid the likelihood was monotone to the edge
+    # on every fold; the grid now runs to 200 s (see GRIDS) and the flag says
+    # whether the maximum still sits on an edge, which the report must state.
     for r in rows:
         r["at_grid_edge"] = bool(r is best and (best["family_temper"] == max(grid)
                                                 or best["family_temper"] == min(grid)))
