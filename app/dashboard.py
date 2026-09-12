@@ -25,18 +25,20 @@ sys.path.insert(0, str(ROOT))
 
 from src.config import DATA_PROCESSED, EVENTS, current_event  # noqa: E402
 from app.desk_tab import render_desk  # noqa: E402
+from app.haas_tab import render_haas  # noqa: E402
 from app.live_tab import render_now, render_strip, render_system, weekend_status  # noqa: E402
 from app.theme import (  # noqa: E402
     BLACK, DEFS, DIM, FAINT, HAIR, LADDER, LETTER, MUTED, WHITE, badge, badges, card, ccol, chart, finite,
     fmt, headline, how, in_ladder, inject_css, ink_on, label_text, more, notice, palette, pct, rgba,
     saving_word, stops_word, style, tiles, tyre_pill, window_line,
 )
+from src.live.store import LIVE_DIR  # noqa: E402
 from src.outlook import load_outlook, load_timeline  # noqa: E402
 from src.engineer import ask as engineer_ask  # noqa: E402
 from src.engineer import brief as engineer_brief  # noqa: E402
 from src.engineer import credential_source, model_name  # noqa: E402
 
-st.set_page_config(page_title="degless", layout="wide", page_icon="🏁")
+st.set_page_config(page_title="Degless — Haas Race Strategy", layout="wide", page_icon="🏁")
 inject_css()
 
 
@@ -214,8 +216,13 @@ elif WEEKEND_ONLY:
     DATA_BADGE = ("Before the race · built on " + ", ".join(meta.get("sessions_used", [])), "info")
 else:
     DATA_BADGE = ("After the race · prediction checked", "info")
-st.title(ev.name, anchor=False)
+st.title("Degless — Haas Race Strategy", anchor=False)
+st.caption(ev.name)
 render_strip(WEEKEND, DATA_BADGE)
+
+_live = WEEKEND.get("live")
+HAAS_LIVE_SK = (str(_live["key"]) if _live and (LIVE_DIR / str(_live["key"]) / "snapshot.json").exists()
+               else None)
 
 
 def _event_names(keys) -> str:
@@ -1017,9 +1024,11 @@ def _tab_engineer() -> None:
 # Tabs
 # ==========================================================================
 
-TAB_NAMES = ["Now", "Race plan", "Plan builder", "Tyres", "Evidence", "Replay", "Engineer"]
+TAB_NAMES = ["Haas", "Now", "Race plan", "Plan builder", "Tyres", "Evidence", "Replay", "Engineer"]
 tab = dict(zip(TAB_NAMES, st.tabs(TAB_NAMES)))
 
+with tab["Haas"]:
+    render_haas(key, ev, meta, OUTLOOK, HAAS_LIVE_SK)
 with tab["Now"]:
     render_now(WEEKEND, meta, ev, outlook=OUTLOOK, timeline=load_timeline(key))
 with tab["Race plan"]:

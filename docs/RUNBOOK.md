@@ -44,7 +44,35 @@ telemetry and positions.
 
 ## What the app shows
 
-**Now** (first tab): the status line and weekend timetable; when a session is
+**Haas** (first tab): what #31 Esteban Ocon and #87 Ollie Bearman should each
+do right now, with a driver-view switch — Haas Overview / Ocon / Bearman.
+Haas Overview leads with a panel per car: position, compound, tyre age,
+current pace, degradation, the gaps ahead and behind, the recommended action,
+pit window, confidence, projected rejoin position, expected race-time delta
+and the relevant rival. Below it, the Haas Pit Wall states the call for each
+car (PIT NOW / STAY OUT / WAIT k laps / BOX BY LAP x) with its confidence,
+projected position and expected delta, then the Why block underneath it —
+the principal reason and two to four supporting ones, e.g. "Staying out 2
+laps costs 1.4 s of tyre; the car behind is entering its window; pitting now
+is projected to retain P15 (78% confidence)". Every one of those sentences is
+built from a number already in the model's state; nothing here is a stock
+phrase, and a value the state does not carry prints as "—" rather than being
+guessed at. Race field lists both cars and their strategic rivals with
+position, gaps, compounds, tyre age and pit status; Strategy comparison lines
+up the 1-, 2- and 3-stop candidates with their expected race time, expected
+position change through the first pit cycle, pit laps, compound sequence and
+uncertainty. The Ocon and Bearman views are the same panel and Why block for
+one car, plus its live lap chart when a session is on.
+
+Live, every number comes from that lap's snapshot — the field row for OCO or
+BEA and the race-execution engine's `decision` for it. Before a session goes
+live, the same panels read the pre-race plan instead (the car's own plan, the
+team's pit window and recommended lap, and — once the pipeline has written
+it — the per-car model of pace, degradation and warm-up), and say so under
+each panel's title. Curves, tyre-pack constants and the full search stay in
+the other tabs; the Haas tab's Advanced expander only links to them.
+
+**Now**: the status line and weekend timetable; when a session is
 live, the live view for it — during practice the long-run degradation board,
 during qualifying the timing, during a race the pit wall: per car tyre age,
 live degradation, wear, cliff probability, laps to the cliff, best remaining
