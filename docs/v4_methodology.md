@@ -145,3 +145,37 @@ needed; the residual is the fitted SOFT rate sitting below MEDIUM's on a
 103-clean-lap practice, and a physical ladder projection of the rates does not
 move the plan either); and the per-car degradation scaling stays team-pooled,
 because the hierarchical variant is no more accurate on the 196 stints (E4).
+
+### Outcome of amendment 1, and the rule that decided the shipped rival model
+
+The stop-likelihood validation chose the heterogeneous field in every
+leave-one-out block (0.23–0.32 nats per stop better than the symmetric pack),
+but both models score 0.6–0.8 nats per stop *worse* than a stop lap drawn
+uniformly over the race: they place the field's median within 1–2 laps on the
+green-flag weekends and are far too narrow about the rest of the field. The
+validation therefore separates two inadequate rival models rather than
+identifying a good one, and it is not the criterion the specification set.
+`v4_prompt.md` (Issue 1, "Required experiment") makes the generalisation
+experiment E1 the arbiter — first-stop error, window share, oracle regret,
+sequence/start/stops, per weekend — and says to keep the simpler model where
+the heterogeneous one does not generalise. On the final code with the V4
+calibration (`bench/out/experiments.json`, 300 draws):
+
+| variant | first-stop error (laps, non-SC) | signed | window share | oracle regret (s) | R_pos (s) | seq / start / stops |
+|---|---|---|---|---|---|---|
+| E1 heterogeneous field | 2.67 | +2.67 | 0.441 | 13.17 | 15.73 | 6 / 7 / 6 |
+| E1b heterogeneous, no history prior | 2.67 | +2.67 | 0.441 | 13.01 | 15.55 | 6 / 7 / 6 |
+| E1c symmetric pack, final code | **1.67** | +1.00 | 0.432 | 13.38 | **14.81** | 6 / 7 / 6 |
+
+The heterogeneous field spreads the four rivals over plan families that do
+not interact with our first cycle, so it puts less pressure on our stop and
+moves Barcelona and Austria three to four laps later than the pack of clones
+does; on the field's own behaviour it is the better-validated model, on our
+decision it is the worse one. **The shipped pre-race rival model is therefore
+the symmetric pack** (`--rival-mode symmetric` in the recalibration, so that
+λ and τ are swept against the same objective the pipeline runs), the
+heterogeneous field stays in the code as an option and in the benchmark as
+E1/E1b, and the likelihood validation is reported as the diagnostic that says
+where the next rival model has to improve: its dispersion. This decision was
+taken on the experiment the specification prescribes, before the final
+benchmark run.
