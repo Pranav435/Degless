@@ -71,6 +71,22 @@ class Calibration:
     team_factors: dict = field(default_factory=dict)           # team -> pooled rate factor
     grip_budget_detail: dict = field(default_factory=dict)     # per compound: the censored estimate
     percar_mode: str = "team_pooled"                           # "team_pooled" (V3) | "hist" (V2) | "none"
+    # V4.  `family_temper_s` is the rival field's family logit temperature
+    # (`racestate.RivalFieldConfig`): the seconds of tyre-plus-pit cost that
+    # halve a plan family's share of the rivals, fitted by maximum likelihood on
+    # the donors' start-compound and stop-count shares in
+    # `scripts/80_recalibrate.py`.  The default 3.0 s is WP-A's own default -
+    # roughly the spread between adjacent plan families' costs, so a field that
+    # nothing has calibrated is neither one-family nor uniform.
+    family_temper_s: float = 3.0
+    # WP-B's tyre-life extrapolation width (log-sd of the wear rate at twice the
+    # practice support).  0.0 is V3 bit for bit; the measured value comes from
+    # `bench/bench_extrapolation.py` through `src.tyre.EXTRAP_LN_SD_MEASURED`.
+    extrap_ln_sd: float = 0.0
+    # which objective the sweeps were run against: "v4" is the race-state
+    # objective (kappa fixed at 0, lambda on the later stops).  A file written by
+    # the V3 script carries no such key and the reader stamps it "v3".
+    objective_version: str = "v4"
     source: str = "config defaults (no calibration on disk)"
     detail: dict = field(default_factory=dict)
 
@@ -109,7 +125,8 @@ class Calibration:
 _KEYS = ("grip_budget_s", "grip_budget_by_compound", "manage_cost_s", "manage_wear_floor",
          "grid_start_penalty_s", "dirty_air_s_per_lap", "dirty_air_by_circuit", "undercut_lambda",
          "plan_prior_tau_s", "first_stop_kappa_s", "sigma_race_lap_s", "driver_factors",
-         "driver_factor_ln_sd", "team_factors", "grip_budget_detail", "percar_mode")
+         "driver_factor_ln_sd", "team_factors", "grip_budget_detail", "percar_mode",
+         "family_temper_s", "extrap_ln_sd", "objective_version")
 
 
 def load_calibration_file(path: Path | None = None) -> dict:
@@ -142,6 +159,9 @@ def get_calibration(event: Event | str | None = None, *, loo: bool = True,
     # A V2 file carries none of the V3 keys and a future one may carry a null
     # where a measurement failed; both must land on the dataclass default.
     kw = {k: block[k] for k in _KEYS if block.get(k) is not None}
+    # a block with no `objective_version` was written by the V3 script: the
+    # sweeps behind its lambda, tau and kappa were run on the V3 objective
+    kw.setdefault("objective_version", "v3")
     cal = Calibration(**kw)
     cal.source = f"{src}, calibrated {d.get('written_utc', '?')[:10]} on {len(d.get('weekends', []))} weekends"
     cal.detail = {"weekends": d.get("weekends", []), "block": src}

@@ -39,13 +39,30 @@ time on each donor weekend's *own* posterior:
 
 * **management cost and wear floor** - so the push the optimiser chooses
   implies the practice->race factor the donor races measured;
-* **undercut lambda and first-stop kappa** - so the recommended first stop
-  lands on the field's median green-flag first stop (safety-car-set weekends
-  excluded).  Both act on that one objective from different directions: lambda
-  through the cost surface, kappa through the circuit's own first-stop history,
-  so they are swept in turn inside each iteration;
+* **undercut lambda** - so the recommended **second** stop lands on the field's
+  median green second stop among the finishers who made the same number of
+  stops.  Under V4 the *first* stop is timed by the race state, not by lambda,
+  so the first-stop objective that calibrated lambda in V3 no longer identifies
+  it: what lambda still prices is the exposure of the stops after the first,
+  and that is what it is now graded on.  Where the objective is flat the
+  smallest value wins and the file says lambda is unidentified;
+* **first-stop kappa is not swept**: it is structurally 0 (`KAPPA_V4`).  The
+  circuit's first-stop history stays in the plan-family prior, in the stint
+  caps and in the *rivals*' plausible stop laps, never as a term on our own
+  lap.  V3's swept value is kept under `raw.v3_first_stop_kappa_s`;
+* **the rival field's family temperature** (`family_temper_s`, WP-A) - by
+  maximum likelihood of the donors' revealed start-compound and stop-count
+  shares under the family logit `q(g) ~ exp(-C_g / tau_f) p_hist(g)^w`, with the
+  family costs read off each donor's own final search.  No extra searches;
 * **plan-prior tau, grid-start penalty** - so the recommended sequence is one
   the field ran, at the largest share.
+
+Every search in every sweep carries the **race state** (`src.objective`), and
+inside a leave-one-out block it is measured without *two* races: the weekend the
+block holds out and the donor being searched.  The whole objective - race state,
+lambda, tau, the grid penalty, the dirty air - is assembled once per search as a
+`V4Objective`, which is the same object the pipeline, the outlook and the desk
+price with.
 
     .venv/bin/python scripts/80_recalibrate.py                # every scored weekend
     .venv/bin/python scripts/80_recalibrate.py --quick        # coarser sweeps
@@ -65,11 +82,12 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import cliff, firststop, strategy as strat  # noqa: E402
-from src.calibration import CALIBRATION_PATH, Calibration  # noqa: E402
+from src import cliff, firststop, objective, strategy as strat  # noqa: E402
+from src.calibration import CALIBRATION_PATH, Calibration, load_calibration_file  # noqa: E402
+from src.objective import V4Objective  # noqa: E402
 from src.compounds import measure_dirty_air  # noqa: E402
 from src.config import (  # noqa: E402
-    DATA_PROCESSED, DIRTY_AIR_S_PER_LAP, EVENTS, FIRST_STOP_KAPPA_S, GRID_START_PENALTY_S, GRIP_BUDGET_S,
+    DATA_PROCESSED, DIRTY_AIR_S_PER_LAP, EVENTS, GRID_START_PENALTY_S, GRIP_BUDGET_S,
     MANAGE_COST_S, MANAGE_WEAR_FLOOR, PLAN_PRIOR_TAU_S, SIGMA_RACE_LAP_S, UNDERCUT_EXPOSURE_LAMBDA,
     VALID_COMPOUNDS, get_event,
 )
@@ -81,27 +99,39 @@ from src.tyre import TyreModel  # noqa: E402
 N_DRAWS = 150
 SEARCH_STEP = 2
 SHORTLIST = 600
-# The two first-stop sweeps (lambda, kappa) are the longest in the iteration -
-# 8 values each against 5-6 for the others - and they are graded on one integer,
-# the winner's first stop lap, which the phase-1 mean cost already all but
-# decides.  So they run on a shorter shortlist: phase 2 is the draw-by-draw half
-# and the best plan is always first in it either way.  Everything that is
-# *reported* - the manage sweep, tau, the grid penalty and the final scores -
-# runs at the full setting.  Measured on three weekends: 0.38 s -> 0.27 s per
-# search, which is what keeps the seven-weekend run inside twelve minutes.
+# The stop-lap sweep (lambda: 8 values against 4-6 for the others) is graded on
+# one integer, the winner's second stop lap, which the phase-1 mean cost already
+# all but decides.  So it runs on a shorter shortlist: phase 2 is the
+# draw-by-draw half and the best plan is always first in it either way.
+# Everything that is *reported* - the manage sweep, tau, the grid penalty and
+# the final scores - runs at the full setting.  Measured on three weekends:
+# 0.38 s -> 0.27 s per search, which is what keeps the seven-weekend run inside
+# twelve minutes (V4 adds the pack equilibria: +0.02 s per search at these
+# settings, measured on hungary-2026).
 SWEEP_SHORTLIST = 300
 DRIVER_PRIOR_LN_SD = 0.15       # shrinkage of a driver's rate factor toward the field
 DRIVER_SE_FLOOR = 0.10          # no single race pins a driver tighter than this (log scale)
 GRIDS = {
     "lambda": [0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.45, 0.6],
-    "kappa": [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0],
     "tau": [0.0, 1.0, 2.5, 4.0, 6.0, 8.0],
     "grid": [0.0, 0.5, 1.0, 1.5],
     "floor": [0.35, 0.45, 0.55],
     "cost": [0.6, 0.9, 1.2],
+    # the rival field's family logit temperature, in seconds of family cost
+    # (WP-A's `RivalFieldConfig.family_temper_s`); scored by likelihood on the
+    # donors' revealed shares, not by a search, so the grid costs arithmetic
+    "family_temper": [1.0, 2.0, 3.0, 5.0, 8.0],
 }
-GRIDS_QUICK = {"lambda": [0.0, 0.1, 0.2, 0.3], "kappa": [0.0, 1.0, 3.0], "tau": [0.0, 2.5, 5.0],
-               "grid": [0.0, 1.0], "floor": [0.45], "cost": [0.9]}
+GRIDS_QUICK = {"lambda": [0.0, 0.1, 0.2, 0.3], "tau": [0.0, 2.5, 5.0],
+               "grid": [0.0, 1.0], "floor": [0.45], "cost": [0.9],
+               "family_temper": [1.0, 3.0, 8.0]}
+
+# V4: the first-stop history prior is structurally off - the race state times
+# the first stop - so kappa is fixed at 0 and never swept.  The V3 value is
+# carried into the report under `raw.v3_first_stop_kappa_s`.
+KAPPA_V4 = 0.0
+FAMILY_PRIOR_WEIGHT_K0 = 10.0    # WP-A's `family_prior_weight_k0`: n / (n + k0) on the history
+FAMILY_LL_IDENTIFIED_NATS = 1.0  # a flatter likelihood than this does not identify the temperature
 
 
 def scored_weekends() -> list:
@@ -158,6 +188,19 @@ class Donor:
         green = [p for p, s in firsts if not s]
         self.first_median = float(np.median(green)) if green else None
         self.sc_set = bool(firsts and np.mean([s for _, s in firsts]) > 0.4)
+        # V4: the *second* stop is what lambda now prices (the race state times
+        # the first).  The field's median green second stop, among the finishers
+        # who made the same number of stops as the plan being judged - a
+        # two-stopper's second stop and a three-stopper's are different
+        # decisions and pooling them compares a plan with a plan nobody ran.
+        self.second_by_stops: dict = {}
+        for v in cls.values():
+            n = len(v["in_laps"])
+            if n >= 2 and not v["sc"][1]:
+                self.second_by_stops.setdefault(n, []).append(int(v["in_laps"][1]))
+        self.second_median_by_stops = {k: float(np.median(x)) for k, x in self.second_by_stops.items()}
+        self.second_n_by_stops = {k: len(x) for k, x in self.second_by_stops.items()}
+        self.field_stop_mode = int(self.stop_counts.idxmax()) if len(self.stop_counts) else None
         # -- race-measured quantities ---------------------------------------------
         rc = self.race[self.race["is_accurate"] & ~self.race["pit_in"] & ~self.race["pit_out"]
                        & (self.race["track_status"].astype(str) == "1")]
@@ -213,6 +256,20 @@ class Donor:
             self.first_stop_green or None, self.ev.n_race_laps,
             start_compound=modal_start, n_stops=modal_stops)
         self._model_cache: dict = {}
+        self._rs_cache: dict = {}
+
+    def race_state(self, held_out: str | None = None):
+        """The race-state constants for a search on this donor, inside a block
+        that holds `held_out` out.
+
+        Both races are excluded: this donor's own (it is the weekend being
+        priced) and the block's held-out weekend (whose race may not inform a
+        constant the block will hand it).  The global block excludes only the
+        donor itself."""
+        keys = frozenset({self.key} | ({held_out} if held_out else set()))
+        if keys not in self._rs_cache:
+            self._rs_cache[keys] = objective.measure_constants_excluding(keys)
+        return self._rs_cache[keys]
 
     def dirty_for(self, cal: dict) -> float:
         """This circuit's dirty-air cost, the pooled 2026 value where it has none."""
@@ -235,24 +292,41 @@ class Donor:
                                                         manage_cost_s=cost, carry_drivers=False)
         return self._model_cache[key]
 
-    def _sim_kw(self, cal: dict, *, lam: float, tau: float, grid: float, kappa: float,
-                shortlist: int = SHORTLIST) -> dict:
-        """The objective this weekend is priced with: its own circuit's dirty air,
-        its own first-stop density, and the weights under test."""
-        return dict(regime=self.regime, step=SEARCH_STEP, shortlist=shortlist, support=self.support,
-                    max_per_compound=self.alloc, max_stint=self.caps, undercut_lambda=lam,
-                    plan_prior=self.plan_prior, plan_prior_tau_s=tau,
-                    first_stop_prior=self.first_stop_table, first_stop_kappa_s=kappa,
-                    traffic_s_per_lap=self.dirty_for(cal), grid_penalty_s=grid)
+    def objective(self, cal: dict, *, lam: float, tau: float, grid: float) -> V4Objective:
+        """The V4 objective this weekend is priced with: the race state (both
+        races excluded), the rival field at the block's family temperature, its
+        own circuit's dirty air, its own circuit's first-stop density for the
+        *rivals*' stop laps, and the weights under test.
 
-    def search(self, cal: dict, *, lam: float, tau: float, grid: float, kappa: float = 0.0,
+        `kappa` is not a parameter: under V4 the first-stop history prior is
+        zero everywhere, which is why lambda is swept against the second stop."""
+        return V4Objective(race_state=self.race_state(cal.get("held_out")),
+                           rival_field=objective.rival_field_default(
+                               None, family_temper_s=float(cal.get("family_temper",
+                                                                   objective.FAMILY_TEMPER_S_DEFAULT))),
+                           undercut_lambda=float(lam), plan_prior=self.plan_prior,
+                           plan_prior_tau_s=float(tau), first_stop_kappa_s=KAPPA_V4,
+                           traffic_s_per_lap=self.dirty_for(cal), grid_penalty_s=float(grid),
+                           extrap_ln_sd=float(cal.get("extrap_ln_sd", 0.0) or 0.0),
+                           first_stop_prior=self.first_stop_table,
+                           n_race_laps=int(self.ev.n_race_laps), event_key=self.key)
+
+    def _sim_kw(self, cal: dict, *, lam: float, tau: float, grid: float, kappa: float = KAPPA_V4,
+                shortlist: int = SHORTLIST) -> dict:
+        assert float(kappa or 0.0) == 0.0, "V4 fixes the first-stop history prior at kappa = 0"
+        return dict(regime=self.regime, step=SEARCH_STEP, shortlist=shortlist, support=self.support,
+                    max_per_compound=self.alloc, max_stint=self.caps,
+                    **self.objective(cal, lam=lam, tau=tau, grid=grid).sim_kwargs())
+
+    def search(self, cal: dict, *, lam: float, tau: float, grid: float, kappa: float = KAPPA_V4,
                calibrated_model=None, shortlist: int = SHORTLIST):
         m = calibrated_model if calibrated_model is not None else self.model(cal["budgets"], cal["floor"], cal["cost"])
         return strat.simulate_model(m, self.ev, self.pit_loss,
                                     **self._sim_kw(cal, lam=lam, tau=tau, grid=grid, kappa=kappa,
                                                    shortlist=shortlist))
 
-    def calibrated_model(self, cal: dict, *, lam: float, tau: float, grid: float, kappa: float = 0.0) -> TyreModel:
+    def calibrated_model(self, cal: dict, *, lam: float, tau: float, grid: float,
+                         kappa: float = KAPPA_V4) -> TyreModel:
         m = self.model(cal["budgets"], cal["floor"], cal["cost"])
         if self.net is None or not np.isfinite(self.net):
             return m
@@ -265,18 +339,163 @@ class Donor:
 
     def decision_scores(self, res) -> dict:
         if res.table.empty:
-            return {"first_err": np.nan, "seq_share": 0.0, "start_ok": 0.0, "stops_ok": 0.0, "implied": np.nan,
-                    "first_lap": None, "first_stop_s": np.nan}
+            return {"first_err": np.nan, "second_err": np.nan, "seq_share": 0.0, "start_ok": 0.0, "stops_ok": 0.0,
+                    "implied": np.nan, "first_lap": None, "second_lap": None, "first_stop_s": np.nan,
+                    "race_state_s": np.nan, "family_costs": {}}
         seq = "-".join(res.best["compounds"])
         share = float(self.seq_counts.get(seq, 0) / max(self.n_cls, 1))
         start_ok = float(self.start_counts.index[0] == res.best["compounds"][0]) if len(self.start_counts) else 0.0
         stops_ok = float(int(self.stop_counts.idxmax()) == int(res.best["n_stops"])) if len(self.stop_counts) else 0.0
         first_err = ((float(res.best["pit_laps"][0]) - self.first_median)
                      if (self.first_median is not None and res.best["pit_laps"] and not self.sc_set) else np.nan)
-        return {"first_err": first_err, "seq_share": share, "start_ok": start_ok, "stops_ok": stops_ok,
-                "implied": float(res.implied_regime), "best": res.best_label,
+        # V4: lambda's objective is the *second* stop.  Only where both the
+        # recommendation and the field's mode are two stops or more is there a
+        # second stop to compare, and the field median is taken among the
+        # finishers who made the same number of stops as the recommendation.
+        n_rec = int(res.best["n_stops"])
+        second_lap = int(res.best["pit_laps"][1]) if len(res.best["pit_laps"]) >= 2 else None
+        med2 = self.second_median_by_stops.get(n_rec)
+        second_err = (abs(float(second_lap) - med2)
+                      if (second_lap is not None and med2 is not None and n_rec >= 2
+                          and (self.field_stop_mode or 0) >= 2) else np.nan)
+        return {"first_err": first_err, "second_err": second_err, "seq_share": share, "start_ok": start_ok,
+                "stops_ok": stops_ok, "implied": float(res.implied_regime), "best": res.best_label,
                 "first_lap": (int(res.best["pit_laps"][0]) if res.best["pit_laps"] else None),
-                "first_stop_s": float(res.best.get("first_stop_s", 0.0))}
+                "second_lap": second_lap, "n_stops": n_rec,
+                "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
+                "race_state_s": float(res.best.get("race_state_s", 0.0)),
+                "family_costs": family_costs(res)}
+
+
+# --------------------------------------------------------------------------
+# The rival field's family temperature, by maximum likelihood
+# --------------------------------------------------------------------------
+
+
+def family_costs(res) -> dict:
+    """`{group label: {cost_s, compounds, start, n_stops}}` - the best *tyre*
+    cost in each plan family (start compound, second compound, stop count).
+
+    The family cost `C_g` the rival field's logit reads: the plan the group's
+    own tyres would run, with no prior and no position term on it.  Taken from
+    WP-A's own table where the merged code exposes it (`res.race_state
+    ["rival_field"]["families"]`), and otherwise from the scored table, which is
+    the same minimum over the shortlist the search ranked."""
+    rf = ((getattr(res, "race_state", None) or {}).get("rival_field") or {})
+    fams = (rf.get("families") or rf.get("types")) if isinstance(rf, dict) else None
+    rows = list(fams if isinstance(fams, list) else (fams or {}).values()) if fams else []
+    rows = [f for f in rows if isinstance(f, dict) and ("cost_s" in f or "tyre_s" in f)]
+    if rows:
+        out = {}
+        for f in rows:
+            lab, cost = f.get("label") or f.get("group"), f.get("cost_s", f.get("tyre_s"))
+            comps = list(f.get("compounds") or [])
+            if lab and cost is not None and len(comps) >= 2:
+                out[str(lab)] = {"cost_s": float(cost), "compounds": comps, "start": str(comps[0]),
+                                 "n_stops": int(f.get("n_stops", len(comps) - 1))}
+        if out:
+            return out
+    if res.table is None or res.table.empty:
+        return {}
+    groups: dict = {}
+    for r in res.table.itertuples():
+        seq = str(r.compounds).split("-")
+        if len(seq) < 2:
+            continue
+        g = (seq[0], seq[1], int(r.n_stops))
+        cur = groups.get(g)
+        if cur is None or float(r.tyre_s) < cur["cost_s"]:
+            groups[g] = {"cost_s": float(r.tyre_s), "compounds": seq, "start": seq[0], "n_stops": int(r.n_stops)}
+    return {strat._group_label(g): v for g, v in groups.items()}
+
+
+def family_logit(costs: dict, plan_prior: dict | None, temper: float,
+                 k0: float = FAMILY_PRIOR_WEIGHT_K0) -> dict:
+    """The rivals' plan-family distribution:
+
+        q(g)  proportional to  exp(-C_g / temper) * p_hist(g) ** w,
+        w = n / (n + k0)
+
+    `p_hist` is the circuit's smoothed plan-family frequency, which
+    `strategy.plan_prior_penalty(seq, prior, 1.0)` gives as `-log(p / p_max)` -
+    so the history enters as `exp(-w * penalty)` and the constant `p_max`
+    divides out in the normalisation.  `temper -> 0` is every rival on the
+    cheapest family; `temper -> inf` is a uniform field."""
+    if not costs:
+        return {}
+    n = float((plan_prior or {}).get("n", 0) or 0)
+    w = n / (n + float(k0)) if n > 0 else 0.0
+    c0 = min(v["cost_s"] for v in costs.values())
+    z = {}
+    for lab, v in costs.items():
+        pen = strat.plan_prior_penalty(v["compounds"], plan_prior, 1.0) if w > 0 else 0.0
+        z[lab] = float(np.exp(-(v["cost_s"] - c0) / max(float(temper), 1e-6) - w * pen))
+    tot = sum(z.values())
+    if tot <= 0:
+        return {lab: 1.0 / len(costs) for lab in costs}
+    return {lab: v / tot for lab, v in z.items()}
+
+
+def family_loglik(q: dict, costs: dict, start_counts, stop_counts, *, eps: float = 1e-6) -> float:
+    """Log-likelihood of one donor's revealed shares under the family logit.
+
+    The field's classified finishers are the sample: each one's *start
+    compound* and *stop count* is a draw from the logit's marginals (the
+    sequence itself is not - a rival's later compounds are a choice it makes
+    during the race, and scoring them would grade the temperature on something
+    the field re-decided).  A start or stop count no family in the table
+    produces is floored at `eps`, which is the same constant at every
+    temperature and so does not move the argmax."""
+    p_start: dict = {}
+    p_stops: dict = {}
+    for lab, prob in q.items():
+        v = costs.get(lab) or {}
+        p_start[str(v.get("start"))] = p_start.get(str(v.get("start")), 0.0) + prob
+        p_stops[int(v.get("n_stops", 0))] = p_stops.get(int(v.get("n_stops", 0)), 0.0) + prob
+    ll = 0.0
+    for c, k in dict(start_counts).items():
+        ll += float(k) * float(np.log(max(p_start.get(str(c), 0.0), eps)))
+    for st, k in dict(stop_counts).items():
+        ll += float(k) * float(np.log(max(p_stops.get(int(st), 0.0), eps)))
+    return float(ll)
+
+
+def sweep_family_temper(donors: list, final: dict, grid: list) -> tuple:
+    """The family temperature by maximum likelihood over the donors.
+
+    Free of new searches: the family costs come from each donor's final search
+    (`decision_scores`), so this is arithmetic on tables that already exist."""
+    rows = []
+    for t in grid:
+        ll, per = 0.0, {}
+        for d in donors:
+            costs = (final.get(d.key) or {}).get("family_costs") or {}
+            if not costs:
+                continue
+            q = family_logit(costs, d.plan_prior, float(t))
+            v = family_loglik(q, costs, d.start_counts.to_dict(), d.stop_counts.to_dict())
+            per[d.key] = round(v, 3)
+            ll += v
+        rows.append({"family_temper": float(t), "loglik": float(ll), "by_donor": per,
+                     "n_families": {d.key: len((final.get(d.key) or {}).get("family_costs") or {}) for d in donors}})
+    if not rows or all(not r["by_donor"] for r in rows):
+        return float(objective.FAMILY_TEMPER_S_DEFAULT), rows, False
+    best = max(rows, key=lambda r: r["loglik"])
+    spread = best["loglik"] - min(r["loglik"] for r in rows)
+    identified = bool(spread >= FAMILY_LL_IDENTIFIED_NATS)
+    # the likelihood is monotone over this grid on the seven 2026 weekends - the
+    # field's start-compound and stop-count variety is wider than the model's
+    # family costs imply at any temperature in it - so the maximum sits on the
+    # edge.  The grid is frozen by the plan; the flag is how the report says so.
+    for r in rows:
+        r["at_grid_edge"] = bool(r is best and (best["family_temper"] == max(grid)
+                                                or best["family_temper"] == min(grid)))
+    chosen = best if identified else next((r for r in rows
+                                           if abs(r["family_temper"] - objective.FAMILY_TEMPER_S_DEFAULT) < 1e-9),
+                                          best)
+    for r in rows:
+        r["chosen"] = bool(r is chosen)
+    return float(chosen["family_temper"]), rows, identified
 
 
 BUDGET_INFORMATIVE_S = 3.0      # below this, no stint that weekend came near the cliff: the product is only a bound
@@ -427,9 +646,15 @@ def sweep(donors: list, cal: dict, name: str, values: list, objective, *, models
                            calibrated_model=m, shortlist=shortlist)
             scores.append(d.decision_scores(res))
         obj = objective(scores)
+        _fin2 = [s["second_err"] for s in scores if np.isfinite(s.get("second_err", np.nan))]
         rows.append({name: v, "objective": obj,
                      "mean_first_err": float(np.nanmean([s["first_err"] for s in scores])) if any(np.isfinite(s["first_err"]) for s in scores) else None,
                      "mean_abs_first_err": float(np.nanmean([abs(s["first_err"]) for s in scores])) if any(np.isfinite(s["first_err"]) for s in scores) else None,
+                     "mean_abs_second_err": (float(np.mean(_fin2)) if _fin2 else None),
+                     "n_second_donors": len(_fin2),
+                     "second_laps": {d.key: s["second_lap"] for d, s in zip(donors, scores)},
+                     "mean_race_state_s": float(np.nanmean([s.get("race_state_s", np.nan) for s in scores]))
+                     if any(np.isfinite(s.get("race_state_s", np.nan)) for s in scores) else None,
                      "mean_seq_share": float(np.mean([s["seq_share"] for s in scores])),
                      "start_ok": float(np.mean([s["start_ok"] for s in scores])),
                      "stops_ok": float(np.mean([s["stops_ok"] for s in scores])),
@@ -448,16 +673,24 @@ def sweep(donors: list, cal: dict, name: str, values: list, objective, *, models
     return chosen[name], rows
 
 
-def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | None = None) -> dict:
+def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | None = None,
+              held_out: str | None = None, v3_kappa: float | None = None) -> dict:
     t0 = time.time()
     pooled_b, per_b, est_b = pool_cliff_budgets(donors)
     _, per_v2, raw_v2 = pool_budgets(donors)
     dirty, raw_d = pool_dirty(donors)
     drivers = pool_drivers(donors)
     teams = pool_teams(donors, drivers)
+    # V4: every search in the sweeps carries the race state (measured without
+    # this block's held-out weekend *and* without the donor being searched) and
+    # kappa is fixed at 0 - the race state times the first stop, so the
+    # first-stop objective no longer identifies lambda and lambda is swept
+    # against the second stop instead.
     cal = {"budgets": {**{c: pooled_b for c in VALID_COMPOUNDS}, **per_b}, "floor": MANAGE_WEAR_FLOOR, "cost": MANAGE_COST_S,
            "dirty": dirty, "lambda": UNDERCUT_EXPOSURE_LAMBDA, "tau": PLAN_PRIOR_TAU_S, "grid": GRID_START_PENALTY_S,
-           "kappa": FIRST_STOP_KAPPA_S}
+           "kappa": KAPPA_V4, "held_out": held_out,
+           "family_temper": objective.FAMILY_TEMPER_S_DEFAULT,
+           "extrap_ln_sd": objective._extrap_ln_sd(None)}
     sweeps = {}
 
     def obj_regime(scores):
@@ -467,6 +700,17 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
 
     def obj_first(scores):
         errs = [abs(s["first_err"]) for s in scores if np.isfinite(s["first_err"])]
+        return float(np.mean(errs)) if errs else 0.0
+
+    def obj_second(scores):
+        """V4's lambda objective: the *later* stops.
+
+        Mean |recommended second stop - the field's median green second stop
+        among the finishers who made the same number of stops|, over the donors
+        whose recommendation and field mode are both two stops or more.  The
+        first stop is the race state's, and charging lambda for it twice is what
+        Task 1 left behind."""
+        errs = [s["second_err"] for s in scores if np.isfinite(s.get("second_err", np.nan))]
         return float(np.mean(errs)) if errs else 0.0
 
     def obj_shape(scores):
@@ -490,27 +734,39 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
     # the calibrated-pace models at the chosen trade-off, reused by the remaining sweeps
     models = {d.key: d.calibrated_model(cal, lam=cal["lambda"], tau=cal["tau"], grid=cal["grid"], kappa=cal["kappa"])
               for d in donors}
-    # 2. the two first-stop weights against the field's first stops, then the two
-    #    shape weights against the sequences it ran.  Twice round: lambda moves
-    #    the cost surface kappa is then priced against, and the reverse.
+    # 2. lambda against the field's *second* stops, then the two shape weights
+    #    against the sequences it ran.  Twice round: lambda moves the cost
+    #    surface tau is then priced against, and the reverse.
     # One weekend's worth of each objective is the tolerance of the parsimony
-    # rule in `sweep`: for the first-stop objective (a mean of |laps| over the
-    # non-safety-car donors) one lap on one donor; for the shape objective (a
-    # mean field share plus a quarter each for the start and stop flags) one
-    # donor flipping one flag.
+    # rule in `sweep`: for the stop-lap objective (a mean of |laps| over the
+    # donors that have a second stop to compare) one lap on one donor; for the
+    # shape objective (a mean field share plus a quarter each for the start and
+    # stop flags) one donor flipping one flag.
     n_first = max(sum(1 for d in donors if d.first_median is not None and not d.sc_set), 1)
     tol_first = 1.0 / n_first
+    # ...and one lap on one donor for the second-stop objective, over the donors
+    # that have a second stop to compare at all
+    n_second = max(sum(1 for d in donors
+                       if (d.field_stop_mode or 0) >= 2 and any(k >= 2 for k in d.second_median_by_stops)), 1)
+    tol_second = 1.0 / n_second
     tol_shape = 0.25 / max(len(donors), 1)
     for _ in range(2):
-        cal["lambda"], sweeps["lambda"] = sweep(donors, cal, "lambda", grids["lambda"], obj_first,
-                                                models=models, shortlist=SWEEP_SHORTLIST, tol=tol_first)
-        cal["kappa"], sweeps["kappa"] = sweep(donors, cal, "kappa", grids["kappa"], obj_first,
-                                              models=models, shortlist=SWEEP_SHORTLIST, tol=tol_first)
+        cal["lambda"], sweeps["lambda"] = sweep(donors, cal, "lambda", grids["lambda"], obj_second,
+                                                models=models, shortlist=SWEEP_SHORTLIST, tol=tol_second)
         cal["tau"], sweeps["tau"] = sweep(donors, cal, "tau", grids["tau"], obj_shape, models=models, tol=tol_shape)
         cal["grid"], sweeps["grid"] = sweep(donors, cal, "grid", grids["grid"], obj_shape, models=models, tol=tol_shape)
     # final scores at the chosen constants
     final = {d.key: d.decision_scores(d.search(cal, lam=cal["lambda"], tau=cal["tau"], grid=cal["grid"],
                                                kappa=cal["kappa"], calibrated_model=models[d.key])) for d in donors}
+    # the rival field's family temperature, by maximum likelihood on the shares
+    # the donors' fields revealed - no further searches (the family costs come
+    # from the final tables above)
+    cal["family_temper"], sweeps["family_temper"], ft_identified = sweep_family_temper(
+        donors, final, grids.get("family_temper", GRIDS["family_temper"]))
+    lam_rows = sweeps.get("lambda") or []
+    lam_objs = [r["objective"] for r in lam_rows]
+    lam_identified = bool(lam_objs and (max(lam_objs) - min(lam_objs)) > tol_second)
+    n_second_scored = max((r.get("n_second_donors") or 0) for r in lam_rows) if lam_rows else 0
     out = {
         "grip_budget_s": pooled_b, "grip_budget_by_compound": per_b,
         "grip_budget_detail": {c: {k: v for k, v in e.items()} for c, e in est_b.items()},
@@ -518,7 +774,37 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
         "grid_start_penalty_s": cal["grid"], "dirty_air_s_per_lap": cal["dirty"],
         "dirty_air_by_circuit": dict(dirty_circuits or dirty_by_circuit(donors)),
         "undercut_lambda": cal["lambda"], "plan_prior_tau_s": cal["tau"],
-        "first_stop_kappa_s": cal["kappa"],
+        # V4: structurally zero.  The race state times the first stop; the
+        # circuit's first-stop history is kept for the rivals' stop laps and the
+        # plan-family prior, never as a term on our own lap.
+        "first_stop_kappa_s": KAPPA_V4,
+        "family_temper_s": cal["family_temper"],
+        "extrap_ln_sd": cal["extrap_ln_sd"],
+        "objective_version": "v4",
+        "objective_label": donors[0].objective(cal, lam=cal["lambda"], tau=cal["tau"],
+                                               grid=cal["grid"]).label if donors else "",
+        "objective_notes": {
+            "kappa": "fixed at 0 under V4: the race state times the first stop, so the kappa sweep is "
+                     "not run.  V3's swept value is kept under raw.v3_first_stop_kappa_s.",
+            "lambda": ("swept against the later stops: mean |recommended second stop - field median green "
+                       "second stop among finishers with the same stop count| over the donors whose "
+                       f"recommendation and field mode are >= 2 stops ({n_second_scored} donors scored)"
+                       + ("" if lam_identified else "; the objective is flat over the grid, so lambda is "
+                          "unidentified and the smallest value wins")),
+            "family_temper_s": ("maximum likelihood of the donors' start-compound and stop-count shares under "
+                                "the rival family logit q(g) ~ exp(-C_g/tau_f) p_hist(g)^w"
+                                + ("" if ft_identified else "; the likelihood is flat over the grid "
+                                   "(< 1 nat), so the temperature is unidentified and WP-A's default stands")),
+            "extrap_ln_sd": ("from src.tyre.EXTRAP_LN_SD_MEASURED (WP-B's measurement)"
+                             if cal["extrap_ln_sd"] else "0.0: no measured extrapolation width on this "
+                             "checkout (WP-B's src.tyre.EXTRAP_LN_SD_MEASURED is absent or zero)"),
+        },
+        "undercut_lambda_identified": lam_identified,
+        "family_temper_identified": ft_identified,
+        "family_temper_at_grid_edge": bool(any(r.get("chosen") and r.get("at_grid_edge")
+                                               for r in sweeps["family_temper"])),
+        "race_state": {d.key: d.race_state(held_out).as_dict() for d in donors},
+        "held_out": held_out,
         "sigma_race_lap_s": SIGMA_RACE_LAP_S,
         "driver_factors": {k: v["factor"] for k, v in drivers.items()},
         "driver_factor_ln_sd": {k: v["ln_sd"] for k, v in drivers.items()},
@@ -528,7 +814,13 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
         "percar_mode": "team_pooled",
         "donors": [d.key for d in donors],
         "raw": {"implied_budgets": raw_v2, "budget_v2": per_v2, "dirty_air": raw_d,
-                "collapse_counts": {d.key: d.collapse_counts for d in donors}},
+                "collapse_counts": {d.key: d.collapse_counts for d in donors},
+                # V3's swept kappa, for the report only: under V4 nothing charges it
+                "v3_first_stop_kappa_s": (float(v3_kappa) if v3_kappa is not None else None),
+                "v3_first_stop_kappa_note": "the value V3's kappa sweep chose for this block, kept for the "
+                                            "report; V4 fixes kappa at 0 and never sweeps it",
+                "second_stop_field_median_by_stops": {d.key: d.second_median_by_stops for d in donors},
+                "second_stop_n_by_stops": {d.key: d.second_n_by_stops for d in donors}},
         "sweeps": sweeps, "final_scores": final,
         "seconds": round(time.time() - t0, 1),
     }
@@ -536,7 +828,10 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
     print(f"  [{label}] budgets {({c: round(v, 2) for c, v in per_b.items()})} (pooled {pooled_b:.2f}, "
           f"{n_obs} collapse observations; V2 would say {({c: round(v, 2) for c, v in per_v2.items()})}); "
           f"floor {cal['floor']} cost {cal['cost']}; dirty {dirty:.3f} pooled + {len(out['dirty_air_by_circuit'])} circuits; "
-          f"lambda {cal['lambda']}; kappa {cal['kappa']}; tau {cal['tau']}; grid {cal['grid']}; "
+          f"lambda {cal['lambda']}{'' if lam_identified else ' (unidentified)'} on the second stop; "
+          f"kappa {KAPPA_V4} (fixed; V3 said {v3_kappa}); tau {cal['tau']}; grid {cal['grid']}; "
+          f"family temper {cal['family_temper']}{'' if ft_identified else ' (unidentified)'}; "
+          f"extrap ln sd {cal['extrap_ln_sd']}; "
           f"{len(drivers)} drivers / {len(teams)} teams; {out['seconds']}s", flush=True)
     return out
 
@@ -562,9 +857,19 @@ def main() -> int:
               + (f"mode {d.first_stop_prior_summary['mode']} median {d.first_stop_prior_summary['median']:.0f} "
                  f"({d.first_stop_prior_summary['p25']:.0f}-{d.first_stop_prior_summary['p75']:.0f}, "
                  f"n={d.first_stop_prior_summary['n']})" if d.first_stop_prior_summary else "none: no circuit history"))
+    # V3's swept kappa, per block, read off the calibration file being replaced -
+    # kept in the report so a reader can see what V4 switched off.
+    prev = load_calibration_file()
+    v3_kappa = {k: ((prev.get("loo") or {}).get(k) or {}).get("first_stop_kappa_s") for k in keys}
+    v3_kappa["_global"] = (prev.get("global") or {}).get("first_stop_kappa_s")
     result = {"written_utc": datetime.now(timezone.utc).isoformat(), "weekends": keys,
+              "objective_version": "v4",
+              "objective": "V4: race state on the first stop (constants leave-two-out inside a block), "
+                           "lambda on the later stops, tau on the plan family, kappa fixed at 0",
               "dirty_air_by_circuit": dirty_circuits,
               "per_weekend": {k: {"implied_budgets": d.implied_budget(), "longest_stint": d.longest,
+                                  "second_stop_median_green_by_stops": d.second_median_by_stops,
+                                  "second_stop_n_by_stops": d.second_n_by_stops,
                                   "dirty_air": d.dirty, "dirty_air_circuit_history": d.dirty_hist,
                                   "dirty_air_used": d.dirty_circuit,
                                   "first_stop_median_green": d.first_median, "sc_set_first_stops": d.sc_set,
@@ -577,11 +882,14 @@ def main() -> int:
                              for k, d in donors.items()},
               "global": {}, "loo": {}}
     print("\n== global (every scored weekend) ==")
-    result["global"] = calibrate(list(donors.values()), grids, "global", dirty_circuits=dirty_circuits)
+    # the global block holds nothing out, so each donor's race state excludes
+    # only its own race
+    result["global"] = calibrate(list(donors.values()), grids, "global", dirty_circuits=dirty_circuits,
+                                 held_out=None, v3_kappa=v3_kappa.get("_global"))
     for k in keys:
         print(f"\n== leave-one-out: {k} held out ==")
         result["loo"][k] = calibrate([d for kk, d in donors.items() if kk != k], grids, f"loo {k}",
-                                     dirty_circuits=dirty_circuits)
+                                     dirty_circuits=dirty_circuits, held_out=k, v3_kappa=v3_kappa.get(k))
     Path(args.out).write_text(json.dumps(result, indent=1, default=lambda o: float(o) if isinstance(o, (np.floating,)) else
                                           int(o) if isinstance(o, np.integer) else str(o)))
     print(f"\nwrote {args.out} in {time.time()-t0:.0f}s")

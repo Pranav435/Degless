@@ -34,7 +34,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import firststop, percar, strategy as strat  # noqa: E402
+from src import firststop, objective, percar, strategy as strat  # noqa: E402
+from src.objective import V4Objective  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import allocation_prior, model_net_step_draws, pace_step_prior, summary_table as compound_table  # noqa: E402
 from src.config import (  # noqa: E402
@@ -275,14 +276,19 @@ def main() -> int:
                                manage_cost_s=cal.manage_cost_s)
     # V4: the race state times the first stop (constants from every 2026 race
     # but this weekend's); the circuit's first-stop history is then only a
-    # plausibility prior through the plan family, so its lap term is off
-    from src import racestate
-    rs_const = racestate.measure_constants(exclude=key)
-    kappa_used = 0.0 if rs_const is not None else cal.first_stop_kappa_s
+    # plausibility prior through the plan family, so its lap term is off.  One
+    # objective, assembled once (`src.objective`) and used for the search, the
+    # pit window and the per-car plans.
+    rs_const = objective.measure_constants_excluding({key})
+    obj = V4Objective.for_event(ev, cal, plan_prior=plan_prior, first_stop_tables=fs_tables,
+                                dirty_air=dirty_air, race_state=rs_const)
+    kappa_used = float(obj.first_stop_kappa_s)
+    print(f"  objective: {obj.label} (lambda {obj.undercut_lambda:.3f} on "
+          f"{obj.as_dict()['undercut_applies_to']}, tau {obj.plan_prior_tau_s:.2f} s, "
+          f"first-stop history kappa {kappa_used:.2f} s/nat, dirty air {obj.traffic_s_per_lap:.2f} s/lap, "
+          f"grid {obj.grid_penalty_s:.2f} s)")
     sim_kw = dict(regime=regime, support=per_comp_support, max_per_compound=alloc["caps"], max_stint=caps,
-                  undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                  first_stop_prior=fs_tables, first_stop_kappa_s=kappa_used,
-                  traffic_s_per_lap=dirty_air, grid_penalty_s=cal.grid_start_penalty_s, race_state=rs_const)
+                  **obj.sim_kwargs())
     net = pstep.get("net_stint_step_measured", float("nan"))
     model, res, pace_cal = strat.search_with_pace_calibration(
         model, ev, pit_loss, net_step_s=float(net if net is not None else np.nan),
@@ -299,10 +305,7 @@ def main() -> int:
               f"position term {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s, "
               f"first-stop prior {res.best.get('first_stop_s', 0):.1f} s")
         pw = strat.pit_window_model(model, ev, res.best, pit_loss, max_stint=res.max_stint, push=res.best["push"],
-                                    undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=dirty_air,
-                                    first_stop_prior=fs_tables, first_stop_kappa_s=kappa_used,
-                                    race_state_term=racestate.term_by_lap((res.race_state or {}).get("best"),
-                                                                          ev.n_race_laps))
+                                    **obj.window_kwargs(res))
         if res.race_state.get("best"):
             _b = res.race_state["best"]
             print(f"  race state ({res.race_state.get('best_group')}): the tyre alone would stop on lap "
@@ -430,6 +433,8 @@ def main() -> int:
             "first_stop_kappa_s": float(res.first_stop_kappa_s),
             "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
             "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
+            "race_state_s": float(res.best.get("race_state_s", 0.0)),
+            "race_state_terms": obj.terms_json(res),
             "by_stops": res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),
                                             stint_lens=res.by_stops["stint_lens"].astype(str)).to_dict("records"),
             "life": res.life.to_dict("records"),
@@ -437,6 +442,10 @@ def main() -> int:
                               "lo": int(g[g["in_window"]]["lap"].min()), "hi": int(g[g["in_window"]]["lap"].max())}
                              for k, g in pw.groupby("stop")] if not pw.empty else []),
         } if not res.table.empty else {}),
+        "race_state": (objective.race_state_block(res, rs_const, pw, ev.n_race_laps) if not res.table.empty
+                       else {"enabled": rs_const is not None,
+                             "constants": (rs_const.as_dict() if rs_const is not None else None)}),
+        "objective": obj.as_dict(),
         "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
         "gates": GATES, "timings": timings, "runtime_s": round(time.time() - t_all, 1),
         "written_utc": pd.Timestamp.utcnow().isoformat(),

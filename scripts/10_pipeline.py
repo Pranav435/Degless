@@ -41,7 +41,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import cliff, firststop, percar, racestate, strategy as strat  # noqa: E402
+from src import cliff, firststop, objective, percar, racestate, strategy as strat  # noqa: E402
+from src.objective import V4Objective  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import (  # noqa: E402
     allocation_prior, hardness_rank, measure_pace_step, model_net_step_draws,
@@ -74,38 +75,10 @@ GATES: list = []
 N_RIVALS_NOTE = f"{racestate.N_RIVALS} rivals (two ahead, two behind) per pack"
 
 
-def race_state_block(res, rs_const, pw, n_laps: int) -> dict:
-    """The race-state record for the meta: the recommended plan group's pack
-    equilibrium and, for every lap from six before the first stop to the stop
-    itself, the five actions it compared and the one it chose."""
-    rs = res.race_state or {}
-    best = rs.get("best") or {}
-    if not best or rs_const is None:
-        return {"enabled": rs_const is not None, "constants": (rs_const.as_dict() if rs_const else None)}
-    laps = best["laps"]
-    cost = np.asarray(best["cost_s"], dtype=float)
-    tyre = np.asarray(best["tyre_s"], dtype=float)
-    pos = np.asarray(best["position_s"], dtype=float)
-    first = int(res.best["pit_laps"][0]) if res.best.get("pit_laps") else None
-    w_hi = None
-    if pw is not None and not pw.empty:
-        g1 = pw[(pw["stop"] == 1) & pw["in_window"]]
-        w_hi = int(g1["lap"].max()) if len(g1) else None
-    decisions = []
-    if first is not None:
-        for lap in range(max(int(laps[0]), first - 6), first + 1):
-            t = racestate.action_table(laps, cost, {"tyre_s": tyre - tyre.min(), "position_s": pos - pos.min(),
-                                                    "places_ahead": np.asarray(best["places"])},
-                                       now_lap=lap, window_hi=w_hi)
-            decisions.append({"lap": lap, **t})
-    return {"enabled": True, "constants": rs_const.as_dict(), "group": rs.get("best_group"),
-            "first_stop": first, "tyre_optimal_first_stop_in_group": best.get("tyre_best_lap"),
-            "pack_first_stop_median": best.get("q_median"), "pack_first_stop_iqr": best.get("q_p25_p75"),
-            "iterations": best.get("iterations"), "converged": best.get("converged"), "push": best.get("push"),
-            "race_state_s": float(res.best.get("race_state_s", 0.0)),
-            "curve": {k: best.get(k) for k in ("laps", "tyre_s", "places", "position_s", "cost_s", "term_s", "q")},
-            "groups": rs.get("groups"), "n_groups_solved": rs.get("n_groups_solved"),
-            "decisions": decisions}
+# The race-state block every writer shares (`src.objective.race_state_block`,
+# moved there in V4 so the pipeline, the weekend script and the outlook write
+# the same shape).  Kept under its old name: the reader and the tests know it.
+race_state_block = objective.race_state_block
 
 
 def gate(name: str, ok: bool, detail: str = "") -> None:
@@ -588,9 +561,11 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     fs_tables = firststop.first_stop_penalty_table(
         cp.first_stop_green if cp.available else None, ev.n_race_laps, model.compounds)
     fs_summary = fs.get("first_stop_prior")
-    print(f"  first-stop prior: " + (f"{fs_summary['source']}" if fs_summary else "none")
-          + f"; charged at kappa {cal.first_stop_kappa_s:.2f} s/nat"
-          + ("" if fs_tables else " (no table: the term is off)"))
+    # Under V4 nothing charges this table on our own lap (kappa is 0); it is the
+    # rivals' plausible stop laps and the report's "the circuit prefers lap 18".
+    # The objective's own kappa is printed with the objective, below.
+    print(f"  circuit first-stop history: " + (f"{fs_summary['source']}" if fs_summary else "none")
+          + ("" if fs_tables else " (no table)"))
     if fs_tables:
         _cells = sorted({k for per in fs_tables.values() for k in per if k != "any"})
         print(f"    conditioned tables per start compound: stop counts {_cells} (plus \"any\")")
@@ -599,8 +574,20 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     # switched off because the race-state term now decides the lap - history
     # stays in the plan-family prior and the stint caps.
     use_rs = not getattr(args, "no_race_state", False)
-    rs_const = racestate.measure_constants(exclude=key) if use_rs else None
-    kappa_used = 0.0 if use_rs else cal.first_stop_kappa_s
+    rs_const = objective.measure_constants_excluding({key}) if use_rs else None
+    # One objective, assembled once and splatted into every scorer below - the
+    # search, the pit window, the counterfactual and the per-car plans
+    # (`src.objective`).  `--no-race-state` builds the V3 baseline objective
+    # instead, which is the only place kappa is non-zero.
+    obj = (V4Objective.for_event(ev, cal, plan_prior=plan_prior, first_stop_tables=fs_tables,
+                                 dirty_air=dirty_air, race_state=rs_const) if use_rs
+           else V4Objective.v3_for_event(ev, cal, plan_prior=plan_prior, first_stop_tables=fs_tables,
+                                         dirty_air=dirty_air))
+    kappa_used = float(obj.first_stop_kappa_s)
+    print(f"  objective: {obj.label} (lambda {obj.undercut_lambda:.3f} on "
+          f"{obj.as_dict()['undercut_applies_to']}, tau {obj.plan_prior_tau_s:.2f} s, "
+          f"first-stop history kappa {kappa_used:.2f} s/nat, dirty air {obj.traffic_s_per_lap:.2f} s/lap, "
+          f"grid {obj.grid_penalty_s:.2f} s)")
     if rs_const is not None:
         _c = rs_const.as_dict()
         print(f"  race state ({_c['source']}): a place is worth {_c['place_value_s']:.2f} s "
@@ -610,10 +597,7 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     else:
         print("  race state: off (--no-race-state) - V3's undercut exposure and first-stop prior time the stop")
     sim_kw = dict(regime=regime, step=args.pit_step, support=per_comp_support, max_per_compound=alloc["caps"],
-                  max_stint=hist_caps, undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior,
-                  plan_prior_tau_s=cal.plan_prior_tau_s, first_stop_prior=fs_tables,
-                  first_stop_kappa_s=kappa_used, traffic_s_per_lap=dirty_air,
-                  grid_penalty_s=cal.grid_start_penalty_s, race_state=rs_const)
+                  max_stint=hist_caps, **obj.sim_kwargs())
     t0 = time.time()
     model, res, pace_cal = strat.search_with_pace_calibration(
         model, ev, float(pl.seconds), net_step_s=float(pstep.get("measured") if pstep.get("measured") is not None else np.nan),
@@ -653,11 +637,8 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     print(f"\n  the best {res.best['n_stops']}-stop plan for each of {len(_ord)} orderings spans {_spread:.1f} s: "
           + " | ".join(f"{r.compounds} {r.mean_s - _ord['mean_s'].iloc[0]:+.1f}" for r in _ord.head(4).itertuples()))
 
-    rs_term = racestate.term_by_lap((res.race_state or {}).get("best"), ev.n_race_laps) if use_rs else None
     pw = strat.pit_window_model(model, ev, res.best, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
-                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=dirty_air,
-                                first_stop_prior=fs_tables, first_stop_kappa_s=kappa_used,
-                                race_state_term=rs_term)
+                                **obj.window_kwargs(res))
     if not pw.empty:
         for k, g in pw.groupby("stop"):
             win = g[g["in_window"]]["lap"]
@@ -678,14 +659,17 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     uc = strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=max(_uc_age, 8), push=res.best["push"]) \
         if ("MEDIUM" in model.compounds and "SOFT" in model.compounds) else pd.DataFrame()
     t0 = time.time()
+    # V4: the counterfactual is judged under the objective that made the
+    # recommendation - each driver's plan group's race-state term on the first
+    # stop, no first-stop history prior (`objective.counterfactual_kwargs`).
     cf = strat.counterfactual(model, ev, race, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
-                              race_factors=cal.driver_factors, traffic_s_per_lap=dirty_air,
-                              undercut_lambda=cal.undercut_lambda,
-                              first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s)
+                              race_factors=cal.driver_factors, **obj.counterfactual_kwargs(res))
     timings["counterfactual_s"] = round(time.time() - t0, 1)
     if not cf.empty:
-        print(f"\n  counterfactual (top 5, SC stops held fixed, {timings['counterfactual_s']}s):")
-        print(cf.head(5)[["driver", "compounds", "actual_pit_laps", "model_pit_laps", "loss_s", "n_sc_stops", "classified"]]
+        print(f"\n  counterfactual (top 5, SC stops held fixed, {obj.version} objective, "
+              f"{timings['counterfactual_s']}s):")
+        _cf_cols = ["driver", "compounds", "actual_pit_laps", "model_pit_laps", "loss_s", "n_sc_stops", "classified"]
+        print(cf.head(5)[_cf_cols + (["race_state_s"] if "race_state_s" in cf else [])]
               .round(2).to_string(index=False))
     t0 = time.time()
     drivers_on_grid = sorted(race["driver"].unique())
@@ -903,6 +887,7 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
             "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
             "race_state_s": float(res.best.get("race_state_s", 0.0)),
             "race_state_enabled": bool(use_rs),
+            "race_state_terms": obj.terms_json(res),
             "first_stop_prior": fs_summary,
             "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"], s_per_lap=dirty_air)
                                         / max(1, len(res.best["pit_laps"]))),
@@ -917,6 +902,7 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
                                             stint_lens=res.table.head(5)["stint_lens"].astype(str)).to_dict("records"),
         },
         "race_state": rs_block,
+        "objective": obj.as_dict(),
         "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
         "counterfactual_top": (cf.head(3).assign(actual_pit_laps=cf.head(3)["actual_pit_laps"].astype(str),
                                                  model_pit_laps=cf.head(3)["model_pit_laps"].astype(str),
