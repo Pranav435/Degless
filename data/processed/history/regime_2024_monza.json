@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "year": 2024,
+ "circuit": "Monza",
+ "event": "2024-monza",
+ "checked": 1789217413.635707,
+ "ratio": 0.258066624368241,
+ "per_compound": {
+  "MEDIUM": {
+   "practice_s_per_lap": 0.15081875473088124,
+   "race_s_per_lap": 0.0389212869248202,
+   "ratio": 0.258066624368241,
+   "n_practice_laps": 143,
+   "n_race_laps": 234,
+   "usable": true
+  }
+ },
+ "n_race_stints": 47,
+ "n_practice_stints": 30,
+ "usable_compounds": [
+  "MEDIUM"
+ ],
+ "n_race_laps": 53,
+ "n_clean_practice_laps": 167,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 45.09820359281437,
+ "track_temp_race_c": 49.5,
+ "evolution_range_s": 1.3686031773420484
+}

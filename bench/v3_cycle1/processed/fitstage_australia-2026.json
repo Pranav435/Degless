@@ -1,0 +1,1677 @@
+{
+  "event": "australia-2026",
+  "event_name": "Australia 2026",
+  "n_race_laps": 58,
+  "sessions_used": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+  ],
+  "sealed_file": "australia-2026_20260912T160721Z.json",
+  "sealed_sha256": "4ea5557109dc1816e918b29f3fadb51d199f2044a66087dbb535fce14964a00b",
+  "physics": {
+    "burn_kg_per_lap": 1.206896551724138,
+    "k_track_s_per_kg": 0.030448318804483187,
+    "fuel_effect_s_per_lap": 0.03674797097092798,
+    "derivation": "burn = 70 kg / 58 laps = 1.207 kg/lap;  k = 0.30 x 82 s / 803 kg = 0.0304 s/kg"
+  },
+  "prior_table": [
+    {
+      "prior": "2026 physics",
+      "burn_kg_per_lap": 1.2069,
+      "k_track_s_per_kg": 0.03045,
+      "fuel_effect_s_per_lap": 0.0367,
+      "derivation": "burn = 70 kg / 58 laps = 1.207 kg/lap;  k = 0.30 x 82 s / 803 kg = 0.0304 s/kg"
+    },
+    {
+      "prior": "2025 physics",
+      "burn_kg_per_lap": 1.67,
+      "k_track_s_per_kg": 0.033,
+      "fuel_effect_s_per_lap": 0.0551,
+      "derivation": "burn = 1.67 kg/lap (110 kg allowance), k = 0.033 s/kg (800 kg min weight)"
+    },
+    {
+      "prior": "no prior",
+      "burn_kg_per_lap": 0.0,
+      "k_track_s_per_kg": 0.0,
+      "fuel_effect_s_per_lap": 0.0,
+      "derivation": "fuel effect assumed zero; age and fuel burn stay collinear"
+    }
+  ],
+  "compound_ladder": {
+    "pace_step_s": 0.17115,
+    "measured": false,
+    "label": "calibrated (0.21% of lap time)",
+    "derivation": "fresh-tyre step prior 0.171 s (calibrated (0.21% of lap time)). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Melbourne 2023 -0.706 +/- 0.158 s [not used: net step outside the believable band (0.02, 1.5)]; Melbourne 2024 -0.459 +/- 0.240 s [not used: standard error 0.240 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; japan-2026 -0.069 +/- 0.664 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.073 +/- 0.142 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
+    "donors": [
+      {
+        "event": "Melbourne 2023",
+        "net_stint_step_s": -0.706,
+        "se": 0.1575,
+        "n_stints": 19,
+        "median_stint_laps": 40.0,
+        "kind": "circuit history",
+        "recency": 0.5,
+        "used": false,
+        "why": "net step outside the believable band (0.02, 1.5)"
+      },
+      {
+        "event": "Melbourne 2024",
+        "net_stint_step_s": -0.4593,
+        "se": 0.2396,
+        "n_stints": 48,
+        "median_stint_laps": 18.0,
+        "kind": "circuit history",
+        "recency": 0.7,
+        "used": false,
+        "why": "standard error 0.240 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
+      },
+      {
+        "event": "japan-2026",
+        "net_stint_step_s": -0.0686,
+        "se": 0.6643,
+        "n_stints": 42,
+        "median_stint_laps": 20.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "barcelona-2026",
+        "net_stint_step_s": 0.0605,
+        "se": 0.3363,
+        "n_stints": 62,
+        "median_stint_laps": 15.5,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "austria-2026",
+        "net_stint_step_s": 0.1061,
+        "se": 0.295,
+        "n_stints": 61,
+        "median_stint_laps": 19.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "belgium-2026",
+        "net_stint_step_s": 0.0748,
+        "se": 0.3225,
+        "n_stints": 40,
+        "median_stint_laps": 13.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "hungary-2026",
+        "net_stint_step_s": -0.0098,
+        "se": 0.3273,
+        "n_stints": 64,
+        "median_stint_laps": 18.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "italy-2026",
+        "net_stint_step_s": 0.1731,
+        "se": 0.3543,
+        "n_stints": 28,
+        "median_stint_laps": 24.5,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      }
+    ],
+    "circuit_ladder": {
+      "n_races": 2,
+      "recency_weights": [
+        0.5,
+        0.7
+      ],
+      "deg_ratio": 1.8876704345475854,
+      "deg_ratio_ln_sd": 0.25,
+      "deg_ratio_by_year": [
+        1.888
+      ]
+    },
+    "table": [
+      {
+        "compound": "SOFT",
+        "hardness_rank": 0,
+        "pace_offset_s": 0.0,
+        "deg_multiplier": 1.0
+      },
+      {
+        "compound": "MEDIUM",
+        "hardness_rank": 1,
+        "pace_offset_s": 0.171,
+        "deg_multiplier": 0.53
+      },
+      {
+        "compound": "HARD",
+        "hardness_rank": 2,
+        "pace_offset_s": 0.342,
+        "deg_multiplier": 0.281
+      }
+    ],
+    "deg_ratio": 1.9659247398376465,
+    "fitted_offsets": {
+      "HARD": 0.34297099709510803,
+      "MEDIUM": 0.17302575707435608,
+      "SOFT": 0.0
+    },
+    "unladdered_slopes": {
+      "HARD": 0.011005006954485488,
+      "MEDIUM": 0.01102313558658464,
+      "SOFT": 0.011040479068996144
+    },
+    "deg_ordered": true,
+    "pace_ordered": true,
+    "prior_label": "2026 compound ladder (soft, per circuit)"
+  },
+  "net_step": {
+    "measured": 0.07282897507240052,
+    "se": 0.14211802411928148,
+    "derivation": "fresh-tyre step prior 0.171 s (calibrated (0.21% of lap time)). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Melbourne 2023 -0.706 +/- 0.158 s [not used: net step outside the believable band (0.02, 1.5)]; Melbourne 2024 -0.459 +/- 0.240 s [not used: standard error 0.240 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; japan-2026 -0.069 +/- 0.664 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.073 +/- 0.142 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
+    "detail": [
+      {
+        "event": "Melbourne 2023",
+        "net_stint_step_s": -0.706,
+        "se": 0.1575,
+        "n_stints": 19,
+        "median_stint_laps": 40.0,
+        "kind": "circuit history",
+        "recency": 0.5,
+        "used": false,
+        "why": "net step outside the believable band (0.02, 1.5)"
+      },
+      {
+        "event": "Melbourne 2024",
+        "net_stint_step_s": -0.4593,
+        "se": 0.2396,
+        "n_stints": 48,
+        "median_stint_laps": 18.0,
+        "kind": "circuit history",
+        "recency": 0.7,
+        "used": false,
+        "why": "standard error 0.240 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
+      },
+      {
+        "event": "japan-2026",
+        "net_stint_step_s": -0.0686,
+        "se": 0.6643,
+        "n_stints": 42,
+        "median_stint_laps": 20.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "barcelona-2026",
+        "net_stint_step_s": 0.0605,
+        "se": 0.3363,
+        "n_stints": 62,
+        "median_stint_laps": 15.5,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "austria-2026",
+        "net_stint_step_s": 0.1061,
+        "se": 0.295,
+        "n_stints": 61,
+        "median_stint_laps": 19.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "belgium-2026",
+        "net_stint_step_s": 0.0748,
+        "se": 0.3225,
+        "n_stints": 40,
+        "median_stint_laps": 13.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "hungary-2026",
+        "net_stint_step_s": -0.0098,
+        "se": 0.3273,
+        "n_stints": 64,
+        "median_stint_laps": 18.0,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      },
+      {
+        "event": "italy-2026",
+        "net_stint_step_s": 0.1731,
+        "se": 0.3543,
+        "n_stints": 28,
+        "median_stint_laps": 24.5,
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
+      }
+    ]
+  },
+  "circuit_history": {
+    "event": "australia-2026",
+    "circuit": "Melbourne",
+    "years": [
+      2023,
+      2024
+    ],
+    "rate_prior": {
+      "MEDIUM": {
+        "mean_s_per_lap": 0.09838402421658496,
+        "ln_sd": 0.47362299684817577,
+        "years": [
+          2023,
+          2024
+        ],
+        "raw_mean_s_per_lap": 0.06914965833452755,
+        "thermal_multiplier": 0.9919457419911626
+      },
+      "HARD": {
+        "mean_s_per_lap": 0.05241894907995522,
+        "ln_sd": 0.47362299684817577,
+        "years": [
+          2023,
+          2024
+        ],
+        "raw_mean_s_per_lap": 0.036842896476304766,
+        "thermal_multiplier": 0.9919457419911626
+      }
+    },
+    "rate_floor": {
+      "MEDIUM": 0.048348922686152554,
+      "HARD": 0.0257602770016485,
+      "SOFT": 0.0257602770016485
+    },
+    "stint_cap": {
+      "SOFT": 10,
+      "MEDIUM": 41,
+      "HARD": 52
+    },
+    "stint_longest": {
+      "SOFT": 9.0,
+      "MEDIUM": 37.0,
+      "HARD": 47.0
+    },
+    "stint_typical": {
+      "SOFT": {
+        "p10": 6.6,
+        "p50": 7.0,
+        "p90": 7.4,
+        "n_stints": 4
+      },
+      "MEDIUM": {
+        "p10": 7.7,
+        "p50": 8.5,
+        "p90": 22.8,
+        "n_stints": 26
+      },
+      "HARD": {
+        "p10": 11.7,
+        "p50": 34.5,
+        "p90": 38.0,
+        "n_stints": 56
+      }
+    },
+    "stops": {
+      "1": 14,
+      "2": 18,
+      "3": 1
+    },
+    "plans": {
+      "M-H-H": 12,
+      "M-H": 9,
+      "H-H": 4,
+      "H-M-H": 3,
+      "S-H-H": 2,
+      "H-M-S": 1
+    },
+    "plans_all": {
+      "M-H-H": 12,
+      "M-H": 9,
+      "H-H": 4,
+      "H-M-H": 3,
+      "S-H-H": 2,
+      "H-M-S": 1,
+      "S-H": 1,
+      "M-H-H-H": 1
+    },
+    "starts": {
+      "MEDIUM": 22,
+      "HARD": 8,
+      "SOFT": 3
+    },
+    "first_stop": {
+      "median_lap": 8.5,
+      "p25": 8.0,
+      "p75": 11.0,
+      "n": 33,
+      "sc_share": 0.5882352941176471
+    },
+    "first_stop_green": {
+      "median_lap": 8.5,
+      "p25": 7.25,
+      "p75": 9.0,
+      "n": 14,
+      "in_laps": [
+        5.0,
+        6.0,
+        6.0,
+        7.0,
+        8.0,
+        8.0,
+        8.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        14.0,
+        14.0,
+        16.0
+      ],
+      "by_compound": {
+        "M": [
+          6.0,
+          7.0,
+          8.0,
+          8.0,
+          8.0,
+          9.0,
+          9.0,
+          9.0,
+          9.0,
+          14.0,
+          14.0,
+          16.0
+        ],
+        "S": [
+          5.0,
+          6.0
+        ]
+      },
+      "by_year": {
+        "2024": {
+          "median_lap": 8.5,
+          "n": 14,
+          "raw_median_lap": 8.5,
+          "n_race_laps": 58
+        }
+      },
+      "source": "Melbourne green-flag first stops [2023, 2024], scaled to 58 laps"
+    },
+    "ladder": {
+      "n_races": 2,
+      "recency_weights": [
+        0.5,
+        0.7
+      ],
+      "deg_ratio": 1.8876704345475854,
+      "deg_ratio_ln_sd": 0.25,
+      "deg_ratio_by_year": [
+        1.888
+      ]
+    },
+    "net_steps": [
+      {
+        "year": 2023,
+        "step_s": -0.7060242155752047,
+        "se": 0.15753637459984218,
+        "n_stints": 19,
+        "median_stint_laps": 40.0,
+        "se_raw": 0.15753637459984218,
+        "recency": 0.5
+      },
+      {
+        "year": 2024,
+        "step_s": -0.45933015630284757,
+        "se": 0.23955113658020052,
+        "n_stints": 48,
+        "median_stint_laps": 18.0,
+        "se_raw": 0.23955113658020052,
+        "recency": 0.7
+      }
+    ],
+    "dirty_air": {
+      "s_per_lap": 0.13115569904547192,
+      "se": 0.03318290877784903,
+      "n_races": 2,
+      "by_year": {
+        "2023": {
+          "s_per_lap": 0.09208866195380228,
+          "se": 0.0516614210076314,
+          "n_laps": 736,
+          "share_close": 0.6725543478260869
+        },
+        "2024": {
+          "s_per_lap": 0.15859351610045283,
+          "se": 0.04329481501448809,
+          "n_laps": 852,
+          "share_close": 0.5316901408450704
+        }
+      },
+      "source": "Melbourne races [2023, 2024], within 3 s of the car ahead"
+    },
+    "nomination": [
+      "C3",
+      "C4",
+      "C5"
+    ],
+    "nominations_by_year": {
+      "2023": [
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "2024": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "2025": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "2026": [
+        "C3",
+        "C4",
+        "C5"
+      ]
+    },
+    "pit_loss_s": 21.028249999999993,
+    "sc_share": 0.034482758620689655,
+    "season": {
+      "factor": 1.4343218899328785,
+      "ln_sd": 0.31909049365884773,
+      "n_circuits": 4,
+      "detail": [
+        {
+          "circuit": "Suzuka",
+          "ratio": 0.966,
+          "deg_2026": {
+            "HARD": 0.02,
+            "MEDIUM": 0.059
+          },
+          "deg_2025": {
+            "HARD": 0.027,
+            "MEDIUM": 0.055,
+            "SOFT": 0.053
+          }
+        },
+        {
+          "circuit": "Barcelona",
+          "ratio": 2.104,
+          "deg_2026": {
+            "HARD": 0.11,
+            "MEDIUM": 0.157,
+            "SOFT": 0.172
+          },
+          "deg_2025": {
+            "MEDIUM": 0.061,
+            "SOFT": 0.117
+          }
+        },
+        {
+          "circuit": "Spielberg",
+          "ratio": 1.398,
+          "deg_2026": {
+            "HARD": 0.078,
+            "MEDIUM": 0.07,
+            "SOFT": 0.05
+          },
+          "deg_2025": {
+            "HARD": 0.051,
+            "MEDIUM": 0.054,
+            "SOFT": -0.021
+          }
+        },
+        {
+          "circuit": "Budapest",
+          "ratio": 1.49,
+          "deg_2026": {
+            "HARD": 0.082,
+            "MEDIUM": 0.065,
+            "SOFT": 0.048
+          },
+          "deg_2025": {
+            "HARD": 0.039,
+            "MEDIUM": 0.061,
+            "SOFT": 0.113
+          }
+        }
+      ],
+      "note": "2026/2025 race degradation, driver + lap fixed effects, laps-weighted per compound"
+    },
+    "thermal": {
+      "beta_per_c": 0.025207229733850672,
+      "track_temp_now": 34.42918454935622,
+      "track_temp_hist": 34.75,
+      "multiplier": 0.9919457419911626
+    },
+    "race_temps": [
+      30.95,
+      38.55
+    ],
+    "soft_race_tyre": false,
+    "races": [
+      {
+        "year": 2023,
+        "event": "Australian Grand Prix",
+        "n_laps": 58,
+        "stops": {
+          "1": 14,
+          "2": 2
+        },
+        "plans": {
+          "M-H": 9,
+          "H-H": 4,
+          "H-M-S": 1,
+          "S-H": 1,
+          "H-M-H": 1
+        },
+        "starts": {
+          "MEDIUM": 9,
+          "HARD": 6,
+          "SOFT": 1
+        },
+        "first_stop": {
+          "median_lap": 8.0,
+          "p25": 8.0,
+          "p75": 8.0,
+          "n": 16,
+          "sc_share": 1.0
+        },
+        "first_stop_green": {},
+        "dirty_air": {
+          "s_per_lap": 0.09208866195380228,
+          "se": 0.0516614210076314,
+          "n_laps": 736,
+          "share_close": 0.6725543478260869,
+          "event": "australia-2026"
+        },
+        "nomination": [
+          "C2",
+          "C3",
+          "C4"
+        ],
+        "compounds": {
+          "HARD": {
+            "n_stints": 21,
+            "p10": 7.0,
+            "p50": 46.0,
+            "p90": 47.0,
+            "max": 47,
+            "share_of_laps": 0.823121387283237
+          },
+          "MEDIUM": {
+            "n_stints": 11,
+            "p10": 8.0,
+            "p50": 8.0,
+            "p90": 28.0,
+            "max": 37,
+            "share_of_laps": 0.15722543352601157
+          },
+          "SOFT": {
+            "n_stints": 2,
+            "p10": 8.1,
+            "p50": 8.5,
+            "p90": 8.9,
+            "max": 9,
+            "share_of_laps": 0.019653179190751446
+          }
+        },
+        "deg": {
+          "HARD": {
+            "slope": 0.0003042820572639604,
+            "se": 0.020666604135355274,
+            "n_laps": 655,
+            "offset_s": 0.9582432256319003,
+            "offset_se": 1.9279227465972002
+          },
+          "MEDIUM": {
+            "slope": 0.06852161898149467,
+            "se": 0.02521942037354893,
+            "n_laps": 93,
+            "offset_s": 0.16474537012897617,
+            "offset_se": 1.9600379175618639
+          }
+        },
+        "ladder": {
+          "pace_step_s": 0.7934978555029242,
+          "pace_step_se": 2.7492971383841254
+        },
+        "net_step": {
+          "step_s": -0.7060242155752047,
+          "se": 0.15753637459984218,
+          "n_stints": 19,
+          "median_stint_laps": 40.0
+        },
+        "pit_loss_s": 21.35950000000001,
+        "sc_share_of_laps": 0.034482758620689655,
+        "track_temp_c": 30.95
+      },
+      {
+        "year": 2024,
+        "event": "Australian Grand Prix",
+        "n_laps": 58,
+        "stops": {
+          "2": 16,
+          "3": 1
+        },
+        "plans": {
+          "M-H-H": 12,
+          "H-M-H": 2,
+          "S-H-H": 2,
+          "M-H-H-H": 1
+        },
+        "starts": {
+          "MEDIUM": 13,
+          "HARD": 2,
+          "SOFT": 2
+        },
+        "first_stop": {
+          "median_lap": 9.0,
+          "p25": 8.0,
+          "p75": 14.0,
+          "n": 17,
+          "sc_share": 0.17647058823529413
+        },
+        "first_stop_green": {
+          "median_lap": 8.5,
+          "p25": 7.25,
+          "p75": 9.0,
+          "n": 14,
+          "in_laps": [
+            5,
+            6,
+            6,
+            7,
+            8,
+            8,
+            8,
+            9,
+            9,
+            9,
+            9,
+            14,
+            14,
+            16
+          ]
+        },
+        "dirty_air": {
+          "s_per_lap": 0.15859351610045283,
+          "se": 0.04329481501448809,
+          "n_laps": 852,
+          "share_close": 0.5316901408450704,
+          "event": "australia-2026"
+        },
+        "nomination": [
+          "C3",
+          "C4",
+          "C5"
+        ],
+        "compounds": {
+          "HARD": {
+            "n_stints": 35,
+            "p10": 16.4,
+            "p50": 23.0,
+            "p90": 29.0,
+            "max": 37,
+            "share_of_laps": 0.8087934560327198
+          },
+          "MEDIUM": {
+            "n_stints": 15,
+            "p10": 7.4,
+            "p50": 9.0,
+            "p90": 17.6,
+            "max": 24,
+            "share_of_laps": 0.17995910020449898
+          },
+          "SOFT": {
+            "n_stints": 2,
+            "p10": 5.1,
+            "p50": 5.5,
+            "p90": 5.9,
+            "max": 6,
+            "share_of_laps": 0.011247443762781187
+          }
+        },
+        "deg": {
+          "HARD": {
+            "slope": 0.03684289647630476,
+            "se": 0.003510416737144069,
+            "n_laps": 692,
+            "offset_s": -0.1109214732228967,
+            "offset_se": 0.5107697569085989
+          },
+          "MEDIUM": {
+            "slope": 0.0695472464014179,
+            "se": 0.012913107280881067,
+            "n_laps": 148,
+            "offset_s": -0.32490630769129236,
+            "offset_se": 0.5316778353156013
+          }
+        },
+        "ladder": {
+          "pace_step_s": 0.21398483446839567,
+          "pace_step_se": 0.7372700082997768,
+          "deg_ratio": 1.8876704345475854,
+          "n_pairs": 1
+        },
+        "net_step": {
+          "step_s": -0.45933015630284757,
+          "se": 0.23955113658020052,
+          "n_stints": 48,
+          "median_stint_laps": 18.0
+        },
+        "pit_loss_s": 20.696999999999974,
+        "sc_share_of_laps": 0.034482758620689655,
+        "track_temp_c": 38.55
+      }
+    ]
+  },
+  "cliff_history": {
+    "SOFT": {
+      "longest_stint": 9.0,
+      "p90_stint": 7.4,
+      "p50_stint": 7.0,
+      "n_stints": 4,
+      "source": "Melbourne races [2023, 2024], scaled to australia-2026's distance"
+    },
+    "MEDIUM": {
+      "longest_stint": 37.0,
+      "p90_stint": 22.8,
+      "p50_stint": 8.5,
+      "n_stints": 26,
+      "source": "Melbourne races [2023, 2024], scaled to australia-2026's distance"
+    },
+    "HARD": {
+      "longest_stint": 47.0,
+      "p90_stint": 38.0,
+      "p50_stint": 34.5,
+      "n_stints": 56,
+      "source": "Melbourne races [2023, 2024], scaled to australia-2026's distance"
+    }
+  },
+  "history_combination": [
+    {
+      "compound": "HARD",
+      "practice": 0.0039832505647132855,
+      "practice_as_race": 0.0026667493052761008,
+      "practice_sd_ln": 1.207054469883302,
+      "history_race": 0.052418949079955236,
+      "history_sd_ln": 0.47362299684817577,
+      "combined_race": 0.03522969456655827,
+      "combined": 0.05262163207440713,
+      "combined_sd_ln": 0.35169441232867177,
+      "weight_on_history": 0.8665801195374375,
+      "scale_mean": 2.9999454328096684,
+      "capped_share": 0.9996666666666667,
+      "floor_practice": 0.038477421822507386,
+      "floor_binds": true,
+      "note": NaN
+    },
+    {
+      "compound": "MEDIUM",
+      "practice": 0.0074430315098504805,
+      "practice_as_race": 0.0049830405558407564,
+      "practice_sd_ln": 1.2028278506177328,
+      "history_race": 0.09838402421658499,
+      "history_sd_ln": 0.47362299684817577,
+      "combined_race": 0.06592270002153323,
+      "combined": 0.09846693559408652,
+      "combined_sd_ln": 0.3514349741683517,
+      "weight_on_history": 0.8657669079798858,
+      "scale_mean": 3.0,
+      "capped_share": 1.0,
+      "floor_practice": 0.0722174646157663,
+      "floor_binds": true,
+      "note": NaN
+    },
+    {
+      "compound": "SOFT",
+      "practice": 0.015235408756252039,
+      "practice_as_race": NaN,
+      "practice_sd_ln": NaN,
+      "history_race": NaN,
+      "history_sd_ln": NaN,
+      "combined_race": NaN,
+      "combined": 0.045705804283447934,
+      "combined_sd_ln": NaN,
+      "weight_on_history": NaN,
+      "scale_mean": 2.999972302331041,
+      "capped_share": NaN,
+      "floor_practice": NaN,
+      "floor_binds": NaN,
+      "note": "no history for this compound here; moved with the ladder"
+    }
+  ],
+  "plan_prior": {
+    "sequences": {
+      "M-H-H": 12,
+      "H-H": 4,
+      "H-M-H": 2,
+      "S-H-H": 2,
+      "H-H-M": 1,
+      "M-H": 1,
+      "M-H-H-H": 1
+    },
+    "starts": {
+      "MEDIUM": 14,
+      "HARD": 7,
+      "SOFT": 2
+    },
+    "stops": {
+      "1": 14,
+      "2": 18,
+      "3": 1
+    },
+    "n": 23,
+    "source": "Melbourne races [2023, 2024] mapped by C-number",
+    "nomination": {
+      "target": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "per_race": [
+        {
+          "year": 2023,
+          "nomination": [
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "comparable": "shifted",
+          "n_mapped": 6,
+          "n_dropped": 10,
+          "n_clamped": 6
+        },
+        {
+          "year": 2024,
+          "nomination": [
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "comparable": "identical",
+          "n_mapped": 17,
+          "n_dropped": 0,
+          "n_clamped": 0
+        }
+      ],
+      "mode": "c-number"
+    }
+  },
+  "first_stop_prior": {
+    "mode": 8,
+    "median": 10.0,
+    "p25": 8.0,
+    "p75": 13.0,
+    "n": 14,
+    "n_compound": 12,
+    "source": "Gaussian KDE (bandwidth 2.4 laps) over 14 historical green first stops scaled to 58 laps, blended 0.71 toward the 12 MEDIUM-start stops, with a 5% uniform floor on laps 6-52"
+  },
+  "regime": {
+    "ratio": 0.669490724209074,
+    "ln_sd": 0.2658969792692771,
+    "p05": 0.43229869776747765,
+    "p95": 1.0368243811899596,
+    "measured": true,
+    "label": "median of 6 donors",
+    "sources": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+    ],
+    "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; residuals pooled with the median: japan-2026 0.73x, barcelona-2026 0.70x, austria-2026 0.58x, belgium-2026 0.32x, hungary-2026 0.64x, italy-2026 0.81x -> management residual 0.67x (spread 0.27 ln); no temperature term (no race-day forecast supplied: no temperature term); the pool gives 0.67x, so 0.67x applies; the old pooled geometric mean would have given 0.61x. australia-2026's own race is never used",
+    "donors": [
+      {
+        "event": "japan-2026",
+        "ratio": 0.7327,
+        "compounds": [
+          "MEDIUM"
+        ],
+        "n_race_stints": 42,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.7327
+      },
+      {
+        "event": "barcelona-2026",
+        "ratio": 0.7012,
+        "compounds": [
+          "MEDIUM",
+          "SOFT"
+        ],
+        "n_race_stints": 62,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.7012
+      },
+      {
+        "event": "austria-2026",
+        "ratio": 0.585,
+        "compounds": [
+          "HARD",
+          "MEDIUM",
+          "SOFT"
+        ],
+        "n_race_stints": 61,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.585
+      },
+      {
+        "event": "belgium-2026",
+        "ratio": 0.3202,
+        "compounds": [
+          "HARD",
+          "MEDIUM",
+          "SOFT"
+        ],
+        "n_race_stints": 40,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.3202
+      },
+      {
+        "event": "hungary-2026",
+        "ratio": 0.6392,
+        "compounds": [
+          "HARD",
+          "MEDIUM",
+          "SOFT"
+        ],
+        "n_race_stints": 64,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.6392
+      },
+      {
+        "event": "italy-2026",
+        "ratio": 0.8096,
+        "compounds": [
+          "SOFT"
+        ],
+        "n_race_stints": 28,
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.8096
+      }
+    ],
+    "temperature": {
+      "mode": "none",
+      "beta_per_c": 0.0,
+      "t_practice_c": null,
+      "t_race_expected_c": null,
+      "t_race_source": "no race-day forecast supplied: no temperature term",
+      "t_race_forecast_sd_c": 0.0,
+      "delta_t_c": 0.0,
+      "residual_median": 0.669490724209074,
+      "residual_spread_ln": 0.2658969792692771,
+      "pooled_ratio": 0.669490724209074,
+      "pooled_ln_sd": 0.2658969792692771,
+      "pooled_geomean_ratio": 0.6065544334249148,
+      "modelled": false
+    }
+  },
+  "allocation": {
+    "caps": {
+      "SOFT": 2,
+      "MEDIUM": 2,
+      "HARD": 2
+    },
+    "measured": true,
+    "sources": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+    ],
+    "detail": {
+      "japan-2026": {
+        "SOFT": 1,
+        "MEDIUM": 1,
+        "HARD": 1
+      },
+      "barcelona-2026": {
+        "SOFT": 1,
+        "MEDIUM": 1,
+        "HARD": 2
+      },
+      "austria-2026": {
+        "SOFT": 1,
+        "MEDIUM": 2,
+        "HARD": 2
+      },
+      "belgium-2026": {
+        "SOFT": 1,
+        "MEDIUM": 1,
+        "HARD": 2
+      },
+      "hungary-2026": {
+        "SOFT": 2,
+        "MEDIUM": 1,
+        "HARD": 2
+      },
+      "italy-2026": {
+        "SOFT": 1,
+        "MEDIUM": 2,
+        "HARD": 1
+      }
+    },
+    "derivation": "stints per compound per classified finisher, japan-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 1}; barcelona-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 2}; austria-2026 {'SOFT': 1, 'MEDIUM': 2, 'HARD': 2}; belgium-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 2}; hungary-2026 {'SOFT': 2, 'MEDIUM': 1, 'HARD': 2}; italy-2026 {'SOFT': 1, 'MEDIUM': 2, 'HARD': 1} -> {'SOFT': 2, 'MEDIUM': 2, 'HARD': 2} at australia-2026 (the most permissive donor, so the cap never forbids something a donor field actually did)"
+  },
+  "load_effect": {
+    "exponent": 1.6,
+    "start_multiplier": 1.070645158302984,
+    "flag_multiplier": 0.9311787993561842
+  },
+  "n_raw_laps": 1408,
+  "n_clean_laps": 233,
+  "compound_counts": [
+    {
+      "compound": "MEDIUM",
+      "laps": 118,
+      "stints": 24,
+      "median_lap_s": 84.3745
+    },
+    {
+      "compound": "SOFT",
+      "laps": 58,
+      "stints": 16,
+      "median_lap_s": 82.0995
+    },
+    {
+      "compound": "HARD",
+      "laps": 57,
+      "stints": 12,
+      "median_lap_s": 83.528
+    }
+  ],
+  "mixedlm": {
+    "slopes": {
+      "HARD": 0.06668775203000649,
+      "MEDIUM": -0.10648960298870533,
+      "SOFT": 0.08794854407729684
+    },
+    "table": [
+      {
+        "compound": "HARD",
+        "slope_s_per_lap": 0.06668775203000649,
+        "lo": -0.03606466115507916,
+        "hi": 0.155518123422705,
+        "n_stints": 12,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "MEDIUM",
+        "slope_s_per_lap": -0.10648960298870533,
+        "lo": -0.1777847670307427,
+        "hi": 0.0017874507592940455,
+        "n_stints": 24,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "SOFT",
+        "slope_s_per_lap": 0.08794854407729684,
+        "lo": -0.018584284968301907,
+        "hi": 0.20976839566850017,
+        "n_stints": 16,
+        "n_boot": 50,
+        "band_estimable": true
+      }
+    ],
+    "n_stints": 52
+  },
+  "stint_fe_baseline": {
+    "slopes": {
+      "HARD": 0.031098706786709895,
+      "MEDIUM": -0.14983351740827103,
+      "SOFT": 0.08862779738160395
+    },
+    "ci": {
+      "HARD": [
+        -0.08103527125073214,
+        0.11755150254521207
+      ],
+      "MEDIUM": [
+        -0.2173145086684067,
+        -0.04458595175015394
+      ],
+      "SOFT": [
+        -0.03732572616361597,
+        0.20014828485997813
+      ]
+    },
+    "n_stints": 52,
+    "n_laps": 233,
+    "pooled_slope": -0.04621165888068878,
+    "pooled_ci": [
+      -0.09476670614471781,
+      0.0189155423868341
+    ],
+    "n_stints_by_compound": {
+      "HARD": 12,
+      "MEDIUM": 24,
+      "SOFT": 16
+    },
+    "n_laps_by_compound": {
+      "HARD": 57,
+      "MEDIUM": 118,
+      "SOFT": 58
+    },
+    "per_compound": {
+      "HARD": {
+        "slope": 0.031098706786709895,
+        "n_laps": 57,
+        "n_stints": 12
+      },
+      "MEDIUM": {
+        "slope": -0.14983351740827103,
+        "n_laps": 118,
+        "n_stints": 24
+      },
+      "SOFT": {
+        "slope": 0.08862779738160395,
+        "n_laps": 58,
+        "n_stints": 16
+      }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap",
+    "table": [
+      {
+        "compound": "HARD",
+        "slope_s_per_lap": 0.031098706786709895,
+        "lo": -0.08103527125073214,
+        "hi": 0.11755150254521207,
+        "n_stints": 12,
+        "n_laps": 57,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "MEDIUM",
+        "slope_s_per_lap": -0.14983351740827103,
+        "lo": -0.2173145086684067,
+        "hi": -0.04458595175015394,
+        "n_stints": 24,
+        "n_laps": 118,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "SOFT",
+        "slope_s_per_lap": 0.08862779738160395,
+        "lo": -0.03732572616361597,
+        "hi": 0.20014828485997813,
+        "n_stints": 16,
+        "n_laps": 58,
+        "n_boot": 50,
+        "band_estimable": true
+      }
+    ]
+  },
+  "bayes": {
+    "max_rhat": 1.0033127445081242,
+    "n_divergences": 0,
+    "n_laps": 233,
+    "n_apex": 0,
+    "use_hinge": false,
+    "corners": [],
+    "slopes": [
+      {
+        "compound": "HARD",
+        "slope_s_per_lap": 0.04068387672305107,
+        "lo": 0.038477420806884766,
+        "hi": 0.05440821759402752,
+        "knee_lap": NaN,
+        "knee_lo": NaN,
+        "knee_hi": NaN
+      },
+      {
+        "compound": "MEDIUM",
+        "slope_s_per_lap": 0.07535229201739033,
+        "lo": 0.07221746444702148,
+        "hi": 0.0948863446712494,
+        "knee_lap": NaN,
+        "knee_lo": NaN,
+        "knee_hi": NaN
+      },
+      {
+        "compound": "SOFT",
+        "slope_s_per_lap": 0.08374341425237557,
+        "lo": 0.038477420806884766,
+        "hi": 0.2095493070781231,
+        "knee_lap": NaN,
+        "knee_lo": NaN,
+        "knee_hi": NaN
+      }
+    ],
+    "k_track_mean": 0.040366560220718384,
+    "k_track_sd": 0.010523511096835136,
+    "k_track_rel_sd": 0.26069873571395874,
+    "comp_offset": {
+      "HARD": 0.34297099709510803,
+      "MEDIUM": 0.17302575707435608,
+      "SOFT": 0.0
+    },
+    "drivers": [
+      "ALB",
+      "ANT",
+      "BEA",
+      "BOT",
+      "COL",
+      "GAS",
+      "HAD",
+      "HAM",
+      "HUL",
+      "LAW",
+      "LEC",
+      "LIN",
+      "NOR",
+      "OCO",
+      "PER",
+      "PIA",
+      "RUS",
+      "SAI",
+      "STR"
+    ],
+    "variants": {
+      "2026": {
+        "rhat": 1.0033127445081242,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 0.04068387672305107,
+            "lo": 0.038477420806884766,
+            "hi": 0.05440821759402752,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 0.07535229201739033,
+            "lo": 0.07221746444702148,
+            "hi": 0.0948863446712494,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.08374341425237557,
+            "lo": 0.038477420806884766,
+            "hi": 0.2095493070781231,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          }
+        ],
+        "hinge": false,
+        "k_track_rel_sd": 0.26069873571395874
+      },
+      "hinge": {
+        "rhat": 1.0062177922442443,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 0.007109668534709969,
+            "lo": 0.0009037229122618697,
+            "hi": 0.017497560681905205,
+            "knee_lap": 20.062833786010742,
+            "knee_lo": 13.658110618591309,
+            "knee_hi": 26.980112075805664
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 0.01618493953302363,
+            "lo": 0.0028800957340178075,
+            "hi": 0.03471846584577579,
+            "knee_lap": 16.701801300048828,
+            "knee_lo": 10.779205322265625,
+            "knee_hi": 22.57653045654297
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.04184749303269401,
+            "lo": 0.009348721601521774,
+            "hi": 0.08721566543751624,
+            "knee_lap": 13.3297758102417,
+            "knee_lo": 7.757612705230713,
+            "knee_hi": 18.649036407470703
+          }
+        ],
+        "hinge": true,
+        "k_track_rel_sd": 0.2600661516189575
+      },
+      "hardladder": {
+        "rhat": 1.0056065670179892,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 0.008757865220766803,
+            "lo": 0.0005746450304286554,
+            "hi": 0.025038437359035014,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 0.011505753603252629,
+            "lo": 0.0007489001436624675,
+            "hi": 0.03316536508500576,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.015300037731930161,
+            "lo": 0.0010156726348213851,
+            "hi": 0.044050006940960874,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          }
+        ],
+        "hinge": false,
+        "k_track_rel_sd": 0.2623429000377655
+      },
+      "2025": {
+        "rhat": 1.0078325697351478,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 0.009731677460860339,
+            "lo": 0.0006870809447718784,
+            "hi": 0.025529762171208854,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 0.017489110114667597,
+            "lo": 0.0012979205639567224,
+            "hi": 0.04252751842141151,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.038068561318257255,
+            "lo": 0.0025623970897868274,
+            "hi": 0.09911945573985573,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          }
+        ],
+        "hinge": false,
+        "k_track_rel_sd": 0.24269220232963562
+      },
+      "none": {
+        "rhat": 1.0,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 11.199401695281267,
+            "lo": 0.05135885626077652,
+            "hi": 22.347444534301758,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 2.753428541123867,
+            "lo": 0.21919362246990204,
+            "hi": 5.287663459777832,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.7397066056728363,
+            "lo": 0.6152668595314026,
+            "hi": 0.86414635181427,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          }
+        ],
+        "hinge": false,
+        "k_track_rel_sd": 3.7173325836192816e-05
+      },
+      "noladder": {
+        "rhat": 1.0182674925716226,
+        "div": 0,
+        "n_apex": 0,
+        "slopes": [
+          {
+            "compound": "HARD",
+            "slope_s_per_lap": 0.011005006954485488,
+            "lo": 0.0005012376874219625,
+            "hi": 0.032134315930306905,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "MEDIUM",
+            "slope_s_per_lap": 0.01102313558658464,
+            "lo": 0.0005014013760956004,
+            "hi": 0.032278232648968695,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          },
+          {
+            "compound": "SOFT",
+            "slope_s_per_lap": 0.011040479068996144,
+            "lo": 0.0005015713191824034,
+            "hi": 0.03232337534427643,
+            "knee_lap": NaN,
+            "knee_lo": NaN,
+            "knee_hi": NaN
+          }
+        ],
+        "hinge": false,
+        "k_track_rel_sd": 0.24898679554462433
+      }
+    }
+  },
+  "bayes_vs_mixedlm": {
+    "HARD": 0.06010564982277205,
+    "MEDIUM": 0.11849583290628884,
+    "SOFT": 0.0625230926194685
+  },
+  "bayes_vs_mixedlm_pooled": {
+    "bayes": 0.01401970446627151,
+    "mixedlm": -0.015723415152247393,
+    "diff": 0.0297431196185189
+  },
+  "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.01401970446627151,
+    "stint_fe": -0.04621165888068878,
+    "diff": 0.06023136334696029
+  },
+  "prior_sensitivity": {
+    "HARD": {
+      "2026": 0.04068387672305107,
+      "2025": 0.00973167746086034,
+      "none": 11.199401695281267
+    },
+    "MEDIUM": {
+      "2026": 0.07535229201739034,
+      "2025": 0.017489110114667597,
+      "none": 2.753428541123867
+    },
+    "SOFT": {
+      "2026": 0.08374341425237557,
+      "2025": 0.03806856131825725,
+      "none": 0.7397066056728363
+    }
+  },
+  "evolution": {
+    "range_s": 1.060554425388838,
+    "iterations": [
+      {
+        "iter": 1,
+        "rss": 169.40251573590683,
+        "evo_range_s": 2.769367055206556,
+        "HARD": -0.0011984753786151714,
+        "MEDIUM": -0.09913041487988039,
+        "SOFT": 0.0959788070710843
+      },
+      {
+        "iter": 2,
+        "rss": 172.37249069800208,
+        "evo_range_s": 4.051899088458205,
+        "HARD": -0.001652229886150991,
+        "MEDIUM": -0.11896891975409574,
+        "SOFT": 0.13431419105067022
+      },
+      {
+        "iter": 3,
+        "rss": 173.96189070456924,
+        "evo_range_s": 4.4944836096918035,
+        "HARD": -0.0010006010234953067,
+        "MEDIUM": -0.12269820364247863,
+        "SOFT": 0.1497844117789029
+      },
+      {
+        "iter": "push",
+        "estimator": "push laps",
+        "rss": NaN,
+        "evo_range_s": 1.060554425388838,
+        "per_session": {
+          "Practice 1": 0.9681737728327293,
+          "Practice 2": 1.060554425388838,
+          "Practice 3": 0.8592017205559217
+        },
+        "backfit_range_s": 4.4944836096918035,
+        "HARD": 0.031098706786778507,
+        "MEDIUM": -0.1498335174083003,
+        "SOFT": 0.08862779738157656
+      }
+    ],
+    "skipped": []
+  },
+  "age_support_laps": 21.0,
+  "age_support_by_compound": {
+    "HARD": 21.0,
+    "MEDIUM": 20.0,
+    "SOFT": 21.0
+  },
+  "gates_fit": [
+    {
+      "gate": "firewall blocks race data",
+      "pass": true,
+      "detail": "practice-only firewall: refusing to load 'Race' for fitting. Allowed: ['Practice 1', 'Prac"
+    },
+    {
+      "gate": "clean laps in 120-320",
+      "pass": true,
+      "detail": "233 clean laps from 1408 raw (40s)"
+    },
+    {
+      "gate": "no non-green lap survives",
+      "pass": true,
+      "detail": "track statuses: ['1']"
+    },
+    {
+      "gate": "all compounds valid",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "gate": "track evolution identified & plausible",
+      "pass": true,
+      "detail": "push-lap range 1.06s per session {'Practice 1': 0.9681737728327293, 'Practice 2': 1.060554425388838, 'Practice 3': 0.8592017205559217}; long-run backfit would have given 4.49s; sessions on the backfit: []"
+    },
+    {
+      "gate": "regime factor is plausible (0.15-1.0)",
+      "pass": true,
+      "detail": "0.669x from ['japan-2026', 'barcelona-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026']"
+    },
+    {
+      "gate": "stint-FE baseline pooled slope is finite and >= 0",
+      "pass": false,
+      "detail": "-0.0462 s/lap over 52 stints / 233 laps [90% -0.095-0.019] (1s)"
+    },
+    {
+      "gate": "convergence: r_hat < 1.01 and zero divergences",
+      "pass": true,
+      "detail": "max r_hat 1.0033, 0 divergences"
+    },
+    {
+      "gate": "Bayes vs MixedLM pooled degradation within 0.06 s/lap (practice-only posterior)",
+      "pass": true,
+      "detail": "pooled 0.014 vs MixedLM -0.016 (diff 0.030); per-compound differences are the ladder prior overriding an unordered baseline: HARD 0.060, MEDIUM 0.118, SOFT 0.063"
+    },
+    {
+      "gate": "Bayes pooled slope within 0.06 s/lap of the stint-FE baseline",
+      "pass": false,
+      "detail": "pooled 0.014 vs stint-FE -0.046 (diff 0.060) over 52 stints"
+    },
+    {
+      "gate": "sealed file verifies against its sha256",
+      "pass": true,
+      "detail": "4ea5557109dc1816"
+    }
+  ],
+  "timings": {
+    "load_practice_s": 40.1,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.5,
+    "fit_production_s": 6.1,
+    "fit_diagnostics_s": 24.0
+  },
+  "runtime_fit_s": 72.0
+}

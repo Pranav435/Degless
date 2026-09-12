@@ -2,19 +2,19 @@
  "event": "barcelona-2026",
  "n_clean_laps": 225,
  "n_apex": 900,
- "n_strategies": 619896,
+ "n_strategies": 600730,
  "stages": [
   {
    "stage": "import jax+numpyro",
-   "seconds": 0.456
+   "seconds": 0.433
   },
   {
    "stage": "load practice laps (FastF1 cache)",
-   "seconds": 0.778
+   "seconds": 1.542
   },
   {
    "stage": "lap table + clean cascade",
-   "seconds": 0.008
+   "seconds": 0.009
   },
   {
    "stage": "fuel + track evolution",
@@ -22,79 +22,95 @@
   },
   {
    "stage": "circuit history prior (cached) + ladder + plan prior",
-   "seconds": 0.068
+   "seconds": 0.064
   },
   {
    "stage": "compound pace-step prior (donor races + circuit)",
-   "seconds": 0.025
+   "seconds": 0.027
   },
   {
    "stage": "regime prior (donor races, temperature model)",
-   "seconds": 0.057
+   "seconds": 0.052
   },
   {
    "stage": "MixedLM, no bootstrap",
-   "seconds": 0.04
+   "seconds": 0.036
   },
   {
    "stage": "MixedLM, 50 stint bootstraps",
-   "seconds": 1.665
+   "seconds": 1.645
+  },
+  {
+   "stage": "stint-FE baseline, 50 stint bootstraps (the gate)",
+   "seconds": 0.232
+  },
+  {
+   "stage": "first-stop prior: KDE penalty table per start compound",
+   "seconds": 0.001
   },
   {
    "stage": "NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)",
-   "seconds": 6.648
+   "seconds": 6.156
   },
   {
    "stage": "NUTS 2x800x800 lap-time only (weekend refit)",
-   "seconds": 3.58
+   "seconds": 2.932
   },
   {
    "stage": "NUTS 2x800x800 lap-time only, hinge (diagnostic)",
-   "seconds": 4.323
+   "seconds": 4.384
   },
   {
    "stage": "apex speeds (cached) + corner selection",
-   "seconds": 6.063
+   "seconds": 0.005
   },
   {
    "stage": "NUTS 4x1500x1500 joint lap-time + apex (diagnostic)",
-   "seconds": 12.572
+   "seconds": 13.016
   },
   {
    "stage": "circuit history combination",
-   "seconds": 0.004
+   "seconds": 0.007
   },
   {
    "stage": "seal predictions",
-   "seconds": 0.015
+   "seconds": 0.031
   },
   {
    "stage": "load race laps + lap table",
-   "seconds": 1.401
+   "seconds": 0.43
   },
   {
    "stage": "score race",
-   "seconds": 0.019
+   "seconds": 0.02
+  },
+  {
+   "stage": "within-stint collapse detector, whole race",
+   "seconds": 0.05
   },
   {
    "stage": "strategy search 500 draws, 1-lap grid, full objective (production)",
-   "seconds": 0.68
+   "seconds": 0.652
   },
   {
    "stage": "strategy search with pace calibration (2-3 searches)",
-   "seconds": 1.314
+   "seconds": 1.25
   },
   {
    "stage": "strategy search 500 draws, 2-lap grid",
-   "seconds": 0.588
+   "seconds": 0.575
   },
   {
    "stage": "strategy search 200 draws, 1-lap grid",
-   "seconds": 0.477
+   "seconds": 0.468
   },
   {
    "stage": "pit window sweep (position term)",
-   "seconds": 0.058
+   "seconds": 0.052
+  },
+  {
+   "stage": "pit window sweep (position term + first-stop prior)",
+   "seconds": 0.052
   },
   {
    "stage": "undercut window",
@@ -102,31 +118,31 @@
   },
   {
    "stage": "counterfactual (all drivers, vectorised, SC-aware, per-car)",
-   "seconds": 1.281
+   "seconds": 1.265
   },
   {
    "stage": "per-car plans (20 drivers, 2-lap grid)",
-   "seconds": 7.073
+   "seconds": 6.668
   },
   {
    "stage": "replay precompute",
-   "seconds": 0.042
+   "seconds": 0.291
   },
   {
    "stage": "desk: evaluate 3 plans",
-   "seconds": 0.019
+   "seconds": 0.009
   },
   {
    "stage": "desk: degradation crossover (21 multipliers)",
-   "seconds": 0.114
+   "seconds": 0.118
   },
   {
    "stage": "desk: safety-car playbook",
-   "seconds": 0.092
+   "seconds": 0.091
   },
   {
    "stage": "desk: value of information",
-   "seconds": 0.007
+   "seconds": 0.006
   },
   {
    "stage": "desk: undercut duel",
@@ -134,129 +150,197 @@
   },
   {
    "stage": "outlook build (300 draws, scenarios)",
-   "seconds": 3.43
+   "seconds": 3.446
   },
   {
    "stage": "app cold start (streamlit AppTest)",
-   "seconds": 265.948
+   "seconds": 1.064
   }
  ],
- "peak_rss_mb": 2090.0,
+ "peak_rss_mb": 1981.0,
  "app_exceptions": 0,
- "import_retimed_s": "0.569674015045166",
+ "import_retimed_s": "0.5269718170166016",
  "pipeline_runtime_recorded_s": {
   "australia-2026": {
-   "total": 364.3,
-   "decide": 11.3,
+   "total": 54.3,
+   "decide": 12.6,
    "timings": {
-    "load_practice_s": 305.4,
+    "load_practice_s": 10.3,
     "priors_s": 0.2,
-    "mixedlm_s": 1.2,
-    "apex_s": 0.0,
-    "fit_production_s": 6.9,
-    "fit_diagnostics_s": 39.0,
-    "score_s": 2.9,
+    "mixedlm_s": 1.6,
+    "fit_production_s": 5.9,
+    "fit_diagnostics_s": 23.6,
+    "score_s": 3.9,
     "search_s": 1.1,
     "counterfactual_s": 1.1,
-    "per_driver_s": 6.0
+    "per_driver_s": 5.9
    }
   },
   "japan-2026": {
-   "total": 265.0,
-   "decide": 200.0,
+   "total": 48.4,
+   "decide": 11.0,
    "timings": {
-    "load_practice_s": 14.9,
+    "load_practice_s": 4.6,
     "priors_s": 0.2,
-    "mixedlm_s": 1.4,
-    "apex_s": 0.0,
-    "fit_production_s": 6.7,
-    "fit_diagnostics_s": 41.6,
-    "score_s": 1.0,
+    "mixedlm_s": 1.7,
+    "fit_production_s": 5.4,
+    "fit_diagnostics_s": 25.4,
+    "score_s": 2.1,
     "search_s": 1.1,
-    "counterfactual_s": 33.8,
-    "per_driver_s": 6.6
+    "counterfactual_s": 1.2,
+    "per_driver_s": 6.2
    }
   },
   "barcelona-2026": {
-   "total": 249.1,
-   "decide": 119.7,
+   "total": 64.2,
+   "decide": 12.0,
    "timings": {
-    "load_practice_s": 77.8,
+    "load_practice_s": 18.6,
     "priors_s": 0.2,
-    "mixedlm_s": 1.6,
-    "apex_s": 0.0,
-    "fit_production_s": 7.9,
-    "fit_diagnostics_s": 41.6,
-    "score_s": 103.3,
-    "search_s": 1.3,
-    "counterfactual_s": 1.2,
-    "per_driver_s": 7.1
+    "mixedlm_s": 1.9,
+    "fit_production_s": 6.0,
+    "fit_diagnostics_s": 25.2,
+    "score_s": 2.4,
+    "search_s": 1.2,
+    "counterfactual_s": 1.3,
+    "per_driver_s": 6.5
    }
   },
   "austria-2026": {
-   "total": 221.6,
-   "decide": 42.2,
+   "total": 241.1,
+   "decide": 17.0,
    "timings": {
-    "load_practice_s": 121.8,
+    "load_practice_s": 188.5,
     "priors_s": 0.2,
-    "mixedlm_s": 1.5,
-    "apex_s": 0.0,
-    "fit_production_s": 7.7,
-    "fit_diagnostics_s": 48.0,
-    "score_s": 13.4,
-    "search_s": 1.4,
-    "counterfactual_s": 1.9,
+    "mixedlm_s": 1.8,
+    "fit_production_s": 6.7,
+    "fit_diagnostics_s": 26.8,
+    "score_s": 4.5,
+    "search_s": 1.5,
+    "counterfactual_s": 2.0,
     "per_driver_s": 8.4
    }
   },
   "belgium-2026": {
-   "total": 113.6,
-   "decide": 16.5,
+   "total": 40.3,
+   "decide": 10.8,
    "timings": {
-    "load_practice_s": 57.3,
+    "load_practice_s": 3.3,
     "priors_s": 0.2,
-    "mixedlm_s": 1.7,
-    "apex_s": 0.0,
-    "fit_production_s": 7.0,
-    "fit_diagnostics_s": 30.6,
-    "score_s": 3.0,
+    "mixedlm_s": 1.9,
+    "fit_production_s": 5.0,
+    "fit_diagnostics_s": 18.9,
+    "score_s": 3.9,
     "search_s": 0.9,
     "counterfactual_s": 0.8,
     "per_driver_s": 4.8
    }
   },
   "hungary-2026": {
-   "total": 85.1,
-   "decide": 26.4,
+   "total": 47.4,
+   "decide": 15.7,
    "timings": {
-    "load_practice_s": 6.7,
+    "load_practice_s": 0.6,
     "priors_s": 0.2,
-    "mixedlm_s": 1.3,
-    "apex_s": 0.0,
-    "fit_production_s": 7.3,
-    "fit_diagnostics_s": 43.1,
-    "score_s": 5.7,
-    "search_s": 1.3,
-    "counterfactual_s": 2.1,
-    "per_driver_s": 8.7
+    "mixedlm_s": 1.5,
+    "fit_production_s": 5.8,
+    "fit_diagnostics_s": 23.4,
+    "score_s": 2.3,
+    "search_s": 1.4,
+    "counterfactual_s": 2.2,
+    "per_driver_s": 9.2
    }
   },
   "italy-2026": {
-   "total": 132.6,
-   "decide": 33.4,
+   "total": 48.5,
+   "decide": 11.5,
    "timings": {
-    "load_practice_s": 49.2,
+    "load_practice_s": 1.5,
     "priors_s": 0.2,
-    "mixedlm_s": 1.4,
-    "apex_s": 0.0,
-    "fit_production_s": 7.8,
-    "fit_diagnostics_s": 40.4,
-    "score_s": 6.8,
+    "mixedlm_s": 1.7,
+    "fit_production_s": 6.4,
+    "fit_diagnostics_s": 27.0,
+    "score_s": 2.5,
     "search_s": 1.0,
-    "counterfactual_s": 1.2,
-    "per_driver_s": 6.3
+    "counterfactual_s": 1.1,
+    "per_driver_s": 6.2
    }
   }
  },
- "weekend_runtime_recorded": {}
+ "weekend_runtime_recorded": {
+  "spain-2026": {
+   "runtime_s": 49.8,
+   "sessions": [
+    "Practice 1",
+    "Practice 2"
+   ],
+   "timings": {
+    "load_s": 25.8,
+    "priors_s": 0.4,
+    "mixedlm_s": 2.3,
+    "fit_s": 6.6,
+    "per_driver_s": 12.3,
+    "strategy_s": 14.6
+   }
+  },
+  "hungary-2026": {
+   "runtime_s": 16.1,
+   "sessions": [
+    "Practice 2",
+    "Practice 3"
+   ],
+   "timings": {
+    "load_s": 0.7,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.3,
+    "fit_s": 4.6,
+    "per_driver_s": 7.9,
+    "strategy_s": 9.4
+   }
+  },
+  "italy-2026": {
+   "runtime_s": 27.3,
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ],
+   "timings": {
+    "load_s": 12.4,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.4,
+    "fit_s": 5.7,
+    "per_driver_s": 6.6,
+    "strategy_s": 7.7
+   }
+  },
+  "barcelona-2026": {
+   "runtime_s": 20.7,
+   "sessions": [
+    "Practice 1",
+    "Practice 2",
+    "Practice 3"
+   ],
+   "timings": {
+    "load_s": 1.8,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.6,
+    "fit_s": 6.4,
+    "per_driver_s": 8.4,
+    "strategy_s": 10.6
+   }
+  }
+ },
+ "objective": {
+  "first_stop_prior": true,
+  "first_stop_kappa_s": 0.0,
+  "dirty_air_s_per_lap": 0.1162,
+  "dirty_air_pooled": 0.06714154486582084,
+  "percar_mode": "team_pooled"
+ },
+ "v3_stages": {
+  "n_collapse_rows": 61,
+  "n_collapses": 1,
+  "stint_fe_pooled_slope": 0.26935613991310736
+ }
 }

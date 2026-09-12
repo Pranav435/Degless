@@ -29,17 +29,34 @@ fitted on 99 circuit-compound-years of the archive).
 with `beta` the measured thermal sensitivity, so what is pooled across donors
 is the temperature-corrected residual `log(r0)` - the management part - and
 it is pooled with the **median**, so one Belgium cannot drag every other
-weekend 15-30% low.  For the target weekend the practice temperature is
-measured from the sessions that supplied the long runs, and the race
-temperature is a *forecast*: the mean of the circuit's own race-day track
-temperatures in the archive, with the spread of those years added to the
-uncertainty.  A weather forecast can be passed in on the day instead.
+weekend 15-30% low.
+
+**The thermal term now needs a forecast to exist** (`temperature_model="auto"`,
+the default).  V2 stood the correction up on the circuit's archive race-day
+mean temperature whenever no forecast was given, which is a prediction of the
+race day dressed as a measurement: it moved the factor by up to 20% on the
+strength of what the weather did in 2023-2025, and the archive mean is
+systematically hotter than a practice afternoon at some circuits and cooler at
+others.  With no forecast in hand the honest statement is that the temperature
+is unknown, so the donors' raw log ratios are pooled with the median and no
+temperature enters at all (`temperature["mode"] == "none"`).  Pass
+`race_temp_c=` - a real forecast, on the day - and the full correction applies
+(`"forecast"`).  `temperature_model=True` restores V2's archive behaviour
+(`"archive"`) for the ablation; `False` forces plain median pooling.
+
+**What the circuit itself has done is now evidence.**  The same ratio can be
+measured on *previous years* of this circuit - historical practice against the
+historical race, the pre-2026 fuel physics, the same stint-fixed-effects
+estimator (`src.regime_history`).  That prior knows that Spa is a
+management circuit and Monza is not, which no pool of other 2026 weekends can
+tell you.  It is combined with the donor pool by precision weights on the log
+scale, and carries a 0.15 ln term for the car/tyre generation change.
 
 **The firewall still holds.**  The factor for a weekend is measured from *other*
 weekends' races and never from the target weekend's; the target's own race
-temperature is never read.  For the first weekend of a season, with no donor
-race available, the module falls back to a documented default with a wide
-credible interval, and says so.
+temperature and its own race laps are never read.  For the first weekend of a
+season, with no donor race available, the module falls back to a documented
+default with a wide credible interval, and says so.
 
 The factor is returned as a *distribution*, not a point estimate, so the extra
 uncertainty it introduces widens the strategy answer honestly instead of being
@@ -107,7 +124,32 @@ def _stint_fe_slope(df: pd.DataFrame, ycol: str) -> dict:
     return out
 
 
-def race_track_evolution(d: pd.DataFrame, ev: Event) -> pd.Series:
+def _fuel_and_distance(ev: Event | None, fuel_s_per_lap: float | None,
+                       n_race_laps: int | None, d: pd.DataFrame | None = None) -> tuple:
+    """Resolve the fuel term and the race distance from an event or explicitly.
+
+    A 2026 weekend has both on its `Event`; a historical race (`src.regime_history`)
+    has neither - it ran on different regulations and a different distance - so
+    both are passed in.  The explicit values always win, which is what keeps the
+    2026 path bit-identical: its callers pass none.
+    """
+    if fuel_s_per_lap is None:
+        if ev is None:
+            raise ValueError("regime: either an Event or an explicit fuel_s_per_lap is required")
+        fuel_s_per_lap = get_prior(ev, "2026").s_per_lap
+    if n_race_laps is None:
+        if ev is not None:
+            n_race_laps = ev.n_race_laps
+        elif d is not None and len(d):
+            n_race_laps = int(pd.to_numeric(d["lap_number"], errors="coerce").max())
+        else:
+            raise ValueError("regime: either an Event or an explicit n_race_laps is required")
+    return float(fuel_s_per_lap), int(n_race_laps)
+
+
+def race_track_evolution(d: pd.DataFrame, ev: Event | None = None, *,
+                         fuel_s_per_lap: float | None = None,
+                         n_race_laps: int | None = None) -> pd.Series:
     """Track evolution during a race, in seconds, indexed like `d`.
 
     The regime factor is a ratio of a practice degradation slope to a race
@@ -130,7 +172,7 @@ def race_track_evolution(d: pd.DataFrame, ev: Event) -> pd.Series:
     lap effect with the known fuel term added back, so the caller is left with
     evolution alone.
     """
-    fp = get_prior(ev, "2026")
+    fuel, n_laps = _fuel_and_distance(ev, fuel_s_per_lap, n_race_laps, d)
     if d.empty or d["lap_number"].nunique() < 5:
         return pd.Series(0.0, index=d.index)
     drv = pd.get_dummies(d["driver"], drop_first=True).astype(float)
@@ -148,7 +190,7 @@ def race_track_evolution(d: pd.DataFrame, ev: Event) -> pd.Series:
     levels = np.asarray(lapc.categories, dtype=float)
     # Add the known fuel effect back so what is left is evolution alone, and
     # centre it: only the shape matters, the level is absorbed downstream.
-    evo_by_lap = fe + fp.s_per_lap * (ev.n_race_laps - levels)
+    evo_by_lap = fe + fuel * (n_laps - levels)
     evo_by_lap = evo_by_lap - evo_by_lap.mean()
     # Evolution is physically smooth; the raw lap effects carry lap-to-lap
     # noise from whoever happened to be on track.  Smooth on a quadratic.
@@ -157,15 +199,22 @@ def race_track_evolution(d: pd.DataFrame, ev: Event) -> pd.Series:
                      index=d.index)
 
 
-def _race_frame(race: pd.DataFrame, ev: Event) -> pd.DataFrame:
+def _race_frame(race: pd.DataFrame, ev: Event | None = None, *,
+                fuel_s_per_lap: float | None = None, n_race_laps: int | None = None,
+                evo: pd.Series | None = None) -> pd.DataFrame:
     """Green-flag, non-pit, non-outlier race laps from stints long enough to score.
 
     Both corrections the practice side gets are applied here too - fuel *and*
     track evolution - so that `_stint_fe_slope` measures the same quantity in
     both regimes and their ratio measures the regime difference and nothing
     else.  See `race_track_evolution` for why the second one matters so much.
+
+    `fuel_s_per_lap` / `n_race_laps` override what the `Event` says (a
+    historical race under the previous regulations: `history.FUEL_S_PER_LAP_PRE2026`),
+    and `evo` an already-computed per-lap evolution series indexed like the
+    filtered frame.  With none of them given the behaviour is V2's exactly.
     """
-    fp = get_prior(ev, "2026")
+    fuel, n_laps = _fuel_and_distance(ev, fuel_s_per_lap, n_race_laps, race)
     d = race[
         race["is_accurate"].fillna(False).astype(bool)
         & ~race["pit_in"].fillna(False).astype(bool)
@@ -182,22 +231,29 @@ def _race_frame(race: pd.DataFrame, ev: Event) -> pd.DataFrame:
     d = d[n >= MIN_STINT_LAPS_FOR_RATE].copy()
     if d.empty:
         return d
-    d["evo_s"] = race_track_evolution(d, ev)
-    laps_left = ev.n_race_laps - d["lap_number"].astype(float)
-    d["y"] = d["lap_time_s"] - d["evo_s"] + fp.s_per_lap * laps_left
+    d["evo_s"] = (race_track_evolution(d, ev, fuel_s_per_lap=fuel, n_race_laps=n_laps)
+                  if evo is None else pd.Series(evo).reindex(d.index).astype(float).fillna(0.0))
+    laps_left = n_laps - d["lap_number"].astype(float)
+    d["y"] = d["lap_time_s"] - d["evo_s"] + fuel * laps_left
     return d
 
 
-def _practice_frame(clean: pd.DataFrame, ev: Event) -> pd.DataFrame:
+def _practice_frame(clean: pd.DataFrame, ev: Event | None = None, *,
+                    fuel_s_per_lap: float | None = None) -> pd.DataFrame:
     """Clean practice laps with fuel and track evolution taken back out.
 
     Both corrections are the ones the fitter itself applies, so the practice
-    slope measured here is the same quantity the posterior reports.
+    slope measured here is the same quantity the posterior reports.  A
+    historical practice session passes its own `fuel_s_per_lap`; its `evo_s`
+    must already be on the frame (`evolution.add_evolution_correction`).
     """
-    fp = get_prior(ev, "2026")
+    if fuel_s_per_lap is None and ev is None:
+        raise ValueError("regime: either an Event or an explicit fuel_s_per_lap is required")
+    fuel = (float(fuel_s_per_lap) if fuel_s_per_lap is not None
+            else get_prior(ev, "2026").s_per_lap)
     d = clean.copy()
     evo = d["evo_s"] if "evo_s" in d else 0.0
-    d["y"] = d["lap_time_s"] - evo + fp.s_per_lap * d["lap_in_stint"]
+    d["y"] = d["lap_time_s"] - evo + fuel * d["lap_in_stint"]
     return d
 
 
@@ -240,10 +296,27 @@ def measure_regime(event: Event | str, *, race: pd.DataFrame | None = None,
         if not p.exists():
             return RegimeMeasurement(event=ev.key)
         practice = pd.read_parquet(p)
+    return measure_regime_frames(race, practice, ev=ev, event=ev.key)
 
-    rf, pf = _race_frame(race, ev), _practice_frame(practice, ev)
+
+def measure_regime_frames(race: pd.DataFrame, practice: pd.DataFrame, *,
+                          ev: Event | None = None, event: str = "",
+                          fuel_s_per_lap: float | None = None,
+                          n_race_laps: int | None = None,
+                          race_evo: pd.Series | None = None) -> RegimeMeasurement:
+    """The ratio from two already-built lap tables, with the physics passed in.
+
+    `measure_regime` is this function plus "read the 2026 weekend's parquets and
+    take the fuel term and the distance off its `Event`"; `src.regime_history`
+    is this function plus "load a 2023-2025 weekend from FastF1 and hand it the
+    pre-2026 fuel physics".  One estimator, two regimes of input, so the
+    historical ratios are comparable with the 2026 ones by construction.
+    """
+    rf = _race_frame(race, ev, fuel_s_per_lap=fuel_s_per_lap, n_race_laps=n_race_laps,
+                     evo=race_evo)
+    pf = _practice_frame(practice, ev, fuel_s_per_lap=fuel_s_per_lap)
     if rf.empty or pf.empty:
-        return RegimeMeasurement(event=ev.key)
+        return RegimeMeasurement(event=event)
 
     rs, ps = _stint_fe_slope(rf, "y"), _stint_fe_slope(pf, "y")
 
@@ -270,7 +343,7 @@ def measure_regime(event: Event | str, *, race: pd.DataFrame | None = None,
 
     ratio = float(w_num / w_den) if w_den > 0 else float("nan")
     return RegimeMeasurement(
-        event=ev.key, ratio=ratio, per_compound=per,
+        event=event, ratio=ratio, per_compound=per,
         n_race_stints=int(rf["stint_uid"].nunique()),
         n_practice_stints=int(pf["stint_uid"].nunique()),
         usable_compounds=[c for c, v in per.items() if v["usable"]],
@@ -329,24 +402,60 @@ def _donor_temps(ev: Event) -> tuple:
     return practice_track_temp(ev), race_track_temp(ev)
 
 
+def _thermal_mode(temperature_model, race_temp_c) -> tuple:
+    """Resolve `temperature_model` into (apply the thermal term, mode label).
+
+    `"auto"` (the default) applies it only against a supplied race-day forecast.
+    `True` is V2: fall back to the circuit's archive race-day mean when no
+    forecast is given - which is a prediction, not a measurement, which is why
+    it is no longer the default.  `False` never applies it.
+    """
+    if temperature_model is True:
+        return True, ("forecast" if race_temp_c is not None else "archive")
+    if temperature_model is False or temperature_model is None:
+        return False, "none"
+    if isinstance(temperature_model, str) and temperature_model.lower() == "auto":
+        return (race_temp_c is not None), ("forecast" if race_temp_c is not None else "none")
+    raise ValueError(f"temperature_model must be 'auto', True or False, not {temperature_model!r}")
+
+
 def regime_prior(target: Event | str, *, donors: list | None = None,
                  race_temp_c: float | None = None, practice_temp_c: float | None = None,
-                 temperature_model: bool = True, clean: pd.DataFrame | None = None) -> RegimeFactor:
+                 temperature_model: bool | str = "auto", clean: pd.DataFrame | None = None,
+                 circuit_prior_weight: float = 1.0,
+                 use_circuit_history: bool = True) -> RegimeFactor:
     """The regime factor for a weekend from every weekend *except* the target.
 
     Excluding the target is not a formality.  The factor multiplies the
     degradation curve that the strategy recommendation is built on, so fitting
     it on the target race would let race data set the answer through the back
     door — which is exactly what the sealed-prediction protocol exists to
-    prevent.  The target's own race temperature is not read either:
-    `race_temp_c` is a forecast (or the archive's race-day mean).
+    prevent.  The target's own race temperature is not read either: `race_temp_c`
+    is a *forecast*, supplied by the caller on the day, and without one no
+    temperature term enters at all.
+
+    `use_circuit_history` adds this circuit's own previous years (practice
+    against race, measured by `src.regime_history` with the same estimator and
+    the pre-2026 fuel physics) as a second arm, combined by precision weights on
+    the log scale; `circuit_prior_weight` scales its precision (0 disables it).
+    Both are cache-only reads: no network, and never the target's own race.
     """
     from src.history import circuit_prior, practice_track_temp, thermal_sensitivity
 
     ev = get_event(target) if isinstance(target, str) else target
     keys = list(donors) if donors is not None else [k for k in EVENTS if k != ev.key]
     keys = [k for k in keys if k != ev.key]
-    beta = float(thermal_sensitivity().get("beta_per_c", 0.025)) if temperature_model else 0.0
+    thermal, mode = _thermal_mode(temperature_model, race_temp_c)
+    beta = float(thermal_sensitivity().get("beta_per_c", 0.025)) if thermal else 0.0
+
+    # -- this circuit's own previous years, if they have been measured --------
+    cprior = None
+    if use_circuit_history and circuit_prior_weight > 0:
+        from src.regime_history import circuit_regime_prior
+        try:
+            cprior = circuit_regime_prior(ev)
+        except Exception as exc:   # a corrupt cache entry must not break a weekend
+            log.warning("circuit regime prior unavailable for %s: %s", ev.key, exc)
 
     ms, detail, resid = [], [], []
     for k in keys:
@@ -358,7 +467,7 @@ def regime_prior(target: Event | str, *, donors: list | None = None,
         if not (np.isfinite(m.ratio) and REGIME_RATIO_BAND[0] <= m.ratio <= REGIME_RATIO_BAND[1]):
             continue
         dev = EVENTS[k]
-        t_p, t_r = _donor_temps(dev) if temperature_model else (None, None)
+        t_p, t_r = _donor_temps(dev) if thermal else (None, None)
         dT = (t_r - t_p) if (t_p is not None and t_r is not None) else None
         r = float(np.log(m.ratio) - (beta * dT if dT is not None else 0.0))
         ms.append(m)
@@ -369,7 +478,24 @@ def regime_prior(target: Event | str, *, donors: list | None = None,
                        "residual_ratio": round(float(np.exp(r)), 4)})
 
     if not ms:
+        if cprior:
+            # No donor race anywhere (the first weekend of a season), but this
+            # circuit has been measured before: that is a real prior, not a default.
+            ratio = float(np.clip(cprior["ratio"], 0.15, 1.2))
+            return RegimeFactor(
+                ratio=ratio, ln_sd=float(max(cprior["ln_sd"], REGIME_LN_SD_FLOOR)), measured=True,
+                sources=[f"{ev.circuit} {y}" for y in cprior["years"]],
+                label=f"circuit history only ({len(cprior['years'])} years)",
+                derivation=(
+                    f"no other 2026 weekend has both practice and race data on disk; "
+                    f"{ev.circuit}'s own practice->race ratio in {cprior['years']} "
+                    f"({', '.join(f'{y} {v:.2f}x' for y, v in cprior['by_year'].items())}) "
+                    f"gives {ratio:.2f}x, widened for the car/tyre generation change"),
+                temperature={"mode": "none", "modelled": False, "beta_per_c": 0.0,
+                             "circuit_prior": dict(cprior, weight_on_circuit=1.0)},
+            )
         return RegimeFactor(
+            temperature={"mode": "none", "modelled": False, "beta_per_c": 0.0},
             derivation=(
                 f"no weekend other than {ev.key} has both practice and race data "
                 f"on disk, so the default {DEFAULT_RACE_REGIME_RATIO:.2f}x applies "
@@ -386,9 +512,14 @@ def regime_prior(target: Event | str, *, donors: list | None = None,
     else:
         spread = DEFAULT_RACE_REGIME_LN_SD
     # -- the target's own temperatures: practice measured, race forecast --------
-    t_prac = practice_temp_c if practice_temp_c is not None else (practice_track_temp(ev, clean) if temperature_model else None)
+    # With no thermal term in play nothing here is looked up at all: that keeps
+    # the default path offline and fast (no FastF1 weather reads) as well as honest.
+    t_prac = practice_temp_c if practice_temp_c is not None else (practice_track_temp(ev, clean) if thermal else None)
     t_race, t_src, t_sd = race_temp_c, "forecast supplied", 0.0
-    if t_race is None and temperature_model:
+    if not thermal:
+        t_race, t_src = None, ("temperature model off" if temperature_model is False
+                              else "no race-day forecast supplied: no temperature term")
+    elif t_race is None:
         cp = circuit_prior(ev, probe_practice_temp=False)
         if cp.race_temps:
             t_race = float(np.mean(cp.race_temps))
@@ -398,31 +529,63 @@ def regime_prior(target: Event | str, *, donors: list | None = None,
         else:
             t_src = "no forecast: practice temperature assumed"
     dT = (t_race - t_prac) if (t_prac is not None and t_race is not None) else 0.0
-    ratio = float(np.exp(centre + beta * dT))
-    ln_sd = float(np.sqrt(max(spread, REGIME_LN_SD_FLOOR) ** 2 + (beta * t_sd) ** 2))
-    ratio = float(np.clip(ratio, 0.15, 1.2))
+    mu_pool = centre + beta * dT
+    sd_pool = float(np.sqrt(max(spread, REGIME_LN_SD_FLOOR) ** 2 + (beta * t_sd) ** 2))
+
+    # -- combine the donor pool with this circuit's own history ----------------
+    # Two independent measurements of the same quantity on the log scale: the
+    # management regime other 2026 weekends show, and what this circuit itself
+    # showed in 2023-2025.  Precision weights, so a circuit measured in three
+    # years pulls harder than one measured in one, and a tight donor pool
+    # (Belgium: 0.21 ln) is not overridden by a wide historical one.
+    mu, ln_sd, cp_detail = mu_pool, sd_pool, None
+    if cprior and np.isfinite(cprior.get("ratio", np.nan)) and cprior["ratio"] > 0:
+        mu_c = float(np.log(cprior["ratio"]))
+        sd_c = float(max(cprior["ln_sd"], REGIME_LN_SD_FLOOR))
+        w_p = 1.0 / sd_pool ** 2
+        w_c = float(circuit_prior_weight) / sd_c ** 2
+        mu = float((w_p * mu_pool + w_c * mu_c) / (w_p + w_c))
+        ln_sd = float(np.sqrt(1.0 / (w_p + w_c)))
+        cp_detail = {"ratio": float(cprior["ratio"]), "ln_sd": sd_c, "years": list(cprior["years"]),
+                     "n": int(cprior.get("n", len(cprior["years"]))),
+                     "by_year": dict(cprior.get("by_year", {})),
+                     "weight": float(circuit_prior_weight),
+                     "weight_on_circuit": float(w_c / (w_p + w_c))}
+    # The factor is never known better than +/-15%: two arms agreeing is not a
+    # reason to tell the optimiser the regime is certain.
+    ln_sd = float(max(ln_sd, REGIME_LN_SD_FLOOR))
+    ratio = float(np.clip(np.exp(mu), 0.15, 1.2))
     geo = float(np.exp(logs.mean()))
-    temp = {"beta_per_c": beta, "t_practice_c": t_prac, "t_race_expected_c": t_race, "t_race_source": t_src,
-            "t_race_forecast_sd_c": t_sd, "delta_t_c": float(dT), "residual_median": float(np.exp(centre)),
-            "residual_spread_ln": float(spread), "pooled_geomean_ratio": geo,
-            "modelled": bool(temperature_model)}
-    label = (f"median of {len(ms)} donors, temperature-corrected" if temperature_model
+    temp = {"mode": mode, "beta_per_c": beta, "t_practice_c": t_prac, "t_race_expected_c": t_race,
+            "t_race_source": t_src, "t_race_forecast_sd_c": t_sd, "delta_t_c": float(dT),
+            "residual_median": float(np.exp(centre)), "residual_spread_ln": float(spread),
+            "pooled_ratio": float(np.exp(mu_pool)), "pooled_ln_sd": sd_pool,
+            "pooled_geomean_ratio": geo, "modelled": bool(thermal)}
+    if cp_detail:
+        temp["circuit_prior"] = cp_detail
+    label = (f"median of {len(ms)} donors, temperature-corrected" if thermal
              else f"median of {len(ms)} donors")
+    if cp_detail:
+        label += " + circuit history"
     return RegimeFactor(
-        ratio=ratio, ln_sd=ln_sd, sources=[m.event for m in ms], measured=True,
-        label=label,
+        ratio=ratio, ln_sd=ln_sd, measured=True, label=label,
+        sources=[m.event for m in ms] + ([f"{ev.circuit} {y}" for y in cp_detail["years"]] if cp_detail else []),
         derivation=(
             "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; "
             + ("each donor's log ratio corrected by the thermal sensitivity "
-               f"({beta:+.3f}/degC) times its race-minus-practice track temperature, " if temperature_model else "")
+               f"({beta:+.3f}/degC) times its race-minus-practice track temperature, " if thermal else "")
             + "residuals pooled with the median: "
             + ", ".join(f"{d['event']} {d['ratio']:.2f}x"
                         + (f" (dT {d['delta_t_c']:+.0f} degC -> {d['residual_ratio']:.2f})" if d.get("delta_t_c") is not None else "")
                         for d in detail)
             + f" -> management residual {np.exp(centre):.2f}x (spread {spread:.2f} ln); "
             + (f"at {ev.key} practice ran at {t_prac:.0f} degC and the race is expected at {t_race:.0f} degC "
-               f"({t_src}), so {ratio:.2f}x applies" if (t_prac is not None and t_race is not None)
-               else f"no temperature pair for {ev.key}; {ratio:.2f}x applies")
+               f"({t_src}), so the pool gives {np.exp(mu_pool):.2f}x" if (t_prac is not None and t_race is not None)
+               else f"no temperature term ({t_src}); the pool gives {np.exp(mu_pool):.2f}x")
+            + (f"; {ev.circuit}'s own practice->race ratio in {cp_detail['years']} is "
+               f"{cp_detail['ratio']:.2f}x (+/-{cp_detail['ln_sd']:.2f} ln), which carries "
+               f"{cp_detail['weight_on_circuit']:.0%} of the precision, so {ratio:.2f}x applies"
+               if cp_detail else f", so {ratio:.2f}x applies")
             + f"; the old pooled geometric mean would have given {geo:.2f}x. {ev.key}'s own race is never used"
         ),
         donor_detail=detail, temperature=temp,

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "year": 2024,
+ "circuit": "Melbourne",
+ "event": "2024-melbourne",
+ "checked": 1789217167.418741,
+ "ratio": 1.6987020816977483,
+ "per_compound": {
+  "MEDIUM": {
+   "practice_s_per_lap": 0.0337888580719478,
+   "race_s_per_lap": 0.0573972035450075,
+   "ratio": 1.6987020816977485,
+   "n_practice_laps": 247,
+   "n_race_laps": 136,
+   "usable": true
+  }
+ },
+ "n_race_stints": 48,
+ "n_practice_stints": 63,
+ "usable_compounds": [
+  "MEDIUM"
+ ],
+ "n_race_laps": 58,
+ "n_clean_practice_laps": 304,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 33.96315789473684,
+ "track_temp_race_c": 38.55,
+ "evolution_range_s": 1.1387694705380538
+}

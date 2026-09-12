@@ -1,4 +1,5 @@
 {
+ "version": 3,
  "year": 2025,
  "circuit": "Silverstone",
  "event": "British Grand Prix",
@@ -18,6 +19,71 @@
   "H-H": 1,
   "S-S": 1
  },
+ "starts": {
+  "MEDIUM": 11,
+  "HARD": 2,
+  "SOFT": 2
+ },
+ "first_stop": {
+  "median_lap": 41.0,
+  "p25": 40.25,
+  "p75": 41.25,
+  "n": 4,
+  "sc_share": 0.25
+ },
+ "first_stints": [
+  {
+   "driver": "BEA",
+   "compound": "HARD",
+   "laps": 10,
+   "in_lap": 41,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 42,
+   "sc": true
+  },
+  {
+   "driver": "RUS",
+   "compound": "HARD",
+   "laps": 10,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "SOFT",
+   "laps": 4,
+   "in_lap": 41,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 41.0,
+  "p25": 39.5,
+  "p75": 41.0,
+  "n": 3,
+  "in_laps": [
+   38,
+   41,
+   41
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": -0.11236239287116737,
+  "se": 0.23650277105632703,
+  "n_laps": 122,
+  "share_close": 0.3442622950819672,
+  "event": "britain-2026"
+ },
+ "nomination": [
+  "C2",
+  "C3",
+  "C4"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 3,
@@ -48,12 +114,22 @@
   "MEDIUM": {
    "slope": -0.574660945866011,
    "se": 0.3060522952925639,
-   "n_laps": 98
+   "n_laps": 98,
+   "offset_s": 2.014600004261368,
+   "offset_se": 3.141468454006513
   }
+ },
+ "ladder": {},
+ "net_step": {
+  "step_s": -8.49336797842166e-17,
+  "se": 6.108091250248776e-13,
+  "n_stints": 15,
+  "median_stint_laps": 8.0
  },
  "pit_loss_s": 22.019999999999996,
  "n_pit_stops": 16,
  "sc_share_of_laps": 0.15384615384615385,
  "track_temp_c": 23.6,
+ "air_temp_c": 18.0,
  "rain": true
 }

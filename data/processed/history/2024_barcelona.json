@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2024,
  "circuit": "Barcelona",
  "event": "Spanish Grand Prix",
@@ -30,6 +30,208 @@
   "n": 20,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "MEDIUM",
+   "laps": 18,
+   "in_lap": 18,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "SOFT",
+   "laps": 19,
+   "in_lap": 19,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "BOT",
+   "compound": "SOFT",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "SOFT",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "SOFT",
+   "laps": 16,
+   "in_lap": 16,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "SOFT",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "SOFT",
+   "laps": 24,
+   "in_lap": 24,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "MAG",
+   "compound": "SOFT",
+   "laps": 10,
+   "in_lap": 10,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "SOFT",
+   "laps": 23,
+   "in_lap": 23,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "SOFT",
+   "laps": 13,
+   "in_lap": 13,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "SOFT",
+   "laps": 13,
+   "in_lap": 13,
+   "n_stops": 3,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "SOFT",
+   "laps": 21,
+   "in_lap": 21,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RIC",
+   "compound": "SOFT",
+   "laps": 16,
+   "in_lap": 16,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "SOFT",
+   "laps": 15,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "SOFT",
+   "laps": 15,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAR",
+   "compound": "SOFT",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "SOFT",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "SOFT",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 3,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "SOFT",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ZHO",
+   "compound": "SOFT",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 2,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 15.0,
+  "p25": 12.75,
+  "p75": 17.25,
+  "n": 20,
+  "in_laps": [
+   9,
+   9,
+   10,
+   11,
+   12,
+   13,
+   13,
+   14,
+   14,
+   15,
+   15,
+   16,
+   16,
+   17,
+   17,
+   18,
+   19,
+   21,
+   23,
+   24
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.13264039456897234,
+  "se": 0.03853025269748435,
+  "n_laps": 1205,
+  "share_close": 0.5817427385892117,
+  "event": "barcelona-2026"
+ },
+ "nomination": [
+  "C1",
+  "C2",
+  "C3"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 13,

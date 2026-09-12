@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "year": 2023,
+ "circuit": "Melbourne",
+ "event": "2023-melbourne",
+ "checked": 1789217146.962311,
+ "ratio": null,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": -0.6125432820136935,
+   "race_s_per_lap": -0.08272645369099414,
+   "ratio": null,
+   "n_practice_laps": 13,
+   "n_race_laps": 613,
+   "usable": false
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": -0.33802804855198454,
+   "race_s_per_lap": -0.022484307080850724,
+   "ratio": null,
+   "n_practice_laps": 16,
+   "n_race_laps": 55,
+   "usable": false
+  }
+ },
+ "n_race_stints": 19,
+ "n_practice_stints": 9,
+ "usable_compounds": [],
+ "n_race_laps": 58,
+ "n_clean_practice_laps": 35,
+ "sessions_used": [
+  "Practice 1"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [
+  "Practice 2",
+  "Practice 3"
+ ],
+ "rain": false,
+ "track_temp_practice_c": 31.55,
+ "track_temp_race_c": 30.95,
+ "evolution_range_s": 0.5260390367970108,
+ "missing": true,
+ "retry": false,
+ "why": "no compound with a usable practice slope"
+}

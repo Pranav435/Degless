@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2024,
  "circuit": "Suzuka",
  "event": "Japanese Grand Prix",
@@ -35,6 +35,181 @@
   "n": 17,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "ALO",
+   "compound": "SOFT",
+   "laps": 12,
+   "in_lap": 13,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "BOT",
+   "compound": "SOFT",
+   "laps": 5,
+   "in_lap": 6,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "HARD",
+   "laps": 15,
+   "in_lap": 16,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "HARD",
+   "laps": 22,
+   "in_lap": 23,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "SOFT",
+   "laps": 4,
+   "in_lap": 5,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 25,
+   "in_lap": 26,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "MAG",
+   "compound": "MEDIUM",
+   "laps": 21,
+   "in_lap": 22,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "HARD",
+   "laps": 18,
+   "in_lap": 19,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "HARD",
+   "laps": 21,
+   "in_lap": 22,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAR",
+   "compound": "HARD",
+   "laps": 21,
+   "in_lap": 22,
+   "n_stops": 3,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "SOFT",
+   "laps": 11,
+   "in_lap": 12,
+   "n_stops": 3,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "SOFT",
+   "laps": 6,
+   "in_lap": 7,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 15,
+   "in_lap": 16,
+   "n_stops": 2,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 15.0,
+  "p25": 12.0,
+  "p75": 22.0,
+  "n": 17,
+  "in_laps": [
+   5,
+   6,
+   7,
+   11,
+   12,
+   12,
+   13,
+   15,
+   15,
+   16,
+   16,
+   19,
+   22,
+   22,
+   22,
+   23,
+   26
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.4172789910125055,
+  "se": 0.05385142405645807,
+  "n_laps": 758,
+  "share_close": 0.5382585751978892,
+  "event": "japan-2026"
+ },
+ "nomination": [
+  "C1",
+  "C2",
+  "C3"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 27,

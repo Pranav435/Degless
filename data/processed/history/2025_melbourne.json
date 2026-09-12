@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2025,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -19,6 +19,14 @@
   "MEDIUM": 6
  },
  "first_stop": {},
+ "first_stints": [],
+ "first_stop_green": {},
+ "dirty_air": {},
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 8,

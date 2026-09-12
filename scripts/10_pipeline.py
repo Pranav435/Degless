@@ -35,7 +35,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import strategy as strat  # noqa: E402
+from src import cliff, firststop, percar, strategy as strat  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import (  # noqa: E402
     allocation_prior, hardness_rank, measure_pace_step, model_net_step_draws,
@@ -54,7 +54,7 @@ from src.fuel import add_fuel_correction, get_prior, summary_table  # noqa: E402
 from src.ingest import FirewallError, load_for_fitting, load_race  # noqa: E402
 from src.laps import build_lap_table, cascade_counts, clean_laps, compound_summary  # noqa: E402
 from src.model_bayes import BayesFit, fit_bayes  # noqa: E402
-from src.model_fallback import fit_mixedlm  # noqa: E402
+from src.model_fallback import fit_mixedlm, stint_fe_baseline  # noqa: E402
 from src.replay import build_replay, save_replay  # noqa: E402
 from src.telemetry import extract_apex_speeds, load_apex, save_apex, select_corners  # noqa: E402
 from src.tyre import TyreModel  # noqa: E402
@@ -166,24 +166,68 @@ def stage_fit(args, ev) -> dict:
 
     # The practice -> race regime factor: measured on every weekend but this
     # one, temperature-corrected, pooled with the median.  See src/regime.py.
+    # No race-day forecast exists in a retrospective run, so the auto mode pools
+    # the donors' raw log ratios and no temperature enters; the circuit's own
+    # practice->race history is combined with them.  `temperature["mode"]` says
+    # which of the three paths ran.
     regime = regime_prior(ev, clean=clean)
     print(f"\n  practice->race degradation factor: {regime.ratio:.3f}x "
           f"[{regime.p05:.2f}-{regime.p95:.2f}]  [{regime.label}]")
     print(f"    {regime.derivation}")
+    print(f"    temperature mode: {(regime.temperature or {}).get('mode')}; circuit prior: "
+          f"{(regime.temperature or {}).get('circuit_prior') or 'none'}")
     gate("regime factor is plausible (0.15-1.0)",
          0.15 <= regime.ratio <= 1.0,
          f"{regime.ratio:.3f}x from {regime.sources or 'default'}")
     alloc = allocation_prior(ev)
     plan_prior = plan_prior_for(cp if cp.available else None)
+    if plan_prior.get("nomination"):
+        _nm = plan_prior["nomination"]
+        print(f"  plan prior mapped through the nominations ({_nm['mode']}, target {_nm.get('target')}): "
+              + "; ".join(f"{r['year']} {r['nomination']} {r['comparable']} "
+                          f"(mapped {r['n_mapped']}, dropped {r['n_dropped']}, clamped {r['n_clamped']})"
+                          for r in _nm.get("per_race", [])))
+        print(f"    sequences {dict(list(plan_prior['sequences'].items())[:6])}; starts {plan_prior.get('starts')}")
+    # The circuit's green-flag first stops, as the density the objective charges.
+    # Historical races only (2023-25): this weekend's own race is never in it.
+    # Summarised at the modal start compound *and* the modal stop count, because
+    # that is the cell the objective will charge the modal plan against.
+    _starts = plan_prior.get("starts") or {}
+    _stops_marginal = plan_prior.get("stops") or {}
+    modal_start = max(_starts, key=_starts.get) if _starts else None
+    modal_stops = int(max(_stops_marginal, key=_stops_marginal.get)) if _stops_marginal else None
+    first_stop_prior = firststop.first_stop_summary(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps,
+        start_compound=modal_start, n_stops=modal_stops)
+    if first_stop_prior:
+        print(f"  first-stop prior: mode lap {first_stop_prior['mode']}, median {first_stop_prior['median']:.0f} "
+              f"({first_stop_prior['p25']:.0f}-{first_stop_prior['p75']:.0f}), n={first_stop_prior['n']} "
+              f"({first_stop_prior['n_compound']} on the modal start compound {modal_start})")
+        bs = first_stop_prior.get("by_stops")
+        if bs:
+            print(f"    conditioned on a {bs['n_stops']}-stop plan: mode lap {bs['mode']}, median {bs['median']:.0f} "
+                  f"({bs['p25']:.0f}-{bs['p75']:.0f}) from {bs['n_by_stops']} same-stop-count stops, "
+                  f"{bs['n_by_compound_stops']} of them on the {modal_start}")
+    else:
+        print("  first-stop prior: none (no green-flag first stops in this circuit's history)")
     timings["priors_s"] = round(time.time() - t, 1)
 
-    # -- 3. MixedLM baseline ----------------------------------------------
-    t = step("3. MixedLM baseline + stint block bootstrap")
+    # -- 3. MixedLM + stint-FE baselines ----------------------------------
+    t = step("3. MixedLM baseline + stint-FE baseline, both on stint block bootstraps")
     mlm = fit_mixedlm(clean, n_boot=args.boot)
     print(mlm.table().round(4).to_string(index=False))
-    med = mlm.slopes.get("MEDIUM", np.nan)
-    gate("MixedLM MEDIUM slope in 0.12-0.35", 0.12 <= med <= 0.35,
-         f"{med:.4f} s/lap ({time.time()-t:.0f}s)")
+    # The stint-FE baseline is the honest non-Bayesian reading of the same
+    # corrected channel: within-stint OLS, no prior, no ladder, no pooling across
+    # compounds.  It replaces the old "MixedLM MEDIUM slope in 0.12-0.35" gate,
+    # which asserted a degradation level rather than testing the estimator — a
+    # weekend whose tyres genuinely do not degrade (Australia) failed it for
+    # being right.  What is worth gating is that the two estimators agree.
+    fe = stint_fe_baseline(clean, n_boot=min(args.boot, 50))
+    print(fe["table"].round(4).to_string(index=False))
+    gate("stint-FE baseline pooled slope is finite and >= 0",
+         bool(np.isfinite(fe["pooled_slope"]) and fe["pooled_slope"] >= 0),
+         f"{fe['pooled_slope']:.4f} s/lap over {fe['n_stints']} stints / {fe['n_laps']} laps "
+         f"[90% {fe['pooled_ci'][0]:.3f}-{fe['pooled_ci'][1]:.3f}] ({time.time()-t:.0f}s)")
     timings["mixedlm_s"] = round(time.time() - t, 1)
 
     # -- 4. apex speeds (diagnostic only) ---------------------------------
@@ -272,6 +316,11 @@ def stage_fit(args, ev) -> dict:
          f"pooled {pooled_bayes:.3f} vs MixedLM {pooled_mlm:.3f} (diff {pooled_diff:.3f}); "
          "per-compound differences are the ladder prior overriding an unordered baseline: "
          + ", ".join(f"{c} {v:.3f}" for c, v in diffs.items()))
+    fe_diff = abs(pooled_bayes - fe["pooled_slope"])
+    gate("Bayes pooled slope within 0.06 s/lap of the stint-FE baseline",
+         bool(fe_diff < 0.06),
+         f"pooled {pooled_bayes:.3f} vs stint-FE {fe['pooled_slope']:.3f} (diff {fe_diff:.3f}) over "
+         f"{fe['n_stints']} stints")
 
     # The ladder: with the soft prior the ordering is what the data and the
     # circuit say, and it is reported rather than asserted.
@@ -353,6 +402,7 @@ def stage_fit(args, ev) -> dict:
         "cliff_history": (cp.cliff() if cp.available else {}),
         "history_combination": hist_moved.to_dict("records") if not hist_moved.empty else [],
         "plan_prior": plan_prior,
+        "first_stop_prior": first_stop_prior,
         "regime": regime.as_dict(),
         "allocation": alloc,
         "load_effect": {"exponent": float(TYRE_LOAD_EXPONENT),
@@ -361,6 +411,8 @@ def stage_fit(args, ev) -> dict:
         "n_raw_laps": int(len(laps)), "n_clean_laps": int(len(clean)),
         "compound_counts": comp_sum.to_dict("records"),
         "mixedlm": {"slopes": mlm.slopes, "table": mlm.table().to_dict("records"), "n_stints": mlm.n_stints},
+        "stint_fe_baseline": {**{k: v for k, v in fe.items() if k != "table"},
+                              "table": fe["table"].to_dict("records")},
         "bayes": {
             "max_rhat": float(f.max_rhat), "n_divergences": int(f.n_divergences),
             "n_laps": int(f.n_laps), "n_apex": int(f.n_apex), "use_hinge": bool(f.use_hinge),
@@ -376,6 +428,8 @@ def stage_fit(args, ev) -> dict:
         },
         "bayes_vs_mixedlm": {k: float(v) for k, v in diffs.items()},
         "bayes_vs_mixedlm_pooled": {"bayes": float(pooled_bayes), "mixedlm": float(pooled_mlm), "diff": float(pooled_diff)},
+        "bayes_vs_stint_fe_pooled": {"bayes": float(pooled_bayes), "stint_fe": float(fe["pooled_slope"]),
+                                     "diff": float(fe_diff)},
         "prior_sensitivity": prior_shift,
         "evolution": {"range_s": float(evo_rng), "iterations": evo.iterations, "skipped": evo.skipped},
         "age_support_laps": float(clean["tyre_age"].max()),
@@ -410,10 +464,16 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     cp = CircuitPrior(**{k: v for k, v in (fs.get("circuit_history") or {}).items()
                          if k in CircuitPrior.__dataclass_fields__}) if fs.get("circuit_history") else CircuitPrior(event=key, circuit=ev.circuit)
     cal = get_calibration(ev)
+    # Dirty air is a property of the circuit, so the weekend uses its own
+    # circuit's measurement (from its 2023-25 races) where the calibration has
+    # one and the pooled 2026 median otherwise.
+    dirty_air = cal.dirty_air_for(ev.circuit)
     print(f"\n  calibration: {cal.source}")
     print(f"    budgets {cal.budgets}; manage cost {cal.manage_cost_s:.2f} s, floor {cal.manage_wear_floor:.2f}; "
-          f"grid penalty {cal.grid_start_penalty_s:.2f} s; dirty air {cal.dirty_air_s_per_lap:.2f} s/lap; "
-          f"undercut lambda {cal.undercut_lambda:.3f}; plan prior tau {cal.plan_prior_tau_s:.2f} s")
+          f"grid penalty {cal.grid_start_penalty_s:.2f} s; dirty air {dirty_air:.2f} s/lap "
+          f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled'}); "
+          f"undercut lambda {cal.undercut_lambda:.3f}; plan prior tau {cal.plan_prior_tau_s:.2f} s; "
+          f"first-stop kappa {cal.first_stop_kappa_s:.2f} s/nat; per-car {cal.percar_mode}")
     sealed = load_sealed(Path(__file__).resolve().parents[1] / "predictions" / "sealed" / fs["sealed_file"])
     sealed["_file"] = fs["sealed_file"]
     pstep = fs["net_step"]
@@ -478,9 +538,23 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     draws = rng.choice(total, size=min(args.mc_draws, total), replace=False)
     model = TyreModel.from_fit(f, draws=draws, budget=cal.budgets,
                                manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+    # The circuit's first-stop density, as a per-lap penalty table per start
+    # compound *and stop count*.  Built from the historical races only, so it
+    # carries no information about this weekend's race.  `None` where the circuit
+    # has no green-flag first stops on record, which leaves the V2 objective.
+    fs_tables = firststop.first_stop_penalty_table(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps, model.compounds)
+    fs_summary = fs.get("first_stop_prior")
+    print(f"  first-stop prior: " + (f"{fs_summary['source']}" if fs_summary else "none")
+          + f"; charged at kappa {cal.first_stop_kappa_s:.2f} s/nat"
+          + ("" if fs_tables else " (no table: the term is off)"))
+    if fs_tables:
+        _cells = sorted({k for per in fs_tables.values() for k in per if k != "any"})
+        print(f"    conditioned tables per start compound: stop counts {_cells} (plus \"any\")")
     sim_kw = dict(regime=regime, step=args.pit_step, support=per_comp_support, max_per_compound=alloc["caps"],
                   max_stint=hist_caps, undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior,
-                  plan_prior_tau_s=cal.plan_prior_tau_s, traffic_s_per_lap=cal.dirty_air_s_per_lap,
+                  plan_prior_tau_s=cal.plan_prior_tau_s, first_stop_prior=fs_tables,
+                  first_stop_kappa_s=cal.first_stop_kappa_s, traffic_s_per_lap=dirty_air,
                   grid_penalty_s=cal.grid_start_penalty_s)
     t0 = time.time()
     model, res, pace_cal = strat.search_with_pace_calibration(
@@ -494,9 +568,11 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     print(res.head(8).drop(columns=["pit_laps"]).round(3).to_string(index=False))
     print("\n  best plan at each stop count:")
     print(res.by_stops.drop(columns=["pit_laps"]).round(3).to_string(index=False))
-    print(f"\n  tyre-optimal plan (no position term, no plan prior): {res.tyre_optimal_label} "
-          f"({res.tyre_optimal.get('delta_s', 0):+.1f} s under the full objective); "
-          f"position term of the chosen plan {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s")
+    print(f"\n  tyre-optimal plan (no position term, no plan prior, no first-stop prior): {res.tyre_optimal_label} "
+          f"({res.tyre_optimal.get('delta_s', 0):+.1f} s under the full objective; its own first stop would "
+          f"carry {res.tyre_optimal.get('first_stop_s', 0):.1f} s of first-stop prior); "
+          f"position term of the chosen plan {res.best.get('position_s', 0):.1f} s, plan-prior handicap "
+          f"{res.best.get('prior_s', 0):.1f} s, first-stop prior {res.best.get('first_stop_s', 0):.1f} s")
     print("\n  compound life (budget / rate, bounded by the race and the circuit's history):")
     print(res.life.round(2).to_string(index=False))
     print(f"\n  the optimiser chose push {res.best['push']:.2f}, which implies a "
@@ -520,19 +596,23 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
           + " | ".join(f"{r.compounds} {r.mean_s - _ord['mean_s'].iloc[0]:+.1f}" for r in _ord.head(4).itertuples()))
 
     pw = strat.pit_window_model(model, ev, res.best, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
-                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
+                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=dirty_air,
+                                first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s)
     if not pw.empty:
         for k, g in pw.groupby("stop"):
             win = g[g["in_window"]]["lap"]
             print(f"  stop {k}: recommended lap {res.best['pit_laps'][k-1]}, "
-                  f"within 1.0 s over laps {win.min():.0f}-{win.max():.0f}")
+                  f"within 1.0 s over laps {win.min():.0f}-{win.max():.0f}"
+                  + (f" (the circuit's history prefers lap {fs_summary['mode']})"
+                     if (k == 1 and fs_summary) else ""))
     _uc_age = int(min(max_stint.get("MEDIUM", 40), max_stint.get("SOFT", 40)))
     uc = strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=max(_uc_age, 8), push=res.best["push"]) \
         if ("MEDIUM" in model.compounds and "SOFT" in model.compounds) else pd.DataFrame()
     t0 = time.time()
     cf = strat.counterfactual(model, ev, race, float(pl.seconds), max_stint=max_stint, push=res.best["push"],
-                              race_factors=cal.driver_factors, traffic_s_per_lap=cal.dirty_air_s_per_lap,
-                              undercut_lambda=cal.undercut_lambda)
+                              race_factors=cal.driver_factors, traffic_s_per_lap=dirty_air,
+                              undercut_lambda=cal.undercut_lambda,
+                              first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s)
     timings["counterfactual_s"] = round(time.time() - t0, 1)
     if not cf.empty:
         print(f"\n  counterfactual (top 5, SC stops held fixed, {timings['counterfactual_s']}s):")
@@ -540,15 +620,27 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
               .round(2).to_string(index=False))
     t0 = time.time()
     drivers_on_grid = sorted(race["driver"].unique())
+    # Per-car intelligence, team-pooled: a driver with no long run on a compound
+    # inherits their team-mate's deviation rather than the field's, and the
+    # historical rate factor is shrunk by how precisely it was measured
+    # (`factor_shrink=None` -> `percar.shrink_factor`).
+    teams = pd.concat([clean, race]).drop_duplicates("driver").set_index("driver")["team"].to_dict()
+    pooled_dev = percar.team_pooled_dev(model.driver_dev, teams,
+                                        n_laps_by_driver=clean.groupby("driver").size().to_dict())
     pdp = strat.per_driver_plans(model, ev, float(pl.seconds), drivers_on_grid, race_factors=cal.driver_factors,
+                                 dev_by_driver=pooled_dev, factor_ln_sd=cal.driver_factor_ln_sd,
+                                 factor_shrink=None,
                                  **{k: v for k, v in sim_kw.items() if k != "step"})
     timings["per_driver_s"] = round(time.time() - t0, 1)
     if not pdp.empty:
-        print(f"\n  per-car plans ({timings['per_driver_s']}s): {int(pdp['same_shape_as_field'].sum())}/{len(pdp)} "
+        print(f"\n  per-car plans ({timings['per_driver_s']}s, {cal.percar_mode}: "
+              f"{len(pooled_dev)} cars carry a pooled practice deviation over {len(set(teams.values()))} teams): "
+              f"{int(pdp['same_shape_as_field'].sum())}/{len(pdp)} "
               f"share the field plan's shape; first stops "
               f"{int(pdp['first_stop'].min()) if pdp['first_stop'].notna().any() else '-'}-"
               f"{int(pdp['first_stop'].max()) if pdp['first_stop'].notna().any() else '-'}")
-        print(pdp[["driver", "race_factor", "best", "first_stop_vs_field"]].head(8).round(2).to_string(index=False))
+        print(pdp[["driver", "race_factor", "dev_source", "best", "first_stop_vs_field"]].head(8)
+              .round(2).to_string(index=False))
     print(f"  ({time.time()-t:.0f}s)")
 
     # -- the ladder gate, enforced ------------------------------------------
@@ -557,18 +649,53 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     gate("does not open the race on the hardest available compound",
          _ranks[_open] < max(_ranks.values()),
          f"opens on {_open} (hardness rank {_ranks[_open]} of {max(_ranks.values())})")
-    _L = float(np.median(res.best["stint_lens"]))
+    # The net step is checked at the length the shipped model is *calibrated* at,
+    # which `search_with_pace_calibration` iterates to a fixed point and clips to
+    # the tyres' lives.  Checking it at the plan's median instead asks the model
+    # to reproduce a measurement at a length where the loss is no longer linear,
+    # which is how a converged calibration came out failing its own gate.
+    _L_plan = float(np.median(res.best["stint_lens"]))
+    _L = float(pace_cal.get("stint_len", _L_plan))
     _model_net = float(model_net_step_draws(model, _L, float(res.best["push"]), ev).mean())
     _meas_net = float(pstep.get("measured") if pstep.get("measured") is not None else np.nan)
-    print(f"\n  compound ladder check - net cost of one step harder over a {_L:.0f}-lap stint: "
+    print(f"\n  compound ladder check - net cost of one step harder over a {_L:.0f}-lap stint "
+          f"(the plan's median stint is {_L_plan:.0f}, life cap {pace_cal.get('life_cap', float('nan')):.0f}, "
+          f"{pace_cal.get('passes', 0)} pass(es), converged {pace_cal.get('converged')}): "
           f"model {_model_net:+.3f} s/lap, measured {_meas_net:+.3f} s/lap (this race: {_self_step.step_s:+.3f})")
     if np.isfinite(_meas_net):
         gate("model reproduces the measured net stint-level compound step (enforced)",
              abs(_model_net - _meas_net) < 0.12,
-             f"model {_model_net:+.3f} vs measured {_meas_net:+.3f} s/lap per step over a {_L:.0f}-lap stint"
+             f"model {_model_net:+.3f} vs measured {_meas_net:+.3f} s/lap per step over a {_L:.0f}-lap stint "
+             f"(the plan runs {_L_plan:.0f})"
              + (" (offsets clipped to the physical band)" if pace_cal.get("clipped") else ""))
 
-    # -- 8b. strategy backtest --------------------------------------------
+    # -- 8b. the cliff, detected rather than assumed ------------------------
+    # One row per race stint: did the tyre end it, or did the pit wall?  The
+    # grip budget the model ships is only meaningful if budget / rate lands near
+    # where the cliff actually was, and this is the only end-to-end check that
+    # invariant has.  The rate fed to it is the model's **full-push** rate, the
+    # regime the budget is defined in; a race-measured slope answers a different
+    # question and puts the predicted lap at twice the race distance.
+    collapse_rows = cliff.race_collapses(race, event=ev)
+    ratio_metrics = cliff.budget_ratio_metrics(
+        {c: {"budget_s": model.budget_of(c)} for c in model.compounds},
+        {c: float(model.rate(c).mean()) for c in model.compounds},
+        collapse_rows)
+    _counts = ({str(k): int(v) for k, v in collapse_rows["kind"].value_counts().items()}
+               if not collapse_rows.empty else {})
+    print(f"\n  cliff detector on the race: {len(collapse_rows)} stints scored, {_counts}")
+    for c in model.compounds:
+        m = ratio_metrics.get(c) or {}
+        if m.get("n"):
+            print(f"    {c:7s} budget {m['budget_s']:.2f} s / rate {m['rate_s_per_lap']:.3f} s/lap "
+                  f"-> cliff at lap {m['predicted_lap']:.0f}; observed knees {m['observed_knees']} "
+                  f"(mean error {m['mean_error_laps']:+.1f}, {m['over']} over / {m['under']} under)")
+    if (ratio_metrics.get("_pooled") or {}).get("n"):
+        p = ratio_metrics["_pooled"]
+        print(f"    pooled: {p['n']} collapses, mean error {p['mean_error_laps']:+.1f} laps "
+              f"(|error| {p['mean_abs_error_laps']:.1f})")
+
+    # -- 8c. strategy backtest --------------------------------------------
     bt = strategy_backtest(res, race, ev)
     if bt:
         print("\n  strategy backtest (race data, validation only):")
@@ -659,7 +786,15 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
                             "self_measured": {"step_s": float(_self_step.step_s), "se": float(_self_step.se),
                                               "n_laps": int(_self_step.n_laps), "phase_bias_s": float(_self_step.phase_bias_s)}},
         "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source,
-                        "n_driver_factors": len(cal.driver_factors)},
+                        "n_driver_factors": len(cal.driver_factors),
+                        "dirty_air_used": float(dirty_air),
+                        "dirty_air_source": ("this circuit's 2023-25 races" if ev.circuit in cal.dirty_air_by_circuit
+                                             else "pooled over the 2026 donor races")},
+        "cliff_detector": {
+            "n_stints": int(len(collapse_rows)), "kinds": _counts,
+            "rows": (collapse_rows.to_dict("records") if not collapse_rows.empty else []),
+            "budget_vs_observed": ratio_metrics,
+        },
         "pace_calibration": pace_cal,
         "score": {
             "mae": float(sc.mae), "mae_lap": float(sc.mae_lap), "rmse": float(sc.rmse),
@@ -675,8 +810,15 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
         "max_stint_laps": max_stint, "max_stints_per_compound": alloc["caps"],
         "grid_start_penalty_s": float(cal.grid_start_penalty_s),
         "backtest": bt,
+        # `stint_laps` is the length the shipped model is *calibrated* at (the
+        # fixed point, clipped to the tyres' lives), which is where the net step is
+        # defined; `stint_laps_plan` is the plan's own median, for the reader.
         "ladder_check": {"model_net_step_s": float(_model_net), "measured_net_step_s": float(_meas_net),
-                         "self_measured_net_step_s": float(_self_step.step_s), "stint_laps": float(_L)},
+                         "self_measured_net_step_s": float(_self_step.step_s), "stint_laps": float(_L),
+                         "stint_laps_plan": float(_L_plan),
+                         "life_cap_laps": float(pace_cal.get("life_cap", float("nan"))),
+                         "passes": int(pace_cal.get("passes", 0)),
+                         "converged": bool(pace_cal.get("converged", False))},
         "strategy": {
             "n_strategies": int(res.n_strategies), "n_scored": int(res.n_scored), "n_draws": int(res.n_draws),
             "best": res.best_label,
@@ -687,8 +829,11 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
             "ordering_spread_s": float(_spread), "ordering": _ord[["compounds", "mean_s"]].to_dict("records"),
             "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
             "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
+            "first_stop_kappa_s": float(res.first_stop_kappa_s),
             "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
-            "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"], s_per_lap=cal.dirty_air_s_per_lap)
+            "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
+            "first_stop_prior": fs_summary,
+            "traffic_s_per_stop": float(strat.traffic_cost(ev, res.best["pit_laps"], s_per_lap=dirty_air)
                                         / max(1, len(res.best["pit_laps"]))),
             "safety_car_credit_s": float(strat.safety_car_credit(ev, res.best["pit_laps"], float(pl.seconds))),
             "by_stops": res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),

@@ -1,0 +1,13 @@
+{
+ "version": 1,
+ "year": 2023,
+ "circuit": "Spa-Francorchamps",
+ "event": "2023-spa-francorchamps",
+ "checked": 1789217343.400436,
+ "missing": true,
+ "why": "rain",
+ "retry": false,
+ "rain": true,
+ "track_temp_race_c": 28.2,
+ "note": "a wet race cannot be compared with a dry practice"
+}

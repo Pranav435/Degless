@@ -31,7 +31,7 @@
  "use_hinge": false,
  "n_laps": 184,
  "n_apex": 0,
- "max_rhat": 1.0050629979144023,
+ "max_rhat": 1.0049269139252759,
  "n_divergences": 0,
  "prior_label": "2026 physics + circuit history",
  "compound_prior_label": "2026 compound ladder (soft, per circuit)",

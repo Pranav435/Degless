@@ -482,8 +482,17 @@ def pace_step_prior(target: Event | str, *, donors: list | None = None, circuit=
     with inverse-variance weights from every measurement available that does
     not use the target's race: the circuit's 2023-25 races (the same circuit,
     older tyres) and the other 2026 weekends (the same tyres, other circuits).
+
+    A pre-2026 measurement is weighted by recency as well as precision
+    (`history.HIST_RECENCY_WEIGHT`) and is **dropped outright** when its
+    standard error exceeds `history.HIST_NET_SE_MAX_S`.  Melbourne is why: its
+    2024 race measured -0.46 +/- 0.24 s/step and, at 1/se^2, outweighed six
+    2026 races that all measured positive, so Australia's pooled net came out
+    negative - the optimiser was told a harder tyre is *quicker* over a stint.
+    Every measurement stays in `detail` with `used` and, when dropped, `why`.
     """
     from src.config import EVENTS
+    from src.history import HIST_NET_SE_MAX_S, HIST_RECENCY_WEIGHT
 
     ev = get_event(target) if isinstance(target, str) else target
     keys = list(donors) if donors is not None else [k for k in EVENTS if k != ev.key]
@@ -502,19 +511,31 @@ def pace_step_prior(target: Event | str, *, donors: list | None = None, circuit=
         measured = False
     vals, ws, detail = [], [], []
     for h in hist_nets:
-        if np.isfinite(h.get("step_s", np.nan)) and PACE_STEP_BAND[0] - 0.5 <= h["step_s"] <= PACE_STEP_BAND[1]:
-            se = max(float(h.get("se", 0.1)), NET_SE_FLOOR_S)
-            vals.append(float(h["step_s"])); ws.append(1.0 / se ** 2)
-            detail.append({"event": f"{ev.circuit} {h['year']}", "net_stint_step_s": round(h["step_s"], 4),
-                           "se": round(se, 4), "n_stints": h.get("n_stints"),
-                           "median_stint_laps": h.get("median_stint_laps"), "kind": "circuit history"})
+        if not np.isfinite(h.get("step_s", np.nan)):
+            continue
+        se = max(float(h.get("se", 0.1)), NET_SE_FLOOR_S)
+        rec = float(h.get("recency", HIST_RECENCY_WEIGHT.get(int(h.get("year", 0)), 1.0)))
+        row = {"event": f"{ev.circuit} {h['year']}", "net_stint_step_s": round(h["step_s"], 4),
+               "se": round(se, 4), "n_stints": h.get("n_stints"),
+               "median_stint_laps": h.get("median_stint_laps"), "kind": "circuit history",
+               "recency": rec, "used": True}
+        if not (PACE_STEP_BAND[0] - 0.5 <= h["step_s"] <= PACE_STEP_BAND[1]):
+            row.update({"used": False, "why": f"net step outside the believable band {PACE_STEP_BAND}"})
+        elif se > HIST_NET_SE_MAX_S:
+            row.update({"used": False, "why": f"standard error {se:.3f} s > {HIST_NET_SE_MAX_S:.2f} s "
+                                              f"(pre-2026 measurement, too imprecise to pool)"})
+        else:
+            vals.append(float(h["step_s"])); ws.append(rec / se ** 2)
+        detail.append(row)
     for m in ms:
         se = max(float(m.se), NET_SE_FLOOR_S)
         vals.append(float(m.step_s)); ws.append(1.0 / se ** 2)
         detail.append({"event": m.event, "net_stint_step_s": round(m.step_s, 4), "se": round(se, 4),
-                       "n_stints": m.n_laps, "median_stint_laps": round(m.phase_bias_s, 1), "kind": "2026 donor"})
+                       "n_stints": m.n_laps, "median_stint_laps": round(m.phase_bias_s, 1), "kind": "2026 donor",
+                       "recency": 1.0, "used": True})
     out = {"step_s": float(step), "measured": measured, "calibrated": not measured, "label": label,
-           "sources": [d["event"] for d in detail], "detail": detail,
+           "sources": [d["event"] for d in detail if d.get("used", True)], "detail": detail,
+           "dropped": [{"event": d["event"], "why": d["why"]} for d in detail if not d.get("used", True)],
            "circuit_ladder": cl}
     if vals:
         vals, ws = np.array(vals), np.array(ws)
@@ -527,7 +548,8 @@ def pace_step_prior(target: Event | str, *, donors: list | None = None, circuit=
         out["derivation"] = (
             f"fresh-tyre step prior {step:.3f} s ({label}). The races identify the *net* cost of one "
             f"step harder over a whole stint, holding stint length and race phase fixed: "
-            + "; ".join(f"{d['event']} {d['net_stint_step_s']:+.3f} +/- {d['se']:.3f} s" for d in detail)
+            + "; ".join(f"{d['event']} {d['net_stint_step_s']:+.3f} +/- {d['se']:.3f} s"
+                        + ("" if d.get("used", True) else f" [not used: {d['why']}]") for d in detail)
             + f" -> pooled {net:+.3f} +/- {out['net_stint_step_se']:.3f} s per step. The model's fresh-tyre "
               "offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the "
               "stint length it recommends.")

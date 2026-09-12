@@ -14,42 +14,46 @@
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-2026-09-12 16:33:28.158 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-09-12 23:04:08.856 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
                                                              stage  seconds
-                                                import jax+numpyro    0.456
-                                 load practice laps (FastF1 cache)    0.778
-                                         lap table + clean cascade    0.008
+                                                import jax+numpyro    0.433
+                                 load practice laps (FastF1 cache)    1.542
+                                         lap table + clean cascade    0.009
                                             fuel + track evolution    0.016
-              circuit history prior (cached) + ladder + plan prior    0.068
-                  compound pace-step prior (donor races + circuit)    0.025
-                     regime prior (donor races, temperature model)    0.057
-                                             MixedLM, no bootstrap    0.040
-                                      MixedLM, 50 stint bootstraps    1.665
-  NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)    6.648
-                      NUTS 2x800x800 lap-time only (weekend refit)    3.580
-                  NUTS 2x800x800 lap-time only, hinge (diagnostic)    4.323
-                           apex speeds (cached) + corner selection    6.063
-               NUTS 4x1500x1500 joint lap-time + apex (diagnostic)   12.572
-                                       circuit history combination    0.004
-                                                  seal predictions    0.015
-                                        load race laps + lap table    1.401
-                                                        score race    0.019
-strategy search 500 draws, 1-lap grid, full objective (production)    0.680
-              strategy search with pace calibration (2-3 searches)    1.314
-                             strategy search 500 draws, 2-lap grid    0.588
-                             strategy search 200 draws, 1-lap grid    0.477
-                                  pit window sweep (position term)    0.058
+              circuit history prior (cached) + ladder + plan prior    0.064
+                  compound pace-step prior (donor races + circuit)    0.027
+                     regime prior (donor races, temperature model)    0.052
+                                             MixedLM, no bootstrap    0.036
+                                      MixedLM, 50 stint bootstraps    1.645
+                 stint-FE baseline, 50 stint bootstraps (the gate)    0.232
+            first-stop prior: KDE penalty table per start compound    0.001
+  NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)    6.156
+                      NUTS 2x800x800 lap-time only (weekend refit)    2.932
+                  NUTS 2x800x800 lap-time only, hinge (diagnostic)    4.384
+                           apex speeds (cached) + corner selection    0.005
+               NUTS 4x1500x1500 joint lap-time + apex (diagnostic)   13.016
+                                       circuit history combination    0.007
+                                                  seal predictions    0.031
+                                        load race laps + lap table    0.430
+                                                        score race    0.020
+                        within-stint collapse detector, whole race    0.050
+strategy search 500 draws, 1-lap grid, full objective (production)    0.652
+              strategy search with pace calibration (2-3 searches)    1.250
+                             strategy search 500 draws, 2-lap grid    0.575
+                             strategy search 200 draws, 1-lap grid    0.468
+                                  pit window sweep (position term)    0.052
+               pit window sweep (position term + first-stop prior)    0.052
                                                    undercut window    0.001
-       counterfactual (all drivers, vectorised, SC-aware, per-car)    1.281
-                            per-car plans (20 drivers, 2-lap grid)    7.073
-                                                 replay precompute    0.042
-                                            desk: evaluate 3 plans    0.019
-                      desk: degradation crossover (21 multipliers)    0.114
-                                         desk: safety-car playbook    0.092
-                                        desk: value of information    0.007
+       counterfactual (all drivers, vectorised, SC-aware, per-car)    1.265
+                            per-car plans (20 drivers, 2-lap grid)    6.668
+                                                 replay precompute    0.291
+                                            desk: evaluate 3 plans    0.009
+                      desk: degradation crossover (21 multipliers)    0.118
+                                         desk: safety-car playbook    0.091
+                                        desk: value of information    0.006
                                                desk: undercut duel    0.000
-                              outlook build (300 draws, scenarios)    3.430
-                                app cold start (streamlit AppTest)  265.948
-peak RSS 2090 MB; app exceptions 0; import re-timed 0.569674015045166s
-recorded full-pipeline runtimes: {'australia-2026': 364.3, 'japan-2026': 265.0, 'barcelona-2026': 249.1, 'austria-2026': 221.6, 'belgium-2026': 113.6, 'hungary-2026': 85.1, 'italy-2026': 132.6}
-recorded weekend-script runtimes: {}
+                              outlook build (300 draws, scenarios)    3.446
+                                app cold start (streamlit AppTest)    1.064
+peak RSS 1981 MB; app exceptions 0; import re-timed 0.5269718170166016s
+recorded full-pipeline runtimes: {'australia-2026': 54.3, 'japan-2026': 48.4, 'barcelona-2026': 64.2, 'austria-2026': 241.1, 'belgium-2026': 40.3, 'hungary-2026': 47.4, 'italy-2026': 48.5}
+recorded weekend-script runtimes: {'spain-2026': 49.8, 'hungary-2026': 16.1, 'italy-2026': 27.3, 'barcelona-2026': 20.7}

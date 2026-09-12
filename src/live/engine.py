@@ -31,7 +31,21 @@ two-stop continuation is costed in a handful of array operations over the
 cached fresh-stint cost tables, with the same undercut-exposure term the
 offline search carries (at the weight the weekend was calibrated with), so
 the live call and the pre-race plan cannot disagree about what a late stop
-costs.  About 0.1-0.2 s per tick for the whole field.
+costs.  The circuit's first-stop prior is charged too, but **only on a car that
+has not stopped yet**: it prices where this circuit's field has historically
+taken its first stop, and a car on its second set is past the decision the
+prior is about.  About 0.1-0.2 s per tick for the whole field.
+
+**The cliff alarm is now a measurement.**  It used to fire on
+`P(wear >= grip budget)` — a quantity the practice fit barely identifies, since
+no practice long run reaches a cliff, so the alarm largely reported the budget
+prior.  It now fires on `cliff.detect_stint_collapse` run on the car's own
+fuel-corrected clean laps this stint: a break in the stint's own pace trend,
+steep enough and costly enough to be a tyre falling off.  `p_past_cliff` and
+`laps_to_cliff_*` are still computed and still shown — they are the model's
+forecast — but the alarm is the observation.  The output key stays
+`cliff_alarm` (the app reads it); its meaning is the collapse detection, and
+`pace_collapse` carries the same flag under its own name.
 """
 
 from __future__ import annotations
@@ -43,6 +57,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
+from src import cliff, firststop, percar
 from src.calibration import get_calibration
 from src.config import (
     DATA_PROCESSED,
@@ -81,6 +96,8 @@ UNDERCUT_RANGE_S = 6.0       # only cars this close can be undercut / undercut y
 CLIFF_ALARM_P = 0.5
 ALERT_COOLDOWN_LAPS = 3
 PLAN_SHORTLIST = 48          # options priced draw by draw per car per lap (the rest on the expected cost)
+COLLAPSE_MIN_LAPS = 6        # green laps a stint needs before the collapse detector will call it
+BOX_NOW_TOL_S = 0.5          # box-now within this of the best plan is a live decision, not a hypothetical
 
 
 def _temper_for_ess(ll: np.ndarray, min_ess: float) -> float:
@@ -122,6 +139,9 @@ class WeekendModel:
     undercut_lambda: float = 0.0
     dirty_air_s_per_lap: float = 0.45
     calibration_source: str = ""
+    first_stop_kappa_s: float = 0.0
+    first_stop_table: dict | None = None             # compound -> (n+1,) nats by first-stop lap
+    driver_dev_pooled: dict = field(default_factory=dict)   # driver -> {compound: (n,) draws}
 
     @classmethod
     def load(cls, event: Event | str, *, n_draws: int = N_DRAWS, seed: int = 0) -> "WeekendModel":
@@ -168,11 +188,35 @@ class WeekendModel:
         caps = {k: int(v) for k, v in (hist.get("stint_cap") or {}).items()}
         if hist and post.exists():
             source += f"; circuit history {hist.get('years')}"
+        # The circuit's first-stop density, from `circuit_history.first_stop_green`
+        # (its 2023-25 races).  A V2 metadata file has no such key, so the table
+        # is None and the term is simply absent rather than wrong.
+        hist = backfill_circuit_history(ev, hist, meta_p)
+        fs_table = firststop.first_stop_penalty_table(hist.get("first_stop_green"),
+                                                      ev.n_race_laps, model.compounds)
+        # Team-pooled practice deviation, computed once: a car with no long run on
+        # a compound inherits its team-mate's behaviour rather than the field's.
+        # The team map comes from this weekend's practice lap table, which is the
+        # only place the engine can get it before the DriverList arrives.
+        pooled_dev = {}
+        prac = DATA_PROCESSED / f"laps_{ev.key}_practice.parquet"
+        if model.driver_dev and prac.exists():
+            try:
+                lt = pd.read_parquet(prac, columns=["driver", "team"])
+                teams = lt.drop_duplicates("driver").set_index("driver")["team"].to_dict()
+                pooled_dev = percar.team_pooled_dev(model.driver_dev, teams)
+                if pooled_dev:
+                    source += f"; per-car deviation pooled over {len(set(teams.values()))} teams"
+            except Exception:
+                log.exception("team-pooled practice deviation unavailable for %s", ev.key)
         return cls(event=ev, model=model, m_prior=m_prior, pit_loss_s=pit,
                    pit_loss_source=pit_src, allocation=alloc, stint_cap=caps, history=hist,
                    source=source, sealed_file=sealed, n_draws=n,
-                   undercut_lambda=float(cal.undercut_lambda), dirty_air_s_per_lap=float(cal.dirty_air_s_per_lap),
-                   calibration_source=cal.source)
+                   undercut_lambda=float(cal.undercut_lambda),
+                   dirty_air_s_per_lap=float(cal.dirty_air_for(ev.circuit)),
+                   calibration_source=cal.source,
+                   first_stop_kappa_s=float(cal.first_stop_kappa_s), first_stop_table=fs_table,
+                   driver_dev_pooled=pooled_dev)
 
     @staticmethod
     def prior_model(ev: Event, n: int, rng: np.random.Generator, calibration=None) -> TyreModel:
@@ -201,6 +245,47 @@ class WeekendModel:
                          budget=float(np.mean(list(budgets.values()))), budgets=budgets, n_draws=n,
                          source="compound-ladder prior", manage_floor=cal.manage_wear_floor,
                          manage_cost_s=cal.manage_cost_s)
+
+
+HISTORY_ONLY_KEYS = ("first_stop_green", "dirty_air")
+
+
+def backfill_circuit_history(ev: Event, hist: dict | None, meta_path) -> dict:
+    """`circuit_history`, with the two V3 history blocks back-filled if missing.
+
+    `weekend_<key>.json` is preferred over `meta_<key>.json` everywhere because
+    it is the *pre-race* state, but a weekend file written by an older version
+    has no `first_stop_green` and no `dirty_air`, and on a circuit whose history
+    is already on disk that would silently switch the first-stop prior off —
+    a failure nobody would see, since the term's absence looks exactly like a
+    circuit with no history.  So those two keys, and only those two, are taken
+    from the sibling file when the chosen one predates them.
+
+    Safe by construction: both are measured on the circuit's 2023-25 races and
+    contain nothing about the current weekend, which is why they can come from
+    the retrospective file without breaking the firewall.  Everything else in
+    the block — the thermal term, the season pool, the rate prior the fit used —
+    stays as the chosen file wrote it.
+    """
+    out = dict(hist or {})
+    if all(out.get(k) for k in HISTORY_ONLY_KEYS):
+        return out
+    name = getattr(meta_path, "name", "")
+    other = DATA_PROCESSED / (f"meta_{ev.key}.json" if name.startswith("weekend_")
+                              else f"weekend_{ev.key}.json")
+    if not other.exists():
+        return out
+    try:
+        import json
+
+        och = json.loads(other.read_text()).get("circuit_history") or {}
+    except Exception:
+        log.exception("could not read the circuit history from %s", other.name)
+        return out
+    for k in HISTORY_ONLY_KEYS:
+        if not out.get(k) and och.get(k):
+            out[k] = och[k]
+    return out
 
 
 def pit_loss_prior(ev: Event, meta: dict | None = None) -> tuple:
@@ -233,6 +318,7 @@ def pit_loss_prior(ev: Event, meta: dict | None = None) -> tuple:
 @dataclass
 class DriverTyre:
     number: str
+    code: str = ""                         # the TLA, which is how the fit names drivers
     compound: str | None = None
     stint_index: int | None = None
     stint_first_lap: int | None = None
@@ -250,6 +336,8 @@ class DriverTyre:
     laps_to_cliff: tuple = (float("nan"),) * 3
     proj: list = field(default_factory=list)   # next laps' expected pace loss vs now
     deg_now_s_per_lap: float = float("nan")
+    collapse: dict = field(default_factory=dict)   # cliff.detect_stint_collapse on this stint
+    pace_collapse: bool = False
 
 
 class RaceEngine:
@@ -278,8 +366,46 @@ class RaceEngine:
         self.tick_no = 0
         self.lam = float(getattr(wm, "undercut_lambda", 0.0) or 0.0)
         self.dirty_air = float(getattr(wm, "dirty_air_s_per_lap", 0.45) or 0.45)
+        self.kappa = float(getattr(wm, "first_stop_kappa_s", 0.0) or 0.0)
+        self.first_stop_table = getattr(wm, "first_stop_table", None)
+        self.pooled_dev = dict(getattr(wm, "driver_dev_pooled", {}) or {})
+        self._rate_cache: dict = {}
 
     # -- helpers ------------------------------------------------------------
+
+    def _rates(self, code: str) -> dict:
+        """`{compound: (n,) wear rate}` for one car: the field model with this
+        driver's team-pooled practice deviation folded in.
+
+        The deviation enters the car's *own* quantities - its likelihood, its
+        wear, its cliff, the cost of continuing on the set it is on - while the
+        fresh-stint cost tables in `_plan` stay field-level.  That is an
+        approximation, and a deliberate one: those tables are
+        (compounds x laps x laps) over every draw, built once per race, and
+        rebuilding them per car per lap was 95% of a 1.1 s tick for a second-order
+        effect on a tyre the car has not fitted yet.  What the per-car term
+        changes is the decision about the tyre on the car now, which is the
+        decision the engine is asked for.
+        """
+        if not code or not self.pooled_dev.get(code):
+            return self.model.wear_rate
+        if code not in self._rate_cache:
+            self._rate_cache[code] = self.model.for_driver(
+                code, dev_override=self.pooled_dev.get(code), factor_shrink=None).wear_rate
+        return self._rate_cache[code]
+
+    def _first_stop_pen(self, compound: str | None, laps, n_stops=None):
+        """`kappa * neglogp[lap]`, or 0 - the circuit's first-stop prior.
+
+        `n_stops` is the *total* stop count of the option being priced, because
+        the density is conditioned on the plan's family: a car pricing a one-stop
+        continuation must not be charged the circuit's two-stop first stops.
+        """
+        if not self.first_stop_table or self.kappa <= 0 or not compound:
+            return 0.0
+        from src.strategy import first_stop_penalty
+
+        return first_stop_penalty(compound, laps, self.first_stop_table, self.kappa, n_stops=n_stops)
 
     def _total_laps(self, state: LiveState) -> int:
         t = state.lap_count.get("total")
@@ -345,6 +471,7 @@ class RaceEngine:
             if dt is None:
                 dt = DriverTyre(number=num)
                 self.tyres[num] = dt
+            dt.code = state.driver_label(num)
             if st is None or st.get("compound") not in rate_draws:
                 dt.compound = (st or {}).get("compound")
                 dt.weights = None
@@ -354,10 +481,11 @@ class RaceEngine:
                 dt.compound = st["compound"]
                 dt.stint_first_lap = st.get("first_lap")
                 dt.weights = None
+                dt.collapse, dt.pace_collapse = {}, False
             g = laps[(laps["driver_number"] == num) & (laps["is_complete"])]
             g = g[g["lap_number"] >= (dt.stint_first_lap or 1)] if dt.stint_first_lap else g.iloc[0:0]
             c = dt.compound
-            rate = rate_draws[c]                      # (n,)
+            rate = self._rates(dt.code)[c]            # (n,) this car's own wear rate
             first = int(dt.stint_first_lap or 1)
             cur_lap = int(tr.current["lap_number"]) if tr.current else first
             lap_axis = np.arange(first, cur_lap + 1)
@@ -395,6 +523,23 @@ class RaceEngine:
                 ll_by_driver[num] = ll
             else:
                 dt._ll = None
+            # -- has this tyre fallen off? ---------------------------------
+            # On the car's own green racing laps this stint, uncorrected: the
+            # detector adds the fuel burn back itself, and the track-evolution
+            # term is deliberately left in.  Evolution makes a stint look
+            # *flatter* than it is, so leaving it raises the bar a collapse has
+            # to clear — the right direction for an alarm that interrupts a pit
+            # wall.  Safe to call every lap: a few OLS fits on <= 40 rows.
+            if len(clean) >= COLLAPSE_MIN_LAPS:
+                sub = clean[["lap_number", "lap_time_s"]].assign(
+                    tyre_age=clean["tyre_life"].to_numpy(dtype=float))
+                try:
+                    dt.collapse = cliff.detect_stint_collapse(
+                        sub, fuel_s_per_lap=self.fp.s_per_lap, evo=None, min_laps=COLLAPSE_MIN_LAPS)
+                except Exception:
+                    log.exception("collapse detector failed for %s", num)
+                    dt.collapse = {}
+                dt.pace_collapse = bool(dt.collapse.get("collapse"))
         # Field posterior: every car's laps, tempered.  Driver posterior: own
         # laps at full weight plus the rest of the field tempered.
         ll_field = np.zeros(self.n)
@@ -420,7 +565,7 @@ class RaceEngine:
                 dt.level_s = float((dt._level * w).sum())
             # --- wear now, cliff, projection -------------------------------
             c = dt.compound
-            rate = rate_draws[c]
+            rate = self._rates(dt.code)[c]
             b = self.model.budget_of(c)
             first = int(dt.stint_first_lap or 1)
             cur_lap = int(tr.current["lap_number"]) if tr.current else first
@@ -488,9 +633,12 @@ class RaceEngine:
 
     def _continue_cost(self, dt: DriverTyre, idx: np.ndarray, cur_lap: int, n_more: int,
                        total: int) -> np.ndarray:
-        """(len(idx), n_more+1): cumulative cost of running this tyre k more laps."""
+        """(len(idx), n_more+1): cumulative cost of running this tyre k more laps.
+
+        On this car's own rate (team-pooled practice deviation folded in), the
+        same rate its wear and cliff were computed from."""
         c = dt.compound
-        rate = (self.model.wear_rate[c] * self.m_prior)[idx]
+        rate = (self._rates(dt.code)[c] * self.m_prior)[idx]
         pace = self.model.pace_offset[c][idx]
         w0 = dt.wear[idx] if dt.wear is not None else np.zeros(len(idx))
         laps = np.arange(cur_lap, cur_lap + max(n_more, 0)) + 1
@@ -558,6 +706,27 @@ class RaceEngine:
             a1 = np.clip(stint_len_now + np.asarray(k), 0, len(e) - 1)
             return self.lam * (e[a1] - e[a0]) * dens[np.clip(cur_lap + np.asarray(k), 1, total) - 1]
 
+        # The circuit's first-stop prior, and only while the stop being priced
+        # still *is* the first one: a car on its opening set (stint index 0, one
+        # stint on record) is taking the decision the prior is about.  Later
+        # stints get nothing - the term would be pricing history against a
+        # decision the race has already overwritten.
+        first_stint = bool(len(tr.stints) <= 1 or (dt.stint_index or 0) == 0)
+        stops_taken = max(len([s for s in tr.stints if s.get("first_lap") is not None]) - 1, 0)
+
+        def first_stop_pen(p_laps, more_stops: int):
+            """Nats-weighted seconds on a first stop at lap(s) `p_laps`.
+
+            `more_stops` is how many stops the option still makes (1 for a
+            one-stop continuation, 2 for a two-stop), so the family the density is
+            conditioned on is the plan's *total* stop count - what the car has
+            already taken plus what it is about to.  On a first-stint car that is
+            simply `more_stops`.
+            """
+            if not first_stint:
+                return 0.0
+            return self._first_stop_pen(cur_c, p_laps, n_stops=stops_taken + int(more_stops))
+
         # -- phase 1: every option on this car's expected cost -------------------
         # per option: expected cost, kind, stop lap, legality, and the recipe
         # (compounds and laps) to price it on the draws if it makes the shortlist
@@ -571,7 +740,8 @@ class RaceEngine:
         P1, K1 = P1[keep], K1[keep]
         if len(P1):
             rem = total - P1
-            fixed1 = pit * np.where(P1 == now_lap, pit_now_factor, 1.0) + traffic * dens[np.clip(P1, 1, total) - 1]
+            fixed1 = (pit * np.where(P1 == now_lap, pit_now_factor, 1.0)
+                      + traffic * dens[np.clip(P1, 1, total) - 1] + first_stop_pen(P1, 1))
             for c2 in avail:
                 legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
                 means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + expo_cont(c2, K1))
@@ -585,7 +755,7 @@ class RaceEngine:
             P1p = np.array([a for a, _ in pairs]); P2p = np.array([b for _, b in pairs])
             K1p = P1p - cur_lap
             fixed2 = (pit * np.where(P1p == now_lap, pit_now_factor, 1.0) + pit
-                      + traffic * (dens[P1p - 1] + dens[P2p - 1]))
+                      + traffic * (dens[P1p - 1] + dens[P2p - 1]) + first_stop_pen(P1p, 2))
             for c2 in avail:
                 e1 = expo_cont(c2, K1p)
                 for c3 in avail:
@@ -641,13 +811,15 @@ class RaceEngine:
             elif c3 is None:
                 k = p - cur_lap
                 t = (cont[idx, k] + float(pit * (pit_now_factor if p == now_lap else 1.0) + traffic * dens[min(p, total) - 1])
-                     + tables[c2][idx, p, r1] + float(expo_cont(c2, np.array([k]))[0]))
+                     + tables[c2][idx, p, r1] + float(expo_cont(c2, np.array([k]))[0])
+                     + float(first_stop_pen(p, 1)))
             else:
                 k = p - cur_lap
                 p2 = p + r1
                 t = (cont[idx, k] + float(pit * (pit_now_factor if p == now_lap else 1.0) + pit
                                           + traffic * (dens[p - 1] + dens[p2 - 1]))
-                     + tables[c2][idx, p, r1] + tables[c3][idx, p2, r2] + float(expo_cont(c2, np.array([k]))[0]))
+                     + tables[c2][idx, p, r1] + tables[c3][idx, p2, r2] + float(expo_cont(c2, np.array([k]))[0])
+                     + float(first_stop_pen(p, 2)))
                 if expo is not None:
                     e2 = expo[(c2, c3)]
                     t = t + self.lam * e2[min(r1, len(e2) - 1)] * dens[p2 - 1]
@@ -688,6 +860,11 @@ class RaceEngine:
             "stint_cap": caps.get(dt.compound), "stint_len_now": int(stint_len_now),
             "box_now_label": (label_of(box_i)[0] if box_i is not None else None),
             "undercut_lambda": self.lam,
+            "first_stop_kappa_s": self.kappa,
+            "first_stop_prior_applies": bool(first_stint and self.first_stop_table is not None and self.kappa > 0),
+            "first_stop_s": (float(first_stop_pen(int(stop[best_i]), max(int(kind[best_i]), 1)))
+                             if stop[best_i] >= 0 else 0.0),
+            "first_stop_n_stops": (stops_taken + int(kind[best_i]) if stop[best_i] >= 0 else None),
         }
 
     def _density(self, total: int) -> np.ndarray:
@@ -867,7 +1044,10 @@ class RaceEngine:
                         "wear": float("nan"), "p_past_cliff": float("nan"),
                         "laps_to_cliff_p10": float("nan"), "laps_to_cliff_p50": float("nan"),
                         "laps_to_cliff_p90": float("nan"), "deg_now_s_per_lap": float("nan"),
-                        "level_s": float("nan"), "n_clean": 0, "proj": [], "cliff_alarm": False})
+                        "level_s": float("nan"), "n_clean": 0, "proj": [], "cliff_alarm": False,
+                        "pace_collapse": False, "collapse_kind": None, "collapse_knee_age": float("nan"),
+                        "collapse_slope_post": float("nan"), "collapse_why": None,
+                        "wear_alarm": False})
             if dt is not None and dt.wear is not None:
                 w = dt.weights if dt.weights is not None else np.ones(self.n) / self.n
                 row.update({"m_mean": dt.m_mean, "m_lo": dt.m_lo, "m_hi": dt.m_hi,
@@ -877,8 +1057,17 @@ class RaceEngine:
                             "laps_to_cliff_p90": dt.laps_to_cliff[2],
                             "deg_now_s_per_lap": dt.deg_now_s_per_lap, "level_s": dt.level_s,
                             "n_clean": int(dt.n_clean), "proj": dt.proj,
-                            "cliff_alarm": bool(dt.p_past_cliff >= CLIFF_ALARM_P
-                                                or dt.laps_to_cliff[1] <= 2.0)})
+                            # `cliff_alarm` is the key the app reads; it now carries
+                            # the *measured* collapse.  The model's wear-based
+                            # forecast is still here, under its own name.
+                            "cliff_alarm": bool(dt.pace_collapse),
+                            "pace_collapse": bool(dt.pace_collapse),
+                            "collapse_kind": dt.collapse.get("kind"),
+                            "collapse_knee_age": float(dt.collapse.get("knee_age", float("nan"))),
+                            "collapse_slope_post": float(dt.collapse.get("slope_post", float("nan"))),
+                            "collapse_why": dt.collapse.get("why"),
+                            "wear_alarm": bool(dt.p_past_cliff >= CLIFF_ALARM_P
+                                               or dt.laps_to_cliff[1] <= 2.0)})
             lap_no = int(tr.current["lap_number"]) if tr.current else 0
             if dt is not None and dt.wear is not None and not tr.retired and state.is_race \
                     and state.session_status not in ("Finished", "Finalised", "Ends"):
@@ -896,10 +1085,21 @@ class RaceEngine:
                 if plan is not None:
                     factor = plan.get("pit_now_factor", 1.0)
                     row["rejoin_if_box_now"] = self._rejoin(order, num, self.pit_loss_s * factor)
-                    if row["cliff_alarm"]:
-                        self._alert(state, num, "cliff", "bad",
-                                    f"CLIFF: P(past grip budget) {row['p_past_cliff']:.0%}, "
-                                    f"~{row['laps_to_cliff_p50']:.0f} laps left on the {dt.compound}", lap_no)
+                    if row["pace_collapse"]:
+                        self._alert(state, num, "collapse", "bad",
+                                    f"PACE COLLAPSE on the {dt.compound}: pace broke away at age "
+                                    f"{row['collapse_knee_age']:.0f}, now {row['collapse_slope_post']:+.2f} s/lap "
+                                    f"({row['collapse_kind']}); the model still gives it "
+                                    f"~{row['laps_to_cliff_p50']:.0f} laps", lap_no)
+                    # Box-now is within a tenth of the best plan: the decision is
+                    # live this lap.  Fired under a safety car too - the numbers
+                    # say the same thing - beside the SC-specific message below.
+                    if np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] <= BOX_NOW_TOL_S \
+                            and plan["best_kind"] > 0:
+                        rj = row.get("rejoin_if_box_now") or {}
+                        self._alert(state, num, "box_now", "warn",
+                                    f"BOX NOW is live: it costs {plan['delta_box_now_s']:+.1f} s against "
+                                    f"{plan['best']}; rejoin P{rj.get('position', '?')}", lap_no)
                     if sc and np.isfinite(plan["delta_box_now_s"]) and plan["delta_box_now_s"] < 0.5 \
                             and plan["best_kind"] > 0:
                         rj = row["rejoin_if_box_now"] or {}
@@ -943,6 +1143,10 @@ class RaceEngine:
                      "field_temperature": float(getattr(self, "field_temperature", 1.0)),
                      "sealed_file": self.wm.sealed_file, "n_draws": self.n,
                      "sc_active": sc, "tick": self.tick_no, "undercut_lambda": self.lam,
+                     "dirty_air_s_per_lap": self.dirty_air,
+                     "first_stop_kappa_s": self.kappa,
+                     "first_stop_prior": bool(self.first_stop_table is not None),
+                     "percar_pooled_drivers": len(self.pooled_dev),
                      "tick_utc": datetime.now(timezone.utc).isoformat()},
             "field": field,
             "alerts": list(self.alerts[-60:]),

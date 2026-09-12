@@ -1,0 +1,43 @@
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+australia-2026   lap-only MAE 0.055 (k_track relsd 0.261) joint MAE 0.058 (relsd 0.250, fit 12s) | best lap-only 1-stop M-H @ 16 joint 1-stop M-H @ 16
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+japan-2026       lap-only MAE 0.018 (k_track relsd 0.266) joint MAE 0.024 (relsd 0.241, fit 12s) | best lap-only 1-stop M-H @ 19 joint 1-stop M-H @ 33
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+barcelona-2026   lap-only MAE 0.051 (k_track relsd 0.262) joint MAE 0.058 (relsd 0.255, fit 15s) | best lap-only 3-stop M-M-S-S @ 16,32,49 joint 2-stop M-S-S @ 17,41
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+austria-2026     lap-only MAE 0.033 (k_track relsd 0.258) joint MAE 0.031 (relsd 0.251, fit 17s) | best lap-only 2-stop M-H-H @ 21,46 joint 2-stop M-H-M @ 23,48
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+belgium-2026     lap-only MAE 0.033 (k_track relsd 0.246) joint MAE 0.028 (relsd 0.247, fit 10s) | best lap-only 2-stop M-S-S @ 12,28 joint 2-stop M-S-S @ 12,28
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+hungary-2026     lap-only MAE 0.047 (k_track relsd 0.255) joint MAE 0.049 (relsd 0.244, fit 22s) | best lap-only 2-stop M-H-M @ 21,47 joint 2-stop S-M-H @ 19,44
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+italy-2026       lap-only MAE 0.030 (k_track relsd 0.241) joint MAE 0.030 (relsd 0.227, fit 12s) | best lap-only 1-stop M-H @ 22 joint 1-stop M-H @ 32
+         event  mae_lap_only  mae_joint  width_lap_only  width_joint  ktrack_relsd_lap_only  ktrack_relsd_joint             best_lap_only           best_joint  t_joint_s  t_lap_only_s
+australia-2026         0.055      0.058           0.117        0.101                  0.261               0.250           1-stop M-H @ 16      1-stop M-H @ 16       11.7           6.1
+    japan-2026         0.018      0.024           0.150        0.142                  0.266               0.241           1-stop M-H @ 19      1-stop M-H @ 33       12.3           6.9
+barcelona-2026         0.051      0.058           0.279        0.229                  0.262               0.255 3-stop M-M-S-S @ 16,32,49 2-stop M-S-S @ 17,41       14.7           7.0
+  austria-2026         0.033      0.031           0.186        0.176                  0.258               0.251      2-stop M-H-H @ 21,46 2-stop M-H-M @ 23,48       17.3           6.3
+  belgium-2026         0.033      0.028           0.179        0.160                  0.246               0.247      2-stop M-S-S @ 12,28 2-stop M-S-S @ 12,28       10.5           6.5
+  hungary-2026         0.047      0.049           0.162        0.156                  0.255               0.244      2-stop M-H-M @ 21,47 2-stop S-M-H @ 19,44       22.1           6.7
+    italy-2026         0.030      0.030           0.098        0.091                  0.241               0.227           1-stop M-H @ 22      1-stop M-H @ 32       12.4           8.0

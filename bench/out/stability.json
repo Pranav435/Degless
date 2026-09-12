@@ -7,38 +7,40 @@
    "seed": 0,
    "n_clean": 83,
    "n_apex": 0,
-   "rhat": 1.0045,
+   "rhat": 1.0149,
    "div": 0,
    "slopes_practice": {
-    "MEDIUM": 0.1231,
-    "SOFT": 0.2339
+    "MEDIUM": 0.1167,
+    "SOFT": 0.2369
    },
    "slopes_final": {
-    "MEDIUM": 0.1402,
-    "SOFT": 0.2223
+    "MEDIUM": 0.1241,
+    "SOFT": 0.2201
    },
-   "best": "2-stop S-M-S @ 20,44",
-   "tyre_optimal": "2-stop M-S-S @ 24,45",
+   "best": "2-stop M-M-S @ 24,48",
+   "tyre_optimal": "2-stop M-M-S @ 24,48",
    "push": 0.55,
+   "first_stop": 24,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "SOFT-MEDIUM-SOFT",
+     "MEDIUM-MEDIUM-SOFT",
      0.0,
-     1.0
+     0.96
     ],
     "3": [
-     "SOFT-MEDIUM-MEDIUM-SOFT",
-     7.8,
-     0.0
+     "MEDIUM-MEDIUM-SOFT-SOFT",
+     6.6,
+     0.04
     ]
    },
-   "rate_mae": 0.0821,
-   "rate_bias": 0.0666,
-   "cov90": 0.923,
+   "rate_mae": 0.0812,
+   "rate_bias": 0.067,
+   "cov90": 0.88,
    "rate_cov90": 0.571,
-   "t_prep_s": 17.8,
-   "t_fit_s": 463.5,
-   "t_strategy_s": 0.8
+   "t_prep_s": 0.3,
+   "t_fit_s": 3.0,
+   "t_strategy_s": 1.9
   },
   {
    "sessions": [
@@ -48,44 +50,46 @@
    "seed": 0,
    "n_clean": 222,
    "n_apex": 0,
-   "rhat": 1.0043,
+   "rhat": 1.0039,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.2557,
-    "MEDIUM": 0.2661,
-    "SOFT": 0.2483
+    "HARD": 0.2389,
+    "MEDIUM": 0.2647,
+    "SOFT": 0.2515
    },
    "slopes_final": {
-    "HARD": 0.1594,
-    "MEDIUM": 0.2115,
-    "SOFT": 0.2395
+    "HARD": 0.1576,
+    "MEDIUM": 0.2351,
+    "SOFT": 0.243
    },
-   "best": "2-stop S-M-S @ 21,43",
-   "tyre_optimal": "2-stop M-S-S @ 22,44",
+   "best": "2-stop M-H-H @ 19,43",
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
    "push": 0.55,
+   "first_stop": 19,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "SOFT-MEDIUM-SOFT",
+     "MEDIUM-HARD-HARD",
      0.0,
-     0.88
+     0.78
     ],
     "3": [
-     "SOFT-MEDIUM-MEDIUM-SOFT",
-     2.3,
-     0.12
+     "MEDIUM-MEDIUM-SOFT-SOFT",
+     3.0,
+     0.22
     ],
     "1": [
-     "MEDIUM-HARD",
-     55.9,
+     "HARD-MEDIUM",
+     64.5,
      0.0
     ]
    },
-   "rate_mae": 0.0427,
-   "rate_bias": 0.0224,
-   "cov90": 0.953,
-   "rate_cov90": 0.935,
-   "t_prep_s": 9.3,
-   "t_fit_s": 4.4,
+   "rate_mae": 0.0398,
+   "rate_bias": 0.0113,
+   "cov90": 0.93,
+   "rate_cov90": 0.871,
+   "t_prep_s": 0.6,
+   "t_fit_s": 3.3,
    "t_strategy_s": 1.1
   },
   {
@@ -97,45 +101,47 @@
    "seed": 0,
    "n_clean": 225,
    "n_apex": 0,
-   "rhat": 1.0049,
+   "rhat": 1.0038,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.2549,
-    "MEDIUM": 0.2665,
-    "SOFT": 0.2548
+    "HARD": 0.2393,
+    "MEDIUM": 0.2653,
+    "SOFT": 0.2574
    },
    "slopes_final": {
-    "HARD": 0.159,
-    "MEDIUM": 0.2117,
-    "SOFT": 0.2438
+    "HARD": 0.157,
+    "MEDIUM": 0.235,
+    "SOFT": 0.248
    },
-   "best": "2-stop S-M-S @ 21,43",
-   "tyre_optimal": "2-stop M-S-S @ 22,44",
+   "best": "2-stop M-H-H @ 19,43",
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
    "push": 0.55,
+   "first_stop": 19,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "SOFT-MEDIUM-SOFT",
+     "MEDIUM-HARD-HARD",
      0.0,
-     0.85
+     0.73
     ],
     "3": [
-     "SOFT-MEDIUM-MEDIUM-SOFT",
-     2.1,
-     0.15
+     "MEDIUM-MEDIUM-SOFT-SOFT",
+     2.6,
+     0.27
     ],
     "1": [
-     "MEDIUM-HARD",
-     56.1,
+     "HARD-MEDIUM",
+     64.3,
      0.0
     ]
    },
-   "rate_mae": 0.0427,
-   "rate_bias": 0.0224,
-   "cov90": 0.953,
-   "rate_cov90": 0.935,
-   "t_prep_s": 4.7,
-   "t_fit_s": 3.9,
-   "t_strategy_s": 1.1
+   "rate_mae": 0.0397,
+   "rate_bias": 0.0115,
+   "cov90": 0.932,
+   "rate_cov90": 0.871,
+   "t_prep_s": 0.9,
+   "t_fit_s": 3.1,
+   "t_strategy_s": 1.0
   },
   {
    "sessions": [
@@ -146,45 +152,47 @@
    "seed": 1,
    "n_clean": 225,
    "n_apex": 0,
-   "rhat": 1.0085,
+   "rhat": 1.0024,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.2524,
-    "MEDIUM": 0.2654,
-    "SOFT": 0.2552
+    "HARD": 0.2351,
+    "MEDIUM": 0.2637,
+    "SOFT": 0.2592
    },
    "slopes_final": {
-    "HARD": 0.1608,
-    "MEDIUM": 0.211,
-    "SOFT": 0.244
+    "HARD": 0.16,
+    "MEDIUM": 0.2338,
+    "SOFT": 0.2496
    },
-   "best": "2-stop S-M-S @ 21,43",
-   "tyre_optimal": "2-stop M-S-S @ 22,44",
+   "best": "2-stop M-H-H @ 19,43",
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
    "push": 0.55,
+   "first_stop": 19,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "SOFT-MEDIUM-SOFT",
+     "MEDIUM-HARD-HARD",
      0.0,
-     0.83
+     0.72
     ],
     "3": [
-     "SOFT-MEDIUM-MEDIUM-SOFT",
-     2.4,
-     0.17
+     "MEDIUM-MEDIUM-SOFT-SOFT",
+     2.1,
+     0.28
     ],
     "1": [
-     "MEDIUM-HARD",
-     56.8,
+     "HARD-MEDIUM",
+     64.7,
      0.0
     ]
    },
-   "rate_mae": 0.0425,
-   "rate_bias": 0.0218,
-   "cov90": 0.955,
-   "rate_cov90": 0.935,
+   "rate_mae": 0.0395,
+   "rate_bias": 0.0102,
+   "cov90": 0.932,
+   "rate_cov90": 0.871,
    "t_prep_s": 0.8,
-   "t_fit_s": 2.9,
-   "t_strategy_s": 1.1
+   "t_fit_s": 2.8,
+   "t_strategy_s": 1.0
   },
   {
    "sessions": [
@@ -195,45 +203,47 @@
    "seed": 2,
    "n_clean": 225,
    "n_apex": 0,
-   "rhat": 1.0028,
+   "rhat": 1.0066,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.2549,
-    "MEDIUM": 0.2668,
-    "SOFT": 0.2549
+    "HARD": 0.2379,
+    "MEDIUM": 0.266,
+    "SOFT": 0.2581
    },
    "slopes_final": {
-    "HARD": 0.1613,
-    "MEDIUM": 0.2117,
-    "SOFT": 0.2439
+    "HARD": 0.1604,
+    "MEDIUM": 0.2355,
+    "SOFT": 0.2483
    },
-   "best": "2-stop S-M-S @ 21,43",
-   "tyre_optimal": "2-stop M-S-S @ 22,44",
+   "best": "2-stop M-H-H @ 19,43",
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
    "push": 0.55,
+   "first_stop": 19,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "SOFT-MEDIUM-SOFT",
+     "MEDIUM-HARD-HARD",
      0.0,
-     0.83
+     0.72
     ],
     "3": [
-     "SOFT-MEDIUM-MEDIUM-SOFT",
-     2.1,
-     0.17
+     "MEDIUM-MEDIUM-SOFT-SOFT",
+     2.0,
+     0.28
     ],
     "1": [
-     "MEDIUM-HARD",
-     56.0,
+     "HARD-MEDIUM",
+     63.2,
      0.0
     ]
    },
-   "rate_mae": 0.0424,
-   "rate_bias": 0.0215,
-   "cov90": 0.957,
-   "rate_cov90": 0.935,
+   "rate_mae": 0.0395,
+   "rate_bias": 0.0099,
+   "cov90": 0.932,
+   "rate_cov90": 0.871,
    "t_prep_s": 0.8,
-   "t_fit_s": 2.8,
-   "t_strategy_s": 1.1
+   "t_fit_s": 2.7,
+   "t_strategy_s": 1.0
   }
  ],
  "hungary-2026": [
@@ -244,45 +254,47 @@
    "seed": 0,
    "n_clean": 155,
    "n_apex": 0,
-   "rhat": 1.003,
+   "rhat": 1.0058,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.0932,
+    "HARD": 0.0899,
     "MEDIUM": 0.1231,
-    "SOFT": 0.1392
+    "SOFT": 0.1453
    },
    "slopes_final": {
-    "HARD": 0.094,
-    "MEDIUM": 0.1141,
-    "SOFT": 0.1532
+    "HARD": 0.1085,
+    "MEDIUM": 0.134,
+    "SOFT": 0.1858
    },
-   "best": "2-stop M-H-H @ 21,45",
+   "best": "2-stop M-H-M @ 22,45",
    "tyre_optimal": "2-stop M-M-S @ 25,51",
    "push": 0.55,
+   "first_stop": 22,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "MEDIUM-HARD-HARD",
+     "MEDIUM-HARD-MEDIUM",
      0.0,
      1.0
     ],
     "3": [
      "MEDIUM-HARD-HARD-SOFT",
-     9.0,
+     10.3,
      0.0
     ],
     "1": [
      "MEDIUM-HARD",
-     10.9,
+     13.3,
      0.0
     ]
    },
-   "rate_mae": 0.0489,
-   "rate_bias": -0.0184,
-   "cov90": 0.941,
-   "rate_cov90": 0.884,
-   "t_prep_s": 3.2,
-   "t_fit_s": 3.7,
-   "t_strategy_s": 1.0
+   "rate_mae": 0.0452,
+   "rate_bias": 0.0087,
+   "cov90": 0.924,
+   "rate_cov90": 0.791,
+   "t_prep_s": 0.3,
+   "t_fit_s": 2.9,
+   "t_strategy_s": 1.1
   },
   {
    "sessions": [
@@ -292,45 +304,47 @@
    "seed": 0,
    "n_clean": 184,
    "n_apex": 0,
-   "rhat": 1.0051,
+   "rhat": 1.0028,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.0884,
-    "MEDIUM": 0.1125,
-    "SOFT": 0.1019
+    "HARD": 0.0846,
+    "MEDIUM": 0.1114,
+    "SOFT": 0.1045
    },
    "slopes_final": {
-    "HARD": 0.0912,
-    "MEDIUM": 0.1077,
-    "SOFT": 0.1291
+    "HARD": 0.1069,
+    "MEDIUM": 0.1275,
+    "SOFT": 0.1542
    },
-   "best": "2-stop M-H-H @ 22,45",
+   "best": "2-stop M-H-M @ 22,45",
    "tyre_optimal": "2-stop M-M-S @ 25,51",
    "push": 0.55,
+   "first_stop": 22,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "MEDIUM-HARD-HARD",
+     "MEDIUM-HARD-MEDIUM",
      0.0,
      1.0
     ],
-    "1": [
-     "MEDIUM-HARD",
-     9.6,
-     0.0
-    ],
     "3": [
      "MEDIUM-HARD-HARD-SOFT",
-     9.7,
+     11.0,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     12.6,
      0.0
     ]
    },
-   "rate_mae": 0.0449,
-   "rate_bias": -0.0112,
-   "cov90": 0.941,
-   "rate_cov90": 0.907,
+   "rate_mae": 0.045,
+   "rate_bias": 0.0137,
+   "cov90": 0.924,
+   "rate_cov90": 0.791,
    "t_prep_s": 0.5,
-   "t_fit_s": 3.8,
-   "t_strategy_s": 1.0
+   "t_fit_s": 3.0,
+   "t_strategy_s": 1.1
   },
   {
    "sessions": [
@@ -340,45 +354,47 @@
    "seed": 1,
    "n_clean": 184,
    "n_apex": 0,
-   "rhat": 1.0049,
+   "rhat": 1.0063,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.0892,
-    "MEDIUM": 0.1142,
-    "SOFT": 0.1027
+    "HARD": 0.0861,
+    "MEDIUM": 0.1143,
+    "SOFT": 0.1064
    },
    "slopes_final": {
-    "HARD": 0.0917,
-    "MEDIUM": 0.1089,
-    "SOFT": 0.1295
+    "HARD": 0.1066,
+    "MEDIUM": 0.1281,
+    "SOFT": 0.1542
    },
-   "best": "2-stop M-H-H @ 22,45",
+   "best": "2-stop M-H-M @ 22,45",
    "tyre_optimal": "2-stop M-M-S @ 25,51",
    "push": 0.55,
+   "first_stop": 22,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "MEDIUM-HARD-HARD",
+     "MEDIUM-HARD-MEDIUM",
      0.0,
      1.0
     ],
-    "1": [
-     "MEDIUM-HARD",
-     9.6,
-     0.0
-    ],
     "3": [
      "MEDIUM-HARD-HARD-SOFT",
-     9.7,
+     11.3,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     12.1,
      0.0
     ]
    },
    "rate_mae": 0.045,
-   "rate_bias": -0.0117,
-   "cov90": 0.941,
-   "rate_cov90": 0.884,
+   "rate_bias": 0.0137,
+   "cov90": 0.924,
+   "rate_cov90": 0.791,
    "t_prep_s": 0.6,
    "t_fit_s": 2.0,
-   "t_strategy_s": 1.0
+   "t_strategy_s": 1.1
   },
   {
    "sessions": [
@@ -388,44 +404,46 @@
    "seed": 2,
    "n_clean": 184,
    "n_apex": 0,
-   "rhat": 1.0085,
+   "rhat": 1.0102,
    "div": 0,
    "slopes_practice": {
-    "HARD": 0.0877,
-    "MEDIUM": 0.1103,
-    "SOFT": 0.1001
+    "HARD": 0.0846,
+    "MEDIUM": 0.1105,
+    "SOFT": 0.1038
    },
    "slopes_final": {
-    "HARD": 0.0909,
-    "MEDIUM": 0.1065,
-    "SOFT": 0.1279
+    "HARD": 0.1073,
+    "MEDIUM": 0.1267,
+    "SOFT": 0.1539
    },
-   "best": "2-stop M-H-H @ 22,45",
+   "best": "2-stop M-H-M @ 22,45",
    "tyre_optimal": "2-stop M-M-S @ 25,51",
    "push": 0.55,
+   "first_stop": 22,
+   "first_stop_s": 0.0,
    "by_stops": {
     "2": [
-     "MEDIUM-HARD-HARD",
+     "MEDIUM-HARD-MEDIUM",
      0.0,
-     0.99
-    ],
-    "1": [
-     "MEDIUM-HARD",
-     8.8,
-     0.01
+     1.0
     ],
     "3": [
      "MEDIUM-HARD-HARD-SOFT",
-     9.9,
+     11.3,
+     0.0
+    ],
+    "1": [
+     "MEDIUM-HARD",
+     12.2,
      0.0
     ]
    },
-   "rate_mae": 0.0446,
-   "rate_bias": -0.0104,
-   "cov90": 0.939,
-   "rate_cov90": 0.884,
-   "t_prep_s": 0.5,
-   "t_fit_s": 2.5,
+   "rate_mae": 0.045,
+   "rate_bias": 0.0138,
+   "cov90": 0.924,
+   "rate_cov90": 0.791,
+   "t_prep_s": 0.6,
+   "t_fit_s": 2.6,
    "t_strategy_s": 1.0
   }
  ]

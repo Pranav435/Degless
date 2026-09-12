@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "year": 2023,
+ "circuit": "Suzuka",
+ "event": "2023-suzuka",
+ "checked": 1789217192.3281448,
+ "ratio": 0.35168622371751146,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": 0.41727066936305707,
+   "race_s_per_lap": 0.1170592163393218,
+   "ratio": 0.2805354532059655,
+   "n_practice_laps": 12,
+   "n_race_laps": 415,
+   "usable": true
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": 0.28868351621982474,
+   "race_s_per_lap": 0.10491670334643925,
+   "ratio": 0.3634315693541297,
+   "n_practice_laps": 58,
+   "n_race_laps": 206,
+   "usable": true
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.3216370722183774,
+   "race_s_per_lap": 0.11731558181877517,
+   "ratio": 0.3647452111463167,
+   "n_practice_laps": 38,
+   "n_race_laps": 38,
+   "usable": true
+  }
+ },
+ "n_race_stints": 45,
+ "n_practice_stints": 16,
+ "usable_compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "n_race_laps": 53,
+ "n_clean_practice_laps": 108,
+ "sessions_used": [
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [
+  "Practice 1"
+ ],
+ "rain": false,
+ "track_temp_practice_c": 38.6,
+ "track_temp_race_c": 43.2,
+ "evolution_range_s": 0.9008158803569346
+}

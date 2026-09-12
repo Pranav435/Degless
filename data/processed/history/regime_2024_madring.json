@@ -1,0 +1,11 @@
+{
+ "version": 1,
+ "year": 2024,
+ "circuit": "Madring",
+ "event": "2024-madring",
+ "checked": 1789217616.145629,
+ "missing": true,
+ "why": "no race",
+ "retry": true,
+ "error": "nearest 2024 event is Singapore Grand Prix at Marina Bay, not Madring"
+}

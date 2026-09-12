@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "year": 2024,
+ "circuit": "Budapest",
+ "event": "2024-budapest",
+ "checked": 1789217376.432873,
+ "ratio": 0.44889653985331274,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": 0.17585502317518398,
+   "race_s_per_lap": 0.07086385725814337,
+   "ratio": 0.40296748980294933,
+   "n_practice_laps": 31,
+   "n_race_laps": 786,
+   "usable": true
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": 0.13278465091780337,
+   "race_s_per_lap": 0.061005355141467946,
+   "ratio": 0.45943077546840566,
+   "n_practice_laps": 179,
+   "n_race_laps": 375,
+   "usable": true
+  }
+ },
+ "n_race_stints": 50,
+ "n_practice_stints": 43,
+ "usable_compounds": [
+  "HARD",
+  "MEDIUM"
+ ],
+ "n_race_laps": 70,
+ "n_clean_practice_laps": 273,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 50.99743589743589,
+ "track_temp_race_c": 45.1,
+ "evolution_range_s": 1.2629171671771349
+}

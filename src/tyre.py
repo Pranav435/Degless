@@ -338,7 +338,8 @@ class TyreModel:
                               pace_offset={c: self.pace_offset[c][idx] for c in self.compounds},
                               n_draws=len(idx), source=source, driver_dev=dev)
 
-    def for_driver(self, driver: str, *, race_factor: float = 1.0, practice_dev: bool = True) -> "TyreModel":
+    def for_driver(self, driver: str, *, race_factor=1.0, practice_dev: bool = True,
+                   dev_override: dict | None = None, factor_shrink: float | None = 1.0) -> "TyreModel":
         """This model as it applies to one car.
 
         Two per-car terms.  `race_factor` is the driver's multiplicative rate
@@ -347,15 +348,36 @@ class TyreModel:
         per-driver, per-compound slope deviation `dev[d, c]` is added where
         the driver ran long runs this weekend.  Both are shrunk toward the
         field by their estimators, so an unknown driver gets the field model.
+
+        `race_factor` may be a float (as every V2 caller passes) or a dict
+        `{"factor", "ln_sd"}` carrying how precisely it was measured.  It is
+        shrunk toward 1 on the log scale by `factor_shrink`: a float is the
+        share of `log factor` that survives, `1.0` (the default) applies the
+        factor as measured, and `None` derives the share from the dict's
+        `ln_sd` via `percar.shrink_factor`.  Shrinking matters because an
+        unshrunk factor from one noisy race moves a plan as far as one measured
+        across a season.
+
+        `dev_override` replaces this driver's practice deviation — the
+        team-pooled value, normally, so that a car with no long run on a
+        compound inherits its team-mate's behaviour rather than the field's.
         """
+        f, ln_sd = (float(race_factor.get("factor", 1.0)), race_factor.get("ln_sd")) \
+            if isinstance(race_factor, dict) else (float(race_factor), None)
+        if factor_shrink is None:
+            from src.percar import shrink_factor
+            f = shrink_factor(f, ln_sd)
+        elif float(factor_shrink) != 1.0:
+            f = float(np.exp(np.log(max(f, 1e-6)) * float(factor_shrink)))
         wr = {}
-        dd = self.driver_dev.get(driver, {}) if practice_dev else {}
+        dd = dev_override if dev_override is not None else (self.driver_dev.get(driver, {}) if practice_dev else {})
         for c in self.compounds:
             rate = self.wear_rate[c] * self.budgets[c]
             if c in dd:
                 rate = np.maximum(rate + dd[c], 1e-3)
-            wr[c] = rate * float(race_factor) / self.budgets[c]
-        return self.copy_with(wear_rate=wr, source=f"{self.source} [{driver} x{race_factor:.2f}]")
+            wr[c] = rate * f / self.budgets[c]
+        tag = "" if dev_override is None else " pooled dev"
+        return self.copy_with(wear_rate=wr, source=f"{self.source} [{driver} x{f:.2f}{tag}]")
 
     # -- derived quantities ------------------------------------------------
 

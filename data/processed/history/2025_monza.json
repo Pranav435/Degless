@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2025,
  "circuit": "Monza",
  "event": "Italian Grand Prix",
@@ -31,6 +31,181 @@
   "n": 17,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "HARD",
+   "laps": 41,
+   "in_lap": 41,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "ANT",
+   "compound": "MEDIUM",
+   "laps": 28,
+   "in_lap": 28,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "BEA",
+   "compound": "MEDIUM",
+   "laps": 18,
+   "in_lap": 18,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "BOR",
+   "compound": "MEDIUM",
+   "laps": 20,
+   "in_lap": 20,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "COL",
+   "compound": "MEDIUM",
+   "laps": 33,
+   "in_lap": 33,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "HARD",
+   "laps": 49,
+   "in_lap": 49,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HAD",
+   "compound": "HARD",
+   "laps": 32,
+   "in_lap": 32,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 38,
+   "in_lap": 38,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "LAW",
+   "compound": "SOFT",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 33,
+   "in_lap": 33,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 46,
+   "in_lap": 46,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 45,
+   "in_lap": 45,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 27,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 30,
+   "in_lap": 30,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "HARD",
+   "laps": 49,
+   "in_lap": 49,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 19,
+   "in_lap": 19,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 37,
+   "in_lap": 37,
+   "n_stops": 1,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 33.0,
+  "p25": 27.0,
+  "p75": 41.0,
+  "n": 17,
+  "in_laps": [
+   9,
+   18,
+   19,
+   20,
+   27,
+   28,
+   30,
+   32,
+   33,
+   33,
+   37,
+   38,
+   41,
+   45,
+   46,
+   49,
+   49
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.10204240663108788,
+  "se": 0.030226033830488473,
+  "n_laps": 897,
+  "share_close": 0.5997770345596433,
+  "event": "italy-2026"
+ },
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 16,

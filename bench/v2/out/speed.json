@@ -1,0 +1,262 @@
+{
+ "event": "barcelona-2026",
+ "n_clean_laps": 225,
+ "n_apex": 900,
+ "n_strategies": 619896,
+ "stages": [
+  {
+   "stage": "import jax+numpyro",
+   "seconds": 0.456
+  },
+  {
+   "stage": "load practice laps (FastF1 cache)",
+   "seconds": 0.778
+  },
+  {
+   "stage": "lap table + clean cascade",
+   "seconds": 0.008
+  },
+  {
+   "stage": "fuel + track evolution",
+   "seconds": 0.016
+  },
+  {
+   "stage": "circuit history prior (cached) + ladder + plan prior",
+   "seconds": 0.068
+  },
+  {
+   "stage": "compound pace-step prior (donor races + circuit)",
+   "seconds": 0.025
+  },
+  {
+   "stage": "regime prior (donor races, temperature model)",
+   "seconds": 0.057
+  },
+  {
+   "stage": "MixedLM, no bootstrap",
+   "seconds": 0.04
+  },
+  {
+   "stage": "MixedLM, 50 stint bootstraps",
+   "seconds": 1.665
+  },
+  {
+   "stage": "NUTS 4x1500x1500 lap-time only, linear, soft ladder (production)",
+   "seconds": 6.648
+  },
+  {
+   "stage": "NUTS 2x800x800 lap-time only (weekend refit)",
+   "seconds": 3.58
+  },
+  {
+   "stage": "NUTS 2x800x800 lap-time only, hinge (diagnostic)",
+   "seconds": 4.323
+  },
+  {
+   "stage": "apex speeds (cached) + corner selection",
+   "seconds": 6.063
+  },
+  {
+   "stage": "NUTS 4x1500x1500 joint lap-time + apex (diagnostic)",
+   "seconds": 12.572
+  },
+  {
+   "stage": "circuit history combination",
+   "seconds": 0.004
+  },
+  {
+   "stage": "seal predictions",
+   "seconds": 0.015
+  },
+  {
+   "stage": "load race laps + lap table",
+   "seconds": 1.401
+  },
+  {
+   "stage": "score race",
+   "seconds": 0.019
+  },
+  {
+   "stage": "strategy search 500 draws, 1-lap grid, full objective (production)",
+   "seconds": 0.68
+  },
+  {
+   "stage": "strategy search with pace calibration (2-3 searches)",
+   "seconds": 1.314
+  },
+  {
+   "stage": "strategy search 500 draws, 2-lap grid",
+   "seconds": 0.588
+  },
+  {
+   "stage": "strategy search 200 draws, 1-lap grid",
+   "seconds": 0.477
+  },
+  {
+   "stage": "pit window sweep (position term)",
+   "seconds": 0.058
+  },
+  {
+   "stage": "undercut window",
+   "seconds": 0.001
+  },
+  {
+   "stage": "counterfactual (all drivers, vectorised, SC-aware, per-car)",
+   "seconds": 1.281
+  },
+  {
+   "stage": "per-car plans (20 drivers, 2-lap grid)",
+   "seconds": 7.073
+  },
+  {
+   "stage": "replay precompute",
+   "seconds": 0.042
+  },
+  {
+   "stage": "desk: evaluate 3 plans",
+   "seconds": 0.019
+  },
+  {
+   "stage": "desk: degradation crossover (21 multipliers)",
+   "seconds": 0.114
+  },
+  {
+   "stage": "desk: safety-car playbook",
+   "seconds": 0.092
+  },
+  {
+   "stage": "desk: value of information",
+   "seconds": 0.007
+  },
+  {
+   "stage": "desk: undercut duel",
+   "seconds": 0.0
+  },
+  {
+   "stage": "outlook build (300 draws, scenarios)",
+   "seconds": 3.43
+  },
+  {
+   "stage": "app cold start (streamlit AppTest)",
+   "seconds": 265.948
+  }
+ ],
+ "peak_rss_mb": 2090.0,
+ "app_exceptions": 0,
+ "import_retimed_s": "0.569674015045166",
+ "pipeline_runtime_recorded_s": {
+  "australia-2026": {
+   "total": 364.3,
+   "decide": 11.3,
+   "timings": {
+    "load_practice_s": 305.4,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.2,
+    "apex_s": 0.0,
+    "fit_production_s": 6.9,
+    "fit_diagnostics_s": 39.0,
+    "score_s": 2.9,
+    "search_s": 1.1,
+    "counterfactual_s": 1.1,
+    "per_driver_s": 6.0
+   }
+  },
+  "japan-2026": {
+   "total": 265.0,
+   "decide": 200.0,
+   "timings": {
+    "load_practice_s": 14.9,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.4,
+    "apex_s": 0.0,
+    "fit_production_s": 6.7,
+    "fit_diagnostics_s": 41.6,
+    "score_s": 1.0,
+    "search_s": 1.1,
+    "counterfactual_s": 33.8,
+    "per_driver_s": 6.6
+   }
+  },
+  "barcelona-2026": {
+   "total": 249.1,
+   "decide": 119.7,
+   "timings": {
+    "load_practice_s": 77.8,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.6,
+    "apex_s": 0.0,
+    "fit_production_s": 7.9,
+    "fit_diagnostics_s": 41.6,
+    "score_s": 103.3,
+    "search_s": 1.3,
+    "counterfactual_s": 1.2,
+    "per_driver_s": 7.1
+   }
+  },
+  "austria-2026": {
+   "total": 221.6,
+   "decide": 42.2,
+   "timings": {
+    "load_practice_s": 121.8,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.5,
+    "apex_s": 0.0,
+    "fit_production_s": 7.7,
+    "fit_diagnostics_s": 48.0,
+    "score_s": 13.4,
+    "search_s": 1.4,
+    "counterfactual_s": 1.9,
+    "per_driver_s": 8.4
+   }
+  },
+  "belgium-2026": {
+   "total": 113.6,
+   "decide": 16.5,
+   "timings": {
+    "load_practice_s": 57.3,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.7,
+    "apex_s": 0.0,
+    "fit_production_s": 7.0,
+    "fit_diagnostics_s": 30.6,
+    "score_s": 3.0,
+    "search_s": 0.9,
+    "counterfactual_s": 0.8,
+    "per_driver_s": 4.8
+   }
+  },
+  "hungary-2026": {
+   "total": 85.1,
+   "decide": 26.4,
+   "timings": {
+    "load_practice_s": 6.7,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.3,
+    "apex_s": 0.0,
+    "fit_production_s": 7.3,
+    "fit_diagnostics_s": 43.1,
+    "score_s": 5.7,
+    "search_s": 1.3,
+    "counterfactual_s": 2.1,
+    "per_driver_s": 8.7
+   }
+  },
+  "italy-2026": {
+   "total": 132.6,
+   "decide": 33.4,
+   "timings": {
+    "load_practice_s": 49.2,
+    "priors_s": 0.2,
+    "mixedlm_s": 1.4,
+    "apex_s": 0.0,
+    "fit_production_s": 7.8,
+    "fit_diagnostics_s": 40.4,
+    "score_s": 6.8,
+    "search_s": 1.0,
+    "counterfactual_s": 1.2,
+    "per_driver_s": 6.3
+   }
+  }
+ },
+ "weekend_runtime_recorded": {}
+}

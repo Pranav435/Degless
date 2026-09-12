@@ -52,6 +52,26 @@ historical sequence and start-compound frequencies enter as
 `tau * (-log p(family))` (`plan_prior_penalty`), so the sealed model can no
 longer do worse on plan shape than its own history-only prior did.
 
+**The circuit's first-stop history, on the first stop only.**  The same
+argument applies to *when* the field stops, and the first stop is the decision
+the cost surface is worst at: benchmarked on the three non-safety-car 2026
+weekends the position-aware objective was still 4-9 laps late.  So the
+circuit's own green-flag first stops enter as a density over the first-stop lap
+(`src.firststop`) at `kappa * neglogp[first stop]` seconds - zero at the modal
+lap, a few tenths across the plausible window, several seconds where the
+circuit has never stopped.  Only the first stop: everything after it is
+re-decidable on the day, and a lap-2 prior would be pricing a decision the
+race has already rewritten.  Green-flag stops only, and a safety-car stop is
+held fixed wherever the term appears, so it cancels rather than being judged.
+
+So the objective has **four race terms** beyond the tyre and the pit lane:
+dirty air at the rejoin, the safety-car option's credit, the undercut exposure
+of every stop lap at `lambda`, and the two history priors - `tau` on the plan
+family and `kappa` on the first-stop lap.  Each is calibrated leave-one-out and
+each can be switched off by setting its weight to zero, which is what the
+ablations do; with all of them at zero the winner is the `tyre_optimal` plan,
+reported beside the recommendation whatever the weights are.
+
 What is still *not* priced: track position as a race-long state beyond the
 undercut, the starting-tyre rule, and any interaction with what other cars
 do.  Those are real and they are why a recommendation here is an input to a
@@ -91,6 +111,13 @@ from src.regime import RegimeFactor
 from src.tyre import TyreModel, grip_loss, load_profile, manage_cost, wear_multiplier
 
 log = logging.getLogger("degless.strategy")
+
+# `search_with_pace_calibration`: the calibration length and the plan it comes
+# from have to be the same number, and the length has to sit where the net step
+# is defined at all (inside the tyres' lives, before the cliff bends the loss).
+MAX_PASSES = 4               # calibrate -> search passes before giving up on a fixed point
+PACE_CAL_TOL_LAPS = 2.5      # two stint lengths this close are the same decision
+LIFE_CAP_FRACTION = 0.9      # of the shortest mean compound life at the plan's push
 
 
 def is_sc_status(status) -> bool:
@@ -303,6 +330,54 @@ def plan_prior_penalty(seq, prior: dict | None, tau_s: float, *, alpha: float = 
     return float(tau_s * max(np.log(p_max) - np.log(p), 0.0))
 
 
+def first_stop_penalty(start_compound, first_stop_lap, prior: dict | None, kappa_s: float,
+                       n_stops=None):
+    """Seconds of handicap the first stop carries for being early or late here.
+
+    `prior` is `firststop.first_stop_penalty_table(...)`:
+    `prior[compound][n_stops]` is an array indexed by the in-lap, in nats above
+    the circuit's modal first stop *for a plan with that many stops*, with
+    `prior[compound]["any"]` the unconditional density.  `first_stop_lap` may be
+    a scalar or an integer array (the whole family's stop laps at once); the
+    result matches.  A plan with no stop, no prior, or `kappa_s = 0` pays
+    nothing - which is the V2 objective exactly.
+
+    Conditioning on the stop count matters because a first stop is the opening
+    move of a plan: a circuit's two-stoppers box five to eight laps earlier than
+    its one-stoppers, and charging a one-stop plan the pooled density pulls it
+    toward a lap that only makes sense if you are stopping again.  Where the
+    circuit has no history for that family the table's `"any"` entry backs it
+    off; an old-style flat `{compound: array}` table is still accepted.
+
+    Index 0 of each array is zero and laps outside the legal window carry the
+    density's bounded floor, so no clipping beyond the array's own length is
+    needed and a lap nobody has stopped on is expensive rather than impossible.
+    """
+    k = float(kappa_s or 0.0)
+    if not prior or k == 0.0 or first_stop_lap is None:
+        return 0.0
+    per = prior.get(str(start_compound)) if hasattr(prior, "get") else None
+    if per is None:
+        return 0.0
+    if isinstance(per, dict):
+        tbl = None
+        if n_stops is not None:
+            try:
+                tbl = per.get(int(n_stops))
+            except (TypeError, ValueError):
+                tbl = None
+        if tbl is None:
+            tbl = per.get("any")
+        if tbl is None:
+            return 0.0
+    else:
+        tbl = per                       # the pre-conditioning table shape
+    tbl = np.asarray(tbl, dtype=float)
+    lap = np.clip(np.asarray(first_stop_lap, dtype=int), 0, len(tbl) - 1)
+    pen = k * tbl[lap]
+    return float(pen) if np.ndim(first_stop_lap) == 0 else pen
+
+
 # --------------------------------------------------------------------------
 # Stint cost: the tyre model, evaluated over the posterior
 # --------------------------------------------------------------------------
@@ -479,6 +554,7 @@ class StrategyResult:
     undercut_lambda: float = 0.0
     plan_prior_tau_s: float = 0.0
     plan_prior_source: str = ""
+    first_stop_kappa_s: float = 0.0
 
     def head(self, n: int = 10) -> pd.DataFrame:
         return self.table.head(n)
@@ -510,7 +586,8 @@ def simulate(fit, event: Event | str, pit_loss_s: float, *,
 
     Subsamples `n_draws` posterior draws into a `TyreModel` and hands over to
     `simulate_model`.  Extra keyword arguments (`undercut_lambda`,
-    `plan_prior`, `plan_prior_tau_s`, `traffic_s_per_lap`, ...) go through.
+    `plan_prior`, `plan_prior_tau_s`, `first_stop_prior`, `first_stop_kappa_s`,
+    `traffic_s_per_lap`, ...) go through.
     """
     ev = get_event(event) if isinstance(event, str) else event
     total_draws = fit.posterior["lin"].shape[0]
@@ -535,7 +612,9 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
                    sc_rate: float = SC_RATE_PER_LAP,
                    traffic_s_per_lap: float = DIRTY_AIR_S_PER_LAP,
                    undercut_lambda: float = 0.0,
-                   plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0) -> StrategyResult:
+                   plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0,
+                   first_stop_prior: dict | None = None,
+                   first_stop_kappa_s: float = 0.0) -> StrategyResult:
     """Rank every legal (plan, push level) pair, then score a shortlist over
     the posterior draws carried by `model`.
 
@@ -547,20 +626,24 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
     2. the best `shortlist` plans by that cost are re-costed on every draw.
 
     The objective is the tyre cost plus pit lane, traffic and the safety-car
-    option, plus two terms that are about the *race* rather than the tyre:
-    `undercut_lambda` times the undercut exposure of every stop lap, and the
-    plan-family prior `plan_prior_tau_s * (-log p(family))`.  Both default to
-    zero; the plan that wins with both at zero is reported as `tyre_optimal`
-    whatever they are set to, so a reader always sees what the position terms
-    changed.  The best plan at each stop count and for each starting compound
-    is always scored, so "the one-stop is 9 s slower" is a sentence with a
-    number in it.
+    option, plus three terms that are about the *race* rather than the tyre:
+    `undercut_lambda` times the undercut exposure of every stop lap, the
+    plan-family prior `plan_prior_tau_s * (-log p(family))`, and the circuit's
+    first-stop density `first_stop_kappa_s * (-log p(first stop lap))` charged
+    on the first stop alone (zero for a plan that never stops).  All three
+    default to zero; the plan that wins with all of them at zero is reported as
+    `tyre_optimal` whatever they are set to, so a reader always sees what the
+    race terms changed.  The best plan at each stop count and for each starting
+    compound is always scored, so "the one-stop is 9 s slower" is a sentence
+    with a number in it.
     """
     ev = get_event(event) if isinstance(event, str) else event
     n_laps = ev.n_race_laps
     nd = model.n_draws
     lam = float(undercut_lambda or 0.0)
     tau = float(plan_prior_tau_s or 0.0)
+    kappa = float(first_stop_kappa_s or 0.0)
+    fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
 
     caps = life_caps(model, ev, push=min(push_grid), support=support)
     if isinstance(max_stint, dict):        # caller override, if any
@@ -589,6 +672,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
 
     # -- phase 1: cost every plan at every push, keep the best push ---------
     fam_full, fam_tyre, fam_push, fam_pos, fam_prior, n_total = [], [], [], [], [], 0
+    fam_first = []
     dens = traffic_density(ev)
     for seq, lens, starts in zip(seqs, lens_all, starts_all):
         pits = starts[:, 1:]
@@ -603,6 +687,12 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
                       * (1.0 - SC_PIT_LOSS_FRACTION) * pit_loss_s)
         fixed += grid_penalty_s * float(_rank[seq[0]])
         prior_pen = plan_prior_penalty(seq, plan_prior, tau) if tau > 0 else 0.0
+        # The first-stop prior depends on the start compound, the stop count and
+        # the first stop lap, none of which the push level moves, so it is priced
+        # once per family here and carried through both phases unchanged.
+        first_pen = (first_stop_penalty(seq[0], pits[:, 0], fsp, kappa, n_stops=len(seq) - 1)
+                     if (fsp is not None and pits.shape[1]) else np.zeros(len(lens)))
+        first_pen = np.broadcast_to(np.asarray(first_pen, dtype=float), (len(lens),))
         best_full = best_tyre = None
         for p in push_grid:
             t = fixed.copy()
@@ -613,7 +703,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
                 for k in range(len(seq) - 1):
                     e = expos[p][(seq[k], seq[k + 1])]
                     pos += e[np.clip(lens[:, k], 0, max_len)] * dens[np.clip(pits[:, k], 1, n_laps) - 1]
-            full = t + lam * pos + prior_pen
+            full = t + lam * pos + prior_pen + first_pen
             if best_full is None:
                 best_full, bp, bpos, best_tyre = full, np.full(len(lens), p, dtype=float), pos, t
             else:
@@ -627,6 +717,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
         fam_push.append(bp)
         fam_pos.append(bpos)
         fam_prior.append(np.full(len(lens), prior_pen))
+        fam_first.append(np.asarray(first_pen, dtype=float))
         n_total += len(lens)
 
     flat = np.concatenate(fam_full)
@@ -634,6 +725,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
     flat_push = np.concatenate(fam_push)
     flat_pos = np.concatenate(fam_pos)
     flat_prior = np.concatenate(fam_prior)
+    flat_first = np.concatenate(fam_first)
     keep = min(shortlist, len(flat))
     order = np.argpartition(flat, keep - 1)[:keep]
     bounds = np.cumsum([0] + [len(x) for x in fam_full])
@@ -668,6 +760,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
         fixed -= safety_car_credit(ev, pits, pit_loss_s, rate=sc_rate)
         fixed += grid_penalty_s * float(_rank[seq[0]])
         fixed += lam * float(flat_pos[order[i]]) + float(flat_prior[order[i]])
+        fixed += float(flat_first[order[i]])
         t = np.full(nd, fixed, dtype=np.float64)
         for k, c in enumerate(seq):
             t += tables[p][c][:, st[k], L[k]]
@@ -684,6 +777,7 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
             "max_wear": float(np.max(wear)),
             "position_s": float(lam * flat_pos[order[i]]),
             "prior_s": float(flat_prior[order[i]]),
+            "first_stop_s": float(flat_first[order[i]]),
             "tyre_s": float(flat_tyre[order[i]]),
             "_flat": int(order[i]),
         })
@@ -723,7 +817,10 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
     tyre_plan = {"compounds": str(tyre_row["compounds"]).split("-"), "pit_laps": list(tyre_row["pit_laps"]),
                  "stint_lens": list(tyre_row["stint_lens"]), "n_stops": int(tyre_row["n_stops"]),
                  "push": float(tyre_row["push"]), "delta_s": float(tyre_row["mean_s"] - top["mean_s"]),
-                 "tyre_s": float(tyre_row["tyre_s"])}
+                 "tyre_s": float(tyre_row["tyre_s"]),
+                 # what the tyre-optimal plan's own first stop would have cost under
+                 # the prior it was chosen without: the ablation's headline number
+                 "first_stop_s": float(tyre_row["first_stop_s"])}
     return StrategyResult(
         table=tbl, pit_loss_s=pit_loss_s, n_draws=nd,
         n_strategies=int(n_total), n_scored=keep, max_stint=caps,
@@ -734,13 +831,14 @@ def simulate_model(model: TyreModel, event: Event | str, pit_loss_s: float, *,
               "n_stops": int(top["n_stops"]),
               "push": float(top["push"]),
               "position_s": float(top["position_s"]),
-              "prior_s": float(top["prior_s"])},
+              "prior_s": float(top["prior_s"]),
+              "first_stop_s": float(top["first_stop_s"])},
         regime=(rg.as_dict() if rg else {}), warmup_s=warmup_s,
         life=compound_life(model, ev, push=float(top["push"]), cap=caps, support=support),
         by_stops=by_stops, push_grid=tuple(push_grid),
         implied_regime=float(model.psi(float(top["push"]))), model=model,
         times=times, tyre_optimal=tyre_plan, tyre_optimal_label=str(tyre_row["strategy"]),
-        undercut_lambda=lam, plan_prior_tau_s=tau,
+        undercut_lambda=lam, plan_prior_tau_s=tau, first_stop_kappa_s=kappa,
         plan_prior_source=str((plan_prior or {}).get("source", "")))
 
 
@@ -751,11 +849,32 @@ def search_with_pace_calibration(model: TyreModel, event: Event | str, pit_loss_
 
     The fresh-tyre pace offsets a practice fit carries are prior-dominated;
     what the races identify is the *net* cost of one step harder over a stint
-    of the length compounds are run to.  So: search once, take the median
-    stint length and push of the winner, set the offsets so the model
-    reproduces the measured net at that length (`calibrate_pace_offsets`),
-    and search again on the calibrated model.  Returns `(model, result,
-    info)`; with no measured net the model is unchanged and `info` says so.
+    of the length compounds are run to.  So: search, take the winner's median
+    stint length and push, set the offsets so the model reproduces the measured
+    net at that length (`calibrate_pace_offsets`), and search again.
+
+    **The length has to be a fixed point.**  The calibration length comes from
+    the plan and the plan comes from the calibration, and at Barcelona the pair
+    oscillates: calibrated at 24 laps a three-stop wins, calibrated at that
+    three-stop's 16.5 laps M-H-H wins again.  A fixed number of passes ships
+    whichever one it stopped on - a model calibrated at 16.5 laps carrying a
+    24-lap plan - and the ladder gate, which evaluates the net step at the
+    *plan's* length, then fails on a model that is correct at a different
+    length.  So this iterates to `|L_cal(k+1) - L_cal(k)| <= TOL` (at most
+    `MAX_PASSES`), and if it will not settle it keeps the pass whose own plan and
+    calibration length agree best rather than the last one tried.
+
+    **And the length has to be inside the tyre's life.**  The net stint-level
+    step is only defined while the loss is linear in age; past the cliff it is
+    not, so a plan that runs a compound to 90% of its life and beyond gives a
+    "net step" that is an artefact of the cliff's shape.  `L_cal` is therefore
+    capped at `LIFE_CAP_FRACTION` of the shortest mean compound life at the
+    plan's push, which is the band `calibrate_pace_offsets` can actually hit.
+
+    Returns `(model, result, info)`; with no measured net the model is unchanged
+    and `info` says so.  `info` carries `stint_len` (the length the shipped model
+    is calibrated at - what the ladder gate must evaluate the net step at),
+    `stint_len_plan`, `life_cap`, `passes` and `converged`.
     """
     from src.compounds import calibrate_pace_offsets
 
@@ -763,18 +882,51 @@ def search_with_pace_calibration(model: TyreModel, event: Event | str, pit_loss_
     res0 = simulate_model(model, ev, pit_loss_s, **sim_kw)
     if res0.table.empty or not np.isfinite(net_step_s):
         return model, res0, {"applied": False, "why": "no plan or no measured net stint step"}
-    L = float(np.median(res0.best["stint_lens"]))
-    p = float(res0.best["push"])
-    model2, info = calibrate_pace_offsets(model, net_step_s, L, p, ev, net_se_s=net_step_se_s, seed=seed)
-    if not info.get("applied"):
-        return model, res0, info
-    res = simulate_model(model2, ev, pit_loss_s, **sim_kw)
-    # one more pass if the winner's stint length moved by more than a couple of laps
-    L2 = float(np.median(res.best["stint_lens"])) if not res.table.empty else L
-    if abs(L2 - L) > 2.5:
-        model2, info = calibrate_pace_offsets(model, net_step_s, L2, float(res.best["push"]), ev,
-                                              net_se_s=net_step_se_s, seed=seed)
-        res = simulate_model(model2, ev, pit_loss_s, **sim_kw)
+
+    def cal_length(res) -> tuple:
+        """(L_cal, L_plan, cap) for a result: the plan's median stint, clipped to
+        the shortest compound life at that plan's push."""
+        lp = float(np.median(res.best["stint_lens"]))
+        p_ = float(res.best["push"])
+        lives = [float(np.mean(model.life_laps(c, p_))) for c in model.compounds]
+        cap = LIFE_CAP_FRACTION * float(min(lives)) if lives else float("inf")
+        return float(min(lp, cap)), lp, cap
+
+    L, L_plan, cap = cal_length(res0)
+    best, tried = None, []
+    res, model2, info = res0, model, {"applied": False, "why": "no pass converged"}
+    for k in range(MAX_PASSES):
+        m_k, info_k = calibrate_pace_offsets(model, net_step_s, L, float(res.best["push"]), ev,
+                                             net_se_s=net_step_se_s, seed=seed)
+        if not info_k.get("applied"):
+            return model, res0, {**info_k, "stint_len": L, "stint_len_plan": L_plan,
+                                 "life_cap": cap, "passes": k + 1, "converged": False}
+        res_k = simulate_model(m_k, ev, pit_loss_s, **sim_kw)
+        if res_k.table.empty:
+            break
+        L_next, L_plan_k, cap_k = cal_length(res_k)
+        tried.append({"pass": k + 1, "calibrated_at": L, "plan": res_k.best_label,
+                      "plan_stint_len": L_plan_k, "next_length": L_next, "life_cap": cap_k})
+        gap = abs(L_plan_k - L)
+        if best is None or gap < best[0]:
+            best = (gap, m_k, res_k, info_k, L, L_plan_k, cap_k)
+        model2, res, info = m_k, res_k, info_k
+        if abs(L_next - L) <= PACE_CAL_TOL_LAPS:
+            info = {**info_k, "stint_len": L, "stint_len_plan": L_plan_k, "life_cap": cap_k,
+                    "passes": k + 1, "converged": True, "passes_detail": tried}
+            break
+        L, L_plan, cap = L_next, L_plan_k, cap_k
+    else:
+        # Did not settle: ship the pass whose plan and calibration length agree
+        # best, so the gate is evaluated on a model calibrated where its own plan
+        # actually runs.
+        if best is not None:
+            _, model2, res, info_b, L_used, L_plan_b, cap_b = best
+            info = {**info_b, "stint_len": L_used, "stint_len_plan": L_plan_b, "life_cap": cap_b,
+                    "passes": MAX_PASSES, "converged": False, "passes_detail": tried}
+    if "stint_len" not in info:
+        info = {**info, "stint_len": L, "stint_len_plan": L_plan, "life_cap": cap,
+                "passes": len(tried) or 1, "converged": False, "passes_detail": tried}
     info["best_before"] = res0.best_label
     info["best_after"] = res.best_label
     return model2, res, info
@@ -802,31 +954,54 @@ def hardness_rank_order(compounds: list) -> list:
 
 
 def per_driver_plans(model: TyreModel, event: Event | str, pit_loss_s: float, drivers: list, *,
-                     race_factors: dict | None = None, step: int = 2, shortlist: int = 800,
-                     **sim_kw) -> pd.DataFrame:
+                     race_factors: dict | None = None, dev_by_driver: dict | None = None,
+                     factor_ln_sd: dict | None = None, factor_shrink: float | None = 1.0,
+                     step: int = 2, shortlist: int = 800, **sim_kw) -> pd.DataFrame:
     """The best plan per car: the field model scaled by each driver's own
     tyre behaviour (`TyreModel.for_driver`), searched on a 2-lap grid.
 
+    Two per-car terms, each optional and each backward compatible:
+
+    * `race_factors` - the driver's measured rate factor from previous races.
+      A bare `{driver: float}` map works as it always did; a
+      `{driver: {"factor", "ln_sd"}}` map (or a plain factor plus
+      `factor_ln_sd`) carries how precisely it was measured, and
+      `factor_shrink=None` then shrinks it toward 1 by its own standard error
+      (`percar.shrink_factor`) instead of applying it at face value.
+    * `dev_by_driver` - a replacement for the practice fit's own per-driver
+      deviation, normally `percar.team_pooled_dev(...)`, so a car with no long
+      run on a compound inherits its team-mate's behaviour rather than the
+      field's.  A driver absent from the map keeps the fit's own deviation.
+
     One row per driver: the plan, the first-stop lap, how far it sits from the
-    field plan, and the driver's rate factor with its two sources.
+    field plan, and the driver's rate factor with its sources.
     """
     ev = get_event(event) if isinstance(event, str) else event
     rf = race_factors or {}
+    sds = factor_ln_sd or {}
+    devs = dev_by_driver or {}
     base = simulate_model(model, ev, pit_loss_s, step=step, shortlist=shortlist, **sim_kw)
     rows = []
     for drv in drivers:
-        f = float(rf.get(drv, {}).get("factor", 1.0) if isinstance(rf.get(drv), dict) else rf.get(drv, 1.0))
-        m_d = model.for_driver(drv, race_factor=f)
-        dev = model.driver_dev.get(drv, {})
+        v = rf.get(drv, 1.0)
+        f = float(v.get("factor", 1.0)) if isinstance(v, dict) else float(v)
+        ln_sd = v.get("ln_sd") if isinstance(v, dict) else sds.get(drv)
+        dev_override = devs.get(drv)
+        m_d = model.for_driver(drv, race_factor={"factor": f, "ln_sd": ln_sd},
+                               dev_override=dev_override, factor_shrink=factor_shrink)
+        dev = dev_override if dev_override is not None else model.driver_dev.get(drv, {})
         res = simulate_model(m_d, ev, pit_loss_s, step=step, shortlist=shortlist, **sim_kw)
         if res.table.empty:
             continue
         rows.append({"driver": drv, "race_factor": f,
-                     "practice_dev_s_per_lap": {c: round(float(v.mean()), 4) for c, v in dev.items()},
+                     "race_factor_ln_sd": (float(ln_sd) if ln_sd is not None else None),
+                     "dev_source": ("pooled" if dev_override is not None else "own practice"),
+                     "practice_dev_s_per_lap": {c: round(float(np.asarray(x).mean()), 4) for c, x in dev.items()},
                      "eff_rate": {c: round(float(m_d.rate(c).mean()), 4) for c in m_d.compounds},
                      "best": res.best_label, "n_stops": res.best["n_stops"], "compounds": "-".join(res.best["compounds"]),
                      "pit_laps": list(res.best["pit_laps"]), "push": res.best["push"],
                      "first_stop": (int(res.best["pit_laps"][0]) if res.best["pit_laps"] else None),
+                     "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
                      "field_best": base.best_label,
                      "first_stop_vs_field": ((int(res.best["pit_laps"][0]) - int(base.best["pit_laps"][0]))
                                              if res.best["pit_laps"] and base.best["pit_laps"] else None),
@@ -846,7 +1021,10 @@ def pit_window(fit, event: Event | str, plan: dict, pit_loss_s: float, *,
                max_stint: int | dict | None = None, tolerance_s: float = 1.0,
                push: float | None = None,
                budget=GRIP_BUDGET_S, seed: int = 0, **kw) -> pd.DataFrame:
-    """`pit_window_model` on a subsample of a sealed fit's draws."""
+    """`pit_window_model` on a subsample of a sealed fit's draws.
+
+    `first_stop_prior` / `first_stop_kappa_s` and the other objective weights go
+    through `**kw`."""
     ev = get_event(event) if isinstance(event, str) else event
     if not plan:
         return pd.DataFrame()
@@ -863,14 +1041,18 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
                      max_stint: int | dict | None = None, tolerance_s: float = 1.0,
                      push: float | None = None, sc_rate: float = SC_RATE_PER_LAP,
                      traffic_s_per_lap: float = DIRTY_AIR_S_PER_LAP,
-                     undercut_lambda: float = 0.0) -> pd.DataFrame:
+                     undercut_lambda: float = 0.0,
+                     first_stop_prior: dict | None = None,
+                     first_stop_kappa_s: float = 0.0) -> pd.DataFrame:
     """Cost of moving one stop earlier or later, holding the others fixed.
 
     Sweeping each stop lap one at a time turns the single recommended lap into
     a *window* - the laps within `tolerance_s` of optimal - which is the form
-    the decision is made in.  The push level is held at the plan's own, and
-    the undercut-exposure term is priced at the same weight the search used,
-    so the window is the window of the objective that chose the plan.
+    the decision is made in.  The push level is held at the plan's own, and the
+    undercut-exposure and first-stop-prior terms are priced at the same weights
+    the search used, so the window is the window of the objective that chose the
+    plan: sweeping the first stop without its prior would report a window the
+    recommendation does not live in.
     """
     ev = get_event(event) if isinstance(event, str) else event
     n_laps = ev.n_race_laps
@@ -879,6 +1061,8 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
     nd = model.n_draws
     p = float(plan.get("push", 1.0) if push is None else push)
     lam = float(undercut_lambda or 0.0)
+    kappa = float(first_stop_kappa_s or 0.0)
+    fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
     caps = life_caps(model, ev, push=p)
     if isinstance(max_stint, dict):
         caps = {c: min(v, max_stint.get(c, v)) for c, v in caps.items()}
@@ -904,6 +1088,8 @@ def pit_window_model(model: TyreModel, event: Event | str, plan: dict, pit_loss_
         if expo is not None:
             for k in range(len(seq) - 1):
                 t += lam * expo[(seq[k], seq[k + 1])][int(lens[k])] * dens[int(pl[k]) - 1]
+        if fsp is not None and len(pl):
+            t += first_stop_penalty(seq[0], int(pl[0]), fsp, kappa, n_stops=len(pl))
         return t
 
     base = race_time(pits)
@@ -1088,7 +1274,9 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
                    budget=GRIP_BUDGET_S, n_draws: int = 200,
                    race_factors: dict | None = None,
                    traffic_s_per_lap: float = DIRTY_AIR_S_PER_LAP,
-                   undercut_lambda: float = 0.0, include_unclassified: bool = False) -> pd.DataFrame:
+                   undercut_lambda: float = 0.0,
+                   first_stop_prior: dict | None = None, first_stop_kappa_s: float = 0.0,
+                   include_unclassified: bool = False) -> pd.DataFrame:
     """For each driver: what their actual stop laps cost against the best
     alternative *with the same compounds and the same number of stops*.
 
@@ -1108,6 +1296,13 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
     per-driver deviation) prices their race, so "seconds lost" is against
     what *their* tyre would have allowed.
 
+    **The first-stop prior.**  Charged on the driver's actual first stop and on
+    every alternative's, at `first_stop_kappa_s`, so the comparison is made
+    under the objective that produced the recommendation.  A *safety-car* first
+    stop is held at its actual lap by the logic below, so the term is identical
+    on both sides and cancels - a driver handed a cheap stop is not judged
+    against the circuit's green-flag history.
+
     Vectorised: every legal placement of the free stops is costed on the
     posterior-mean tables at once; only the actual plan and the best
     alternative are priced draw by draw.
@@ -1124,6 +1319,8 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
     max_len = n_laps
     dens = traffic_density(ev)
     lam = float(undercut_lambda or 0.0)
+    kappa = float(first_stop_kappa_s or 0.0)
+    fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
     rf = race_factors or {}
     stops = race_stops(race, ev, compounds=list(model.compounds))
     grid = np.arange(margin, n_laps - margin + 1)
@@ -1141,13 +1338,15 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
             cache[key] = (m, cost, {c: v.mean(0) for c, v in cost.items()}, expo, f)
         return cache[key]
 
-    def plan_fixed(pits, sc_flags):
+    def plan_fixed(pits, sc_flags, seq=None):
         pits = list(pits)
         t = 0.0
         for p_, s_ in zip(pits, sc_flags):
             t += pit_loss_s * (SC_PIT_LOSS_FRACTION if s_ else 1.0)
         t += traffic_cost(ev, pits, s_per_lap=traffic_s_per_lap)
         t -= safety_car_credit(ev, pits, pit_loss_s)
+        if fsp is not None and seq and pits:
+            t += first_stop_penalty(seq[0], int(pits[0]), fsp, kappa, n_stops=len(pits))
         return t
 
     rows = []
@@ -1162,7 +1361,7 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
             continue
         m_d, cost, means, expo, factor = tables_for(drv)
         starts = np.concatenate([[0], np.cumsum(lens)[:-1]])
-        base = np.full(nd, plan_fixed(actual, sc_flags), dtype=float)
+        base = np.full(nd, plan_fixed(actual, sc_flags, seq), dtype=float)
         for c, L, st in zip(seq, lens, starts):
             base += cost[c][:, int(st), int(L)]
         if expo is not None:
@@ -1202,11 +1401,14 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
         if expo is not None:
             for k in range(len(seq) - 1):
                 tm += lam * expo[(seq[k], seq[k + 1])][np.clip(Lm[:, k], 0, max_len)] * dens[np.clip(P[:, k], 1, n_laps) - 1]
+        if fsp is not None:
+            # the driver's own stop count: the alternatives keep their plan's shape
+            tm = tm + first_stop_penalty(seq[0], P[:, 0], fsp, kappa, n_stops=n_stops)
         j = int(np.argmin(tm))
         best_pits = [int(x) for x in P[j]]
         bl = np.diff(np.concatenate([[0], best_pits, [n_laps]])).astype(int)
         bs = np.concatenate([[0], np.cumsum(bl)[:-1]])
-        best = np.full(nd, plan_fixed(best_pits, sc_flags), dtype=float)
+        best = np.full(nd, plan_fixed(best_pits, sc_flags, seq), dtype=float)
         for c, L, st in zip(seq, bl, bs):
             best += cost[c][:, int(st), int(L)]
         if expo is not None:
@@ -1297,14 +1499,17 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
                    allocation: dict | None = None, stint_cap: dict | None = None,
                    margin: int = PIT_WINDOW_MARGIN,
                    undercut_lambda: float = 0.0,
-                   plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0) -> tuple:
+                   plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0,
+                   first_stop_prior: dict | None = None,
+                   first_stop_kappa_s: float = 0.0) -> tuple:
     """Price a list of plans on every draw, with a lap-by-lap trace for each.
 
     Each plan is `{"compounds": [...], "pit_laps": [...], "push": optional,
-    "label": optional}`.  Returns `(table, details)`.  The objective is the
-    one `simulate_model` uses, including the position and plan-prior terms at
-    the weights given, so a plan built by hand is priced exactly as the
-    optimiser would price it.
+    "label": optional}`.  Returns `(table, details)`.  The objective is the one
+    `simulate_model` uses, including the position, plan-prior and first-stop
+    terms at the weights given, so a plan built by hand is priced exactly as the
+    optimiser would price it.  The first-stop penalty is charged on the plan's
+    own first stop and reported as `first_stop_s`.
     """
     ev = get_event(event) if isinstance(event, str) else event
     n = ev.n_race_laps
@@ -1315,6 +1520,8 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
     caps = stint_cap or {}
     lam = float(undercut_lambda or 0.0)
     tau = float(plan_prior_tau_s or 0.0)
+    kappa = float(first_stop_kappa_s or 0.0)
+    fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
     details, rows = [], []
 
     for i, pl in enumerate(plans):
@@ -1347,6 +1554,8 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
             if caps.get(c) is not None and L > int(caps[c]):
                 flags.append(f"{c} {L} laps: this circuit has never supported more than {int(caps[c])}")
         prior_pen = plan_prior_penalty(seq, plan_prior, tau) if tau > 0 else 0.0
+        first_pen = (first_stop_penalty(seq[0], int(pits[0]), fsp, kappa, n_stops=len(pits))
+                     if (fsp is not None and pits) else 0.0)
 
         def cost_at(p_):
             per_lap = np.zeros((nd, n))
@@ -1355,6 +1564,9 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
             for p_lap in pits:
                 per_lap[:, p_lap - 1] += pit_loss_s + TRAFFIC_LAPS_PER_STOP * traffic_s_per_lap * dens[p_lap - 1]
             per_lap[:, 0] += grid_penalty_s * float(rank[seq[0]]) + prior_pen
+            if first_pen:
+                # on the stop it prices, so the lap-by-lap trace shows it there
+                per_lap[:, int(pits[0]) - 1] += first_pen
             pos = 0.0
             if lam > 0 and pits:
                 expo = undercut_exposure_tables(model, ev, p_, n)
@@ -1387,7 +1599,7 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
         details.append({
             "label": label, "compounds": seq, "pit_laps": pits, "stint_lens": [int(x) for x in lens],
             "push": p_use, "valid": True, "flags": flags, "times": times, "sc_credit_s": float(credit),
-            "position_s": float(pos), "prior_s": float(prior_pen),
+            "position_s": float(pos), "prior_s": float(prior_pen), "first_stop_s": float(first_pen),
             "trace_mean": cum.mean(0), "trace_lo": np.quantile(cum, 0.05, axis=0),
             "trace_hi": np.quantile(cum, 0.95, axis=0), "per_lap_mean": per_lap.mean(0),
             "wear_end_mean": [float(w.mean()) for w in wear_end],
@@ -1396,6 +1608,7 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
         rows.append({"plan": label, "n_stops": len(pits), "compounds": "-".join(seq), "pit_laps": pits,
                      "stint_lens": [int(x) for x in lens], "push": p_use, "valid": True,
                      "mean_s": float(times.mean()), "position_s": float(pos), "prior_s": float(prior_pen),
+                     "first_stop_s": float(first_pen),
                      "max_wear": float(max(w.mean() for w in wear_end)),
                      "wear_end": [round(float(w.mean()), 2) for w in wear_end],
                      "flags": "; ".join(flags)})

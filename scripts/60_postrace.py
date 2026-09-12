@@ -9,10 +9,14 @@ Two receipts:
 
 2. **The live engine** — `data/live/<session>/history.jsonl` holds the field
    table as the engine saw it on every lap.  This scores those calls against
-   what actually happened: did the cliff alarm precede the pit stop, how far
-   were the recommended in-laps from the real ones, did the undercut threats
-   materialise, how did the live degradation multiplier track the value the
-   offline estimator measures with the whole race in hand.
+   what actually happened: did the **pace-collapse** alarm precede the pit stop,
+   how far were the recommended in-laps from the real ones, did the undercut
+   threats materialise, how did the live degradation multiplier track the value
+   the offline estimator measures with the whole race in hand.
+
+   The alarm scored here is the within-stint collapse detection (`cliff_alarm`
+   on the field row, which is `pace_collapse`), not the old wear-based flag —
+   `collapse_*` in the output, on the same keys.
 
     .venv/bin/python scripts/60_postrace.py --event italy-2026 --session 11361
 """
@@ -56,10 +60,12 @@ def score_live(session_key: str, ev) -> dict:
                 f = (by_lap.get(p - back) or {}).get(drv)
                 if f:
                     calls[back] = {"plan": f.get("plan_best"), "next": f.get("plan_next_stop"),
-                                   "window": f.get("plan_window"), "alarm": f.get("cliff_alarm"),
-                                   "p_cliff": f.get("p_past_cliff"), "box_now": f.get("delta_box_now_s")}
-            first_alarm = next((h["lap"] for h in hist if (by_lap[h["lap"]].get(drv) or {}).get("cliff_alarm")
-                                and h["lap"] <= p and (by_lap[h["lap"]].get(drv) or {}).get("tyre_age", 0) > 3), None)
+                                   "window": f.get("plan_window"), "collapse": f.get("cliff_alarm"),
+                                   "p_past_cliff": f.get("p_past_cliff"), "box_now": f.get("delta_box_now_s")}
+            # the first lap the collapse detector called this tyre, at an age where
+            # a collapse is a tyre rather than a cold out-lap
+            first_collapse = next((h["lap"] for h in hist if (by_lap[h["lap"]].get(drv) or {}).get("cliff_alarm")
+                                   and h["lap"] <= p and (by_lap[h["lap"]].get(drv) or {}).get("tyre_age", 0) > 3), None)
             c3 = calls.get(3, {})
             win = c3.get("window") or [None, None]
             rows.append({"driver": drv, "actual_in_lap": p,
@@ -68,14 +74,15 @@ def score_live(session_key: str, ev) -> dict:
                          "in_window": (win[0] is not None and win[0] <= p <= (win[1] or 0)),
                          "err_laps": (p - c3["next"]) if c3.get("next") is not None else None,
                          "box_now_delta_1_before": calls.get(1, {}).get("box_now"),
-                         "alarm_lap": first_alarm,
-                         "alarm_lead_laps": (p - first_alarm) if first_alarm else None})
+                         "collapse_lap": first_collapse,
+                         "collapse_lead_laps": (p - first_collapse) if first_collapse else None})
     per = pd.DataFrame(rows)
     out = {"n_stops": int(len(per)),
            "share_in_window": float(per["in_window"].mean()) if len(per) else float("nan"),
            "median_abs_err_laps": float(per["err_laps"].abs().median()) if per["err_laps"].notna().any() else float("nan"),
-           "alarms_before_stop": int(per["alarm_lap"].notna().sum()),
-           "median_alarm_lead_laps": float(per["alarm_lead_laps"].median()) if per["alarm_lead_laps"].notna().any() else float("nan"),
+           "collapses_before_stop": int(per["collapse_lap"].notna().sum()),
+           "median_collapse_lead_laps": (float(per["collapse_lead_laps"].median())
+                                         if per["collapse_lead_laps"].notna().any() else float("nan")),
            "per_stop": per.to_dict("records")}
     # live multiplier trajectory
     m_traj = [(h["lap"], np.nanmean([f.get("m_mean") or np.nan for f in h.get("field", [])])) for h in hist]

@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2024,
  "circuit": "Spa-Francorchamps",
  "event": "Belgian Grand Prix",
@@ -33,6 +33,197 @@
   "n": 19,
   "sc_share": 0.10526315789473684
  },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 13,
+   "in_lap": 13,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "BOT",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "MEDIUM",
+   "laps": 7,
+   "in_lap": 7,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "MAG",
+   "compound": "MEDIUM",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 15,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "OCO",
+   "compound": "MEDIUM",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RIC",
+   "compound": "SOFT",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 10,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "HARD",
+   "laps": 20,
+   "in_lap": 20,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAR",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 15,
+   "in_lap": 15,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 10,
+   "n_stops": 2,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 11.0,
+  "p25": 9.0,
+  "p75": 12.0,
+  "n": 17,
+  "in_laps": [
+   7,
+   8,
+   8,
+   8,
+   9,
+   10,
+   10,
+   11,
+   11,
+   11,
+   11,
+   12,
+   12,
+   12,
+   13,
+   17,
+   20
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.2132716183871754,
+  "se": 0.04259237879898486,
+  "n_laps": 734,
+  "share_close": 0.6294277929155313,
+  "event": "belgium-2026"
+ },
+ "nomination": [
+  "C2",
+  "C3",
+  "C4"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 22,

@@ -1,0 +1,16 @@
+stage	event	seconds	exit	started_utc
+fit	australia-2026	44	0	2026-09-12T16:56:37Z
+fit	japan-2026	39	0	2026-09-12T16:57:21Z
+fit	barcelona-2026	54	0	2026-09-12T16:58:00Z
+fit	austria-2026	225	0	2026-09-12T16:58:54Z
+fit	belgium-2026	31	0	2026-09-12T17:02:39Z
+fit	hungary-2026	34	0	2026-09-12T17:03:10Z
+fit	italy-2026	38	0	2026-09-12T17:03:44Z
+recalibrate	all	366	0	2026-09-12T17:22:08Z
+decide	australia-2026	15	0	2026-09-12T17:28:14Z
+decide	japan-2026	12	0	2026-09-12T17:28:29Z
+decide	barcelona-2026	13	0	2026-09-12T17:28:41Z
+decide	austria-2026	18	0	2026-09-12T17:28:54Z
+decide	belgium-2026	13	0	2026-09-12T17:29:12Z
+decide	hungary-2026	16	0	2026-09-12T17:29:25Z
+decide	italy-2026	13	0	2026-09-12T17:29:41Z

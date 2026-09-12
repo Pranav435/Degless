@@ -7,8 +7,8 @@
     "Practice 2",
     "Practice 3"
   ],
-  "sealed_file": "japan-2026_20260912T101209Z.json",
-  "sealed_sha256": "f787c59ac606992627defb29e7942e71a363f5fa151349ac1a1b2009dd0832cb",
+  "sealed_file": "japan-2026_20260912T165759Z.json",
+  "sealed_sha256": "5506043efa888dd97ece2237f91c04b9a812f34e85b95f3e8545368f9f133af9",
   "physics": {
     "burn_kg_per_lap": 1.320754716981132,
     "k_track_s_per_kg": 0.034296388542963886,
@@ -39,10 +39,10 @@
     }
   ],
   "compound_ladder": {
-    "pace_step_s": 0.049767710994324456,
+    "pace_step_s": 0.0732995368022521,
     "measured": true,
-    "label": "this circuit's races: 0.050 +/- 0.126 s at equal tyre age",
-    "derivation": "fresh-tyre step prior 0.050 s (this circuit's races: 0.050 +/- 0.126 s at equal tyre age). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Suzuka 2023 +0.314 +/- 0.517 s; Suzuka 2024 +0.048 +/- 0.217 s; Suzuka 2025 +0.020 +/- 0.136 s; australia-2026 +0.317 +/- 0.345 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.072 +/- 0.086 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
+    "label": "this circuit's races: 0.073 +/- 0.135 s at equal tyre age",
+    "derivation": "fresh-tyre step prior 0.073 s (this circuit's races: 0.073 +/- 0.135 s at equal tyre age). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Suzuka 2023 +0.314 +/- 0.517 s [not used: standard error 0.517 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; Suzuka 2024 +0.048 +/- 0.217 s [not used: standard error 0.217 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; Suzuka 2025 +0.020 +/- 0.136 s; australia-2026 +0.317 +/- 0.345 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.069 +/- 0.096 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
     "donors": [
       {
         "event": "Suzuka 2023",
@@ -50,7 +50,10 @@
         "se": 0.5175,
         "n_stints": 45,
         "median_stint_laps": 15.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 0.5,
+        "used": false,
+        "why": "standard error 0.517 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
       },
       {
         "event": "Suzuka 2024",
@@ -58,7 +61,10 @@
         "se": 0.2174,
         "n_stints": 47,
         "median_stint_laps": 16.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 0.7,
+        "used": false,
+        "why": "standard error 0.217 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
       },
       {
         "event": "Suzuka 2025",
@@ -66,7 +72,9 @@
         "se": 0.1364,
         "n_stints": 41,
         "median_stint_laps": 22.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "australia-2026",
@@ -74,7 +82,9 @@
         "se": 0.345,
         "n_stints": 47,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "barcelona-2026",
@@ -82,7 +92,9 @@
         "se": 0.3363,
         "n_stints": 62,
         "median_stint_laps": 15.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "austria-2026",
@@ -90,7 +102,9 @@
         "se": 0.295,
         "n_stints": 61,
         "median_stint_laps": 19.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "belgium-2026",
@@ -98,7 +112,9 @@
         "se": 0.3225,
         "n_stints": 40,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "hungary-2026",
@@ -106,7 +122,9 @@
         "se": 0.3273,
         "n_stints": 64,
         "median_stint_laps": 18.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "italy-2026",
@@ -114,20 +132,27 @@
         "se": 0.3543,
         "n_stints": 28,
         "median_stint_laps": 24.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       }
     ],
     "circuit_ladder": {
       "n_races": 3,
-      "pace_step_s": 0.049767710994324456,
-      "pace_step_se": 0.12614159458722693,
+      "recency_weights": [
+        0.5,
+        0.7,
+        1.0
+      ],
+      "pace_step_s": 0.0732995368022521,
+      "pace_step_se": 0.1348381987100873,
       "pace_step_by_year": [
         -0.113,
         -0.12,
         0.123
       ],
       "pace_step_usable": true,
-      "deg_ratio": 1.1883326240331602,
+      "deg_ratio": 1.2931061960838162,
       "deg_ratio_ln_sd": 0.4003393289752875,
       "deg_ratio_by_year": [
         0.938,
@@ -145,20 +170,20 @@
       {
         "compound": "MEDIUM",
         "hardness_rank": 1,
-        "pace_offset_s": 0.05,
-        "deg_multiplier": 0.842
+        "pace_offset_s": 0.073,
+        "deg_multiplier": 0.773
       },
       {
         "compound": "HARD",
         "hardness_rank": 2,
-        "pace_offset_s": 0.1,
-        "deg_multiplier": 0.708
+        "pace_offset_s": 0.147,
+        "deg_multiplier": 0.598
       }
     ],
-    "deg_ratio": 1.9475616216659546,
+    "deg_ratio": 2.0647850036621094,
     "fitted_offsets": {
-      "HARD": 0.053735844790935516,
-      "MEDIUM": 0.015715861693024635,
+      "HARD": 0.09550277888774872,
+      "MEDIUM": 0.03616534546017647,
       "SOFT": 0.0
     },
     "unladdered_slopes": {
@@ -177,9 +202,9 @@
     }
   },
   "net_step": {
-    "measured": 0.07220192520525458,
-    "se": 0.08628425982786277,
-    "derivation": "fresh-tyre step prior 0.050 s (this circuit's races: 0.050 +/- 0.126 s at equal tyre age). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Suzuka 2023 +0.314 +/- 0.517 s; Suzuka 2024 +0.048 +/- 0.217 s; Suzuka 2025 +0.020 +/- 0.136 s; australia-2026 +0.317 +/- 0.345 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.072 +/- 0.086 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
+    "measured": 0.06861019178487547,
+    "se": 0.09559590116234562,
+    "derivation": "fresh-tyre step prior 0.073 s (this circuit's races: 0.073 +/- 0.135 s at equal tyre age). The races identify the *net* cost of one step harder over a whole stint, holding stint length and race phase fixed: Suzuka 2023 +0.314 +/- 0.517 s [not used: standard error 0.517 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; Suzuka 2024 +0.048 +/- 0.217 s [not used: standard error 0.217 s > 0.15 s (pre-2026 measurement, too imprecise to pool)]; Suzuka 2025 +0.020 +/- 0.136 s; australia-2026 +0.317 +/- 0.345 s; barcelona-2026 +0.060 +/- 0.336 s; austria-2026 +0.106 +/- 0.295 s; belgium-2026 +0.075 +/- 0.323 s; hungary-2026 -0.010 +/- 0.327 s; italy-2026 +0.173 +/- 0.354 s -> pooled +0.069 +/- 0.096 s per step. The model's fresh-tyre offsets are calibrated so that, with its own degradation ladder, it reproduces this net at the stint length it recommends.",
     "detail": [
       {
         "event": "Suzuka 2023",
@@ -187,7 +212,10 @@
         "se": 0.5175,
         "n_stints": 45,
         "median_stint_laps": 15.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 0.5,
+        "used": false,
+        "why": "standard error 0.517 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
       },
       {
         "event": "Suzuka 2024",
@@ -195,7 +223,10 @@
         "se": 0.2174,
         "n_stints": 47,
         "median_stint_laps": 16.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 0.7,
+        "used": false,
+        "why": "standard error 0.217 s > 0.15 s (pre-2026 measurement, too imprecise to pool)"
       },
       {
         "event": "Suzuka 2025",
@@ -203,7 +234,9 @@
         "se": 0.1364,
         "n_stints": 41,
         "median_stint_laps": 22.0,
-        "kind": "circuit history"
+        "kind": "circuit history",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "australia-2026",
@@ -211,7 +244,9 @@
         "se": 0.345,
         "n_stints": 47,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "barcelona-2026",
@@ -219,7 +254,9 @@
         "se": 0.3363,
         "n_stints": 62,
         "median_stint_laps": 15.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "austria-2026",
@@ -227,7 +264,9 @@
         "se": 0.295,
         "n_stints": 61,
         "median_stint_laps": 19.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "belgium-2026",
@@ -235,7 +274,9 @@
         "se": 0.3225,
         "n_stints": 40,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "hungary-2026",
@@ -243,7 +284,9 @@
         "se": 0.3273,
         "n_stints": 64,
         "median_stint_laps": 18.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "italy-2026",
@@ -251,7 +294,9 @@
         "se": 0.3543,
         "n_stints": 28,
         "median_stint_laps": 24.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       }
     ]
   },
@@ -376,17 +421,289 @@
       "n": 52,
       "sc_share": 0.022222222222222223
     },
+    "first_stop_green": {
+      "median_lap": 19.0,
+      "p25": 13.0,
+      "p75": 23.5,
+      "n": 51,
+      "in_laps": [
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        9.0,
+        10.0,
+        10.0,
+        11.0,
+        11.0,
+        12.0,
+        12.0,
+        13.0,
+        13.0,
+        15.0,
+        15.0,
+        15.0,
+        16.0,
+        16.0,
+        16.0,
+        16.0,
+        17.0,
+        17.0,
+        18.0,
+        18.0,
+        19.0,
+        19.0,
+        20.0,
+        21.0,
+        21.0,
+        21.0,
+        22.0,
+        22.0,
+        22.0,
+        22.0,
+        23.0,
+        23.0,
+        23.0,
+        24.0,
+        24.0,
+        24.0,
+        24.0,
+        25.0,
+        26.0,
+        28.0,
+        30.0,
+        31.0,
+        31.0,
+        32.0,
+        33.0,
+        33.0
+      ],
+      "by_compound": {
+        "S": [
+          5.0,
+          6.0,
+          7.0,
+          8.0,
+          9.0,
+          9.0,
+          10.0,
+          10.0,
+          11.0,
+          12.0,
+          13.0,
+          15.0
+        ],
+        "M": [
+          11.0,
+          12.0,
+          13.0,
+          15.0,
+          15.0,
+          16.0,
+          16.0,
+          16.0,
+          17.0,
+          17.0,
+          18.0,
+          18.0,
+          19.0,
+          20.0,
+          21.0,
+          21.0,
+          21.0,
+          22.0,
+          22.0,
+          23.0,
+          23.0,
+          24.0,
+          24.0,
+          24.0,
+          24.0,
+          25.0,
+          26.0,
+          31.0,
+          33.0,
+          33.0
+        ],
+        "H": [
+          16.0,
+          19.0,
+          22.0,
+          22.0,
+          23.0,
+          28.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      "by_stops": {
+        "1": [
+          15.0,
+          19.0,
+          20.0,
+          21.0,
+          21.0,
+          21.0,
+          22.0,
+          22.0,
+          23.0,
+          23.0,
+          24.0,
+          24.0,
+          24.0,
+          24.0,
+          25.0,
+          26.0,
+          28.0,
+          30.0,
+          31.0,
+          31.0,
+          32.0,
+          33.0,
+          33.0
+        ],
+        "2": [
+          5.0,
+          6.0,
+          7.0,
+          9.0,
+          9.0,
+          10.0,
+          10.0,
+          11.0,
+          11.0,
+          12.0,
+          13.0,
+          13.0,
+          15.0,
+          15.0,
+          16.0,
+          16.0,
+          16.0,
+          16.0,
+          17.0,
+          17.0,
+          18.0,
+          18.0,
+          19.0,
+          22.0,
+          23.0
+        ],
+        "3": [
+          8.0,
+          12.0,
+          22.0
+        ]
+      },
+      "by_compound_stops": {
+        "H|1": [
+          28.0,
+          30.0,
+          31.0,
+          32.0
+        ],
+        "H|2": [
+          16.0,
+          19.0,
+          22.0,
+          23.0
+        ],
+        "H|3": [
+          22.0
+        ],
+        "M|1": [
+          19.0,
+          20.0,
+          21.0,
+          21.0,
+          21.0,
+          22.0,
+          22.0,
+          23.0,
+          23.0,
+          24.0,
+          24.0,
+          24.0,
+          24.0,
+          25.0,
+          26.0,
+          31.0,
+          33.0,
+          33.0
+        ],
+        "M|2": [
+          11.0,
+          12.0,
+          13.0,
+          15.0,
+          15.0,
+          16.0,
+          16.0,
+          16.0,
+          17.0,
+          17.0,
+          18.0,
+          18.0
+        ],
+        "S|1": [
+          15.0
+        ],
+        "S|2": [
+          5.0,
+          6.0,
+          7.0,
+          9.0,
+          9.0,
+          10.0,
+          10.0,
+          11.0,
+          13.0
+        ],
+        "S|3": [
+          8.0,
+          12.0
+        ]
+      },
+      "by_year": {
+        "2023": {
+          "median_lap": 16.0,
+          "n": 14,
+          "raw_median_lap": 16.0,
+          "n_race_laps": 53
+        },
+        "2024": {
+          "median_lap": 15.0,
+          "n": 17,
+          "raw_median_lap": 15.0,
+          "n_race_laps": 53
+        },
+        "2025": {
+          "median_lap": 23.5,
+          "n": 20,
+          "raw_median_lap": 23.5,
+          "n_race_laps": 53
+        }
+      },
+      "source": "Suzuka green-flag first stops [2023, 2024, 2025], scaled to 53 laps"
+    },
     "ladder": {
       "n_races": 3,
-      "pace_step_s": 0.049767710994324456,
-      "pace_step_se": 0.12614159458722693,
+      "recency_weights": [
+        0.5,
+        0.7,
+        1.0
+      ],
+      "pace_step_s": 0.0732995368022521,
+      "pace_step_se": 0.1348381987100873,
       "pace_step_by_year": [
         -0.113,
         -0.12,
         0.123
       ],
       "pace_step_usable": true,
-      "deg_ratio": 1.1883326240331602,
+      "deg_ratio": 1.2931061960838162,
       "deg_ratio_ln_sd": 0.4003393289752875,
       "deg_ratio_by_year": [
         0.938,
@@ -400,23 +717,82 @@
         "step_s": 0.3142178150532044,
         "se": 0.5174708533835181,
         "n_stints": 45,
-        "median_stint_laps": 15.0
+        "median_stint_laps": 15.0,
+        "se_raw": 0.5174708533835181,
+        "recency": 0.5
       },
       {
         "year": 2024,
         "step_s": 0.04806132240625001,
         "se": 0.21740099211534528,
         "n_stints": 47,
-        "median_stint_laps": 16.0
+        "median_stint_laps": 16.0,
+        "se_raw": 0.21740099211534528,
+        "recency": 0.7
       },
       {
         "year": 2025,
         "step_s": 0.020119535476600614,
         "se": 0.1363641146492482,
         "n_stints": 41,
-        "median_stint_laps": 22.0
+        "median_stint_laps": 22.0,
+        "se_raw": 0.1363641146492482,
+        "recency": 1.0
       }
     ],
+    "dirty_air": {
+      "s_per_lap": 0.22907318249768513,
+      "se": 0.024584971752280353,
+      "n_races": 3,
+      "by_year": {
+        "2023": {
+          "s_per_lap": 0.24190325152180747,
+          "se": 0.04813744424101799,
+          "n_laps": 685,
+          "share_close": 0.41605839416058393
+        },
+        "2024": {
+          "s_per_lap": 0.4172789910125055,
+          "se": 0.05385142405645807,
+          "n_laps": 758,
+          "share_close": 0.5382585751978892
+        },
+        "2025": {
+          "s_per_lap": 0.14885851645128478,
+          "se": 0.033746575716347114,
+          "n_laps": 996,
+          "share_close": 0.6586345381526104
+        }
+      },
+      "source": "Suzuka races [2023, 2024, 2025], within 3 s of the car ahead"
+    },
+    "nomination": [
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "nominations_by_year": {
+      "2023": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "2024": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "2025": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "2026": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    },
     "pit_loss_s": 22.46950000000001,
     "sc_share": 0.012578616352201257,
     "season": {
@@ -525,6 +901,40 @@
           "n": 15,
           "sc_share": 0.06666666666666667
         },
+        "first_stop_green": {
+          "median_lap": 16.0,
+          "p25": 10.25,
+          "p75": 17.75,
+          "n": 14,
+          "in_laps": [
+            8,
+            9,
+            10,
+            10,
+            11,
+            13,
+            16,
+            16,
+            17,
+            17,
+            18,
+            18,
+            24,
+            28
+          ]
+        },
+        "dirty_air": {
+          "s_per_lap": 0.24190325152180747,
+          "se": 0.04813744424101799,
+          "n_laps": 685,
+          "share_close": 0.41605839416058393,
+          "event": "japan-2026"
+        },
+        "nomination": [
+          "C1",
+          "C2",
+          "C3"
+        ],
         "compounds": {
           "HARD": {
             "n_stints": 22,
@@ -622,6 +1032,43 @@
           "n": 17,
           "sc_share": 0.0
         },
+        "first_stop_green": {
+          "median_lap": 15.0,
+          "p25": 12.0,
+          "p75": 22.0,
+          "n": 17,
+          "in_laps": [
+            5,
+            6,
+            7,
+            11,
+            12,
+            12,
+            13,
+            15,
+            15,
+            16,
+            16,
+            19,
+            22,
+            22,
+            22,
+            23,
+            26
+          ]
+        },
+        "dirty_air": {
+          "s_per_lap": 0.4172789910125055,
+          "se": 0.05385142405645807,
+          "n_laps": 758,
+          "share_close": 0.5382585751978892,
+          "event": "japan-2026"
+        },
+        "nomination": [
+          "C1",
+          "C2",
+          "C3"
+        ],
         "compounds": {
           "HARD": {
             "n_stints": 27,
@@ -714,6 +1161,46 @@
           "n": 20,
           "sc_share": 0.0
         },
+        "first_stop_green": {
+          "median_lap": 23.5,
+          "p25": 21.0,
+          "p75": 30.25,
+          "n": 20,
+          "in_laps": [
+            9,
+            15,
+            19,
+            20,
+            21,
+            21,
+            21,
+            22,
+            23,
+            23,
+            24,
+            24,
+            24,
+            25,
+            30,
+            31,
+            31,
+            32,
+            33,
+            33
+          ]
+        },
+        "dirty_air": {
+          "s_per_lap": 0.14885851645128478,
+          "se": 0.033746575716347114,
+          "n_laps": 996,
+          "share_close": 0.6586345381526104,
+          "event": "japan-2026"
+        },
+        "nomination": [
+          "C1",
+          "C2",
+          "C3"
+        ],
         "compounds": {
           "HARD": {
             "n_stints": 18,
@@ -807,50 +1294,50 @@
   "history_combination": [
     {
       "compound": "HARD",
-      "practice": 0.04046090390337763,
-      "practice_as_race": 0.025422320303531146,
-      "practice_sd_ln": 0.6019879671534762,
+      "practice": 0.038656151564817505,
+      "practice_as_race": 0.024268650424019697,
+      "practice_sd_ln": 0.450225656976332,
       "history_race": 0.09157265996772568,
       "history_sd_ln": 0.7681827419817701,
-      "combined_race": 0.04139639489444944,
-      "combined": 0.06588444861730201,
-      "combined_sd_ln": 0.17318694735495363,
-      "weight_on_history": 0.3804637322339023,
-      "scale_mean": 1.6655445924596821,
-      "capped_share": 0.015333333333333332,
-      "floor_practice": 0.0460426100924233,
+      "combined_race": 0.03408003343403955,
+      "combined": 0.05428414496656114,
+      "combined_sd_ln": 0.33414394171062956,
+      "weight_on_history": 0.25567751099093095,
+      "scale_mean": 1.4083786642756297,
+      "capped_share": 0.00016666666666666666,
+      "floor_practice": 0.046080006337394744,
       "floor_binds": false
     },
     {
       "compound": "MEDIUM",
-      "practice": 0.07539257975319283,
-      "practice_as_race": 0.047370526263383485,
-      "practice_sd_ln": 0.5732122071330502,
+      "practice": 0.07625005537828342,
+      "practice_as_race": 0.047870412958332456,
+      "practice_sd_ln": 0.4001079508752674,
       "history_race": 0.10509488203115012,
       "history_sd_ln": 0.47362299684817577,
-      "combined_race": 0.07606288604543841,
-      "combined": 0.1210579162780265,
-      "combined_sd_ln": 0.15,
-      "weight_on_history": 0.5942803332809924,
-      "scale_mean": 1.636246130414438,
-      "capped_share": 0.0155,
-      "floor_practice": 0.08219855453237147,
+      "combined_race": 0.06641888930333638,
+      "combined": 0.10579486732131782,
+      "combined_sd_ln": 0.23279542532643352,
+      "weight_on_history": 0.41645224243857104,
+      "scale_mean": 1.4007933153229248,
+      "capped_share": 0.0023333333333333335,
+      "floor_practice": 0.08226531697862334,
       "floor_binds": false
     },
     {
       "compound": "SOFT",
-      "practice": 0.15346804816485615,
-      "practice_as_race": 0.09642676016634975,
-      "practice_sd_ln": 0.6038463330015229,
+      "practice": 0.16480418602740785,
+      "practice_as_race": 0.10346542573975326,
+      "practice_sd_ln": 0.42043376989371456,
       "history_race": 0.11529510434882763,
       "history_sd_ln": 0.4974974594122688,
-      "combined_race": 0.10725796269053234,
-      "combined": 0.1707064528130779,
-      "combined_sd_ln": 0.15,
-      "weight_on_history": 0.5956707596391535,
-      "scale_mean": 1.151053301924274,
-      "capped_share": 0.009166666666666667,
-      "floor_practice": 0.08700428836941872,
+      "combined_race": 0.10823894489122593,
+      "combined": 0.17240765291134522,
+      "combined_sd_ln": 0.2527728468735163,
+      "weight_on_history": 0.4166339188063963,
+      "scale_mean": 1.0583647608063185,
+      "capped_share": 0.0013333333333333333,
+      "floor_practice": 0.08707495407831094,
       "floor_binds": false
     }
   ],
@@ -884,24 +1371,93 @@
       "3": 3
     },
     "n": 52,
-    "source": "Suzuka races [2023, 2024, 2025]"
+    "source": "Suzuka races [2023, 2024, 2025]",
+    "nomination": {
+      "target": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "per_race": [
+        {
+          "year": 2023,
+          "nomination": [
+            "C1",
+            "C2",
+            "C3"
+          ],
+          "comparable": "identical",
+          "n_mapped": 15,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2024,
+          "nomination": [
+            "C1",
+            "C2",
+            "C3"
+          ],
+          "comparable": "identical",
+          "n_mapped": 17,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2025,
+          "nomination": [
+            "C1",
+            "C2",
+            "C3"
+          ],
+          "comparable": "identical",
+          "n_mapped": 20,
+          "n_dropped": 0,
+          "n_clamped": 0
+        }
+      ],
+      "mode": "c-number"
+    }
+  },
+  "first_stop_prior": {
+    "mode": 22,
+    "median": 20.0,
+    "p25": 16.0,
+    "p75": 25.0,
+    "n": 51,
+    "n_compound": 30,
+    "start_compound": "MEDIUM",
+    "source": "Gaussian KDE (bandwidth 2.2 laps) over 51 historical green first stops scaled to 53 laps, blended 0.86 toward the 30 MEDIUM-start stops, with a 5% uniform floor on laps 6-47",
+    "by_stops": {
+      "n_stops": 2,
+      "mode": 16,
+      "median": 16.0,
+      "p25": 13.0,
+      "p75": 18.0,
+      "n_by_stops": 25,
+      "n_by_compound_stops": 12,
+      "source": "Gaussian KDE (bandwidth 2.2 laps) over 51 historical green first stops scaled to 53 laps, blended 0.83 toward the 25 that opened a 2-stop plan, then 0.71 toward the 12 MEDIUM-start 2-stop ones, with a 5% uniform floor on laps 6-47"
+    }
   },
   "regime": {
-    "ratio": 0.6283181503863764,
-    "ln_sd": 0.44104390640632274,
-    "p05": 0.3041525610376137,
-    "p95": 1.2979792008265725,
+    "ratio": 0.6278082385756051,
+    "ln_sd": 0.19805134069269845,
+    "p05": 0.4532483964848063,
+    "p95": 0.869596423242098,
     "measured": true,
-    "label": "median of 6 donors, temperature-corrected",
+    "label": "median of 6 donors + circuit history",
     "sources": [
       "australia-2026",
       "barcelona-2026",
       "austria-2026",
       "belgium-2026",
       "hungary-2026",
-      "italy-2026"
+      "italy-2026",
+      "Suzuka 2023",
+      "Suzuka 2024",
+      "Suzuka 2025"
     ],
-    "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; each donor's log ratio corrected by the thermal sensitivity (+0.025/degC) times its race-minus-practice track temperature, residuals pooled with the median: australia-2026 0.75x (dT +2 degC -> 0.72), barcelona-2026 0.70x (dT +2 degC -> 0.66), austria-2026 0.58x (dT +2 degC -> 0.56), belgium-2026 0.32x (dT -5 degC -> 0.37), hungary-2026 0.64x (dT +17 degC -> 0.42), italy-2026 0.81x (dT +2 degC -> 0.78) -> management residual 0.61x (spread 0.32 ln); at japan-2026 practice ran at 33 degC and the race is expected at 34 degC (archive race-day mean at Suzuka [2023, 2024, 2025]), so 0.63x applies; the old pooled geometric mean would have given 0.61x. japan-2026's own race is never used",
+    "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; residuals pooled with the median: australia-2026 0.75x, barcelona-2026 0.70x, austria-2026 0.58x, belgium-2026 0.32x, hungary-2026 0.64x, italy-2026 0.81x -> management residual 0.67x (spread 0.27 ln); no temperature term (no race-day forecast supplied: no temperature term); the pool gives 0.67x; Suzuka's own practice->race ratio in [2023, 2024, 2025] is 0.58x (+/-0.29 ln), which carries 46% of the precision, so 0.63x applies; the old pooled geometric mean would have given 0.61x. japan-2026's own race is never used",
     "donors": [
       {
         "event": "australia-2026",
@@ -911,10 +1467,10 @@
           "SOFT"
         ],
         "n_race_stints": 47,
-        "t_practice_c": 34.42918454935622,
-        "t_race_c": 35.95,
-        "delta_t_c": 1.5,
-        "residual_ratio": 0.725
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.7533
       },
       {
         "event": "barcelona-2026",
@@ -924,10 +1480,10 @@
           "SOFT"
         ],
         "n_race_stints": 62,
-        "t_practice_c": 47.952000000000005,
-        "t_race_c": 50.4,
-        "delta_t_c": 2.4,
-        "residual_ratio": 0.6592
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.7012
       },
       {
         "event": "austria-2026",
@@ -938,10 +1494,10 @@
           "SOFT"
         ],
         "n_race_stints": 61,
-        "t_practice_c": 48.73320610687022,
-        "t_race_c": 50.8,
-        "delta_t_c": 2.1,
-        "residual_ratio": 0.5553
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.585
       },
       {
         "event": "belgium-2026",
@@ -952,10 +1508,10 @@
           "SOFT"
         ],
         "n_race_stints": 40,
-        "t_practice_c": 36.122330097087385,
-        "t_race_c": 30.7,
-        "delta_t_c": -5.4,
-        "residual_ratio": 0.3671
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.3202
       },
       {
         "event": "hungary-2026",
@@ -966,10 +1522,10 @@
           "SOFT"
         ],
         "n_race_stints": 64,
-        "t_practice_c": 33.77527173913043,
-        "t_race_c": 50.8,
-        "delta_t_c": 17.0,
-        "residual_ratio": 0.4162
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.6392
       },
       {
         "event": "italy-2026",
@@ -978,23 +1534,43 @@
           "SOFT"
         ],
         "n_race_stints": 28,
-        "t_practice_c": 53.675000000000004,
-        "t_race_c": 55.4,
-        "delta_t_c": 1.7,
-        "residual_ratio": 0.7751
+        "t_practice_c": null,
+        "t_race_c": null,
+        "delta_t_c": null,
+        "residual_ratio": 0.8096
       }
     ],
     "temperature": {
-      "beta_per_c": 0.025207229733850672,
-      "t_practice_c": 32.70204460966543,
-      "t_race_expected_c": 34.199999999999996,
-      "t_race_source": "archive race-day mean at Suzuka [2023, 2024, 2025]",
-      "t_race_forecast_sd_c": 12.134249049694013,
-      "delta_t_c": 1.4979553903345675,
-      "residual_median": 0.6050356255026437,
-      "residual_spread_ln": 0.3177464067130272,
+      "mode": "none",
+      "beta_per_c": 0.0,
+      "t_practice_c": null,
+      "t_race_expected_c": null,
+      "t_race_source": "no race-day forecast supplied: no temperature term",
+      "t_race_forecast_sd_c": 0.0,
+      "delta_t_c": 0.0,
+      "residual_median": 0.669490724209074,
+      "residual_spread_ln": 0.2685649168646726,
+      "pooled_ratio": 0.669490724209074,
+      "pooled_ln_sd": 0.2685649168646726,
       "pooled_geomean_ratio": 0.6093691267189861,
-      "modelled": true
+      "modelled": false,
+      "circuit_prior": {
+        "ratio": 0.5814946282352884,
+        "ln_sd": 0.29323159485800193,
+        "years": [
+          2023,
+          2024,
+          2025
+        ],
+        "n": 3,
+        "by_year": {
+          "2023": 0.3517,
+          "2024": 0.5815,
+          "2025": 0.6281
+        },
+        "weight": 1.0,
+        "weight_on_circuit": 0.456177697059816
+      }
     },
     "self_measured": {
       "ratio": 0.7326987078892557,
@@ -1132,53 +1708,138 @@
     ],
     "n_stints": 57
   },
+  "stint_fe_baseline": {
+    "slopes": {
+      "HARD": -0.09089169782626004,
+      "MEDIUM": 0.07345224389070013,
+      "SOFT": 0.24317713613878278
+    },
+    "ci": {
+      "HARD": [
+        -0.19932014180776428,
+        -0.023774301452097583
+      ],
+      "MEDIUM": [
+        0.02579910261972655,
+        0.13215471199661166
+      ],
+      "SOFT": [
+        0.15446802368251952,
+        0.3190133492612853
+      ]
+    },
+    "n_stints": 57,
+    "n_laps": 269,
+    "pooled_slope": 0.06615925020825876,
+    "pooled_ci": [
+      0.017414834677894696,
+      0.10949724900846514
+    ],
+    "n_stints_by_compound": {
+      "HARD": 16,
+      "MEDIUM": 22,
+      "SOFT": 19
+    },
+    "n_laps_by_compound": {
+      "HARD": 77,
+      "MEDIUM": 129,
+      "SOFT": 63
+    },
+    "per_compound": {
+      "HARD": {
+        "slope": -0.09089169782626004,
+        "n_laps": 77,
+        "n_stints": 16
+      },
+      "MEDIUM": {
+        "slope": 0.07345224389070013,
+        "n_laps": 129,
+        "n_stints": 22
+      },
+      "SOFT": {
+        "slope": 0.24317713613878278,
+        "n_laps": 63,
+        "n_stints": 19
+      }
+    },
+    "n_boot": 50,
+    "ycol": "lap_time_corr",
+    "estimator": "stint fixed effects (within-stint OLS), stint block bootstrap",
+    "table": [
+      {
+        "compound": "HARD",
+        "slope_s_per_lap": -0.09089169782626004,
+        "lo": -0.19932014180776428,
+        "hi": -0.023774301452097583,
+        "n_stints": 16,
+        "n_laps": 77,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "MEDIUM",
+        "slope_s_per_lap": 0.07345224389070013,
+        "lo": 0.02579910261972655,
+        "hi": 0.13215471199661166,
+        "n_stints": 22,
+        "n_laps": 129,
+        "n_boot": 50,
+        "band_estimable": true
+      },
+      {
+        "compound": "SOFT",
+        "slope_s_per_lap": 0.24317713613878278,
+        "lo": 0.15446802368251952,
+        "hi": 0.3190133492612853,
+        "n_stints": 19,
+        "n_laps": 63,
+        "n_boot": 50,
+        "band_estimable": true
+      }
+    ]
+  },
   "bayes": {
-    "max_rhat": 1.0027310133987515,
+    "max_rhat": 1.0038766247740551,
     "n_divergences": 0,
     "n_laps": 269,
     "n_apex": 0,
     "use_hinge": false,
-    "corners": [
-      1,
-      11,
-      16,
-      17
-    ],
+    "corners": [],
     "slopes": [
       {
         "compound": "HARD",
-        "slope_s_per_lap": 0.06690425906392435,
-        "lo": 0.04976451899856329,
-        "hi": 0.08776492774486543,
+        "slope_s_per_lap": 0.05994424175843596,
+        "lo": 0.046080008149147034,
+        "hi": 0.09439623616635799,
         "knee_lap": NaN,
         "knee_lo": NaN,
         "knee_hi": NaN
       },
       {
         "compound": "MEDIUM",
-        "slope_s_per_lap": 0.12266404956951737,
-        "lo": 0.09465568475425243,
-        "hi": 0.15453387498855592,
+        "slope_s_per_lap": 0.1102561439226071,
+        "lo": 0.08226531744003296,
+        "hi": 0.15453281700611116,
         "knee_lap": NaN,
         "knee_lo": NaN,
         "knee_hi": NaN
       },
       {
         "compound": "SOFT",
-        "slope_s_per_lap": 0.1726167921486,
-        "lo": 0.1342524081468582,
-        "hi": 0.21751228123903277,
+        "slope_s_per_lap": 0.17825284799188376,
+        "lo": 0.11501334719359875,
+        "hi": 0.25935317575931555,
         "knee_lap": NaN,
         "knee_lo": NaN,
         "knee_hi": NaN
       }
     ],
-    "k_track_mean": 0.040682125836610794,
-    "k_track_sd": 0.010786715894937515,
-    "k_track_rel_sd": 0.26514631509780884,
+    "k_track_mean": 0.04083561524748802,
+    "k_track_sd": 0.010848715901374817,
+    "k_track_rel_sd": 0.26566800475120544,
     "comp_offset": {
-      "HARD": 0.053735844790935516,
-      "MEDIUM": 0.015715861693024635,
+      "HARD": 0.09550277888774872,
+      "MEDIUM": 0.03616534546017647,
       "SOFT": 0.0
     },
     "drivers": [
@@ -1206,148 +1867,148 @@
     ],
     "variants": {
       "2026": {
-        "rhat": 1.0027310133987515,
+        "rhat": 1.0038766247740551,
         "div": 0,
         "n_apex": 0,
         "slopes": [
           {
             "compound": "HARD",
-            "slope_s_per_lap": 0.06690425906392435,
-            "lo": 0.04976451899856329,
-            "hi": 0.08776492774486543,
+            "slope_s_per_lap": 0.05994424175843596,
+            "lo": 0.046080008149147034,
+            "hi": 0.09439623616635799,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "MEDIUM",
-            "slope_s_per_lap": 0.12266404956951737,
-            "lo": 0.09465568475425243,
-            "hi": 0.15453387498855592,
+            "slope_s_per_lap": 0.1102561439226071,
+            "lo": 0.08226531744003296,
+            "hi": 0.15453281700611116,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "SOFT",
-            "slope_s_per_lap": 0.1726167921486,
-            "lo": 0.1342524081468582,
-            "hi": 0.21751228123903277,
+            "slope_s_per_lap": 0.17825284799188376,
+            "lo": 0.11501334719359875,
+            "hi": 0.25935317575931555,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           }
         ],
         "hinge": false,
-        "k_track_rel_sd": 0.26514631509780884
+        "k_track_rel_sd": 0.26566800475120544
       },
       "hinge": {
-        "rhat": 1.007057188181867,
+        "rhat": 1.0110483097674274,
         "div": 0,
         "n_apex": 0,
         "slopes": [
           {
             "compound": "HARD",
-            "slope_s_per_lap": 0.04235977693552762,
-            "lo": 0.01906034715474484,
-            "hi": 0.07246283352968268,
-            "knee_lap": 20.63089370727539,
-            "knee_lo": 12.962374687194824,
-            "knee_hi": 28.374195098876953
+            "slope_s_per_lap": 0.04033333116827612,
+            "lo": 0.01686786462528115,
+            "hi": 0.07131134402457719,
+            "knee_lap": 20.599458694458008,
+            "knee_lo": 13.310638427734375,
+            "knee_hi": 28.171066284179688
           },
           {
             "compound": "MEDIUM",
-            "slope_s_per_lap": 0.07977004296200003,
-            "lo": 0.03921079833771063,
-            "hi": 0.12519966930778856,
-            "knee_lap": 17.203296661376953,
-            "knee_lo": 10.138142585754395,
-            "knee_hi": 24.43956184387207
+            "slope_s_per_lap": 0.07974986723802059,
+            "lo": 0.03855120413981924,
+            "hi": 0.12500741105862306,
+            "knee_lap": 17.171449661254883,
+            "knee_lo": 10.45472240447998,
+            "knee_hi": 24.14630126953125
           },
           {
             "compound": "SOFT",
-            "slope_s_per_lap": 0.1780113407977671,
-            "lo": 0.08067348918007322,
-            "hi": 0.282929770119029,
-            "knee_lap": 13.675849914550781,
-            "knee_lo": 7.336360454559326,
-            "knee_hi": 20.218795776367188
+            "slope_s_per_lap": 0.18513527171153898,
+            "lo": 0.0849832419115116,
+            "hi": 0.289766116514336,
+            "knee_lap": 13.647895812988281,
+            "knee_lo": 7.525410175323486,
+            "knee_hi": 20.187294006347656
           }
         ],
         "hinge": true,
-        "k_track_rel_sd": 0.26124241948127747
+        "k_track_rel_sd": 0.25095096230506897
       },
       "hardladder": {
-        "rhat": 1.0045509555940786,
+        "rhat": 1.0058482246698561,
         "div": 0,
         "n_apex": 0,
         "slopes": [
           {
             "compound": "HARD",
-            "slope_s_per_lap": 0.057943819103820716,
-            "lo": 0.021242824848741293,
-            "hi": 0.09171925075352191,
+            "slope_s_per_lap": 0.05619233067263849,
+            "lo": 0.022684116568416356,
+            "hi": 0.09037032313644885,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "MEDIUM",
-            "slope_s_per_lap": 0.07861764947687334,
-            "lo": 0.029838614258915184,
-            "hi": 0.12496080547571181,
+            "slope_s_per_lap": 0.07623825904942351,
+            "lo": 0.030241046380251643,
+            "hi": 0.12278745435178279,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "SOFT",
-            "slope_s_per_lap": 0.10816716936380544,
-            "lo": 0.04016195349395274,
-            "hi": 0.1778259612619877,
+            "slope_s_per_lap": 0.1046986689089681,
+            "lo": 0.04115667939186096,
+            "hi": 0.17474269419908522,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           }
         ],
         "hinge": false,
-        "k_track_rel_sd": 0.25272563099861145
+        "k_track_rel_sd": 0.264383465051651
       },
       "2025": {
-        "rhat": 1.0052018458778467,
+        "rhat": 1.0107563007748162,
         "div": 0,
         "n_apex": 0,
         "slopes": [
           {
             "compound": "HARD",
-            "slope_s_per_lap": 0.05005107687407872,
-            "lo": 0.022593834437429905,
-            "hi": 0.08527269549667833,
+            "slope_s_per_lap": 0.04757059020354063,
+            "lo": 0.021025840658694506,
+            "hi": 0.0823750827461481,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "MEDIUM",
-            "slope_s_per_lap": 0.0916288021596847,
-            "lo": 0.04583337977528572,
-            "hi": 0.14413320049643516,
+            "slope_s_per_lap": 0.09196577935872483,
+            "lo": 0.04544440153986215,
+            "hi": 0.14426649361848828,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           },
           {
             "compound": "SOFT",
-            "slope_s_per_lap": 0.18998066512926015,
-            "lo": 0.0882774718105793,
-            "hi": 0.3021340727806091,
+            "slope_s_per_lap": 0.19371203081886051,
+            "lo": 0.09545252807438373,
+            "hi": 0.2993676707148552,
             "knee_lap": NaN,
             "knee_lo": NaN,
             "knee_hi": NaN
           }
         ],
         "hinge": false,
-        "k_track_rel_sd": 0.27253612875938416
+        "k_track_rel_sd": 0.27465105056762695
       },
       "none": {
         "rhat": 1.0,
@@ -1356,8 +2017,8 @@
         "slopes": [
           {
             "compound": "HARD",
-            "slope_s_per_lap": 11.1922412738204,
-            "lo": 0.0513717383146286,
+            "slope_s_per_lap": 11.19224257953465,
+            "lo": 0.05137434974312782,
             "hi": 22.333110809326172,
             "knee_lap": NaN,
             "knee_lo": NaN,
@@ -1365,8 +2026,8 @@
           },
           {
             "compound": "MEDIUM",
-            "slope_s_per_lap": 2.7523824125528336,
-            "lo": 0.21925237774848938,
+            "slope_s_per_lap": 2.7523860782384872,
+            "lo": 0.21925970911979675,
             "hi": 5.285512447357178,
             "knee_lap": NaN,
             "knee_lo": NaN,
@@ -1374,8 +2035,8 @@
           },
           {
             "compound": "SOFT",
-            "slope_s_per_lap": 0.7396301627159119,
-            "lo": 0.6152988076210022,
+            "slope_s_per_lap": 0.7396405041217804,
+            "lo": 0.6153194904327393,
             "hi": 0.8639615178108215,
             "knee_lap": NaN,
             "knee_lo": NaN,
@@ -1420,70 +2081,39 @@
         ],
         "hinge": false,
         "k_track_rel_sd": 0.24733391404151917
-      },
-      "joint": {
-        "rhat": 1.006393875585602,
-        "div": 0,
-        "n_apex": 1070,
-        "slopes": [
-          {
-            "compound": "HARD",
-            "slope_s_per_lap": 0.07212757920497097,
-            "lo": 0.04300596937537193,
-            "hi": 0.11199528276920319,
-            "knee_lap": NaN,
-            "knee_lo": NaN,
-            "knee_hi": NaN
-          },
-          {
-            "compound": "MEDIUM",
-            "slope_s_per_lap": 0.04068261587410234,
-            "lo": 0.02192155672237277,
-            "hi": 0.06600872538983822,
-            "knee_lap": NaN,
-            "knee_lo": NaN,
-            "knee_hi": NaN
-          },
-          {
-            "compound": "SOFT",
-            "slope_s_per_lap": 0.07547709138132631,
-            "lo": 0.038886990211904046,
-            "hi": 0.12444706223905086,
-            "knee_lap": NaN,
-            "knee_lo": NaN,
-            "knee_hi": NaN
-          }
-        ],
-        "hinge": false,
-        "k_track_rel_sd": 0.23707126080989838
       }
     }
   },
   "bayes_vs_mixedlm": {
-    "HARD": 0.07713394225410491,
-    "MEDIUM": 0.036008298225266286,
-    "SOFT": 0.12099915816178494
+    "HARD": 0.07515921514935711,
+    "MEDIUM": 0.03549398465919465,
+    "SOFT": 0.11093212232522934
   },
   "bayes_vs_mixedlm_pooled": {
-    "bayes": 0.08960783128491616,
+    "bayes": 0.09164692318328294,
     "mixedlm": 0.11313461151423111,
-    "diff": 0.023526780229314953
+    "diff": 0.021487688330948176
+  },
+  "bayes_vs_stint_fe_pooled": {
+    "bayes": 0.09164692318328294,
+    "stint_fe": 0.06615925020825876,
+    "diff": 0.025487672975024175
   },
   "prior_sensitivity": {
     "HARD": {
-      "2026": 0.06690425906392436,
-      "2025": 0.05005107687407872,
-      "none": 11.1922412738204
+      "2026": 0.05994424175843597,
+      "2025": 0.04757059020354063,
+      "none": 11.19224257953465
     },
     "MEDIUM": {
-      "2026": 0.12266404956951739,
-      "2025": 0.0916288021596847,
-      "none": 2.752382412552834
+      "2026": 0.1102561439226071,
+      "2025": 0.09196577935872484,
+      "none": 2.7523860782384877
     },
     "SOFT": {
-      "2026": 0.1726167921486,
-      "2025": 0.18998066512926015,
-      "none": 0.7396301627159119
+      "2026": 0.1782528479918838,
+      "2025": 0.19371203081886051,
+      "none": 0.7396405041217804
     }
   },
   "evolution": {
@@ -1538,19 +2168,97 @@
     "SOFT": 14.0
   },
   "calibration": {
-    "grip_budget_s": 3.8218006460891125,
+    "grip_budget_s": 4.07747689379326,
     "grip_budget_by_compound": {
-      "HARD": 3.8387290213510443,
-      "MEDIUM": 3.826672916916292,
-      "SOFT": 3.8
+      "SOFT": 3.8417984308528155,
+      "MEDIUM": 4.090632250527002,
+      "HARD": 4.299999999999962
     },
-    "manage_cost_s": 0.9,
-    "manage_wear_floor": 0.35,
+    "manage_cost_s": 0.6,
+    "manage_wear_floor": 0.45,
     "grid_start_penalty_s": 0.0,
     "dirty_air_s_per_lap": 0.13724036279951204,
+    "dirty_air_by_circuit": {
+      "Melbourne": 0.1312,
+      "Suzuka": 0.2291,
+      "Barcelona": 0.1162,
+      "Spielberg": 0.1393,
+      "Spa-Francorchamps": 0.2133,
+      "Budapest": 0.4073,
+      "Monza": 0.0987
+    },
     "undercut_lambda": 0.2,
-    "plan_prior_tau_s": 6.0,
+    "plan_prior_tau_s": 4.0,
+    "first_stop_kappa_s": 1.0,
     "sigma_race_lap_s": 0.5,
+    "driver_factor_ln_sd": {
+      "ALB": 0.08715917188678354,
+      "BEA": 0.07723749666602743,
+      "BOR": 0.07075703091597979,
+      "COL": 0.08324155104154675,
+      "GAS": 0.09089790917434436,
+      "HAM": 0.0917013290938189,
+      "LAW": 0.09743775990203003,
+      "LEC": 0.09060874410106638,
+      "LIN": 0.07363639957093196,
+      "OCO": 0.08357436962967356,
+      "PER": 0.09662078485312359,
+      "RUS": 0.09648964217340752,
+      "SAI": 0.08957271690781507,
+      "STR": 0.11858127776054789,
+      "VER": 0.09219356098409413,
+      "ALO": 0.09048259951932867,
+      "ANT": 0.10212499753163054,
+      "HAD": 0.0952657406649396,
+      "HUL": 0.11532619554090773,
+      "NOR": 0.09901002177592973,
+      "PIA": 0.08474357220220419,
+      "BOT": 0.11063693302352956,
+      "TSU": 0.1432928153429778
+    },
+    "team_factors": {
+      "Alpine": 0.9985938269948167,
+      "Mercedes": 0.919588871573578,
+      "Ferrari": 1.0853147051097325,
+      "Williams": 1.2201722265491886,
+      "Audi": 1.042483029352322,
+      "Racing Bulls": 0.9639000083740958,
+      "Haas F1 Team": 1.2153389976261582,
+      "Cadillac": 1.193078712401099,
+      "McLaren": 1.1187011314975945,
+      "Red Bull Racing": 0.9747989504163999,
+      "Aston Martin": 1.2085409005085996
+    },
+    "grip_budget_detail": {
+      "SOFT": {
+        "budget_s": 3.8417984308528155,
+        "n_obs": 0,
+        "n_obs_excluded": 0,
+        "n_censored": 33,
+        "se_s": NaN,
+        "largest_bound_s": 3.8417984308528155,
+        "source": "largest lower bound 3.84 s over 33 stints on their trend exceeds the prior 3.80 s; no consistent collapse observation"
+      },
+      "MEDIUM": {
+        "budget_s": 4.090632250527002,
+        "n_obs": 0,
+        "n_obs_excluded": 2,
+        "n_censored": 63,
+        "se_s": NaN,
+        "largest_bound_s": 4.090632250527002,
+        "source": "largest lower bound 4.09 s over 63 stints on their trend exceeds the prior 3.80 s; no consistent collapse observation; 2 collapse observation(s) below the median bound excluded as not a tyre cliff"
+      },
+      "HARD": {
+        "budget_s": 4.299999999999962,
+        "n_obs": 1,
+        "n_obs_excluded": 0,
+        "n_censored": 114,
+        "se_s": 0.29242309370989855,
+        "largest_bound_s": 4.187733485335042,
+        "source": "censored log-normal MLE on 1 collapse observations (2.53 s) and 114 lower bounds (largest 4.19 s), obs ln-sd 0.20, prior 3.80 +/-0.15 ln"
+      }
+    },
+    "percar_mode": "team_pooled",
     "source": "leave-one-out (japan-2026 held out), calibrated 2026-09-12 on 7 weekends",
     "detail": {
       "weekends": [
@@ -1564,49 +2272,941 @@
       ],
       "block": "leave-one-out (japan-2026 held out)"
     },
-    "n_driver_factors": 23
+    "n_driver_factors": 23,
+    "dirty_air_used": 0.2291,
+    "dirty_air_source": "this circuit's 2023-25 races"
+  },
+  "cliff_detector": {
+    "n_stints": 42,
+    "kinds": {
+      "undetermined": 27,
+      "strategic": 14,
+      "collapse": 1
+    },
+    "rows": [
+      {
+        "driver": "ALB",
+        "team": "Williams",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "strategic",
+        "knee_age": 7.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.041034580067658664,
+        "slope_post": 0.0203905705208552,
+        "delta_last3_s": 0.04085916751578541,
+        "cum_loss_at_knee_s": 0.24490256682736974,
+        "cum_loss_at_end_s": 0.5311672565544173,
+        "rate_s_per_lap": 0.02455558999082432,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "ALB",
+        "team": "Williams",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 17,
+        "kind": "undetermined",
+        "knee_age": 14.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": -0.1381511290521545,
+        "slope_post": 0.0680230888994616,
+        "delta_last3_s": 0.994511434297591,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.1381511290521545,
+        "in_lap": 45.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "ALO",
+        "team": "Aston Martin",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "strategic",
+        "knee_age": 11.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.0425449270421853,
+        "slope_post": 0.08117677925525316,
+        "delta_last3_s": -0.001617022960394528,
+        "cum_loss_at_knee_s": 0.45509150718499486,
+        "cum_loss_at_end_s": 1.103335677607049,
+        "rate_s_per_lap": 0.06186085314871919,
+        "in_lap": 21.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "ALO",
+        "team": "Aston Martin",
+        "compound": "MEDIUM",
+        "stint": 3,
+        "n": 25,
+        "kind": "undetermined",
+        "knee_age": 24.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.006730418124649976,
+        "slope_post": 0.3780459103917971,
+        "delta_last3_s": 1.6304743798747532,
+        "cum_loss_at_knee_s": 0.24308652605222095,
+        "cum_loss_at_end_s": 0.24308652605222095,
+        "rate_s_per_lap": -0.006730418124649976,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "ANT",
+        "team": "Mercedes",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 20,
+        "kind": "undetermined",
+        "knee_age": 16.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.08903949455235897,
+        "slope_post": -0.2520235354137082,
+        "delta_last3_s": -1.2178596537992374,
+        "cum_loss_at_knee_s": 1.3151385572903527,
+        "cum_loss_at_end_s": 1.3151385572903527,
+        "rate_s_per_lap": 0.08903949455235897,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "ANT",
+        "team": "Mercedes",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 22.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.01306955205260375,
+        "slope_post": 0.13356930608402987,
+        "delta_last3_s": 0.5497856562908852,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": 0.01306955205260375,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "BEA",
+        "team": "Haas F1 Team",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 14,
+        "kind": "strategic",
+        "knee_age": 12.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.0963810947378109,
+        "slope_post": -0.09100303090521075,
+        "delta_last3_s": -0.3995425670707557,
+        "cum_loss_at_knee_s": 0.7219290873358987,
+        "cum_loss_at_end_s": 0.7433807634878712,
+        "rate_s_per_lap": 0.06755276771580754,
+        "in_lap": 16.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "BOR",
+        "team": "Audi",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "strategic",
+        "knee_age": 6.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": -0.2689764396967708,
+        "slope_post": 0.08057714585818676,
+        "delta_last3_s": -0.162478927722307,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.2689764396967708,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "BOR",
+        "team": "Audi",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.5218027859458714,
+        "slope_post": 0.025081105884296573,
+        "delta_last3_s": 0.4751086376573393,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.5218027859458714,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "BOT",
+        "team": "Cadillac",
+        "compound": "HARD",
+        "stint": 1,
+        "n": 17,
+        "kind": "collapse",
+        "knee_age": 16.0,
+        "collapse": true,
+        "censored_by_flag": false,
+        "slope_pre": 0.08078718637504728,
+        "slope_post": 1.4078759587300387,
+        "delta_last3_s": 0.6553997126858683,
+        "cum_loss_at_knee_s": 0.9618329115763349,
+        "cum_loss_at_end_s": 0.9618329115763349,
+        "rate_s_per_lap": 0.08078718637504728,
+        "in_lap": 19.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "BOT",
+        "team": "Cadillac",
+        "compound": "MEDIUM",
+        "stint": 2,
+        "n": 24,
+        "kind": "undetermined",
+        "knee_age": 30.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.07824649220635807,
+        "slope_post": -0.31775929670730896,
+        "delta_last3_s": -0.3792920259992689,
+        "cum_loss_at_knee_s": 1.3743786533542721,
+        "cum_loss_at_end_s": 1.238279681439347,
+        "rate_s_per_lap": 0.05613093955776824,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "COL",
+        "team": "Alpine",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 15,
+        "kind": "strategic",
+        "knee_age": 5.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": -0.15963839152493078,
+        "slope_post": 0.10830511363557652,
+        "delta_last3_s": 0.32560365857474194,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.15963839152493078,
+        "in_lap": 17.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "COL",
+        "team": "Alpine",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 28,
+        "kind": "undetermined",
+        "knee_age": 24.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.018157048958864348,
+        "slope_post": 0.04010403644748391,
+        "delta_last3_s": 0.3352703075725388,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.20181048699373952,
+        "rate_s_per_lap": 0.002420705132948407,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "GAS",
+        "team": "Alpine",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 20,
+        "kind": "strategic",
+        "knee_age": 5.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.19707771049770584,
+        "slope_post": 0.05904889550669473,
+        "delta_last3_s": -0.30104249693648494,
+        "cum_loss_at_knee_s": 0.487654383033973,
+        "cum_loss_at_end_s": 1.4955355979941212,
+        "rate_s_per_lap": 0.07004968828041433,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "GAS",
+        "team": "Alpine",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.4341765159894153,
+        "slope_post": 0.059109158225720326,
+        "delta_last3_s": 0.15069286502417714,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.4341765159894153,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "HAD",
+        "team": "Red Bull Racing",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 17,
+        "kind": "strategic",
+        "knee_age": 5.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": -0.3915277636554391,
+        "slope_post": 0.116806141225339,
+        "delta_last3_s": 0.07071106799722,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.16257082776486953,
+        "rate_s_per_lap": 0.06198581814996105,
+        "in_lap": 19.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "HAD",
+        "team": "Red Bull Racing",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 13.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.3037924320642056,
+        "slope_post": 0.038044520017234074,
+        "delta_last3_s": -0.717867270492473,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": 0.011165033186898522,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "HAM",
+        "team": "Ferrari",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 20,
+        "kind": "strategic",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.06934757792646688,
+        "slope_post": 0.026036376575643047,
+        "delta_last3_s": -0.02860867340707555,
+        "cum_loss_at_knee_s": 0.5037582997822265,
+        "cum_loss_at_end_s": 0.885492740851261,
+        "rate_s_per_lap": 0.03971359805485057,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "HAM",
+        "team": "Ferrari",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 29.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.08352140932720481,
+        "slope_post": -0.24141557985630507,
+        "delta_last3_s": 0.38218072499030004,
+        "cum_loss_at_knee_s": 1.5378733683691652,
+        "cum_loss_at_end_s": 1.5660542258340406,
+        "rate_s_per_lap": 0.07541187079373601,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "HUL",
+        "team": "Audi",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "undetermined",
+        "knee_age": 12.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.03940437578620373,
+        "slope_post": -0.09724065714448898,
+        "delta_last3_s": -0.4455527372461119,
+        "cum_loss_at_knee_s": 0.30408296376556737,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.01813037492145638,
+        "in_lap": 23.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "HUL",
+        "team": "Audi",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 8.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.5073426988631407,
+        "slope_post": -0.0017192291375331958,
+        "delta_last3_s": -0.05342646492123896,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.026265736043870613,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "LAW",
+        "team": "Racing Bulls",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 18,
+        "kind": "strategic",
+        "knee_age": 16.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.07645217773336421,
+        "slope_post": -0.009142269941362469,
+        "delta_last3_s": -0.2557556529374714,
+        "cum_loss_at_knee_s": 0.7617056007338481,
+        "cum_loss_at_end_s": 0.9056407799363322,
+        "rate_s_per_lap": 0.06398078928239304,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "LAW",
+        "team": "Racing Bulls",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.29530714008230363,
+        "slope_post": 0.039504971600204275,
+        "delta_last3_s": -0.3725049516518992,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.29530714008230363,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "LEC",
+        "team": "Ferrari",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 15,
+        "kind": "strategic",
+        "knee_age": 12.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.05750153045657337,
+        "slope_post": 0.14600403202360068,
+        "delta_last3_s": 0.31856123433232636,
+        "cum_loss_at_knee_s": 0.8538175919126915,
+        "cum_loss_at_end_s": 1.2755791338008766,
+        "rate_s_per_lap": 0.07646635222093633,
+        "in_lap": 17.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "LEC",
+        "team": "Ferrari",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 29,
+        "kind": "undetermined",
+        "knee_age": 33.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.021274173896904804,
+        "slope_post": -0.14196853388344718,
+        "delta_last3_s": -0.2111234881795596,
+        "cum_loss_at_knee_s": 0.5902917132034784,
+        "cum_loss_at_end_s": 0.5433304661111095,
+        "rate_s_per_lap": 0.016007020481746067,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "LIN",
+        "team": "Racing Bulls",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 16,
+        "kind": "undetermined",
+        "knee_age": 5.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.4355442317254121,
+        "slope_post": 0.05532109646576239,
+        "delta_last3_s": -0.4946184231092266,
+        "cum_loss_at_knee_s": 0.9967429325652875,
+        "cum_loss_at_end_s": 1.8618906911742548,
+        "rate_s_per_lap": 0.10117153336472039,
+        "in_lap": 18.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "LIN",
+        "team": "Racing Bulls",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 27,
+        "kind": "undetermined",
+        "knee_age": 11.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.07964888549563355,
+        "slope_post": -0.00425262857283433,
+        "delta_last3_s": -0.03547315067668557,
+        "cum_loss_at_knee_s": 0.07279299289340724,
+        "cum_loss_at_end_s": 0.05250450934453839,
+        "rate_s_per_lap": 0.00425834740499214,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "NOR",
+        "team": "McLaren",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 14,
+        "kind": "undetermined",
+        "knee_age": 11.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.10155534537287221,
+        "slope_post": -0.013900771299532197,
+        "delta_last3_s": -0.45909408222226483,
+        "cum_loss_at_knee_s": 0.5710019343904629,
+        "cum_loss_at_end_s": 0.7133236206307421,
+        "rate_s_per_lap": 0.0736428776059173,
+        "in_lap": 16.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "NOR",
+        "team": "McLaren",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 30,
+        "kind": "undetermined",
+        "knee_age": 24.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.010883644093372719,
+        "slope_post": 0.07910967534216752,
+        "delta_last3_s": 0.44685671179049996,
+        "cum_loss_at_knee_s": 0.17773656196029905,
+        "cum_loss_at_end_s": 0.8844178837942073,
+        "rate_s_per_lap": 0.0342981312719382,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "OCO",
+        "team": "Haas F1 Team",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 17,
+        "kind": "strategic",
+        "knee_age": 8.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.04578223042727238,
+        "slope_post": 0.14257882603038893,
+        "delta_last3_s": 0.19728432807047383,
+        "cum_loss_at_knee_s": 0.2871896594652553,
+        "cum_loss_at_end_s": 1.5801198473727112,
+        "rate_s_per_lap": 0.11102503383623583,
+        "in_lap": 19.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "OCO",
+        "team": "Haas F1 Team",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 12.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.300696109603344,
+        "slope_post": 0.04385252232675263,
+        "delta_last3_s": -0.422666630552709,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.300696109603344,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "PER",
+        "team": "Cadillac",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "undetermined",
+        "knee_age": 16.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.06745975752286926,
+        "slope_post": 0.23859256385704766,
+        "delta_last3_s": 0.6413615484681695,
+        "cum_loss_at_knee_s": 0.8350010993386178,
+        "cum_loss_at_end_s": 1.4110777828702028,
+        "rate_s_per_lap": 0.09147839700836799,
+        "in_lap": 21.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "PER",
+        "team": "Cadillac",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 29.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": 0.027666003004001842,
+        "slope_post": -0.11102650907365505,
+        "delta_last3_s": -0.2640884261484165,
+        "cum_loss_at_knee_s": 0.5200465260836579,
+        "cum_loss_at_end_s": 0.4868747386545491,
+        "rate_s_per_lap": 0.02093289643476175,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "PIA",
+        "team": "McLaren",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 16,
+        "kind": "strategic",
+        "knee_age": 8.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.13557968592109432,
+        "slope_post": 0.0201278612352689,
+        "delta_last3_s": -0.2946568846476898,
+        "cum_loss_at_knee_s": 0.7456929189860932,
+        "cum_loss_at_end_s": 0.7456929189860932,
+        "rate_s_per_lap": 0.13557968592109432,
+        "in_lap": 18.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "PIA",
+        "team": "McLaren",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 28,
+        "kind": "undetermined",
+        "knee_age": 13.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.017167860063035566,
+        "slope_post": 0.03352828612869778,
+        "delta_last3_s": 0.21492774267706694,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.5282340694425467,
+        "rate_s_per_lap": 0.023118848171253932,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "RUS",
+        "team": "Mercedes",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "undetermined",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.19763615680766605,
+        "slope_post": 0.020385025562746434,
+        "delta_last3_s": -0.7458289277223097,
+        "cum_loss_at_knee_s": 1.1659511941882317,
+        "cum_loss_at_end_s": 1.1659511941882317,
+        "rate_s_per_lap": 0.19763615680766605,
+        "in_lap": 21.0,
+        "sc_stop": false
+      },
+      {
+        "driver": "RUS",
+        "team": "Mercedes",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 10.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.24500235053223052,
+        "slope_post": 0.02330472721784227,
+        "delta_last3_s": 0.1865607362833531,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": 0.010279221221086533,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "SAI",
+        "team": "Williams",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "strategic",
+        "knee_age": 5.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": -0.16659234983019552,
+        "slope_post": 0.03936019958899922,
+        "delta_last3_s": -0.10648607057945247,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.03510409865968128,
+        "rate_s_per_lap": 0.021294186482052432,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "SAI",
+        "team": "Williams",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 12.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.21249135197377014,
+        "slope_post": 0.045939792396657325,
+        "delta_last3_s": 0.22649184864925034,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.21249135197377014,
+        "in_lap": NaN,
+        "sc_stop": false
+      },
+      {
+        "driver": "STR",
+        "team": "Aston Martin",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 19,
+        "kind": "strategic",
+        "knee_age": 8.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.033346450327708936,
+        "slope_post": 0.09596714650072741,
+        "delta_last3_s": -0.057238451531831235,
+        "cum_loss_at_knee_s": 0.3481584218909627,
+        "cum_loss_at_end_s": 1.4167093618175826,
+        "rate_s_per_lap": 0.07904857244696452,
+        "in_lap": 21.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "VER",
+        "team": "Red Bull Racing",
+        "compound": "MEDIUM",
+        "stint": 1,
+        "n": 20,
+        "kind": "undetermined",
+        "knee_age": 19.0,
+        "collapse": false,
+        "censored_by_flag": false,
+        "slope_pre": 0.017827387758426055,
+        "slope_post": 0.36758483674468334,
+        "delta_last3_s": 0.4347050520831184,
+        "cum_loss_at_knee_s": 0.3833553501704427,
+        "cum_loss_at_end_s": 0.608878455136977,
+        "rate_s_per_lap": 0.03229104166387278,
+        "in_lap": 22.0,
+        "sc_stop": true
+      },
+      {
+        "driver": "VER",
+        "team": "Red Bull Racing",
+        "compound": "HARD",
+        "stint": 2,
+        "n": 26,
+        "kind": "undetermined",
+        "knee_age": 9.0,
+        "collapse": false,
+        "censored_by_flag": true,
+        "slope_pre": -0.45240801090958904,
+        "slope_post": 0.05287195818212176,
+        "delta_last3_s": 0.0594809320296367,
+        "cum_loss_at_knee_s": 0.0,
+        "cum_loss_at_end_s": 0.0,
+        "rate_s_per_lap": -0.45240801090958904,
+        "in_lap": NaN,
+        "sc_stop": false
+      }
+    ],
+    "budget_vs_observed": {
+      "HARD": {
+        "budget_s": 4.299999999999962,
+        "rate_s_per_lap": 0.06123691400885582,
+        "predicted_lap": 70.21908385811398,
+        "n": 1,
+        "observed_knees": [
+          16.0
+        ],
+        "observed_mean_lap": 16.0,
+        "mean_error_laps": 54.219083858113976,
+        "mean_abs_error_laps": 54.219083858113976,
+        "over": 1,
+        "under": 0,
+        "own_rate": {
+          "mean_predicted_lap": 53.22626264068161,
+          "mean_error_laps": 37.22626264068161,
+          "mean_abs_error_laps": 37.22626264068161,
+          "over": 1,
+          "under": 0
+        }
+      },
+      "MEDIUM": {
+        "budget_s": 4.090632250527002,
+        "rate_s_per_lap": 0.11106164301931858,
+        "predicted_lap": 36.83208837289989,
+        "n": 0,
+        "observed_knees": [],
+        "observed_mean_lap": NaN,
+        "mean_error_laps": NaN,
+        "mean_abs_error_laps": NaN,
+        "over": 0,
+        "under": 0,
+        "own_rate": {
+          "mean_predicted_lap": NaN,
+          "mean_error_laps": NaN,
+          "mean_abs_error_laps": NaN,
+          "over": 0,
+          "under": 0
+        }
+      },
+      "SOFT": {
+        "budget_s": 3.8417984308528155,
+        "rate_s_per_lap": 0.17885754580795765,
+        "predicted_lap": 21.479655294934098,
+        "n": 0,
+        "observed_knees": [],
+        "observed_mean_lap": NaN,
+        "mean_error_laps": NaN,
+        "mean_abs_error_laps": NaN,
+        "over": 0,
+        "under": 0,
+        "own_rate": {
+          "mean_predicted_lap": NaN,
+          "mean_error_laps": NaN,
+          "mean_abs_error_laps": NaN,
+          "over": 0,
+          "under": 0
+        }
+      },
+      "_pooled": {
+        "n": 1,
+        "mean_error_laps": 54.219083858113976,
+        "mean_abs_error_laps": 54.219083858113976,
+        "over": 1,
+        "under": 0
+      }
+    }
   },
   "pace_calibration": {
     "applied": true,
-    "measured_net_s": 0.07220192520525458,
-    "net_se_s": 0.08628425982786277,
+    "measured_net_s": 0.06861019178487547,
+    "net_se_s": 0.09559590116234562,
     "stint_len": 26.5,
     "push": 0.55,
     "clipped": true,
     "offsets_before": {
       "SOFT": 0.0,
-      "MEDIUM": 0.02214241586625576,
-      "HARD": 0.046877868473529816
+      "MEDIUM": 0.032660700380802155,
+      "HARD": 0.06980650126934052
     },
     "offsets_after": {
       "SOFT": 0.0,
-      "MEDIUM": 0.49114215715435283,
-      "HARD": 1.0271379268167606
+      "MEDIUM": 0.6049781042591083,
+      "HARD": 1.089875769992976
     },
-    "model_net_before": -0.4207045110767915,
-    "model_net_after": 0.06942551826720593,
-    "best_before": "1-stop M-H @ 19",
+    "model_net_before": -0.4687838634547495,
+    "model_net_after": 0.041250771452153875,
+    "stint_len_plan": 26.5,
+    "life_cap": 31.703040800170037,
+    "passes": 1,
+    "converged": true,
+    "passes_detail": [
+      {
+        "pass": 1,
+        "calibrated_at": 26.5,
+        "plan": "1-stop M-H @ 23",
+        "plan_stint_len": 26.5,
+        "next_length": 26.5,
+        "life_cap": 31.703040800170037
+      }
+    ],
+    "best_before": "1-stop M-H @ 20",
     "best_after": "1-stop M-H @ 23"
   },
   "score": {
-    "mae": 0.02901442708018234,
-    "mae_lap": 0.29212871006464924,
-    "rmse": 0.40722694773420093,
+    "mae": 0.02026612937410186,
+    "mae_lap": 0.2720039195210143,
+    "rmse": 0.38895960248434064,
     "n_rate_stints": 19,
     "n_laps": 340,
     "n_stints": 25,
     "mae_by_compound": {
-      "HARD": 0.020975513438126755,
-      "MEDIUM": 0.03794655334913298
+      "HARD": 0.015911776802634635,
+      "MEDIUM": 0.02510429889795433
     },
     "coverage": {
-      "0.5": 0.85,
-      "0.8": 0.9764705882352941,
-      "0.9": 0.9882352941176471,
-      "0.95": 0.9941176470588236
+      "0.5": 0.788235294117647,
+      "0.8": 0.9441176470588235,
+      "0.9": 0.9705882352941176,
+      "0.95": 0.9852941176470589
     },
     "rate_coverage90": 1.0,
-    "rate_width90": 0.22873249836582724,
+    "rate_width90": 0.1482804939545922,
     "sigma_used": 0.5,
     "cliff": {
       "HARD": {
@@ -1624,10 +3224,10 @@
         "detected": true
       }
     },
-    "bias": -0.028868405695926174,
+    "bias": -0.017472880189855315,
     "bias_by_compound": {
-      "HARD": -0.020698072808040046,
-      "MEDIUM": -0.03794655334913298
+      "HARD": -0.012436440028971095,
+      "MEDIUM": -0.023068924813060013
     },
     "regime_label": "race regime",
     "passes_mae": true,
@@ -1672,12 +3272,12 @@
     ],
     "all_stints_inside_observed_range": true,
     "grip_budget_implied": {
-      "HARD": 1.461806214106781,
-      "MEDIUM": 2.370739013953191
+      "HARD": 1.4706130414618626,
+      "MEDIUM": 2.3788191512135652
     },
     "grip_budget_used": {
-      "HARD": 3.8387290213510443,
-      "MEDIUM": 3.826672916916292
+      "HARD": 4.299999999999962,
+      "MEDIUM": 4.090632250527002
     },
     "grip_budget_config": 3.8,
     "first_stop": {
@@ -1688,17 +3288,21 @@
       "field_p25_green": 17.0,
       "field_p75_green": 19.0,
       "recommended": 23,
-      "tyre_optimal": 31,
+      "tyre_optimal": 33,
       "recommended_minus_field": 5.0,
-      "tyre_optimal_minus_field": 13.0,
+      "tyre_optimal_minus_field": 15.0,
       "sc_set_the_stops": true
     }
   },
   "ladder_check": {
-    "model_net_step_s": 0.06942551826720593,
-    "measured_net_step_s": 0.07220192520525458,
+    "model_net_step_s": 0.041250771452153875,
+    "measured_net_step_s": 0.06861019178487547,
     "self_measured_net_step_s": -0.06860725117879651,
-    "stint_laps": 26.5
+    "stint_laps": 26.5,
+    "stint_laps_plan": 26.5,
+    "life_cap_laps": 31.703040800170037,
+    "passes": 1,
+    "converged": true
   },
   "strategy": {
     "n_strategies": 246250,
@@ -1719,26 +3323,28 @@
       ],
       "n_stops": 1,
       "push": 0.55,
-      "position_s": 0.20963947522946685,
-      "prior_s": 0.0
+      "position_s": 0.2691788055049848,
+      "prior_s": 0.0,
+      "first_stop_s": 0.0
     },
     "tyre_optimal": {
       "compounds": [
-        "MEDIUM",
+        "HARD",
         "SOFT"
       ],
       "pit_laps": [
-        31
+        33
       ],
       "stint_lens": [
-        31,
-        22
+        33,
+        20
       ],
       "n_stops": 1,
       "push": 0.55,
-      "delta_s": 10.22109649841721,
-      "tyre_s": 119.84894691639019,
-      "label": "1-stop M-S @ 31"
+      "delta_s": 19.80213585684163,
+      "tyre_s": 118.6114290386856,
+      "first_stop_s": 0.36828051397574946,
+      "label": "1-stop H-S @ 33"
     },
     "warmup_s": 0.7,
     "push": 0.55,
@@ -1748,45 +3354,67 @@
       0.85,
       1.0
     ],
-    "implied_regime": 0.585250160708655,
-    "ordering_spread_s": 27.317241517826915,
+    "implied_regime": 0.6490578282919389,
+    "ordering_spread_s": 19.11457245012116,
     "ordering": [
       {
         "compounds": "MEDIUM-HARD",
-        "mean_s": 125.26906074346701
-      },
-      {
-        "compounds": "MEDIUM-SOFT",
-        "mean_s": 135.49015724188422
+        "mean_s": 122.94492459703056
       },
       {
         "compounds": "HARD-MEDIUM",
-        "mean_s": 135.83358175123274
+        "mean_s": 130.10629705204755
       },
       {
         "compounds": "SOFT-HARD",
-        "mean_s": 137.78791536988032
+        "mean_s": 131.490401207862
+      },
+      {
+        "compounds": "MEDIUM-SOFT",
+        "mean_s": 133.60816987366738
       },
       {
         "compounds": "SOFT-MEDIUM",
-        "mean_s": 147.76868584431486
+        "mean_s": 139.77200942331385
       },
       {
         "compounds": "HARD-SOFT",
-        "mean_s": 152.58630226129392
+        "mean_s": 142.05949704715172
       }
     ],
-    "grip_budget_s": 3.8218006460891125,
+    "grip_budget_s": 4.07747689379326,
     "grip_budgets": {
-      "HARD": 3.8387290213510443,
-      "MEDIUM": 3.826672916916292,
-      "SOFT": 3.8
+      "HARD": 4.299999999999962,
+      "MEDIUM": 4.090632250527002,
+      "SOFT": 3.8417984308528155
     },
     "undercut_lambda": 0.2,
-    "plan_prior_tau_s": 6.0,
-    "position_s": 0.20963947522946685,
+    "plan_prior_tau_s": 4.0,
+    "first_stop_kappa_s": 1.0,
+    "position_s": 0.2691788055049848,
     "prior_s": 0.0,
-    "traffic_s_per_stop": 0.14587701400063996,
+    "first_stop_s": 0.0,
+    "first_stop_prior": {
+      "mode": 22,
+      "median": 20.0,
+      "p25": 16.0,
+      "p75": 25.0,
+      "n": 51,
+      "n_compound": 30,
+      "start_compound": "MEDIUM",
+      "source": "Gaussian KDE (bandwidth 2.2 laps) over 51 historical green first stops scaled to 53 laps, blended 0.86 toward the 30 MEDIUM-start stops, with a 5% uniform floor on laps 6-47",
+      "by_stops": {
+        "n_stops": 2,
+        "mode": 16,
+        "median": 16.0,
+        "p25": 13.0,
+        "p75": 18.0,
+        "n_by_stops": 25,
+        "n_by_compound_stops": 12,
+        "source": "Gaussian KDE (bandwidth 2.2 laps) over 51 historical green first stops scaled to 53 laps, blended 0.83 toward the 25 that opened a 2-stop plan, then 0.71 toward the 12 MEDIUM-start 2-stop ones, with a 5% uniform floor on laps 6-47"
+      }
+    },
+    "traffic_s_per_stop": 0.24351745525745175,
     "safety_car_credit_s": 1.885723018712367,
     "by_stops": [
       {
@@ -1796,58 +3424,61 @@
         "pit_laps": "[23]",
         "stint_lens": "[23, 30]",
         "push": 0.55,
-        "max_wear": 0.4493223700965124,
-        "position_s": 0.20963947522946685,
+        "max_wear": 0.42176120098104525,
+        "position_s": 0.2691788055049848,
         "prior_s": 0.0,
-        "tyre_s": 125.05942137684292,
-        "mean_s": 125.26906074346701,
+        "first_stop_s": 0.0,
+        "tyre_s": 122.6757457618227,
+        "mean_s": 122.94492459703056,
         "delta_s": 0.0,
         "delta_p05": 0.0,
         "delta_p95": 0.0,
-        "p05_s": 105.28736838354266,
-        "p95_s": 148.42337912573015,
-        "win_prob": 0.404,
-        "p_beat_best": 0.362,
-        "win_prob_any": 0.9940000000000001
+        "p05_s": 94.50129635453787,
+        "p95_s": 154.12082378984059,
+        "win_prob": 0.444,
+        "p_beat_best": 0.392,
+        "win_prob_any": 0.978
       },
       {
         "n_stops": 2,
-        "strategy": "2-stop M-H-H @ 14,33",
-        "compounds": "MEDIUM-HARD-HARD",
-        "pit_laps": "[14, 33]",
-        "stint_lens": "[14, 19, 20]",
-        "push": 1.0,
-        "max_wear": 0.47281993703677405,
-        "position_s": 0.5601784744219472,
-        "prior_s": 4.670755059097983,
-        "tyre_s": 133.63619629267401,
-        "mean_s": 138.8671298940144,
-        "delta_s": 13.598069150547389,
-        "delta_p05": 11.857100549320625,
-        "delta_p95": 15.408414331058907,
-        "p05_s": 117.22410445761304,
-        "p95_s": 163.18229957174879,
+        "strategy": "2-stop M-M-H @ 16,33",
+        "compounds": "MEDIUM-MEDIUM-HARD",
+        "pit_laps": "[16, 33]",
+        "stint_lens": "[16, 17, 20]",
+        "push": 0.7,
+        "max_wear": 0.34800615550167,
+        "position_s": 0.4742111192723827,
+        "prior_s": 3.679487404578368,
+        "first_stop_s": 0.0,
+        "tyre_s": 132.3675725569805,
+        "mean_s": 136.5212710318334,
+        "delta_s": 13.576346434802844,
+        "delta_p05": 9.24980045816405,
+        "delta_p95": 16.804338231296374,
+        "p05_s": 110.49132260463307,
+        "p95_s": 164.97188843867846,
         "win_prob": 0.0,
         "p_beat_best": 0.0,
-        "win_prob_any": 0.006
+        "win_prob_any": 0.022
       },
       {
         "n_stops": 3,
-        "strategy": "3-stop S-M-H-S @ 12,26,40",
+        "strategy": "3-stop S-M-H-S @ 13,28,39",
         "compounds": "SOFT-MEDIUM-HARD-SOFT",
-        "pit_laps": "[12, 26, 40]",
-        "stint_lens": "[12, 14, 14, 13]",
-        "push": 0.85,
-        "max_wear": 0.4854618018297669,
-        "position_s": 1.6860402814418833,
-        "prior_s": 16.645757533722325,
-        "tyre_s": 140.4726357797702,
-        "mean_s": 158.80443361868166,
-        "delta_s": 33.53537287521465,
-        "delta_p05": 26.95559584236247,
-        "delta_p95": 40.14678060150248,
-        "p05_s": 144.86317253698604,
-        "p95_s": 175.40382991422908,
+        "pit_laps": "[13, 28, 39]",
+        "stint_lens": "[13, 15, 11, 14]",
+        "push": 0.55,
+        "max_wear": 0.4141167416131587,
+        "position_s": 0.9767932331625687,
+        "prior_s": 11.097171689148215,
+        "first_stop_s": 0.19426134095210834,
+        "tyre_s": 140.94832006814474,
+        "mean_s": 153.21654624213522,
+        "delta_s": 30.27162164510466,
+        "delta_p05": 18.686196201455395,
+        "delta_p95": 41.144498937737744,
+        "p05_s": 134.25491175116844,
+        "p95_s": 176.60268535079305,
         "win_prob": 0.0,
         "p_beat_best": 0.0,
         "win_prob_any": 0.0
@@ -1856,57 +3487,57 @@
     "life": [
       {
         "compound": "HARD",
-        "deg_s_per_lap": 0.06750664708763361,
-        "deg_lo": 0.050955812260508535,
-        "deg_hi": 0.08874656446278092,
+        "deg_s_per_lap": 0.06123691400885582,
+        "deg_lo": 0.046080008149147034,
+        "deg_hi": 0.09252144545316689,
         "knee_lap": 53.0,
         "life_laps": 42.0,
         "life_lo": 42.0,
         "life_hi": 42.0,
-        "life_model_uncapped": 99.84088633343448,
-        "life_full_push": 58.43189477193709,
+        "life_model_uncapped": 115.32023474260076,
+        "life_full_push": 74.84950112014906,
         "longer_than_race": true,
         "bound_by": "circuit history",
         "max_stint_laps": 42.0,
         "practice_support_laps": 23.0,
-        "pace_offset_s": 1.0271379268167606,
-        "grip_budget_s": 3.8387290213510443
+        "pace_offset_s": 1.089875769992976,
+        "grip_budget_s": 4.299999999999962
       },
       {
         "compound": "MEDIUM",
-        "deg_s_per_lap": 0.1227519119232893,
-        "deg_lo": 0.09687365405261517,
-        "deg_hi": 0.15522643625736232,
-        "knee_lap": 31.850079408146172,
+        "deg_s_per_lap": 0.11106164301931858,
+        "deg_lo": 0.08226531744003296,
+        "deg_hi": 0.15810772031545636,
+        "knee_lap": 38.4571194926678,
         "life_laps": 36.0,
         "life_lo": 36.0,
         "life_hi": 36.0,
-        "life_model_uncapped": 54.42130826513613,
-        "life_full_push": 31.850079408146172,
+        "life_model_uncapped": 59.25068278410812,
+        "life_full_push": 38.4571194926678,
         "longer_than_race": true,
         "bound_by": "circuit history",
         "max_stint_laps": 36.0,
         "practice_support_laps": 21.0,
-        "pace_offset_s": 0.49114215715435283,
-        "grip_budget_s": 3.826672916916292
+        "pace_offset_s": 0.6049781042591083,
+        "grip_budget_s": 4.090632250527002
       },
       {
         "compound": "SOFT",
-        "deg_s_per_lap": 0.17274216040968896,
-        "deg_lo": 0.13654774874448777,
-        "deg_hi": 0.21655550971627233,
-        "knee_lap": 22.511140334606214,
+        "deg_s_per_lap": 0.17885754580795765,
+        "deg_lo": 0.11746105588972569,
+        "deg_hi": 0.2627929449081421,
+        "knee_lap": 22.86345201334344,
         "life_laps": 22.0,
         "life_lo": 22.0,
         "life_hi": 22.0,
-        "life_model_uncapped": 38.464133537953096,
-        "life_full_push": 22.511140334606214,
+        "life_model_uncapped": 35.22560088907782,
+        "life_full_push": 22.86345201334344,
         "longer_than_race": false,
         "bound_by": "circuit history",
         "max_stint_laps": 22.0,
         "practice_support_laps": 14.0,
         "pace_offset_s": 0.0,
-        "grip_budget_s": 3.8
+        "grip_budget_s": 3.8417984308528155
       }
     ],
     "pit_windows": [
@@ -1914,7 +3545,7 @@
         "stop": 1,
         "recommended": 23,
         "lo": 20,
-        "hi": 27
+        "hi": 25
       }
     ],
     "top": [
@@ -1925,38 +3556,19 @@
         "pit_laps": "[23]",
         "stint_lens": "[23, 30]",
         "push": 0.55,
-        "max_wear": 0.4493223700965124,
-        "position_s": 0.20963947522946685,
+        "max_wear": 0.42176120098104525,
+        "position_s": 0.2691788055049848,
         "prior_s": 0.0,
-        "tyre_s": 125.05942137684292,
-        "mean_s": 125.26906074346701,
+        "first_stop_s": 0.0,
+        "tyre_s": 122.6757457618227,
+        "mean_s": 122.94492459703056,
         "delta_s": 0.0,
         "delta_p05": 0.0,
         "delta_p95": 0.0,
-        "p05_s": 105.28736838354266,
-        "p95_s": 148.42337912573015,
-        "win_prob": 0.404,
+        "p05_s": 94.50129635453787,
+        "p95_s": 154.12082378984059,
+        "win_prob": 0.444,
         "p_beat_best": NaN
-      },
-      {
-        "strategy": "1-stop M-H @ 24",
-        "n_stops": 1,
-        "compounds": "MEDIUM-HARD",
-        "pit_laps": "[24]",
-        "stint_lens": "[24, 29]",
-        "push": 0.55,
-        "max_wear": 0.46824730367636325,
-        "position_s": 0.28494502398060534,
-        "prior_s": 0.0,
-        "tyre_s": 125.02581815375773,
-        "mean_s": 125.31076312884039,
-        "delta_s": 0.04170238537343925,
-        "delta_p05": -0.151180186800633,
-        "delta_p95": 0.24814957088979625,
-        "p05_s": 105.38008849581428,
-        "p95_s": 148.41437423189828,
-        "win_prob": 0.266,
-        "p_beat_best": 0.362
       },
       {
         "strategy": "1-stop M-H @ 22",
@@ -1965,38 +3577,40 @@
         "pit_laps": "[22]",
         "stint_lens": "[22, 31]",
         "push": 0.55,
-        "max_wear": 0.4303469038716611,
-        "position_s": 0.14515865306052286,
+        "max_wear": 0.4039496786603349,
+        "position_s": 0.1954793120412739,
         "prior_s": 0.0,
-        "tyre_s": 125.20928554817053,
-        "mean_s": 125.35444444790721,
-        "delta_s": 0.08538370444028578,
-        "delta_p05": -0.11580313943178451,
-        "delta_p95": 0.294249732272317,
-        "p05_s": 105.30252799740677,
-        "p95_s": 148.5349903081978,
-        "win_prob": 0.188,
-        "p_beat_best": 0.232
+        "first_stop_s": 0.021408096548330313,
+        "tyre_s": 122.77766851806072,
+        "mean_s": 122.99455605262,
+        "delta_s": 0.04963145558941437,
+        "delta_p05": -0.2796765087355368,
+        "delta_p95": 0.38538849370586936,
+        "p05_s": 94.5446588053055,
+        "p95_s": 154.260388423378,
+        "win_prob": 0.312,
+        "p_beat_best": 0.392
       },
       {
-        "strategy": "1-stop M-H @ 25",
+        "strategy": "1-stop M-H @ 24",
         "n_stops": 1,
         "compounds": "MEDIUM-HARD",
-        "pit_laps": "[25]",
-        "stint_lens": "[25, 28]",
+        "pit_laps": "[24]",
+        "stint_lens": "[24, 29]",
         "push": 0.55,
-        "max_wear": 0.4871217551595164,
-        "position_s": 0.37087624956758347,
+        "max_wear": 0.43952529029938914,
+        "position_s": 0.35352982029814206,
         "prior_s": 0.0,
-        "tyre_s": 125.10806415350022,
-        "mean_s": 125.47894045857437,
-        "delta_s": 0.20987971510737044,
-        "delta_p05": -0.17768663010747326,
-        "delta_p95": 0.6403256074413546,
-        "p05_s": 105.67130418232922,
-        "p95_s": 148.54585271290784,
-        "win_prob": 0.076,
-        "p_beat_best": 0.21
+        "first_stop_s": 0.08148150166480805,
+        "tyre_s": 122.69073553392852,
+        "mean_s": 123.12574677460317,
+        "delta_s": 0.18082217757265198,
+        "delta_p05": -0.13852903778989684,
+        "delta_p95": 0.5223415142730913,
+        "p05_s": 94.65981989090568,
+        "p95_s": 154.2261233348144,
+        "win_prob": 0.11,
+        "p_beat_best": 0.152
       },
       {
         "strategy": "1-stop M-H @ 21",
@@ -2005,18 +3619,40 @@
         "pit_laps": "[21]",
         "stint_lens": "[21, 32]",
         "push": 0.55,
-        "max_wear": 0.4113208544871931,
-        "position_s": 0.09181457640398358,
+        "max_wear": 0.38609067592117835,
+        "position_s": 0.13270098102812652,
         "prior_s": 0.0,
-        "tyre_s": 125.47582292902634,
-        "mean_s": 125.56763738530738,
-        "delta_s": 0.2985766418403915,
-        "delta_p05": -0.10159456558758176,
-        "delta_p95": 0.7287688987678733,
-        "p05_s": 105.36180054372412,
-        "p95_s": 148.76955506032564,
-        "win_prob": 0.038,
-        "p_beat_best": 0.12
+        "first_stop_s": 0.1418699401824819,
+        "tyre_s": 122.99691765951499,
+        "mean_s": 123.2714885427638,
+        "delta_s": 0.32656394573322656,
+        "delta_p05": -0.31255302051433204,
+        "delta_p95": 1.011919216118967,
+        "p05_s": 94.78665631314952,
+        "p95_s": 154.63340333005624,
+        "win_prob": 0.064,
+        "p_beat_best": 0.19
+      },
+      {
+        "strategy": "1-stop M-H @ 25",
+        "n_stops": 1,
+        "compounds": "MEDIUM-HARD",
+        "pit_laps": "[25]",
+        "stint_lens": "[25, 28]",
+        "push": 0.55,
+        "max_wear": 0.45724199406306615,
+        "position_s": 0.44837616486533777,
+        "prior_s": 0.0,
+        "first_stop_s": 0.2708294397450044,
+        "tyre_s": 122.82222552809891,
+        "mean_s": 123.54143114009258,
+        "delta_s": 0.5965065430620539,
+        "delta_p05": -0.05605126486030939,
+        "delta_p95": 1.285283650300823,
+        "p05_s": 95.03273421779035,
+        "p95_s": 154.49356643214583,
+        "win_prob": 0.024,
+        "p_beat_best": 0.06
       }
     ]
   },
@@ -2024,378 +3660,16 @@
     {
       "driver": "ALB",
       "race_factor": 1.140771766730281,
+      "race_factor_ln_sd": 0.08715917188678354,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0003,
-        "MEDIUM": -0.0002,
-        "SOFT": -0.0016
+        "HARD": 0.0009,
+        "MEDIUM": -0.0004,
+        "SOFT": -0.0011
       },
       "eff_rate": {
-        "HARD": 0.0775,
-        "MEDIUM": 0.1398,
-        "SOFT": 0.1952
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "ALO",
-      "race_factor": 1.2595446604478133,
-      "practice_dev_s_per_lap": {},
-      "eff_rate": {
-        "HARD": 0.085,
-        "MEDIUM": 0.1546,
-        "SOFT": 0.2176
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "ANT",
-      "race_factor": 0.9034043212604691,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0005,
-        "MEDIUM": 0.0007,
-        "SOFT": -0.0007
-      },
-      "eff_rate": {
-        "HARD": 0.0607,
-        "MEDIUM": 0.1116,
-        "SOFT": 0.1554
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "BEA",
-      "race_factor": 1.3184896918552167,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0003,
-        "MEDIUM": -0.0005,
-        "SOFT": 0.0027
-      },
-      "eff_rate": {
-        "HARD": 0.0895,
-        "MEDIUM": 0.1612,
-        "SOFT": 0.2313
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "BOR",
-      "race_factor": 1.1537962631261112,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0033,
-        "MEDIUM": 0.0011,
-        "SOFT": 0.0038
-      },
-      "eff_rate": {
-        "HARD": 0.0744,
-        "MEDIUM": 0.1428,
-        "SOFT": 0.2037
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "BOT",
-      "race_factor": 1.29256418653227,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.001,
-        "MEDIUM": 0.0016,
-        "SOFT": 0.0005
-      },
-      "eff_rate": {
-        "HARD": 0.0887,
-        "MEDIUM": 0.1607,
-        "SOFT": 0.2239
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "COL",
-      "race_factor": 0.9950415427335142,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0017,
-        "MEDIUM": 0.0012,
-        "SOFT": 0.0039
-      },
-      "eff_rate": {
-        "HARD": 0.069,
-        "MEDIUM": 0.1233,
-        "SOFT": 0.1757
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "GAS",
-      "race_factor": 1.0021587928607871,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.001,
-        "MEDIUM": -0.001,
-        "SOFT": -0.0012
-      },
-      "eff_rate": {
-        "HARD": 0.0669,
-        "MEDIUM": 0.122,
-        "SOFT": 0.172
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "HAD",
-      "race_factor": 0.9519184426795064,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0016,
-        "MEDIUM": 0.0076,
-        "SOFT": 0.0007
-      },
-      "eff_rate": {
-        "HARD": 0.0629,
-        "MEDIUM": 0.1241,
-        "SOFT": 0.1651
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "HAM",
-      "race_factor": 1.0918346106591763,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.004,
-        "MEDIUM": 0.0001,
-        "SOFT": -0.0025
-      },
-      "eff_rate": {
-        "HARD": 0.07,
-        "MEDIUM": 0.1341,
-        "SOFT": 0.1859
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "HUL",
-      "race_factor": 0.9108952479055555,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0007,
-        "MEDIUM": -0.0022,
-        "SOFT": 0.0
-      },
-      "eff_rate": {
-        "HARD": 0.0624,
-        "MEDIUM": 0.1098,
-        "SOFT": 0.1574
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "LAW",
-      "race_factor": 0.9657621894640843,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0001,
-        "MEDIUM": 0.0013,
-        "SOFT": -0.0004
-      },
-      "eff_rate": {
-        "HARD": 0.0653,
-        "MEDIUM": 0.1198,
-        "SOFT": 0.1664
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "LEC",
-      "race_factor": 1.0788337332668765,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.003,
-        "MEDIUM": -0.0019,
-        "SOFT": -0.0004
-      },
-      "eff_rate": {
-        "HARD": 0.0699,
-        "MEDIUM": 0.1304,
-        "SOFT": 0.1859
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "LIN",
-      "race_factor": 0.9236780849361685,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0001,
-        "MEDIUM": 0.0,
-        "SOFT": -0.0004
-      },
-      "eff_rate": {
-        "HARD": 0.0626,
-        "MEDIUM": 0.1134,
-        "SOFT": 0.1592
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "NOR",
-      "race_factor": 0.9801626798655015,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0005,
-        "MEDIUM": -0.0034,
-        "SOFT": 0.0024
-      },
-      "eff_rate": {
-        "HARD": 0.0668,
-        "MEDIUM": 0.1171,
-        "SOFT": 0.1716
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": 0,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "OCO",
-      "race_factor": 1.1202581925935522,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0006,
-        "MEDIUM": -0.0002,
-        "SOFT": -0.0012
-      },
-      "eff_rate": {
-        "HARD": 0.0751,
-        "MEDIUM": 0.1373,
-        "SOFT": 0.1922
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "PER",
-      "race_factor": 1.1175136280120392,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0008,
-        "MEDIUM": -0.0,
-        "SOFT": -0.0014
-      },
-      "eff_rate": {
-        "HARD": 0.0764,
-        "MEDIUM": 0.1371,
+        "HARD": 0.067,
+        "MEDIUM": 0.1192,
         "SOFT": 0.1915
       },
       "best": "1-stop M-H @ 22",
@@ -2404,68 +3678,25 @@
       "pit_laps": "[22]",
       "push": 0.55,
       "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "PIA",
-      "race_factor": 1.2768209270992943,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0011,
-        "MEDIUM": 0.0012,
-        "SOFT": -0.0005
-      },
-      "eff_rate": {
-        "HARD": 0.0876,
-        "MEDIUM": 0.1583,
-        "SOFT": 0.2199
-      },
-      "best": "1-stop M-H @ 22",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[22]",
-      "push": 0.55,
-      "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "RUS",
-      "race_factor": 0.9353791144895457,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0006,
-        "MEDIUM": 0.0006,
-        "SOFT": -0.0005
-      },
-      "eff_rate": {
-        "HARD": 0.0637,
-        "MEDIUM": 0.1153,
-        "SOFT": 0.1611
-      },
-      "best": "1-stop M-H @ 24",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[24]",
-      "push": 0.55,
-      "first_stop": 24,
-      "field_best": "1-stop M-H @ 24",
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
       "first_stop_vs_field": 0,
       "same_shape_as_field": true
     },
     {
-      "driver": "SAI",
-      "race_factor": 1.3050991494199686,
+      "driver": "ALO",
+      "race_factor": 1.2595446604478133,
+      "race_factor_ln_sd": 0.09048259951932867,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0011,
-        "MEDIUM": -0.0029,
-        "SOFT": -0.0006
+        "HARD": -0.0009,
+        "MEDIUM": 0.002,
+        "SOFT": -0.0001
       },
       "eff_rate": {
-        "HARD": 0.0897,
-        "MEDIUM": 0.1564,
-        "SOFT": 0.2246
+        "HARD": 0.0686,
+        "MEDIUM": 0.1284,
+        "SOFT": 0.2029
       },
       "best": "1-stop M-H @ 22",
       "n_stops": 1,
@@ -2473,22 +3704,25 @@
       "pit_laps": "[22]",
       "push": 0.55,
       "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
       "same_shape_as_field": true
     },
     {
-      "driver": "STR",
-      "race_factor": 1.1402965385660024,
+      "driver": "ANT",
+      "race_factor": 0.9034043212604691,
+      "race_factor_ln_sd": 0.10212499753163054,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0012,
-        "MEDIUM": 0.0014,
-        "SOFT": -0.0006
+        "HARD": -0.0008,
+        "MEDIUM": 0.0007,
+        "SOFT": -0.0014
       },
       "eff_rate": {
-        "HARD": 0.0758,
-        "MEDIUM": 0.1415,
-        "SOFT": 0.1963
+        "HARD": 0.0576,
+        "MEDIUM": 0.1063,
+        "SOFT": 0.1689
       },
       "best": "1-stop M-H @ 22",
       "n_stops": 1,
@@ -2496,21 +3730,154 @@
       "pit_laps": "[22]",
       "push": 0.55,
       "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
       "same_shape_as_field": true
     },
     {
-      "driver": "VER",
-      "race_factor": 1.007569979739816,
+      "driver": "BEA",
+      "race_factor": 1.3184896918552167,
+      "race_factor_ln_sd": 0.07723749666602743,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0015,
-        "MEDIUM": 0.0008,
-        "SOFT": 0.0004
+        "HARD": 0.0001,
+        "MEDIUM": -0.0003,
+        "SOFT": 0.0018
       },
       "eff_rate": {
-        "HARD": 0.0667,
-        "MEDIUM": 0.1245,
+        "HARD": 0.073,
+        "MEDIUM": 0.1317,
+        "SOFT": 0.2148
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "BOR",
+      "race_factor": 1.1537962631261112,
+      "race_factor_ln_sd": 0.07075703091597979,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0016,
+        "MEDIUM": 0.0002,
+        "SOFT": 0.0031
+      },
+      "eff_rate": {
+        "HARD": 0.0658,
+        "MEDIUM": 0.1224,
+        "SOFT": 0.2002
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "BOT",
+      "race_factor": 1.29256418653227,
+      "race_factor_ln_sd": 0.11063693302352956,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0006,
+        "MEDIUM": 0.001,
+        "SOFT": 0.0003
+      },
+      "eff_rate": {
+        "HARD": 0.0694,
+        "MEDIUM": 0.1258,
+        "SOFT": 0.2011
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "COL",
+      "race_factor": 0.9950415427335142,
+      "race_factor_ln_sd": 0.08324155104154675,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0012,
+        "MEDIUM": 0.0,
+        "SOFT": 0.0025
+      },
+      "eff_rate": {
+        "HARD": 0.0623,
+        "MEDIUM": 0.1108,
+        "SOFT": 0.1808
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "GAS",
+      "race_factor": 1.0021587928607871,
+      "race_factor_ln_sd": 0.09089790917434436,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0004,
+        "MEDIUM": -0.0004,
+        "SOFT": 0.0002
+      },
+      "eff_rate": {
+        "HARD": 0.0618,
+        "MEDIUM": 0.1108,
+        "SOFT": 0.1793
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "HAD",
+      "race_factor": 0.9519184426795064,
+      "race_factor_ln_sd": 0.0952657406649396,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0013,
+        "MEDIUM": 0.0042,
+        "SOFT": 0.0001
+      },
+      "eff_rate": {
+        "HARD": 0.0585,
+        "MEDIUM": 0.1123,
         "SOFT": 0.1744
       },
       "best": "1-stop M-H @ 22",
@@ -2519,8 +3886,347 @@
       "pit_laps": "[22]",
       "push": 0.55,
       "first_stop": 22,
-      "field_best": "1-stop M-H @ 24",
-      "first_stop_vs_field": -2,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "HAM",
+      "race_factor": 1.0918346106591763,
+      "race_factor_ln_sd": 0.0917013290938189,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0034,
+        "MEDIUM": -0.0002,
+        "SOFT": -0.0021
+      },
+      "eff_rate": {
+        "HARD": 0.0609,
+        "MEDIUM": 0.1162,
+        "SOFT": 0.1854
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "HUL",
+      "race_factor": 0.9108952479055555,
+      "race_factor_ln_sd": 0.11532619554090773,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0001,
+        "MEDIUM": -0.0008,
+        "SOFT": 0.0017
+      },
+      "eff_rate": {
+        "HARD": 0.0588,
+        "MEDIUM": 0.106,
+        "SOFT": 0.1735
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "LAW",
+      "race_factor": 0.9657621894640843,
+      "race_factor_ln_sd": 0.09743775990203003,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0001,
+        "MEDIUM": 0.0004,
+        "SOFT": -0.0005
+      },
+      "eff_rate": {
+        "HARD": 0.0601,
+        "MEDIUM": 0.1095,
+        "SOFT": 0.1752
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "LEC",
+      "race_factor": 1.0788337332668765,
+      "race_factor_ln_sd": 0.09060874410106638,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0028,
+        "MEDIUM": -0.0008,
+        "SOFT": -0.0013
+      },
+      "eff_rate": {
+        "HARD": 0.061,
+        "MEDIUM": 0.1149,
+        "SOFT": 0.1851
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "LIN",
+      "race_factor": 0.9236780849361685,
+      "race_factor_ln_sd": 0.07363639957093196,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0004,
+        "MEDIUM": 0.0002,
+        "SOFT": -0.0002
+      },
+      "eff_rate": {
+        "HARD": 0.0585,
+        "MEDIUM": 0.1057,
+        "SOFT": 0.1697
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "NOR",
+      "race_factor": 0.9801626798655015,
+      "race_factor_ln_sd": 0.09901002177592973,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0014,
+        "MEDIUM": -0.0018,
+        "SOFT": 0.0013
+      },
+      "eff_rate": {
+        "HARD": 0.062,
+        "MEDIUM": 0.1081,
+        "SOFT": 0.1783
+      },
+      "best": "1-stop M-H @ 24",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[24]",
+      "push": 0.55,
+      "first_stop": 24,
+      "first_stop_s": 0.08148150166480805,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 2,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "OCO",
+      "race_factor": 1.1202581925935522,
+      "race_factor_ln_sd": 0.08357436962967356,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0003,
+        "MEDIUM": -0.0007,
+        "SOFT": 0.0001
+      },
+      "eff_rate": {
+        "HARD": 0.0652,
+        "MEDIUM": 0.118,
+        "SOFT": 0.1913
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "PER",
+      "race_factor": 1.1175136280120392,
+      "race_factor_ln_sd": 0.09662078485312359,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0009,
+        "MEDIUM": 0.0005,
+        "SOFT": 0.0002
+      },
+      "eff_rate": {
+        "HARD": 0.0659,
+        "MEDIUM": 0.1182,
+        "SOFT": 0.1896
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "PIA",
+      "race_factor": 1.2768209270992943,
+      "race_factor_ln_sd": 0.08474357220220419,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0013,
+        "MEDIUM": -0.0011,
+        "SOFT": 0.0004
+      },
+      "eff_rate": {
+        "HARD": 0.0721,
+        "MEDIUM": 0.1268,
+        "SOFT": 0.2066
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "RUS",
+      "race_factor": 0.9353791144895457,
+      "race_factor_ln_sd": 0.09648964217340752,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0004,
+        "MEDIUM": 0.0003,
+        "SOFT": -0.0008
+      },
+      "eff_rate": {
+        "HARD": 0.0588,
+        "MEDIUM": 0.1076,
+        "SOFT": 0.172
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "SAI",
+      "race_factor": 1.3050991494199686,
+      "race_factor_ln_sd": 0.08957271690781507,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0008,
+        "MEDIUM": -0.0017,
+        "SOFT": -0.0011
+      },
+      "eff_rate": {
+        "HARD": 0.072,
+        "MEDIUM": 0.1267,
+        "SOFT": 0.2061
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "STR",
+      "race_factor": 1.1402965385660024,
+      "race_factor_ln_sd": 0.11858127776054789,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0009,
+        "MEDIUM": 0.002,
+        "SOFT": -0.0001
+      },
+      "eff_rate": {
+        "HARD": 0.0639,
+        "MEDIUM": 0.1194,
+        "SOFT": 0.1888
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true
+    },
+    {
+      "driver": "VER",
+      "race_factor": 1.007569979739816,
+      "race_factor_ln_sd": 0.09219356098409413,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0017,
+        "MEDIUM": 0.0019,
+        "SOFT": 0.0006
+      },
+      "eff_rate": {
+        "HARD": 0.0598,
+        "MEDIUM": 0.1134,
+        "SOFT": 0.1802
+      },
+      "best": "1-stop M-H @ 22",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[22]",
+      "push": 0.55,
+      "first_stop": 22,
+      "first_stop_s": 0.021408096548330313,
+      "field_best": "1-stop M-H @ 22",
+      "first_stop_vs_field": 0,
       "same_shape_as_field": true
     }
   ],
@@ -2529,12 +4235,12 @@
       "driver": "BOT",
       "compounds": "HARD-MEDIUM",
       "actual_pit_laps": "[19]",
-      "model_pit_laps": "[29]",
-      "loss_s": 8.735789968895661,
-      "lo": -0.7009697416182983,
-      "hi": 19.541338347391562,
+      "model_pit_laps": "[30]",
+      "loss_s": 11.308016822916779,
+      "lo": -1.136764064910263,
+      "hi": 26.192461667486413,
       "p_loss_positive": 0.928,
-      "max_wear": 0.8146806646863274,
+      "max_wear": 0.7645468027458574,
       "n_sc_stops": 0,
       "sc_stop_laps": "[]",
       "classified": true,
@@ -2545,12 +4251,12 @@
       "driver": "NOR",
       "compounds": "MEDIUM-HARD",
       "actual_pit_laps": "[16]",
-      "model_pit_laps": "[24]",
-      "loss_s": 3.78192222821279,
-      "lo": -1.8989377128046299,
-      "hi": 10.342936905432001,
-      "p_loss_positive": 0.89,
-      "max_wear": 0.36868828488095706,
+      "model_pit_laps": "[23]",
+      "loss_s": 5.613156277361671,
+      "lo": -0.18938613364036405,
+      "hi": 12.151858610285817,
+      "p_loss_positive": 0.946,
+      "max_wear": 0.336015183236227,
       "n_sc_stops": 0,
       "sc_stop_laps": "[]",
       "classified": true,
@@ -2562,11 +4268,11 @@
       "compounds": "MEDIUM-HARD",
       "actual_pit_laps": "[17]",
       "model_pit_laps": "[23]",
-      "loss_s": 2.579371330789228,
-      "lo": -1.6003251210981118,
-      "hi": 6.832640333294136,
-      "p_loss_positive": 0.892,
-      "max_wear": 0.37029356990849843,
+      "loss_s": 3.9511149974045585,
+      "lo": -1.3581467341254265,
+      "hi": 9.474300521703015,
+      "p_loss_positive": 0.91,
+      "max_wear": 0.3338067055806892,
       "n_sc_stops": 0,
       "sc_stop_laps": "[]",
       "classified": true,
@@ -2589,7 +4295,7 @@
     {
       "gate": "clean laps in 120-320",
       "pass": true,
-      "detail": "269 clean laps from 1512 raw (15s)"
+      "detail": "269 clean laps from 1512 raw (5s)"
     },
     {
       "gate": "no non-green lap survives",
@@ -2609,42 +4315,47 @@
     {
       "gate": "regime factor is plausible (0.15-1.0)",
       "pass": true,
-      "detail": "0.628x from ['australia-2026', 'barcelona-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026']"
+      "detail": "0.628x from ['australia-2026', 'barcelona-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026', 'Suzuka 2023', 'Suzuka 2024', 'Suzuka 2025']"
     },
     {
-      "gate": "MixedLM MEDIUM slope in 0.12-0.35",
-      "pass": false,
-      "detail": "0.1161 s/lap (1s)"
+      "gate": "stint-FE baseline pooled slope is finite and >= 0",
+      "pass": true,
+      "detail": "0.0662 s/lap over 57 stints / 269 laps [90% 0.017-0.109] (2s)"
     },
     {
       "gate": "convergence: r_hat < 1.01 and zero divergences",
       "pass": true,
-      "detail": "max r_hat 1.0027, 0 divergences"
+      "detail": "max r_hat 1.0039, 0 divergences"
     },
     {
       "gate": "Bayes vs MixedLM pooled degradation within 0.06 s/lap (practice-only posterior)",
       "pass": true,
-      "detail": "pooled 0.090 vs MixedLM 0.113 (diff 0.024); per-compound differences are the ladder prior overriding an unordered baseline: HARD 0.077, MEDIUM 0.036, SOFT 0.121"
+      "detail": "pooled 0.092 vs MixedLM 0.113 (diff 0.021); per-compound differences are the ladder prior overriding an unordered baseline: HARD 0.075, MEDIUM 0.035, SOFT 0.111"
+    },
+    {
+      "gate": "Bayes pooled slope within 0.06 s/lap of the stint-FE baseline",
+      "pass": true,
+      "detail": "pooled 0.092 vs stint-FE 0.066 (diff 0.025) over 57 stints"
     },
     {
       "gate": "sealed file verifies against its sha256",
       "pass": true,
-      "detail": "f787c59ac6069926"
+      "detail": "5506043efa888dd9"
     },
     {
       "gate": "practice->race regime transfer removes the bias",
       "pass": true,
-      "detail": "bias -0.029 s/lap against race regime curves (transferred factor 0.63x; this weekend's own race says 0.73x, which was never used)"
+      "detail": "bias -0.017 s/lap against race regime curves (transferred factor 0.63x; this weekend's own race says 0.73x, which was never used)"
     },
     {
       "gate": "stint degradation-rate MAE < 0.15 s/lap",
       "pass": true,
-      "detail": "0.0290 s/lap over 19 stints (per-lap MAE 0.292 s, race noise 0.50 s)"
+      "detail": "0.0203 s/lap over 19 stints (per-lap MAE 0.272 s, race noise 0.50 s)"
     },
     {
       "gate": "90% coverage not below 0.80 (under-coverage is the failure)",
       "pass": true,
-      "detail": "98.8% per lap, 100.0% on the stint rate (width 0.229 s/lap) \u2014 over"
+      "detail": "97.1% per lap, 100.0% on the stint rate (width 0.148 s/lap) \u2014 over"
     },
     {
       "gate": "pit loss measured and plausible (12-35s)",
@@ -2659,12 +4370,12 @@
     {
       "gate": "no stint in the recommended plan runs past the cliff",
       "pass": true,
-      "detail": "deepest stint reaches 45% of the grip budget"
+      "detail": "deepest stint reaches 42% of the grip budget"
     },
     {
       "gate": "model does not assume more tyre management than was observed",
       "pass": true,
-      "detail": "implied 0.59 vs transferred 0.63"
+      "detail": "implied 0.65 vs transferred 0.63"
     },
     {
       "gate": "does not open the race on the hardest available compound",
@@ -2674,7 +4385,7 @@
     {
       "gate": "model reproduces the measured net stint-level compound step (enforced)",
       "pass": true,
-      "detail": "model +0.069 vs measured +0.072 s/lap per step over a 26-lap stint (offsets clipped to the physical band)"
+      "detail": "model +0.041 vs measured +0.069 s/lap per step over a 26-lap stint (the plan runs 26) (offsets clipped to the physical band)"
     },
     {
       "gate": "recommended stop count is one the field actually ran",
@@ -2688,17 +4399,16 @@
     }
   ],
   "timings": {
-    "load_practice_s": 14.9,
+    "load_practice_s": 4.6,
     "priors_s": 0.2,
-    "mixedlm_s": 1.4,
-    "apex_s": 0.0,
-    "fit_production_s": 6.7,
-    "fit_diagnostics_s": 41.6,
-    "score_s": 1.0,
+    "mixedlm_s": 1.7,
+    "fit_production_s": 5.4,
+    "fit_diagnostics_s": 25.4,
+    "score_s": 2.1,
     "search_s": 1.1,
-    "counterfactual_s": 33.8,
-    "per_driver_s": 6.6
+    "counterfactual_s": 1.2,
+    "per_driver_s": 6.2
   },
-  "runtime_s": 265.0,
-  "runtime_decide_s": 200.0
+  "runtime_s": 48.4,
+  "runtime_decide_s": 11.0
 }

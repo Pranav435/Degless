@@ -1,5 +1,13 @@
-...........................                                              [100%]
+......................................                                   [100%]
 =============================== warnings summary ===============================
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_missing_practice_session_is_stated
+tests/test_app_freshness.py::test_missing_practice_session_is_stated
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/streamlit/time_util.py:64: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    seconds: float = pd.Timedelta(t).total_seconds()
+
 tests/test_live.py::test_state_matches_fastf1[session_dir0-13-Practice 2-0.995]
 tests/test_live.py::test_state_matches_fastf1[session_dir1-11-Race-0.97]
   /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:1474: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
@@ -18,8 +26,8 @@ tests/test_live.py: 10 warnings
     return dtype.type("NaT")
 
 tests/test_live.py: 510 warnings
-  /Users/pranav/Documents/coding_projects/degless/src/live/engine.py:576: DeprecationWarning: Bitwise inversion '~' on bool is deprecated and will be removed in Python 3.16. This returns the bitwise inversion of the underlying int object and is usually not what you expect from negating a bool. Use the 'not' operator for boolean negation or ~int(x) if you really want the bitwise inversion of the underlying int.
+  /Users/pranav/Documents/coding_projects/degless/src/live/engine.py:746: DeprecationWarning: Bitwise inversion '~' on bool is deprecated and will be removed in Python 3.16. This returns the bitwise inversion of the underlying int object and is usually not what you expect from negating a bool. Use the 'not' operator for boolean negation or ~int(x) if you really want the bitwise inversion of the underlying int.
     legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-27 passed, 588 warnings in 10.31s
+38 passed, 593 warnings in 12.59s

@@ -6,8 +6,8 @@
     "Practice 1",
     "Practice 2"
   ],
-  "sealed_file": "spain-2026_20260912T110640Z.json",
-  "sealed_sha256": "d1a12431a34bcff5aec49dd3d7487181f39b1d9bbe2bab3b4016d13b67ce5bb3",
+  "sealed_file": "spain-2026_20260912T115606Z.json",
+  "sealed_sha256": "7ee5b780a3a8f80cfe5cb41d44f5f391923f759d4b4d6ff93e502492cbd97d0e",
   "physics": {
     "burn_kg_per_lap": 1.2280701754385965,
     "k_track_s_per_kg": 0.031755915317559155,
@@ -1276,7 +1276,7 @@
     {
       "gate": "enough clean long-run laps (>= 60)",
       "pass": true,
-      "detail": "178 clean laps from 1041 raw over ['Practice 1', 'Practice 2'] (29s)"
+      "detail": "178 clean laps from 1041 raw over ['Practice 1', 'Practice 2'] (26s)"
     },
     {
       "gate": "no non-green lap survives",
@@ -1291,7 +1291,7 @@
     {
       "gate": "convergence: r_hat < 1.01 and zero divergences",
       "pass": true,
-      "detail": "max r_hat 1.0055, 0 divergences (5.3s)"
+      "detail": "max r_hat 1.0055, 0 divergences (6.6s)"
     },
     {
       "gate": "model reproduces the measured net stint-level compound step (enforced)",
@@ -1300,13 +1300,13 @@
     }
   ],
   "timings": {
-    "load_s": 28.7,
-    "priors_s": 0.2,
-    "mixedlm_s": 1.2,
-    "fit_s": 5.3,
-    "per_driver_s": 9.1,
-    "strategy_s": 11.2
+    "load_s": 25.8,
+    "priors_s": 0.4,
+    "mixedlm_s": 2.3,
+    "fit_s": 6.6,
+    "per_driver_s": 12.3,
+    "strategy_s": 14.6
   },
-  "runtime_s": 46.7,
-  "written_utc": "2026-09-12T11:06:52.070925+00:00"
+  "runtime_s": 49.8,
+  "written_utc": "2026-09-12T11:56:20.880561+00:00"
 }

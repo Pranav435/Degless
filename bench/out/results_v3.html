@@ -1,0 +1,416 @@
+<!doctype html><html><head><meta charset='utf-8'><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+body { font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 10.2pt; line-height: 1.38; color: #1a1a1a; }
+h1 { font-size: 20pt; margin: 0 0 4pt 0; }
+h2 { font-size: 14pt; margin: 18pt 0 6pt 0; border-bottom: 1.5px solid #333; padding-bottom: 2pt; page-break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt 0; page-break-after: avoid; }
+p { margin: 4pt 0 6pt 0; }
+ul, ol { margin: 2pt 0 6pt 0; padding-left: 18pt; }
+li { margin: 1.5pt 0; }
+table { border-collapse: collapse; margin: 5pt 0 9pt 0; font-size: 9pt; }
+tr { page-break-inside: avoid; }
+tr:first-child { page-break-after: avoid; }
+th, td { border: 1px solid #bbb; padding: 2.5pt 5pt; text-align: left; vertical-align: top; }
+th { background: #eee; }
+code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #f3f3f3; padding: 0 2pt; }
+pre { background: #f3f3f3; padding: 6pt; font-size: 8.5pt; white-space: pre-wrap; border: 1px solid #ddd; }
+hr { border: 0; border-top: 1px solid #999; margin: 10pt 0; }
+img { max-width: 100%; }
+.small { color: #555; font-size: 9pt; }
+blockquote { border-left: 3px solid #999; margin: 4pt 0; padding: 2pt 8pt; color: #333; background: #fafafa; }
+</style></head><body><h1>degless benchmark, V3 — nomination-aware history, a first-stop prior, and three engineering cycles</h1>
+<p><i>Benchmarked 12 September 2026 on the same seven dry, conventional 2026 weekends as V1 and V2 (Australia, Japan, Barcelona, Austria, Belgium, Hungary, Italy) and the same 196 race stints (<code>bench/out/accuracy.json</code> <code>population</code> block: 23, 19, 31, 40, 19, 43, 21 — unchanged from V1 through V3). V3 was run from scratch: fit all seven weekends, leave-one-out recalibration, decide all seven, then the benchmark suite, exactly as <code>make history &amp;&amp; make benchmark</code> runs it (timings in <code>bench/out/history_timing.tsv</code> and <code>bench/out/runtime.json</code>). No benchmark definition changed except the additions the planner's notes name — cov95, a per-family first-stop prior, collapse metrics, and three-way improved/unchanged/regressed/not-meaningfully-changed verdicts. V2 remains frozen under <code>bench/v2/</code> and V1 under <code>bench/baseline/</code>; every V1/V2 number quoted here is this run's re-scoring of those frozen predictions with the current code, not necessarily what their own reports printed (see §2's footnote on oracle regret). Reproduce with <code>make history &amp;&amp; make benchmark</code>.</i></p>
+<h2>1. Executive summary</h2>
+<table>
+<tr><th>Metric</th><th>V1</th><th>V2</th><th>V3</th><th>Verdict</th></tr>
+<tr><td>Degradation-rate error vs the race (stint-rate MAE, mean, s/lap)</td><td>0.109</td><td>0.040</td><td><b>0.035</b></td><td>improved</td></tr>
+<tr><td>Worst weekend's stint-rate MAE (s/lap)</td><td>0.434</td><td>0.052</td><td><b>0.049</b></td><td>improved</td></tr>
+<tr><td>Stop count = the field's mode (of 7)</td><td>7</td><td>7</td><td><b>7</b></td><td>unchanged</td></tr>
+<tr><td>Compound sequence run by at least one finisher (of 7)</td><td>3</td><td>6</td><td><b>6</b></td><td>unchanged</td></tr>
+<tr><td>Start compound = the majority's (of 7)</td><td>4</td><td>6</td><td><b>7</b></td><td>improved</td></tr>
+<tr><td>Mean \</td><td>first stop − field green-flag median\</td><td>(laps, 3 non-SC weekends)</td><td>5.000</td><td>5.000</td><td><b>4.333</b></td><td>improved</td></tr>
+<tr><td>Share of the field's first stops inside the model's window</td><td>0.230</td><td>0.303</td><td><b>0.361</b></td><td>improved</td></tr>
+<tr><td>Median predicted tyre life ÷ longest stint run (1.0 is honest)</td><td>1.679</td><td>1.094</td><td><b>1.084</b></td><td>not meaningfully changed</td></tr>
+<tr><td>Oracle regret of the tool's plan (s, true race rates)</td><td>13.165</td><td>11.781</td><td><b>9.399</b></td><td>improved</td></tr>
+<tr><td>Live engine tick, whole field (ms, mean over 2 replays)</td><td>1070.2</td><td>70.8</td><td><b>74.8</b></td><td>regressed</td></tr>
+<tr><td>Tests passing</td><td>20</td><td>27</td><td><b>38</b></td><td>improved</td></tr>
+</table>
+<p><b>Bottom line.</b> V3 fixes what V2 got wrong at the margins rather than rewriting the model. Degradation error is pooled at the noise floor (0.035 s/lap against an in-sample oracle of 0.036), every weekend clears the 0.15 s/lap gate, and Belgium's regime miscalibration is gone (0.052 → 0.029). The nomination mapping and the enforced ladder gate hold V2's sequence and start-compound gains and add a seventh start match. Oracle regret of the tool's own plan falls to 9.4 s. What did <b>not</b> move by nearly enough is the thing this brief asked about first: <b>first-stop timing improves only modestly, and not by the prior</b> — mean error falls from 5.0 to 4.33 laps; the whole gain over V2 is Barcelona's plan-family change under the nomination mapping, the first-stop prior does not move any scored first stop (its leave-one-out weight is 0 at Barcelona and Hungary, and Austria sits on the prior's own mode), and the undercut term only holds Austria and Hungary where V2 already had them. The λ×κ diagnostic shows why: at Barcelona and Austria the 2026 field stopped earlier than any year of the circuit's own history, which is what the prior is built from. The live engine ticks a little slower than V2 (75 ms vs 71 ms, still 2.5× under the 200 ms target) for a broader signal set, and three of its stop-call metrics regress in absolute terms.</p>
+<h2>2. V1 → V2 → V3 comparison</h2>
+<table>
+<tr><th>Metric</th><th>V1</th><th>V2</th><th>V3</th><th>Δ V3−V2</th><th>Verdict</th></tr>
+<tr><td>Degradation-rate error vs the race (stint-rate MAE, s/lap, mean over weekends)</td><td>0.109</td><td>0.040</td><td><b>0.035</b></td><td>-0.004</td><td>improved</td></tr>
+<tr><td>Worst weekend's stint-rate MAE (s/lap)</td><td>0.434</td><td>0.052</td><td><b>0.049</b></td><td>-0.003</td><td>improved</td></tr>
+<tr><td>Stint-rate bias (s/lap, mean over weekends; 0 is best)</td><td>-0.083</td><td>-0.011</td><td><b>-0.004</b></td><td>+0.008</td><td>improved</td></tr>
+<tr><td>90% interval coverage on the stint rate</td><td>0.879</td><td>0.945</td><td><b>0.912</b></td><td>-0.033</td><td>not meaningfully changed</td></tr>
+<tr><td>95% interval coverage on the stint rate</td><td>0.944</td><td>0.959</td><td><b>0.940</b></td><td>-0.019</td><td>not meaningfully changed</td></tr>
+<tr><td>90% interval width on the stint rate (s/lap)</td><td>0.466</td><td>0.188</td><td><b>0.164</b></td><td>-0.024</td><td>improved</td></tr>
+<tr><td>Practice posterior × regime, no circuit history (stint-rate MAE)</td><td>0.037</td><td>0.045</td><td><b>0.038</b></td><td>-0.007</td><td>improved</td></tr>
+<tr><td>MixedLM slope × regime (the frequentist baseline)</td><td>–</td><td>–</td><td><b>0.043</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>Compound sequence run by at least one finisher</td><td>3</td><td>6</td><td><b>6</b></td><td>0</td><td>unchanged</td></tr>
+<tr><td>Start compound = the majority's</td><td>4</td><td>6</td><td><b>7</b></td><td>1</td><td>improved</td></tr>
+<tr><td>Stop count = the field's mode</td><td>7</td><td>7</td><td><b>7</b></td><td>0</td><td>unchanged</td></tr>
+<tr><td>Mean share of the field that ran the recommended sequence</td><td>0.153</td><td>0.329</td><td><b>0.350</b></td><td>+0.021</td><td>improved</td></tr>
+<tr><td>Mean \</td><td>first stop − field green-flag median\</td><td>(laps, non-SC weekends)</td><td>5.000</td><td>5.000</td><td><b>4.333</b></td><td>-0.667</td><td>improved</td></tr>
+<tr><td>Mean signed first stop − field median (laps, non-SC weekends)</td><td>5.000</td><td>5.000</td><td><b>4.333</b></td><td>-0.667</td><td>improved</td></tr>
+<tr><td>Same, the tyre-optimal plan (no prior, no position term)</td><td>–</td><td>3.333</td><td><b>3.000</b></td><td>-0.333</td><td>improved</td></tr>
+<tr><td>Same, V3 with the first-stop prior switched off (κ = 0)</td><td>–</td><td>5.000</td><td><b>4.333</b></td><td>-0.667</td><td>improved</td></tr>
+<tr><td>Share of the field's first stops inside the model's window</td><td>0.230</td><td>0.303</td><td><b>0.361</b></td><td>+0.058</td><td>improved</td></tr>
+<tr><td>Oracle regret of the tool's plan (s, true race rates, same cost structure)</td><td>13.165</td><td>11.781</td><td><b>9.399</b></td><td>-2.383</td><td>improved</td></tr>
+<tr><td>Oracle regret of the field's modal plan (s)</td><td>13.8</td><td>15.6</td><td><b>17.5</b></td><td>+1.8</td><td>regressed</td></tr>
+<tr><td>Oracle regret of the winner's plan (s)</td><td>16.5</td><td>18.9</td><td><b>20.0</b></td><td>+1.0</td><td>regressed</td></tr>
+<tr><td>Weekends where the tool's plan beats the field's modal plan on the oracle</td><td>5</td><td>5</td><td><b>5</b></td><td>0</td><td>unchanged</td></tr>
+<tr><td>Compound-weekends where predicted life exceeds the longest stint run (of 20)</td><td>20</td><td>13</td><td><b>12</b></td><td>-1</td><td>improved</td></tr>
+<tr><td>Compound-weekends where it is shorter than the longest stint run (of 20)</td><td>0</td><td>7</td><td><b>8</b></td><td>+1</td><td>regressed</td></tr>
+<tr><td>Median predicted life ÷ longest stint run (1.0 is honest)</td><td>1.679</td><td>1.094</td><td><b>1.084</b></td><td>-0.010</td><td>not meaningfully changed</td></tr>
+<tr><td>Share of cars whose own plan shares the field plan's shape</td><td>–</td><td>0.795</td><td><b>0.862</b></td><td>+0.067</td><td>improved</td></tr>
+<tr><td>Per-car first-stop spread within a weekend (laps)</td><td>–</td><td>8.857</td><td><b>5.714</b></td><td>-3.143</td><td>regressed</td></tr>
+<tr><td>Spearman, per-car scale: LOO race factors (V2's per-car term)</td><td>–</td><td>0.025</td><td><b>0.049</b></td><td>+0.024</td><td>improved</td></tr>
+<tr><td>Spearman, per-car scale: this weekend's own dev[d,c]</td><td>–</td><td>0.025</td><td><b>-0.020</b></td><td>-0.045</td><td>regressed</td></tr>
+<tr><td>Spearman, per-car scale: team-pooled dev (V3 ships this)</td><td>–</td><td>0.025</td><td><b>-0.031</b></td><td>-0.056</td><td>regressed</td></tr>
+<tr><td>Spearman, predicted vs observed stint rate (field model)</td><td>-0.073</td><td>0.048</td><td><b>0.042</b></td><td>-0.006</td><td>regressed</td></tr>
+<tr><td>Predicted collapse lap (budget ÷ rate) vs the detected knee (laps)</td><td>–</td><td>–</td><td><b>23.381</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>Stints the detector calls a pace collapse</td><td>–</td><td>–</td><td><b>4</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>\</td><td>Bayes pooled slope − stint-FE baseline\</td><td>(s/lap; the V3 gate, ≤ 0.06)</td><td>–</td><td>–</td><td><b>0.017</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>Counterfactual 'seconds lost' figures above 30 s</td><td>17</td><td>2</td><td><b>1</b></td><td>-1</td><td>improved</td></tr>
+<tr><td>Live engine tick, whole field (ms, mean over the replays)</td><td>1070.2</td><td>70.8</td><td><b>74.8</b></td><td>+4.0</td><td>regressed</td></tr>
+<tr><td>Live engine tick, p95 (ms)</td><td>1347.5</td><td>77.2</td><td><b>81.8</b></td><td>+4.7</td><td>regressed</td></tr>
+<tr><td>Live engine tick, worst lap (ms)</td><td>1408.6</td><td>128.6</td><td><b>134.4</b></td><td>+5.8</td><td>not meaningfully changed</td></tr>
+<tr><td>Share of real stops inside the engine's window 3 laps earlier</td><td>0.362</td><td>0.442</td><td><b>0.421</b></td><td>-0.020</td><td>not meaningfully changed</td></tr>
+<tr><td>Share of real stops within 3 laps of the recommendation</td><td>0.399</td><td>0.533</td><td><b>0.472</b></td><td>-0.061</td><td>regressed</td></tr>
+<tr><td>Median \</td><td>recommended in-lap − actual\</td><td>(laps)</td><td>3.750</td><td>2.500</td><td><b>3.500</b></td><td>+1.000</td><td>regressed</td></tr>
+<tr><td>'Box now' cost the lap before the real stop (s, median)</td><td>2.516</td><td>1.478</td><td><b>1.755</b></td><td>+0.277</td><td>regressed</td></tr>
+<tr><td>Live signal precision/recall: window</td><td>–</td><td>–</td><td><b>0.180 / 0.516</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>Live signal precision/recall: box_now</td><td>–</td><td>–</td><td><b>0.193 / 0.496</b></td><td>–</td><td>unavailable</td></tr>
+<tr><td>Live signal precision/recall: collapse</td><td>–</td><td>0.019 (recall only)</td><td><b>0.171 / 0.050</b></td><td>–</td><td>improved (recall)</td></tr>
+<tr><td>Prior-only outlook matching the field's modal sequence</td><td>0</td><td>0</td><td><b>3</b></td><td>+3</td><td>improved</td></tr>
+<tr><td>Same, plan prior read letter-for-letter (no C-number mapping)</td><td>–</td><td>3</td><td><b>3</b></td><td>0</td><td>unchanged</td></tr>
+<tr><td>Prior-only outlook: mean share of the field on its plan</td><td>0.329</td><td>0.262</td><td><b>0.276</b></td><td>+0.013</td><td>improved</td></tr>
+<tr><td>Production posterior fit (s)</td><td>247.372</td><td>6.648</td><td><b>6.156</b></td><td>-0.492</td><td>improved</td></tr>
+<tr><td>Weekend refit fit, 2×800×800 (s)</td><td>21.297</td><td>3.580</td><td><b>2.932</b></td><td>-0.648</td><td>improved</td></tr>
+<tr><td>Strategy search, 500 draws, 1-lap grid, full objective (s)</td><td>0.636</td><td>0.680</td><td><b>0.652</b></td><td>-0.028</td><td>not meaningfully changed</td></tr>
+<tr><td>Peak resident memory of the speed benchmark (MB)</td><td>1310</td><td>2090</td><td><b>1981</b></td><td>-109</td><td>improved</td></tr>
+<tr><td>Whole benchmark suite, wall clock (s)</td><td>–</td><td>1500*</td><td><b>371</b></td><td>-1129</td><td>improved</td></tr>
+<tr><td>Tests passing</td><td>20</td><td>27</td><td><b>38</b></td><td>+11</td><td>improved</td></tr>
+<tr><td>Gates failing across the benchmarked weekends</td><td>22</td><td>7</td><td><b>3</b></td><td>-4</td><td>improved</td></tr>
+</table>
+<p><i>V2's 1500 s is from its own report (results_updated.md: "25 minutes"); <code>runtime.json</code> did not exist yet. V1 published no suite runtime.</i></p>
+<p><b>Footnote on identical-code re-scoring.</b> V2's own report quoted a mean oracle regret of <b>10.5 s</b> for the tool's plan. This run's identical-code re-scoring of V2's frozen predictions (<code>bench/v2/</code>) gives <b>11.8 s</b> (11.781, the number tabulated above and throughout this report), and that is the number this report uses — the field's and winner's regret figures V2 published (15.6 s, 18.9 s) do reproduce exactly. <code>cov95</code> is a metric none of the three builds' own reports carried; it is computed here uniformly from each build's frozen posteriors for comparability, per <code>bench/out/compare.json</code>'s own note on that field.</p>
+<p><b>What improved:</b> degradation MAE (mean and worst-weekend), bias, 90% width, the practice-only-posterior MAE, start-compound match, mean field share on the recommended sequence, both first-stop-error figures (absolute and signed) and their tyre-optimal/no-prior variants, the window-inside share, the tool's own oracle regret, tyre-life over-statements (13→12 of 20), the per-car same-shape share, the LOO-race-factor Spearman, counterfactual outliers above 30 s, the live collapse-alarm recall, the prior-only outlook's modal match and mean share, production/refit fit time, peak memory, suite runtime, test count, and gates failing.</p>
+<p><b>Unchanged exactly:</b> stop-count match (7/7), sequence-run-by-anyone (6/7), the oracle-beats-field count (5/7), the prior-only outlook's letter-only modal match (3/7), and the pytest fail/skip counts (0/0).</p>
+<p><b>Not meaningfully changed:</b> 90% and 95% coverage (both move but stay near the 88–97% target bands), the tyre-life median ratio (1.094→1.084), the strategy-search wall time, the live engine's worst-lap tick, and the share of stops inside the 3-lap-earlier window.</p>
+<p><b>Regressed — every one, named per the hard rule against hiding them:</b> the field's and the winner's own oracle regret (+1.8 s, +1.0 s — a property of this run's oracle pricing the race harder, not of the tool, since all three plans are priced on the same single oracle); tyre-life under-statements (7→8 of 20, a different failure mode from over-statement, not its mirror); the per-car first-stop spread (8.9→5.7 laps — narrower is only better if it is right, and it is not, see §7); the practice-dev and team-pooled per-car Spearmans (both go negative); the field model's own stint-rank Spearman (0.048→0.042); live tick mean and p95 (+4.0 ms, +4.7 ms, still 2.5× under budget); the share of real stops within 3 laps of the recommendation (0.533→0.472); the median stop-call error (2.5→3.5 laps); and the box-now cost estimate the lap before a real stop (+0.277 s). §12 revisits each of these.</p>
+<h2>3. What changed in V3</h2>
+<p>Priorities as given in the brief; effect measured against the JSON, mechanism from the planner's notes.</p>
+<p><b>1. First-stop prior.</b> <code>src/firststop.py</code> fits a per-circuit Gaussian KDE (bandwidth 2.5 laps at 60 laps, 5% uniform floor) over the circuit's 2023–25 green-flag first stops, scaled to the race distance and conditioned on both the start compound (through the nomination mapping) and the plan's stop count — a first-stop distribution per plan family, the direct analogue of the existing plan-shape prior. It enters every objective as <code>κ · (−log p)</code> seconds and is calibrated leave-one-out alongside λ and τ (<code>scripts/80_recalibrate.py</code>, grid 0–6 s/nat). In the first two engineering cycles the calibration drove λ to 0 in every block once κ entered; with the stop-count-conditioned prior and the parsimony rule the shipped leave-one-out calibration (<code>data/processed/calibration.json</code>) keeps <b>λ at 0.2 — close to V2's 0.1–0.3 — in six of seven blocks and the global set</b>, dropping to 0 only with Barcelona held out (where κ also drops to 0); κ itself is 1.0 in five of seven blocks and 0 with Barcelona or Hungary held out, and its objective is flat from 1.0 to 6.0 (3.33 laps on the donor weekends), so 1.0 is the parsimonious end of a plateau, not a sharp optimum. A family the circuit's field has never run (a one-stop at Melbourne) carries no penalty.</p>
+<p><b>2. Plan prior through Pirelli nominations.</b> <code>src/nominations.py</code> + <code>data/pirelli_nominations.json</code> (verified 2023–26 nominations, <code>docs/v3_plan.md</code> §0). Barcelona (2023, 2025: C1/C2/C3, one step harder than 2026's C2/C3/C4, so its historical "soft" C3 is 2026's MEDIUM) and Melbourne 2023 (C2/C3/C4 vs 2026's C3/C4/C5) are the only histories that shift; every other used year is nomination-identical. Barcelona's 2023/2025 history maps 19 of 20 and 17 of 17 finishers by C-number (<code>plan_prior_nomination</code> per weekend), and 31 of its 37 mapped historical starts become 2026's MEDIUM. Effect: Barcelona's recommended family goes from V2's 0% field share (<code>2-stop S-M-S</code>) to <b>46%</b> (<code>2-stop M-H-H</code>), and the outlook's letter-vs-C-number ablation confirms the mechanism — <code>prior_only_letters</code> at Barcelona still picks a SOFT-heavy family with 0% share while the C-number-mapped prior picks M-H-H at 46%.</p>
+<p><b>3. Regime factor: forecast in, archive out.</b> <code>regime_prior</code> applies the thermal correction only when a race-day forecast is supplied; absent one (every one of the seven benchmarked weekends), donor log-ratios pool with the <b>median</b>, combined on precision with a new circuit-level practice→race prior from the circuit's own cached 2023–25 sessions (<code>src/regime_history.py</code>, <code>scripts/05_history_practice.py</code>). Six of seven circuits get one (Melbourne's only dry history year, 2024, sits outside the plausible band and is dropped; its circuit prior is absent). Effect is concentrated at Belgium: transferred regime 0.80 (V2) → <b>0.47</b> (V3, weighted 26% toward Spa's own 0.15× 2024 ratio), and the weekend's rate MAE falls 0.052 → <b>0.029</b>. Pooled across all seven, <code>regime_v3_circuit</code> (donor + circuit prior) and <code>regime_v3_pooled</code> (donor median alone) score 0.035 and 0.039 respectively — the circuit prior earns its keep at the one weekend that needed it and costs nothing at the rest.</p>
+<p><b>4. Cliff detector + censored grip budgets.</b> <code>src/cliff.py</code> fits a within-stint hinge on fuel- and evolution-corrected race laps and calls each of the 339 long stints across the seven races <code>collapse</code> (RSS drop ≥25%, slope break ≥0.15 s/lap, last-3-laps ≥0.6 s off trend, ends within 3 laps of the knee), <code>strategic</code> (ends on-trend), or <code>undetermined</code>. Only <b>4 of 339</b> collapse (Japan HARD lap 16, Barcelona HARD lap 23, Austria MEDIUM laps 9 and 16) — <code>bench/out/compare.json</code> <code>cliff_detector.*.n_collapse</code> sums to 1+1+2 across those three weekends, 0 at the other four. All four sit well below the lower bounds the surrounding population of stints establishes: the cumulative losses at the knee are 0.86–2.53 s while more than 100 stints on every compound ran past that on trend without collapsing (grip-budget lower bounds up to 4.19 s). The estimator therefore treats three of the four as inconsistent with a shared tyre cliff and excludes them outright; the fourth (Barcelona's HARD, 2.53 s) is the only one the maximum-likelihood fit retains as an observation, and even it sits below the population's typical bound. Net effect on the shipped global budgets is small: 3.84/4.09/4.30 s (S/M/H) vs V2's 3.80/3.83/3.84 (<code>global.raw.budget_v2</code>). The live engine's wear-based cliff alarm is retired in favour of this same within-stint detector on the car's own laps (<code>pace_collapse</code>), alongside new box-now alerts.</p>
+<p><b>5. Per-car.</b> <code>src/percar.py</code> pools practice deviations at team level (own weight n/(n+20 laps)) and shrinks historical race factors by their log-sd; the live likelihood and continuation cost use the pooled deviation. Measured honestly (<code>bench_accuracy</code>'s per-car rate-scaling variants): <b>none of the within-weekend per-car scalings improves held-out stint ranking</b> — team-pooled Spearman −0.031, this-weekend's-own-dev −0.020, both worse than the field curve's own +0.042, while only the LOO race-factor variant (V2's mechanism, kept for comparison) improves to +0.049. V3 ships <code>percar_mode = team_pooled</code> for the plans anyway (it does inform per-car life and continuation cost sensibly) but the report does not claim it as a ranking tool.</p>
+<p><b>Secondary items.</b> Dirty air is now measured per circuit from each circuit's own 2023–25 races, never the target's 2026 race (<code>CircuitPrior.dirty_air</code>): Budapest +0.41 s/lap, Suzuka +0.23, Spa +0.21, Spielberg +0.14, Melbourne +0.13, Barcelona +0.12, Monza +0.10 — every circuit-level figure comes out positive even though the 2026 self-measured values include two negatives (Suzuka, Monza; not reproduced by history and, by the leave-one-out rule, never used for the target weekend). This is decision-neutral (the <code>no_dirty_air_circuit</code> ablation is byte-identical to <code>full</code>) but physically more defensible. The Melbourne ladder rule (recency-weighted pooling, dropping any pre-2026 net-step measurement with standard error &gt; 0.15 s) fixes Australia's previously wrong-signed ladder: <code>net_step.detail</code> shows Melbourne 2023 (−0.706 ± 0.158 s, outside the believable band) and 2024 (−0.459 ± 0.240 s, SE too large) both dropped, leaving the six 2026 donors alone, which pool to <b>+0.073 ± 0.142 s/lap per step</b> — the value Australia's <code>ladder_check</code> and gates now pass against. The same rule costs Hungary: all three Budapest years (2023 +0.022±0.181, 2024 −0.114±0.437, 2025 −0.029±0.307) are dropped for imprecision, leaving the six 2026 donors to pool at <b>+0.131 s/lap</b> (matching <code>ladder_check.measured_net_step_s</code> = 0.1309 almost exactly), against Hungary's own self-measured net of −0.010. The enforced ladder gate re-prices the HARD compound harder on that basis and flips the recommended family from V2's <code>M-H-H</code> (32% of the field) to <code>M-H-M</code> (0% — §5). Pace calibration itself now iterates to a fixed point capped at 0.9× the shortest compound's life, fixing the Barcelona oscillation V2 cycle 1 exhibited.</p>
+<p><b>Three engineering cycles.</b> Cycle 1 (frozen under <code>bench/v3_cycle1/</code>) shipped an unconditional first-stop prior and the original pace-calibration pass; its own benchmark caught three defects: the prior mixed one- and two-stop first stops (Belgium's 300-draw ablation search flipped to a 2-stop nobody ran while the 500-draw pipeline barely held the 1-stop); pace calibration oscillated at Barcelona (16.5 laps vs a 24-lap plan) and failed the V2 ladder regression test; and a held-out Barcelona MEDIUM budget of 3.27 s (a foreign lower bound below the prior) distorted its own ladder. Cycle 2 fixed all three (stop-count-conditioned prior; fixed-point calibration capped at 0.9× the shortest compound life; a bound-can-only-raise censored estimator with a consistency filter) and is close to the reported run. Cycle 3 changed one more thing after cycle 2's benchmark: the calibration sweeps now choose the <b>smallest grid value within one weekend's worth of the best objective</b>, not the argmin — cycle 2's Australia-held-out block had walked τ to the top of its grid (8.0, a 0.02 gain over a τ=4–6 plateau) and, against the mapped Melbourne prior, that flipped Australia from a 1-stop (53% of the field) to a 2-stop (7%) — a stop-count regression the brief forbids. The parsimony rule is applied uniformly to λ, κ, τ and the grid penalty; the constants reported throughout this document are cycle 3's, from the final <code>calibration.json</code>.</p>
+<h2>4. Degradation results</h2>
+<p><img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig1_accuracy.png"></p>
+<p><b>Per weekend, shipped curves (every build re-scored by this run's code):</b></p>
+<table>
+<tr><th>Weekend</th><th>V1</th><th>V2</th><th>V3</th><th>V3 practice-only</th><th>Oracle</th><th>V3 bias</th><th>90% coverage V1→V2→V3</th><th>Width V1→V2→V3 (s/lap)</th><th>Regime V2→V3 (self)</th></tr>
+<tr><td>Australia</td><td>0.434</td><td>0.049</td><td><b>0.049</b></td><td>0.055</td><td>0.045</td><td>+0.011</td><td>0.70→0.78→0.78</td><td>1.676→0.149→0.146</td><td>0.61→0.67 (0.75)</td></tr>
+<tr><td>Japan</td><td>0.024</td><td>0.029</td><td><b>0.020</b></td><td>0.018</td><td>0.017</td><td>-0.017</td><td>1.00→1.00→1.00</td><td>0.184→0.199→0.154</td><td>0.63→0.63 (0.73)</td></tr>
+<tr><td>Barcelona</td><td>0.041</td><td>0.040</td><td><b>0.040</b></td><td>0.051</td><td>0.040</td><td>+0.001</td><td>1.00→1.00→0.94</td><td>0.247→0.252→0.213</td><td>0.51→0.60 (0.70)</td></tr>
+<tr><td>Austria</td><td>0.032</td><td>0.033</td><td><b>0.032</b></td><td>0.033</td><td>0.030</td><td>-0.013</td><td>1.00→0.97→0.95</td><td>0.226→0.199→0.176</td><td>0.69→0.65 (0.58)</td></tr>
+<tr><td>Belgium</td><td>0.030</td><td>0.052</td><td><b>0.029</b></td><td>0.033</td><td>0.048</td><td>-0.011</td><td>1.00→1.00→1.00</td><td>0.185→0.199→0.162</td><td>0.80→0.47 (0.32)</td></tr>
+<tr><td>Hungary</td><td>0.046</td><td>0.044</td><td><b>0.046</b></td><td>0.047</td><td>0.042</td><td>+0.019</td><td>0.84→0.91→0.81</td><td>0.193→0.196→0.159</td><td>0.83→0.53 (0.64)</td></tr>
+<tr><td>Italy</td><td>0.154</td><td>0.030</td><td><b>0.032</b></td><td>0.030</td><td>0.032</td><td>-0.016</td><td>0.62→0.95→0.90</td><td>0.549→0.124→0.140</td><td>0.49→0.65 (0.81)</td></tr>
+<tr><td><b>Mean</b></td><td>0.109</td><td>0.040</td><td><b>0.035</b></td><td>0.038</td><td>0.036</td><td>-0.004</td><td>0.88→0.95→0.91</td><td>0.466→0.188→0.164</td><td></td></tr>
+</table>
+<p>Per-event MAE deltas: Japan and Belgium <b>improved</b> (−0.009, −0.023); Australia, Barcelona, Austria, Hungary and Italy are all <b>not meaningfully changed</b> (each moves by less than a hundredth of a second per lap either way). No weekend regressed.</p>
+<p><b>Pooled over the seven weekends, every curve variant (V3 run):</b></p>
+<table>
+<tr><th>Curve source</th><th>Rate MAE mean</th><th>max</th><th>Bias</th><th>90% cov</th><th>95% cov</th><th>Width</th><th>Spearman</th></tr>
+<tr><td>Oracle (this race's own rates, in-sample)</td><td>0.036</td><td>0.048</td><td>+0.008</td><td>0.71</td><td>0.76</td><td>0.096</td><td>+0.10</td></tr>
+<tr><td><b>V3 sealed</b> (shipped)</td><td><b>0.035</b></td><td>0.049</td><td>-0.004</td><td>0.91</td><td>0.94</td><td>0.164</td><td>+0.04</td></tr>
+<tr><td>V3 regime: donor median + this circuit's history (re-folded)</td><td>0.035</td><td>0.049</td><td>-0.004</td><td>0.91</td><td>0.94</td><td>0.164</td><td>+0.04</td></tr>
+<tr><td>V3 regime: donor median only (no circuit history)</td><td>0.039</td><td>0.049</td><td>-0.012</td><td>0.92</td><td>0.95</td><td>0.179</td><td>+0.05</td></tr>
+<tr><td>V2 regime: archive race-day temperature as the forecast</td><td>0.040</td><td>0.052</td><td>-0.011</td><td>0.95</td><td>0.96</td><td>0.187</td><td>+0.05</td></tr>
+<tr><td>Regime with the actual race temperature (a perfect forecast)</td><td>0.035</td><td>0.049</td><td>-0.003</td><td>0.91</td><td>0.95</td><td>0.164</td><td>+0.04</td></tr>
+<tr><td>V3 sealed with V2's pooled geometric-mean regime</td><td>0.039</td><td>0.056</td><td>-0.010</td><td>0.92</td><td>0.94</td><td>0.169</td><td>+0.05</td></tr>
+<tr><td>V3 sealed, per-car scale team-pooled (shipped)</td><td>0.036</td><td>0.053</td><td>-0.003</td><td>0.91</td><td>0.94</td><td>0.163</td><td>-0.03</td></tr>
+<tr><td>V3 sealed, per-car scale this weekend's own dev</td><td>0.036</td><td>0.053</td><td>-0.003</td><td>0.91</td><td>0.94</td><td>0.163</td><td>-0.02</td></tr>
+<tr><td>V3 sealed, per-car scale LOO race factors (V2's)</td><td>0.038</td><td>0.049</td><td>-0.010</td><td>0.90</td><td>0.94</td><td>0.171</td><td>+0.05</td></tr>
+<tr><td>Practice posterior × regime (no history)</td><td>0.038</td><td>0.055</td><td>+0.002</td><td>0.86</td><td>0.93</td><td>0.167</td><td>+0.02</td></tr>
+<tr><td>Practice posterior, no regime transfer</td><td>0.066</td><td>0.127</td><td>-0.043</td><td>0.79</td><td>0.89</td><td>0.197</td><td>-0.01</td></tr>
+<tr><td>MixedLM slope × regime</td><td>0.043</td><td>0.082</td><td>-0.009</td><td>0.64</td><td>0.72</td><td>0.096</td><td>+0.03</td></tr>
+<tr><td>Circuit history 2023–25 only</td><td>0.044</td><td>0.062</td><td>-0.008</td><td>0.58</td><td>0.64</td><td>0.092</td><td>-0.01</td></tr>
+<tr><td>Other 2026 races' mean rate</td><td>0.047</td><td>0.087</td><td>+0.021</td><td>0.59</td><td>0.67</td><td>0.096</td><td>-0.04</td></tr>
+<tr><td>Zero degradation</td><td>0.068</td><td>0.119</td><td>+0.065</td><td>0.34</td><td>0.39</td><td>0.096</td><td>—</td></tr>
+<tr><td>V2 sealed, re-scored here</td><td>0.040</td><td>0.052</td><td>-0.011</td><td>0.95</td><td>0.96</td><td>0.188</td><td>+0.05</td></tr>
+<tr><td>V2 practice-only, re-scored here</td><td>0.045</td><td>0.083</td><td>-0.012</td><td>0.86</td><td>0.94</td><td>0.203</td><td>-0.01</td></tr>
+<tr><td>V1 sealed, re-scored here</td><td>0.109</td><td>0.434</td><td>-0.083</td><td>0.88</td><td>0.94</td><td>0.466</td><td>-0.07</td></tr>
+<tr><td>V1 practice-only, re-scored here</td><td>0.037</td><td>0.054</td><td>+0.011</td><td>0.92</td><td>0.95</td><td>0.175</td><td>-0.13</td></tr>
+</table>
+<p><b>The apex-speed channel stays a diagnostic, not shipped.</b> Pooled over the seven weekends, the lap-time-only fit V3 actually ships scores 0.038 s/lap (matching <code>practice_only_mae</code> in the summary) against 0.040 for the joint lap-time+apex fit — the same ordering V2 found. The fuel-sensitivity term (<code>k_track_rel_sd</code>) is still at its prior either way (0.24–0.27 relative sd across all seven weekends, both variants), and the joint fit costs roughly twice the wall time (12.9 s pooled mean vs 5.9 s).</p>
+<p><b>Findings</b></p>
+<ol start="1">
+<li><b>The rate stays at the noise floor.</b> Pooled 0.035 s/lap against an in-sample oracle of 0.036 — V3 is now marginally <i>under</i> its own oracle, driven by Belgium's regime fix (0.029 against an oracle of 0.048: the oracle is one race-measured rate per compound, and at Belgium that single rate is not the best predictor of the individual stints) with Japan at 0.020 against 0.017.</li>
+<li><b>Coverage moved down toward the target band, not away from it.</b> 90% coverage falls from V2's 94.5% (over-covering) to 91.2%, inside the 88–93% target for the first time; 95% coverage falls from 95.9% to 93.98%, just inside 93–97%. Width fell 13% (0.188→0.164 s/lap) alongside it — the intervals are both narrower and better calibrated, which is why both are marked "not meaningfully changed" against a strict 5%-or-one-weekend threshold despite moving toward the target.</li>
+<li><b>The circuit-level regime prior is not neutral, and it is not free.</b> <code>regime_v3_circuit</code> (0.035) beats <code>regime_v3_pooled</code> (0.039) by 0.004 s/lap pooled — almost the whole gap is Belgium, where the circuit's own 2024 Spa practice→race ratio (0.15×, <code>circuit_prior.by_year</code>) carries 26% of the combining precision and drags the transferred factor from a donor-only 0.72× down to 0.47×, matching Belgium's self-measured 0.32× far better than V2's transferred 0.80× ever did. Melbourne is the weekend the circuit prior cannot help: its only dry history year (2024) falls outside <code>REGIME_RATIO_BAND</code> and is discarded, so Australia still runs on the donor pool alone.</li>
+<li><b>The frequentist baseline is still not competitive, for a different reason than V2 reported.</b> V2's MixedLM range gate is gone; V3's replacement (<code>stint_fe_baseline</code>, a stint-fixed-effects estimator with a block bootstrap) is the new gate, and it fails at exactly one weekend: Australia, where the practice fit shows a small negative pooled slope (−0.046 s/lap, 52 stints) and the Bayes posterior (+0.014) sits 0.060 s/lap away from it — just over the 0.06 s/lap tolerance. MixedLM itself (0.043 pooled) is still 0.008 s/lap worse than the sealed curve.</li>
+<li><b>Per-car scaling of the field curve is neutral-to-harmful for accuracy, not just for ranking.</b> All three per-car MAE variants (0.036–0.038 pooled) are within 0.003 s/lap of the unscaled sealed curve — the scaling barely touches accuracy — but two of the three Spearmans go negative (§7).</li>
+</ol>
+<h2>5. Strategy results</h2>
+<p><img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig2_firststop.png"> <img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig3_strategy.png"></p>
+<p><b>Decisions per weekend:</b></p>
+<table>
+<tr><th>Weekend</th><th>V2 plan</th><th>V3 plan</th><th>Tyre-optimal</th><th>Field modal (share V1→V2→V3)</th><th>Stops=mode</th><th>Start=majority</th><th>First stop − field: tyre/V2/V3-no-prior/V3</th><th>Regret V2/V3/field/winner (s)</th></tr>
+<tr><td>Australia</td><td>1-stop M-H @ 23</td><td><b>1-stop M-H @ 25</b></td><td>1-stop H-M @ 33</td><td>M-H (0→53→53%)</td><td>yes→yes→yes</td><td>no→yes→yes</td><td>+8/-2/–/+0 (SC)</td><td>9.0/7.0/19.8/24.9</td></tr>
+<tr><td>Japan</td><td>1-stop M-H @ 23</td><td><b>1-stop M-H @ 23</b></td><td>1-stop H-S @ 33</td><td>M-H (0→85→85%)</td><td>yes→yes→yes</td><td>no→yes→yes</td><td>+15/+5/–/+5 (SC)</td><td>0.6/0.6/0.4/0.5</td></tr>
+<tr><td>Barcelona</td><td>2-stop S-M-S @ 21,43</td><td><b>2-stop M-H-H @ 19,42</b></td><td>3-stop M-M-S-S @ 16,32,49</td><td>M-H-H (46→0→46%)</td><td>yes→yes→yes</td><td>yes→no→yes</td><td>+3/+8/+6/+6</td><td>6.9/5.6/11.3/9.1</td></tr>
+<tr><td>Austria</td><td>2-stop M-H-M @ 22,46</td><td><b>2-stop M-H-M @ 22,46</b></td><td>3-stop S-S-M-M @ 18,36,54</td><td>M-H-H (29→24→24%)</td><td>yes→yes→yes</td><td>yes→yes→yes</td><td>+0/+4/+4/+4</td><td>14.9/14.9/28.7/28.8</td></tr>
+<tr><td>Belgium</td><td>1-stop M-S @ 20</td><td><b>1-stop M-S @ 18</b></td><td>1-stop S-M @ 23</td><td>M-H (0→5→5%)</td><td>yes→yes→yes</td><td>no→yes→yes</td><td>+7/+4/–/+2 (SC)</td><td>14.9/13.2/12.2/13.2</td></tr>
+<tr><td>Hungary</td><td>2-stop M-H-H @ 22,46</td><td><b>2-stop M-H-M @ 22,45</b></td><td>2-stop M-M-S @ 25,51</td><td>M-H-H (0→32→0%)</td><td>yes→yes→yes</td><td>yes→yes→yes</td><td>+6/+3/+3/+3</td><td>32.6/20.2/35.3/31.7</td></tr>
+<tr><td>Italy</td><td>1-stop M-H @ 25</td><td><b>1-stop M-H @ 22</b></td><td>1-stop H-M @ 28</td><td>M-H (32→32→32%)</td><td>yes→yes→yes</td><td>yes→yes→yes</td><td>–/–/–/– (SC)</td><td>3.5/4.3/14.5/31.7</td></tr>
+</table>
+<p><b>First-stop timing, stated plainly (hard requirement of this report):</b> across the three non-safety-car weekends (Barcelona, Austria, Hungary), mean \|first stop − field green-flag median\| is <b>5.0 laps at V1, 5.0 at V2, 4.33 at V3</b> — improved, but modestly, and <i>not by the calibrated position/prior terms</i>. Ablating the first-stop prior alone (κ=0 in the shipped search) reproduces 4.33 exactly, because the leave-one-out κ is already 0 with Barcelona or Hungary held out, and Austria's recommended stop (lap 22) does not move across the whole κ∈{0,…,6} sweep at the shipped λ (<code>data/processed/calibration.json</code> <code>global.sweeps.kappa</code>, <code>first_laps["austria-2026"]</code> = 22 at every κ). The entire 0.67-lap gain is Barcelona's plan-<i>family</i> change under the nomination mapping (V2's S-M-S@21 → V3's M-H-H@19, moving the first stop from 8 laps late to 6) plus a small λ contribution; Austria and Hungary's first-stop errors are unchanged from V2 (4 and 3 laps respectively).</p>
+<p><b>The λ×κ diagnostic (<code>bench/out/firststop_grid.json</code>), and why ≤2 laps is not reached:</b></p>
+<table>
+<tr><th>λ / κ</th><th>mean \</th><th>first stop − field\</th><th>(laps)</th></tr>
+<tr><td>0.0 / 0.0</td><td>4.67</td></tr>
+<tr><td>0.0 / 1.5</td><td>4.00</td></tr>
+<tr><td>0.0 / 3.0</td><td>3.67</td></tr>
+<tr><td>0.0 / 6.0</td><td>3.33</td></tr>
+<tr><td>0.15 / 0.0</td><td>4.33</td></tr>
+<tr><td>0.15 / 6.0</td><td>3.00</td></tr>
+<tr><td>0.3 / 0.0</td><td>4.33</td></tr>
+<tr><td>0.3 / 6.0</td><td>2.67</td></tr>
+<tr><td>0.6 / 0.0</td><td><b>1.33</b></td></tr>
+<tr><td>0.6 / 1.5–6.0</td><td>2.33–2.67</td></tr>
+</table>
+<p>κ moves Hungary onto the field's lap (history mode 18 laps agrees with the 2026 field's 19) but at Barcelona and Austria <b>no weight moves the first stop below the circuit's own historical mode</b> (17 laps; 21–25 laps) while the 2026 field stopped at 13 and 18 — earlier than any historical year at either circuit. The single grid point under 2 laps (λ 0.6, κ 0) only gets there by switching Austria and Hungary onto SOFT-start families (<code>S-M-H</code>) that 1 of 17 and 0 of 19 finishers actually ran. The residual is between the circuit's history and the 2026 field, not in the objective; <code>firststop_grid.json</code>'s own reading line states this explicitly, and this run's mean signal is unchanged.</p>
+<p><b>Findings</b></p>
+<ol start="1">
+<li><b>Stop count holds at 7/7.</b> Individual match rates against classified finishers (<code>bench/out/strategy.json</code>, <code>stops_share</code>): Australia 53%, Japan 90%, Belgium 95%, Austria 82%, Hungary 63%, Barcelona 54%, Italy 53%.</li>
+<li><b>Six of seven sequences are run by someone, unchanged from V2; the miss is still Barcelona in one sense and now Hungary in another.</b> Barcelona itself is fixed (0%→46%). Hungary flips the other way: V2's <code>M-H-H</code> matched 32% of the field; V3's enforced ladder gate re-prices the HARD compound on the strength of the six 2026 donors' pooled +0.131 s/lap net step (Budapest's own three years all dropped for imprecision, §3) and the search settles on <code>M-H-M</code>, a family <b>nobody ran</b> (<code>rec_seq_share: 0.0</code>, <code>rec_seq_run_by_anyone: false</code> in <code>bench/out/strategy.json</code>). The pooled net-step evidence Hungary's own gate checks against (+0.131 measured vs +0.130 modelled) is internally consistent — the model is doing exactly what it is told — but the field's own race (self-measured net −0.010) disagrees with the six-donor pool it is calibrated against. This is the trade-off the planner's notes call out explicitly and this report ships with a caveat, not a fix.</li>
+<li><b>Oracle regret of the tool's own plan falls at every weekend that is not safety-car-dominated</b>, and by a lot at Hungary specifically (32.6 s → 20.2 s) despite the sequence miss above — the M-H-M plan is <i>better</i> under the oracle's true rates than V2's M-H-H was, even though fewer finishers ran it.</li>
+<li><b>The field's and the winner's regret rose under this run's oracle</b> (field 15.6→17.5 s, winner 18.9→20.0 s pooled) because all three plans are priced against the same single oracle per build, and this build's oracle (which inherits the recalibrated pace offsets) prices the race as slightly harder overall — this is a property of the oracle, not of the recommendation, and the note is carried in <code>compare.json</code> itself.</li>
+<li><b>The share of the field inside the model's window rose to 36%</b> (was 30%). The window is the set of laps within 1 s of the plan's own objective, so this is a property of the whole V3 objective and the plans it chose, not of the first-stop prior specifically — κ is 0 in Barcelona's and Hungary's own leave-one-out blocks, so the prior plays no part in their windows.</li>
+</ol>
+<h2>6. Tyre-life results</h2>
+<p><img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig4_life.png"></p>
+<p><b>Per compound-weekend (V2 vs V3 ratio to the longest stint actually run; <code>bench/out/compare.json</code> <code>life</code>):</b></p>
+<table>
+<tr><th>Weekend</th><th>Compound</th><th>V2 ratio</th><th>V3 ratio</th><th>Bound by</th><th>Obs. max (laps)</th><th>V3 life (laps)</th><th>V3 grip budget (s)</th></tr>
+<tr><td>Australia</td><td>HARD</td><td>0.913</td><td>0.913</td><td>circuit history</td><td>46</td><td>42.0</td><td>4.27</td></tr>
+<tr><td>Australia</td><td>MEDIUM</td><td>1.429</td><td>1.429</td><td>circuit history</td><td>28</td><td>40.0</td><td>4.09</td></tr>
+<tr><td>Australia</td><td>SOFT</td><td>0.417</td><td>0.417</td><td>circuit history</td><td>24</td><td>10.0</td><td>3.84</td></tr>
+<tr><td>Japan</td><td>HARD</td><td>1.135</td><td>1.135</td><td>circuit history</td><td>37</td><td>42.0</td><td>4.30</td></tr>
+<tr><td>Japan</td><td>MEDIUM</td><td>1.091</td><td>1.091</td><td>circuit history</td><td>33</td><td>36.0</td><td>4.09</td></tr>
+<tr><td>Barcelona</td><td>HARD</td><td>1.097</td><td>1.097</td><td>circuit history</td><td>31</td><td>34.0</td><td>4.19</td></tr>
+<tr><td>Barcelona</td><td>MEDIUM</td><td>1.102</td><td><b>0.945</b></td><td>the tyre</td><td>26</td><td>24.6</td><td>3.80</td></tr>
+<tr><td>Barcelona</td><td>SOFT</td><td>1.833</td><td><b>1.686</b></td><td>the tyre</td><td>14</td><td>23.6</td><td>3.80</td></tr>
+<tr><td>Austria</td><td>HARD</td><td>1.278</td><td>1.278</td><td>circuit history</td><td>36</td><td>46.0</td><td>4.30</td></tr>
+<tr><td>Austria</td><td>MEDIUM</td><td>1.370</td><td>1.370</td><td>circuit history</td><td>27</td><td>37.0</td><td>4.09</td></tr>
+<tr><td>Austria</td><td>SOFT</td><td>0.947</td><td>0.947</td><td>circuit history</td><td>19</td><td>18.0</td><td>3.84</td></tr>
+<tr><td>Belgium</td><td>HARD</td><td>1.161</td><td>1.161</td><td>circuit history</td><td>31</td><td>36.0</td><td>4.27</td></tr>
+<tr><td>Belgium</td><td>MEDIUM</td><td>1.700</td><td>1.700</td><td>circuit history</td><td>20</td><td>34.0</td><td>4.09</td></tr>
+<tr><td>Belgium</td><td>SOFT</td><td>1.077</td><td>1.077</td><td>circuit history</td><td>26</td><td>28.0</td><td>3.84</td></tr>
+<tr><td>Hungary</td><td>HARD</td><td>1.020</td><td>1.020</td><td>circuit history</td><td>49</td><td>50.0</td><td>4.10</td></tr>
+<tr><td>Hungary</td><td>MEDIUM</td><td>1.517</td><td>1.517</td><td>circuit history</td><td>29</td><td>44.0</td><td>4.09</td></tr>
+<tr><td>Hungary</td><td>SOFT</td><td>0.559</td><td>0.559</td><td>circuit history</td><td>34</td><td>19.0</td><td>3.84</td></tr>
+<tr><td>Italy</td><td>HARD</td><td>0.880</td><td>0.880</td><td>circuit history</td><td>50</td><td>44.0</td><td>4.30</td></tr>
+<tr><td>Italy</td><td>MEDIUM</td><td>0.880</td><td>0.880</td><td>circuit history</td><td>50</td><td>44.0</td><td>4.09</td></tr>
+<tr><td>Italy</td><td>SOFT</td><td>0.417</td><td>0.417</td><td>circuit history</td><td>24</td><td>10.0</td><td>3.84</td></tr>
+</table>
+<p>12 of 20 over-state, 8 of 20 under-state (Australia HARD/SOFT, Barcelona MEDIUM, Austria SOFT, Hungary SOFT, Italy HARD/MEDIUM/SOFT — that is 8; median across all 20 is <b>1.084</b>, against V2's 1.094 and V1's 1.679). Only two compound-weekends actually move between V2 and V3 (both Barcelona, where the censored-collapse budget replaces V2's uncorrected estimator: MEDIUM 1.102→0.945, SOFT 1.833→1.686) — everywhere else the number is unchanged because it is still bound by the circuit's own history, not by the grip budget.</p>
+<p><b>Grip budgets, global and leave-one-out (s):</b></p>
+<table>
+<tr><th>Held out</th><th>SOFT</th><th>MEDIUM</th><th>HARD</th></tr>
+<tr><td>australia-2026</td><td>3.84</td><td>4.09</td><td>4.27</td></tr>
+<tr><td>japan-2026</td><td>3.84</td><td>4.09</td><td>4.30</td></tr>
+<tr><td>barcelona-2026</td><td>3.80</td><td>3.80</td><td>4.19</td></tr>
+<tr><td>austria-2026</td><td>3.84</td><td>4.09</td><td>4.30</td></tr>
+<tr><td>belgium-2026</td><td>3.84</td><td>4.09</td><td>4.27</td></tr>
+<tr><td>hungary-2026</td><td>3.84</td><td>4.09</td><td>4.10</td></tr>
+<tr><td>italy-2026</td><td>3.84</td><td>4.09</td><td>4.30</td></tr>
+<tr><td><b>global (a new weekend)</b></td><td><b>3.84</b></td><td><b>4.09</b></td><td><b>4.30</b></td></tr>
+</table>
+<p><b>The censored estimator's honest status.</b> Of 339 long race stints across the seven weekends, exactly <b>4 collapse</b> (<code>global.raw.collapse_counts</code>: Japan 1 HARD, Barcelona 1 HARD, Austria 2 MEDIUM). All four register well below the lower bounds the surrounding ~330 non-collapsing stints establish on trend — 0.86–2.53 s of cumulative loss at the knee against censored lower bounds up to 4.19 s. <code>grip_budget_detail</code> for the global (all-seven) fit shows SOFT and MEDIUM never see a usable collapse at all (<code>n_obs: 0</code>, budget = the largest lower bound, 3.84 and 4.09 s respectively — both, not coincidentally, above V2's uncorrected 3.80 and 3.83 s); HARD sees two candidate collapses but excludes one (Japan's 0.96 s) as inconsistent with a shared cliff and retains only Barcelona's 2.53 s in the censored log-normal MLE, alongside 121 lower bounds (largest 4.19 s, obs ln-sd 0.20 against a 3.80±0.15-ln prior), landing at 4.30 s. <b>The races still only bound the budget from below</b>: nothing here is a direct measurement of the grip cliff, only a lower bound on it that happens, for HARD, to be pulled slightly by one thin data point.</p>
+<p><b>Predicted vs observed collapse lap, where a collapse was detected:</b></p>
+<table>
+<tr><th>Weekend</th><th>Compound</th><th>Predicted lap (budget ÷ rate)</th><th>Observed knee (laps)</th><th>Error (laps)</th></tr>
+<tr><td>Japan</td><td>HARD</td><td>70.2</td><td>16.0</td><td>54.2</td></tr>
+<tr><td>Barcelona</td><td>HARD</td><td>23.5</td><td>23.0</td><td><b>0.5</b></td></tr>
+<tr><td>Austria</td><td>MEDIUM</td><td>27.9</td><td>12.5 (mean of 9, 16)</td><td>15.4</td></tr>
+</table>
+<p>Mean absolute error across these three: <b>23.4 laps</b> (<code>collapse_pred_abs_err_laps</code>). Barcelona's HARD prediction is essentially exact because its own collapse is the one observation feeding the HARD budget; the other two are wildly over-predicted because the budget is set by <i>other</i> weekends' lower bounds, not by these particular collapses, which the estimator (correctly) treats as unrepresentative outliers rather than the compound's true limit.</p>
+<h2>7. Per-car results</h2>
+<table>
+<tr><th>Metric</th><th>V2</th><th>V3</th><th>Verdict</th></tr>
+<tr><td>Same-shape share (own plan vs field plan)</td><td>0.795</td><td>0.862</td><td>improved</td></tr>
+<tr><td>First-stop spread within a weekend (laps)</td><td>8.857</td><td>5.714</td><td>regressed (narrower, not more correct)</td></tr>
+<tr><td>Spearman — LOO race factors (V2's mechanism)</td><td>0.025</td><td>0.049</td><td>improved</td></tr>
+<tr><td>Spearman — this weekend's own practice dev[d,c]</td><td>0.025</td><td>-0.020</td><td>regressed</td></tr>
+<tr><td>Spearman — team-pooled dev (V3 ships this)</td><td>0.025</td><td>-0.031</td><td>regressed</td></tr>
+<tr><td>Spearman — field model, no per-car term</td><td>0.048</td><td>0.042</td><td>regressed</td></tr>
+</table>
+<p>Per-weekend first-stop Spearman against what drivers actually did (<code>bench/out/strategy.json</code>, <code>per_driver.first_stop_spearman_vs_actual</code>): Australia n/a (uniform stop laps), Japan <b>−0.562</b>, Barcelona <b>+0.226</b>, Austria n/a, Belgium <b>−0.734</b>, Hungary <b>−0.366</b>, Italy n/a. Of the four weekends where it is defined, three are negative and one is weakly positive — there is no consistent sign, let alone a useful one.</p>
+<p><b>Findings</b></p>
+<ol start="1">
+<li><b>Per-car plans are informative about the field, not about the car.</b> The same-shape share rose to 86% precisely because the per-car terms move little; where they move most (Hungary, 53% same-shape, <code>per_driver.first_stop_spread</code> 6 laps) it is not because the ranking improved.</li>
+<li><b>All three per-car rate-scaling variants tested honestly here fail to improve stint-rate ranking.</b> Team-pooled (the shipped mode) and this-weekend's-own-deviation both score <i>worse</i> than the unscaled field curve (−0.031, −0.020 vs +0.042); only the LOO historical race factor — a different mechanism, carried from V2 and not shipped as the plan-builder's input — manages a positive but still tiny +0.049.</li>
+<li><b>The driver race factors are real on the races they are measured on</b> (<code>data/processed/calibration.json</code> <code>global.driver_factors</code>: 0.91 for Lindblad/Antonelli/Hülkenberg-class gentle drivers, 1.70 for Bottas) but, as in V2, they do not transfer stint to stint within a weekend — the conclusion is unchanged: <b>within-weekend deviations do not improve ranking</b>, and the field curve alone remains the best predictor of any individual stint's rate.</li>
+</ol>
+<h2>8. Live-engine results</h2>
+<p><img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig5_live.png"></p>
+<p>Archived Hungary (70 laps, 46 real stops) and Barcelona (66 laps, 53 real stops) race feeds replayed through <code>RaceEngine</code>, sealed models from those weekends' practice, the calibrated position and first-stop terms, the retired cliff alarm replaced by the within-stint <code>pace_collapse</code> detector.</p>
+<table>
+<tr><th></th><th>Hungary V1→V2→V3</th><th>Barcelona V1→V2→V3</th></tr>
+<tr><td>Tick mean (ms)</td><td>1156 → 73 → <b>80</b></td><td>985 → 68 → <b>69</b></td></tr>
+<tr><td>Tick p95 (ms)</td><td>1375 → 81 → <b>88</b></td><td>1320 → 74 → <b>75</b></td></tr>
+<tr><td>Stops inside the window (3 laps earlier)</td><td>0.48 → 0.54 → <b>0.52</b></td><td>0.25 → 0.34 → <b>0.32</b></td></tr>
+<tr><td>Stops within 3 laps of the recommendation</td><td>0.33 → 0.50 → <b>0.43</b></td><td>0.47 → 0.57 → <b>0.51</b></td></tr>
+<tr><td>Median stop-call error (laps)</td><td>4.0 → 3.0 → <b>4.0</b></td><td>3.5 → 2.0 → <b>3.0</b></td></tr>
+<tr><td>Box-now cost 1 lap before the real stop (s)</td><td>1.8 → 0.7 → <b>0.6</b></td><td>3.2 → 2.3 → <b>2.9</b></td></tr>
+<tr><td>Collapse/cliff alarms raised (of 46 / 53 stops)</td><td>0 → 0 → <b>7</b></td><td>9 → 2 → <b>11</b></td></tr>
+</table>
+<p><b>Signal precision/recall (V3, a stop within 3 laps of the signal = true positive):</b></p>
+<table>
+<tr><th>Signal</th><th>Hungary precision / recall</th><th>Barcelona precision / recall</th></tr>
+<tr><td>window</td><td>0.195 / 0.674</td><td>0.165 / 0.358</td></tr>
+<tr><td>box_now</td><td>0.194 / 0.652</td><td>0.191 / 0.340</td></tr>
+<tr><td>collapse</td><td>0.143 / 0.043</td><td>0.200 / 0.057</td></tr>
+</table>
+<p><b>The retired wear alarm.</b> V2's cliff alarm fired 0 times before any of Hungary's 46 stops and 2 of Barcelona's 53. V3's <code>pace_collapse</code> detector (a genuine within-stint hinge fit on the car's own laps, not a wear-budget threshold) fires more often — 7 alarms at Hungary, 11 at Barcelona — but its recall against real stops is still low (4.3% at Hungary, 5.7% at Barcelona) and its precision (14–20%) is comparable to the window and box-now signals, not better. It is a real signal (recall improved from V2's 1.9% pooled to 5.0%, the one "improved" row in this section) but not yet a reliable one; the window and box-now signals remain the useful ones for a pit wall.</p>
+<p><b>Findings</b></p>
+<ol start="1">
+<li><b>Latency has headroom but moved the wrong way.</b> 80 ms and 69 ms mean, both comfortably under the 200 ms/lap target (2.5–2.9×), but both rose 4–7 ms from V2 because every car now runs the within-stint collapse detector on its own laps and prices the first-stop term each lap, on top of the per-race cost tables V2 introduced.</li>
+<li><b>Stop-call quality regressed at Hungary, held roughly at Barcelona.</b> Hungary's median stop-call error returns to V1's 4.0 laps, a full lap worse than V2's 3.0, and its "stops within 3 laps" share falls 0.50→0.43; Barcelona's median error worsens by one lap too (2.0→3.0) while its window-inside share holds near V2's. The likely cause is the per-car first-stop and position terms the live engine now carries lap by lap — the same terms whose calibrated weights barely move the offline first-stop lap — but two replays cannot isolate it, and it is listed in §12 and §13 as work to do rather than a finding.</li>
+<li><b>Box-now cost estimates diverge by race.</b> Hungary's improves further (0.7→0.6 s, the cheapest and most confident "you are losing almost nothing by waiting" signal V3 has produced); Barcelona's gets more expensive (2.3→2.9 s) and closer to V1's original 3.2 s, suggesting the position term's live per-car exposure calculation is sensitive to whichever cars happen to be nearby at a given tick — plausible given Barcelona's tighter pack racing, but not something this benchmark isolates further.</li>
+</ol>
+<h2>9. Ablation results</h2>
+<p><img alt="" src="/Users/pranav/Documents/coding_projects/degless/bench/out/fig/fig6_calibration.png"></p>
+<p>Each variant is the same 200-draw search on the shipped posterior with one term switched off, scored against all seven weekends (<code>bench/out/compare.json</code> <code>ablation._pooled</code>; first-stop error restricted to the three non-safety-car weekends).</p>
+<table>
+<tr><th>Variant</th><th>Sequence run by anyone</th><th>Start=majority</th><th>Stops=mode</th><th>Mean field share</th><th>Mean \</th><th>first stop − field\</th><th></th><th>Life ratio (median)</th></tr>
+<tr><td><b>full</b> (shipped)</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.33</td><td>1.10</td></tr>
+<tr><td>no_first_stop_prior (κ=0)</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.33</td><td>1.10</td></tr>
+<tr><td>no_plan_prior (τ=0)</td><td>3/7</td><td>4/7</td><td>5/7</td><td>0.09</td><td>1.33</td><td>1.10</td></tr>
+<tr><td>no_nomination_mapping</td><td>5/7</td><td>6/7</td><td>6/7</td><td>0.28</td><td>3.33</td><td>1.10</td></tr>
+<tr><td>no_dirty_air_circuit</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.33</td><td>1.10</td></tr>
+<tr><td>no_position (λ=0)</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>5.00</td><td>1.10</td></tr>
+<tr><td>no_pace_cal</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>3.67</td><td>1.10</td></tr>
+<tr><td>config_constants (V1/V2 hand-set)</td><td>3/7</td><td>1/7</td><td>7/7</td><td>0.06</td><td>1.67</td><td>1.10</td></tr>
+<tr><td>practice_only (no history)</td><td>4/7</td><td>7/7</td><td>5/7</td><td>0.28</td><td>3.33</td><td>1.04</td></tr>
+<tr><td>old_budget (V2's grip-budget formula)</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.33</td><td>1.10</td></tr>
+<tr><td>no_cliff_budgets (V2's budgets)</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.33</td><td>1.10</td></tr>
+<tr><td>no_circuit_regime_prior</td><td>6/7</td><td>7/7</td><td>7/7</td><td>0.35</td><td>4.67</td><td>1.10</td></tr>
+</table>
+<p><b>Reading each variant:</b></p>
+<ul>
+<li><b>no_first_stop_prior</b> is identical to <code>full</code> on every axis, confirming §5: the shipped first-stop prior does not move the shipped result, because two of the three non-SC weekends already run κ=0 in their own leave-one-out block and the third (Austria) is flat against κ at the shipped λ.</li>
+<li><b>no_plan_prior</b> is the single most damaging ablation: sequence-run-by-anyone collapses to 3/7, start match to 4/7, and mean field share to 9% — this is the term doing almost all of the plan-shape work, exactly as V2 found, and V3 has not changed that dependency.</li>
+<li><b>no_nomination_mapping</b> reproduces the pre-V3 letter-only prior: sequence 5/7 (down from 6/7 — Barcelona reverts to a SOFT-heavy family nobody in 2026 ran), start 6/7, share 0.28 — quantifying the nomination mapping's whole contribution as roughly one weekend's worth of sequence match and 7 points of mean field share.</li>
+<li><b>no_dirty_air_circuit</b> and <b>no_cliff_budgets</b>/<b>old_budget</b> are byte-identical to <code>full</code>: the per-circuit dirty-air figure and the censored-collapse grip budget are both decision-neutral at these seven weekends (they change life numbers and the odd pit-loss constant, not which plan wins).</li>
+<li><b>no_position (λ=0)</b> worsens first-stop error to 5.0 laps (Austria +5 and Hungary +4 instead of +4 and +3; Barcelona's +6 does not move because its own leave-one-out block already has λ = 0). The undercut term, now 0.2 s per second of exposure, is worth one lap at each of the two circuits where the calibration keeps it. Read together with §5: relative to V2 the 0.67-lap gain is Barcelona's family change; relative to λ = 0 the position term is what holds Austria and Hungary at V2's timing.</li>
+<li><b>no_pace_cal</b> improves the raw first-stop number slightly (3.67) but at the cost of the enforced ladder gate no longer being enforced — this variant is included as a diagnostic of what the ladder-fixing calibration costs in timing, not a candidate to ship.</li>
+<li><b>config_constants</b> is the closest thing to a full V1/V2 ladder + hand-set constants: sequence 3/7, start 1/7 — the single worst start-compound result of any variant, quantifying how much of V3's start-compound success rests on calibration rather than the new terms individually.</li>
+<li><b>practice_only</b> removes circuit history entirely: sequence 4/7, life ratio 1.04 (the most honest life number of any variant, since nothing rescales it toward the circuit's own history) but a worse plan shape than the shipped run — history costs a little honesty in the life numbers and buys a lot of plan-shape accuracy.</li>
+<li><b>no_circuit_regime_prior</b> worsens first-stop error to 4.67 (from 4.33) — the circuit-level regime prior's effect on the <i>pace estimate</i> feeds forward into pit-window timing even though it is not a first-stop term itself, a secondary channel worth noting for future calibration work.</li>
+</ul>
+<h2>10. Engineering/test results</h2>
+<p><b>Tests.</b> 38 pass, 0 fail, 0 skipped, in <b>12.0 s</b> (<code>pytest_final.log</code>), up from V2's 27 and V1's 20 — 8 more than the 30 that existed at the start of V3 work (<code>docs/v3_plan.md</code> §0), covering the nomination mapping, the first-stop prior's leave-one-out exclusion, the cliff detector's synthetic collapse/strategic cases, the circuit regime-prior mode switch, and the reproducibility check that <code>strategy.json</code>'s recommended first stops equal <code>meta_*.json</code>'s.</p>
+<p><b>Whole benchmark suite: 371 s</b> (<code>bench/out/runtime.json</code>), against V2's report's own estimate of 1500 s (25 minutes) — the per-stage breakdown:</p>
+<table>
+<tr><th>Stage</th><th>Seconds</th></tr>
+<tr><td>bench_accuracy</td><td>26</td></tr>
+<tr><td>bench_strategy</td><td>3</td></tr>
+<tr><td>bench_ablation</td><td>106</td></tr>
+<tr><td>bench_outlook</td><td>17</td></tr>
+<tr><td>bench_live</td><td>12</td></tr>
+<tr><td>bench_stability</td><td>43</td></tr>
+<tr><td>bench_speed</td><td>49</td></tr>
+<tr><td>bench_apex</td><td>101</td></tr>
+<tr><td>pytest</td><td>13</td></tr>
+<tr><td>bench_compare</td><td>1</td></tr>
+<tr><td><b>total</b></td><td><b>371</b></td></tr>
+</table>
+<p><b>Fit / refit / search timings (Barcelona, in-process, <code>bench/out/speed.json</code>):</b> production posterior fit (NUTS 4×1500×1500, lap-time only) <b>6.156 s</b>; weekend refit (2×800×800) <b>2.932 s</b>; hinge diagnostic (2×800×800) <b>4.384 s</b>; joint lap-time+apex diagnostic (4×1500×1500) <b>13.016 s</b>; strategy search (500 draws, 1-lap grid, full objective) <b>0.652 s</b>; search with pace calibration (2–3 passes) <b>1.25 s</b>; counterfactual (all drivers, vectorised, SC-aware, per car) <b>1.265 s</b>; per-car plans (20 drivers, 2-lap grid) <b>6.668 s</b>; outlook build (300 draws, scenarios) <b>3.446 s</b>; live tick, whole field <b>0.075 s</b> (mean over the two replays, §8); app cold start (Streamlit <code>AppTest</code>, quiet disk) <b>1.064 s</b> — V2's own speed run recorded 265.9 s here under disk contention during that benchmark session, a caveat this run's quiet-disk figure avoids repeating.</p>
+<p><b>Peak memory:</b> 1981 MB, down from V2's 2090 MB and still above V1's 1310 MB (the live tables kept per draw are the cost, as V2 already noted).</p>
+<p><b>History timings (<code>bench/out/history_timing.tsv</code>):</b> fit stage ranged 31–54 s for six weekends and <b>225 s for Austria</b> — its own <code>timings.load_practice_s</code> was 188.5 s against 0.6–18.6 s for the other six, the same FastF1-cache/network-contention pattern V1 and V2 both reported, now isolated to a single weekend rather than several; the leave-one-out recalibration (<code>scripts/80_recalibrate.py</code>, all seven weekends × eight sets including the new κ sweep) took 366 s; the decide stage ran 12–18 s per weekend. Total <code>make history</code> wall time this run: roughly 15.5 minutes (465 s fit + 366 s recalibrate + 100 s decide), most of it Austria's one slow load and the recalibration's own compute.</p>
+<p><b>Gates failing: 3</b> (was 7 at V2, 22 at V1), all at two weekends: Australia fails both new stint-FE gates (<code>stint-FE baseline pooled slope is finite and &gt;= 0</code>, and <code>Bayes pooled slope within 0.06 s/lap of the stint-FE baseline</code>, off by 0.06 s/lap almost exactly at the boundary) because its practice fit shows essentially no net degradation; Belgium fails <code>clean laps in 120-320</code> (103 clean laps from 1,297 raw laps over all three practice sessions, unchanged since V1).</p>
+<h2>11. Per-weekend breakdown</h2>
+<p><b>Australia.</b> 1-stop M-H @ 25 (V2: @23). MAE 0.049 s/lap, bias +0.011, 90%/95% coverage 78%/78% (the one weekend under-covering). Regime 0.669× (no forecast), self-measured 0.75×. Ladder: model +0.031 vs measured +0.073 s/lap/step, gate passes after the Melbourne recency/SE rule drops both pre-2026 years. First stop set by the safety car (<code>sc_set_the_stops: true</code>, <code>n_green: 3</code> of 15 classified), so the first-stop-error figures are not meaningful here, as the main tables footnote. Gates failing: 2 (stint-FE, Bayes-vs-stint-FE). Oracle regret 7.0 s (V2: 9.0). Per-car same-shape share 100%.</p>
+<p><b>Japan.</b> 1-stop M-H @ 23, unchanged from V2. MAE 0.020 s/lap (best of the seven, improved from V2's 0.029), bias −0.017. Regime 0.628× + Suzuka's own circuit prior (0.58×, 46% of combining precision). First stop +5 laps late under an 85%-share modal match, unchanged from V2. Ladder gate passes cleanly (model +0.041 vs measured +0.069). Zero gates fail. Per-car first-stop Spearman −0.562 (n=20, still no signal).</p>
+<p><b>Barcelona.</b> 2-stop M-H-H @ 19,42 — the headline plan-shape fix (V2: 2-stop S-M-S @ 21,43, 0% field share). MAE 0.040 s/lap, bias +0.001 (the best-calibrated bias of any weekend). First stop +6 laps late (was +8 at V2) on a 46% field share. Ladder gate passes (model +0.072 vs measured +0.058). One genuine collapse detected (HARD, lap 23, 2.53 s cumulative loss) — the only one the grip-budget estimator retains as an observation anywhere. Zero gates fail. κ and λ both 0 in this weekend's own leave-one-out block.</p>
+<p><b>Austria.</b> 2-stop M-H-M @ 22,46, unchanged from V2. MAE 0.032 s/lap, bias −0.013. Two MEDIUM collapses detected (laps 9 and 16) but both excluded from the budget estimator as inconsistent with the compound's other 27 stints. First stop +4 laps late, unchanged from V2, and flat against the whole κ sweep (§5). Ladder gate passes (model +0.123 vs measured +0.109 s/lap per step over a 24-lap stint). Zero gates fail.</p>
+<p><b>Belgium.</b> 1-stop M-S @ 18 (V2: @20) — the regime fix's target weekend. MAE 0.029 s/lap, down from V2's 0.052 (the largest single-weekend improvement), driven entirely by the circuit-level regime prior pulling the transferred factor from 0.80× to 0.47×, close to the self-measured 0.32×. First stop +2 laps late under the safety car. One gate fails (clean laps: 103 from 1,297 raw laps over all three practice sessions, unchanged since V1). n=19 classified, 12 with safety-car stops.</p>
+<p><b>Hungary.</b> 2-stop M-H-M @ 22,45 (V2: M-H-H @ 22,46) — the one weekend V3's plan-shape gets worse by the field-match count, run by 0% instead of V2's 32%, for the Melbourne-ladder-rule reason explained in §3 and §5. MAE 0.046 s/lap (essentially unchanged, +0.002 from V2), bias +0.019 (the largest positive bias of the seven). Oracle regret nonetheless improves sharply (32.6→20.2 s) because the M-H-M plan is genuinely better under the true race rates even though fewer finishers chose it. κ=0 in this weekend's own leave-one-out block. Zero gates fail.</p>
+<p><b>Italy.</b> 1-stop M-H @ 22 (V2: @25). MAE 0.032 s/lap, bias −0.016. All stops (19 of 19 classified) fell under a lap-3 safety car, so first-stop timing metrics do not apply here, as in every previous report. Net-step pooling keeps Monza 2023 (+0.188 ± 0.145 s) and 2024 (−0.063 ± 0.126 s) and drops 2025 (−0.075 ± 0.402 s) under the new standard-error rule; the pooled net is unchanged from V2 at +0.056 s/lap. Zero gates fail.</p>
+<h2>12. Remaining failures</h2>
+<ul>
+<li><b>Hungary's sequence is run by nobody.</b> The Melbourne ladder rule that fixes Australia's wrong-signed net step drops all three of Budapest's own pre-2026 measurements for imprecision (SE 0.18–0.44 s, over the 0.15 s threshold), leaving a six-donor 2026-only pool at +0.131 s/lap that disagrees with Hungary's own self-measured net (−0.010). The enforced gate re-prices the HARD compound on that basis and the search settles on M-H-M, a family the field did not run. Shipped with a caveat, not a fix (§3, §5).</li>
+<li><b>First-stop timing missed its ≤2-lap target.</b> Actual: 4.33 laps mean absolute error, against V1/V2's 5.0. The λ×κ grid shows the residual sits between the circuit's own history (which the prior is built from) and the 2026 field, which stopped earlier than any historical year at both Barcelona and Austria; no combination of the existing terms reaches the target without moving a plan onto a start compound almost nobody used.</li>
+<li><b>Per-car ranking is still not achieved</b>, and two of the three variants this run adds are actively worse than the field curve alone (team-pooled −0.031, own-practice-dev −0.020, vs the field's +0.042). The per-car first-stop Spearman is negative at three of the four weekends where it is defined.</li>
+<li><b>Grip budgets remain lower bounds, not measurements.</b> Only 4 of 339 long stints ever collapse, and all four are inconsistent with the population of stints that ran past them without collapsing — the estimator's honesty (§6) is that it says so, not that it has solved the problem.</li>
+<li><b>The live engine's stop-call quality shows small regressions in absolute terms</b>: median error worsens by a full lap at Hungary (3.0→4.0) and by one lap at Barcelona (2.0→3.0); the share of stops within 3 laps of the recommendation falls at both (0.50→0.43, 0.57→0.51); box-now cost estimates worsen at Barcelona (2.3→2.9 s). §8 names the per-car position and first-stop terms the live engine now carries as the likely cause; two replays cannot isolate it.</li>
+<li><b>Window share stays modest.</b> 36% of the field's first stops fall inside the model's window — better than V2's 30%, nowhere near a majority.</li>
+<li><b>Australia's stint-FE gates fail</b> because its practice sessions show essentially no net degradation (pooled slope −0.046 s/lap over 52 stints) against a Bayes posterior of +0.014 — a genuine practice-data limitation, not a bug, per the planner's own operational note.</li>
+<li><b>Belgium's clean-lap gate fails</b> as it has since V1 (103 clean laps from 1,297 raw laps over all three practice sessions, against the 120–320 target) — a fact about that weekend's practice running, unrelated to any V3 change.</li>
+<li><b>The next race's season-pool prior leans SOFT for a reason worth flagging before it ships.</b> Madring (the next 2026 round, not benchmarked here because it has no race yet) has no own-circuit history; its C4-MEDIUM slot inherits mapped C4 MEDIUMs from C3/C4/C5 circuits, which lean the prior-only start toward SOFT (65 of 96 mapped starts per the planner's notes) — the sealed FP1+FP2 fit should dominate the actual recommendation there, but the fallback prior itself has not learned the role effect yet.</li>
+<li><b>Two counts move against the honest-tyre-life story</b>: tyre-life under-statements rose from 7 to 8 of 20 (a different failure mode from over-statement — Italy's HARD and MEDIUM at 0.88× and Hungary's SOFT at 0.56× are all <i>shorter</i> than what a finisher actually ran, all bound by the circuit's own history rather than the tyre).</li>
+<li><b>The <code>regime_history</code> cache has a genuine gap</b>: Melbourne carries no circuit-level regime prior at all (its only dry year, 2024, sits outside the plausible ratio band; 2025 was wet and excluded), so Australia's regime transfer still relies on the donor pool alone, exactly as it did before this priority was built.</li>
+</ul>
+<h2>13. Recommended next steps</h2>
+<p>Ranked by expected effect on what an analyst sees. Effort: S = hours, M = days, L = a week or more.</p>
+<ol start="1">
+<li><b>A degradation-aware first-stop prior (M).</b> Scale each circuit's historical first-stop distribution by the season/circuit degradation ratio before comparing to the 2026 field — the planner's own rough check puts Barcelona's mode near lap 14 under this correction, closer to the field's 13, but the same check worsens Hungary, so it needs its own leave-one-out calibration before shipping. This is the only lever left that the λ×κ grid has not already shown to be flat.</li>
+<li><b>A per-circuit rule for the Melbourne ladder trade-off (S).</b> Rather than a blanket recency+SE cutoff applied everywhere, drop pre-2026 history only where a circuit's own 2026 race disagrees with it in <i>sign</i> (Melbourne: yes, the pool was wrong-signed; Budapest: the 2026 field's own net is close to zero, not clearly disagreeing) — this is exactly what the planner's shipping notes recommend and would likely hold Hungary's M-H-H without reopening Australia's fix.</li>
+<li><b>Re-tune the live engine's per-car terms to reduce the stop-call regressions (M).</b> §8's regressions all trace to carrying the position and first-stop-prior terms per car per lap; either dampen their live weight relative to the offline search's, or confirm with a wider live-replay sample (only two races here) that the regression is not overfit to Hungary and Barcelona specifically.</li>
+<li><b>Widen the first-stop prior's compound-conditioning to more of the season pool (S).</b> The prior already backs off from compound-and-stop-count to compound alone to the pooled circuit distribution; extending this back-off explicitly to the 2026 season pool (as the plan-shape prior already does) would give Madring's first-stop estimate real support before its own race exists.</li>
+<li><b>A per-circuit dirty-air sign check (S).</b> All seven circuit-level dirty-air estimates come out positive even though two 2026 self-measurements are negative; confirming whether this is real (tow effects genuinely different circuit to circuit) or an artefact of the precision-weighting formula is cheap now that the machinery exists.</li>
+<li><b>Extend the λ/κ/τ grids past their current edges once more (S).</b> τ's grid still shows a plateau from 2.5–6 that the parsimony rule resolves toward the smallest value in-tolerance; a finer grid near 2–4 might reveal whether the plateau has real structure or is genuinely flat.</li>
+<li><b>Regime forecast integration on race day (S).</b> <code>40_weekend.py --race-temp</code> exists but was not exercised in this benchmark (no forecast was supplied for any of the seven); running it once on a live race-day forecast would validate the forecast-mode path end to end, not just in the retrospective ablations.</li>
+<li><b>Team-level pooling for per-car intelligence, revisited (M).</b> Since none of the three per-car scaling variants improves ranking, the next iteration should test whether pooling at an even coarser level (e.g. car-class or tyre-management style rather than team) does any better before investing further in per-driver machinery.</li>
+<li><b>A dedicated Austria fit-time investigation (S).</b> 225 s for one weekend's fit stage against 31–54 s for the other six is worth a one-off profiling pass to confirm it is genuinely the FastF1 cache and not a regression in the offline path.</li>
+</ol>
+<h2>14. Exact commands used to reproduce the benchmark</h2>
+<p>From the project root, <code>.venv/bin/python</code> throughout.</p>
+<pre># one-time, network: historical practice sessions for the circuit regime prior
+.venv/bin/python scripts/05_history_practice.py --events australia-2026 japan-2026 barcelona-2026 austria-2026 belgium-2026 hungary-2026 italy-2026
+
+# the retrospective, from scratch, offline (fit all 7 -&gt; leave-one-out recalibration -&gt; decide all 7)
+make history            # OFFLINE ?= --offline is the default
+
+# the benchmark suite -&gt; bench/out/
+make benchmark           # runs bench/run_all.sh</pre>
+<p><code>bench/run_all.sh</code>'s stage list, each logging to <code>bench/out/&lt;name&gt;.log</code> and timed into <code>bench/out/runtime.json</code>:</p>
+<pre>run bench_accuracy
+run bench_strategy
+run bench_ablation
+run bench_outlook
+run bench_live
+run bench_stability
+run bench_speed --events barcelona-2026
+run bench_apex
+.venv/bin/python -m pytest tests -q
+run bench_compare</pre>
+<pre># the report
+.venv/bin/python bench/md2pdf.py results_v3.md results_v3.pdf</pre>
+<p>Timings of the final run are in <code>bench/out/history_timing.tsv</code> (fit/recalibrate/decide per weekend) and <code>bench/out/runtime.json</code> (the suite, 371 s total). Nothing under <code>bench/</code> writes to <code>data/processed/</code> or <code>predictions/sealed/</code>; nothing under <code>bench/baseline/</code> or <code>bench/v2/</code> was modified to produce this report.</p>
+<h2>Appendix: reproducing</h2>
+<table>
+<tr><th>Script</th><th>What it measures</th><th>Output</th></tr>
+<tr><td><code>scripts/05_history_practice.py</code></td><td>fetches and caches historical practice sessions for the circuit-level regime prior (network, one-time)</td><td><code>data/processed/history/regime_&lt;year&gt;_&lt;circuit&gt;.json</code></td></tr>
+<tr><td><code>scripts/10_pipeline.py --stage fit / decide</code></td><td>the retrospective, split so leave-one-out calibration sits between the fits and the decisions</td><td><code>data/processed/fitstage_*.json</code>, <code>meta_*.json</code></td></tr>
+<tr><td><code>scripts/80_recalibrate.py</code></td><td>leave-one-out calibration of every plan-deciding constant, incl. κ, per-circuit dirty air, censored grip budgets</td><td><code>data/processed/calibration.json</code></td></tr>
+<tr><td><code>bench/bench_accuracy.py</code></td><td>curves vs race, 19+ variants incl. regime and per-car scalings, 7 weekends</td><td><code>bench/out/accuracy.json</code>, <code>accuracy_table.csv</code></td></tr>
+<tr><td><code>bench/bench_strategy.py</code></td><td>decisions vs field, tyre-optimal vs position-aware, first-stop block, oracle regret, per-car plans, cliff-detector metrics</td><td><code>bench/out/strategy.json</code>, <code>strategy_table.csv</code></td></tr>
+<tr><td><code>bench/bench_ablation.py</code></td><td>every new term switched off individually, plus V2/V1-style baselines</td><td><code>bench/out/ablation.json</code></td></tr>
+<tr><td><code>bench/bench_outlook.py</code></td><td>prior-only outlook vs field, with and without C-number mapping</td><td><code>bench/out/outlook.json</code></td></tr>
+<tr><td><code>bench/bench_live.py</code></td><td><code>RaceEngine</code> replay: latency, stop calls, window/box-now/collapse signal precision and recall</td><td><code>bench/out/live.json</code></td></tr>
+<tr><td><code>bench/bench_speed.py</code></td><td>stage timings on Barcelona</td><td><code>bench/out/speed.json</code></td></tr>
+<tr><td><code>bench/bench_stability.py</code></td><td>seeds and partial practice, Barcelona and Hungary</td><td><code>bench/out/stability.json</code></td></tr>
+<tr><td><code>bench/bench_apex.py</code></td><td>the joint fit as a diagnostic against the shipped lap-time fit</td><td><code>bench/out/apex.json</code></td></tr>
+<tr><td><code>bench/bench_compare.py</code></td><td>every V1→V2→V3 table, verdict and figure in this report</td><td><code>bench/out/compare.json</code>, <code>compare.md</code>, <code>fig/</code></td></tr>
+<tr><td><code>bench/md2pdf.py</code></td><td>this report to PDF (headless Chrome)</td><td><code>results_v3.pdf</code></td></tr>
+</table>
+<p>Figures (embedded above, in §4, §5 ×2, §6, §8, §9): <code>bench/out/fig/fig1_accuracy.png</code>, <code>bench/out/fig/fig2_firststop.png</code>, <code>bench/out/fig/fig3_strategy.png</code>, <code>bench/out/fig/fig4_life.png</code>, <code>bench/out/fig/fig5_live.png</code>, <code>bench/out/fig/fig6_calibration.png</code>.</p></body></html>

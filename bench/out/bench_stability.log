@@ -2,54 +2,54 @@
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-barcelona-2026 ['Practice 1'] seed0: clean 83 fit 463.5s rhat 1.0045 slopes {'MEDIUM': 0.1402, 'SOFT': 0.2223} best 2-stop S-M-S @ 20,44 MAE 0.0821 bias +0.067
+barcelona-2026 ['Practice 1'] seed0: clean 83 fit 3.0s rhat 1.0149 slopes {'MEDIUM': 0.1241, 'SOFT': 0.2201} best 2-stop M-M-S @ 24,48 MAE 0.0812 bias +0.067
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-barcelona-2026 ['Practice 1', 'Practice 2'] seed0: clean 222 fit 4.4s rhat 1.0043 slopes {'HARD': 0.1594, 'MEDIUM': 0.2115, 'SOFT': 0.2395} best 2-stop S-M-S @ 21,43 MAE 0.0427 bias +0.022
+barcelona-2026 ['Practice 1', 'Practice 2'] seed0: clean 222 fit 3.3s rhat 1.0039 slopes {'HARD': 0.1576, 'MEDIUM': 0.2351, 'SOFT': 0.243} best 2-stop M-H-H @ 19,43 MAE 0.0398 bias +0.011
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-barcelona-2026 ['Practice 1', 'Practice 2', 'Practice 3'] seed0: clean 225 fit 3.9s rhat 1.0049 slopes {'HARD': 0.159, 'MEDIUM': 0.2117, 'SOFT': 0.2438} best 2-stop S-M-S @ 21,43 MAE 0.0427 bias +0.022
+barcelona-2026 ['Practice 1', 'Practice 2', 'Practice 3'] seed0: clean 225 fit 3.1s rhat 1.0038 slopes {'HARD': 0.157, 'MEDIUM': 0.235, 'SOFT': 0.248} best 2-stop M-H-H @ 19,43 MAE 0.0397 bias +0.011
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-barcelona-2026 all seed1: fit 2.9s rhat 1.0085 slopes {'HARD': 0.1608, 'MEDIUM': 0.211, 'SOFT': 0.244} best 2-stop S-M-S @ 21,43 MAE 0.0425
+barcelona-2026 all seed1: fit 2.8s rhat 1.0024 slopes {'HARD': 0.16, 'MEDIUM': 0.2338, 'SOFT': 0.2496} best 2-stop M-H-H @ 19,43 MAE 0.0395
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-barcelona-2026 all seed2: fit 2.8s rhat 1.0028 slopes {'HARD': 0.1613, 'MEDIUM': 0.2117, 'SOFT': 0.2439} best 2-stop S-M-S @ 21,43 MAE 0.0424
+barcelona-2026 all seed2: fit 2.7s rhat 1.0066 slopes {'HARD': 0.1604, 'MEDIUM': 0.2355, 'SOFT': 0.2483} best 2-stop M-H-H @ 19,43 MAE 0.0395
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-hungary-2026 ['Practice 2'] seed0: clean 155 fit 3.7s rhat 1.003 slopes {'HARD': 0.094, 'MEDIUM': 0.1141, 'SOFT': 0.1532} best 2-stop M-H-H @ 21,45 MAE 0.0489 bias -0.018
+hungary-2026 ['Practice 2'] seed0: clean 155 fit 2.9s rhat 1.0058 slopes {'HARD': 0.1085, 'MEDIUM': 0.134, 'SOFT': 0.1858} best 2-stop M-H-M @ 22,45 MAE 0.0452 bias +0.009
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-hungary-2026 ['Practice 2', 'Practice 3'] seed0: clean 184 fit 3.8s rhat 1.0051 slopes {'HARD': 0.0912, 'MEDIUM': 0.1077, 'SOFT': 0.1291} best 2-stop M-H-H @ 22,45 MAE 0.0449 bias -0.011
+hungary-2026 ['Practice 2', 'Practice 3'] seed0: clean 184 fit 3.0s rhat 1.0028 slopes {'HARD': 0.1069, 'MEDIUM': 0.1275, 'SOFT': 0.1542} best 2-stop M-H-M @ 22,45 MAE 0.045 bias +0.014
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-hungary-2026 all seed1: fit 2.0s rhat 1.0049 slopes {'HARD': 0.0917, 'MEDIUM': 0.1089, 'SOFT': 0.1295} best 2-stop M-H-H @ 22,45 MAE 0.045
+hungary-2026 all seed1: fit 2.0s rhat 1.0063 slopes {'HARD': 0.1066, 'MEDIUM': 0.1281, 'SOFT': 0.1542} best 2-stop M-H-M @ 22,45 MAE 0.045
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
   varsd = varvar / evar / 4
-hungary-2026 all seed2: fit 2.5s rhat 1.0085 slopes {'HARD': 0.0909, 'MEDIUM': 0.1065, 'SOFT': 0.1279} best 2-stop M-H-H @ 22,45 MAE 0.0446
-                               sessions  seed  n_clean  n_apex    rhat  div                                     slopes_practice                                        slopes_final                  best          tyre_optimal  push  rate_mae  rate_bias  cov90  rate_cov90  t_prep_s  t_fit_s  t_strategy_s
-0                          [Practice 1]     0       83       0  1.0045    0                  {'MEDIUM': 0.1231, 'SOFT': 0.2339}                  {'MEDIUM': 0.1402, 'SOFT': 0.2223}  2-stop S-M-S @ 20,44  2-stop M-S-S @ 24,45  0.55    0.0821     0.0666  0.923       0.571      17.8    463.5           0.8
-1              [Practice 1, Practice 2]     0      222       0  1.0043    0  {'HARD': 0.2557, 'MEDIUM': 0.2661, 'SOFT': 0.2483}  {'HARD': 0.1594, 'MEDIUM': 0.2115, 'SOFT': 0.2395}  2-stop S-M-S @ 21,43  2-stop M-S-S @ 22,44  0.55    0.0427     0.0224  0.953       0.935       9.3      4.4           1.1
-2  [Practice 1, Practice 2, Practice 3]     0      225       0  1.0049    0  {'HARD': 0.2549, 'MEDIUM': 0.2665, 'SOFT': 0.2548}   {'HARD': 0.159, 'MEDIUM': 0.2117, 'SOFT': 0.2438}  2-stop S-M-S @ 21,43  2-stop M-S-S @ 22,44  0.55    0.0427     0.0224  0.953       0.935       4.7      3.9           1.1
-3  [Practice 1, Practice 2, Practice 3]     1      225       0  1.0085    0  {'HARD': 0.2524, 'MEDIUM': 0.2654, 'SOFT': 0.2552}    {'HARD': 0.1608, 'MEDIUM': 0.211, 'SOFT': 0.244}  2-stop S-M-S @ 21,43  2-stop M-S-S @ 22,44  0.55    0.0425     0.0218  0.955       0.935       0.8      2.9           1.1
-4  [Practice 1, Practice 2, Practice 3]     2      225       0  1.0028    0  {'HARD': 0.2549, 'MEDIUM': 0.2668, 'SOFT': 0.2549}  {'HARD': 0.1613, 'MEDIUM': 0.2117, 'SOFT': 0.2439}  2-stop S-M-S @ 21,43  2-stop M-S-S @ 22,44  0.55    0.0424     0.0215  0.957       0.935       0.8      2.8           1.1
-5                          [Practice 2]     0      155       0  1.0030    0  {'HARD': 0.0932, 'MEDIUM': 0.1231, 'SOFT': 0.1392}   {'HARD': 0.094, 'MEDIUM': 0.1141, 'SOFT': 0.1532}  2-stop M-H-H @ 21,45  2-stop M-M-S @ 25,51  0.55    0.0489    -0.0184  0.941       0.884       3.2      3.7           1.0
-6              [Practice 2, Practice 3]     0      184       0  1.0051    0  {'HARD': 0.0884, 'MEDIUM': 0.1125, 'SOFT': 0.1019}  {'HARD': 0.0912, 'MEDIUM': 0.1077, 'SOFT': 0.1291}  2-stop M-H-H @ 22,45  2-stop M-M-S @ 25,51  0.55    0.0449    -0.0112  0.941       0.907       0.5      3.8           1.0
-7              [Practice 2, Practice 3]     1      184       0  1.0049    0  {'HARD': 0.0892, 'MEDIUM': 0.1142, 'SOFT': 0.1027}  {'HARD': 0.0917, 'MEDIUM': 0.1089, 'SOFT': 0.1295}  2-stop M-H-H @ 22,45  2-stop M-M-S @ 25,51  0.55    0.0450    -0.0117  0.941       0.884       0.6      2.0           1.0
-8              [Practice 2, Practice 3]     2      184       0  1.0085    0  {'HARD': 0.0877, 'MEDIUM': 0.1103, 'SOFT': 0.1001}  {'HARD': 0.0909, 'MEDIUM': 0.1065, 'SOFT': 0.1279}  2-stop M-H-H @ 22,45  2-stop M-M-S @ 25,51  0.55    0.0446    -0.0104  0.939       0.884       0.5      2.5           1.0
+hungary-2026 all seed2: fit 2.6s rhat 1.0102 slopes {'HARD': 0.1073, 'MEDIUM': 0.1267, 'SOFT': 0.1539} best 2-stop M-H-M @ 22,45 MAE 0.045
+                               sessions  seed  n_clean  n_apex    rhat  div                                     slopes_practice                                        slopes_final                  best               tyre_optimal  push  first_stop  first_stop_s  rate_mae  rate_bias  cov90  rate_cov90  t_prep_s  t_fit_s  t_strategy_s
+0                          [Practice 1]     0       83       0  1.0149    0                  {'MEDIUM': 0.1167, 'SOFT': 0.2369}                  {'MEDIUM': 0.1241, 'SOFT': 0.2201}  2-stop M-M-S @ 24,48       2-stop M-M-S @ 24,48  0.55          24           0.0    0.0812     0.0670  0.880       0.571       0.3      3.0           1.9
+1              [Practice 1, Practice 2]     0      222       0  1.0039    0  {'HARD': 0.2389, 'MEDIUM': 0.2647, 'SOFT': 0.2515}   {'HARD': 0.1576, 'MEDIUM': 0.2351, 'SOFT': 0.243}  2-stop M-H-H @ 19,43  3-stop M-M-S-S @ 16,32,49  0.55          19           0.0    0.0398     0.0113  0.930       0.871       0.6      3.3           1.1
+2  [Practice 1, Practice 2, Practice 3]     0      225       0  1.0038    0  {'HARD': 0.2393, 'MEDIUM': 0.2653, 'SOFT': 0.2574}     {'HARD': 0.157, 'MEDIUM': 0.235, 'SOFT': 0.248}  2-stop M-H-H @ 19,43  3-stop M-M-S-S @ 16,32,49  0.55          19           0.0    0.0397     0.0115  0.932       0.871       0.9      3.1           1.0
+3  [Practice 1, Practice 2, Practice 3]     1      225       0  1.0024    0  {'HARD': 0.2351, 'MEDIUM': 0.2637, 'SOFT': 0.2592}    {'HARD': 0.16, 'MEDIUM': 0.2338, 'SOFT': 0.2496}  2-stop M-H-H @ 19,43  3-stop M-M-S-S @ 16,32,49  0.55          19           0.0    0.0395     0.0102  0.932       0.871       0.8      2.8           1.0
+4  [Practice 1, Practice 2, Practice 3]     2      225       0  1.0066    0   {'HARD': 0.2379, 'MEDIUM': 0.266, 'SOFT': 0.2581}  {'HARD': 0.1604, 'MEDIUM': 0.2355, 'SOFT': 0.2483}  2-stop M-H-H @ 19,43  3-stop M-M-S-S @ 16,32,49  0.55          19           0.0    0.0395     0.0099  0.932       0.871       0.8      2.7           1.0
+5                          [Practice 2]     0      155       0  1.0058    0  {'HARD': 0.0899, 'MEDIUM': 0.1231, 'SOFT': 0.1453}   {'HARD': 0.1085, 'MEDIUM': 0.134, 'SOFT': 0.1858}  2-stop M-H-M @ 22,45       2-stop M-M-S @ 25,51  0.55          22           0.0    0.0452     0.0087  0.924       0.791       0.3      2.9           1.1
+6              [Practice 2, Practice 3]     0      184       0  1.0028    0  {'HARD': 0.0846, 'MEDIUM': 0.1114, 'SOFT': 0.1045}  {'HARD': 0.1069, 'MEDIUM': 0.1275, 'SOFT': 0.1542}  2-stop M-H-M @ 22,45       2-stop M-M-S @ 25,51  0.55          22           0.0    0.0450     0.0137  0.924       0.791       0.5      3.0           1.1
+7              [Practice 2, Practice 3]     1      184       0  1.0063    0  {'HARD': 0.0861, 'MEDIUM': 0.1143, 'SOFT': 0.1064}  {'HARD': 0.1066, 'MEDIUM': 0.1281, 'SOFT': 0.1542}  2-stop M-H-M @ 22,45       2-stop M-M-S @ 25,51  0.55          22           0.0    0.0450     0.0137  0.924       0.791       0.6      2.0           1.1
+8              [Practice 2, Practice 3]     2      184       0  1.0102    0  {'HARD': 0.0846, 'MEDIUM': 0.1105, 'SOFT': 0.1038}  {'HARD': 0.1073, 'MEDIUM': 0.1267, 'SOFT': 0.1539}  2-stop M-H-M @ 22,45       2-stop M-M-S @ 25,51  0.55          22           0.0    0.0450     0.0138  0.924       0.791       0.6      2.6           1.0

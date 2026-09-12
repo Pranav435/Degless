@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Barcelona",
+ "event": "2025-barcelona",
+ "checked": 1789217302.8678,
+ "ratio": 0.59056001142882,
+ "per_compound": {
+  "MEDIUM": {
+   "practice_s_per_lap": 0.18479619466326466,
+   "race_s_per_lap": 0.06647671427322295,
+   "ratio": 0.3597298872650312,
+   "n_practice_laps": 96,
+   "n_race_laps": 455,
+   "usable": true
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.12443614342215306,
+   "race_s_per_lap": 0.0997371817025401,
+   "ratio": 0.8015129604602013,
+   "n_practice_laps": 156,
+   "n_race_laps": 499,
+   "usable": true
+  }
+ },
+ "n_race_stints": 67,
+ "n_practice_stints": 44,
+ "usable_compounds": [
+  "MEDIUM",
+  "SOFT"
+ ],
+ "n_race_laps": 66,
+ "n_clean_practice_laps": 300,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 47.04566666666666,
+ "track_temp_race_c": 48.7,
+ "evolution_range_s": 1.3197659284888967
+}

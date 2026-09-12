@@ -3,26 +3,46 @@
 For every scored weekend the same scorer (`src.validate.score_race`, plus a
 stint-rate calibration check) is run on:
 
-  sealed             the product: practice posterior + circuit history (rate-only
-                     fold-in, capped, floored), x the temperature-modelled regime
-  practice_only      the practice posterior alone, x the same regime
-  practice_no_regime the practice posterior with no practice->race transfer
-  sealed_geomean     the sealed curve x the *old* pooled geometric-mean regime
-  sealed_perfect_t   the sealed curve x the regime with the actual race temperature
-                     (what a perfect race-day forecast would have given)
-  sealed_driver      the sealed curve scaled per driver by the leave-one-out race
-                     factor (per-car intelligence): its value shows in the Spearman
-  history_only       the circuit's 2023-25 race degradation (race regime)
-  mixedlm_x_regime   the frequentist baseline slope x the transferred regime factor
-  season_loo         one number per compound: the other 2026 races' mean rate
-  zero               "tyres do not degrade" (the floor any model must beat)
-  oracle_race        this race's own measured rate (in-sample upper bound)
+  sealed / sealed_v3    the product: practice posterior + circuit history
+                        (rate-only fold-in, capped, floored), x the shipped
+                        regime factor.  `sealed` is V2's key, kept so the
+                        frozen comparison keeps working; `sealed_v3` is an
+                        alias with the same numbers and the name the V3 report
+                        uses
+  practice_only         the practice posterior alone, x the same regime
+  practice_no_regime    the practice posterior with no practice->race transfer
+
+  the regime family     each one re-folds the *practice* posterior with
+                        `history.apply_circuit_prior` under its own regime and
+                        rescales by that regime's draws, so the fold-in and the
+                        scaling always agree:
+  regime_v2_temperature   V2: the archive race-day mean as the forecast
+  regime_v3_pooled        donor median, no circuit history
+  regime_v3_circuit       donor median + this circuit's own practice->race
+                          history (what V3 ships: must reproduce `sealed`)
+  regime_oracle_temperature  the actual race temperature as the forecast
+
+  the per-car family    the sealed curve scaled per driver, `percar.rate_scale_table`:
+  sealed_driver           V2's key: the leave-one-out race factors as shipped
+  sealed_driver_hist      the same factors through `rate_scale_table("hist")`
+  sealed_driver_practice_dev  this weekend's own `dev[d, c]` where it exists
+  sealed_driver_team_pooled   the same, pooled over the team (V3 ships this)
+
+  history_only          the circuit's 2023-25 race degradation (race regime)
+  mixedlm_x_regime      the frequentist baseline slope x the regime factor
+  season_loo            one number per compound: the other 2026 races' mean rate
+  zero                  "tyres do not degrade" (the floor any model must beat)
+  oracle_race           this race's own measured rate (in-sample upper bound)
 
 Metrics per variant: stint-rate MAE and bias (s/lap), per-lap MAE (s), 90%
-per-lap coverage, 90% stint-rate coverage and width, Spearman rank
-correlation between predicted and observed stint rates.  The same table for
-the previous benchmark's sealed files is rebuilt from bench/baseline so the
-comparison is like for like.
+per-lap coverage, 90% *and* 95% stint-rate coverage and width, Spearman rank
+correlation between predicted and observed stint rates.  The same table is
+rebuilt from V1's frozen posteriors (`bench/baseline`) and V2's
+(`bench/v2/processed`), so all three builds are scored by identical code.
+
+The 196-stint population must not move between builds: the per-weekend
+`n_stints` of the `sealed` variant and their sum are printed and written to
+`accuracy.json` under `population`.
 """
 
 from __future__ import annotations
@@ -31,17 +51,27 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
-from common import BASELINE, EVENTS, baseline_meta, baseline_out, clean_practice, dump, meta, offline, race_table, sealed_for  # noqa: E402
+from common import (BASELINE, EVENTS, V2, arg_events, baseline_meta, clean_practice, cp_for,  # noqa: E402
+                    dump, memoise_regime, meta, offline, race_table, sealed_for, v2_meta,
+                    v2_processed)
 from src.calibration import get_calibration
-from src.config import DATA_PROCESSED, SEALED_DIR, get_event
+from src.config import DATA_PROCESSED, get_event
 from src.fuel import get_prior
-from src.history import race_deg_slopes, race_track_temp, practice_track_temp
+from src.history import apply_circuit_prior, race_deg_slopes, race_track_temp, practice_track_temp
 from src.laps import clean_laps
 from src.model_bayes import BayesFit
 from src.regime import RegimeFactor, regime_prior
-from src.validate import _curve_block, load_sealed, score_race
+from src.validate import _curve_block, score_race
 
 AGES = np.arange(0, 41, dtype=float)
+
+# The per-car variants and the `rate_scale_table` kind each one asks for.
+PERCAR_VARIANTS = {"sealed_driver_hist": "hist",
+                   "sealed_driver_practice_dev": "practice_dev",
+                   "sealed_driver_team_pooled": "team_pooled"}
+
+REPORT_KEYS = ("n_stints", "rate_mae", "rate_bias", "rate_cov90", "rate_cov95", "rate_width90",
+               "rate_width95", "spearman", "mae_lap", "lap_cov90")
 
 
 def stint_rates(draws_by_comp: dict, race_clean: pd.DataFrame, ev, sigma_obs: float,
@@ -73,7 +103,9 @@ def stint_rates(draws_by_comp: dict, race_clean: pd.DataFrame, ev, sigma_obs: fl
                      "n_laps": len(g), "obs_rate": obs_rate, "pred_rate": float(pr.mean()),
                      "pred_sd": float(np.sqrt(pr.std() ** 2 + noise ** 2)),
                      "pred_lo": float(np.quantile(pr, 0.05) - 1.645 * noise),
-                     "pred_hi": float(np.quantile(pr, 0.95) + 1.645 * noise)})
+                     "pred_hi": float(np.quantile(pr, 0.95) + 1.645 * noise),
+                     "pred_lo95": float(np.quantile(pr, 0.025) - 1.960 * noise),
+                     "pred_hi95": float(np.quantile(pr, 0.975) + 1.960 * noise)})
     return pd.DataFrame(rows)
 
 
@@ -82,12 +114,61 @@ def summarise(ps: pd.DataFrame) -> dict:
         return {}
     err = ps["obs_rate"] - ps["pred_rate"]
     inside = ((ps["obs_rate"] >= ps["pred_lo"]) & (ps["obs_rate"] <= ps["pred_hi"])).mean()
+    in95 = ((ps["obs_rate"] >= ps["pred_lo95"]) & (ps["obs_rate"] <= ps["pred_hi95"])).mean() \
+        if "pred_lo95" in ps else float("nan")
     rho = spearmanr(ps["obs_rate"], ps["pred_rate"]).correlation if ps["pred_rate"].std() > 1e-9 else float("nan")
     return {"n_stints": int(len(ps)), "rate_mae": float(err.abs().mean()), "rate_bias": float(err.mean()),
             "rate_rmse": float(np.sqrt((err ** 2).mean())),
             "rate_cov90": float(inside), "rate_width90": float((ps["pred_hi"] - ps["pred_lo"]).mean()),
+            "rate_cov95": float(in95),
+            "rate_width95": (float((ps["pred_hi95"] - ps["pred_lo95"]).mean()) if "pred_lo95" in ps else float("nan")),
             "spearman": float(rho),
             "mae_by_compound": ps.assign(e=err.abs()).groupby("compound")["e"].mean().round(4).to_dict()}
+
+
+def _teams(key: str) -> dict:
+    r = race_table(key)
+    if "team" not in r:
+        return {}
+    return r.drop_duplicates("driver").set_index("driver")["team"].astype(str).to_dict()
+
+
+def _regime_variants(ev, m: dict, cp) -> dict:
+    """name -> RegimeFactor, for the four regime ablations plus the shipped one.
+
+    `regime_prior` is the same function the pipeline calls; only its keywords
+    differ.  A variant that raises (no donors on disk, no circuit-regime cache)
+    is dropped with a printed reason rather than failing the weekend.
+    """
+    out = {"regime_shipped": RegimeFactor(ratio=float(m["regime"]["ratio"]), ln_sd=float(m["regime"]["ln_sd"]))}
+    asks = {"regime_v2_temperature": dict(temperature_model=True, use_circuit_history=False),
+            "regime_v3_pooled": dict(use_circuit_history=False),
+            "regime_v3_circuit": dict()}
+    try:
+        asks["regime_oracle_temperature"] = dict(race_temp_c=race_track_temp(ev))
+    except Exception as exc:
+        print(f"  race temperature unavailable for {ev.key}: {exc}")
+    for name, kw in asks.items():
+        try:
+            out[name] = regime_prior(ev, **kw)
+        except Exception as exc:
+            print(f"  {name} unavailable for {ev.key}: {exc}")
+    return out
+
+
+def _refold(fit_prac, ev, rg, cp):
+    """The practice posterior re-folded with the circuit history under `rg`.
+
+    Every regime variant has to re-run the fold-in: `apply_circuit_prior`
+    compares practice and history *in the race regime* and the regime factor is
+    the link between them, so scoring a differently-scaled regime against a
+    fold-in done with the shipped one would measure the mismatch, not the
+    variant.
+    """
+    if not (getattr(cp, "available", False) and getattr(cp, "rate_prior", None)):
+        return fit_prac
+    new, _ = apply_circuit_prior(fit_prac, ev, rg, cp)
+    return new
 
 
 def variants_for(key: str) -> dict:
@@ -104,26 +185,73 @@ def variants_for(key: str) -> dict:
     n = fit_final.posterior["lin"].shape[0]
     rm = rg.draws(n, seed=5)
     comps = list(fit_final.compounds)
+    cp = cp_for(key, m)
 
-    out["sealed"] = ({c: fit_final.deg_loss(c, AGES) * rm[:, None] for c in comps}, sig, None)
+    sealed_draws = {c: fit_final.deg_loss(c, AGES) * rm[:, None] for c in comps}
+    out["sealed"] = (sealed_draws, sig, None)
+    out["sealed_v3"] = (sealed_draws, sig, None)          # the V3 report's name for the same curve
     out["practice_only"] = ({c: fit_prac.deg_loss(c, AGES) * rm[:, None] for c in comps}, sig, None)
     out["practice_no_regime"] = ({c: fit_prac.deg_loss(c, AGES) for c in comps}, sig, None)
     # the old pooling: geometric mean over donors, no temperature model
     geo = float((m["regime"].get("temperature") or {}).get("pooled_geomean_ratio", rg.ratio))
     rg_geo = RegimeFactor(ratio=geo, ln_sd=float(m["regime"]["ln_sd"]))
     out["sealed_geomean"] = ({c: fit_final.deg_loss(c, AGES) * rg_geo.draws(n, seed=5)[:, None] for c in comps}, sig, None)
-    # a perfect race-day temperature forecast (the actual race track temperature, never used by the model)
-    try:
-        rg_perf = regime_prior(ev, race_temp_c=race_track_temp(ev))
-        out["sealed_perfect_t"] = ({c: fit_final.deg_loss(c, AGES) * rg_perf.draws(n, seed=5)[:, None] for c in comps}, sig, None)
-        out["_regime_perfect_t"] = {"ratio": rg_perf.ratio, "ln_sd": rg_perf.ln_sd, "t_race": race_track_temp(ev),
-                                    "t_practice": practice_track_temp(ev)}
-    except Exception as exc:  # pragma: no cover
-        print(f"  perfect-temperature regime unavailable for {key}: {exc}")
-    # per-car: the sealed curve scaled by each driver's leave-one-out race factor
+
+    # -- the regime family: re-fold the practice posterior under each regime ----
+    regs = _regime_variants(ev, m, cp)
+    reg_detail, np_ = {}, fit_prac.posterior["lin"].shape[0]
+    for name, rgv in regs.items():
+        if name == "regime_shipped":
+            continue
+        f = _refold(fit_prac, ev, rgv, cp)
+        draws = {c: f.deg_loss(c, AGES) * rgv.draws(np_, seed=5)[:, None] for c in f.compounds}
+        out[name] = (draws, sig, None)
+        reg_detail[name] = {"ratio": float(rgv.ratio), "ln_sd": float(rgv.ln_sd),
+                            "mode": (rgv.temperature or {}).get("mode"),
+                            "label": rgv.label,
+                            "circuit_prior": bool((rgv.temperature or {}).get("circuit_prior"))}
+    # V2's name for the perfect-forecast variant, kept so the frozen tables line up
+    if "regime_oracle_temperature" in out:
+        out["sealed_perfect_t"] = out["regime_oracle_temperature"]
+        reg_detail["sealed_perfect_t"] = dict(reg_detail["regime_oracle_temperature"],
+                                              t_race=race_track_temp(ev), t_practice=practice_track_temp(ev))
+    # Does the shipped curve equal the regime variant V3 claims to ship?
+    chk = {"checked": False}
+    if "regime_v3_circuit" in out:
+        a, b = sealed_draws, out["regime_v3_circuit"][0]
+        shared = [c for c in a if c in b]
+        if shared:
+            d = max(float(np.abs(a[c].mean(0) - b[c].mean(0)).max()) for c in shared)
+            chk = {"checked": True, "max_abs_diff_s": d, "matches": bool(d < 5e-3),
+                   "shipped_ratio": float(rg.ratio),
+                   "variant_ratio": float(regs["regime_v3_circuit"].ratio)}
+            if not chk["matches"]:
+                print(f"  NOTE {key}: regime_v3_circuit does not reproduce the shipped curve "
+                      f"(max |diff| {d:.4f} s on the mean curve; shipped regime {rg.ratio:.3f} vs "
+                      f"variant {regs['regime_v3_circuit'].ratio:.3f}) — expected while the "
+                      f"artefacts on disk are V2's")
+    out["_regime_detail"] = reg_detail
+    out["_regime_v3_circuit_check"] = chk
+    out["_regime_perfect_t"] = {"ratio": regs.get("regime_oracle_temperature", rg).ratio,
+                                "ln_sd": regs.get("regime_oracle_temperature", rg).ln_sd,
+                                "t_race": race_track_temp(ev), "t_practice": practice_track_temp(ev)}
+
+    # -- the per-car family ----------------------------------------------------
     if cal.driver_factors:
-        out["sealed_driver"] = ({c: fit_final.deg_loss(c, AGES) * rm[:, None] for c in comps}, sig,
-                                {d: float(f) for d, f in cal.driver_factors.items()})
+        out["sealed_driver"] = (sealed_draws, sig, {d: float(f) for d, f in cal.driver_factors.items()})
+    teams = _teams(key)
+    try:
+        from src.percar import rate_scale_table
+        scales = {}
+        for name, kind in PERCAR_VARIANTS.items():
+            tbl = rate_scale_table(kind, fit=fit_final, cal=cal, teams=teams)
+            if tbl and any(abs(v - 1.0) > 1e-9 for v in tbl.values()):
+                out[name] = (sealed_draws, sig, {d: float(v) for d, v in tbl.items()})
+            scales[name] = {"n": len(tbl or {}),
+                            "range": ([round(min(tbl.values()), 3), round(max(tbl.values()), 3)] if tbl else None)}
+        out["_percar_scales"] = scales
+    except ImportError:
+        print(f"  src.percar unavailable: the three per-car variants are skipped for {key}")
 
     def lin(rate_by_comp):
         return {c: (AGES * float(r))[None, :] for c, r in rate_by_comp.items() if np.isfinite(r)}
@@ -161,41 +289,46 @@ def sealed_dict(draws_by_comp: dict, sigma: float, knee: dict, cliff: dict | Non
             "curves": {}, "sigma_obs": sigma, "sigma_race": sigma, "knee": knee, "cliff_history": cliff or {}}
 
 
-def baseline_rows(key: str, rc: pd.DataFrame, ev, sig_new: float) -> list:
-    """The previous benchmark's sealed and practice-only curves, rescored with
-    both the old (practice sigma) and the new (race sigma) noise, from the
-    frozen baseline posteriors."""
-    bm = baseline_meta(key)
-    if bm is None:
+def frozen_rows(tag: str, root, m_frozen: dict | None, key: str, rc: pd.DataFrame, ev,
+                sig_new: float) -> list:
+    """A frozen build's sealed and practice-only curves, re-scored by this code.
+
+    Both noise settings are reported: the one that build used (its own practice
+    `sigma_obs`) and the race noise every current variant is scored with, so the
+    V1 -> V2 -> V3 column is a like-for-like comparison and the interval widths
+    are not an artefact of the scorer changing under them.
+    """
+    if m_frozen is None:
         return []
     rows = []
     try:
-        fit_b = BayesFit.load(BASELINE / "processed" / f"posterior_{key}.npz")
-        fit_bp = BayesFit.load(BASELINE / "processed" / f"posterior_{key}_practice.npz")
+        fit_b = BayesFit.load(root / f"posterior_{key}.npz")
+        fit_bp = BayesFit.load(root / f"posterior_{key}_practice.npz")
     except Exception as exc:
-        print(f"  baseline posteriors unavailable for {key}: {exc}")
+        print(f"  {tag} posteriors unavailable for {key}: {exc}")
         return []
-    rg = RegimeFactor(ratio=float(bm["regime"]["ratio"]), ln_sd=float(bm["regime"]["ln_sd"]))
+    rg = RegimeFactor(ratio=float(m_frozen["regime"]["ratio"]), ln_sd=float(m_frozen["regime"]["ln_sd"]))
     n = fit_b.posterior["lin"].shape[0]
     rm = rg.draws(n, seed=5)
     sig_old = float(fit_b.posterior["sigma_obs"].mean())
-    for tag, f in (("baseline_sealed", fit_b), ("baseline_practice_only", fit_bp)):
+    for name, f in ((f"{tag}_sealed", fit_b), (f"{tag}_practice_only", fit_bp)):
         draws = {c: f.deg_loss(c, AGES) * rm[:, None] for c in f.compounds}
         for sname, sig in (("old_sigma", sig_old), ("race_sigma", sig_new)):
             sc = score_race(sealed_dict(draws, sig, {}), rc, ev)
             s = summarise(stint_rates(draws, rc, ev, sig))
             s.update({"scorer_mae": float(sc.mae), "scorer_bias": float(sc.bias), "mae_lap": float(sc.mae_lap),
                       "lap_cov90": float(sc.coverage.get(0.9, np.nan)), "n_laps": int(sc.n_laps), "sigma": sig})
-            rows.append({"event": key, "variant": f"{tag}[{sname}]", **{k: s.get(k) for k in
-                         ("n_stints", "rate_mae", "rate_bias", "rate_cov90", "rate_width90", "spearman", "mae_lap", "lap_cov90")}})
+            rows.append({"event": key, "variant": f"{name}[{sname}]", **{k: s.get(k) for k in REPORT_KEYS}})
     return rows
 
 
 def main() -> None:
+    args = arg_events(__doc__)
     offline()
+    memoise_regime()
     results = {}
     rows, brows = [], []
-    for key in EVENTS:
+    for key in args.events:
         ev = get_event(key)
         m = meta(key)
         race = race_table(key)
@@ -209,7 +342,12 @@ def main() -> None:
                "regime": {"ratio": m["regime"]["ratio"], "ln_sd": m["regime"]["ln_sd"],
                           "self": (m["regime"].get("self_measured") or {}).get("ratio"),
                           "geomean": (m["regime"].get("temperature") or {}).get("pooled_geomean_ratio"),
-                          "perfect_t": v.pop("_regime_perfect_t", None)},
+                          "mode": ((m["regime"].get("temperature") or {}).get("mode")),
+                          "perfect_t": v.pop("_regime_perfect_t", None),
+                          "variants": v.pop("_regime_detail", {})},
+               "regime_v3_circuit_check": v.pop("_regime_v3_circuit_check", {}),
+               "percar_scales": v.pop("_percar_scales", {}),
+               "first_stop_prior": m.get("first_stop_prior"),
                "variants": {}}
         for name, (draws, sig, dscale) in v.items():
             sc = score_race(sealed_dict(draws, sig, {}, cliff), rc, ev)
@@ -219,14 +357,15 @@ def main() -> None:
                       "lap_cov90": float(sc.coverage.get(0.9, np.nan)), "lap_cov50": float(sc.coverage.get(0.5, np.nan)),
                       "n_laps": int(sc.n_laps), "sigma": sig})
             res["variants"][name] = s
-            rows.append({"event": key, "variant": name, **{k: s.get(k) for k in
-                         ("n_stints", "rate_mae", "rate_bias", "rate_cov90", "rate_width90", "spearman",
-                          "mae_lap", "lap_cov90")}})
-            print(f"{key:16s} {name:18s} stints {s.get('n_stints', 0):3d}  rateMAE {s.get('rate_mae', float('nan')):.3f}"
+            rows.append({"event": key, "variant": name, **{k: s.get(k) for k in REPORT_KEYS}})
+            print(f"{key:16s} {name:26s} stints {s.get('n_stints', 0):3d}  rateMAE {s.get('rate_mae', float('nan')):.3f}"
                   f"  bias {s.get('rate_bias', float('nan')):+.3f}  cov90 {s.get('rate_cov90', float('nan')):.2f}"
+                  f"  cov95 {s.get('rate_cov95', float('nan')):.2f}"
                   f"  width {s.get('rate_width90', float('nan')):.3f}  rho {s.get('spearman', float('nan')):+.2f}"
                   f"  lapMAE {s['mae_lap']:.2f}  lapcov90 {s['lap_cov90']:.2f}", flush=True)
-        brows += baseline_rows(key, rc, ev, float(get_calibration(ev).sigma_race_lap_s))
+        sig_new = float(get_calibration(ev).sigma_race_lap_s)
+        brows += frozen_rows("baseline", BASELINE / "processed", baseline_meta(key), key, rc, ev, sig_new)
+        brows += frozen_rows("v2", V2 / "processed", v2_meta(key), key, rc, ev, sig_new)
         results[key] = res
     tbl = pd.DataFrame(rows)
     tbl.to_csv(dump("accuracy_table.json", []).with_suffix(".csv"), index=False)
@@ -236,15 +375,39 @@ def main() -> None:
     pooled = (pd.concat([tbl, btbl], ignore_index=True).groupby("variant")
               .agg(rate_mae_mean=("rate_mae", "mean"), rate_mae_median=("rate_mae", "median"),
                    rate_mae_max=("rate_mae", "max"), bias_mean=("rate_bias", "mean"),
-                   cov90_mean=("rate_cov90", "mean"), width_mean=("rate_width90", "mean"),
+                   cov90_mean=("rate_cov90", "mean"), cov95_mean=("rate_cov95", "mean"),
+                   width_mean=("rate_width90", "mean"), width95_mean=("rate_width95", "mean"),
                    spearman_mean=("spearman", "mean"), lap_mae_mean=("mae_lap", "mean"),
                    n_pass=("rate_mae", lambda s: int((s < 0.15).sum())))
               .sort_values("rate_mae_mean"))
     print("\n=== pooled over weekends ===")
     print(pooled.round(3).to_string())
-    dump("accuracy.json", {"per_event": results, "pooled": pooled.reset_index().to_dict("records")})
-    print("\nlaps-weighted sealed rate MAE:",
-          round(float(np.average(tbl[tbl.variant == "sealed"]["rate_mae"], weights=tbl[tbl.variant == "sealed"]["n_stints"])), 4))
+
+    # -- the population must not move between builds --------------------------
+    sealed_n = {r["event"]: int(r["n_stints"] or 0) for r in rows if r["variant"] == "sealed"}
+    population = {"per_event": sealed_n, "total": int(sum(sealed_n.values())),
+                  "expected_total_all_seven": 196,
+                  "complete": bool(sorted(sealed_n) == sorted(EVENTS))}
+    print("\nsealed n_stints per weekend:", sealed_n, "-> total", population["total"],
+          ("(all seven; V2 scored 196)" if population["complete"] else "(subset of weekends)"))
+    checks = {k: results[k].get("regime_v3_circuit_check") for k in results}
+    bad = [k for k, c in checks.items() if c.get("checked") and not c.get("matches")]
+    if bad:
+        print(f"regime_v3_circuit differs from the shipped curve on {bad} "
+              f"(max |diff| { {k: round(checks[k]['max_abs_diff_s'], 4) for k in bad} })")
+    # The frozen builds' per-weekend rows, re-scored by this code, so
+    # `bench_compare` (and the report) can read V1 -> V2 -> V3 out of this one
+    # JSON without reopening the CSVs or the frozen accuracy.json files.
+    frozen = {}
+    for r in brows:
+        frozen.setdefault(r["variant"], {})[r["event"]] = {k: r.get(k) for k in REPORT_KEYS}
+    dump("accuracy.json", {"per_event": results, "pooled": pooled.reset_index().to_dict("records"),
+                           "frozen_per_event": frozen, "population": population,
+                           "regime_v3_circuit_check": checks})
+    sl = tbl[tbl.variant == "sealed"]
+    if len(sl):
+        print("\nlaps-weighted sealed rate MAE:",
+              round(float(np.average(sl["rate_mae"], weights=sl["n_stints"])), 4))
 
 
 if __name__ == "__main__":

@@ -7,6 +7,14 @@ At lap L of a stint the state is what a race engineer would have had on the
 pit wall at that moment: the stint's pace level estimated from the laps run so
 far, an uncertainty band that shrinks as evidence accumulates, the model's
 projection for the next few laps, and a cliff alarm.
+
+**The alarm is a measurement, as in the live engine.**  `cliff_alarm` used to be
+`P(wear >= grip budget) > 0.5` — the model's forecast, off a budget practice
+cannot identify.  It is now `pace_collapse`: `cliff.detect_stint_collapse` run on
+the laps the engineer would have seen by that lap and nothing after it, so the
+slider shows the alarm firing exactly when the evidence arrived.  The wear
+forecast stays on the row as `p_past_cliff` and `wear_alarm`; the key the app
+reads keeps its name and changes its meaning.
 """
 
 from __future__ import annotations
@@ -16,6 +24,7 @@ import logging
 import numpy as np
 import pandas as pd
 
+from src import cliff
 from src.config import DATA_PROCESSED, GRIP_BUDGET_S, Event, get_event
 from src.fuel import get_prior
 from src.tyre import TyreModel
@@ -23,7 +32,8 @@ from src.tyre import TyreModel
 log = logging.getLogger("degless.replay")
 
 LOOKAHEAD = 5  # laps projected ahead of the current lap
-CLIFF_ALARM_P = 0.5  # P(tyre has spent its grip budget) above which the alarm fires
+CLIFF_ALARM_P = 0.5  # P(tyre has spent its grip budget) above which the wear forecast flags
+COLLAPSE_MIN_LAPS = 6  # green laps the collapse detector needs before it will call a stint
 
 
 def build_replay(fit, event: Event | str, race: pd.DataFrame, *,
@@ -31,13 +41,12 @@ def build_replay(fit, event: Event | str, race: pd.DataFrame, *,
                  push: float = 0.7) -> pd.DataFrame:
     """One row per (driver, lap) with the sequential state at that lap.
 
-    The cliff alarm is the probability that the tyre has spent its grip budget,
-    computed from the same wear model the strategy optimiser uses, so the
-    replay and the recommendation cannot disagree about when a tyre is done.
-    It used to read the fitted `knee` parameter instead, which is the one part
-    of the curve practice cannot identify - long runs stop at age 15-22 laps,
-    before any compound reaches its cliff, so that posterior was very close to
-    its prior and the alarm was largely reporting an assumption.
+    `p_past_cliff` is the probability that the tyre has spent its grip budget,
+    computed from the same wear model the strategy optimiser uses, so the replay
+    and the recommendation cannot disagree about what the model expects.  The
+    *alarm* (`cliff_alarm` = `pace_collapse`) is the within-stint detector run on
+    the laps seen so far, which is an observation rather than a forecast; the
+    wear-based flag is kept beside it as `wear_alarm`.
     """
     ev = get_event(event) if isinstance(event, str) else event
     fp = get_prior(ev, prior)
@@ -67,6 +76,16 @@ def build_replay(fit, event: Event | str, race: pd.DataFrame, *,
         deg = fit.deg_loss(comp, ages)[idx]          # (draws, n_laps)
         deg_mean = deg.mean(0)
 
+        # The frame the collapse detector reads, one row per lap of this stint:
+        # the raw lap time (it adds the fuel burn back itself) against tyre age,
+        # green racing laps only.  Sliced to `[:i + 1]` inside the loop so the
+        # alarm at lap i is built from the laps an engineer had by lap i.
+        det = pd.DataFrame({"lap_number": laps, "lap_time_s": g["lap_time_s"].to_numpy(dtype=float),
+                            "tyre_age": ages})
+        racing = (clean & ~g["pit_in"].to_numpy() & ~g["pit_out"].to_numpy()
+                  & (g["track_status"].astype(str).to_numpy() == "1")
+                  if "track_status" in g else clean)
+
         seen_sum, seen_n = 0.0, 0
         for i in range(len(g)):
             if clean[i] and np.isfinite(pace[i]):
@@ -85,6 +104,14 @@ def build_replay(fit, event: Event | str, race: pd.DataFrame, *,
             lap_idx = np.clip(laps[:i + 1].astype(int), 1, ev.n_race_laps) - 1
             wear = model.wear_rate[comp] * psi * lf[lap_idx].sum()
             p_cliff = float((wear >= 1.0).mean())
+
+            # Has the tyre fallen off, on the evidence so far?
+            seen = det[:i + 1][racing[:i + 1]]
+            col = {}
+            if len(seen) >= COLLAPSE_MIN_LAPS:
+                col = cliff.detect_stint_collapse(seen, fuel_s_per_lap=fp.s_per_lap,
+                                                  min_laps=COLLAPSE_MIN_LAPS)
+            collapse = bool(col.get("collapse"))
             rows.append({
                 "event": ev.key, "driver": drv, "stint_uid": uid,
                 "lap_number": laps[i], "tyre_age": ages[i], "compound": comp,
@@ -101,7 +128,13 @@ def build_replay(fit, event: Event | str, race: pd.DataFrame, *,
                 "proj_hi": proj + 1.645 * proj_sd if seen_n else np.nan,
                 "deg_now_s": float(deg_mean[i]),
                 "p_past_cliff": p_cliff,
-                "cliff_alarm": bool(p_cliff > CLIFF_ALARM_P),
+                "wear_alarm": bool(p_cliff > CLIFF_ALARM_P),
+                "pace_collapse": collapse,
+                "collapse_kind": col.get("kind"),
+                "collapse_knee_age": float(col.get("knee_age", np.nan)),
+                "collapse_slope_post": float(col.get("slope_post", np.nan)),
+                # the key the app reads; its meaning is the measured collapse
+                "cliff_alarm": collapse,
                 "is_pit_in": bool(g["pit_in"].to_numpy()[i]),
                 "is_pit_out": bool(g["pit_out"].to_numpy()[i]),
             })

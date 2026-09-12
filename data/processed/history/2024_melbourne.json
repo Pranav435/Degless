@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2024,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -29,6 +29,178 @@
   "n": 17,
   "sc_share": 0.17647058823529413
  },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "MEDIUM",
+   "laps": 6,
+   "in_lap": 6,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "HARD",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "BOT",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "MEDIUM",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "HUL",
+   "compound": "HARD",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "MAG",
+   "compound": "MEDIUM",
+   "laps": 7,
+   "in_lap": 7,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 3,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RIC",
+   "compound": "SOFT",
+   "laps": 5,
+   "in_lap": 5,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 16,
+   "in_lap": 16,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ZHO",
+   "compound": "SOFT",
+   "laps": 6,
+   "in_lap": 6,
+   "n_stops": 2,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 8.5,
+  "p25": 7.25,
+  "p75": 9.0,
+  "n": 14,
+  "in_laps": [
+   5,
+   6,
+   6,
+   7,
+   8,
+   8,
+   8,
+   9,
+   9,
+   9,
+   9,
+   14,
+   14,
+   16
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.15859351610045283,
+  "se": 0.04329481501448809,
+  "n_laps": 852,
+  "share_close": 0.5316901408450704,
+  "event": "australia-2026"
+ },
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 35,

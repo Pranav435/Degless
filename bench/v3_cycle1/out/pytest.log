@@ -1,0 +1,69 @@
+................F.....................                                   [100%]
+=================================== FAILURES ===================================
+_________________________ test_ladder_gate_is_enforced _________________________
+
+    def test_ladder_gate_is_enforced():
+        """The shipped model's net stint-level compound step matches the measured
+        net within tolerance on every weekend - or, where the calibration was
+        clipped to the physical band (a measured net that says a harder compound
+        is *faster* over a stint), it at least moved toward the measurement and
+        never carries the old wrong sign when the measurement is positive."""
+        for key in _scored():
+            m = json.loads((DATA_PROCESSED / f"meta_{key}.json").read_text())
+            lc = m.get("ladder_check") or {}
+            pc = m.get("pace_calibration") or {}
+            model_net, meas = lc.get("model_net_step_s"), lc.get("measured_net_step_s")
+            if model_net is None or meas is None or not np.isfinite(meas):
+                continue
+            if abs(float(model_net) - float(meas)) < LADDER_TOL_S:
+                continue
+            before = pc.get("model_net_before")
+>           assert pc.get("clipped") and before is not None and \
+                abs(float(model_net) - float(meas)) < abs(float(before) - float(meas)), \
+                f"{key}: model net {model_net:+.3f} vs measured {meas:+.3f} s/lap (before {before})"
+E           AssertionError: barcelona-2026: model net -0.108 vs measured +0.058 s/lap (before -0.10588979709803581)
+E           assert (True and -0.10588979709803581 is not None and 0.16539840615105955 < 0.16367496744381899)
+E            +  where True = <built-in method get of dict object at 0x1620a10c0>('clipped')
+E            +    where <built-in method get of dict object at 0x1620a10c0> = {'applied': True, 'measured_net_s': 0.05778517034578316, 'net_se_s': 0.11308200278276609, 'stint_len': 16.5, ...}.get
+E            +  and   0.16539840615105955 = abs((-0.1076132358052764 - 0.05778517034578316))
+E            +    where -0.1076132358052764 = float(-0.1076132358052764)
+E            +    and   0.05778517034578316 = float(0.05778517034578316)
+E            +  and   0.16367496744381899 = abs((-0.10588979709803581 - 0.05778517034578316))
+E            +    where -0.10588979709803581 = float(-0.10588979709803581)
+E            +    and   0.05778517034578316 = float(0.05778517034578316)
+
+tests/test_numeric.py:109: AssertionError
+=============================== warnings summary ===============================
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_evidence_tab_picks_up_a_refit
+tests/test_app_freshness.py::test_missing_practice_session_is_stated
+tests/test_app_freshness.py::test_missing_practice_session_is_stated
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/streamlit/time_util.py:64: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    seconds: float = pd.Timedelta(t).total_seconds()
+
+tests/test_live.py::test_state_matches_fastf1[session_dir0-13-Practice 2-0.995]
+tests/test_live.py::test_state_matches_fastf1[session_dir1-11-Race-0.97]
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:1474: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    data.loc[mask, 'PitOutTime'] = np.timedelta64("NaT")
+
+tests/test_live.py: 44 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:2155: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    pd.Timedelta(0), *stint_split_times, pd.Timedelta(days=1)
+
+tests/test_live.py: 22 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/core.py:1557: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    laps_start_time.insert(0, np.timedelta64("NaT"))
+
+tests/test_live.py: 10 warnings
+  /Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/pandas/core/internals/concat.py:510: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`).Please use a specific unit instead.
+    return dtype.type("NaT")
+
+tests/test_live.py: 510 warnings
+  /Users/pranav/Documents/coding_projects/degless/src/live/engine.py:733: DeprecationWarning: Bitwise inversion '~' on bool is deprecated and will be removed in Python 3.16. This returns the bitwise inversion of the underlying int object and is usually not what you expect from negating a bool. Use the 'not' operator for boolean negation or ~int(x) if you really want the bitwise inversion of the underlying int.
+    legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_numeric.py::test_ladder_gate_is_enforced - AssertionError: ...
+1 failed, 37 passed, 593 warnings in 16.03s

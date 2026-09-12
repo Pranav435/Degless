@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Budapest",
+ "event": "2025-budapest",
+ "checked": 1789217109.764283,
+ "ratio": 0.3817661902441032,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": 0.04710824765841634,
+   "race_s_per_lap": 0.03990218244401508,
+   "ratio": 0.8470317710254751,
+   "n_practice_laps": 57,
+   "n_race_laps": 721,
+   "usable": true
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": 0.1473375002273067,
+   "race_s_per_lap": 0.05883406930069145,
+   "ratio": 0.39931496876168304,
+   "n_practice_laps": 206,
+   "n_race_laps": 517,
+   "usable": true
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.3724738607656126,
+   "race_s_per_lap": 0.09269933166551435,
+   "ratio": 0.24887473036355548,
+   "n_practice_laps": 36,
+   "n_race_laps": 40,
+   "usable": true
+  }
+ },
+ "n_race_stints": 48,
+ "n_practice_stints": 47,
+ "usable_compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "n_race_laps": 70,
+ "n_clean_practice_laps": 299,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 39.70066889632107,
+ "track_temp_race_c": 31.8,
+ "evolution_range_s": 1.1949045117885868
+}

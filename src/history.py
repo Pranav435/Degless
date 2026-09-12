@@ -33,7 +33,14 @@ the model consumes:
 4. **The field's revealed plan shapes** — every classified finisher's compound
    sequence and starting compound, which the strategy search reads as a prior
    over plan families so a sequence nobody has run here needs a large time
-   gain to be recommended.
+   gain to be recommended.  Recorded in roles (SOFT/MEDIUM/HARD) but counted
+   in C-numbers: Pirelli's nomination moves between seasons, so every plan is
+   translated through `src.nominations` into the compounds the target year
+   actually has before it is pooled.
+5. **When the field stopped, under green flags**, and **what running in dirty
+   air costs here** — the two circuit facts practice cannot show and the 2026
+   donors cannot transfer, which the first-stop prior and the position model
+   consume.
 
 Everything is cached under `data/processed/history/` so a weekend build does
 not re-read fifty races.  The per-race summary carries a version; an older
@@ -51,12 +58,13 @@ import numpy as np
 import pandas as pd
 
 from src.config import COMPOUND_ORDER, DATA_PROCESSED, EVENTS, FASTF1_CACHE, VALID_COMPOUNDS, Event, get_event
+from src.nominations import comparable, map_sequence, nomination, role_of
 
 log = logging.getLogger("degless.history")
 
 HIST_DIR = DATA_PROCESSED / "history"
 YEARS = (2023, 2024, 2025)
-SUMMARY_VERSION = 2
+SUMMARY_VERSION = 4
 # Fuel physics of the previous regulations, for the evolution/fuel split of old races.
 FUEL_S_PER_LAP_PRE2026 = 1.67 * 0.033
 MIN_STINT = 3
@@ -69,6 +77,16 @@ MAX_HISTORY_SCALE = 3.0           # the history may not move a practice rate by 
 RATE_FLOOR_SIGMA = 1.5            # floor = the pooled race rate's lower bound this many ln-sd below its mean
 PACE_STEP_SE_MAX_S = 0.25         # a circuit's fresh-tyre step is only used as a prior mean when this precise
 HIST_NET_SE_FLOOR_S = 0.10        # a pre-2026 net stint step (older tyres, older cars) is believed no tighter than this
+# A pre-2026 net stint step measured less precisely than this is not used at
+# all.  Melbourne is why: 2024's -0.46 +/- 0.24 s/step dragged the pooled net
+# at Australia to -0.07 on its own, against +0.06 to +0.17 on every 2026
+# donor, and a negative net asks the optimiser to believe a harder tyre is
+# quicker over a stint.  A measurement that wide is the estimator's phase bias
+# (19 stints, three red flags), not the tyre range.
+HIST_NET_SE_MAX_S = 0.15
+# Recency weights for pooling a circuit's own races: the tyre range and the
+# cars moved every winter, so 2023 is half a race and 2025 is a whole one.
+HIST_RECENCY_WEIGHT = {2023: 0.5, 2024: 0.7, 2025: 1.0}
 
 
 # --------------------------------------------------------------------------
@@ -76,11 +94,35 @@ HIST_NET_SE_FLOOR_S = 0.10        # a pre-2026 net stint step (older tyres, olde
 # --------------------------------------------------------------------------
 
 
+def _offline_mode() -> bool:
+    """Is FastF1 refusing the network (`Cache.offline_mode(True)`)?
+
+    It has no getter, so the cached session's setting is read directly.  The
+    answer decides two things: whether our own `enable_cache` call is allowed
+    to cancel the caller's offline mode (see `_fastf1`), and whether a failed
+    load is recorded as "this race does not exist" (see `summarise_race`) -
+    offline, a failure means only that this race is not in the cache.
+    """
+    try:
+        import fastf1
+
+        s = fastf1.Cache._requests_session_cached
+        return bool(s is not None and s.settings.only_if_cached)
+    except Exception:
+        return False
+
+
 def _fastf1():
     import fastf1
     import logging as _l
 
+    # `enable_cache` builds a *new* requests-cache session, which silently
+    # clears an offline mode the caller asked for - so a build that was told
+    # not to touch the network would quietly touch it.  Re-apply it.
+    offline = _offline_mode()
     fastf1.Cache.enable_cache(str(FASTF1_CACHE))
+    if offline:
+        fastf1.Cache.offline_mode(True)
     _l.getLogger("fastf1").setLevel(_l.ERROR)
     return fastf1
 
@@ -225,6 +267,17 @@ def same_circuit(circuit: str, event) -> bool:
 
 
 def _canonical(session) -> pd.DataFrame:
+    """An old race's laps in the column names the 2026 estimators expect.
+
+    `lap_start_s`, `gap_ahead_s` and `tyre_age` are here so the canonical frame
+    is a drop-in for a 2026 lap table: the gap to the car ahead is what
+    `compounds.measure_dirty_air` regresses on (the same
+    `laps._gap_to_car_ahead` the clean-lap cascade uses, over the whole race
+    rather than per session), and `tyre_age` is the name it and the cliff
+    detector use for `tyre_life`.
+    """
+    from src.laps import _gap_to_car_ahead
+
     laps = session.laps.copy()
     out = pd.DataFrame({
         "driver": laps["Driver"].astype(str),
@@ -237,7 +290,12 @@ def _canonical(session) -> pd.DataFrame:
         "pit_in": laps["PitInTime"].notna(),
         "pit_out": laps["PitOutTime"].notna(),
         "track_status": laps["TrackStatus"].astype(str),
+        "lap_start_s": (laps["LapStartTime"].dt.total_seconds()
+                        if "LapStartTime" in laps else np.nan),
     })
+    out["tyre_age"] = out["tyre_life"]
+    out["gap_ahead_s"] = (_gap_to_car_ahead(out) if out["lap_start_s"].notna().any()
+                          else np.inf)
     return out
 
 
@@ -294,8 +352,15 @@ def summarise_race(year: int, circuit: str, *, force: bool = False) -> dict | No
         s.load(laps=True, telemetry=False, weather=True, messages=True)
     except Exception as exc:
         log.info("no %s race for %s: %s", year, circuit, str(exc)[:80])
-        p.write_text(json.dumps({"year": year, "circuit": circuit, "missing": True,
-                                 "checked": _t.time(), "error": str(exc)[:160]}))
+        # The marker says "there is no such race", and it is believed for a
+        # week.  Offline, a failed load means only "not in this cache", so the
+        # marker is not written - it would blind every later build for a week
+        # over a race that is simply absent from the cache.  A LookupError is
+        # the exception: it is raised above from the schedule itself, which is
+        # cached, so it is a real answer even offline.
+        if not _offline_mode() or isinstance(exc, LookupError):
+            p.write_text(json.dumps({"year": year, "circuit": circuit, "missing": True,
+                                     "checked": _t.time(), "error": str(exc)[:160]}))
         return None
     laps = _canonical(s)
     n_laps = int(s.total_laps or laps["lap_number"].max())
@@ -321,19 +386,37 @@ def summarise_race(year: int, circuit: str, *, force: bool = False) -> dict | No
     # net stint-level compound step, the quantity the ladder is gated against
     from src.compounds import net_stint_step_from_laps
     ns = net_stint_step_from_laps(laps, fuel_s_per_lap=fuel, n_race_laps=n_laps)
-    # first stops: in-lap of the first stop per classified finisher, and whether it was under a safety car
+    # first stops: in-lap of the first stop per classified finisher that stopped
+    # (a finisher who never stopped has no first stop), the opening stint's
+    # compound and length, and whether the stop fell under a safety car.  The
+    # compound is the *letter of that year* - the C-number comes from the
+    # nomination table at read time, so this JSON stays nomination-agnostic.
+    # `n_stops` is the driver's total stop count in that race, off the same stint
+    # table `stops` is counted from.  It is what makes the first-stop prior
+    # conditionable: a one-stopper's first stop and a two-stopper's are answers to
+    # different questions, and pooling them is how a circuit with a two-stop year
+    # pulls a one-stop plan ten laps early.
     status_by = laps.set_index(["driver", "lap_number"])["track_status"].to_dict()
     first_rows = []
     for drv, g in st.sort_values(["driver", "start"]).groupby("driver"):
         if len(g) < 2:
             continue
         in_lap = int(g["start"].iloc[1]) - 1
-        first_rows.append({"driver": drv, "in_lap": in_lap,
+        first_rows.append({"driver": drv, "compound": str(g["compound"].iloc[0]),
+                           "laps": int(g["n"].iloc[0]), "in_lap": in_lap,
+                           "n_stops": int(len(g) - 1),
                            "sc": str(status_by.get((drv, float(in_lap)), "1")) != "1"})
     fr = pd.DataFrame(first_rows)
     first_stop = ({"median_lap": float(fr["in_lap"].median()), "p25": float(fr["in_lap"].quantile(0.25)),
                    "p75": float(fr["in_lap"].quantile(0.75)), "n": int(len(fr)),
                    "sc_share": float(fr["sc"].mean())} if len(fr) else {})
+    # Green-flag first stops only: a stop taken because the safety car came out
+    # says nothing about when the tyre was done, and pooling the two is how the
+    # first-stop prior ends up 4 laps early at a circuit with a high SC rate.
+    fg = fr[~fr["sc"]] if len(fr) else fr
+    first_stop_green = ({"median_lap": float(fg["in_lap"].median()), "p25": float(fg["in_lap"].quantile(0.25)),
+                         "p75": float(fg["in_lap"].quantile(0.75)), "n": int(len(fg)),
+                         "in_laps": [int(v) for v in sorted(fg["in_lap"])]} if len(fg) else {})
     # pit loss: (in + out) - 2 x nearby clean median, green flag both laps
     rows = []
     for drv, g in laps.groupby("driver"):
@@ -350,6 +433,18 @@ def summarise_race(year: int, circuit: str, *, force: bool = False) -> dict | No
             if 5 < loss < 60:
                 rows.append(loss)
     sc_laps = float((laps["track_status"].isin(["4", "6", "7"])).groupby(laps["lap_number"]).any().mean()) if len(laps) else 0.0
+    # Dirty air, measured on this race rather than transferred from the 2026
+    # donors: the cost of running within 3 s of the car ahead is a property of
+    # the circuit (Hungary +0.43 s/lap, Monza -0.20) and the recalibration needs
+    # a per-circuit value that never reads the target's own race.
+    from src.compounds import measure_dirty_air
+    ev_for_circuit = event_for_circuit(circuit)
+    dirty = {}
+    if ev_for_circuit is not None and laps["lap_start_s"].notna().any():
+        try:
+            dirty = measure_dirty_air(laps, ev_for_circuit)
+        except Exception as exc:       # a race whose design matrix is singular
+            log.info("no dirty-air measurement for %s %s: %s", year, circuit, str(exc)[:80])
     weather = s.weather_data
     out = {
         "version": SUMMARY_VERSION,
@@ -359,6 +454,10 @@ def summarise_race(year: int, circuit: str, *, force: bool = False) -> dict | No
         "plans": {k: int(v) for k, v in plans.value_counts().items()},
         "starts": {k: int(v) for k, v in starts.value_counts().items()},
         "first_stop": first_stop,
+        "first_stints": first_rows,
+        "first_stop_green": first_stop_green,
+        "dirty_air": dirty,
+        "nomination": nomination(year, circuit),
         "compounds": per_comp, "deg": deg, "ladder": ladder,
         "net_step": ({"step_s": float(ns.step_s), "se": float(ns.se), "n_stints": int(ns.n_laps),
                       "median_stint_laps": float(ns.phase_bias_s)} if np.isfinite(ns.step_s) else {}),
@@ -372,8 +471,13 @@ def summarise_race(year: int, circuit: str, *, force: bool = False) -> dict | No
     return out
 
 
+def event_for_circuit(circuit: str) -> Event | None:
+    """The 2026 event at this circuit, if the calendar has one."""
+    return next((e for e in EVENTS.values() if e.circuit.lower() == str(circuit).lower()), None)
+
+
 def get_event_fuel(circuit: str) -> float:
-    ev = next((e for e in EVENTS.values() if e.circuit.lower() == circuit.lower()), None)
+    ev = event_for_circuit(circuit)
     return ev.fuel_effect_s_per_lap if ev else 0.031
 
 
@@ -540,8 +644,14 @@ class CircuitPrior:
     plans_all: dict = field(default_factory=dict)        # every plan family with its count
     starts: dict = field(default_factory=dict)           # start compound -> count
     first_stop: dict = field(default_factory=dict)       # {median_lap (scaled), p25, p75, n, sc_share}
+    # green only: {median_lap, p25, p75, n, in_laps, by_compound, by_stops,
+    # by_compound_stops, by_year} - see `circuit_prior`
+    first_stop_green: dict = field(default_factory=dict)
     ladder: dict = field(default_factory=dict)           # {pace_step_s, pace_step_se, deg_ratio, deg_ratio_ln_sd, n_races}
     net_steps: list = field(default_factory=list)        # per race: {year, step_s, se, n_stints}
+    dirty_air: dict = field(default_factory=dict)        # {s_per_lap, se, n_races, by_year} - not clipped positive
+    nomination: list | None = None                       # the target year's C-numbers, hard -> soft
+    nominations_by_year: dict = field(default_factory=dict)
     pit_loss_s: float | None = None
     sc_share: float = 0.0
     season: dict = field(default_factory=dict)
@@ -568,6 +678,7 @@ class CircuitPrior:
     def as_dict(self) -> dict:
         return {k: v for k, v in self.__dict__.items() if k != "races"} | {
             "races": [{k: r.get(k) for k in ("year", "event", "n_laps", "stops", "plans", "starts", "first_stop",
+                                              "first_stop_green", "dirty_air", "nomination",
                                               "compounds", "deg", "ladder", "net_step", "pit_loss_s",
                                               "sc_share_of_laps", "track_temp_c")} for r in self.races]}
 
@@ -581,6 +692,10 @@ def circuit_prior(event: Event | str, years=YEARS, *, track_temp_c: float | None
     ev = get_event(event) if isinstance(event, str) else event
     races = [r for r in (summarise_race(y, ev.circuit) for y in years) if r and not r.get("rain")]
     cp = CircuitPrior(event=ev.key, circuit=ev.circuit, years=[r["year"] for r in races], races=races)
+    # The nominations first, so a circuit with no history at all (Madring) still
+    # tells `plan_prior_for` which compounds the season pool must be mapped to.
+    cp.nomination = nomination(ev.ff1_year, ev.circuit)
+    cp.nominations_by_year = {int(y): nomination(y, ev.circuit) for y in (*years, ev.ff1_year)}
     if not races:
         return cp
     sf = season_factor()
@@ -625,15 +740,19 @@ def circuit_prior(event: Event | str, years=YEARS, *, track_temp_c: float | None
         for c in VALID_COMPOUNDS:
             cp.rate_floor.setdefault(c, lo)
     # -- the ladder as this circuit's races show it --------------------------
+    # Weighted by recency as well as precision: 2023 ran a different tyre range
+    # and a different car, and at Melbourne the old races are also the noisy
+    # ones (see HIST_RECENCY_WEIGHT and HIST_NET_SE_MAX_S).
     steps, sw, ratios, rw = [], [], [], []
     for r in races:
         L = r.get("ladder") or {}
+        rec = HIST_RECENCY_WEIGHT.get(int(r["year"]), 1.0)
         if "pace_step_s" in L and np.isfinite(L.get("pace_step_se", np.nan)) and 0 < L["pace_step_se"] <= 2 * PACE_STEP_SE_MAX_S:
-            steps.append(L["pace_step_s"]); sw.append(1.0 / max(L["pace_step_se"], 0.03) ** 2)
+            steps.append(L["pace_step_s"]); sw.append(rec / max(L["pace_step_se"], 0.03) ** 2)
         if "deg_ratio" in L and L["deg_ratio"] > 0:
-            ratios.append(np.log(L["deg_ratio"])); rw.append(float(L.get("n_pairs", 1)))
+            ratios.append(np.log(L["deg_ratio"])); rw.append(rec * float(L.get("n_pairs", 1)))
     if steps or ratios:
-        cp.ladder = {"n_races": len(races)}
+        cp.ladder = {"n_races": len(races), "recency_weights": [HIST_RECENCY_WEIGHT.get(int(r["year"]), 1.0) for r in races]}
         if steps:
             cp.ladder["pace_step_s"] = float(np.average(steps, weights=sw))
             cp.ladder["pace_step_se"] = float(np.sqrt(1.0 / np.sum(sw)))
@@ -645,8 +764,13 @@ def circuit_prior(event: Event | str, years=YEARS, *, track_temp_c: float | None
             spread = float(np.std(ratios, ddof=1)) if len(ratios) > 1 else 0.25
             cp.ladder["deg_ratio_ln_sd"] = float(np.clip(spread, 0.15, 0.5))
             cp.ladder["deg_ratio_by_year"] = [round(float(np.exp(x)), 3) for x in ratios]
+    # Every measurement is carried, with the raw standard error beside the
+    # floored one: `compounds.pace_step_prior` is where the se > HIST_NET_SE_MAX_S
+    # drop happens, so it can report what it dropped and why.
     cp.net_steps = [{"year": r["year"], **r["net_step"],
-                     "se": float(max(r["net_step"].get("se", HIST_NET_SE_FLOOR_S), HIST_NET_SE_FLOOR_S))}
+                     "se": float(max(r["net_step"].get("se", HIST_NET_SE_FLOOR_S), HIST_NET_SE_FLOOR_S)),
+                     "se_raw": float(r["net_step"].get("se", float("nan"))),
+                     "recency": HIST_RECENCY_WEIGHT.get(int(r["year"]), 1.0)}
                     for r in races if r.get("net_step")]
     # -- stint caps and typical lengths, scaled to this year's distance ------
     for c in VALID_COMPOUNDS:
@@ -690,6 +814,77 @@ def circuit_prior(event: Event | str, years=YEARS, *, track_temp_c: float | None
                          "p75": float(np.mean([f["p75"] * s for f, s in fs])),
                          "n": int(sum(f["n"] for f, _ in fs)),
                          "sc_share": float(np.mean([f["sc_share"] for f, _ in fs]))}
+    # -- green-flag first stops, as a sample rather than three quantiles -----
+    # The first-stop prior (WP-C) is a density over laps, so the pooled in-laps
+    # themselves are what it needs: each scaled to this year's distance, and
+    # keyed by the compound the stint was run on *as the target year names it*
+    # (Barcelona's 2025 C3 openers were "SOFT" then and are this year's MEDIUM).
+    # `by_stops` and `by_compound_stops` condition on the plan the stop belonged
+    # to.  A first stop is the opening move of a *plan*, and the same circuit
+    # supports very different ones: Spa's 2024 two-stoppers came in on lap 11 and
+    # its one-stoppers on lap 19, so the unconditional density has a mode between
+    # them that belongs to neither family.  Keyed "<letter>|<n_stops>" so the
+    # JSON round-trip keeps them as strings.
+    in_laps, by_compound, by_year = [], {}, {}
+    by_stops, by_compound_stops = {}, {}
+    for r in races:
+        g = r.get("first_stop_green") or {}
+        if not g.get("in_laps"):
+            continue
+        scale = ev.n_race_laps / max(r["n_laps"], 1)
+        scaled = [float(v) * scale for v in g["in_laps"]]
+        in_laps += scaled
+        by_year[int(r["year"])] = {"median_lap": float(np.median(scaled)), "n": len(scaled),
+                                   "raw_median_lap": float(g.get("median_lap", np.nan)),
+                                   "n_race_laps": int(r["n_laps"])}
+        nom_y = r.get("nomination") or cp.nominations_by_year.get(int(r["year"]))
+        how = comparable(nom_y, cp.nomination)
+        rows = [x for x in (r.get("first_stints") or []) if not x.get("sc")]
+        if not rows:
+            continue
+        for x in rows:
+            lap = float(x["in_lap"]) * scale
+            ns = x.get("n_stops")
+            # The stop count needs no nomination mapping - how many times the
+            # field stopped is a fact about the pit lane - so it is pooled even
+            # where the compounds cannot be compared.
+            if ns is not None:
+                by_stops.setdefault(str(int(ns)), []).append(lap)
+            if how in ("unknown", "disjoint"):
+                continue
+            letters, _ = map_sequence([x["compound"]], nom_y, cp.nomination)
+            by_compound.setdefault(letters[0], []).append(lap)
+            if ns is not None:
+                by_compound_stops.setdefault(f"{letters[0]}|{int(ns)}", []).append(lap)
+    if in_laps:
+        a = np.sort(np.array(in_laps, dtype=float))
+        cp.first_stop_green = {"median_lap": float(np.median(a)), "p25": float(np.quantile(a, 0.25)),
+                               "p75": float(np.quantile(a, 0.75)), "n": int(len(a)),
+                               "in_laps": [float(v) for v in a],
+                               "by_compound": {k: sorted(v) for k, v in by_compound.items()},
+                               "by_stops": {k: sorted(v) for k, v in sorted(by_stops.items())},
+                               "by_compound_stops": {k: sorted(v) for k, v in sorted(by_compound_stops.items())},
+                               "by_year": by_year,
+                               "source": f"{cp.circuit} green-flag first stops {cp.years}, "
+                                         f"scaled to {ev.n_race_laps} laps"}
+    # -- dirty air, pooled by precision over the years ----------------------
+    # Deliberately not clipped at zero: Monza's measurement is negative (a car
+    # in the tow is quicker there) and pretending otherwise is how a pooled
+    # constant ends up charging Monza for the slipstream.
+    da_v, da_w, da_by = [], [], {}
+    for r in races:
+        d = r.get("dirty_air") or {}
+        v, se = d.get("s_per_lap"), d.get("se")
+        if v is None or not np.isfinite(float(v)) or se is None or not np.isfinite(float(se)):
+            continue
+        da_by[int(r["year"])] = {"s_per_lap": float(v), "se": float(se), "n_laps": int(d.get("n_laps", 0)),
+                                 "share_close": float(d.get("share_close", np.nan))}
+        da_v.append(float(v)); da_w.append(1.0 / max(float(se), 0.02) ** 2)
+    if da_v:
+        w = np.array(da_w)
+        cp.dirty_air = {"s_per_lap": float(np.sum(np.array(da_v) * w) / w.sum()),
+                        "se": float(np.sqrt(1.0 / w.sum())), "n_races": len(da_v), "by_year": da_by,
+                        "source": f"{cp.circuit} races {sorted(da_by)}, within 3 s of the car ahead"}
     pls = [r["pit_loss_s"] for r in races if r.get("pit_loss_s")]
     cp.pit_loss_s = float(np.median(pls)) if pls else None
     cp.sc_share = float(np.mean([r.get("sc_share_of_laps", 0.0) for r in races]))
@@ -953,23 +1148,33 @@ def stint_caps_for(ev: Event, cp: CircuitPrior, base: dict | None = None) -> dic
     return out
 
 
-def plan_prior_for(cp: CircuitPrior | None, *, season_fallback: bool = True) -> dict:
-    """The field's revealed plan shapes as a prior: `{"sequences", "starts",
-    "stops", "n", "source"}` in the short form the strategy search uses
-    ("M-H-H"), from the circuit's own races, or - for a circuit nobody has
-    raced - from every 2026 race summarised so far."""
-    if cp is not None and cp.available and cp.plans_all:
-        seqs = dict(cp.plans_all)
-        starts = dict(cp.starts)
-        stops = {int(k): int(v) for k, v in cp.stops.items()}
-        return {"sequences": seqs, "starts": starts, "stops": stops,
-                "n": int(sum(seqs.values())), "source": f"{cp.circuit} races {cp.years}"}
-    if not season_fallback:
-        return {}
-    seqs, starts, stops, n, used = {}, {}, {}, 0, []
+def _start_key(letter: str) -> str:
+    """The start-compound marginal is keyed by the full compound name - what the
+    race summaries record and what `strategy.plan_prior_penalty` looks up."""
+    return role_of(letter) or str(letter)
+
+
+def _season_plan_pool(target_nomination: list | None = None, *, exclude: str | None = None) -> dict:
+    """Plan shapes from the 2026 races run so far — the prior for a circuit
+    nobody has raced (Madring) or whose own races cannot be compared.
+
+    With a `target_nomination` each donor's sequences are translated out of its
+    own 2026 nomination and into the target's, so Melbourne's C4 MEDIUM arrives
+    at Madring as the SOFT it is there; a donor whose nomination is not in the
+    table is skipped entirely rather than pooled on the letters.  `exclude` is
+    the target event, which may never inform its own prior.
+    """
+    seqs, starts, stops, n, used, per_race = {}, {}, {}, 0, [], []
     for k, ev in EVENTS.items():
         rp = DATA_PROCESSED / f"laps_{k}_race.parquet"
-        if not rp.exists() or not ev.donor_ok:
+        if k == exclude or not rp.exists() or not ev.donor_ok:
+            continue
+        nom = nomination(ev.ff1_year, ev.circuit) if target_nomination else None
+        how = comparable(nom, target_nomination) if target_nomination else "letters"
+        row = {"year": int(ev.ff1_year), "event": k, "nomination": nom, "comparable": how,
+               "n_mapped": 0, "n_dropped": 0, "n_clamped": 0}
+        if target_nomination and how in ("unknown", "disjoint"):
+            per_race.append(row)
             continue
         r = pd.read_parquet(rp)
         st = (r.groupby(["driver", "stint"]).agg(compound=("compound", "first"), n=("lap_number", "size"),
@@ -978,14 +1183,133 @@ def plan_prior_for(cp: CircuitPrior | None, *, season_fallback: bool = True) -> 
         fin = st.groupby("driver")["end"].max()
         cls = fin[fin >= ev.n_race_laps - 2].index
         st = st[st["driver"].isin(cls)].sort_values(["driver", "start"])
-        for drv, g in st.groupby("driver"):
-            seq = "-".join(c[0] for c in g["compound"])
-            seqs[seq] = seqs.get(seq, 0) + 1
-            starts[g["compound"].iloc[0]] = starts.get(g["compound"].iloc[0], 0) + 1
+        for _, g in st.groupby("driver"):
+            src = [str(c)[0] for c in g["compound"]]
+            if target_nomination:
+                letters, info = map_sequence(src, nom, target_nomination)
+            else:
+                letters, info = src, {"clamped": False}
             stops[len(g) - 1] = stops.get(len(g) - 1, 0) + 1
             n += 1
+            if len(set(letters)) == 1 and len(set(src)) > 1:
+                # the same rule as the circuit prior: a plan that collapses onto
+                # one compound under the target nomination keeps its stop count
+                # only - its start is as uninterpretable as its sequence
+                row["n_dropped"] += 1
+                continue
+            starts[_start_key(letters[0])] = starts.get(_start_key(letters[0]), 0) + 1
+            seq = "-".join(letters)
+            seqs[seq] = seqs.get(seq, 0) + 1
+            row["n_mapped"] += 1
+            row["n_clamped"] += int(bool(info["clamped"]))
         used.append(k)
+        per_race.append(row)
     if not n:
         return {}
-    return {"sequences": dict(sorted(seqs.items(), key=lambda t: -t[1])), "starts": starts,
-            "stops": dict(sorted(stops.items())), "n": n, "source": f"2026 season pooled ({', '.join(used)})"}
+    note = " mapped by C-number" if target_nomination else ""
+    return {"sequences": dict(sorted(seqs.items(), key=lambda t: -t[1])),
+            "starts": dict(sorted(starts.items(), key=lambda t: -t[1])),
+            "stops": dict(sorted(stops.items())), "n": int(sum(seqs.values())) if seqs else int(n),
+            "source": f"2026 season pooled ({', '.join(used)}){note}", "per_race": per_race}
+
+
+def plan_prior_for(cp: CircuitPrior | None, *, season_fallback: bool = True,
+                   use_nominations: bool = True, target_nomination: list | None = None) -> dict:
+    """The field's revealed plan shapes as a prior: `{"sequences", "starts",
+    "stops", "n", "source", "nomination"}` in the short form the strategy
+    search uses ("M-H-H"), from the circuit's own races, or - for a circuit
+    nobody has raced - from every 2026 race summarised so far.
+
+    The counts are stated in the **target year's** compounds, not in the
+    letters the old races were recorded with (see `src.nominations`):
+
+    1. an identical nomination is the letters unchanged;
+    2. a shifted one maps every stint by C-number.  A sequence that collapses
+       onto a single compound under the mapping is not a plan anybody can run
+       at this nomination - Melbourne 2023's nine M-H one-stoppers are C3-C2,
+       both of them 2026 HARDs - so it contributes its **stop count only**: it
+       leaves the sequence counts *and* the start-compound counts.  Its start is
+       as uninterpretable as its sequence, because what the team chose was the
+       first half of a two-compound plan that does not exist at this nomination,
+       and crediting the mapped letter would say the field opened on a tyre it
+       never ran a comparable race on.  How many times the field stops here is
+       a fact about the pit lane, so the stop count survives;
+    3. a race whose nomination is disjoint or unverified contributes its stop
+       count only, and the sequences fall back in order to the circuit's other
+       years, the 2026 season pool (itself mapped into this nomination), and
+       finally the letters as recorded, flagged `role-fallback`;
+    4. the target's own 2026 race is never read.
+
+    `use_nominations=False` is V2 exactly - the letters pooled as recorded -
+    which is the ablation the benchmark compares against.
+    """
+    target = list(target_nomination) if target_nomination else (
+        list(cp.nomination) if cp is not None and cp.nomination else None)
+    if cp is not None and cp.available and cp.plans_all:
+        letters_only = {"sequences": dict(cp.plans_all), "starts": dict(cp.starts),
+                        "stops": {int(k): int(v) for k, v in cp.stops.items()},
+                        "n": int(sum(cp.plans_all.values())), "source": f"{cp.circuit} races {cp.years}"}
+        if not use_nominations:
+            return letters_only
+        stops = {int(k): int(v) for k, v in cp.stops.items()}
+        seqs, starts, per_race, moved = {}, {}, [], False
+        nby = cp.nominations_by_year or {}
+        for r in cp.races:
+            y = int(r["year"])
+            # `str(y)` because a CircuitPrior rebuilt from a meta JSON has string
+            # keys; the race's own entry is the first choice either way.
+            nom = r.get("nomination") or nby.get(y) or nby.get(str(y))
+            how = comparable(nom, target)
+            row = {"year": y, "nomination": nom, "comparable": how,
+                   "n_mapped": 0, "n_dropped": 0, "n_clamped": 0}
+            per_race.append(row)
+            if how not in ("identical", "shifted"):
+                continue
+            # Both counters come off the same object - `plans` is one entry per
+            # classified finisher - so a dropped plan drops its start with it and
+            # the two marginals stay over the same population.  (Reading
+            # `r["starts"]` instead, as V2 did, keeps the start of a plan whose
+            # sequence was thrown away.)
+            for short, cnt in (r.get("plans") or {}).items():
+                src = short.split("-")
+                letters, info = map_sequence(src, nom, target)
+                moved = moved or "-".join(letters) != short
+                if len(set(letters)) == 1 and len(set(src)) > 1:
+                    row["n_dropped"] += int(cnt)
+                    continue
+                seq = "-".join(letters)
+                seqs[seq] = seqs.get(seq, 0) + int(cnt)
+                key = _start_key(letters[0])
+                starts[key] = starts.get(key, 0) + int(cnt)
+                row["n_mapped"] += int(cnt)
+                row["n_clamped"] += int(cnt) if info["clamped"] else 0
+        if seqs:
+            note = " mapped by C-number" if moved else ""
+            return {"sequences": dict(sorted(seqs.items(), key=lambda t: -t[1])),
+                    "starts": dict(sorted(starts.items(), key=lambda t: -t[1])),
+                    "stops": dict(sorted(stops.items())), "n": int(sum(seqs.values())),
+                    "source": f"{cp.circuit} races {cp.years}{note}",
+                    "nomination": {"target": target, "per_race": per_race, "mode": "c-number"}}
+        pool = _season_plan_pool(target, exclude=cp.event) if (season_fallback and target) else {}
+        if pool:
+            # The circuit's own stop counts survive - how many times the field
+            # stops here is a fact about the pit lane, not about the compounds.
+            return {"sequences": pool["sequences"], "starts": pool["starts"],
+                    "stops": dict(sorted(stops.items())), "n": pool["n"],
+                    "source": f"{cp.circuit} stop counts {cp.years}; shapes from {pool['source']}",
+                    "nomination": {"target": target, "per_race": per_race + pool["per_race"],
+                                   "mode": "c-number"}}
+        return letters_only | {"source": f"{cp.circuit} races {cp.years} (role-fallback: "
+                                         f"no comparable nomination)",
+                               "nomination": {"target": target, "per_race": per_race, "mode": "letters"}}
+    if not season_fallback:
+        return {}
+    pool = _season_plan_pool(target if use_nominations else None,
+                             exclude=(cp.event if cp is not None else None))
+    if not pool:
+        return {}
+    out = {k: v for k, v in pool.items() if k != "per_race"}
+    if use_nominations:
+        out["nomination"] = {"target": target, "per_race": pool["per_race"],
+                             "mode": "c-number" if target else "letters"}
+    return out

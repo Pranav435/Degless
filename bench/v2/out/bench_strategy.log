@@ -1,0 +1,72 @@
+
+== australia-2026: tool 1-stop M-H @ 23 | tyre-optimal 1-stop H-M @ 34 | baseline 1-stop H-M @ 36 | winner RUS MEDIUM-HARD @ [12] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (53% of field); seq share 53%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(12), 'HARD': np.int64(2), 'SOFT': np.int64(1)}
+   first stop: field median (green) 25.0, 80% under SC; rec 23 tyre-opt 34 baseline 36
+   oracle rates {'HARD': 0.0336, 'MEDIUM': 0.0249, 'SOFT': 0.0445}  regret (s): {'tool': 9.49, 'tyre_optimal': 9.17, 'baseline_tool': 11.19, 'field_modal': 20.52, 'winner': 25.77, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 23, 'lo': 20, 'hi': 26, 'n_actual': 2, 'share_inside': 0.5, 'median_abs_err': 3.5, 'median_err': -3.5, 'actual_median': 26.5}]
+   life: [('HARD', 42.0, 'circuit history', 46.0, 46), ('MEDIUM', 40.0, 'circuit history', 24.6, 28), ('SOFT', 10.0, 'circuit history', 24.0, 24)]
+   per-driver: {'n': 15, 'share_same_shape_as_field': 0.7333333333333333, 'stops_match_actual': 0.3333333333333333, 'seq_match_actual': 0.3333333333333333, 'first_stop_spearman_vs_actual': None, 'first_stop_spread': 28.0, 'race_factor_range': [0.9097912739069367, 1.3854264171904107]}
+   counterfactual >30s: 2/15 (baseline 1); SC-held drivers 12
+
+== japan-2026: tool 1-stop M-H @ 23 | tyre-optimal 1-stop M-S @ 31 | baseline 1-stop S-H @ 21 | winner ANT MEDIUM-HARD @ [22] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (90% of field); seq share 85%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(19), 'HARD': np.int64(1)}
+   first stop: field median (green) 18.0, 55% under SC; rec 23 tyre-opt 31 baseline 21
+   oracle rates {'HARD': 0.0204, 'MEDIUM': 0.0592}  regret (s): {'tool': 0.46, 'field_modal': 0.36, 'winner': 0.37, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 23, 'lo': 20, 'hi': 27, 'n_actual': 9, 'share_inside': 0.1111111111111111, 'median_abs_err': 5.0, 'median_err': 5.0, 'actual_median': 18.0}]
+   life: [('HARD', 42.0, 'circuit history', 36.0, 37), ('MEDIUM', 36.0, 'circuit history', 22.900000000000002, 33)]
+   per-driver: {'n': 20, 'share_same_shape_as_field': 1.0, 'stops_match_actual': 0.9, 'seq_match_actual': 0.85, 'first_stop_spearman_vs_actual': -0.2665569949915915, 'first_stop_spread': 2.0, 'race_factor_range': [0.9034043212604691, 1.3050991494199686]}
+   counterfactual >30s: 0/20 (baseline 0); SC-held drivers 11
+
+== barcelona-2026: tool 2-stop S-M-S @ 21,43 | tyre-optimal 3-stop M-M-S-S @ 16,32,49 | baseline 2-stop M-H-H @ 19,43 | winner HAM SOFT-HARD-MEDIUM-HARD @ [11, 27, 41] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (54% of field); seq share 0%; in top5 False; start SOFT vs field {'MEDIUM': np.int64(8), 'SOFT': np.int64(5)}
+   first stop: field median (green) 13.0, 0% under SC; rec 21 tyre-opt 16 baseline 19
+   oracle rates {'HARD': 0.1105, 'MEDIUM': 0.1566, 'SOFT': 0.1722}  regret (s): {'tool': 5.52, 'tyre_optimal': 0.84, 'baseline_tool': 5.35, 'field_modal': 10.6, 'winner': 8.1, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 21, 'lo': 19, 'hi': 23, 'n_actual': 7, 'share_inside': 0.14285714285714285, 'median_abs_err': 8.0, 'median_err': 8.0, 'actual_median': 13.0}, {'stop': 2, 'recommended': 43, 'lo': 41, 'hi': 45, 'n_actual': 7, 'share_inside': 0.0, 'median_abs_err': 7.0, 'median_err': 7.0, 'actual_median': 36.0}]
+   life: [('HARD', 34.0, 'circuit history', 30.0, 31), ('MEDIUM', 28.645744211214275, 'the tyre', 23.6, 26), ('SOFT', 25.657787761803757, 'the tyre', 13.3, 14)]
+   per-driver: {'n': 13, 'share_same_shape_as_field': 0.6923076923076923, 'stops_match_actual': 0.6153846153846154, 'seq_match_actual': 0.0, 'first_stop_spearman_vs_actual': 0.2828349444338056, 'first_stop_spread': 8.0, 'race_factor_range': [0.9258068194510778, 1.384647586389122]}
+   counterfactual >30s: 0/13 (baseline 2); SC-held drivers 3
+
+== austria-2026: tool 2-stop M-H-M @ 22,46 | tyre-optimal 3-stop M-S-S-M @ 17,35,53 | baseline 2-stop M-H-H @ 23,47 | winner RUS MEDIUM-HARD-HARD @ [19, 43] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (82% of field); seq share 24%; in top5 False; start MEDIUM vs field {'MEDIUM': np.int64(16), 'SOFT': np.int64(1)}
+   first stop: field median (green) 18.0, 6% under SC; rec 22 tyre-opt 17 baseline 23
+   oracle rates {'HARD': 0.0783, 'MEDIUM': 0.0703, 'SOFT': 0.0504}  regret (s): {'tool': 13.36, 'tyre_optimal': 2.04, 'baseline_tool': 22.4, 'field_modal': 25.8, 'winner': 25.82, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 22, 'lo': 19, 'hi': 25, 'n_actual': 13, 'share_inside': 0.5384615384615384, 'median_abs_err': 3.0, 'median_err': 3.0, 'actual_median': 19.0}, {'stop': 2, 'recommended': 46, 'lo': 44, 'hi': 49, 'n_actual': 14, 'share_inside': 0.5714285714285714, 'median_abs_err': 2.5, 'median_err': 1.0, 'actual_median': 45.0}]
+   life: [('HARD', 46.0, 'circuit history', 31.0, 36), ('MEDIUM', 37.0, 'circuit history', 24.5, 27), ('SOFT', 18.0, 'circuit history', 18.4, 19)]
+   per-driver: {'n': 17, 'share_same_shape_as_field': 0.8235294117647058, 'stops_match_actual': 0.7647058823529411, 'seq_match_actual': 0.17647058823529413, 'first_stop_spearman_vs_actual': 0.20901483117353756, 'first_stop_spread': 4.0, 'race_factor_range': [0.9052611952195119, 1.3225609037419446]}
+   counterfactual >30s: 0/17 (baseline 1); SC-held drivers 3
+
+== belgium-2026: tool 1-stop M-S @ 20 | tyre-optimal 1-stop S-M @ 24 | baseline 1-stop S-M @ 24 | winner ANT MEDIUM-SOFT @ [18] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (95% of field); seq share 5%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(12), 'HARD': np.int64(6), 'SOFT': np.int64(1)}
+   first stop: field median (green) 16.0, 53% under SC; rec 20 tyre-opt 24 baseline 24
+   oracle rates {'HARD': 0.0357, 'MEDIUM': 0.1166, 'SOFT': 0.0517}  regret (s): {'tool': 16.04, 'tyre_optimal': 13.93, 'baseline_tool': 13.93, 'field_modal': 10.62, 'winner': 14.43, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 20, 'lo': 17, 'hi': 22, 'n_actual': 9, 'share_inside': 0.1111111111111111, 'median_abs_err': 5.0, 'median_err': 4.0, 'actual_median': 16.0}]
+   life: [('HARD', 36.0, 'circuit history', 30.0, 31), ('MEDIUM', 34.0, 'circuit history', 20.0, 20), ('SOFT', 28.0, 'circuit history', 22.400000000000002, 26)]
+   per-driver: {'n': 19, 'share_same_shape_as_field': 0.7368421052631579, 'stops_match_actual': 0.8421052631578947, 'seq_match_actual': 0.10526315789473684, 'first_stop_spearman_vs_actual': -0.7472647177570731, 'first_stop_spread': 10.0, 'race_factor_range': [0.8954333108598633, 1.6534953262052612]}
+   counterfactual >30s: 0/19 (baseline 0); SC-held drivers 12
+
+== hungary-2026: tool 2-stop M-H-H @ 22,46 | tyre-optimal 2-stop M-M-S @ 25,51 | baseline 2-stop M-H-M @ 23,47 | winner NOR MEDIUM-HARD-HARD-SOFT @ [17, 39, 56] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (63% of field); seq share 32%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(13), 'SOFT': np.int64(6)}
+   first stop: field median (green) 19.0, 0% under SC; rec 22 tyre-opt 25 baseline 23
+   oracle rates {'HARD': 0.0824, 'MEDIUM': 0.0648, 'SOFT': 0.0475}  regret (s): {'tool': 26.33, 'tyre_optimal': 1.29, 'baseline_tool': 16.81, 'field_modal': 28.82, 'winner': 27.43, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 22, 'lo': 19, 'hi': 25, 'n_actual': 12, 'share_inside': 0.4166666666666667, 'median_abs_err': 4.5, 'median_err': 2.0, 'actual_median': 20.0}, {'stop': 2, 'recommended': 46, 'lo': 42, 'hi': 49, 'n_actual': 12, 'share_inside': 0.25, 'median_abs_err': 7.5, 'median_err': 4.0, 'actual_median': 42.0}]
+   life: [('HARD', 50.0, 'circuit history', 32.0, 49), ('MEDIUM', 44.0, 'circuit history', 26.5, 29), ('SOFT', 19.0, 'circuit history', 30.6, 34)]
+   per-driver: {'n': 19, 'share_same_shape_as_field': 0.5789473684210527, 'stops_match_actual': 0.631578947368421, 'seq_match_actual': 0.21052631578947367, 'first_stop_spearman_vs_actual': -0.06153694363653293, 'first_stop_spread': 6.0, 'race_factor_range': [0.8461314390432605, 1.3451289659824035]}
+   counterfactual >30s: 0/19 (baseline 0); SC-held drivers 7
+
+== italy-2026: tool 1-stop M-H @ 25 | tyre-optimal 1-stop H-M @ 28 | baseline 1-stop M-H @ 23 | winner ANT HARD-MEDIUM-MEDIUM @ [3, 28] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (53% of field); seq share 32%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(9), 'SOFT': np.int64(8), 'HARD': np.int64(2)}
+   first stop: field median (green) None, 100% under SC; rec 25 tyre-opt 28 baseline 23
+   oracle rates {'HARD': 0.0039, 'MEDIUM': 0.0106, 'SOFT': 0.0826}  regret (s): {'tool': 2.12, 'tyre_optimal': 2.75, 'baseline_tool': 2.66, 'field_modal': 12.82, 'winner': 30.69, 'oracle_opt': 0.0}
+   windows: []
+   life: [('HARD', 44.0, 'circuit history', 50.0, 50), ('MEDIUM', 44.0, 'circuit history', 50.0, 50), ('SOFT', 10.0, 'circuit history', 24.0, 24)]
+   per-driver: {'n': 19, 'share_same_shape_as_field': 1.0, 'stops_match_actual': 0.5263157894736842, 'seq_match_actual': 0.3157894736842105, 'first_stop_spearman_vs_actual': None, 'first_stop_spread': 4.0, 'race_factor_range': [0.9082598329030268, 1.7187539627635564]}
+   counterfactual >30s: 0/19 (baseline 13); SC-held drivers 19
+
+         event          recommended              tyre_optimal             baseline                winner  winner_pits      field_modal  stops_match_mode  stops_share  seq_share  seq_in_top5  start_ok  first_rec_minus_field  first_tyre_minus_field  first_baseline_minus_field  sc_set_first  regret_tool  regret_tyre_opt  regret_baseline  regret_field  regret_winner  win1_inside  win1_err
+australia-2026      1-stop M-H @ 23           1-stop H-M @ 34      1-stop H-M @ 36           MEDIUM-HARD         [12]      MEDIUM-HARD              True         0.53       0.53         True      True                   -2.0                     9.0                        11.0          True         9.49             9.17            11.19         20.52          25.77     0.500000       3.5
+    japan-2026      1-stop M-H @ 23           1-stop M-S @ 31      1-stop S-H @ 21           MEDIUM-HARD         [22]      MEDIUM-HARD              True         0.90       0.85         True      True                    5.0                    13.0                         3.0          True         0.46              NaN              NaN          0.36           0.37     0.111111       5.0
+barcelona-2026 2-stop S-M-S @ 21,43 3-stop M-M-S-S @ 16,32,49 2-stop M-H-H @ 19,43 SOFT-HARD-MEDIUM-HARD [11, 27, 41] MEDIUM-HARD-HARD              True         0.54       0.00        False     False                    8.0                     3.0                         6.0         False         5.52             0.84             5.35         10.60           8.10     0.142857       8.0
+  austria-2026 2-stop M-H-M @ 22,46 3-stop M-S-S-M @ 17,35,53 2-stop M-H-H @ 23,47      MEDIUM-HARD-HARD     [19, 43] MEDIUM-HARD-HARD              True         0.82       0.24        False      True                    4.0                    -1.0                         5.0         False        13.36             2.04            22.40         25.80          25.82     0.538462       3.0
+  belgium-2026      1-stop M-S @ 20           1-stop S-M @ 24      1-stop S-M @ 24           MEDIUM-SOFT         [18]      MEDIUM-HARD              True         0.95       0.05         True      True                    4.0                     8.0                         8.0          True        16.04            13.93            13.93         10.62          14.43     0.111111       5.0
+  hungary-2026 2-stop M-H-H @ 22,46      2-stop M-M-S @ 25,51 2-stop M-H-M @ 23,47 MEDIUM-HARD-HARD-SOFT [17, 39, 56] MEDIUM-HARD-HARD              True         0.63       0.32         True      True                    3.0                     6.0                         4.0         False        26.33             1.29            16.81         28.82          27.43     0.416667       4.5
+    italy-2026      1-stop M-H @ 25           1-stop H-M @ 28      1-stop M-H @ 23    HARD-MEDIUM-MEDIUM      [3, 28]      MEDIUM-HARD              True         0.53       0.32         True      True                    NaN                     NaN                         NaN          True         2.12             2.75             2.66         12.82          30.69          NaN       NaN

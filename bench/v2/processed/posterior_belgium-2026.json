@@ -1,0 +1,33 @@
+{
+ "compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "drivers": [
+  "ANT",
+  "BEA",
+  "BOT",
+  "COL",
+  "GAS",
+  "HAD",
+  "HUL",
+  "LAW",
+  "LIN",
+  "NOR",
+  "OCO",
+  "SAI",
+  "VER"
+ ],
+ "corners": [],
+ "w": 1.5,
+ "use_hinge": false,
+ "n_laps": 103,
+ "n_apex": 0,
+ "max_rhat": 1.001174610592499,
+ "n_divergences": 0,
+ "prior_label": "2026 physics + circuit history",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
+ "event_key": "belgium-2026",
+ "converged": true
+}

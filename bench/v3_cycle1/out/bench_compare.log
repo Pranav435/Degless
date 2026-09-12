@@ -1,0 +1,65 @@
+findfont: Failed to find font weight semibold, now using 700.
+### V1 → V2 → V3, every headline metric (7 weekends: AUS, JPN, BCN, AUT, BEL, HUN, ITA)
+
+| Metric | V1 | V2 | V3 | Δ V3−V2 | Verdict |
+|---|---|---|---|---|---|
+| Degradation-rate error vs the race (stint-rate MAE, s/lap, mean over weekends) | 0.109 | 0.040 | **0.035** | -0.004 | improved |
+| Worst weekend's stint-rate MAE (s/lap) | 0.434 | 0.052 | **0.049** | -0.003 | improved |
+| Stint-rate bias (s/lap, mean over weekends; 0 is best) | -0.083 | -0.011 | **-0.004** | +0.008 | improved |
+| 90% interval coverage on the stint rate | 0.879 | 0.945 | **0.912** | -0.033 | not meaningfully changed |
+| 95% interval coverage on the stint rate | 0.944 | 0.959 | **0.940** | -0.019 | not meaningfully changed |
+| 90% interval width on the stint rate (s/lap) | 0.466 | 0.188 | **0.164** | -0.024 | improved |
+| Practice posterior x regime, no circuit history (stint-rate MAE) | 0.037 | 0.045 | **0.038** | -0.007 | improved |
+| MixedLM slope x regime (the frequentist baseline) | – | – | **0.043** | – | unavailable |
+| Compound sequence run by at least one finisher | 3 | 6 | **6** | 0 | unchanged |
+| Start compound = the majority's | 4 | 6 | **7** | 1 | improved |
+| Stop count = the field's mode | 7 | 7 | **7** | 0 | unchanged |
+| Mean share of the field that ran the recommended sequence | 0.153 | 0.329 | **0.350** | +0.021 | improved |
+| Mean |first stop − field green-flag median| (laps, non-SC weekends) | 5.000 | 5.000 | **4.333** | -0.667 | improved |
+| Mean signed first stop − field median (laps, non-SC weekends) | 5.000 | 5.000 | **4.333** | -0.667 | improved |
+| Same, the tyre-optimal plan (no prior, no position term) | – | 3.333 | **3.000** | -0.333 | improved |
+| Same, V3 with the first-stop prior switched off (kappa = 0) | – | 5.000 | **4.667** | -0.333 | improved |
+| Share of the field's first stops inside the model's window | 0.230 | 0.303 | **0.158** | -0.146 | regressed |
+| Oracle regret of the tool's plan (s, true race rates, same cost structure) | 12.3 | 12.4 | **10.1** | -2.2 | improved |
+| Oracle regret of the field's modal plan (s) | 13.8 | 15.6 | **16.7** | +1.0 | regressed |
+| Oracle regret of the winner's plan (s) | 16.5 | 18.9 | **19.4** | +0.5 | not meaningfully changed |
+| Weekends where the tool's plan beats the field's modal plan on the oracle | 5 | 4 | **5** | 1 | improved |
+| Compound-weekends where predicted life exceeds the longest stint run (of 20) | 20 | 13 | **12** | -1 | improved |
+| Compound-weekends where it is shorter than the longest stint run (of 20) | 0 | 7 | **8** | 1 | regressed |
+| Median predicted life ÷ longest stint run (1.0 is honest) | 1.679 | 1.094 | **1.084** | -0.010 | not meaningfully changed |
+| Share of cars whose own plan shares the field plan's shape | – | 0.795 | **0.767** | -0.028 | not meaningfully changed |
+| Per-car first-stop spread within a weekend (laps) | – | 8.857 | **7.714** | -1.143 | regressed |
+| Spearman, predicted vs observed stint rate — per-car scale: LOO race factors (V2's per-car term) | – | 0.025 | **0.049** | +0.024 | improved |
+| Spearman, predicted vs observed stint rate — per-car scale: this weekend's own dev[d,c] | – | 0.025 | **-0.020** | -0.045 | regressed |
+| Spearman, predicted vs observed stint rate — per-car scale: team-pooled dev (V3 ships this) | – | 0.025 | **-0.031** | -0.056 | regressed |
+| Spearman, predicted vs observed stint rate (field model) | -0.073 | 0.048 | **0.042** | -0.006 | regressed |
+| Predicted collapse lap (budget ÷ rate) vs the detected knee (laps) | – | – | **23.381** | – | unavailable |
+| Stints the detector calls a pace collapse | – | – | **4** | – | unavailable |
+| |Bayes pooled slope − stint-FE baseline| (s/lap; the V3 gate, ≤ 0.06) | – | – | **0.017** | – | unavailable |
+| Counterfactual 'seconds lost' figures above 30 s | 17 | 2 | **1** | -1 | improved |
+| Live engine tick, whole field (ms, mean over the replays) | 1070.2 | 70.8 | **80.4** | +9.6 | regressed |
+| Live engine tick, p95 (ms) | 1347.5 | 77.2 | **92.5** | +15.4 | regressed |
+| Live engine tick, worst lap (ms) | 1408.6 | 128.6 | **153.4** | +24.8 | regressed |
+| Share of real stops inside the engine's window 3 laps earlier | 0.362 | 0.442 | **0.466** | +0.024 | improved |
+| Share of real stops within 3 laps of the recommendation | 0.399 | 0.533 | **0.542** | +0.009 | not meaningfully changed |
+| Median |recommended in-lap − actual| (laps) | 3.750 | 2.500 | **2.500** | +0.000 | unchanged |
+| 'Box now' cost the lap before the real stop (s, median) | 2.516 | 1.478 | **1.522** | +0.044 | not meaningfully changed |
+| Live signal precision: window (a stop within 3 laps = true positive) | – | – | **0.176** | – | unavailable |
+| Live signal recall: window | – | – | **0.463** | – | unavailable |
+| Live signal precision: box_now (a stop within 3 laps = true positive) | – | – | **0.181** | – | unavailable |
+| Live signal recall: box_now | – | – | **0.421** | – | unavailable |
+| Live signal precision: collapse (a stop within 3 laps = true positive) | – | – | **0.171** | – | unavailable |
+| Live signal recall: collapse | – | 0.019 | **0.050** | +0.031 | improved |
+| Prior-only outlook matching the field's modal sequence | 0 | 0 | **3** | 3 | improved |
+| Same, with the plan prior read letter-for-letter (no C-number mapping) | – | 2 | **2** | 0 | unchanged |
+| Prior-only outlook: mean share of the field on its plan | 0.329 | 0.262 | **0.276** | +0.013 | improved |
+| Production posterior fit (s) | 247.372 | 6.648 | **7.559** | +0.911 | regressed |
+| Weekend refit fit, 2x800x800 (s) | 21.297 | 3.580 | **4.027** | +0.447 | regressed |
+| Strategy search, 500 draws, 1-lap grid, full objective (s) | 0.636 | 0.680 | **0.637** | -0.043 | improved |
+| Peak resident memory of the speed benchmark (MB) | 1310.0 | 2090.0 | **1692.0** | -398.0 | improved |
+| Whole benchmark suite, wall clock (s) | 1329.0 | 1329.0 | **1329.0** | +0.0 | unchanged |
+| Tests passing | 20.000 | 27.000 | **37.000** | +10.000 | improved |
+| Gates failing across the benchmarked weekends | 22 | 7 | **4** | -3 | improved |
+
+wrote /Users/pranav/Documents/coding_projects/degless/bench/out/compare.json, /Users/pranav/Documents/coding_projects/degless/bench/out/compare.md and six figures under /Users/pranav/Documents/coding_projects/degless/bench/out/fig
+verdicts: {'improved': 25, 'not meaningfully changed': 7, 'unavailable': 9, 'unchanged': 5, 'regressed': 12}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "year": 2023,
+ "circuit": "Budapest",
+ "event": "2023-budapest",
+ "checked": 1789217358.2103522,
+ "ratio": 0.26315107358233936,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": 0.21628240215485356,
+   "race_s_per_lap": 0.06597753617918245,
+   "ratio": 0.30505272514933485,
+   "n_practice_laps": 17,
+   "n_race_laps": 703,
+   "usable": true
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": 0.14750785989389875,
+   "race_s_per_lap": 0.045373561577091104,
+   "ratio": 0.30760097536312947,
+   "n_practice_laps": 215,
+   "n_race_laps": 389,
+   "usable": true
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.14625966450722927,
+   "race_s_per_lap": 0.0072132546841469835,
+   "ratio": 0.049318140503395246,
+   "n_practice_laps": 50,
+   "n_race_laps": 27,
+   "usable": true
+  }
+ },
+ "n_race_stints": 53,
+ "n_practice_stints": 42,
+ "usable_compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "n_race_laps": 70,
+ "n_clean_practice_laps": 282,
+ "sessions_used": [
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [
+  "Practice 1"
+ ],
+ "rain": false,
+ "track_temp_practice_c": 36.863829787234046,
+ "track_temp_race_c": 48.650000000000006,
+ "evolution_range_s": 1.1627432011793233
+}

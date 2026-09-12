@@ -15,7 +15,8 @@ import time
 import numpy as np
 import pandas as pd
 
-from common import EVENTS, clean_practice, dump, meta, offline, race_table  # noqa: E402
+from common import (arg_events, clean_practice, dirty_air_of, dump, first_stop_tables, fs_kwargs,  # noqa: E402
+                    kappa_of, memoise_regime, meta, offline, race_table)
 from bench_accuracy import AGES, stint_rates, summarise
 from src import strategy as strat
 from src.calibration import get_calibration
@@ -29,9 +30,11 @@ from src.tyre import TyreModel
 
 
 def main() -> None:
+    args = arg_events(__doc__)
     offline()
+    memoise_regime()
     out, rows = {}, []
-    for key in EVENTS:
+    for key in args.events:
         ev = get_event(key)
         m = meta(key)
         cal = get_calibration(ev)
@@ -65,8 +68,11 @@ def main() -> None:
                                        support={k: float(v) for k, v in m["age_support_by_compound"].items()},
                                        max_per_compound=m["allocation"]["caps"], max_stint=caps,
                                        undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior_for(cp),
-                                       plan_prior_tau_s=cal.plan_prior_tau_s, traffic_s_per_lap=cal.dirty_air_s_per_lap,
-                                       grid_penalty_s=cal.grid_start_penalty_s)
+                                       plan_prior_tau_s=cal.plan_prior_tau_s,
+                                       traffic_s_per_lap=dirty_air_of(cal, ev.circuit),
+                                       grid_penalty_s=cal.grid_start_penalty_s,
+                                       **fs_kwargs(strat.simulate_model,
+                                                   first_stop_tables(cp, ev, list(f.compounds)), kappa_of(cal)))
             span = np.array([1.0, 10.0])
             rates = {c: float(((f.deg_loss(c, span)[:, 1] - f.deg_loss(c, span)[:, 0]) / 9).mean()) for c in f.compounds}
             res[tag] = {"rate_mae": s.get("rate_mae"), "rate_bias": s.get("rate_bias"), "rate_cov90": s.get("rate_cov90"),

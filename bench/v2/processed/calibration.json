@@ -1,0 +1,7160 @@
+{
+ "written_utc": "2026-09-12T10:22:25.757217+00:00",
+ "weekends": [
+  "australia-2026",
+  "japan-2026",
+  "barcelona-2026",
+  "austria-2026",
+  "belgium-2026",
+  "hungary-2026",
+  "italy-2026"
+ ],
+ "per_weekend": {
+  "australia-2026": {
+   "implied_budgets": {
+    "HARD": 1.545733450062188,
+    "MEDIUM": 0.6963180833931495,
+    "SOFT": 1.0679438918843367
+   },
+   "longest_stint": {
+    "HARD": 46,
+    "MEDIUM": 28,
+    "SOFT": 24
+   },
+   "dirty_air": {
+    "s_per_lap": 0.2518771183320618,
+    "se": 0.05873940616152541,
+    "n_laps": 831,
+    "share_close": 0.5090252707581228,
+    "event": "australia-2026"
+   },
+   "first_stop_median_green": 25.0,
+   "sc_set_first_stops": true,
+   "field_modal_seq": "MEDIUM-HARD",
+   "field_stop_mode": 1,
+   "net_step": -0.06571170103726837,
+   "self_regime": 0.7533372118384194,
+   "pit_loss": 23.415999999999997
+  },
+  "japan-2026": {
+   "implied_budgets": {
+    "HARD": 0.7539445005352154,
+    "MEDIUM": 1.9547227058660457
+   },
+   "longest_stint": {
+    "HARD": 37,
+    "MEDIUM": 33
+   },
+   "dirty_air": {
+    "s_per_lap": -0.09413803693727182,
+    "se": 0.04136024214547518,
+    "n_laps": 916,
+    "share_close": 0.6899563318777293,
+    "event": "japan-2026"
+   },
+   "first_stop_median_green": 18.0,
+   "sc_set_first_stops": true,
+   "field_modal_seq": "MEDIUM-HARD",
+   "field_stop_mode": 1,
+   "net_step": 0.07220192520525458,
+   "self_regime": 0.7326987078892557,
+   "pit_loss": 24.382000000000005
+  },
+  "barcelona-2026": {
+   "implied_budgets": {
+    "HARD": 3.424636506726823,
+    "MEDIUM": 4.07234619528275,
+    "SOFT": 2.41060003539694
+   },
+   "longest_stint": {
+    "HARD": 31,
+    "MEDIUM": 26,
+    "SOFT": 14
+   },
+   "dirty_air": {
+    "s_per_lap": 0.15411918734785943,
+    "se": 0.042786577234724954,
+    "n_laps": 1028,
+    "share_close": 0.5885214007782101,
+    "event": "barcelona-2026"
+   },
+   "first_stop_median_green": 13.0,
+   "sc_set_first_stops": false,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "field_stop_mode": 2,
+   "net_step": 0.04248275661273313,
+   "self_regime": 0.7011865645099894,
+   "pit_loss": 23.64500000000001
+  },
+  "austria-2026": {
+   "implied_budgets": {
+    "HARD": 2.819213790357193,
+    "MEDIUM": 1.8992149708678698,
+    "SOFT": 0.9574269795969996
+   },
+   "longest_stint": {
+    "HARD": 36,
+    "MEDIUM": 27,
+    "SOFT": 19
+   },
+   "dirty_air": {
+    "s_per_lap": 0.12036153825116466,
+    "se": 0.03374087851425388,
+    "n_laps": 1156,
+    "share_close": 0.5908304498269896,
+    "event": "austria-2026"
+   },
+   "first_stop_median_green": 18.0,
+   "sc_set_first_stops": false,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "field_stop_mode": 2,
+   "net_step": 0.07319917786952798,
+   "self_regime": 0.5849966598531712,
+   "pit_loss": 21.005000000000024
+  },
+  "belgium-2026": {
+   "implied_budgets": {
+    "HARD": 1.107976964144224,
+    "MEDIUM": 2.3325688083556804,
+    "SOFT": 1.34298683425738
+   },
+   "longest_stint": {
+    "HARD": 31,
+    "MEDIUM": 20,
+    "SOFT": 26
+   },
+   "dirty_air": {
+    "s_per_lap": 0.013921551480477024,
+    "se": 0.05351469093990022,
+    "n_laps": 681,
+    "share_close": 0.566813509544787,
+    "event": "belgium-2026"
+   },
+   "first_stop_median_green": 15.0,
+   "sc_set_first_stops": true,
+   "field_modal_seq": "MEDIUM-HARD",
+   "field_stop_mode": 1,
+   "net_step": 0.055813217590648875,
+   "self_regime": 0.32017820583491197,
+   "pit_loss": 21.798000000000002
+  },
+  "hungary-2026": {
+   "implied_budgets": {
+    "HARD": 4.037742881807318,
+    "MEDIUM": 1.878386318285218,
+    "SOFT": 1.6151520590760757
+   },
+   "longest_stint": {
+    "HARD": 49,
+    "MEDIUM": 29,
+    "SOFT": 34
+   },
+   "dirty_air": {
+    "s_per_lap": 0.43031484882419047,
+    "se": 0.04457002812343028,
+    "n_laps": 1231,
+    "share_close": 0.5629569455727051,
+    "event": "hungary-2026"
+   },
+   "first_stop_median_green": 19.0,
+   "sc_set_first_stops": false,
+   "field_modal_seq": "MEDIUM-HARD-HARD",
+   "field_stop_mode": 2,
+   "net_step": 0.064455102956817,
+   "self_regime": 0.639227635679555,
+   "pit_loss": 21.90249999999999
+  },
+  "italy-2026": {
+   "implied_budgets": {
+    "MEDIUM": 0.5284722527365199,
+    "SOFT": 1.9821465553526991
+   },
+   "longest_stint": {
+    "HARD": 50,
+    "MEDIUM": 50,
+    "SOFT": 24
+   },
+   "dirty_air": {
+    "s_per_lap": -0.19768606981026293,
+    "se": 0.04369926571393781,
+    "n_laps": 887,
+    "share_close": 0.6031567080045096,
+    "event": "italy-2026"
+   },
+   "first_stop_median_green": null,
+   "sc_set_first_stops": true,
+   "field_modal_seq": "MEDIUM-HARD",
+   "field_stop_mode": 1,
+   "net_step": 0.05633275767894693,
+   "self_regime": 0.8095785283832064,
+   "pit_loss": 31.470000000000013
+  }
+ },
+ "global": {
+  "grip_budget_s": 3.8218006460891125,
+  "grip_budget_by_compound": {
+   "HARD": 3.8387290213510443,
+   "MEDIUM": 3.826672916916292,
+   "SOFT": 3.8
+  },
+  "manage_cost_s": 0.6,
+  "manage_wear_floor": 0.45,
+  "grid_start_penalty_s": 0.0,
+  "dirty_air_s_per_lap": 0.12036153825116466,
+  "undercut_lambda": 0.3,
+  "plan_prior_tau_s": 4.0,
+  "sigma_race_lap_s": 0.5,
+  "driver_factors": {
+   "ALB": 1.1275693922400545,
+   "BEA": 1.3184896918552167,
+   "BOR": 1.1347504973856133,
+   "COL": 0.9722064787870822,
+   "GAS": 1.0421657176244854,
+   "HAM": 1.2745900039877642,
+   "LAW": 0.9536151307152333,
+   "LEC": 1.0403564506369805,
+   "LIN": 0.910738592529615,
+   "OCO": 1.1152809928705076,
+   "PER": 1.0999458843491237,
+   "RUS": 0.9657079178992387,
+   "SAI": 1.2692244365516896,
+   "STR": 1.1402965385660024,
+   "VER": 0.9950789742766276,
+   "ALO": 1.3199369592166743,
+   "ANT": 0.9097912739069367,
+   "BOT": 1.6953553395727992,
+   "HAD": 0.9274126947400944,
+   "NOR": 1.0063707635888952,
+   "PIA": 1.234179996265814,
+   "HUL": 0.9108952479055555,
+   "TSU": 1.0479001996489103
+  },
+  "driver_factor_detail": {
+   "ALB": {
+    "factor": 1.1275693922400545,
+    "ln_sd": 0.08646149741702742,
+    "n_races": 7,
+    "raw": [
+     0.85,
+     0.55,
+     1.38,
+     1.79,
+     1.37,
+     0.57,
+     1.3
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "BEA": {
+    "factor": 1.3184896918552167,
+    "ln_sd": 0.07723749666602743,
+    "n_races": 6,
+    "raw": [
+     0.51,
+     0.96,
+     1.14,
+     4.45,
+     1.36,
+     4.68
+    ],
+    "events": [
+     "australia-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "BOR": {
+    "factor": 1.1347504973856133,
+    "ln_sd": 0.06998569266700488,
+    "n_races": 7,
+    "raw": [
+     0.66,
+     0.54,
+     1.19,
+     1.53,
+     1.43,
+     1.21,
+     0.61
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "COL": {
+    "factor": 0.9722064787870822,
+    "ln_sd": 0.08006229220512144,
+    "n_races": 6,
+    "raw": [
+     0.44,
+     0.73,
+     0.63,
+     0.98,
+     1.06,
+     1.15
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "GAS": {
+    "factor": 1.0421657176244854,
+    "ln_sd": 0.08277714143579767,
+    "n_races": 6,
+    "raw": [
+     0.48,
+     1.26,
+     0.89,
+     0.98,
+     0.97,
+     1.34
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "HAM": {
+    "factor": 1.2745900039877642,
+    "ln_sd": 0.07652925695978414,
+    "n_races": 7,
+    "raw": [
+     0.27,
+     1.82,
+     0.98,
+     1.44,
+     1.82,
+     0.74,
+     1.31
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "LAW": {
+    "factor": 0.9536151307152333,
+    "ln_sd": 0.09273200379150497,
+    "n_races": 6,
+    "raw": [
+     0.35,
+     0.84,
+     0.72,
+     1.11,
+     0.92,
+     1.11
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "LEC": {
+    "factor": 1.0403564506369805,
+    "ln_sd": 0.08704178273744888,
+    "n_races": 6,
+    "raw": [
+     0.29,
+     0.67,
+     1.03,
+     1.27,
+     1.22,
+     1.34
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "LIN": {
+    "factor": 0.910738592529615,
+    "ln_sd": 0.07171696477988285,
+    "n_races": 6,
+    "raw": [
+     0.7,
+     0.7,
+     0.61,
+     1.21,
+     1.22,
+     0.94
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "OCO": {
+    "factor": 1.1152809928705076,
+    "ln_sd": 0.07795004439288562,
+    "n_races": 7,
+    "raw": [
+     0.44,
+     1.08,
+     1.31,
+     1.67,
+     2.04,
+     0.5,
+     3.81
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "PER": {
+    "factor": 1.0999458843491237,
+    "ln_sd": 0.09010242031976336,
+    "n_races": 3,
+    "raw": [
+     1.28,
+     0.99,
+     1.18
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026"
+    ]
+   },
+   "RUS": {
+    "factor": 0.9657079178992387,
+    "ln_sd": 0.08819718830126579,
+    "n_races": 5,
+    "raw": [
+     0.22,
+     1.14,
+     1.04,
+     1.15,
+     0.73
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "hungary-2026"
+    ]
+   },
+   "SAI": {
+    "factor": 1.2692244365516896,
+    "ln_sd": 0.08831010096278509,
+    "n_races": 5,
+    "raw": [
+     0.51,
+     0.48,
+     0.73,
+     1.67,
+     2.01
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "STR": {
+    "factor": 1.1402965385660024,
+    "ln_sd": 0.11858127776054789,
+    "n_races": 3,
+    "raw": [
+     2.36,
+     1.58,
+     0.57
+    ],
+    "events": [
+     "australia-2026",
+     "austria-2026",
+     "hungary-2026"
+    ]
+   },
+   "VER": {
+    "factor": 0.9950789742766276,
+    "ln_sd": 0.08775318106361062,
+    "n_races": 7,
+    "raw": [
+     0.41,
+     0.88,
+     0.93,
+     0.99,
+     1.62,
+     0.69,
+     2.25
+    ],
+    "events": [
+     "australia-2026",
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "ALO": {
+    "factor": 1.3199369592166743,
+    "ln_sd": 0.0823120609615682,
+    "n_races": 5,
+    "raw": [
+     1.65,
+     1.19,
+     2.01,
+     2.69,
+     1.24
+    ],
+    "events": [
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "ANT": {
+    "factor": 0.9097912739069367,
+    "ln_sd": 0.0952815760605492,
+    "n_races": 5,
+    "raw": [
+     0.95,
+     0.91,
+     0.66,
+     0.75,
+     1.16
+    ],
+    "events": [
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "hungary-2026",
+     "italy-2026"
+    ]
+   },
+   "BOT": {
+    "factor": 1.6953553395727992,
+    "ln_sd": 0.083651932702879,
+    "n_races": 3,
+    "raw": [
+     2.44,
+     1.96,
+     1.52
+    ],
+    "events": [
+     "japan-2026",
+     "belgium-2026",
+     "italy-2026"
+    ]
+   },
+   "HAD": {
+    "factor": 0.9274126947400944,
+    "ln_sd": 0.09261507298416671,
+    "n_races": 5,
+    "raw": [
+     0.59,
+     0.93,
+     0.93,
+     0.27,
+     0.91
+    ],
+    "events": [
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "NOR": {
+    "factor": 1.0063707635888952,
+    "ln_sd": 0.08744924644336798,
+    "n_races": 5,
+    "raw": [
+     1.11,
+     0.91,
+     0.99,
+     1.27,
+     0.76
+    ],
+    "events": [
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "PIA": {
+    "factor": 1.234179996265814,
+    "ln_sd": 0.0792854855930583,
+    "n_races": 5,
+    "raw": [
+     0.97,
+     0.87,
+     1.17,
+     2.33,
+     1.04
+    ],
+    "events": [
+     "japan-2026",
+     "barcelona-2026",
+     "austria-2026",
+     "belgium-2026",
+     "hungary-2026"
+    ]
+   },
+   "HUL": {
+    "factor": 0.9108952479055555,
+    "ln_sd": 0.11532619554090773,
+    "n_races": 3,
+    "raw": [
+     0.75,
+     0.43,
+     0.83
+    ],
+    "events": [
+     "barcelona-2026",
+     "austria-2026",
+     "hungary-2026"
+    ]
+   },
+   "TSU": {
+    "factor": 1.0479001996489103,
+    "ln_sd": 0.1432928153429778,
+    "n_races": 1,
+    "raw": [
+     1.71
+    ],
+    "events": [
+     "italy-2026"
+    ]
+   }
+  },
+  "donors": [
+   "australia-2026",
+   "japan-2026",
+   "barcelona-2026",
+   "austria-2026",
+   "belgium-2026",
+   "hungary-2026",
+   "italy-2026"
+  ],
+  "raw": {
+   "implied_budgets": {
+    "HARD": {
+     "raw": [
+      1.55,
+      0.75,
+      3.42,
+      2.82,
+      1.11,
+      4.04
+     ],
+     "lower": [
+      1.3,
+      0.45,
+      3.27,
+      2.69,
+      0.92,
+      3.84
+     ],
+     "informative": true
+    },
+    "MEDIUM": {
+     "raw": [
+      0.7,
+      1.95,
+      4.07,
+      1.9,
+      2.33,
+      1.88,
+      0.53
+     ],
+     "lower": [
+      0.35,
+      1.59,
+      3.83,
+      1.75,
+      1.96,
+      1.63,
+      0.3
+     ],
+     "informative": true
+    },
+    "SOFT": {
+     "raw": [
+      1.07,
+      2.41,
+      0.96,
+      1.34,
+      1.62,
+      1.98
+     ],
+     "lower": [
+      0.68,
+      2.12,
+      0.77,
+      0.95,
+      1.41,
+      1.66
+     ],
+     "informative": false
+    }
+   },
+   "dirty_air": [
+    0.252,
+    -0.094,
+    0.154,
+    0.12,
+    0.014,
+    0.43,
+    -0.198
+   ]
+  },
+  "sweeps": {
+   "manage": [
+    {
+     "floor": 0.35,
+     "cost": 0.6,
+     "objective": 0.23917055894333789,
+     "implied": [
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59
+     ]
+    },
+    {
+     "floor": 0.35,
+     "cost": 0.9,
+     "objective": 0.19269617389215568,
+     "implied": [
+      0.84,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.59,
+      0.7
+     ]
+    },
+    {
+     "floor": 0.35,
+     "cost": 1.2,
+     "objective": 0.24228053744831546,
+     "implied": [
+      1.0,
+      0.84,
+      0.59,
+      0.59,
+      0.59,
+      0.84,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 0.6,
+     "objective": 0.1785431753482302,
+     "implied": [
+      0.75,
+      0.65,
+      0.65,
+      0.65,
+      0.65,
+      0.65,
+      0.65
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 0.9,
+     "objective": 0.20326084454658533,
+     "implied": [
+      1.0,
+      0.75,
+      0.65,
+      0.65,
+      0.65,
+      0.75,
+      0.87
+     ]
+    },
+    {
+     "floor": 0.45,
+     "cost": 1.2,
+     "objective": 0.3882159050817814,
+     "implied": [
+      1.0,
+      1.0,
+      0.65,
+      0.75,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 0.6,
+     "objective": 0.19100082628431556,
+     "implied": [
+      0.89,
+      0.71,
+      0.71,
+      0.71,
+      0.71,
+      0.71,
+      0.8
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 0.9,
+     "objective": 0.38794825296904134,
+     "implied": [
+      1.0,
+      1.0,
+      0.71,
+      0.8,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "floor": 0.55,
+     "cost": 1.2,
+     "objective": 0.4363000417833134,
+     "implied": [
+      1.0,
+      1.0,
+      0.8,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ],
+   "lambda": [
+    {
+     "lambda": 0.0,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.28386407194456725,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.05,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.1,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.1785431753482302
+    },
+    {
+     "lambda": 0.15,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.2,
+     "objective": 3.3333333333333335,
+     "mean_first_err": 3.3333333333333335,
+     "mean_abs_first_err": 3.3333333333333335,
+     "mean_seq_share": 0.3289768538994545,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.3,
+     "objective": 2.6666666666666665,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "lambda": 0.45,
+     "objective": 2.6666666666666665,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ],
+   "tau": [
+    {
+     "tau": 0.0,
+     "objective": -0.4145363408521303,
+     "mean_first_err": 0.0,
+     "mean_abs_first_err": 0.6666666666666666,
+     "mean_seq_share": 0.12882205513784462,
+     "start_ok": 0.42857142857142855,
+     "stops_ok": 0.7142857142857143,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 1.0,
+     "objective": -0.49695392326971277,
+     "mean_first_err": 0.6666666666666666,
+     "mean_abs_first_err": 2.0,
+     "mean_seq_share": 0.1398110661268556,
+     "start_ok": 0.7142857142857143,
+     "stops_ok": 0.7142857142857143,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 2.5,
+     "objective": -0.7234245115050069,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.2948530829335783,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 4.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "tau": 6.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ],
+   "grid": [
+    {
+     "grid": 0.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 0.5,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 1.0,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    },
+    {
+     "grid": 1.5,
+     "objective": -0.7685372934598941,
+     "mean_first_err": 2.6666666666666665,
+     "mean_abs_first_err": 2.6666666666666665,
+     "mean_seq_share": 0.33996586488846553,
+     "start_ok": 0.8571428571428571,
+     "stops_ok": 0.8571428571428571,
+     "implied_vs_measured": 0.19918128321007364
+    }
+   ]
+  },
+  "final_scores": {
+   "australia-2026": {
+    "first_err": NaN,
+    "seq_share": 0.5333333333333333,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "1-stop M-H @ 24"
+   },
+   "japan-2026": {
+    "first_err": NaN,
+    "seq_share": 0.85,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "1-stop M-H @ 22"
+   },
+   "barcelona-2026": {
+    "first_err": 1.0,
+    "seq_share": 0.07692307692307693,
+    "start_ok": 0.0,
+    "stops_ok": 0.0,
+    "implied": 0.6490578282919389,
+    "best": "3-stop S-M-H-M @ 14,30,48"
+   },
+   "austria-2026": {
+    "first_err": 4.0,
+    "seq_share": 0.23529411764705882,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "2-stop M-H-M @ 22,46"
+   },
+   "belgium-2026": {
+    "first_err": NaN,
+    "seq_share": 0.05263157894736842,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "1-stop M-S @ 20"
+   },
+   "hungary-2026": {
+    "first_err": 3.0,
+    "seq_share": 0.3157894736842105,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "2-stop M-H-H @ 22,46"
+   },
+   "italy-2026": {
+    "first_err": NaN,
+    "seq_share": 0.3157894736842105,
+    "start_ok": 1.0,
+    "stops_ok": 1.0,
+    "implied": 0.6490578282919389,
+    "best": "1-stop M-H @ 26"
+   }
+  },
+  "seconds": 38.5
+ },
+ "loo": {
+  "australia-2026": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.9,
+   "manage_wear_floor": 0.45,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.06714154486582084,
+   "undercut_lambda": 0.3,
+   "plan_prior_tau_s": 2.5,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.1439250644488894,
+    "ALO": 1.3199369592166743,
+    "ANT": 0.9097912739069367,
+    "BOR": 1.1535090807029638,
+    "BOT": 1.6953553395727992,
+    "COL": 1.0017060904319894,
+    "GAS": 1.0952108104637095,
+    "HAD": 0.9274126947400944,
+    "HAM": 1.29483022267444,
+    "LAW": 0.9630853970896335,
+    "LEC": 1.062793459578818,
+    "LIN": 0.9317141290382536,
+    "NOR": 1.0063707635888952,
+    "OCO": 1.1654146330058803,
+    "PER": 1.0683075045709953,
+    "PIA": 1.234179996265814,
+    "RUS": 0.9869835001362479,
+    "SAI": 1.2877250844381785,
+    "VER": 1.0091236329404374,
+    "BEA": 1.3854264171904107,
+    "HUL": 0.9108952479055555,
+    "STR": 0.9345383402931705,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.1439250644488894,
+     "ln_sd": 0.08861537181023654,
+     "n_races": 6,
+     "raw": [
+      0.55,
+      1.38,
+      1.79,
+      1.37,
+      0.57,
+      1.3
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.3199369592166743,
+     "ln_sd": 0.0823120609615682,
+     "n_races": 5,
+     "raw": [
+      1.65,
+      1.19,
+      2.01,
+      2.69,
+      1.24
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9097912739069367,
+     "ln_sd": 0.0952815760605492,
+     "n_races": 5,
+     "raw": [
+      0.95,
+      0.91,
+      0.66,
+      0.75,
+      1.16
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.1535090807029638,
+     "ln_sd": 0.07103867552732493,
+     "n_races": 6,
+     "raw": [
+      0.54,
+      1.19,
+      1.53,
+      1.43,
+      1.21,
+      0.61
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.6953553395727992,
+     "ln_sd": 0.083651932702879,
+     "n_races": 3,
+     "raw": [
+      2.44,
+      1.96,
+      1.52
+     ],
+     "events": [
+      "japan-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 1.0017060904319894,
+     "ln_sd": 0.0815627847773567,
+     "n_races": 5,
+     "raw": [
+      0.73,
+      0.63,
+      0.98,
+      1.06,
+      1.15
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.0952108104637095,
+     "ln_sd": 0.08539906637436429,
+     "n_races": 5,
+     "raw": [
+      1.26,
+      0.89,
+      0.98,
+      0.97,
+      1.34
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9274126947400944,
+     "ln_sd": 0.09261507298416671,
+     "n_races": 5,
+     "raw": [
+      0.59,
+      0.93,
+      0.93,
+      0.27,
+      0.91
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.29483022267444,
+     "ln_sd": 0.07691996688181614,
+     "n_races": 6,
+     "raw": [
+      1.82,
+      0.98,
+      1.44,
+      1.82,
+      0.74,
+      1.31
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.9630853970896335,
+     "ln_sd": 0.093189200444461,
+     "n_races": 5,
+     "raw": [
+      0.84,
+      0.72,
+      1.11,
+      0.92,
+      1.11
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.062793459578818,
+     "ln_sd": 0.08777310053860611,
+     "n_races": 5,
+     "raw": [
+      0.67,
+      1.03,
+      1.27,
+      1.22,
+      1.34
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.9317141290382536,
+     "ln_sd": 0.07478435730202082,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.61,
+      1.21,
+      1.22,
+      0.94
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 1.0063707635888952,
+     "ln_sd": 0.08744924644336798,
+     "n_races": 5,
+     "raw": [
+      1.11,
+      0.91,
+      0.99,
+      1.27,
+      0.76
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.1654146330058803,
+     "ln_sd": 0.07979071711333187,
+     "n_races": 6,
+     "raw": [
+      1.08,
+      1.31,
+      1.67,
+      2.04,
+      0.5,
+      3.81
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0683075045709953,
+     "ln_sd": 0.09831108857050148,
+     "n_races": 2,
+     "raw": [
+      0.99,
+      1.18
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.234179996265814,
+     "ln_sd": 0.0792854855930583,
+     "n_races": 5,
+     "raw": [
+      0.97,
+      0.87,
+      1.17,
+      2.33,
+      1.04
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9869835001362479,
+     "ln_sd": 0.08884959141291948,
+     "n_races": 4,
+     "raw": [
+      1.14,
+      1.04,
+      1.15,
+      0.73
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.2877250844381785,
+     "ln_sd": 0.08900648703572406,
+     "n_races": 4,
+     "raw": [
+      0.48,
+      0.73,
+      1.67,
+      2.01
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 1.0091236329404374,
+     "ln_sd": 0.08845005111279039,
+     "n_races": 6,
+     "raw": [
+      0.88,
+      0.93,
+      0.99,
+      1.62,
+      0.69,
+      2.25
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.3854264171904107,
+     "ln_sd": 0.079224706161932,
+     "n_races": 5,
+     "raw": [
+      0.96,
+      1.14,
+      4.45,
+      1.36,
+      4.68
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9108952479055555,
+     "ln_sd": 0.11532619554090773,
+     "n_races": 3,
+     "raw": [
+      0.75,
+      0.43,
+      0.83
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 0.9345383402931705,
+     "ln_sd": 0.13378339407522807,
+     "n_races": 2,
+     "raw": [
+      1.58,
+      0.57
+     ],
+     "events": [
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       0.75,
+       3.42,
+       2.82,
+       1.11,
+       4.04
+      ],
+      "lower": [
+       0.45,
+       3.27,
+       2.69,
+       0.92,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       1.95,
+       4.07,
+       1.9,
+       2.33,
+       1.88,
+       0.53
+      ],
+      "lower": [
+       1.59,
+       3.83,
+       1.75,
+       1.96,
+       1.63,
+       0.3
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       2.41,
+       0.96,
+       1.34,
+       1.62,
+       1.98
+      ],
+      "lower": [
+       2.12,
+       0.77,
+       0.95,
+       1.41,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     -0.094,
+     0.154,
+     0.12,
+     0.014,
+     0.43,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.2369533902549333,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.20605222508337526,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.23545357253318644,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.84,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.20754630780793945,
+      "implied": [
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.18993059748116792,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.75,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.4057115014388967,
+      "implied": [
+       1.0,
+       0.65,
+       0.75,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.19479328618661776,
+      "implied": [
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.40539924064069993,
+      "implied": [
+       1.0,
+       0.71,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.4618096609240174,
+      "implied": [
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2949174406604747,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.21414975022044994
+     },
+     {
+      "lambda": 0.05,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2949174406604747,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.21414975022044994
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2949174406604747,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.21414975022044994
+     },
+     {
+      "lambda": 0.15,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2949174406604747,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.21414975022044994
+     },
+     {
+      "lambda": 0.2,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2949174406604747,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "lambda": 0.3,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "lambda": 0.45,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.26973684210526316,
+      "mean_first_err": 0.0,
+      "mean_abs_first_err": 0.6666666666666666,
+      "mean_seq_share": 0.06140350877192982,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.5,
+      "implied_vs_measured": 0.18217926622086045
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.3242240215924426,
+      "mean_first_err": -0.6666666666666666,
+      "mean_abs_first_err": 1.3333333333333333,
+      "mean_seq_share": 0.07422402159244264,
+      "start_ok": 0.5,
+      "stops_ok": 0.5,
+      "implied_vs_measured": 0.18217926622086045
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.7244046201476543,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.7244046201476543,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.7244046201476543,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.7244046201476543,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.7244046201476543,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3077379534809876,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.6435222672064778,
+      "mean_first_err": 1.3333333333333333,
+      "mean_abs_first_err": 1.3333333333333333,
+      "mean_seq_share": 0.26852226720647776,
+      "start_ok": 0.6666666666666666,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.6435222672064778,
+      "mean_first_err": 1.3333333333333333,
+      "mean_abs_first_err": 1.3333333333333333,
+      "mean_seq_share": 0.26852226720647776,
+      "start_ok": 0.6666666666666666,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18993059748116792
+     }
+    ]
+   },
+   "final_scores": {
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7499365263781229,
+     "best": "1-stop M-H @ 22"
+    },
+    "barcelona-2026": {
+     "first_err": 1.0,
+     "seq_share": 0.07692307692307693,
+     "start_ok": 0.0,
+     "stops_ok": 0.0,
+     "implied": 0.6490578282919389,
+     "best": "3-stop S-M-H-M @ 14,30,48"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "1-stop M-S @ 20"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7499365263781229,
+     "best": "2-stop M-H-H @ 22,44"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.8672293614638198,
+     "best": "1-stop M-H @ 24"
+    }
+   },
+   "seconds": 33.4
+  },
+  "japan-2026": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.9,
+   "manage_wear_floor": 0.35,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.13724036279951204,
+   "undercut_lambda": 0.2,
+   "plan_prior_tau_s": 6.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.140771766730281,
+    "BEA": 1.3184896918552167,
+    "BOR": 1.1537962631261112,
+    "COL": 0.9950415427335142,
+    "GAS": 1.0021587928607871,
+    "HAM": 1.0918346106591763,
+    "LAW": 0.9657621894640843,
+    "LEC": 1.0788337332668765,
+    "LIN": 0.9236780849361685,
+    "OCO": 1.1202581925935522,
+    "PER": 1.1175136280120392,
+    "RUS": 0.9353791144895457,
+    "SAI": 1.3050991494199686,
+    "STR": 1.1402965385660024,
+    "VER": 1.007569979739816,
+    "ALO": 1.2595446604478133,
+    "ANT": 0.9034043212604691,
+    "HAD": 0.9519184426795064,
+    "HUL": 0.9108952479055555,
+    "NOR": 0.9801626798655015,
+    "PIA": 1.2768209270992943,
+    "BOT": 1.29256418653227,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.140771766730281,
+     "ln_sd": 0.08715917188678354,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      1.38,
+      1.79,
+      1.37,
+      0.57,
+      1.3
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.3184896918552167,
+     "ln_sd": 0.07723749666602743,
+     "n_races": 6,
+     "raw": [
+      0.51,
+      0.96,
+      1.14,
+      4.45,
+      1.36,
+      4.68
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.1537962631261112,
+     "ln_sd": 0.07075703091597979,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      1.19,
+      1.53,
+      1.43,
+      1.21,
+      0.61
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 0.9950415427335142,
+     "ln_sd": 0.08324155104154675,
+     "n_races": 5,
+     "raw": [
+      0.44,
+      0.63,
+      0.98,
+      1.06,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.0021587928607871,
+     "ln_sd": 0.09089790917434436,
+     "n_races": 5,
+     "raw": [
+      0.48,
+      0.89,
+      0.98,
+      0.97,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.0918346106591763,
+     "ln_sd": 0.0917013290938189,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      0.98,
+      1.44,
+      1.82,
+      0.74,
+      1.31
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.9657621894640843,
+     "ln_sd": 0.09743775990203003,
+     "n_races": 5,
+     "raw": [
+      0.35,
+      0.72,
+      1.11,
+      0.92,
+      1.11
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.0788337332668765,
+     "ln_sd": 0.09060874410106638,
+     "n_races": 5,
+     "raw": [
+      0.29,
+      1.03,
+      1.27,
+      1.22,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.9236780849361685,
+     "ln_sd": 0.07363639957093196,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.61,
+      1.21,
+      1.22,
+      0.94
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.1202581925935522,
+     "ln_sd": 0.08357436962967356,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.31,
+      1.67,
+      2.04,
+      0.5,
+      3.81
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.1175136280120392,
+     "ln_sd": 0.09662078485312359,
+     "n_races": 2,
+     "raw": [
+      1.28,
+      1.18
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9353791144895457,
+     "ln_sd": 0.09648964217340752,
+     "n_races": 4,
+     "raw": [
+      0.22,
+      1.04,
+      1.15,
+      0.73
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.3050991494199686,
+     "ln_sd": 0.08957271690781507,
+     "n_races": 4,
+     "raw": [
+      0.51,
+      0.73,
+      1.67,
+      2.01
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.1402965385660024,
+     "ln_sd": 0.11858127776054789,
+     "n_races": 3,
+     "raw": [
+      2.36,
+      1.58,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 1.007569979739816,
+     "ln_sd": 0.09219356098409413,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.93,
+      0.99,
+      1.62,
+      0.69,
+      2.25
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.2595446604478133,
+     "ln_sd": 0.09048259951932867,
+     "n_races": 4,
+     "raw": [
+      1.19,
+      2.01,
+      2.69,
+      1.24
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9034043212604691,
+     "ln_sd": 0.10212499753163054,
+     "n_races": 4,
+     "raw": [
+      0.91,
+      0.66,
+      0.75,
+      1.16
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9519184426795064,
+     "ln_sd": 0.0952657406649396,
+     "n_races": 4,
+     "raw": [
+      0.93,
+      0.93,
+      0.27,
+      0.91
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9108952479055555,
+     "ln_sd": 0.11532619554090773,
+     "n_races": 3,
+     "raw": [
+      0.75,
+      0.43,
+      0.83
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 0.9801626798655015,
+     "ln_sd": 0.09901002177592973,
+     "n_races": 4,
+     "raw": [
+      0.91,
+      0.99,
+      1.27,
+      0.76
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.2768209270992943,
+     "ln_sd": 0.08474357220220419,
+     "n_races": 4,
+     "raw": [
+      0.87,
+      1.17,
+      2.33,
+      1.04
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.29256418653227,
+     "ln_sd": 0.11063693302352956,
+     "n_races": 2,
+     "raw": [
+      1.96,
+      1.52
+     ],
+     "events": [
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       3.42,
+       2.82,
+       1.11,
+       4.04
+      ],
+      "lower": [
+       1.3,
+       3.27,
+       2.69,
+       0.92,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       4.07,
+       1.9,
+       2.33,
+       1.88,
+       0.53
+      ],
+      "lower": [
+       0.35,
+       3.83,
+       1.75,
+       1.96,
+       1.63,
+       0.3
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       2.41,
+       0.96,
+       1.34,
+       1.62,
+       1.98
+      ],
+      "lower": [
+       0.68,
+       2.12,
+       0.77,
+       0.95,
+       1.41,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     0.154,
+     0.12,
+     0.014,
+     0.43,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.24158311931674947,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.18736300342370357,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.25927092017041226,
+      "implied": [
+       1.0,
+       0.59,
+       0.59,
+       0.59,
+       0.84,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.18809824436427156,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.23326198634086248,
+      "implied": [
+       1.0,
+       0.65,
+       0.65,
+       0.65,
+       0.75,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.4010817723770806,
+      "implied": [
+       1.0,
+       0.65,
+       0.75,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.21826066060004853,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.40076951157888385,
+      "implied": [
+       1.0,
+       0.71,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.4571799318622012,
+      "implied": [
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 5.333333333333333,
+      "mean_first_err": 5.333333333333333,
+      "mean_abs_first_err": 5.333333333333333,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18885708614826777
+     },
+     {
+      "lambda": 0.05,
+      "objective": 5.333333333333333,
+      "mean_first_err": 5.333333333333333,
+      "mean_abs_first_err": 5.333333333333333,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18885708614826777
+     },
+     {
+      "lambda": 0.1,
+      "objective": 4.666666666666667,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18885708614826777
+     },
+     {
+      "lambda": 0.15,
+      "objective": 4.666666666666667,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18885708614826777
+     },
+     {
+      "lambda": 0.2,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.18950808393532848,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "lambda": 0.3,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "lambda": 0.45,
+      "objective": 4.0,
+      "mean_first_err": 4.0,
+      "mean_abs_first_err": 4.0,
+      "mean_seq_share": 0.2549601757032098,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.39152046783625727,
+      "mean_first_err": 0.6666666666666666,
+      "mean_abs_first_err": 1.3333333333333333,
+      "mean_seq_share": 0.1415204678362573,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.48362573099415207,
+      "mean_first_err": 0.6666666666666666,
+      "mean_abs_first_err": 1.3333333333333333,
+      "mean_seq_share": 0.15029239766081873,
+      "start_ok": 0.5,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.6061747506019952,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.18950808393532848,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.6061747506019952,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.18950808393532848,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.7004729962160303,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.7004729962160303,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.7004729962160303,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.7004729962160303,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.7004729962160303,
+      "mean_first_err": 4.666666666666667,
+      "mean_abs_first_err": 4.666666666666667,
+      "mean_seq_share": 0.24213966288269692,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.18736300342370357
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.8430892453663325,
+     "best": "1-stop M-H @ 24"
+    },
+    "barcelona-2026": {
+     "first_err": 7.0,
+     "seq_share": 0.0,
+     "start_ok": 0.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "2-stop S-H-M @ 20,44"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "1-stop M-S @ 20"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "2-stop M-H-H @ 22,46"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7044704402650543,
+     "best": "1-stop M-H @ 26"
+    }
+   },
+   "seconds": 33.3
+  },
+  "barcelona-2026": {
+   "grip_budget_s": 3.812909673783681,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.8,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.9,
+   "manage_wear_floor": 0.35,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.06714154486582084,
+   "undercut_lambda": 0.1,
+   "plan_prior_tau_s": 4.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.0247157736107793,
+    "BEA": 1.3893377025459261,
+    "BOR": 1.1208769150529283,
+    "COL": 1.0147980244601875,
+    "GAS": 1.0781771038303438,
+    "HAM": 1.343467210538352,
+    "LAW": 1.0028532681827091,
+    "LEC": 1.043858370525483,
+    "LIN": 0.9370647614408004,
+    "OCO": 1.022259838766764,
+    "PER": 1.0607383602539104,
+    "RUS": 0.9359021679853016,
+    "SAI": 1.384647586389122,
+    "STR": 1.1402965385660024,
+    "VER": 1.014889461285618,
+    "ALO": 1.3516782659696724,
+    "ANT": 0.9106211852770858,
+    "BOT": 1.6953553395727992,
+    "HAD": 0.9258068194510778,
+    "NOR": 1.0340254816401255,
+    "PIA": 1.3215143460252918,
+    "HUL": 0.9339032833707814,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.0247157736107793,
+     "ln_sd": 0.10502958079783838,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      0.55,
+      1.79,
+      1.37,
+      0.57,
+      1.3
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.3893377025459261,
+     "ln_sd": 0.08337136379678502,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      1.14,
+      4.45,
+      1.36,
+      4.68
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.1208769150529283,
+     "ln_sd": 0.07810535466146601,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      0.54,
+      1.53,
+      1.43,
+      1.21,
+      0.61
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 1.0147980244601875,
+     "ln_sd": 0.08396625063587908,
+     "n_races": 5,
+     "raw": [
+      0.44,
+      0.73,
+      0.98,
+      1.06,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.0781771038303438,
+     "ln_sd": 0.09139624998950831,
+     "n_races": 5,
+     "raw": [
+      0.48,
+      1.26,
+      0.98,
+      0.97,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.343467210538352,
+     "ln_sd": 0.08372802126740615,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      1.82,
+      1.44,
+      1.82,
+      0.74,
+      1.31
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 1.0028532681827091,
+     "ln_sd": 0.10079936664661991,
+     "n_races": 5,
+     "raw": [
+      0.35,
+      0.84,
+      1.11,
+      0.92,
+      1.11
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.043858370525483,
+     "ln_sd": 0.10059239055515629,
+     "n_races": 5,
+     "raw": [
+      0.29,
+      0.67,
+      1.27,
+      1.22,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.9370647614408004,
+     "ln_sd": 0.07417602133375545,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.7,
+      1.21,
+      1.22,
+      0.94
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.022259838766764,
+     "ln_sd": 0.09699590292292087,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.08,
+      1.67,
+      2.04,
+      0.5,
+      3.81
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0607383602539104,
+     "ln_sd": 0.11165379664411636,
+     "n_races": 2,
+     "raw": [
+      1.28,
+      0.99
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9359021679853016,
+     "ln_sd": 0.1043772531435527,
+     "n_races": 4,
+     "raw": [
+      0.22,
+      1.14,
+      1.15,
+      0.73
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.384647586389122,
+     "ln_sd": 0.09502118188409016,
+     "n_races": 4,
+     "raw": [
+      0.51,
+      0.48,
+      1.67,
+      2.01
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.1402965385660024,
+     "ln_sd": 0.11858127776054789,
+     "n_races": 3,
+     "raw": [
+      2.36,
+      1.58,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 1.014889461285618,
+     "ln_sd": 0.09917102397543479,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.88,
+      0.99,
+      1.62,
+      0.69,
+      2.25
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.3516782659696724,
+     "ln_sd": 0.0912291040011438,
+     "n_races": 4,
+     "raw": [
+      1.65,
+      2.01,
+      2.69,
+      1.24
+     ],
+     "events": [
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9106211852770858,
+     "ln_sd": 0.10918108160613972,
+     "n_races": 4,
+     "raw": [
+      0.95,
+      0.66,
+      0.75,
+      1.16
+     ],
+     "events": [
+      "japan-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.6953553395727992,
+     "ln_sd": 0.083651932702879,
+     "n_races": 3,
+     "raw": [
+      2.44,
+      1.96,
+      1.52
+     ],
+     "events": [
+      "japan-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9258068194510778,
+     "ln_sd": 0.10645059974304692,
+     "n_races": 4,
+     "raw": [
+      0.59,
+      0.93,
+      0.27,
+      0.91
+     ],
+     "events": [
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 1.0340254816401255,
+     "ln_sd": 0.0988691616396515,
+     "n_races": 4,
+     "raw": [
+      1.11,
+      0.99,
+      1.27,
+      0.76
+     ],
+     "events": [
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.3215143460252918,
+     "ln_sd": 0.08674782727868383,
+     "n_races": 4,
+     "raw": [
+      0.97,
+      1.17,
+      2.33,
+      1.04
+     ],
+     "events": [
+      "japan-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9339032833707814,
+     "ln_sd": 0.12230706096589457,
+     "n_races": 2,
+     "raw": [
+      0.43,
+      0.83
+     ],
+     "events": [
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       0.75,
+       2.82,
+       1.11,
+       4.04
+      ],
+      "lower": [
+       1.3,
+       0.45,
+       2.69,
+       0.92,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       1.95,
+       1.9,
+       2.33,
+       1.88,
+       0.53
+      ],
+      "lower": [
+       0.35,
+       1.59,
+       1.75,
+       1.96,
+       1.63,
+       0.3
+      ],
+      "informative": false
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       0.96,
+       1.34,
+       1.62,
+       1.98
+      ],
+      "lower": [
+       0.68,
+       0.77,
+       0.95,
+       1.41,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     -0.094,
+     0.12,
+     0.014,
+     0.43,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.24890988356989383,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.1946897676768479,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.252538191825701,
+      "implied": [
+       1.0,
+       0.84,
+       0.59,
+       0.59,
+       0.84,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.19542500861741588,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.22426228934883022,
+      "implied": [
+       1.0,
+       0.75,
+       0.65,
+       0.65,
+       0.75,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.440043193306559,
+      "implied": [
+       1.0,
+       1.0,
+       0.75,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.2200811698102101,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.44985316760905686,
+      "implied": [
+       1.0,
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.4880043112280697,
+      "implied": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 4.5,
+      "mean_first_err": 4.5,
+      "mean_abs_first_err": 4.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "lambda": 0.05,
+      "objective": 4.5,
+      "mean_first_err": 4.5,
+      "mean_abs_first_err": 4.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "lambda": 0.15,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "lambda": 0.2,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1946897676768479
+     },
+     {
+      "lambda": 0.3,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1946897676768479
+     },
+     {
+      "lambda": 0.45,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1946897676768479
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.21710526315789475,
+      "mean_first_err": -0.5,
+      "mean_abs_first_err": 0.5,
+      "mean_seq_share": 0.008771929824561403,
+      "start_ok": 0.0,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.1946897676768479
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.5669590643274853,
+      "mean_first_err": -0.5,
+      "mean_abs_first_err": 0.5,
+      "mean_seq_share": 0.15029239766081873,
+      "start_ok": 0.6666666666666666,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1946897676768479
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.8311747506019951,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1946897676768479
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.8838063295493637,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.3838063295493636,
+      "start_ok": 1.0,
+      "stops_ok": 1.0,
+      "implied_vs_measured": 0.1961838504014121
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.8430892453663325,
+     "best": "1-stop M-H @ 24"
+    },
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "1-stop M-H @ 24"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.585250160708655,
+     "best": "1-stop M-S @ 20"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7044704402650543,
+     "best": "2-stop M-H-H @ 22,46"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7044704402650543,
+     "best": "1-stop M-H @ 26"
+    }
+   },
+   "seconds": 31.9
+  },
+  "austria-2026": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.6,
+   "manage_wear_floor": 0.55,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.08402036941416823,
+   "undercut_lambda": 0.15,
+   "plan_prior_tau_s": 4.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.0900133627978736,
+    "BEA": 1.3225609037419446,
+    "BOR": 1.127057476924013,
+    "COL": 0.9721354866633689,
+    "GAS": 1.04292546068491,
+    "HAM": 1.2705804813122512,
+    "LAW": 0.9491918180044498,
+    "LEC": 1.034746461943777,
+    "LIN": 0.9052611952195119,
+    "OCO": 1.0922628822204339,
+    "PER": 1.0999458843491237,
+    "RUS": 0.9603240117916644,
+    "SAI": 1.2692244365516896,
+    "STR": 1.1260526194746963,
+    "VER": 0.995103211285924,
+    "ALO": 1.3089641891794135,
+    "ANT": 0.9131488811539719,
+    "BOT": 1.6953553395727992,
+    "HAD": 0.9273605127357429,
+    "NOR": 1.0067707970871707,
+    "PIA": 1.2359459059942062,
+    "HUL": 0.9154873667107808,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.0900133627978736,
+     "ln_sd": 0.08957471373030622,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      0.55,
+      1.38,
+      1.37,
+      0.57,
+      1.3
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.3225609037419446,
+     "ln_sd": 0.07804232306559754,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.96,
+      4.45,
+      1.36,
+      4.68
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.127057476924013,
+     "ln_sd": 0.0707696698477221,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      0.54,
+      1.19,
+      1.43,
+      1.21,
+      0.61
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 0.9721354866633689,
+     "ln_sd": 0.0807261947164039,
+     "n_races": 5,
+     "raw": [
+      0.44,
+      0.73,
+      0.63,
+      1.06,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.04292546068491,
+     "ln_sd": 0.08323804131024919,
+     "n_races": 5,
+     "raw": [
+      0.48,
+      1.26,
+      0.89,
+      0.97,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.2705804813122512,
+     "ln_sd": 0.07749385835907298,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      1.82,
+      0.98,
+      1.82,
+      0.74,
+      1.31
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.9491918180044498,
+     "ln_sd": 0.09410330203324929,
+     "n_races": 5,
+     "raw": [
+      0.35,
+      0.84,
+      0.72,
+      0.92,
+      1.11
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.034746461943777,
+     "ln_sd": 0.08820831950364913,
+     "n_races": 5,
+     "raw": [
+      0.29,
+      0.67,
+      1.03,
+      1.22,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.9052611952195119,
+     "ln_sd": 0.072470863801907,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.7,
+      0.61,
+      1.22,
+      0.94
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.0922628822204339,
+     "ln_sd": 0.07994876713617106,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.08,
+      1.31,
+      2.04,
+      0.5,
+      3.81
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0999458843491237,
+     "ln_sd": 0.09010242031976336,
+     "n_races": 3,
+     "raw": [
+      1.28,
+      0.99,
+      1.18
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9603240117916644,
+     "ln_sd": 0.08956868221430904,
+     "n_races": 4,
+     "raw": [
+      0.22,
+      1.14,
+      1.04,
+      0.73
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.2692244365516896,
+     "ln_sd": 0.08831010096278509,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.48,
+      0.73,
+      1.67,
+      2.01
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.1260526194746963,
+     "ln_sd": 0.12084028514404954,
+     "n_races": 2,
+     "raw": [
+      2.36,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 0.995103211285924,
+     "ln_sd": 0.0887557521975038,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.88,
+      0.93,
+      1.62,
+      0.69,
+      2.25
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.3089641891794135,
+     "ln_sd": 0.08312661280868491,
+     "n_races": 4,
+     "raw": [
+      1.65,
+      1.19,
+      2.69,
+      1.24
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9131488811539719,
+     "ln_sd": 0.09582499541262199,
+     "n_races": 4,
+     "raw": [
+      0.95,
+      0.91,
+      0.75,
+      1.16
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.6953553395727992,
+     "ln_sd": 0.083651932702879,
+     "n_races": 3,
+     "raw": [
+      2.44,
+      1.96,
+      1.52
+     ],
+     "events": [
+      "japan-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9273605127357429,
+     "ln_sd": 0.0936005810358004,
+     "n_races": 4,
+     "raw": [
+      0.59,
+      0.93,
+      0.27,
+      0.91
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 1.0067707970871707,
+     "ln_sd": 0.08840562339298433,
+     "n_races": 4,
+     "raw": [
+      1.11,
+      0.91,
+      1.27,
+      0.76
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.2359459059942062,
+     "ln_sd": 0.08030438482656942,
+     "n_races": 4,
+     "raw": [
+      0.97,
+      0.87,
+      2.33,
+      1.04
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9154873667107808,
+     "ln_sd": 0.11571425332193136,
+     "n_races": 2,
+     "raw": [
+      0.75,
+      0.83
+     ],
+     "events": [
+      "barcelona-2026",
+      "hungary-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "belgium-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       0.75,
+       3.42,
+       1.11,
+       4.04
+      ],
+      "lower": [
+       1.3,
+       0.45,
+       3.27,
+       0.92,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       1.95,
+       4.07,
+       2.33,
+       1.88,
+       0.53
+      ],
+      "lower": [
+       0.35,
+       1.59,
+       3.83,
+       1.96,
+       1.63,
+       0.3
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       2.41,
+       1.34,
+       1.62,
+       1.98
+      ],
+      "lower": [
+       0.68,
+       2.12,
+       0.95,
+       1.41,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     -0.094,
+     0.154,
+     0.014,
+     0.43,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.27896011153282335,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.22473999563977753,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.28258841978863064,
+      "implied": [
+       1.0,
+       0.84,
+       0.59,
+       0.59,
+       0.84,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.19098109143005004,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.21981837216146438,
+      "implied": [
+       1.0,
+       0.75,
+       0.65,
+       0.65,
+       0.75,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.4115214836137091,
+      "implied": [
+       1.0,
+       1.0,
+       0.65,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.18988652737847225,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.4013992485130145,
+      "implied": [
+       1.0,
+       1.0,
+       0.71,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.41965852517731905,
+      "implied": [
+       1.0,
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 3.0,
+      "mean_first_err": 3.0,
+      "mean_abs_first_err": 3.0,
+      "mean_seq_share": 0.3445906432748538,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.20814580404277674
+     },
+     {
+      "lambda": 0.05,
+      "objective": 3.0,
+      "mean_first_err": 3.0,
+      "mean_abs_first_err": 3.0,
+      "mean_seq_share": 0.3445906432748538,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.20814580404277674
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.0,
+      "mean_first_err": 3.0,
+      "mean_abs_first_err": 3.0,
+      "mean_seq_share": 0.3445906432748538,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "lambda": 0.15,
+      "objective": 2.0,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "lambda": 0.2,
+      "objective": 2.0,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "lambda": 0.3,
+      "objective": 2.0,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "lambda": 0.45,
+      "objective": 2.0,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.20814580404277674
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.433187134502924,
+      "mean_first_err": 0.0,
+      "mean_abs_first_err": 1.0,
+      "mean_seq_share": 0.1415204678362573,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.7214462438146649,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3047795771479982,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.7214462438146649,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3047795771479982,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.7740778227620333,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.741183085919928,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.36618308591992804,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.18988652737847225
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.7740778227620333,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.7740778227620333,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.7740778227620333,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.7740778227620333,
+      "mean_first_err": 2.0,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.3574111560953666,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.18988652737847225
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.891369477561307,
+     "best": "1-stop M-H @ 24"
+    },
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "1-stop M-H @ 22"
+    },
+    "barcelona-2026": {
+     "first_err": 1.0,
+     "seq_share": 0.07692307692307693,
+     "start_ok": 0.0,
+     "stops_ok": 0.0,
+     "implied": 0.7128654958752227,
+     "best": "3-stop S-M-H-M @ 14,30,48"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "1-stop M-S @ 20"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "2-stop M-H-H @ 22,46"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7954026124911915,
+     "best": "1-stop M-H @ 26"
+    }
+   },
+   "seconds": 31.6
+  },
+  "belgium-2026": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.6,
+   "manage_wear_floor": 0.55,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.13724036279951204,
+   "undercut_lambda": 0.15,
+   "plan_prior_tau_s": 4.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.1005338768867927,
+    "BEA": 1.1971823237050443,
+    "BOR": 1.1124252670815555,
+    "COL": 0.9678325135353901,
+    "GAS": 1.0455975148306447,
+    "HAM": 1.2008948965634,
+    "LAW": 0.9556615331919028,
+    "LEC": 1.0237177903952095,
+    "LIN": 0.8954333108598633,
+    "OCO": 1.1015077221173397,
+    "PER": 1.0999458843491237,
+    "RUS": 0.9657079178992387,
+    "SAI": 1.2299011327709617,
+    "STR": 1.1402965385660024,
+    "VER": 0.9118332203808078,
+    "ALO": 1.2202774295047776,
+    "ANT": 0.9097912739069367,
+    "BOT": 1.6534953262052612,
+    "HAD": 0.9278945018132397,
+    "NOR": 0.9758972090729753,
+    "PIA": 0.97692411401306,
+    "HUL": 0.9108952479055555,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.1005338768867927,
+     "ln_sd": 0.09162849690671324,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      0.55,
+      1.38,
+      1.79,
+      0.57,
+      1.3
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.1971823237050443,
+     "ln_sd": 0.08024508750009411,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.96,
+      1.14,
+      1.36,
+      4.68
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.1124252670815555,
+     "ln_sd": 0.07293754134884656,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      0.54,
+      1.19,
+      1.53,
+      1.21,
+      0.61
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 0.9678325135353901,
+     "ln_sd": 0.08214246349867091,
+     "n_races": 5,
+     "raw": [
+      0.44,
+      0.73,
+      0.63,
+      0.98,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.0455975148306447,
+     "ln_sd": 0.08459418902714774,
+     "n_races": 5,
+     "raw": [
+      0.48,
+      1.26,
+      0.89,
+      0.98,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.2008948965634,
+     "ln_sd": 0.08266550463678535,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      1.82,
+      0.98,
+      1.44,
+      0.74,
+      1.31
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.9556615331919028,
+     "ln_sd": 0.09517087281047448,
+     "n_races": 5,
+     "raw": [
+      0.35,
+      0.84,
+      0.72,
+      1.11,
+      1.11
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.0237177903952095,
+     "ln_sd": 0.09124667803119747,
+     "n_races": 5,
+     "raw": [
+      0.29,
+      0.67,
+      1.03,
+      1.27,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.8954333108598633,
+     "ln_sd": 0.07377375580360192,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.7,
+      0.61,
+      1.21,
+      0.94
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.1015077221173397,
+     "ln_sd": 0.07874769551042335,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.08,
+      1.31,
+      1.67,
+      0.5,
+      3.81
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0999458843491237,
+     "ln_sd": 0.09010242031976336,
+     "n_races": 3,
+     "raw": [
+      1.28,
+      0.99,
+      1.18
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9657079178992387,
+     "ln_sd": 0.08819718830126579,
+     "n_races": 5,
+     "raw": [
+      0.22,
+      1.14,
+      1.04,
+      1.15,
+      0.73
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.2299011327709617,
+     "ln_sd": 0.09325499662013766,
+     "n_races": 4,
+     "raw": [
+      0.51,
+      0.48,
+      0.73,
+      2.01
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.1402965385660024,
+     "ln_sd": 0.11858127776054789,
+     "n_races": 3,
+     "raw": [
+      2.36,
+      1.58,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 0.9118332203808078,
+     "ln_sd": 0.0953271118602639,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.88,
+      0.93,
+      0.99,
+      0.69,
+      2.25
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.2202774295047776,
+     "ln_sd": 0.08673397253232508,
+     "n_races": 4,
+     "raw": [
+      1.65,
+      1.19,
+      2.01,
+      1.24
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9097912739069367,
+     "ln_sd": 0.0952815760605492,
+     "n_races": 5,
+     "raw": [
+      0.95,
+      0.91,
+      0.66,
+      0.75,
+      1.16
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026",
+      "italy-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.6534953262052612,
+     "ln_sd": 0.09067619489782738,
+     "n_races": 2,
+     "raw": [
+      2.44,
+      1.52
+     ],
+     "events": [
+      "japan-2026",
+      "italy-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9278945018132397,
+     "ln_sd": 0.09263474064154309,
+     "n_races": 4,
+     "raw": [
+      0.59,
+      0.93,
+      0.93,
+      0.91
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 0.9758972090729753,
+     "ln_sd": 0.09304962813240758,
+     "n_races": 4,
+     "raw": [
+      1.11,
+      0.91,
+      0.99,
+      0.76
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 0.97692411401306,
+     "ln_sd": 0.09276531969423918,
+     "n_races": 4,
+     "raw": [
+      0.97,
+      0.87,
+      1.17,
+      1.04
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9108952479055555,
+     "ln_sd": 0.11532619554090773,
+     "n_races": 3,
+     "raw": [
+      0.75,
+      0.43,
+      0.83
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "hungary-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       0.75,
+       3.42,
+       2.82,
+       4.04
+      ],
+      "lower": [
+       1.3,
+       0.45,
+       3.27,
+       2.69,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       1.95,
+       4.07,
+       1.9,
+       1.88,
+       0.53
+      ],
+      "lower": [
+       0.35,
+       1.59,
+       3.83,
+       1.75,
+       1.63,
+       0.3
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       2.41,
+       0.96,
+       1.62,
+       1.98
+      ],
+      "lower": [
+       0.68,
+       2.12,
+       0.77,
+       1.41,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     -0.094,
+     0.154,
+     0.12,
+     0.43,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.17850537760907725,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.12428526171603137,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.18213368586488446,
+      "implied": [
+       1.0,
+       0.84,
+       0.59,
+       0.59,
+       0.84,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.09052635750630389,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.11936363823771823,
+      "implied": [
+       1.0,
+       0.75,
+       0.65,
+       0.65,
+       0.75,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.2631056317684523,
+      "implied": [
+       1.0,
+       1.0,
+       0.65,
+       0.75,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.08943179345472611,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.26279337097025557,
+      "implied": [
+       1.0,
+       1.0,
+       0.71,
+       0.8,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.3192037912535729,
+      "implied": [
+       1.0,
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.37503439972480224,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.10769107011903062
+     },
+     {
+      "lambda": 0.05,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.37503439972480224,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.10769107011903062
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.37503439972480224,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "lambda": 0.15,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "lambda": 0.2,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "lambda": 0.3,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "lambda": 0.45,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.1076910701190306
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.39152046783625727,
+      "mean_first_err": 0.0,
+      "mean_abs_first_err": 0.6666666666666666,
+      "mean_seq_share": 0.1415204678362573,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.6710076473234368,
+      "mean_first_err": 0.6666666666666666,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.29600764732343676,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.7518900002646133,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.3352233335979466,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.8045215792119818,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.387854912545315,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.08943179345472611
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.891369477561307,
+     "best": "1-stop M-H @ 24"
+    },
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "1-stop M-H @ 22"
+    },
+    "barcelona-2026": {
+     "first_err": 1.0,
+     "seq_share": 0.07692307692307693,
+     "start_ok": 0.0,
+     "stops_ok": 0.0,
+     "implied": 0.7128654958752227,
+     "best": "3-stop S-M-H-M @ 14,30,48"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "2-stop M-H-H @ 22,46"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7954026124911915,
+     "best": "1-stop M-H @ 26"
+    }
+   },
+   "seconds": 33.9
+  },
+  "hungary-2026": {
+   "grip_budget_s": 3.6308714873449,
+   "grip_budget_by_compound": {
+    "HARD": 3.2659415451184075,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.6,
+   "manage_wear_floor": 0.55,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.06714154486582084,
+   "undercut_lambda": 0.15,
+   "plan_prior_tau_s": 2.5,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.1984942613780742,
+    "BEA": 1.2886570583058294,
+    "BOR": 1.082042902882451,
+    "COL": 0.8461314390432605,
+    "GAS": 0.9658294546716243,
+    "HAM": 1.3305360055384319,
+    "LAW": 0.898004943279471,
+    "LEC": 0.9766888506848901,
+    "LIN": 0.8792055954786642,
+    "OCO": 1.2019112601383195,
+    "PER": 1.0999458843491237,
+    "RUS": 1.0188404158947317,
+    "SAI": 0.9675000203974959,
+    "STR": 1.2584364293364487,
+    "VER": 1.054881331814469,
+    "ALO": 1.3451289659824035,
+    "ANT": 0.9590191873841929,
+    "BOT": 1.6953553395727992,
+    "HAD": 0.9339571777472344,
+    "NOR": 1.0330819681184558,
+    "PIA": 1.2685703061701399,
+    "HUL": 0.9475953162882542,
+    "TSU": 1.0479001996489103
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.1984942613780742,
+     "ln_sd": 0.09021925744997798,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      0.55,
+      1.38,
+      1.79,
+      1.37,
+      1.3
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.2886570583058294,
+     "ln_sd": 0.09955981093995976,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.96,
+      1.14,
+      4.45,
+      4.68
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.082042902882451,
+     "ln_sd": 0.09262977055567649,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      0.54,
+      1.19,
+      1.53,
+      1.43,
+      0.61
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "COL": {
+     "factor": 0.8461314390432605,
+     "ln_sd": 0.10761560836536062,
+     "n_races": 5,
+     "raw": [
+      0.44,
+      0.73,
+      0.63,
+      0.98,
+      1.06
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 0.9658294546716243,
+     "ln_sd": 0.09439755477706259,
+     "n_races": 5,
+     "raw": [
+      0.48,
+      1.26,
+      0.89,
+      0.98,
+      0.97
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.3305360055384319,
+     "ln_sd": 0.07951046201704552,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      1.82,
+      0.98,
+      1.44,
+      1.82,
+      1.31
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.898004943279471,
+     "ln_sd": 0.10932947748962864,
+     "n_races": 5,
+     "raw": [
+      0.35,
+      0.84,
+      0.72,
+      1.11,
+      0.92
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 0.9766888506848901,
+     "ln_sd": 0.09743220003921375,
+     "n_races": 5,
+     "raw": [
+      0.29,
+      0.67,
+      1.03,
+      1.27,
+      1.22
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.8792055954786642,
+     "ln_sd": 0.10129354749975163,
+     "n_races": 5,
+     "raw": [
+      0.7,
+      0.7,
+      0.61,
+      1.21,
+      1.22
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.2019112601383195,
+     "ln_sd": 0.0815083343154619,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.08,
+      1.31,
+      1.67,
+      2.04,
+      3.81
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0999458843491237,
+     "ln_sd": 0.09010242031976336,
+     "n_races": 3,
+     "raw": [
+      1.28,
+      0.99,
+      1.18
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 1.0188404158947317,
+     "ln_sd": 0.09616000659623919,
+     "n_races": 4,
+     "raw": [
+      0.22,
+      1.14,
+      1.04,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 0.9675000203974959,
+     "ln_sd": 0.11128735691711439,
+     "n_races": 4,
+     "raw": [
+      0.51,
+      0.48,
+      0.73,
+      1.67
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.2584364293364487,
+     "ln_sd": 0.126671212812611,
+     "n_races": 2,
+     "raw": [
+      2.36,
+      1.58
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026"
+     ]
+    },
+    "VER": {
+     "factor": 1.054881331814469,
+     "ln_sd": 0.09448255283090717,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.88,
+      0.93,
+      0.99,
+      1.62,
+      2.25
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.3451289659824035,
+     "ln_sd": 0.09329764877398519,
+     "n_races": 4,
+     "raw": [
+      1.65,
+      1.19,
+      2.01,
+      2.69
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9590191873841929,
+     "ln_sd": 0.10721897957122509,
+     "n_races": 4,
+     "raw": [
+      0.95,
+      0.91,
+      0.66,
+      1.16
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "italy-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.6953553395727992,
+     "ln_sd": 0.083651932702879,
+     "n_races": 3,
+     "raw": [
+      2.44,
+      1.96,
+      1.52
+     ],
+     "events": [
+      "japan-2026",
+      "belgium-2026",
+      "italy-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9339571777472344,
+     "ln_sd": 0.11065510756530583,
+     "n_races": 4,
+     "raw": [
+      0.59,
+      0.93,
+      0.93,
+      0.27
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 1.0330819681184558,
+     "ln_sd": 0.09138512767729572,
+     "n_races": 4,
+     "raw": [
+      1.11,
+      0.91,
+      0.99,
+      1.27
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.2685703061701399,
+     "ln_sd": 0.08532621209028769,
+     "n_races": 4,
+     "raw": [
+      0.97,
+      0.87,
+      1.17,
+      2.33
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9475953162882542,
+     "ln_sd": 0.13699168936042697,
+     "n_races": 2,
+     "raw": [
+      0.75,
+      0.43
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026"
+     ]
+    },
+    "TSU": {
+     "factor": 1.0479001996489103,
+     "ln_sd": 0.1432928153429778,
+     "n_races": 1,
+     "raw": [
+      1.71
+     ],
+     "events": [
+      "italy-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "italy-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       0.75,
+       3.42,
+       2.82,
+       1.11
+      ],
+      "lower": [
+       1.3,
+       0.45,
+       3.27,
+       2.69,
+       0.92
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       1.95,
+       4.07,
+       1.9,
+       2.33,
+       0.53
+      ],
+      "lower": [
+       0.35,
+       1.59,
+       3.83,
+       1.75,
+       1.96,
+       0.3
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       2.41,
+       0.96,
+       1.34,
+       1.98
+      ],
+      "lower": [
+       0.68,
+       2.12,
+       0.77,
+       0.95,
+       1.66
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     -0.094,
+     0.154,
+     0.12,
+     0.014,
+     -0.198
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.2643287775437306,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.21010866165068465,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.7
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.20807818524438917,
+      "implied": [
+       1.0,
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.84
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.2057568398879511,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.21051632811388135,
+      "implied": [
+       1.0,
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.87
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.37833611415009943,
+      "implied": [
+       1.0,
+       1.0,
+       0.65,
+       0.75,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.2046622758363733,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.8
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.3780238533519027,
+      "implied": [
+       1.0,
+       1.0,
+       0.71,
+       0.8,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.4344342736352201,
+      "implied": [
+       1.0,
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "lambda": 0.05,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.5,
+      "mean_first_err": 3.5,
+      "mean_abs_first_err": 3.5,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "lambda": 0.15,
+      "objective": 2.5,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "lambda": 0.2,
+      "objective": 2.5,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "lambda": 0.3,
+      "objective": 2.5,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2229215525006778
+     },
+     {
+      "lambda": 0.45,
+      "objective": 2.5,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2229215525006778
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.39152046783625727,
+      "mean_first_err": 0.5,
+      "mean_abs_first_err": 0.5,
+      "mean_seq_share": 0.1415204678362573,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.6797795771479982,
+      "mean_first_err": -0.5,
+      "mean_abs_first_err": 1.5,
+      "mean_seq_share": 0.3047795771479982,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.7277671932470694,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.35276719324706945,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.2046622758363733
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.5,
+      "mean_abs_first_err": 2.5,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.6797795771479982,
+      "mean_first_err": 0.5,
+      "mean_abs_first_err": 0.5,
+      "mean_seq_share": 0.3047795771479982,
+      "start_ok": 0.6666666666666666,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.2046622758363733
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.891369477561307,
+     "best": "1-stop M-H @ 24"
+    },
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "1-stop M-H @ 22"
+    },
+    "barcelona-2026": {
+     "first_err": 1.0,
+     "seq_share": 0.07692307692307693,
+     "start_ok": 0.0,
+     "stops_ok": 0.0,
+     "implied": 0.7128654958752227,
+     "best": "3-stop S-M-H-M @ 14,30,48"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7128654958752227,
+     "best": "1-stop M-S @ 20"
+    },
+    "italy-2026": {
+     "first_err": NaN,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.7954026124911915,
+     "best": "1-stop M-H @ 26"
+    }
+   },
+   "seconds": 31.5
+  },
+  "italy-2026": {
+   "grip_budget_s": 3.8218006460891125,
+   "grip_budget_by_compound": {
+    "HARD": 3.8387290213510443,
+    "MEDIUM": 3.826672916916292,
+    "SOFT": 3.8
+   },
+   "manage_cost_s": 0.6,
+   "manage_wear_floor": 0.45,
+   "grid_start_penalty_s": 0.0,
+   "dirty_air_s_per_lap": 0.13724036279951204,
+   "undercut_lambda": 0.3,
+   "plan_prior_tau_s": 4.0,
+   "sigma_race_lap_s": 0.5,
+   "driver_factors": {
+    "ALB": 1.1240091889822392,
+    "BEA": 1.2310092200125966,
+    "BOR": 1.137325394650572,
+    "COL": 0.9722064787870822,
+    "GAS": 1.0421657176244854,
+    "HAM": 1.2737982236959728,
+    "LAW": 0.9536151307152333,
+    "LEC": 1.0403564506369805,
+    "LIN": 0.910738592529615,
+    "OCO": 1.0523314425850203,
+    "PER": 1.0999458843491237,
+    "RUS": 0.9657079178992387,
+    "SAI": 1.2692244365516896,
+    "STR": 1.1402965385660024,
+    "VER": 0.9798076426363271,
+    "ALO": 1.3199369592166743,
+    "ANT": 0.9082598329030268,
+    "BOT": 1.7187539627635564,
+    "HAD": 0.9274126947400944,
+    "NOR": 1.0063707635888952,
+    "PIA": 1.234179996265814,
+    "HUL": 0.9108952479055555
+   },
+   "driver_factor_detail": {
+    "ALB": {
+     "factor": 1.1240091889822392,
+     "ln_sd": 0.08742806620784951,
+     "n_races": 6,
+     "raw": [
+      0.85,
+      0.55,
+      1.38,
+      1.79,
+      1.37,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "BEA": {
+     "factor": 1.2310092200125966,
+     "ln_sd": 0.07930105393543603,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.96,
+      1.14,
+      4.45,
+      1.36
+     ],
+     "events": [
+      "australia-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "BOR": {
+     "factor": 1.137325394650572,
+     "ln_sd": 0.07011202685536072,
+     "n_races": 6,
+     "raw": [
+      0.66,
+      0.54,
+      1.19,
+      1.53,
+      1.43,
+      1.21
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "COL": {
+     "factor": 0.9722064787870822,
+     "ln_sd": 0.08006229220512144,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      0.73,
+      0.63,
+      0.98,
+      1.06,
+      1.15
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "GAS": {
+     "factor": 1.0421657176244854,
+     "ln_sd": 0.08277714143579767,
+     "n_races": 6,
+     "raw": [
+      0.48,
+      1.26,
+      0.89,
+      0.98,
+      0.97,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HAM": {
+     "factor": 1.2737982236959728,
+     "ln_sd": 0.07731425512204292,
+     "n_races": 6,
+     "raw": [
+      0.27,
+      1.82,
+      0.98,
+      1.44,
+      1.82,
+      0.74
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LAW": {
+     "factor": 0.9536151307152333,
+     "ln_sd": 0.09273200379150497,
+     "n_races": 6,
+     "raw": [
+      0.35,
+      0.84,
+      0.72,
+      1.11,
+      0.92,
+      1.11
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LEC": {
+     "factor": 1.0403564506369805,
+     "ln_sd": 0.08704178273744888,
+     "n_races": 6,
+     "raw": [
+      0.29,
+      0.67,
+      1.03,
+      1.27,
+      1.22,
+      1.34
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "LIN": {
+     "factor": 0.910738592529615,
+     "ln_sd": 0.07171696477988285,
+     "n_races": 6,
+     "raw": [
+      0.7,
+      0.7,
+      0.61,
+      1.21,
+      1.22,
+      0.94
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "OCO": {
+     "factor": 1.0523314425850203,
+     "ln_sd": 0.0797729711320846,
+     "n_races": 6,
+     "raw": [
+      0.44,
+      1.08,
+      1.31,
+      1.67,
+      2.04,
+      0.5
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "PER": {
+     "factor": 1.0999458843491237,
+     "ln_sd": 0.09010242031976336,
+     "n_races": 3,
+     "raw": [
+      1.28,
+      0.99,
+      1.18
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026"
+     ]
+    },
+    "RUS": {
+     "factor": 0.9657079178992387,
+     "ln_sd": 0.08819718830126579,
+     "n_races": 5,
+     "raw": [
+      0.22,
+      1.14,
+      1.04,
+      1.15,
+      0.73
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "SAI": {
+     "factor": 1.2692244365516896,
+     "ln_sd": 0.08831010096278509,
+     "n_races": 5,
+     "raw": [
+      0.51,
+      0.48,
+      0.73,
+      1.67,
+      2.01
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "STR": {
+     "factor": 1.1402965385660024,
+     "ln_sd": 0.11858127776054789,
+     "n_races": 3,
+     "raw": [
+      2.36,
+      1.58,
+      0.57
+     ],
+     "events": [
+      "australia-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "VER": {
+     "factor": 0.9798076426363271,
+     "ln_sd": 0.0885811919686452,
+     "n_races": 6,
+     "raw": [
+      0.41,
+      0.88,
+      0.93,
+      0.99,
+      1.62,
+      0.69
+     ],
+     "events": [
+      "australia-2026",
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ALO": {
+     "factor": 1.3199369592166743,
+     "ln_sd": 0.0823120609615682,
+     "n_races": 5,
+     "raw": [
+      1.65,
+      1.19,
+      2.01,
+      2.69,
+      1.24
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "ANT": {
+     "factor": 0.9082598329030268,
+     "ln_sd": 0.0956160281941771,
+     "n_races": 4,
+     "raw": [
+      0.95,
+      0.91,
+      0.66,
+      0.75
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    },
+    "BOT": {
+     "factor": 1.7187539627635564,
+     "ln_sd": 0.08875777741330573,
+     "n_races": 2,
+     "raw": [
+      2.44,
+      1.96
+     ],
+     "events": [
+      "japan-2026",
+      "belgium-2026"
+     ]
+    },
+    "HAD": {
+     "factor": 0.9274126947400944,
+     "ln_sd": 0.09261507298416671,
+     "n_races": 5,
+     "raw": [
+      0.59,
+      0.93,
+      0.93,
+      0.27,
+      0.91
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "NOR": {
+     "factor": 1.0063707635888952,
+     "ln_sd": 0.08744924644336798,
+     "n_races": 5,
+     "raw": [
+      1.11,
+      0.91,
+      0.99,
+      1.27,
+      0.76
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "PIA": {
+     "factor": 1.234179996265814,
+     "ln_sd": 0.0792854855930583,
+     "n_races": 5,
+     "raw": [
+      0.97,
+      0.87,
+      1.17,
+      2.33,
+      1.04
+     ],
+     "events": [
+      "japan-2026",
+      "barcelona-2026",
+      "austria-2026",
+      "belgium-2026",
+      "hungary-2026"
+     ]
+    },
+    "HUL": {
+     "factor": 0.9108952479055555,
+     "ln_sd": 0.11532619554090773,
+     "n_races": 3,
+     "raw": [
+      0.75,
+      0.43,
+      0.83
+     ],
+     "events": [
+      "barcelona-2026",
+      "austria-2026",
+      "hungary-2026"
+     ]
+    }
+   },
+   "donors": [
+    "australia-2026",
+    "japan-2026",
+    "barcelona-2026",
+    "austria-2026",
+    "belgium-2026",
+    "hungary-2026"
+   ],
+   "raw": {
+    "implied_budgets": {
+     "HARD": {
+      "raw": [
+       1.55,
+       0.75,
+       3.42,
+       2.82,
+       1.11,
+       4.04
+      ],
+      "lower": [
+       1.3,
+       0.45,
+       3.27,
+       2.69,
+       0.92,
+       3.84
+      ],
+      "informative": true
+     },
+     "MEDIUM": {
+      "raw": [
+       0.7,
+       1.95,
+       4.07,
+       1.9,
+       2.33,
+       1.88
+      ],
+      "lower": [
+       0.35,
+       1.59,
+       3.83,
+       1.75,
+       1.96,
+       1.63
+      ],
+      "informative": true
+     },
+     "SOFT": {
+      "raw": [
+       1.07,
+       2.41,
+       0.96,
+       1.34,
+       1.62
+      ],
+      "lower": [
+       0.68,
+       2.12,
+       0.77,
+       0.95,
+       1.41
+      ],
+      "informative": false
+     }
+    },
+    "dirty_air": [
+     0.252,
+     -0.094,
+     0.154,
+     0.12,
+     0.014,
+     0.43
+    ]
+   },
+   "sweeps": {
+    "manage": [
+     {
+      "floor": 0.35,
+      "cost": 0.6,
+      "objective": 0.22495325277615727,
+      "implied": [
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 0.9,
+      "objective": 0.2016343020546694,
+      "implied": [
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.59,
+       0.59
+      ]
+     },
+     {
+      "floor": 0.35,
+      "cost": 1.2,
+      "objective": 0.24745371001196248,
+      "implied": [
+       1.0,
+       0.84,
+       0.59,
+       0.59,
+       0.59,
+       0.84
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.6,
+      "objective": 0.17146837782367932,
+      "implied": [
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.65,
+       0.65
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 0.9,
+      "objective": 0.22567270014217267,
+      "implied": [
+       1.0,
+       0.75,
+       0.65,
+       0.65,
+       0.65,
+       0.75
+      ]
+     },
+     {
+      "floor": 0.45,
+      "cost": 1.2,
+      "objective": 0.41771163891767277,
+      "implied": [
+       1.0,
+       1.0,
+       0.65,
+       0.75,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.6,
+      "objective": 0.21989007072376085,
+      "implied": [
+       0.89,
+       0.71,
+       0.71,
+       0.71,
+       0.71,
+       0.71
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 0.9,
+      "objective": 0.417399378119476,
+      "implied": [
+       1.0,
+       1.0,
+       0.71,
+       0.8,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "floor": 0.55,
+      "cost": 1.2,
+      "objective": 0.4738097984027934,
+      "implied": [
+       1.0,
+       1.0,
+       0.8,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "lambda": [
+     {
+      "lambda": 0.0,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.2785431716546268,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.17146837782367932
+     },
+     {
+      "lambda": 0.05,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.17146837782367932
+     },
+     {
+      "lambda": 0.1,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.17146837782367932
+     },
+     {
+      "lambda": 0.15,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "lambda": 0.2,
+      "objective": 3.3333333333333335,
+      "mean_first_err": 3.3333333333333335,
+      "mean_abs_first_err": 3.3333333333333335,
+      "mean_seq_share": 0.33117475060199514,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "lambda": 0.3,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "lambda": 0.45,
+      "objective": 2.6666666666666665,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     }
+    ],
+    "tau": [
+     {
+      "tau": 0.0,
+      "objective": -0.3476608187134503,
+      "mean_first_err": 0.0,
+      "mean_abs_first_err": 0.6666666666666666,
+      "mean_seq_share": 0.0976608187134503,
+      "start_ok": 0.3333333333333333,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "tau": 1.0,
+      "objective": -0.44381466486729637,
+      "mean_first_err": 0.6666666666666666,
+      "mean_abs_first_err": 2.0,
+      "mean_seq_share": 0.11048133153396311,
+      "start_ok": 0.6666666666666666,
+      "stops_ok": 0.6666666666666666,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "tau": 2.5,
+      "objective": -0.7080303511418062,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.29136368447513955,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "tau": 4.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "tau": 6.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     }
+    ],
+    "grid": [
+     {
+      "grid": 0.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "grid": 0.5,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "grid": 1.0,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     },
+     {
+      "grid": 1.5,
+      "objective": -0.7606619300891747,
+      "mean_first_err": 2.6666666666666665,
+      "mean_abs_first_err": 2.6666666666666665,
+      "mean_seq_share": 0.343995263422508,
+      "start_ok": 0.8333333333333334,
+      "stops_ok": 0.8333333333333334,
+      "implied_vs_measured": 0.19554617032916335
+     }
+    ]
+   },
+   "final_scores": {
+    "australia-2026": {
+     "first_err": NaN,
+     "seq_share": 0.5333333333333333,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "1-stop M-H @ 24"
+    },
+    "japan-2026": {
+     "first_err": NaN,
+     "seq_share": 0.85,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "1-stop M-H @ 22"
+    },
+    "barcelona-2026": {
+     "first_err": 1.0,
+     "seq_share": 0.07692307692307693,
+     "start_ok": 0.0,
+     "stops_ok": 0.0,
+     "implied": 0.6490578282919389,
+     "best": "3-stop S-M-H-M @ 14,30,48"
+    },
+    "austria-2026": {
+     "first_err": 4.0,
+     "seq_share": 0.23529411764705882,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "2-stop M-H-M @ 22,46"
+    },
+    "belgium-2026": {
+     "first_err": NaN,
+     "seq_share": 0.05263157894736842,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "1-stop M-S @ 20"
+    },
+    "hungary-2026": {
+     "first_err": 3.0,
+     "seq_share": 0.3157894736842105,
+     "start_ok": 1.0,
+     "stops_ok": 1.0,
+     "implied": 0.6490578282919389,
+     "best": "2-stop M-H-H @ 22,46"
+    }
+   },
+   "seconds": 33.4
+  }
+ }
+}

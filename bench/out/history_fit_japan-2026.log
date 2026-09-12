@@ -1,0 +1,137 @@
+
+=== 0. practice-only firewall ===
+  [PASS] firewall blocks race data: practice-only firewall: refusing to load 'Race' for fitting. Allowed: ['Practice 1', 'Prac
+
+=== 1. practice laps + clean-lap cascade ===
+        step                             rule  laps  dropped
+    raw laps                                —  1512        0
+ ok_accurate                FastF1 IsAccurate   936      576
+  ok_not_pit         not an in-lap or out-lap   936        0
+    ok_green           track status all-green   918       18
+ok_stint_len stint >= 6 valid laps (long run)   464      454
+  ok_traffic          gap to car ahead > 2.0s   390       74
+ ok_not_slow   lap time < session median + 5s   269      121
+ ok_compound                   known compound   269        0
+compound  laps  stints  median_lap_s
+  MEDIUM   129      22        96.131
+    HARD    77      16        96.078
+    SOFT    63      19        93.478
+  [PASS] clean laps in 120-320: 269 clean laps from 1512 raw (5s)
+  [PASS] no non-green lap survives: track statuses: ['1']
+  [PASS] all compounds valid: 
+
+=== 2. fuel physics, circuit history, compound ladder, regime transfer ===
+       prior  burn_kg_per_lap  k_track_s_per_kg  fuel_effect_s_per_lap                                                                     derivation
+2026 physics           1.3208            0.0343                 0.0453 burn = 70 kg / 53 laps = 1.321 kg/lap;  k = 0.30 x 92 s / 803 kg = 0.0343 s/kg
+2025 physics           1.6700            0.0330                 0.0551      burn = 1.67 kg/lap (110 kg allowance), k = 0.033 s/kg (800 kg min weight)
+    no prior           0.0000            0.0000                 0.0000                     fuel effect assumed zero; age and fuel burn stay collinear
+  circuit history: Suzuka [2023, 2024, 2025]; stops {1: 23, 2: 26, 3: 3}; plans {'M-H': 16, 'M-H-H': 7, 'M-M-H': 6, 'S-H-H': 4, 'S-M-H': 3, 'H-H-M': 3}; starts {'MEDIUM': 31, 'SOFT': 12, 'HARD': 9}
+    ladder from the circuit's races: {'n_races': 3, 'recency_weights': [0.5, 0.7, 1.0], 'pace_step_s': 0.0732995368022521, 'pace_step_se': 0.1348381987100873, 'pace_step_by_year': [-0.113, -0.12, 0.123], 'pace_step_usable': True, 'deg_ratio': 1.2931061960838162, 'deg_ratio_ln_sd': 0.4003393289752875, 'deg_ratio_by_year': [0.938, 0.948, 1.887]}
+    cliff (longest / p90 stint): SOFT 20/16, MEDIUM 33/24, HARD 38/30
+
+  compound pace step prior: 0.073 s  [this circuit's races: 0.073 +/- 0.135 s at equal tyre age]
+    measured net stint step: +0.069 +/- 0.096 s
+compound  hardness_rank  pace_offset_s  deg_multiplier
+    SOFT              0          0.000           1.000
+  MEDIUM              1          0.073           0.773
+    HARD              2          0.147           0.598
+iter      rss  evo_range_s    HARD  MEDIUM   SOFT estimator                                                                                            per_session  backfit_range_s
+   1 217.7393       2.5014 -0.0864  0.0668 0.2441       NaN                                                                                                    NaN              NaN
+   2 212.1454       4.1318 -0.0739  0.0724 0.2633       NaN                                                                                                    NaN              NaN
+   3 211.8400       4.2816 -0.0730  0.0730 0.2653       NaN                                                                                                    NaN              NaN
+push      NaN       0.9581 -0.0909  0.0735 0.2432 push laps {'Practice 1': 0.6947806994900259, 'Practice 2': 0.9580753258739745, 'Practice 3': 0.9480005617144454}           4.2816
+  [PASS] track evolution identified & plausible: push-lap range 0.96s per session {'Practice 1': 0.6947806994900259, 'Practice 2': 0.9580753258739745, 'Practice 3': 0.9480005617144454}; long-run backfit would have given 4.28s; sessions on the backfit: []
+
+  practice->race degradation factor: 0.628x [0.45-0.87]  [median of 6 donors + circuit history]
+    race/practice degradation ratio, stint-fixed-effects estimator on both sessions; residuals pooled with the median: australia-2026 0.75x, barcelona-2026 0.70x, austria-2026 0.58x, belgium-2026 0.32x, hungary-2026 0.64x, italy-2026 0.81x -> management residual 0.67x (spread 0.27 ln); no temperature term (no race-day forecast supplied: no temperature term); the pool gives 0.67x; Suzuka's own practice->race ratio in [2023, 2024, 2025] is 0.58x (+/-0.29 ln), which carries 46% of the precision, so 0.63x applies; the old pooled geometric mean would have given 0.61x. japan-2026's own race is never used
+    temperature mode: none; circuit prior: {'ratio': 0.5814946282352884, 'ln_sd': 0.29323159485800193, 'years': [2023, 2024, 2025], 'n': 3, 'by_year': {2023: 0.3517, 2024: 0.5815, 2025: 0.6281}, 'weight': 1.0, 'weight_on_circuit': 0.456177697059816}
+  [PASS] regime factor is plausible (0.15-1.0): 0.628x from ['australia-2026', 'barcelona-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026', 'Suzuka 2023', 'Suzuka 2024', 'Suzuka 2025']
+  plan prior mapped through the nominations (c-number, target ['C1', 'C2', 'C3']): 2023 ['C1', 'C2', 'C3'] identical (mapped 15, dropped 0, clamped 0); 2024 ['C1', 'C2', 'C3'] identical (mapped 17, dropped 0, clamped 0); 2025 ['C1', 'C2', 'C3'] identical (mapped 20, dropped 0, clamped 0)
+    sequences {'M-H': 16, 'M-H-H': 7, 'M-M-H': 6, 'S-H-H': 4, 'S-M-H': 3, 'H-H-M': 3}; starts {'MEDIUM': 31, 'SOFT': 12, 'HARD': 9}
+  first-stop prior: mode lap 22, median 20 (16-25), n=51 (30 on the modal start compound MEDIUM)
+    conditioned on a 2-stop plan: mode lap 16, median 16 (13-18) from 25 same-stop-count stops, 12 of them on the MEDIUM
+
+=== 3. MixedLM baseline + stint-FE baseline, both on stint block bootstraps ===
+compound  slope_s_per_lap      lo     hi  n_stints  n_boot  band_estimable
+    HARD          -0.0334 -0.1064 0.0482        16      50            True
+  MEDIUM           0.1161  0.0713 0.1712        22      50            True
+    SOFT           0.2861  0.2039 0.3635        19      50            True
+compound  slope_s_per_lap      lo      hi  n_stints  n_laps  n_boot  band_estimable
+    HARD          -0.0909 -0.1993 -0.0238        16      77      50            True
+  MEDIUM           0.0735  0.0258  0.1322        22     129      50            True
+    SOFT           0.2432  0.1545  0.3190        19      63      50            True
+  [PASS] stint-FE baseline pooled slope is finite and >= 0: 0.0662 s/lap over 57 stints / 269 laps [90% 0.017-0.109] (2s)
+
+=== 5. NumPyro hierarchical fits ===
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+  production (lap-time only, linear, soft ladder): rhat=1.0039 div=0 laps=269 (5.4s)
+  [PASS] convergence: r_hat < 1.01 and zero divergences: max r_hat 1.0039, 0 divergences
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: divide by zero encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:314: RuntimeWarning: invalid value encountered in sqrt
+  mcse_sd_value = np.sqrt(varsd)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:313: RuntimeWarning: invalid value encountered in scalar divide
+  varsd = varvar / evar / 4
+  circuit history Suzuka [2023, 2024, 2025] folded in (rate only, capped 3x, floored):
+compound  practice  practice_as_race  practice_sd_ln  history_race  history_sd_ln  combined_race  combined  combined_sd_ln  weight_on_history  scale_mean  capped_share  floor_practice  floor_binds
+    HARD    0.0387            0.0243          0.4502        0.0916         0.7682         0.0341    0.0543          0.3341             0.2557      1.4084        0.0002          0.0461        False
+  MEDIUM    0.0763            0.0479          0.4001        0.1051         0.4736         0.0664    0.1058          0.2328             0.4165      1.4008        0.0023          0.0823        False
+    SOFT    0.1648            0.1035          0.4204        0.1153         0.4975         0.1082    0.1724          0.2528             0.4166      1.0584        0.0013          0.0871        False
+  2026         rhat=1.0039 div=0 laps=269 apex=0
+  hinge        rhat=1.0110 div=0 laps=269 apex=0
+  hardladder   rhat=1.0058 div=0 laps=269 apex=0
+  2025         rhat=1.0108 div=0 laps=269 apex=0
+  none         rhat=1.0000 div=0 laps=269 apex=0
+  noladder     rhat=1.0093 div=10 laps=269 apex=0
+compound  slope_s_per_lap     lo     hi  knee_lap  knee_lo  knee_hi
+    HARD           0.0599 0.0461 0.0944       NaN      NaN      NaN
+  MEDIUM           0.1103 0.0823 0.1545       NaN      NaN      NaN
+    SOFT           0.1783 0.1150 0.2594       NaN      NaN      NaN
+  (31s)
+  [PASS] Bayes vs MixedLM pooled degradation within 0.06 s/lap (practice-only posterior): pooled 0.092 vs MixedLM 0.113 (diff 0.021); per-compound differences are the ladder prior overriding an unordered baseline: HARD 0.075, MEDIUM 0.035, SOFT 0.111
+  [PASS] Bayes pooled slope within 0.06 s/lap of the stint-FE baseline: pooled 0.092 vs stint-FE 0.066 (diff 0.025) over 57 stints
+
+  compound ordering (soft ladder): deg SOFT 0.178 > MEDIUM 0.110 > HARD 0.060 (ordered); pace SOFT 0.00 < MEDIUM 0.04 < HARD 0.10 (ordered); without any ladder: SOFT 0.054 MEDIUM 0.054 HARD 0.054
+
+  prior sensitivity (mean slope over ages 1-20, s/lap):
+          2026    2025     none
+HARD    0.0599  0.0476  11.1922
+MEDIUM  0.1103  0.0920   2.7524
+SOFT    0.1783  0.1937   0.7396
+
+=== 6. seal predictions (before any race lap is read) ===
+  japan-2026_20260912T165759Z.json  sha256 5506043efa888dd97ece2237f91c04b9...
+  [PASS] sealed file verifies against its sha256: 5506043efa888dd9
+
+=== fit stage done in 37s ===

@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Spielberg",
+ "event": "2025-spielberg",
+ "checked": 1789217329.180186,
+ "ratio": 0.6030756135721161,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": 0.05185734957128022,
+   "race_s_per_lap": 0.04916697208409156,
+   "ratio": 0.9481196492024604,
+   "n_practice_laps": 127,
+   "n_race_laps": 407,
+   "usable": true
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": 0.09596452759462702,
+   "race_s_per_lap": 0.05827690596697343,
+   "ratio": 0.6072754946822279,
+   "n_practice_laps": 206,
+   "n_race_laps": 531,
+   "usable": true
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.09160145215594924,
+   "race_s_per_lap": 0.030706706713363226,
+   "ratio": 0.33522074149092973,
+   "n_practice_laps": 96,
+   "n_race_laps": 54,
+   "usable": true
+  }
+ },
+ "n_race_stints": 47,
+ "n_practice_stints": 65,
+ "usable_compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "n_race_laps": 70,
+ "n_clean_practice_laps": 429,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 37.460839160839164,
+ "track_temp_race_c": 49.2,
+ "evolution_range_s": 1.27226977176297
+}

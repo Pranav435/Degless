@@ -1,7 +1,11 @@
 VENV := .venv/bin
 EVENT ?= italy-2026
+# Every session the retrospective needs is in the FastF1 cache, and the Ergast
+# mirror's timeouts turned a 15 s practice load into 5 minutes on the benchmark
+# run.  `make history OFFLINE=` re-enables the network if a session is missing.
+OFFLINE ?= --offline
 
-.PHONY: help run cache history weekend live live-static replay postrace app test verify clean-processed outlook recalibrate benchmark
+.PHONY: help run cache history history-practice weekend live live-static replay postrace app test verify clean-processed outlook recalibrate benchmark
 
 help:             ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
@@ -11,10 +15,13 @@ cache:            ## pre-cache every dry 2026 weekend incl. telemetry (long pole
 
 history:          ## full retrospective on every scored weekend: fit all, recalibrate leave-one-out, decide all
 	for e in australia-2026 japan-2026 barcelona-2026 austria-2026 belgium-2026 hungary-2026 italy-2026; do \
-	  $(VENV)/python scripts/10_pipeline.py --event $$e --stage fit --boot 50; done
+	  $(VENV)/python scripts/10_pipeline.py --event $$e --stage fit --boot 50 $(OFFLINE); done
 	$(VENV)/python scripts/80_recalibrate.py
 	for e in australia-2026 japan-2026 barcelona-2026 austria-2026 belgium-2026 hungary-2026 italy-2026; do \
-	  $(VENV)/python scripts/10_pipeline.py --event $$e --stage decide; done
+	  $(VENV)/python scripts/10_pipeline.py --event $$e --stage decide $(OFFLINE); done
+
+history-practice: ## the one network step: fetch + cache the 2023-25 practice->race regime summaries (already run)
+	$(VENV)/python scripts/05_history_practice.py --events australia-2026 japan-2026 barcelona-2026 austria-2026 belgium-2026 hungary-2026 italy-2026
 
 recalibrate:      ## leave-one-out recalibration of the plan-deciding constants -> data/processed/calibration.json
 	$(VENV)/python scripts/80_recalibrate.py

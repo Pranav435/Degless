@@ -1,0 +1,14 @@
+
+== barcelona-2026: 65 ticks in 5.7s (parse 0.3s); tick ms mean 78.3 median 75.5 p95 94.0 max 166.2
+   stops: {'n': 53, 'share_in_window': 0.4528301886792453, 'median_abs_err_laps': 2.0, 'share_err_within_3': 0.5849056603773585, 'n_with_recommendation': 49, 'alarms_before_stop': 11, 'median_box_now_delta_1_before': 2.05237260083814, 'share_box_now_le_1s': 0.3018867924528302, 'median_p_cliff_1_before': 0.001334441342923451, 'median_wear_1_before': 0.6723547053989594, 'share_window_signal': 0.33962264150943394, 'share_box_now_signal': 0.32075471698113206, 'share_collapse_signal': 0.05660377358490566, 'median_box_now_min_3_before': 1.95131054441282}
+   signals over 1430 car-laps (stop within 3 laps = true positive): window prec 0.16 recall 0.34 (239 fired) | box_now prec 0.19 recall 0.32 (239 fired) | collapse prec 0.20 recall 0.06 (15 fired)
+   top10 stops: {'n': 27, 'share_in_window': 0.4444444444444444, 'median_abs_err_laps': 2.0}
+   regime m: prior 0.5542416179839491, final (66, 0.56, 0.361, 0.707), offline self-measured 0.7011865645099894
+   m by lap: [(2, 0.554, 0.278, 0.948), (12, 0.94, 0.59, 1.21), (22, 0.541, 0.353, 0.757), (32, 0.74, 0.525, 0.982), (42, 0.676, 0.456, 0.931), (52, 0.51, 0.346, 0.703), (62, 0.569, 0.388, 0.707)]
+
+== hungary-2026: 69 ticks in 6.4s (parse 0.3s); tick ms mean 82.6 median 81.9 p95 91.1 max 140.6
+   stops: {'n': 46, 'share_in_window': 0.4782608695652174, 'median_abs_err_laps': 3.0, 'share_err_within_3': 0.5, 'n_with_recommendation': 43, 'alarms_before_stop': 7, 'median_box_now_delta_1_before': 0.9910104298986155, 'share_box_now_le_1s': 0.5, 'median_p_cliff_1_before': 1.5380060119225886e-09, 'median_wear_1_before': 0.3942771089757731, 'share_window_signal': 0.6086956521739131, 'share_box_now_signal': 0.5217391304347826, 'share_collapse_signal': 0.043478260869565216, 'median_box_now_min_3_before': 0.8282916457042191}
+   signals over 1518 car-laps (stop within 3 laps = true positive): window prec 0.19 recall 0.59 (356 fired) | box_now prec 0.17 recall 0.52 (341 fired) | collapse prec 0.14 recall 0.04 (21 fired)
+   top10 stops: {'n': 23, 'share_in_window': 0.4782608695652174, 'median_abs_err_laps': 3.0}
+   regime m: prior 0.8727723715448674, final (70, 0.72, 0.52, 0.933), offline self-measured 0.639227635679555
+   m by lap: [(2, 0.873, 0.519, 1.338), (12, 0.802, 0.53, 1.169), (22, 0.754, 0.53, 0.949), (32, 0.731, 0.515, 0.99), (42, 0.763, 0.52, 1.086), (52, 0.722, 0.522, 0.933), (62, 0.7, 0.515, 0.922)]

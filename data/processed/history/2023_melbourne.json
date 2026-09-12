@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2023,
  "circuit": "Melbourne",
  "event": "Australian Grand Prix",
@@ -30,6 +30,149 @@
   "n": 16,
   "sc_share": 1.0
  },
+ "first_stints": [
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "BOT",
+   "compound": "HARD",
+   "laps": 7,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "DEV",
+   "compound": "HARD",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "GAS",
+   "compound": "SOFT",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "HUL",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "OCO",
+   "compound": "HARD",
+   "laps": 7,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "PER",
+   "compound": "HARD",
+   "laps": 6,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 7,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "SAR",
+   "compound": "HARD",
+   "laps": 6,
+   "in_lap": 8,
+   "n_stops": 2,
+   "sc": true
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  },
+  {
+   "driver": "ZHO",
+   "compound": "HARD",
+   "laps": 7,
+   "in_lap": 8,
+   "n_stops": 1,
+   "sc": true
+  }
+ ],
+ "first_stop_green": {},
+ "dirty_air": {
+  "s_per_lap": 0.09208866195380228,
+  "se": 0.0516614210076314,
+  "n_laps": 736,
+  "share_close": 0.6725543478260869,
+  "event": "australia-2026"
+ },
+ "nomination": [
+  "C2",
+  "C3",
+  "C4"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 21,

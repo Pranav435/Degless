@@ -1,0 +1,13 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Melbourne",
+ "event": "2025-melbourne",
+ "checked": 1789217186.294209,
+ "missing": true,
+ "why": "rain",
+ "retry": false,
+ "rain": true,
+ "track_temp_race_c": 19.0,
+ "note": "a wet race cannot be compared with a dry practice"
+}

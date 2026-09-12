@@ -531,7 +531,7 @@ def _render_race(snap, sk, T, ccol, chip, callout, style, rgba, compound_pill, e
             "Box now Δ": _fmt(p.get("delta_box_now_s"), 1, " s"),
             "Threat": (f"{th['driver']} {th['p_undercut_3lap']:.0%}" if th else ""),
             "Undercut": (f"{op['driver']} {op['p_undercut_3lap']:.0%}" if op else ""),
-            "!": ("CLIFF" if r.get("cliff_alarm") else ""),
+            "!": ("COLLAPSE" if r.get("cliff_alarm") else ""),
         })
     df = pd.DataFrame(rows)
 
@@ -610,7 +610,8 @@ def _render_race(snap, sk, T, ccol, chip, callout, style, rgba, compound_pill, e
             chip("Tyre", f"{r.get('compound') or '—'} · {r.get('tyre_age') or '—'} laps", ccol(str(r.get("compound"))),
                  f"stint {r.get('stint')} · {r.get('n_clean', 0)} clean laps used")
             + chip("Wear", _fmt(r.get("wear"), 2), T["bad"] if r.get("cliff_alarm") else T["accent"],
-                   f"P(past cliff) {_fmt((r.get('p_past_cliff') or 0) * 100, 0, '%')}")
+                   ("pace collapse detected · " if r.get("cliff_alarm") else "")
+                   + f"P(past cliff) {_fmt((r.get('p_past_cliff') or 0) * 100, 0, '%')}")
             + chip("This car's deg", f"{_fmt(r.get('m_mean'), 2)}×", T["accent"],
                    f"of practice rate · 90% {_fmt(r.get('m_lo'), 2)}–{_fmt(r.get('m_hi'), 2)}")
             + chip("Best from here", p.get("best") or "—", T["good"],

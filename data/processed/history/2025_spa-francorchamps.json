@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2025,
  "circuit": "Spa-Francorchamps",
  "event": "Belgian Grand Prix",
@@ -27,6 +27,46 @@
   "n": 2,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "HAD",
+   "compound": "MEDIUM",
+   "laps": 7,
+   "in_lap": 20,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 26,
+   "n_stops": 1,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 23.0,
+  "p25": 21.5,
+  "p75": 24.5,
+  "n": 2,
+  "in_laps": [
+   20,
+   26
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.014219167590392247,
+  "se": 0.06176417682068831,
+  "n_laps": 531,
+  "share_close": 0.4783427495291902,
+  "event": "belgium-2026"
+ },
+ "nomination": [
+  "C1",
+  "C3",
+  "C4"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 3,

@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2025,
  "circuit": "Budapest",
  "event": "Hungarian Grand Prix",
@@ -32,6 +32,199 @@
   "n": 19,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "SOFT",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 39,
+   "in_lap": 39,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "ANT",
+   "compound": "MEDIUM",
+   "laps": 21,
+   "in_lap": 21,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "BOR",
+   "compound": "MEDIUM",
+   "laps": 40,
+   "in_lap": 40,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "COL",
+   "compound": "MEDIUM",
+   "laps": 13,
+   "in_lap": 13,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "HARD",
+   "laps": 32,
+   "in_lap": 32,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HAD",
+   "compound": "MEDIUM",
+   "laps": 33,
+   "in_lap": 33,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "HARD",
+   "laps": 42,
+   "in_lap": 42,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "SOFT",
+   "laps": 5,
+   "in_lap": 5,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "LAW",
+   "compound": "MEDIUM",
+   "laps": 40,
+   "in_lap": 40,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 19,
+   "in_lap": 19,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 31,
+   "in_lap": 31,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "MEDIUM",
+   "laps": 14,
+   "in_lap": 14,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 18,
+   "in_lap": 18,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 19,
+   "in_lap": 19,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "SOFT",
+   "laps": 15,
+   "in_lap": 15,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 36,
+   "in_lap": 36,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 20,
+   "in_lap": 20,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 17,
+   "in_lap": 17,
+   "n_stops": 2,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 20.0,
+  "p25": 16.0,
+  "p75": 34.5,
+  "n": 19,
+  "in_laps": [
+   5,
+   13,
+   14,
+   14,
+   15,
+   17,
+   18,
+   19,
+   19,
+   20,
+   21,
+   31,
+   32,
+   33,
+   36,
+   39,
+   40,
+   40,
+   42
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.4714403179671377,
+  "se": 0.04241064178799227,
+  "n_laps": 1289,
+  "share_close": 0.6780449961210241,
+  "event": "hungary-2026"
+ },
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 23,

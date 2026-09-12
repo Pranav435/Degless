@@ -469,6 +469,22 @@ UNDERCUT_EXPOSURE_LAMBDA = 0.15
 PLAN_PRIOR_TAU_S = 2.5
 PLAN_PRIOR_ALPHA = 2.0      # pseudo-counts of back-off mass in the smoothed frequency
 
+# The circuit's own first-stop history, as a soft prior on the *first* stop lap.
+# `src.firststop` turns the circuit's green-flag first stops into a density over
+# the lap, and the objective charges `kappa * neglogp[lap]` seconds, zero at the
+# modal lap.  kappa is seconds per nat, calibrated leave-one-out against the
+# field's median green first stop like lambda and tau.
+#
+# The default is set from the shape of the density rather than from a fit: the
+# circuit-pooled KDE has a +/-4-lap between-year spread, so one lap away from the
+# mode costs roughly 0.1-0.2 nats and four laps away 1-1.5 nats.  At kappa = 1 s
+# that is a few tenths inside the plausible window - smaller than the ~1 s the
+# cost surface itself puts on a one-lap move - and 1-1.5 s at the edge of it,
+# which is the weight a prior should carry against a measurement: enough to break
+# a near-tie, not enough to override a weekend whose tyres genuinely differ.
+# Zero switches the prior off (the V2 objective, and the benchmark's ablation).
+FIRST_STOP_KAPPA_S = 1.0
+
 # Per-lap noise of a clean racing lap, used to score the sealed curves against
 # race stints.  The practice `sigma_obs` (0.74-1.05 s) describes practice
 # laps - engine modes, fuel saving, traffic - and race stints are scored

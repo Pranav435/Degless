@@ -9,21 +9,22 @@ linear, soft per-circuit ladder) on Barcelona 2026 and Hungary 2026:
 
 For each fit: per-compound slope, the strategy recommendation (the same
 search as the pipeline - calibrated constants, pace calibration, position
-term - 300 draws, 1-lap grid), stint-rate MAE vs the race, wall time.
+term, first-stop prior at the calibrated kappa, this circuit's dirty air -
+300 draws, 1-lap grid), stint-rate MAE vs the race, wall time.
 Circuit history is folded in exactly as the weekend script does.
 
-Usage: python bench/bench_stability.py [barcelona-2026 hungary-2026]
+Usage: python bench/bench_stability.py [--events barcelona-2026 hungary-2026]
 """
 
 from __future__ import annotations
 
-import sys
 import time
 
 import numpy as np
 import pandas as pd
 
-from common import dump, meta, offline, race_table  # noqa: E402
+from common import (EVENTS, arg_events, dirty_air_of, dump, first_stop_tables, fs_kwargs, kappa_of,  # noqa: E402
+                    memoise_regime, meta, offline, race_table)
 from src import strategy as strat
 from src.calibration import get_calibration
 from src.compounds import pace_step_prior
@@ -39,6 +40,7 @@ from src.tyre import TyreModel
 from src.validate import _curve_block, score_race
 
 AGES = np.arange(0, 41, dtype=float)
+DEFAULT_EVENTS = ["barcelona-2026", "hungary-2026"]
 
 
 def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> dict:
@@ -69,7 +71,8 @@ def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> 
     kw = dict(regime=regime, support=clean.groupby("compound")["tyre_age"].max().to_dict(),
               max_per_compound=m["allocation"]["caps"], max_stint=caps, undercut_lambda=cal.undercut_lambda,
               plan_prior=plan_prior_for(cp), plan_prior_tau_s=cal.plan_prior_tau_s,
-              traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+              traffic_s_per_lap=dirty_air_of(cal, ev.circuit), grid_penalty_s=cal.grid_start_penalty_s,
+              **fs_kwargs(strat.simulate_model, first_stop_tables(cp, ev, list(model.compounds)), kappa_of(cal)))
     _, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]),
                                                    net_step_s=float(pstep.get("net_stint_step_measured", np.nan)),
                                                    net_step_se_s=float(pstep.get("net_stint_step_se") or 0.0), **kw)
@@ -83,6 +86,8 @@ def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> 
             "rhat": round(float(f.max_rhat), 4), "div": int(f.n_divergences),
             "slopes_practice": slopes_prac, "slopes_final": slopes,
             "best": res.best_label, "tyre_optimal": res.tyre_optimal_label, "push": res.best.get("push"),
+            "first_stop": (int(res.best["pit_laps"][0]) if res.best["pit_laps"] else None),
+            "first_stop_s": res.best.get("first_stop_s"),
             "by_stops": {int(r["n_stops"]): (r["compounds"], round(float(r["delta_s"]), 1), round(float(r["win_prob_any"]), 2))
                          for _, r in res.by_stops.iterrows()},
             "rate_mae": round(float(sc.mae), 4), "rate_bias": round(float(sc.bias), 4),
@@ -91,8 +96,12 @@ def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> 
 
 
 def main() -> None:
+    args = arg_events(__doc__)
     offline()
-    keys = sys.argv[1:] or ["barcelona-2026", "hungary-2026"]
+    memoise_regime()
+    # the stability run is two weekends by design (it refits them five times
+    # each); `--events` narrows or widens that, it does not default to all seven
+    keys = args.events if args.events != list(EVENTS) else DEFAULT_EVENTS
     out = {}
     for key in keys:
         ev = get_event(key)

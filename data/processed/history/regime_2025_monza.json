@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Monza",
+ "event": "2025-monza",
+ "checked": 1789217431.99908,
+ "ratio": -0.7707753864004931,
+ "per_compound": {
+  "HARD": {
+   "practice_s_per_lap": -0.010633791987646742,
+   "race_s_per_lap": 0.01447142636770623,
+   "ratio": null,
+   "n_practice_laps": 66,
+   "n_race_laps": 472,
+   "usable": false
+  },
+  "MEDIUM": {
+   "practice_s_per_lap": -0.020830642114954962,
+   "race_s_per_lap": 0.02624251134885665,
+   "ratio": null,
+   "n_practice_laps": 126,
+   "n_race_laps": 395,
+   "usable": false
+  },
+  "SOFT": {
+   "practice_s_per_lap": 0.06611212322602708,
+   "race_s_per_lap": -0.05095759732529804,
+   "ratio": -0.7707753864004931,
+   "n_practice_laps": 28,
+   "n_race_laps": 20,
+   "usable": true
+  }
+ },
+ "n_race_stints": 34,
+ "n_practice_stints": 45,
+ "usable_compounds": [
+  "SOFT"
+ ],
+ "n_race_laps": 53,
+ "n_clean_practice_laps": 220,
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2",
+  "Practice 3"
+ ],
+ "sessions_missing": [],
+ "sessions_rain": [],
+ "rain": false,
+ "track_temp_practice_c": 40.35,
+ "track_temp_race_c": 43.75,
+ "evolution_range_s": 1.176316494597084
+}

@@ -1,4 +1,5 @@
 {
+ "version": 3,
  "year": 2024,
  "circuit": "Silverstone",
  "event": "British Grand Prix",
@@ -18,6 +19,184 @@
   "H-M-S": 1,
   "S-M-S": 1
  },
+ "starts": {
+  "MEDIUM": 15,
+  "SOFT": 2,
+  "HARD": 1
+ },
+ "first_stop": {
+  "median_lap": 38.0,
+  "p25": 37.0,
+  "p75": 38.0,
+  "n": 18,
+  "sc_share": 0.0
+ },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "BOT",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 37,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 39,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 19,
+   "in_lap": 37,
+   "sc": false
+  },
+  {
+   "driver": "MAG",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 37,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 39,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "SOFT",
+   "laps": 19,
+   "in_lap": 21,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "HARD",
+   "laps": 19,
+   "in_lap": 37,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 28,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "RIC",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 37,
+   "sc": false
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 39,
+   "sc": false
+  },
+  {
+   "driver": "SAR",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 39,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 27,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 38,
+   "sc": false
+  },
+  {
+   "driver": "ZHO",
+   "compound": "SOFT",
+   "laps": 12,
+   "in_lap": 12,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 38.0,
+  "p25": 37.0,
+  "p75": 38.0,
+  "n": 18,
+  "in_laps": [
+   12,
+   21,
+   37,
+   37,
+   37,
+   37,
+   37,
+   38,
+   38,
+   38,
+   38,
+   38,
+   38,
+   38,
+   39,
+   39,
+   39,
+   39
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.12056179395000732,
+  "se": 0.05786904717037327,
+  "n_laps": 614,
+  "share_close": 0.6465798045602605,
+  "event": "britain-2026"
+ },
+ "nomination": [
+  "C1",
+  "C2",
+  "C3"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 3,
@@ -48,22 +227,39 @@
   "HARD": {
    "slope": -0.17467694243276233,
    "se": 0.0354674136999758,
-   "n_laps": 39
+   "n_laps": 39,
+   "offset_s": 0.015620394654630498,
+   "offset_se": 0.34256387793790444
   },
   "MEDIUM": {
    "slope": -0.17470756403112775,
    "se": 0.01847184523998749,
-   "n_laps": 465
+   "n_laps": 465,
+   "offset_s": 0.32955109080405887,
+   "offset_se": 0.46511851184782904
   },
   "SOFT": {
    "slope": -0.0628679036372084,
    "se": 0.02564576600193744,
-   "n_laps": 158
+   "n_laps": 158,
+   "offset_s": 0.0,
+   "offset_se": 0.48445848215890597
   }
+ },
+ "ladder": {
+  "pace_step_s": -0.040304128250938875,
+  "pace_step_se": 0.4379416445337224
+ },
+ "net_step": {
+  "step_s": -0.27542854135185113,
+  "se": 0.644534997679529,
+  "n_stints": 37,
+  "median_stint_laps": 14.0
  },
  "pit_loss_s": 25.34700000000001,
  "n_pit_stops": 45,
  "sc_share_of_laps": 0.0,
  "track_temp_c": 25.4,
+ "air_temp_c": 15.9,
  "rain": true
 }

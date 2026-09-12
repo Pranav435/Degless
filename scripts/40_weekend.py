@@ -34,12 +34,12 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import strategy as strat  # noqa: E402
+from src import firststop, percar, strategy as strat  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import allocation_prior, model_net_step_draws, pace_step_prior, summary_table as compound_table  # noqa: E402
 from src.config import (  # noqa: E402
-    DATA_PROCESSED, MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT, WEEKEND_NUTS_CHAINS, WEEKEND_NUTS_DRAWS,
-    WEEKEND_NUTS_WARMUP, get_event,
+    DATA_PROCESSED, MC_DRAWS, RHAT_GATE, TYRE_LOAD_EXPONENT, VALID_COMPOUNDS, WEEKEND_NUTS_CHAINS,
+    WEEKEND_NUTS_DRAWS, WEEKEND_NUTS_WARMUP, get_event,
 )
 from src.evolution import add_evolution_correction, fit_evolution_auto  # noqa: E402
 from src.fuel import add_fuel_correction, get_prior, summary_table  # noqa: E402
@@ -167,8 +167,12 @@ def main() -> int:
     gate("track evolution identified & plausible (0-5 s)", 0.0 < evo_rng < 5.0,
          f"push-lap range {evo_rng:.2f}s per session {_it.get('per_session', {})}; long-run backfit "
          f"would have given {_it.get('backfit_range_s', float('nan')):.2f}s; sessions on the backfit: {evo.skipped}")
+    # `--race-temp` is the *forecast* path and the only way a temperature term
+    # enters: with it the mode is "forecast", without it "none" (the donors'
+    # raw ratios, pooled with the median, plus the circuit's own history).
     regime = regime_prior(ev, clean=clean, race_temp_c=args.race_temp)
-    print(f"  practice->race factor: {regime.ratio:.3f}x [{regime.p05:.2f}-{regime.p95:.2f}] ({regime.label})")
+    print(f"  practice->race factor: {regime.ratio:.3f}x [{regime.p05:.2f}-{regime.p95:.2f}] ({regime.label}; "
+          f"temperature mode: {(regime.temperature or {}).get('mode', 'none')})")
     print(f"    {regime.derivation}")
     alloc = allocation_prior(ev)
     print(f"  allocation: {alloc['caps']} ({'measured' if alloc['measured'] else 'default'})")
@@ -179,11 +183,29 @@ def main() -> int:
         pit_loss, pit_src = float(args.pit_loss), "override"
     print(f"  pit loss prior: {pit_loss:.1f} s ({pit_src})")
     cal = get_calibration(ev)
-    print(f"  calibration: {cal.source}; budgets {cal.budgets}; lambda {cal.undercut_lambda:.3f}; tau {cal.plan_prior_tau_s:.2f}")
+    dirty_air = cal.dirty_air_for(ev.circuit)
+    print(f"  calibration: {cal.source}; budgets {cal.budgets}; lambda {cal.undercut_lambda:.3f}; "
+          f"tau {cal.plan_prior_tau_s:.2f}; kappa {cal.first_stop_kappa_s:.2f}; dirty air {dirty_air:.2f} s/lap "
+          f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled'})")
     plan_prior = plan_prior_for(cp if cp.available else None)
     if plan_prior:
         print(f"  plan-shape prior ({plan_prior.get('source')}): "
               + ", ".join(f"{k} {v}" for k, v in list(plan_prior["sequences"].items())[:5]))
+    # The circuit's green-flag first stops as a density, from its past races only,
+    # conditioned on the start compound and the plan's stop count
+    fs_tables = firststop.first_stop_penalty_table(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps, list(VALID_COMPOUNDS))
+    _starts = plan_prior.get("starts") or {}
+    _stops_marginal = plan_prior.get("stops") or {}
+    fs_summary = firststop.first_stop_summary(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps,
+        start_compound=(max(_starts, key=_starts.get) if _starts else None),
+        n_stops=(int(max(_stops_marginal, key=_stops_marginal.get)) if _stops_marginal else None))
+    print(f"  first-stop prior: " + (f"mode lap {fs_summary['mode']}, median {fs_summary['median']:.0f} "
+                                     f"({fs_summary['p25']:.0f}-{fs_summary['p75']:.0f}), n={fs_summary['n']}"
+                                     + (f"; on a {fs_summary['by_stops']['n_stops']}-stop plan mode lap "
+                                        f"{fs_summary['by_stops']['mode']}" if fs_summary.get("by_stops") else "")
+                                     if fs_summary else "none for this circuit"))
     timings["priors_s"] = round(time.time() - t, 1)
 
     # -- 3. baseline -----------------------------------------------------------
@@ -253,7 +275,8 @@ def main() -> int:
                                manage_cost_s=cal.manage_cost_s)
     sim_kw = dict(regime=regime, support=per_comp_support, max_per_compound=alloc["caps"], max_stint=caps,
                   undercut_lambda=cal.undercut_lambda, plan_prior=plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                  traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+                  first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s,
+                  traffic_s_per_lap=dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
     net = pstep.get("net_stint_step_measured", float("nan"))
     model, res, pace_cal = strat.search_with_pace_calibration(
         model, ev, pit_loss, net_step_s=float(net if net is not None else np.nan),
@@ -267,9 +290,11 @@ def main() -> int:
         print(res.by_stops.drop(columns=["pit_laps"]).round(2).to_string(index=False))
         print(res.life.round(2).to_string(index=False))
         print(f"  tyre-optimal plan: {res.tyre_optimal_label} ({res.tyre_optimal.get('delta_s', 0):+.1f} s under the full objective); "
-              f"position term {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s")
+              f"position term {res.best.get('position_s', 0):.1f} s, plan-prior handicap {res.best.get('prior_s', 0):.1f} s, "
+              f"first-stop prior {res.best.get('first_stop_s', 0):.1f} s")
         pw = strat.pit_window_model(model, ev, res.best, pit_loss, max_stint=res.max_stint, push=res.best["push"],
-                                    undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
+                                    undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=dirty_air,
+                                    first_stop_prior=fs_tables, first_stop_kappa_s=cal.first_stop_kappa_s)
         if cp.available:
             ok = all(L <= cp.stint_cap.get(c, 10 ** 6) for c, L in zip(res.best["compounds"], res.best["stint_lens"]))
             gate("every recommended stint is within what this circuit has supported", ok,
@@ -286,11 +311,21 @@ def main() -> int:
             uc_age = int(min(res.max_stint.get("MEDIUM", 40), res.max_stint.get("SOFT", 40)))
             uc = strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=max(uc_age, 8), push=res.best["push"])
         t0 = time.time()
-        pdp = strat.per_driver_plans(model, ev, pit_loss, sorted(clean["driver"].unique()), race_factors=cal.driver_factors,
-                                     **sim_kw)
+        # Team-pooled practice deviation: a car with no long run on a compound
+        # inherits its team-mate's behaviour, not the field's.  Only practice has
+        # run, so the team map comes from the practice laps.
+        teams = (clean.drop_duplicates("driver").set_index("driver")["team"].to_dict()
+                 if "team" in clean else {})
+        pooled_dev = percar.team_pooled_dev(model.driver_dev, teams,
+                                            n_laps_by_driver=clean.groupby("driver").size().to_dict())
+        pdp = strat.per_driver_plans(model, ev, pit_loss, sorted(clean["driver"].unique()),
+                                     race_factors=cal.driver_factors, dev_by_driver=pooled_dev,
+                                     factor_ln_sd=cal.driver_factor_ln_sd, factor_shrink=None, **sim_kw)
         timings["per_driver_s"] = round(time.time() - t0, 1)
         if not pdp.empty:
-            print(f"  per-car plans: {int(pdp['same_shape_as_field'].sum())}/{len(pdp)} share the field plan's shape")
+            print(f"  per-car plans ({cal.percar_mode}, {len(pooled_dev)} cars pooled over "
+                  f"{len(set(teams.values()))} teams): {int(pdp['same_shape_as_field'].sum())}/{len(pdp)} "
+                  f"share the field plan's shape")
     timings["strategy_s"] = round(time.time() - t, 1)
     print(f"  ({time.time()-t:.0f}s)")
 
@@ -351,8 +386,10 @@ def main() -> int:
         "cliff_history": (cp.cliff() if cp.available else {}),
         "history_combination": moved.to_dict("records") if not moved.empty else [],
         "plan_prior": plan_prior,
+        "first_stop_prior": fs_summary,
         "allocation": alloc,
-        "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source},
+        "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source,
+                        "dirty_air_used": float(dirty_air)},
         "pit_loss_s": float(pit_loss), "pit_loss_source": pit_src, "pit_stops_measured": 0,
         "load_effect": {"exponent": float(TYRE_LOAD_EXPONENT)},
         "n_raw_laps": int(len(laps)), "n_clean_laps": int(len(clean)),
@@ -377,7 +414,9 @@ def main() -> int:
             "push": float(res.best.get("push", float("nan"))), "implied_regime": float(res.implied_regime),
             "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
             "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
+            "first_stop_kappa_s": float(res.first_stop_kappa_s),
             "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
+            "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
             "by_stops": res.by_stops.assign(pit_laps=res.by_stops["pit_laps"].astype(str),
                                             stint_lens=res.by_stops["stint_lens"].astype(str)).to_dict("records"),
             "life": res.life.to_dict("records"),

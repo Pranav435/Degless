@@ -1,0 +1,32 @@
+### fit australia-2026 exit 0 in 44s
+### fit japan-2026 exit 0 in 39s
+### fit barcelona-2026 exit 0 in 54s
+### fit austria-2026 exit 0 in 225s
+### fit belgium-2026 exit 0 in 31s
+### fit hungary-2026 exit 0 in 34s
+### fit italy-2026 exit 0 in 38s
+### recalibrate all exit 0 in 369s
+### decide australia-2026 exit 0 in 13s
+### decide japan-2026 exit 0 in 13s
+### decide barcelona-2026 exit 0 in 14s
+### decide austria-2026 exit 0 in 20s
+### decide belgium-2026 exit 0 in 14s
+### decide hungary-2026 exit 0 in 17s
+### decide italy-2026 exit 0 in 13s
+### history done 2026-09-12T17:12:15Z
+stage	event	seconds	exit	started_utc
+fit	australia-2026	44	0	2026-09-12T16:56:37Z
+fit	japan-2026	39	0	2026-09-12T16:57:21Z
+fit	barcelona-2026	54	0	2026-09-12T16:58:00Z
+fit	austria-2026	225	0	2026-09-12T16:58:54Z
+fit	belgium-2026	31	0	2026-09-12T17:02:39Z
+fit	hungary-2026	34	0	2026-09-12T17:03:10Z
+fit	italy-2026	38	0	2026-09-12T17:03:44Z
+recalibrate	all	369	0	2026-09-12T17:04:22Z
+decide	australia-2026	13	0	2026-09-12T17:10:31Z
+decide	japan-2026	13	0	2026-09-12T17:10:44Z
+decide	barcelona-2026	14	0	2026-09-12T17:10:57Z
+decide	austria-2026	20	0	2026-09-12T17:11:11Z
+decide	belgium-2026	14	0	2026-09-12T17:11:31Z
+decide	hungary-2026	17	0	2026-09-12T17:11:45Z
+decide	italy-2026	13	0	2026-09-12T17:12:02Z

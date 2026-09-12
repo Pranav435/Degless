@@ -1,0 +1,107 @@
+
+  calibration: leave-one-out (austria-2026 held out), calibrated 2026-09-12 on 7 weekends
+    budgets {'SOFT': 3.8417984308528155, 'MEDIUM': 4.090632250527002, 'HARD': 4.299999999999962}; manage cost 0.60 s, floor 0.45; grid penalty 0.00 s; dirty air 0.14 s/lap (this circuit); undercut lambda 0.200; plan prior tau 4.00 s; first-stop kappa 1.00 s/nat; per-car team_pooled
+
+=== 7. race data (validation only) ===
+  race: 1339 laps, 633 clean
+  self-measured regime factor 0.585x (transferred: 0.652x, never fitted here)
+  self-measured net stint step +0.106 +/- 0.295 s (transferred: +0.109 s)
+  austria-2026: stint-rate MAE 0.032 s/lap over 40 race stints (target < 0.15); per-lap MAE 0.355 s over 591 laps; 90% coverage 94.75% per lap, 90.00% on the stint rate (band 80%-97%); bias -0.013 s/lap
+  MAE by compound: {'HARD': 0.026, 'MEDIUM': 0.036, 'SOFT': 0.044}
+  calibration: {'50%': '71.4%', '80%': '89.7%', '90%': '94.8%', '95%': '96.4%'}
+  cliff: {'HARD': {'predicted_lap': 37.5, 'source': 'circuit history p90 stint', 'observed_lap': 26.0, 'error_laps': 11.5, 'detected': True}, 'MEDIUM': {'predicted_lap': 31.1, 'source': 'circuit history p90 stint', 'observed_lap': 19.0, 'error_laps': 12.1, 'detected': True}, 'SOFT': {'predicted_lap': 14.7, 'source': 'circuit history p90 stint', 'observed_lap': nan, 'error_laps': nan, 'detected': False}}
+  bias by compound (observed - predicted, s/lap): {'HARD': -0.003, 'MEDIUM': -0.02, 'SOFT': -0.038}
+  [PASS] practice->race regime transfer removes the bias: bias -0.013 s/lap against race regime curves (transferred factor 0.65x; this weekend's own race says 0.58x, which was never used)
+  [PASS] stint degradation-rate MAE < 0.15 s/lap: 0.0315 s/lap over 40 stints (per-lap MAE 0.355 s, race noise 0.50 s)
+  [PASS] 90% coverage not below 0.80 (under-coverage is the failure): 94.8% per lap, 90.0% on the stint rate (width 0.158 s/lap) — ok
+
+=== 8. pit loss, strategy search (ladder gate enforced), windows, counterfactual, per-car plans ===
+  practice age support (per compound, laps): {'HARD': 24, 'MEDIUM': 25, 'SOFT': 18}
+  tyre allocation: {'SOFT': 2, 'MEDIUM': 2, 'HARD': 2}
+  pit loss: 21.01s from 33 green-flag stops
+  [PASS] pit loss measured and plausible (12-35s): 21.01s
+  stint caps from this circuit's history: {'SOFT': 18, 'MEDIUM': 37, 'HARD': 46}
+  plan-shape prior (Spielberg races [2025]): M-H-M 4, M-H 3, S-H-M 2, M-M-H 2, S-M-H 1, S-M-M 1; starts {'MEDIUM': 12, 'SOFT': 4}
+  first-stop prior: Gaussian KDE (bandwidth 3.0 laps) over 16 historical green first stops scaled to 71 laps, blended 0.71 toward the 12 MEDIUM-start stops, with a 5% uniform floor on laps 6-65; charged at kappa 1.00 s/nat
+    conditioned tables per start compound: stop counts [1, 2, 3] (plus "any")
+  pace calibration: {'applied': True, 'measured_net_s': 0.10879256329843985, 'net_se_s': 0.1467649575999446, 'stint_len': 24.0, 'push': 0.55, 'clipped': True, 'offsets_before': {'SOFT': 0.0, 'MEDIUM': -0.01661645993590355, 'HARD': 0.041695334017276764}, 'offsets_after': {'SOFT': 0.0, 'MEDIUM': 0.09696085063979405, 'HARD': 0.4311538488454203}, 'model_net_before': -0.0718220016272104, 'model_net_after': 0.1229072575029396, 'stint_len_plan': 24.0, 'life_cap': 39.69892337263863, 'passes': 1, 'converged': True, 'passes_detail': [{'pass': 1, 'calibrated_at': 24.0, 'plan': '2-stop M-H-M @ 22,46', 'plan_stint_len': 24.0, 'next_length': 24.0, 'life_cap': 39.69892337263863}], 'best_before': '2-stop M-H-H @ 20,44', 'best_after': '2-stop M-H-M @ 22,46'}
+  stint caps (min of the wear bound and the circuit's history): {'HARD': 46, 'MEDIUM': 37, 'SOFT': 18}
+  493,568 plans searched, 4,003 scored x 500 draws in 1.5s
+            strategy  n_stops          compounds   stint_lens  push  max_wear  position_s  prior_s  first_stop_s  tyre_s  mean_s  delta_s  delta_p05  delta_p95   p05_s   p95_s  win_prob  p_beat_best
+2-stop M-H-M @ 22,46        2 MEDIUM-HARD-MEDIUM [22, 24, 25]  0.55     0.555       3.237      0.0         0.010 150.600 153.847    0.000      0.000      0.000 124.859 186.828     0.210          NaN
+2-stop M-H-M @ 23,46        2 MEDIUM-HARD-MEDIUM [23, 23, 25]  0.55     0.561       3.208      0.0         0.000 150.673 153.881    0.034     -0.326      0.374 124.949 186.961     0.130        0.426
+2-stop M-H-M @ 23,47        2 MEDIUM-HARD-MEDIUM [23, 24, 24]  0.55     0.561       3.435      0.0         0.000 150.461 153.896    0.050      0.029      0.067 124.915 186.868     0.000        0.000
+2-stop M-H-M @ 22,45        2 MEDIUM-HARD-MEDIUM [22, 23, 26]  0.55     0.578       3.012      0.0         0.010 150.906 153.928    0.082     -0.284      0.458 124.957 187.019     0.008        0.364
+2-stop M-H-M @ 22,47        2 MEDIUM-HARD-MEDIUM [22, 25, 24]  0.55     0.537       3.477      0.0         0.010 150.466 153.953    0.106     -0.240      0.477 124.924 187.356     0.172        0.310
+2-stop M-H-M @ 21,45        2 MEDIUM-HARD-MEDIUM [21, 24, 26]  0.55     0.578       3.053      0.0         0.034 150.934 154.022    0.175      0.113      0.251 125.011 187.022     0.000        0.000
+2-stop M-H-M @ 21,46        2 MEDIUM-HARD-MEDIUM [21, 25, 25]  0.55     0.555       3.291      0.0         0.034 150.706 154.031    0.185     -0.163      0.540 124.974 187.450     0.000        0.156
+2-stop M-H-M @ 23,45        2 MEDIUM-HARD-MEDIUM [23, 22, 26]  0.55     0.578       2.996      0.0         0.000 151.057 154.053    0.207     -0.523      0.921 125.159 187.262     0.036        0.300
+
+  best plan at each stop count:
+ n_stops                  strategy               compounds       stint_lens  push  max_wear  position_s  prior_s  first_stop_s  tyre_s  mean_s  delta_s  delta_p05  delta_p95   p05_s   p95_s  win_prob  p_beat_best  win_prob_any
+       2      2-stop M-H-M @ 22,46      MEDIUM-HARD-MEDIUM     [22, 24, 25]  0.55     0.555       3.237    0.000         0.010 150.600 153.847    0.000      0.000      0.000 124.859 186.828      0.21        0.426         0.884
+       3 3-stop M-H-M-S @ 18,36,53 MEDIUM-HARD-MEDIUM-SOFT [18, 18, 17, 18]  0.55     0.441       2.306    5.992         0.009 149.859 158.165    4.318     -2.375     11.225 134.403 185.974      0.02        0.152         0.116
+       1           1-stop M-H @ 32             MEDIUM-HARD         [32, 39]  0.55     0.774       3.616    1.696         0.000 167.465 172.777   18.930     10.468     28.968 138.065 210.313      0.00        0.000         0.000
+
+  tyre-optimal plan (no position term, no plan prior, no first-stop prior): 3-stop S-S-M-M @ 18,36,54 (+12.6 s under the full objective; its own first stop would carry 0.6 s of first-stop prior); position term of the chosen plan 3.2 s, plan-prior handicap 0.0 s, first-stop prior 0.0 s
+
+  compound life (budget / rate, bounded by the race and the circuit's history):
+compound  deg_s_per_lap  deg_lo  deg_hi  knee_lap  life_laps  life_lo  life_hi  life_model_uncapped  life_full_push  longer_than_race        bound_by  max_stint_laps  practice_support_laps  pace_offset_s  grip_budget_s
+    HARD           0.12    0.09    0.15     37.71       46.0    43.99     46.0                58.11           37.71             False circuit history            46.0                   24.0           0.43           4.30
+  MEDIUM           0.15    0.11    0.19     28.64       37.0    33.32     37.0                44.13           28.64             False circuit history            37.0                   25.0           0.10           4.09
+    SOFT           0.14    0.09    0.19     28.63       18.0    18.00     18.0                44.11           28.63             False circuit history            18.0                   18.0           0.00           3.84
+
+  the optimiser chose push 0.55, which implies a practice->race degradation factor of 0.65 (transferred 0.65)
+  [PASS] recommended plan has realistic stint lengths: 2-stop M-H-M @ 22,46 -> stints [22, 24, 25]
+  [PASS] no stint in the recommended plan runs past the cliff: deepest stint reaches 56% of the grip budget
+  [PASS] model does not assume more tyre management than was observed: implied 0.65 vs transferred 0.65
+
+  the best 2-stop plan for each of 14 orderings spans 19.5 s: MEDIUM-HARD-MEDIUM +0.0 | MEDIUM-MEDIUM-HARD +2.0 | SOFT-HARD-MEDIUM +2.8 | SOFT-MEDIUM-MEDIUM +3.2
+  stop 1: recommended lap 22, within 1.0 s over laps 20-25 (the circuit's history prefers lap 21)
+  stop 2: recommended lap 46, within 1.0 s over laps 43-49
+
+  counterfactual (top 5, SC stops held fixed, 2.0s):
+driver               compounds actual_pit_laps model_pit_laps  loss_s  n_sc_stops  classified
+   OCO      MEDIUM-MEDIUM-HARD        [18, 33]       [21, 43]    8.27           0        True
+   LEC   MEDIUM-HARD-HARD-SOFT    [13, 37, 59]   [17, 34, 51]    7.88           0        True
+   GAS MEDIUM-HARD-MEDIUM-SOFT    [13, 38, 51]   [17, 34, 51]    5.69           1        True
+   VER        MEDIUM-HARD-HARD        [18, 49]       [21, 45]    3.69           0        True
+   BOR        SOFT-MEDIUM-HARD        [17, 44]       [23, 45]    3.51           0        True
+
+  per-car plans (8.4s, team_pooled: 25 cars carry a pooled practice deviation over 11 teams): 21/22 share the field plan's shape; first stops 18-22
+driver  race_factor dev_source                      best  first_stop_vs_field
+   ALB         1.09     pooled      2-stop M-H-M @ 22,46                    0
+   ALO         1.31     pooled      2-stop M-H-M @ 22,46                    0
+   ANT         0.91     pooled      2-stop M-H-M @ 22,46                    0
+   BEA         1.32     pooled      2-stop M-H-M @ 22,46                    0
+   BOR         1.13     pooled      2-stop M-H-M @ 22,46                    0
+   BOT         1.70     pooled 3-stop M-H-M-S @ 18,36,54                   -4
+   COL         0.97     pooled      2-stop M-H-M @ 22,46                    0
+   GAS         1.04     pooled      2-stop M-H-M @ 22,46                    0
+  (12s)
+  [PASS] does not open the race on the hardest available compound: opens on MEDIUM (hardness rank 1 of 2)
+
+  compound ladder check - net cost of one step harder over a 24-lap stint (the plan's median stint is 24, life cap 40, 1 pass(es), converged True): model +0.123 s/lap, measured +0.109 s/lap (this race: +0.106)
+  [PASS] model reproduces the measured net stint-level compound step (enforced): model +0.123 vs measured +0.109 s/lap per step over a 24-lap stint (the plan runs 24) (offsets clipped to the physical band)
+
+  cliff detector on the race: 61 stints scored, {'undetermined': 44, 'strategic': 15, 'collapse': 2}
+    MEDIUM  budget 4.09 s / rate 0.147 s/lap -> cliff at lap 28; observed knees [9.0, 16.0] (mean error +15.4, 2 over / 0 under)
+    pooled: 2 collapses, mean error +15.4 laps (|error| 15.4)
+
+  strategy backtest (race data, validation only):
+    recommended 2 stops; the field ran {2: 14, 3: 3}
+compound  recommended_laps  observed_median  observed_max  inside_observed_range
+  MEDIUM                22             19.0          27.0                   True
+    HARD                24             26.0          36.0                   True
+  MEDIUM                25             19.0          27.0                   True
+    grip budget implied by this race, per compound: HARD 2.74s, MEDIUM 2.57s, SOFT 2.29s  (model uses {'HARD': 4.299999999999962, 'MEDIUM': 4.090632250527002, 'SOFT': 3.8417984308528155})
+    first stops: field median (green) 18.0, 6% under SC; recommended 22 (4.0), tyre-optimal 18 (0.0)
+  [PASS] recommended stop count is one the field actually ran: 2 stops — 82% of finishers, mode was 2
+  [PASS] every recommended stint length is one the compound was run to: MEDIUM 22 laps (observed median 19, max 27); HARD 24 laps (observed median 26, max 36); MEDIUM 25 laps (observed median 19, max 27)
+
+=== 9. replay precompute ===
+  1339 replay states, 22 drivers (0s)
+
+=== 10. write artifacts ===
+
+=== 22/22 gates passed (decide stage 17s) ===

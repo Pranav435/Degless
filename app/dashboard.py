@@ -1440,12 +1440,13 @@ with tab["Replay"]:
                     unsafe_allow_html=True)
                 if bool(now["cliff_alarm"]):
                     callout(
-                        f"<b>CLIFF ALARM — lap {int(now['lap_number'])}.</b> "
-                        f"{past:.0%} posterior probability this tyre has spent its grip budget. "
-                        f"Degradation so far this stint: {now['deg_now_s']:.2f} s/lap.",
+                        f"<b>PACE COLLAPSE — lap {int(now['lap_number'])}.</b> "
+                        f"This stint's own laps have broken away from their trend (the within-stint "
+                        f"detector, not the wear estimate); {past:.0%} posterior probability the grip "
+                        f"budget is spent. Degradation so far this stint: {now['deg_now_s']:.2f} s/lap.",
                         "bad")
                 else:
-                    callout(f"Tyre within its working window — {past:.0%} past-cliff "
+                    callout(f"Tyre on trend — no pace collapse detected; {past:.0%} past-cliff "
                             f"probability.", "good")
 
             fig = go.Figure()

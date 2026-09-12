@@ -48,10 +48,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src import strategy as strat
+from src import firststop, strategy as strat
 from src.calibration import Calibration, get_calibration
 from src.compounds import allocation_prior, pace_step_prior
-from src.config import DATA_PROCESSED, MAX_STINTS_PER_COMPOUND, VALID_COMPOUNDS, Event, get_event
+from src.config import (
+    DATA_PROCESSED, DIRTY_AIR_S_PER_LAP, MAX_STINTS_PER_COMPOUND, VALID_COMPOUNDS, Event, get_event,
+)
 from src.history import (
     THERMAL_BETA_DEFAULT, apply_rate_prior_to_model, circuit_prior, plan_prior_for, season_prior,
     stint_caps_for, summarise_race, thermal_sensitivity, YEARS,
@@ -111,6 +113,9 @@ class BaseModel:
     plan_prior: dict = field(default_factory=dict)
     net_step: dict = field(default_factory=dict)      # {measured, se, derivation}
     pace_calibration: dict = field(default_factory=dict)
+    first_stop_table: dict | None = None              # firststop.first_stop_penalty_table
+    first_stop_prior: dict = field(default_factory=dict)   # its summary, for the JSON
+    dirty_air: float = DIRTY_AIR_S_PER_LAP            # this circuit's value, not the pooled one
 
 
 def _regime_from_meta(rg: dict) -> RegimeFactor:
@@ -135,21 +140,23 @@ def sim_kwargs(base: BaseModel) -> dict:
     return dict(regime=base.regime, support=base.support, max_per_compound=base.allocation,
                 max_stint=(base.stint_cap or None), undercut_lambda=cal.undercut_lambda,
                 plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+                first_stop_prior=base.first_stop_table, first_stop_kappa_s=cal.first_stop_kappa_s,
+                traffic_s_per_lap=base.dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
 
 
 def eval_kwargs(base: BaseModel) -> dict:
     cal = base.calibration
     return dict(allocation=base.allocation, stint_cap=base.stint_cap, undercut_lambda=cal.undercut_lambda,
                 plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                traffic_s_per_lap=cal.dirty_air_s_per_lap, grid_penalty_s=cal.grid_start_penalty_s)
+                first_stop_prior=base.first_stop_table, first_stop_kappa_s=cal.first_stop_kappa_s,
+                traffic_s_per_lap=base.dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
 
 
 def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_OUTLOOK_DRAWS,
               seed: int = 0, force_prior: bool = False) -> BaseModel:
     """`force_prior=True` composes the pre-practice prior even when a sealed
     fit exists - the benchmark's "what would the outlook have said on Thursday"."""
-    from src.live.engine import WeekendModel, pit_loss_prior
+    from src.live.engine import WeekendModel, backfill_circuit_history, pit_loss_prior
 
     rng = np.random.default_rng(seed)
     cal = get_calibration(ev)
@@ -166,7 +173,9 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
         idx = rng.choice(total, size=min(n_draws, total), replace=False)
         model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets,
                                    manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
-        hist = meta.get("circuit_history") or {}
+        # `first_stop_green` / `dirty_air` from the sibling file if this one
+        # predates them; both are pure 2023-25 history (see the helper).
+        hist = backfill_circuit_history(ev, meta.get("circuit_history") or {}, meta_p)
         caps = {k: int(v) for k, v in (hist.get("stint_cap") or {}).items()}
         used = list(meta.get("sessions_used", []))
         sources = [f"sealed practice fit on {', '.join(used) or 'practice'} "
@@ -181,6 +190,22 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
         sources.append(f"calibration: {cal.source}")
         if pp:
             sources.append(f"plan-shape prior from {pp.get('source')}")
+        # The circuit's first-stop density and its own dirty-air cost, both from
+        # the races already run there - never from this weekend's.
+        fs_table = firststop.first_stop_penalty_table(hist.get("first_stop_green"), ev.n_race_laps,
+                                                      model.compounds)
+        _pp_stops = (pp or {}).get("stops") or {}
+        _pp_starts = (pp or {}).get("starts") or {}
+        fs_sum = meta.get("first_stop_prior") or firststop.first_stop_summary(
+            hist.get("first_stop_green"), ev.n_race_laps,
+            start_compound=(max(_pp_starts, key=_pp_starts.get) if _pp_starts else None),
+            n_stops=(int(max(_pp_stops, key=_pp_stops.get)) if _pp_stops else None)) or {}
+        dirty = cal.dirty_air_for(ev.circuit)
+        if fs_sum:
+            sources.append(f"first-stop prior: mode lap {fs_sum['mode']}, "
+                           f"{fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} at kappa {cal.first_stop_kappa_s:.2f} s/nat")
+        sources.append(f"dirty air {dirty:.2f} s/lap "
+                       f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled over the 2026 races'})")
         return BaseModel(model=model, regime=_regime_from_meta(meta.get("regime", {})), stage="sealed",
                          sources=sources, pit_loss_s=float(meta.get("pit_loss_s", 22.0)),
                          pit_loss_source=str(meta.get("pit_loss_source", "")),
@@ -190,11 +215,17 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
                          sessions_used=used, sealed_file=str(meta.get("sealed_file", "")), history=hist,
                          thermal=th, combination=list(meta.get("history_combination") or []),
                          n_practice_laps=int(meta.get("n_clean_laps", 0)), prior_basis="sealed fit",
-                         calibration=cal, plan_prior=pp, net_step=ns)
+                         calibration=cal, plan_prior=pp, net_step=ns,
+                         first_stop_table=fs_table, first_stop_prior=fs_sum, dirty_air=dirty)
 
     # -- no practice yet: compose the prior --------------------------------
     model = WeekendModel.prior_model(ev, n_draws, rng, calibration=cal)
-    regime = regime_prior(ev)
+    # The live weather feed reports the track temperature *now*, during a
+    # practice session - it is not a race-day forecast, and handing it to the
+    # regime model as one would claim to know Sunday's track from Friday's.  So
+    # it enters as `practice_temp_c` only; the temperature mode stays "none"
+    # unless a real forecast is supplied.
+    regime = regime_prior(ev, practice_temp_c=track_temp_c)
     sources = [f"compound-ladder prior (MEDIUM 0.10 s/lap, factor-2 spread), regime factor "
                f"{regime.ratio:.2f}x [{regime.p05:.2f}-{regime.p95:.2f}] {regime.label}"]
     temps = _history_temps(ev)
@@ -231,6 +262,20 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
     pp = plan_prior_for(cp if cp.available else None)
     if pp:
         sources.append(f"plan-shape prior from {pp.get('source')}: " + ", ".join(f"{k} {v}" for k, v in list(pp['sequences'].items())[:4]))
+    fs_table = firststop.first_stop_penalty_table(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps, model.compounds)
+    _pp_stops = (pp or {}).get("stops") or {}
+    _pp_starts = (pp or {}).get("starts") or {}
+    fs_sum = firststop.first_stop_summary(
+        cp.first_stop_green if cp.available else None, ev.n_race_laps,
+        start_compound=(max(_pp_starts, key=_pp_starts.get) if _pp_starts else None),
+        n_stops=(int(max(_pp_stops, key=_pp_stops.get)) if _pp_stops else None)) or {}
+    if fs_sum:
+        sources.append(f"first-stop prior: mode lap {fs_sum['mode']}, {fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} "
+                       f"from {fs_sum['n']} historical green first stops at kappa {cal.first_stop_kappa_s:.2f} s/nat")
+    dirty = cal.dirty_air_for(ev.circuit)
+    sources.append(f"dirty air {dirty:.2f} s/lap "
+                   f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled over the 2026 races'})")
     ps = pace_step_prior(ev, circuit=cp if cp.available else None)
     ns = {"measured": ps.get("net_stint_step_measured"), "se": ps.get("net_stint_step_se"),
           "derivation": ps.get("derivation", "")}
@@ -239,7 +284,8 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
                      pit_loss_source=pit_src, allocation=dict(alloc["caps"]), stint_cap=caps, support=None,
                      history=(cp.as_dict() if cp.available else {}), season=season,
                      thermal=dict(cp.thermal) if cp.available else {}, combination=combination,
-                     n_practice_laps=0, prior_basis=basis, calibration=cal, plan_prior=pp, net_step=ns)
+                     n_practice_laps=0, prior_basis=basis, calibration=cal, plan_prior=pp, net_step=ns,
+                     first_stop_table=fs_table, first_stop_prior=fs_sum, dirty_air=dirty)
 
 
 # --------------------------------------------------------------------------
@@ -304,7 +350,8 @@ def _plan_dict(row) -> dict:
             "pit_laps": [int(x) for x in row["pit_laps"]], "stint_lens": [int(x) for x in row["stint_lens"]],
             "push": float(row["push"]), "n_stops": int(row["n_stops"]),
             "delta_s": float(row.get("delta_s", 0.0)), "win_prob": float(row.get("win_prob", 0.0)),
-            "position_s": float(row.get("position_s", 0.0)), "prior_s": float(row.get("prior_s", 0.0))}
+            "position_s": float(row.get("position_s", 0.0)), "prior_s": float(row.get("prior_s", 0.0)),
+            "first_stop_s": float(row.get("first_stop_s", 0.0))}
 
 
 def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, sim_kw: dict) -> dict:
@@ -433,10 +480,13 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
                                                                        "season", "thermal", "ladder", "first_stop")},
            "season": {k: v for k, v in base.season.items() if k != "rate_prior"},
            "combination": base.combination, "n_draws": model.n_draws,
-           "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source},
+           "calibration": {**{k: v for k, v in cal.as_dict().items() if k != "driver_factors"}, "source": cal.source,
+                           "dirty_air_used": float(base.dirty_air)},
            "plan_prior": {"source": base.plan_prior.get("source"), "n": base.plan_prior.get("n"),
                           "sequences": dict(list((base.plan_prior.get("sequences") or {}).items())[:8]),
-                          "starts": base.plan_prior.get("starts")},
+                          "starts": base.plan_prior.get("starts"),
+                          "nomination": base.plan_prior.get("nomination")},
+           "first_stop_prior": base.first_stop_prior,
            "net_step": net, "pace_calibration": {k: v for k, v in pace_cal.items() if k != "model_net_draws"}}
     if res.table.empty:
         out["strategy"] = {}
@@ -447,7 +497,9 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
     best = _plan_dict(res.table.iloc[0])
     push = best["push"]
     pw = strat.pit_window_model(model, ev, res.best, base.pit_loss_s, max_stint=res.max_stint, push=push,
-                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=cal.dirty_air_s_per_lap)
+                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=base.dirty_air,
+                                first_stop_prior=base.first_stop_table,
+                                first_stop_kappa_s=cal.first_stop_kappa_s)
     windows = strat.windows_from_sweep(pw, res.best)
     life = _life_summary(model, ev, push, res.max_stint if isinstance(res.max_stint, dict) else None)
     comps_present = [c for c in ("SOFT", "MEDIUM", "HARD") if c in model.compounds]
@@ -477,8 +529,10 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         alts[name] = alt
     voi = strat.value_of_information(res)
     programme = practice_programme(voi, base, life)
+    # `sc_playbook` prices only the decision *this lap* under a safety car, so the
+    # first-stop prior has nothing to say about it and is deliberately absent.
     pb = strat.sc_playbook(model, ev, res.best, base.pit_loss_s, push=push, allocation=base.allocation,
-                           stint_cap=base.stint_cap, traffic_s_per_lap=cal.dirty_air_s_per_lap)
+                           stint_cap=base.stint_cap, traffic_s_per_lap=base.dirty_air)
     out["strategy"] = {
         "best": best["label"], "best_plan": {**res.best, "label": best["label"]}, "push": push,
         "implied_regime": float(res.implied_regime), "n_strategies": int(res.n_strategies),
@@ -489,7 +543,9 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         "grip_budget_s": float(model.budget), "grip_budgets": dict(model.budgets),
         "tyre_optimal": {**res.tyre_optimal, "label": res.tyre_optimal_label},
         "position_s": float(res.best.get("position_s", 0.0)), "prior_s": float(res.best.get("prior_s", 0.0)),
+        "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
         "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
+        "first_stop_kappa_s": float(res.first_stop_kappa_s),
     }
     out["alternatives"] = alts
     out["voi"] = voi

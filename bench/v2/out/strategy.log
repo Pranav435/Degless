@@ -1,0 +1,66 @@
+
+== australia-2026: tool 1-stop H-M @ 36 | winner RUS MEDIUM-HARD @ [12] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (53% of field); seq share 0%; in top5 False; start HARD vs field {'MEDIUM': np.int64(12), 'HARD': np.int64(2), 'SOFT': np.int64(1)}
+   oracle rates {'HARD': 0.0336, 'MEDIUM': 0.0249, 'SOFT': 0.0445}  oracle best 1-stop M-H @ 36
+   regret (s): {'tool': 6.53, 'field_modal': 13.81, 'winner': 18.18, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 36, 'lo': 32, 'hi': 39, 'n_actual': 8, 'share_inside': 0.0, 'median_abs_err': 21.0, 'actual_median': 15.0}]
+   life: [('HARD', 105.14048427410471, 46.0, 46), ('MEDIUM', 52.91258893099884, 24.6, 28), ('SOFT', 36.244138986092494, 24.0, 24)]
+   counterfactual >30s: 1/19  top [{'driver': 'ALO', 'compounds': 'SOFT-SOFT-SOFT', 'loss_s': 210.0}, {'driver': 'LAW', 'compounds': 'MEDIUM-HARD-SOFT', 'loss_s': 15.9}, {'driver': 'ALB', 'compounds': 'MEDIUM-HARD-SOFT', 'loss_s': 15.8}]
+
+== japan-2026: tool 1-stop S-H @ 21 | winner ANT MEDIUM-HARD @ [22] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (90% of field); seq share 0%; in top5 False; start SOFT vs field {'MEDIUM': np.int64(19), 'HARD': np.int64(1)}
+   oracle rates {'HARD': 0.0204, 'MEDIUM': 0.0592}  oracle best 1-stop H-M @ 36
+   regret (s): {'field_modal': 1.18, 'winner': 1.51, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 21, 'lo': 18, 'hi': 22, 'n_actual': 18, 'share_inside': 0.7777777777777778, 'median_abs_err': 1.5, 'actual_median': 21.0}]
+   life: [('HARD', 77.6560716895434, 36.0, 37), ('MEDIUM', 48.34096624057118, 22.900000000000002, 33)]
+   counterfactual >30s: 0/22  top [{'driver': 'ALB', 'compounds': 'MEDIUM-HARD-SOFT-SOFT-SOFT-SOFT-MEDIUM', 'loss_s': 27.4}, {'driver': 'ALO', 'compounds': 'MEDIUM-HARD-MEDIUM', 'loss_s': 18.7}, {'driver': 'STR', 'compounds': 'MEDIUM-HARD-MEDIUM', 'loss_s': 16.6}]
+
+== barcelona-2026: tool 2-stop M-H-H @ 19,43 | winner HAM SOFT-HARD-MEDIUM-HARD @ [11, 27, 41] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (54% of field); seq share 46%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(8), 'SOFT': np.int64(5)}
+   oracle rates {'HARD': 0.1105, 'MEDIUM': 0.1566, 'SOFT': 0.1722}  oracle best 2-stop S-H-H @ 17,41
+   regret (s): {'tool': 1.29, 'field_modal': 5.1, 'winner': 6.73, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 19, 'lo': 17, 'hi': 22, 'n_actual': 7, 'share_inside': 0.14285714285714285, 'median_abs_err': 6.0, 'actual_median': 13.0}, {'stop': 2, 'recommended': 43, 'lo': 40, 'hi': 45, 'n_actual': 7, 'share_inside': 0.14285714285714285, 'median_abs_err': 7.0, 'actual_median': 36.0}]
+   life: [('HARD', 37.46250496397687, 30.0, 31), ('MEDIUM', 29.091076435724048, 23.6, 26), ('SOFT', 23.588955450357165, 13.3, 14)]
+   counterfactual >30s: 2/21  top [{'driver': 'BOT', 'compounds': 'MEDIUM-HARD', 'loss_s': 59.4}, {'driver': 'HUL', 'compounds': 'SOFT-HARD', 'loss_s': 58.2}, {'driver': 'ALO', 'compounds': 'HARD-HARD', 'loss_s': 20.4}]
+
+== austria-2026: tool 2-stop M-H-H @ 23,47 | winner RUS MEDIUM-HARD-HARD @ [19, 43] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (82% of field); seq share 29%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(16), 'SOFT': np.int64(1)}
+   oracle rates {'HARD': 0.0783, 'MEDIUM': 0.0703, 'SOFT': 0.0504}  oracle best 2-stop S-M-S @ 18,53
+   regret (s): {'tool': 18.04, 'field_modal': 20.92, 'winner': 20.94, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 23, 'lo': 20, 'hi': 26, 'n_actual': 14, 'share_inside': 0.35714285714285715, 'median_abs_err': 4.0, 'actual_median': 19.0}, {'stop': 2, 'recommended': 47, 'lo': 44, 'hi': 50, 'n_actual': 14, 'share_inside': 0.5714285714285714, 'median_abs_err': 2.5, 'actual_median': 45.0}]
+   life: [('HARD', 52.205843262437725, 31.0, 36), ('MEDIUM', 45.91526187670692, 24.5, 27), ('SOFT', 37.013442173115706, 18.4, 19)]
+   counterfactual >30s: 1/20  top [{'driver': 'SAI', 'compounds': 'SOFT-MEDIUM', 'loss_s': 47.2}, {'driver': 'STR', 'compounds': 'MEDIUM-SOFT', 'loss_s': 27.9}, {'driver': 'OCO', 'compounds': 'MEDIUM-MEDIUM-HARD', 'loss_s': 9.9}]
+
+== belgium-2026: tool 1-stop S-M @ 24 | winner ANT MEDIUM-SOFT @ [18] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (95% of field); seq share 0%; in top5 False; start SOFT vs field {'MEDIUM': np.int64(12), 'HARD': np.int64(6), 'SOFT': np.int64(1)}
+   oracle rates {'HARD': 0.0357, 'MEDIUM': 0.1166, 'SOFT': 0.0517}  oracle best 1-stop S-H @ 23
+   regret (s): {'tool': 10.82, 'field_modal': 17.34, 'winner': 10.72, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 24, 'lo': 21, 'hi': 27, 'n_actual': 18, 'share_inside': 0.0, 'median_abs_err': 6.0, 'actual_median': 19.0}]
+   life: [('HARD', 50.747605041383096, 30.0, 31), ('MEDIUM', 41.86130428515115, 20.0, 20), ('SOFT', 44.691951517409514, 22.400000000000002, 26)]
+   counterfactual >30s: 0/21  top [{'driver': 'BOT', 'compounds': 'SOFT-HARD-SOFT', 'loss_s': 24.8}, {'driver': 'PER', 'compounds': 'HARD-SOFT-HARD', 'loss_s': 20.4}, {'driver': 'HAD', 'compounds': 'HARD-MEDIUM-HARD-HARD', 'loss_s': 17.3}]
+
+== hungary-2026: tool 2-stop M-H-M @ 23,47 | winner NOR MEDIUM-HARD-HARD-SOFT @ [17, 39, 56] | modal MEDIUM-HARD-HARD
+   stops: rec 2 mode 2 (63% of field); seq share 0%; in top5 False; start MEDIUM vs field {'MEDIUM': np.int64(13), 'SOFT': np.int64(6)}
+   oracle rates {'HARD': 0.0824, 'MEDIUM': 0.0648, 'SOFT': 0.0475}  oracle best 2-stop S-M-M @ 19,45
+   regret (s): {'tool': 15.86, 'field_modal': 27.48, 'winner': 26.68, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 23, 'lo': 20, 'hi': 26, 'n_actual': 12, 'share_inside': 0.3333333333333333, 'median_abs_err': 4.0, 'actual_median': 20.0}, {'stop': 2, 'recommended': 47, 'lo': 44, 'hi': 50, 'n_actual': 12, 'share_inside': 0.0, 'median_abs_err': 7.0, 'actual_median': 42.0}]
+   life: [('HARD', 55.92952293759749, 32.0, 49), ('MEDIUM', 48.52604167085968, 26.5, 29), ('SOFT', 35.811616568250926, 30.6, 34)]
+   counterfactual >30s: 0/21  top [{'driver': 'ALO', 'compounds': 'SOFT-MEDIUM-SOFT', 'loss_s': 17.7}, {'driver': 'STR', 'compounds': 'SOFT-MEDIUM-SOFT', 'loss_s': 15.0}, {'driver': 'LIN', 'compounds': 'MEDIUM-HARD', 'loss_s': 12.7}]
+
+== italy-2026: tool 1-stop M-H @ 23 | winner ANT HARD-MEDIUM-MEDIUM @ [3, 28] | modal MEDIUM-HARD
+   stops: rec 1 mode 1 (53% of field); seq share 32%; in top5 True; start MEDIUM vs field {'MEDIUM': np.int64(9), 'SOFT': np.int64(8), 'HARD': np.int64(2)}
+   oracle rates {'HARD': 0.0039, 'MEDIUM': 0.0106, 'SOFT': 0.0826}  oracle best 1-stop M-H @ 35
+   regret (s): {'tool': 1.5, 'field_modal': 10.89, 'winner': 30.58, 'oracle_opt': 0.0}
+   windows: [{'stop': 1, 'recommended': 23, 'lo': 20, 'hi': 26, 'n_actual': 10, 'share_inside': 0.0, 'median_abs_err': 20.0, 'actual_median': 3.0}]
+   life: [('HARD', 92.59006374799846, 50.0, 50), ('MEDIUM', 55.07361496052434, 50.0, 50), ('SOFT', 44.60418070050425, 24.0, 24)]
+   counterfactual >30s: 13/21  top [{'driver': 'ALO', 'compounds': 'HARD-SOFT', 'loss_s': 158.3}, {'driver': 'TSU', 'compounds': 'HARD-MEDIUM', 'loss_s': 66.3}, {'driver': 'BOR', 'compounds': 'SOFT-MEDIUM', 'loss_s': 56.6}]
+
+         event          recommended                winner  winner_pits      field_modal  stops_match_mode  stops_share  seq_share  seq_in_top5  start_ok  regret_tool  regret_field  regret_winner  win1_inside  win1_err
+australia-2026      1-stop H-M @ 36           MEDIUM-HARD         [12]      MEDIUM-HARD              True         0.53       0.00        False     False         6.53         13.81          18.18     0.000000      21.0
+    japan-2026      1-stop S-H @ 21           MEDIUM-HARD         [22]      MEDIUM-HARD              True         0.90       0.00        False     False          NaN          1.18           1.51     0.777778       1.5
+barcelona-2026 2-stop M-H-H @ 19,43 SOFT-HARD-MEDIUM-HARD [11, 27, 41] MEDIUM-HARD-HARD              True         0.54       0.46         True      True         1.29          5.10           6.73     0.142857       6.0
+  austria-2026 2-stop M-H-H @ 23,47      MEDIUM-HARD-HARD     [19, 43] MEDIUM-HARD-HARD              True         0.82       0.29         True      True        18.04         20.92          20.94     0.357143       4.0
+  belgium-2026      1-stop S-M @ 24           MEDIUM-SOFT         [18]      MEDIUM-HARD              True         0.95       0.00        False     False        10.82         17.34          10.72     0.000000       6.0
+  hungary-2026 2-stop M-H-M @ 23,47 MEDIUM-HARD-HARD-SOFT [17, 39, 56] MEDIUM-HARD-HARD              True         0.63       0.00        False      True        15.86         27.48          26.68     0.333333       4.0
+    italy-2026      1-stop M-H @ 23    HARD-MEDIUM-MEDIUM      [3, 28]      MEDIUM-HARD              True         0.53       0.32         True      True         1.50         10.89          30.58     0.000000      20.0
+exit 0

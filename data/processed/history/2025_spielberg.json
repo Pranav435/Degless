@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 4,
  "year": 2025,
  "circuit": "Spielberg",
  "event": "Austrian Grand Prix",
@@ -34,6 +34,172 @@
   "n": 16,
   "sc_share": 0.0
  },
+ "first_stints": [
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 33,
+   "in_lap": 33,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "BEA",
+   "compound": "SOFT",
+   "laps": 11,
+   "in_lap": 11,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "BOR",
+   "compound": "MEDIUM",
+   "laps": 21,
+   "in_lap": 21,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "COL",
+   "compound": "SOFT",
+   "laps": 13,
+   "in_lap": 13,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "SOFT",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HAD",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 28,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 26,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "HUL",
+   "compound": "SOFT",
+   "laps": 12,
+   "in_lap": 12,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "LAW",
+   "compound": "MEDIUM",
+   "laps": 32,
+   "in_lap": 32,
+   "n_stops": 1,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 25,
+   "in_lap": 25,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 20,
+   "in_lap": 20,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "OCO",
+   "compound": "MEDIUM",
+   "laps": 19,
+   "in_lap": 19,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 24,
+   "in_lap": 24,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 18,
+   "in_lap": 18,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 26,
+   "in_lap": 26,
+   "n_stops": 2,
+   "sc": false
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 18,
+   "in_lap": 18,
+   "n_stops": 3,
+   "sc": false
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 20.5,
+  "p25": 16.75,
+  "p75": 26.0,
+  "n": 16,
+  "in_laps": [
+   11,
+   12,
+   12,
+   13,
+   18,
+   18,
+   19,
+   20,
+   21,
+   24,
+   25,
+   26,
+   26,
+   28,
+   32,
+   33
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.139321221763895,
+  "se": 0.03550555233416078,
+  "n_laps": 995,
+  "share_close": 0.578894472361809,
+  "event": "austria-2026"
+ },
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 16,

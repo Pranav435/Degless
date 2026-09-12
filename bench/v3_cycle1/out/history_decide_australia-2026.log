@@ -1,0 +1,178 @@
+
+  calibration: leave-one-out (australia-2026 held out), calibrated 2026-09-12 on 7 weekends
+    budgets {'SOFT': 3.8417984308528155, 'MEDIUM': 4.090632250527002, 'HARD': 4.187733485335042}; manage cost 0.60 s, floor 0.45; grid penalty 0.00 s; dirty air 0.13 s/lap (this circuit); undercut lambda 0.000; plan prior tau 2.50 s; first-stop kappa 1.50 s/nat; per-car team_pooled
+
+=== 7. race data (validation only) ===
+WARNING requests_cache.session: Request for URL https://api.jolpi.ca/ergast/f1/2026/1/laps/1.json failed; using cached response
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/retry.py", line 498, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 311, in _resend
+    response = self._send_and_cache(request, actions, cached_response, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests_cache/session.py", line 279, in _send_and_cache
+    response = super().send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/fastf1/req.py", line 112, in send
+    return super().send(request, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/pranav/Documents/coding_projects/degless/.venv/lib/python3.13/site-packages/requests/adapters.py", line 742, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.jolpi.ca', port=443): Read timed out. (read timeout=5.0)
+  race: 1006 laps, 477 clean
+  self-measured regime factor 0.753x (transferred: 0.669x, never fitted here)
+  self-measured net stint step +0.317 +/- 0.345 s (transferred: +0.073 s)
+  australia-2026: stint-rate MAE 0.049 s/lap over 23 race stints (target < 0.15); per-lap MAE 0.392 s over 435 laps; 90% coverage 90.11% per lap, 78.26% on the stint rate (band 80%-97%); bias +0.011 s/lap
+  MAE by compound: {'HARD': 0.05, 'MEDIUM': 0.044, 'SOFT': 0.049}
+  calibration: {'50%': '63.7%', '80%': '84.4%', '90%': '90.1%', '95%': '93.3%'}
+  cliff: {'HARD': {'predicted_lap': 38.0, 'source': 'circuit history p90 stint', 'observed_lap': nan, 'error_laps': nan, 'detected': False}, 'MEDIUM': {'predicted_lap': 22.8, 'source': 'circuit history p90 stint', 'observed_lap': nan, 'error_laps': nan, 'detected': False}, 'SOFT': {'predicted_lap': 7.4, 'source': 'circuit history p90 stint', 'observed_lap': nan, 'error_laps': nan, 'detected': False}}
+  bias by compound (observed - predicted, s/lap): {'HARD': 0.039, 'MEDIUM': -0.043, 'SOFT': -0.039}
+  [PASS] practice->race regime transfer removes the bias: bias +0.011 s/lap against race regime curves (transferred factor 0.67x; this weekend's own race says 0.75x, which was never used)
+  [PASS] stint degradation-rate MAE < 0.15 s/lap: 0.0489 s/lap over 23 stints (per-lap MAE 0.392 s, race noise 0.50 s)
+  [PASS] 90% coverage not below 0.80 (under-coverage is the failure): 90.1% per lap, 78.3% on the stint rate (width 0.132 s/lap) — ok
+
+=== 8. pit loss, strategy search (ladder gate enforced), windows, counterfactual, per-car plans ===
+  practice age support (per compound, laps): {'HARD': 21, 'MEDIUM': 20, 'SOFT': 21}
+  tyre allocation: {'SOFT': 2, 'MEDIUM': 2, 'HARD': 2}
+  pit loss: 23.42s from 9 green-flag stops
+  [PASS] pit loss measured and plausible (12-35s): 23.42s
+  stint caps from this circuit's history: {'SOFT': 10, 'MEDIUM': 41, 'HARD': 52}
+  plan-shape prior (Melbourne races [2023, 2024] mapped by C-number): M-H-H 12, H-H 4, H-M-H 2, S-H-H 2, H-H-M 1, M-H 1; starts {'MEDIUM': 14, 'HARD': 7, 'SOFT': 2}
+  first-stop prior: Gaussian KDE (bandwidth 2.4 laps) over 14 historical green first stops scaled to 58 laps, blended 0.71 toward the 12 MEDIUM-start stops, with a 5% uniform floor on laps 6-52; charged at kappa 1.50 s/nat
+  pace calibration: {'applied': True, 'measured_net_s': 0.07282897507240052, 'net_se_s': 0.14211802411928148, 'stint_len': 29.0, 'push': 0.7, 'clipped': True, 'offsets_before': {'SOFT': 0.0, 'MEDIUM': 0.17741785943508148, 'HARD': 0.3477613627910614}, 'offsets_after': {'SOFT': 0.0, 'MEDIUM': 0.21065306219022115, 'HARD': 0.6550298453585859}, 'model_net_before': -0.1225947404621113, 'model_net_after': 0.03103950595762207, 'best_before': '2-stop M-H-H @ 11,35', 'best_after': '1-stop M-H @ 18'}
+  stint caps (min of the wear bound and the circuit's history): {'HARD': 42, 'MEDIUM': 40, 'SOFT': 10}
+  139,640 plans searched, 4,001 scored x 500 draws in 1.6s
+            strategy  n_stops        compounds   stint_lens  push  max_wear  position_s  prior_s  first_stop_s  tyre_s  mean_s  delta_s  delta_p05  delta_p95  p05_s   p95_s  win_prob  p_beat_best
+     1-stop M-H @ 18        1      MEDIUM-HARD     [18, 40]   0.7     0.289         0.0    5.064         2.858  98.288 106.211    0.000      0.000      0.000 75.503 169.482     0.556          NaN
+     1-stop M-H @ 19        1      MEDIUM-HARD     [19, 39]   0.7     0.281         0.0    5.064         3.626  97.615 106.305    0.094     -0.209      0.345 75.822 168.796     0.056        0.246
+     1-stop M-H @ 17        1      MEDIUM-HARD     [17, 41]   0.7     0.296         0.0    5.064         2.260  99.055 106.380    0.169     -0.086      0.490 75.443 170.075     0.142        0.164
+     1-stop M-H @ 20        1      MEDIUM-HARD     [20, 38]   0.7     0.291         0.0    5.064         4.523  97.035 106.623    0.412     -0.186      0.907 76.359 168.383     0.000        0.090
+     1-stop M-H @ 16        1      MEDIUM-HARD     [16, 42]   0.7     0.304         0.0    5.064         1.839  99.917 106.821    0.610      0.098      1.248 75.649 170.630     0.000        0.034
+     1-stop M-H @ 21        1      MEDIUM-HARD     [21, 37]   0.7     0.305         0.0    5.064         5.448  96.548 107.061    0.850     -0.050      1.585 77.012 168.249     0.000        0.054
+2-stop M-H-H @ 15,37        2 MEDIUM-HARD-HARD [15, 22, 21]   1.0     0.293         0.0    0.000         1.577 105.683 107.260    1.049     -1.518      2.122 76.286 166.753     0.028        0.080
+2-stop M-H-H @ 15,38        2 MEDIUM-HARD-HARD [15, 23, 20]   1.0     0.293         0.0    0.000         1.577 105.722 107.299    1.088     -1.448      2.155 76.318 166.844     0.000        0.080
+
+  best plan at each stop count:
+ n_stops                  strategy               compounds       stint_lens  push  max_wear  position_s  prior_s  first_stop_s  tyre_s  mean_s  delta_s  delta_p05  delta_p95   p05_s   p95_s  win_prob  p_beat_best  win_prob_any
+       1           1-stop M-H @ 18             MEDIUM-HARD         [18, 40]   0.7     0.289         0.0    5.064         2.858  98.288 106.211    0.000      0.000      0.000  75.503 169.482     0.556        0.246         0.812
+       2      2-stop M-H-H @ 15,37        MEDIUM-HARD-HARD     [15, 22, 21]   1.0     0.293         0.0    0.000         1.577 105.683 107.260    1.049     -1.518      2.122  76.286 166.753     0.028        0.080         0.188
+       3 3-stop M-S-M-S @ 16,26,48 MEDIUM-SOFT-MEDIUM-SOFT [16, 10, 22, 10]   1.0     0.399         0.0   12.953         1.839 115.082 129.874   23.664      8.506     36.000 109.933 180.875     0.000        0.004         0.000
+
+  tyre-optimal plan (no position term, no plan prior, no first-stop prior): 1-stop H-M @ 33 (+4.2 s under the full objective; its own first stop would carry 6.9 s of first-stop prior); position term of the chosen plan 0.0 s, plan-prior handicap 5.1 s, first-stop prior 2.9 s
+
+  compound life (budget / rate, bounded by the race and the circuit's history):
+compound  deg_s_per_lap  deg_lo  deg_hi  knee_lap  life_laps  life_lo  life_hi  life_model_uncapped  life_full_push  longer_than_race        bound_by  max_stint_laps  practice_support_laps  pace_offset_s  grip_budget_s
+    HARD           0.04    0.04    0.06     58.00       42.0     42.0     42.0               139.47          104.60              True circuit history            42.0                   21.0           0.66           4.19
+  MEDIUM           0.08    0.07    0.10     54.84       40.0     40.0     40.0                73.12           54.84              True circuit history            40.0                   20.0           0.21           4.09
+    SOFT           0.09    0.04    0.22     58.00       10.0     10.0     10.0                84.49           63.37              True circuit history            10.0                   21.0           0.00           3.84
+
+  the optimiser chose push 0.70, which implies a practice->race degradation factor of 0.75 (transferred 0.67)
+  [PASS] recommended plan has realistic stint lengths: 1-stop M-H @ 18 -> stints [18, 40]
+  [PASS] no stint in the recommended plan runs past the cliff: deepest stint reaches 29% of the grip budget
+  [PASS] model does not assume more tyre management than was observed: implied 0.75 vs transferred 0.67
+
+  the best 1-stop plan for each of 2 orderings spans 4.2 s: MEDIUM-HARD +0.0 | HARD-MEDIUM +4.2
+  stop 1: recommended lap 18, within 1.0 s over laps 16-21 (the circuit's history prefers lap 8)
+
+  counterfactual (top 5, SC stops held fixed, 1.2s):
+driver             compounds actual_pit_laps model_pit_laps  loss_s  n_sc_stops  classified
+   LEC           MEDIUM-HARD            [25]           [52]   31.88           0        True
+   COL        HARD-HARD-SOFT         [9, 46]       [16, 38]   10.11           0        True
+   HAM           MEDIUM-HARD            [28]           [30]    0.52           0        True
+   VER      HARD-MEDIUM-HARD        [18, 41]       [18, 38]    0.48           1        True
+   SAI SOFT-HARD-MEDIUM-SOFT    [11, 33, 45]   [11, 33, 44]    0.03           2        True
+
+  per-car plans (5.8s, team_pooled: 22 cars carry a pooled practice deviation over 11 teams): 12/20 share the field plan's shape; first stops 14-40
+driver  race_factor dev_source                 best  first_stop_vs_field
+   ALB         1.14     pooled      1-stop M-H @ 40                   22
+   ALO         1.32     pooled      1-stop M-H @ 28                   10
+   ANT         0.91     pooled 2-stop M-M-S @ 18,48                    0
+   BEA         1.39     pooled 2-stop M-M-S @ 18,48                    0
+   BOR         1.15     pooled      1-stop M-H @ 32                   14
+   BOT         1.70     pooled 2-stop M-H-H @ 14,36                   -4
+   COL         1.00     pooled      1-stop M-H @ 18                    0
+   GAS         1.10     pooled      1-stop M-H @ 18                    0
+  (9s)
+  [PASS] does not open the race on the hardest available compound: opens on MEDIUM (hardness rank 1 of 2)
+
+  compound ladder check - net cost of one step harder over a 29-lap stint: model +0.031 s/lap, measured +0.073 s/lap (this race: +0.317)
+  [PASS] model reproduces the measured net stint-level compound step (enforced): model +0.031 vs measured +0.073 s/lap per step over a 29-lap stint (offsets clipped to the physical band)
+
+  cliff detector on the race: 45 stints scored, {'undetermined': 35, 'strategic': 10}
+
+  strategy backtest (race data, validation only):
+    recommended 1 stops; the field ran {1: 8, 2: 6, 3: 1}
+compound  recommended_laps  observed_median  observed_max  inside_observed_range
+  MEDIUM                18             12.0          28.0                   True
+    HARD                40             23.5          46.0                   True
+    grip budget implied by this race, per compound: HARD 1.42s, MEDIUM 1.59s, SOFT 1.59s  (model uses {'HARD': 4.187733485335042, 'MEDIUM': 4.090632250527002, 'SOFT': 3.8417984308528155})
+    first stops: field median (green) 25.0, 80% under SC; recommended 18 (-7.0), tyre-optimal 33 (8.0)
+  [PASS] recommended stop count is one the field actually ran: 1 stops — 53% of finishers, mode was 1
+  [PASS] every recommended stint length is one the compound was run to: MEDIUM 18 laps (observed median 12, max 28); HARD 40 laps (observed median 24, max 46)
+
+=== 9. replay precompute ===
+  1006 replay states, 20 drivers (0s)
+
+=== 10. write artifacts ===
+
+=== 20/22 gates passed (decide stage 23s) ===
+  FAILED: stint-FE baseline pooled slope is finite and >= 0 — -0.0462 s/lap over 52 stints / 233 laps [90% -0.095-0.019] (1s)
+  FAILED: Bayes pooled slope within 0.06 s/lap of the stint-FE baseline — pooled 0.014 vs stint-FE -0.046 (diff 0.060) over 52 stints

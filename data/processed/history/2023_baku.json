@@ -1,4 +1,5 @@
 {
+ "version": 3,
  "year": 2023,
  "circuit": "Baku",
  "event": "Azerbaijan Grand Prix",
@@ -18,6 +19,159 @@
   "M-H-H-M": 1,
   "M-H-H": 1
  },
+ "starts": {
+  "MEDIUM": 16,
+  "HARD": 2
+ },
+ "first_stop": {
+  "median_lap": 9.5,
+  "p25": 8.0,
+  "p75": 11.0,
+  "n": 16,
+  "sc_share": 0.5
+ },
+ "first_stints": [
+  {
+   "driver": "ALB",
+   "compound": "MEDIUM",
+   "laps": 7,
+   "in_lap": 7,
+   "sc": false
+  },
+  {
+   "driver": "ALO",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "BOT",
+   "compound": "MEDIUM",
+   "laps": 6,
+   "in_lap": 6,
+   "sc": false
+  },
+  {
+   "driver": "GAS",
+   "compound": "MEDIUM",
+   "laps": 5,
+   "in_lap": 5,
+   "sc": false
+  },
+  {
+   "driver": "HAM",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "sc": false
+  },
+  {
+   "driver": "LEC",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "MAG",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 10,
+   "sc": true
+  },
+  {
+   "driver": "NOR",
+   "compound": "MEDIUM",
+   "laps": 9,
+   "in_lap": 9,
+   "sc": false
+  },
+  {
+   "driver": "PER",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "PIA",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "sc": false
+  },
+  {
+   "driver": "RUS",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "SAI",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "SAR",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "sc": false
+  },
+  {
+   "driver": "STR",
+   "compound": "MEDIUM",
+   "laps": 11,
+   "in_lap": 11,
+   "sc": true
+  },
+  {
+   "driver": "TSU",
+   "compound": "MEDIUM",
+   "laps": 8,
+   "in_lap": 8,
+   "sc": false
+  },
+  {
+   "driver": "VER",
+   "compound": "MEDIUM",
+   "laps": 10,
+   "in_lap": 10,
+   "sc": true
+  }
+ ],
+ "first_stop_green": {
+  "median_lap": 8.0,
+  "p25": 6.75,
+  "p75": 8.25,
+  "n": 8,
+  "in_laps": [
+   5,
+   6,
+   7,
+   8,
+   8,
+   8,
+   9,
+   9
+  ]
+ },
+ "dirty_air": {
+  "s_per_lap": 0.16074831207649287,
+  "se": 0.045277562559228365,
+  "n_laps": 795,
+  "share_close": 0.7220125786163522,
+  "event": "azerbaijan-2026"
+ },
+ "nomination": [
+  "C3",
+  "C4",
+  "C5"
+ ],
  "compounds": {
   "HARD": {
    "n_stints": 20,
@@ -40,17 +194,34 @@
   "HARD": {
    "slope": 0.030445966774072797,
    "se": 0.005402269568067398,
-   "n_laps": 673
+   "n_laps": 673,
+   "offset_s": 0.18369488924012511,
+   "offset_se": 0.10230915624668314
   },
   "MEDIUM": {
    "slope": 0.1120438458658537,
    "se": 0.025336661454908684,
-   "n_laps": 130
+   "n_laps": 130,
+   "offset_s": -0.5096074948006787,
+   "offset_se": 0.20970359987408999
   }
+ },
+ "ladder": {
+  "pace_step_s": 0.6933023840408038,
+  "pace_step_se": 0.23332973075041394,
+  "deg_ratio": 3.680088292064619,
+  "n_pairs": 1
+ },
+ "net_step": {
+  "step_s": -0.816547836747525,
+  "se": 0.402236065210411,
+  "n_stints": 36,
+  "median_stint_laps": 19.0
  },
  "pit_loss_s": 21.455000000000027,
  "n_pit_stops": 10,
  "sc_share_of_laps": 0.0392156862745098,
  "track_temp_c": 41.75,
+ "air_temp_c": 24.9,
  "rain": false
 }

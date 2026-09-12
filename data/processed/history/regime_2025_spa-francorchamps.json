@@ -1,0 +1,13 @@
+{
+ "version": 1,
+ "year": 2025,
+ "circuit": "Spa-Francorchamps",
+ "event": "2025-spa-francorchamps",
+ "checked": 1789217357.86766,
+ "missing": true,
+ "why": "rain",
+ "retry": false,
+ "rain": true,
+ "track_temp_race_c": 24.1,
+ "note": "a wet race cannot be compared with a dry practice"
+}

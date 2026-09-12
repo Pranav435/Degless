@@ -4,8 +4,11 @@
 calibrated by hand on Barcelona and Hungary 2026 when those were the only two
 scored weekends.  Seven scored weekends now exist, and the numbers that decide
 a plan - the grip budget, the management trade-off, the grid-start penalty,
-the dirty-air cost, the undercut-exposure weight and the plan-shape prior -
-should be set from all of them and checked out of sample.
+the dirty-air cost, the undercut-exposure weight, the plan-shape prior and the
+first-stop prior's weight `first_stop_kappa_s` - should be set from all of them
+and checked out of sample.  Two of them are no longer single numbers: dirty air
+is per circuit (`dirty_air_for`) and the grip budget is per compound with the
+censored estimate behind it in `grip_budget_detail`.
 
 `scripts/80_recalibrate.py` does that: for every scored weekend it re-derives
 each constant from the *other* weekends' races (leave-one-out), and also from
@@ -33,6 +36,7 @@ from pathlib import Path
 from src.config import (
     DATA_PROCESSED,
     DIRTY_AIR_S_PER_LAP,
+    FIRST_STOP_KAPPA_S,
     GRID_START_PENALTY_S,
     GRIP_BUDGET_S,
     MANAGE_COST_S,
@@ -57,10 +61,16 @@ class Calibration:
     manage_wear_floor: float = MANAGE_WEAR_FLOOR
     grid_start_penalty_s: float = GRID_START_PENALTY_S
     dirty_air_s_per_lap: float = DIRTY_AIR_S_PER_LAP
+    dirty_air_by_circuit: dict = field(default_factory=dict)   # circuit -> s/lap, from its own races
     undercut_lambda: float = UNDERCUT_EXPOSURE_LAMBDA
     plan_prior_tau_s: float = PLAN_PRIOR_TAU_S
+    first_stop_kappa_s: float = FIRST_STOP_KAPPA_S
     sigma_race_lap_s: float = SIGMA_RACE_LAP_S
     driver_factors: dict = field(default_factory=dict)   # driver -> multiplicative rate factor
+    driver_factor_ln_sd: dict = field(default_factory=dict)    # ...and how precisely it was measured
+    team_factors: dict = field(default_factory=dict)           # team -> pooled rate factor
+    grip_budget_detail: dict = field(default_factory=dict)     # per compound: the censored estimate
+    percar_mode: str = "team_pooled"                           # "team_pooled" (V3) | "hist" (V2) | "none"
     source: str = "config defaults (no calibration on disk)"
     detail: dict = field(default_factory=dict)
 
@@ -69,13 +79,37 @@ class Calibration:
         """Per-compound grip budget, the pooled value where a compound has none."""
         return {c: float(self.grip_budget_by_compound.get(c, self.grip_budget_s)) for c in VALID_COMPOUNDS}
 
+    def dirty_air_for(self, circuit: str | None = None) -> float:
+        """Dirty air at `circuit`, in s/lap - its own measurement where there is one.
+
+        The cost of running within 3 s of the car ahead is a property of the
+        circuit, not of the season: Hungary measures +0.43 s/lap and Monza -0.20
+        (the tow), and pooling them to one number prices an extra stop at Monza
+        as if it cost the Hungarian penalty.  `dirty_air_by_circuit` is built in
+        `scripts/80_recalibrate.py` from each circuit's *historical* races, which
+        is what lets a weekend use its own circuit's value without its own 2026
+        race entering its calibration; the pooled 2026 median is the fallback for
+        a circuit with no history.
+        """
+        if circuit:
+            v = self.dirty_air_by_circuit.get(str(circuit))
+            if v is None:
+                v = self.dirty_air_by_circuit.get(str(circuit).lower())
+            if v is not None:
+                try:
+                    return float(v)
+                except (TypeError, ValueError):
+                    pass
+        return float(self.dirty_air_s_per_lap)
+
     def as_dict(self) -> dict:
         return {f.name: getattr(self, f.name) for f in fields(self)}
 
 
 _KEYS = ("grip_budget_s", "grip_budget_by_compound", "manage_cost_s", "manage_wear_floor",
-         "grid_start_penalty_s", "dirty_air_s_per_lap", "undercut_lambda", "plan_prior_tau_s",
-         "sigma_race_lap_s", "driver_factors")
+         "grid_start_penalty_s", "dirty_air_s_per_lap", "dirty_air_by_circuit", "undercut_lambda",
+         "plan_prior_tau_s", "first_stop_kappa_s", "sigma_race_lap_s", "driver_factors",
+         "driver_factor_ln_sd", "team_factors", "grip_budget_detail", "percar_mode")
 
 
 def load_calibration_file(path: Path | None = None) -> dict:
@@ -105,7 +139,9 @@ def get_calibration(event: Event | str | None = None, *, loo: bool = True,
         src, block = f"leave-one-out ({key} held out)", d["loo"][key]
     if not block:
         return Calibration()
-    kw = {k: block[k] for k in _KEYS if k in block}
+    # A V2 file carries none of the V3 keys and a future one may carry a null
+    # where a measurement failed; both must land on the dataclass default.
+    kw = {k: block[k] for k in _KEYS if block.get(k) is not None}
     cal = Calibration(**kw)
     cal.source = f"{src}, calibrated {d.get('written_utc', '?')[:10]} on {len(d.get('weekends', []))} weekends"
     cal.detail = {"weekends": d.get("weekends", []), "block": src}

@@ -1,0 +1,41 @@
+{
+ "compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "drivers": [
+  "ALB",
+  "ANT",
+  "BEA",
+  "BOR",
+  "BOT",
+  "COL",
+  "GAS",
+  "HAD",
+  "HAM",
+  "HUL",
+  "LAW",
+  "LEC",
+  "LIN",
+  "NOR",
+  "OCO",
+  "PER",
+  "PIA",
+  "RUS",
+  "SAI",
+  "STR",
+  "VER"
+ ],
+ "corners": [],
+ "w": 1.5,
+ "use_hinge": false,
+ "n_laps": 269,
+ "n_apex": 0,
+ "max_rhat": 1.0027310133987515,
+ "n_divergences": 0,
+ "prior_label": "2026 physics",
+ "compound_prior_label": "2026 compound ladder (soft, per circuit)",
+ "event_key": "japan-2026",
+ "converged": true
+}
