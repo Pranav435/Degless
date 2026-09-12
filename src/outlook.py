@@ -60,7 +60,7 @@ from src.history import (
 )
 from src.live.store import LIVE_DIR, atomic_write, read_snapshot
 from src.regime import RegimeFactor, regime_prior
-from src.tyre import TyreModel
+from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel
 
 log = logging.getLogger("degless.outlook")
 
@@ -171,8 +171,14 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
         fit = BayesFit.load(post)
         total = fit.posterior["lin"].shape[0]
         idx = rng.choice(total, size=min(n_draws, total), replace=False)
+        # V4/WP-B: the practice age support this weekend reached, so the outlook
+        # prices a stint past it as an extrapolation rather than a measurement.
+        # A metadata file that predates the key leaves `support` empty, and the
+        # widening is then simply absent rather than wrong.
+        sup = {k: float(v) for k, v in (meta.get("age_support_by_compound") or {}).items()}
         model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets,
-                                   manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+                                   manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                                   support=sup, extrap_ln_sd=EXTRAP_LN_SD_MEASURED)
         # `first_stop_green` / `dirty_air` from the sibling file if this one
         # predates them; both are pure 2023-25 history (see the helper).
         hist = backfill_circuit_history(ev, meta.get("circuit_history") or {}, meta_p)
@@ -211,7 +217,7 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
                          pit_loss_source=str(meta.get("pit_loss_source", "")),
                          allocation=dict((meta.get("allocation") or {}).get("caps")
                                          or {c: MAX_STINTS_PER_COMPOUND for c in VALID_COMPOUNDS}),
-                         stint_cap=caps, support={k: float(v) for k, v in (meta.get("age_support_by_compound") or {}).items()},
+                         stint_cap=caps, support=sup,
                          sessions_used=used, sealed_file=str(meta.get("sealed_file", "")), history=hist,
                          thermal=th, combination=list(meta.get("history_combination") or []),
                          n_practice_laps=int(meta.get("n_clean_laps", 0)), prior_basis="sealed fit",
@@ -341,6 +347,12 @@ def _life_summary(model: TyreModel, ev: Event, push: float, caps: dict | None) -
                               "life_laps": r["life_laps"], "life_lo": r["life_lo"], "life_hi": r["life_hi"],
                               "life_full_push": r["life_full_push"], "life_model_uncapped": r["life_model_uncapped"],
                               "longer_than_race": r["longer_than_race"], "bound_by": r["bound_by"],
+                              # V4/WP-B: how far past the practice evidence the
+                              # quoted life is, so the desk can say "28, and
+                              # that is 2x anything we measured" rather than "28"
+                              "practice_support_laps": r["practice_support_laps"],
+                              "life_extrap_ln_sd": r["life_extrap_ln_sd"],
+                              "life_extrap_note": r["life_extrap_note"],
                               "pace_offset_s": r["pace_offset_s"], "grip_budget_s": r["grip_budget_s"]}
     return out
 
