@@ -65,6 +65,22 @@ def test_weekend_renders_without_jargon(event):
     assert _jargon(at) == []
 
 
+@pytest.mark.parametrize("event", ["hungary-2026", "italy-2026"])
+def test_haas_tab_renders(event):
+    if not (config.DATA_PROCESSED / f"meta_{event}.json").exists() and \
+            not (config.DATA_PROCESSED / f"outlook_{event}.json").exists():
+        pytest.skip(f"no processed data for {event}")
+    at = _render(event)
+    labels = [t.label for t in at.tabs]
+    assert labels and labels[0] == "Haas", labels
+    assert not at.exception, [e.value for e in at.exception]
+    assert _jargon(at) == []
+    for view in ("Ocon", "Bearman", "Haas Overview"):
+        at.button_group(key=f"haas_view_{event}").set_value(view).run()
+        assert not at.exception, (view, [e.value for e in at.exception])
+        assert _jargon(at) == [], view
+
+
 def test_plan_builder_sections():
     event = "spain-2026"
     if not (config.DATA_PROCESSED / f"outlook_{event}.npz").exists():

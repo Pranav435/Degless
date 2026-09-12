@@ -463,7 +463,8 @@ def _plan_status(r: dict, p: dict, lap_now: int) -> dict:
             "window": wins.get((idx or 0) + 1) if nxt is not None else None}
 
 
-FIELD_KEY = ["Pos", "Driver", "Tyre", "Life used", "Laps left", "Plan from here", "Window", "Alert"]
+FIELD_KEY = ["Pos", "Driver", "Tyre", "Life used", "Laps left", "Plan from here", "Window", "Action", "Confidence",
+            "Alert"]
 def _field_cols() -> dict:
     # Built per render: the progress bar takes the active mode's ink.
     return {
@@ -481,6 +482,12 @@ def _field_cols() -> dict:
                                                             "laps after pitting now."),
         "Undercut chance": st.column_config.TextColumn(help="Your chance of being ahead of the car in front three "
                                                             "laps after pitting now."),
+        "Action": st.column_config.TextColumn(help="The race-execution call for this car this lap, where the "
+                                                    "engine is pricing one (PIT NOW / STAY OUT / WAIT k laps / "
+                                                    "BOX BY LAP x)."),
+        "Confidence": st.column_config.NumberColumn(format="percent", help="Share of this car's simulated races on "
+                                                     "which the call above is the cheapest of the options compared."),
+        "Why": st.column_config.TextColumn(help="The main reason behind the call."),
     }
 
 
@@ -488,6 +495,7 @@ def _field_rows(field: list) -> pd.DataFrame:
     rows = []
     for r in field:
         p = r.get("plan") or {}
+        dec = p.get("decision") or {}
         uc = r.get("undercut") or {}
         th, op = uc.get("threat") or {}, uc.get("opportunity") or {}
         alert = ("⚠ drop-off" if r.get("cliff_alarm") else
@@ -500,6 +508,9 @@ def _field_rows(field: list) -> pd.DataFrame:
                           else "60+"),
             "Plan from here": label_text(p.get("best")) if p.get("best") else ("in pit" if r.get("in_pit") else "—"),
             "Window": f"{p['window_lo']}–{p['window_hi']}" if p.get("window_lo") is not None else "—",
+            "Action": dec.get("action") or "",
+            "Confidence": float(dec["confidence"]) if finite(dec.get("confidence")) else None,
+            "Why": dec.get("principal") or "",
             "Alert": alert,
             "Gap": "" if r.get("position") == 1 else (r.get("gap_leader") or ""),
             "Interval": "" if r.get("position") == 1 else (r.get("interval") or ""),
@@ -511,6 +522,37 @@ def _field_rows(field: list) -> pd.DataFrame:
             "Undercut chance": f"{op['driver']} {op['p_undercut_3lap']:.0%}" if op else "",
         })
     return pd.DataFrame(rows)
+
+
+def car_lap_chart(d: pd.DataFrame, r: dict, p: dict):
+    """One car's lap-time scatter, its tyre-wear forecast and the pit window.
+
+    `d` is that driver's laps (already filtered and sorted by lap number),
+    `r` its field row (`proj`, `last_lap_s`, `level_s`) and `p` its plan
+    (`window_lo`/`window_hi`).  Shared by the Now tab and the Haas tab so the
+    chart is built once."""
+    fig = go.Figure()
+    for cmp_ in d["compound"].dropna().unique():
+        g = d[d["compound"] == cmp_]
+        fig.add_trace(go.Scatter(x=g["lap_number"], y=g["lap_time_s"], mode="markers", name=str(cmp_).title(),
+                                 marker=dict(size=7, color=rgba(ccol(cmp_), 0.8), line=dict(width=1, color=BLACK)),
+                                 hovertemplate=f"{str(cmp_).title()} · lap %{{x}}<br>%{{y:.3f}} s<extra></extra>"))
+    proj = r.get("proj") or []
+    if proj and r.get("last_lap_s") and r.get("level_s"):
+        last = d["lap_number"].max()
+        fig.add_trace(go.Scatter(x=[last + j for j in range(1, len(proj) + 1)],
+                                 y=[float(r["last_lap_s"]) + v for v in proj], mode="lines+markers",
+                                 name="forecast", line=dict(color=WHITE, dash="dot", width=2)))
+    for _, pr in d[d["pit_in"]].iterrows():
+        fig.add_vline(x=pr["lap_number"], line=dict(color=HAIR, width=1))
+    if p.get("window_lo") is not None:
+        fig.add_vrect(x0=p["window_lo"] - 0.5, x1=p["window_hi"] + 0.5, line_width=0,
+                      fillcolor=rgba(WHITE, 0.10), layer="below", annotation_text="pit window",
+                      annotation_position="top left", annotation_font=dict(color=MUTED, size=11))
+    lt = d["lap_time_s"].dropna()
+    if len(lt) > 4:
+        fig.update_yaxes(range=[float(lt.quantile(0.02)) - 1.0, float(lt.quantile(0.9)) + 3.0])
+    return style(fig, 360, "lap time (s)", "lap")
 
 
 def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
@@ -574,7 +616,8 @@ def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
                    f"{s['status']}" + (f" · {s['switch']}" if s["switch"] else "")
                    + (f"<br>{extra}" if extra else ""), LEVEL_KIND.get(s["level"], "info"))
     rj = r.get("rejoin_if_box_now") or {}
-    tiles(f"live-drv-{sk}", [
+    dec = p.get("decision") or {}
+    drv_tiles = [
         ("Tyre", f"{str(r.get('compound') or '—').title()} · {r.get('tyre_age') or '—'} laps", None,
          f"stint {r.get('stint') or '—'}"),
         ("Life used", pct(r.get("wear")), DEFS["life_used"], f"drop-off risk {pct(r.get('p_past_cliff') or 0)}"),
@@ -583,7 +626,12 @@ def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
         ("Box now costs", fmt(p.get("delta_box_now_s"), 1, " s"),
          "Race time lost by pitting at the end of this lap instead of following the best plan from here.",
          f"rejoin P{rj.get('position', '?')}" + (f" behind {rj['behind']}" if rj.get("behind") else "")),
-    ])
+    ]
+    if dec.get("action"):
+        drv_tiles.append(("Race-execution call", dec["action"], dec.get("principal") or
+                          "The live decision engine's recommended action for this car, this lap.",
+                          f"{pct(dec.get('confidence'))} confidence"))
+    tiles(f"live-drv-{sk}", drv_tiles)
 
     laps = read_laps(sk)
     if not laps.empty:
@@ -592,28 +640,7 @@ def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
                   if p.get("best") else f"{drv}: lap times",
                   tip="Dots are lap times by tyre; the dotted white line is the next laps' forecast from tyre wear "
                       "alone. The shaded band is the pit window."):
-            fig = go.Figure()
-            for cmp_ in d["compound"].dropna().unique():
-                g = d[d["compound"] == cmp_]
-                fig.add_trace(go.Scatter(x=g["lap_number"], y=g["lap_time_s"], mode="markers", name=str(cmp_).title(),
-                                         marker=dict(size=7, color=rgba(ccol(cmp_), 0.8), line=dict(width=1, color=BLACK)),
-                                         hovertemplate=f"{str(cmp_).title()} · lap %{{x}}<br>%{{y:.3f}} s<extra></extra>"))
-            proj = r.get("proj") or []
-            if proj and r.get("last_lap_s") and r.get("level_s"):
-                last = d["lap_number"].max()
-                fig.add_trace(go.Scatter(x=[last + j for j in range(1, len(proj) + 1)],
-                                         y=[float(r["last_lap_s"]) + v for v in proj], mode="lines+markers",
-                                         name="forecast", line=dict(color=WHITE, dash="dot", width=2)))
-            for _, pr in d[d["pit_in"]].iterrows():
-                fig.add_vline(x=pr["lap_number"], line=dict(color=HAIR, width=1))
-            if p.get("window_lo") is not None:
-                fig.add_vrect(x0=p["window_lo"] - 0.5, x1=p["window_hi"] + 0.5, line_width=0,
-                              fillcolor=rgba(WHITE, 0.10), layer="below", annotation_text="pit window",
-                              annotation_position="top left", annotation_font=dict(color=MUTED, size=11))
-            lt = d["lap_time_s"].dropna()
-            if len(lt) > 4:
-                fig.update_yaxes(range=[float(lt.quantile(0.02)) - 1.0, float(lt.quantile(0.9)) + 3.0])
-            chart(style(fig, 360, "lap time (s)", "lap"))
+            chart(car_lap_chart(d, r, p))
 
     with more():
         win = p.get("window") or []
