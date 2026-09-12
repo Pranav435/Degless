@@ -779,6 +779,9 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
     cal = {"budgets": {**{c: pooled_b for c in VALID_COMPOUNDS}, **per_b}, "floor": MANAGE_WEAR_FLOOR, "cost": MANAGE_COST_S,
            "dirty": dirty, "lambda": UNDERCUT_EXPOSURE_LAMBDA, "tau": PLAN_PRIOR_TAU_S, "grid": GRID_START_PENALTY_S,
            "kappa": KAPPA_V4, "held_out": held_out,
+           # the rival model every sweep searches with: the forced mode, or the
+           # heterogeneous field until the validation below has chosen
+           "rival_mode": ("hetero" if rival_mode == "auto" else str(rival_mode)),
            "family_temper": objective.FAMILY_TEMPER_S_DEFAULT,
            "extrap_ln_sd": objective._extrap_ln_sd(None)}
     sweeps = {}
