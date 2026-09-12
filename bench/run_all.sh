@@ -34,6 +34,14 @@ run bench_live
 run bench_stability
 run bench_speed --events barcelona-2026
 run bench_apex
+# V4: the place-value estimator audit and the extrapolation measurement are
+# pure reads of data/processed; the live ablation, the paired tick timing and
+# the experiment grid re-run the engine and the search on frozen inputs.
+run bench_place_value
+run bench_extrapolation
+run bench_live --no-race-state
+run bench_tick_paired
+run bench_experiments
 t=$(date +%s)
 say "### pytest $(date)"
 $PY -m pytest tests -q > bench/out/pytest.log 2>&1
@@ -48,6 +56,7 @@ echo "  \"pytest\": {\"seconds\": $dt, \"exit\": $rc}," >> $RT.parts
 TOTAL=$(( $(date +%s) - T0 ))
 { echo "{"; cat $RT.parts; echo "  \"total_seconds\": $TOTAL"; echo "}" } > $RT
 run bench_compare
+run bench_v4_compare
 
 TOTAL=$(( $(date +%s) - T0 ))
 { echo "{"; cat $RT.parts; echo "  \"total_seconds\": $TOTAL"; echo "}" } > $RT
