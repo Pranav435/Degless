@@ -1,0 +1,69 @@
+{
+ "year": 2025,
+ "circuit": "Sakhir",
+ "event": "Bahrain Grand Prix",
+ "location": "Sakhir",
+ "date": "2025-04-13",
+ "n_laps": 57,
+ "n_classified": 19,
+ "stops": {
+  "2": 18,
+  "3": 1
+ },
+ "plans": {
+  "S-M-H": 5,
+  "M-M-H": 3,
+  "S-M-M": 3,
+  "S-H-M": 2,
+  "S-M-S": 2,
+  "S-M-S-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 13,
+   "p10": 16.4,
+   "p50": 25.0,
+   "p90": 29.0,
+   "max": 30,
+   "share_of_laps": 0.2807017543859649
+  },
+  "MEDIUM": {
+   "n_stints": 25,
+   "p10": 15.0,
+   "p50": 19.0,
+   "p90": 25.0,
+   "max": 31,
+   "share_of_laps": 0.46075715604801476
+  },
+  "SOFT": {
+   "n_stints": 20,
+   "p10": 5.9,
+   "p50": 12.0,
+   "p90": 25.0,
+   "max": 25,
+   "share_of_laps": 0.2585410895660203
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.13001515122517676,
+   "se": 0.007057511094548211,
+   "n_laps": 270
+  },
+  "MEDIUM": {
+   "slope": 0.11275312374472798,
+   "se": 0.0060130771878943974,
+   "n_laps": 455
+  },
+  "SOFT": {
+   "slope": 0.13334881862910725,
+   "se": 0.009066225461046714,
+   "n_laps": 227
+  }
+ },
+ "pit_loss_s": 23.0325,
+ "n_pit_stops": 28,
+ "sc_share_of_laps": 0.03508771929824561,
+ "track_temp_c": 31.55,
+ "rain": false
+}

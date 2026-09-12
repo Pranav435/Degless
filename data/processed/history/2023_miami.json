@@ -1,0 +1,62 @@
+{
+ "year": 2023,
+ "circuit": "Miami",
+ "event": "Miami Grand Prix",
+ "location": "Miami",
+ "date": "2023-05-07",
+ "n_laps": 57,
+ "n_classified": 20,
+ "stops": {
+  "0": 1,
+  "1": 19
+ },
+ "plans": {
+  "M-H": 10,
+  "H-M": 7,
+  "S-H": 2,
+  "H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 20,
+   "p10": 33.0,
+   "p50": 40.0,
+   "p90": 51.2,
+   "max": 54,
+   "share_of_laps": 0.7165492957746479
+  },
+  "MEDIUM": {
+   "n_stints": 17,
+   "p10": 14.6,
+   "p50": 18.0,
+   "p90": 24.0,
+   "max": 26,
+   "share_of_laps": 0.2755281690140845
+  },
+  "SOFT": {
+   "n_stints": 2,
+   "p10": 4.1,
+   "p50": 4.5,
+   "p90": 4.9,
+   "max": 5,
+   "share_of_laps": 0.007922535211267605
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.0235130991898323,
+   "se": 0.0017865159149620816,
+   "n_laps": 787
+  },
+  "MEDIUM": {
+   "slope": 0.03273074541594323,
+   "se": 0.005611394475068942,
+   "n_laps": 286
+  }
+ },
+ "pit_loss_s": 19.929499999999976,
+ "n_pit_stops": 20,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 35.2,
+ "rain": false
+}

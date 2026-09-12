@@ -1,0 +1,64 @@
+{
+ "year": 2024,
+ "circuit": "Imola",
+ "event": "Emilia Romagna Grand Prix",
+ "location": "Imola",
+ "date": "2024-05-19",
+ "n_laps": 63,
+ "n_classified": 19,
+ "stops": {
+  "1": 16,
+  "2": 2,
+  "3": 1
+ },
+ "plans": {
+  "M-H": 13,
+  "H-M": 3,
+  "S-H-M-S": 1,
+  "S-H-M": 1,
+  "M-H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 19,
+   "p10": 25.8,
+   "p50": 37.0,
+   "p90": 50.2,
+   "max": 54,
+   "share_of_laps": 0.5973041280539174
+  },
+  "MEDIUM": {
+   "n_stints": 20,
+   "p10": 11.0,
+   "p50": 24.5,
+   "p90": 32.50000000000001,
+   "max": 37,
+   "share_of_laps": 0.3875315922493682
+  },
+  "SOFT": {
+   "n_stints": 3,
+   "p10": 3.8,
+   "p50": 7.0,
+   "p90": 7.8,
+   "max": 8,
+   "share_of_laps": 0.015164279696714406
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.04930241891322744,
+   "se": 0.0027086934105232828,
+   "n_laps": 684
+  },
+  "MEDIUM": {
+   "slope": 0.061551966729160655,
+   "se": 0.004634407902126859,
+   "n_laps": 467
+  }
+ },
+ "pit_loss_s": 27.841999999999985,
+ "n_pit_stops": 25,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 42.1,
+ "rain": false
+}

@@ -1,0 +1,53 @@
+{
+ "year": 2025,
+ "circuit": "Baku",
+ "event": "Azerbaijan Grand Prix",
+ "location": "Baku",
+ "date": "2025-09-21",
+ "n_laps": 51,
+ "n_classified": 19,
+ "stops": {
+  "0": 1,
+  "1": 18
+ },
+ "plans": {
+  "M-H": 10,
+  "H-M": 8,
+  "H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 19,
+   "p10": 20.4,
+   "p50": 33.0,
+   "p90": 39.2,
+   "max": 49,
+   "share_of_laps": 0.6192946058091287
+  },
+  "MEDIUM": {
+   "n_stints": 18,
+   "p10": 12.7,
+   "p50": 18.5,
+   "p90": 31.400000000000006,
+   "max": 37,
+   "share_of_laps": 0.38070539419087135
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.011491602034099269,
+   "se": 0.0027795353007420633,
+   "n_laps": 513
+  },
+  "MEDIUM": {
+   "slope": 0.026784112828470652,
+   "se": 0.004926912398307688,
+   "n_laps": 283
+  }
+ },
+ "pit_loss_s": 21.398000000000025,
+ "n_pit_stops": 15,
+ "sc_share_of_laps": 0.0392156862745098,
+ "track_temp_c": 25.65,
+ "rain": false
+}

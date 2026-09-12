@@ -1,0 +1,62 @@
+{
+ "factor": 1.4343218899328785,
+ "ln_sd": 0.31909049365884773,
+ "n_circuits": 4,
+ "detail": [
+  {
+   "circuit": "Suzuka",
+   "ratio": 0.966,
+   "deg_2026": {
+    "HARD": 0.02,
+    "MEDIUM": 0.059
+   },
+   "deg_2025": {
+    "HARD": 0.027,
+    "MEDIUM": 0.055,
+    "SOFT": 0.053
+   }
+  },
+  {
+   "circuit": "Barcelona",
+   "ratio": 2.104,
+   "deg_2026": {
+    "HARD": 0.11,
+    "MEDIUM": 0.157,
+    "SOFT": 0.172
+   },
+   "deg_2025": {
+    "MEDIUM": 0.061,
+    "SOFT": 0.117
+   }
+  },
+  {
+   "circuit": "Spielberg",
+   "ratio": 1.398,
+   "deg_2026": {
+    "HARD": 0.078,
+    "MEDIUM": 0.07,
+    "SOFT": 0.05
+   },
+   "deg_2025": {
+    "HARD": 0.051,
+    "MEDIUM": 0.054,
+    "SOFT": -0.021
+   }
+  },
+  {
+   "circuit": "Budapest",
+   "ratio": 1.49,
+   "deg_2026": {
+    "HARD": 0.082,
+    "MEDIUM": 0.065,
+    "SOFT": 0.048
+   },
+   "deg_2025": {
+    "HARD": 0.039,
+    "MEDIUM": 0.061,
+    "SOFT": 0.113
+   }
+  }
+ ],
+ "note": "2026/2025 race degradation, driver + lap fixed effects, laps-weighted per compound"
+}

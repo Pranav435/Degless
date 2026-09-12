@@ -1,0 +1,70 @@
+{
+ "year": 2024,
+ "circuit": "Monaco",
+ "event": "Monaco Grand Prix",
+ "location": "Monaco",
+ "date": "2024-05-26",
+ "n_laps": 78,
+ "n_classified": 16,
+ "stops": {
+  "0": 10,
+  "1": 5,
+  "2": 1
+ },
+ "plans": {
+  "H": 7,
+  "M": 3,
+  "M-H": 3,
+  "H-M": 1,
+  "M-H-S": 1,
+  "H-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 13,
+   "p10": 26.2,
+   "p50": 75.0,
+   "p90": 77.0,
+   "max": 77,
+   "share_of_laps": 0.6409202958093673
+  },
+  "MEDIUM": {
+   "n_stints": 8,
+   "p10": 17.5,
+   "p50": 50.5,
+   "p90": 76.3,
+   "max": 77,
+   "share_of_laps": 0.3311421528348398
+  },
+  "SOFT": {
+   "n_stints": 2,
+   "p10": 8.2,
+   "p50": 17.0,
+   "p90": 25.8,
+   "max": 28,
+   "share_of_laps": 0.027937551355792935
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.03775856688178325,
+   "se": 0.0030920655042026694,
+   "n_laps": 753
+  },
+  "MEDIUM": {
+   "slope": 0.023784026075700404,
+   "se": 0.0035715087529616107,
+   "n_laps": 387
+  },
+  "SOFT": {
+   "slope": 0.09870010874411506,
+   "se": 0.0209187575488453,
+   "n_laps": 31
+  }
+ },
+ "pit_loss_s": 21.525000000000006,
+ "n_pit_stops": 5,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 47.25,
+ "rain": false
+}

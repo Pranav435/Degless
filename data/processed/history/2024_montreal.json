@@ -1,0 +1,55 @@
+{
+ "year": 2024,
+ "circuit": "Montreal",
+ "event": "Canadian Grand Prix",
+ "location": "Montr\u00e9al",
+ "date": "2024-06-09",
+ "n_laps": 70,
+ "n_classified": 15,
+ "stops": {
+  "0": 11,
+  "1": 4
+ },
+ "plans": {
+  "M": 8,
+  "H": 3,
+  "M-M": 2,
+  "M-H": 1,
+  "H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 5,
+   "p10": 11.8,
+   "p50": 26.0,
+   "p90": 28.4,
+   "max": 30,
+   "share_of_laps": 0.2708860759493671
+  },
+  "MEDIUM": {
+   "n_stints": 14,
+   "p10": 11.6,
+   "p50": 24.0,
+   "p90": 26.700000000000003,
+   "max": 28,
+   "share_of_laps": 0.7291139240506329
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.0951948969240396,
+   "se": 0.03560762610927566,
+   "n_laps": 67
+  },
+  "MEDIUM": {
+   "slope": 0.08890945098151333,
+   "se": 0.03381768935215929,
+   "n_laps": 190
+  }
+ },
+ "pit_loss_s": 24.804000000000002,
+ "n_pit_stops": 18,
+ "sc_share_of_laps": 0.12857142857142856,
+ "track_temp_c": 25.8,
+ "rain": true
+}

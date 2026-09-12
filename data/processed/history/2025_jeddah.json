@@ -1,0 +1,54 @@
+{
+ "year": 2025,
+ "circuit": "Jeddah",
+ "event": "Saudi Arabian Grand Prix",
+ "location": "Jeddah",
+ "date": "2025-04-20",
+ "n_laps": 50,
+ "n_classified": 18,
+ "stops": {
+  "0": 2,
+  "1": 16
+ },
+ "plans": {
+  "M-H": 11,
+  "H-M": 4,
+  "H": 2,
+  "H-H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 19,
+   "p10": 25.8,
+   "p50": 31.0,
+   "p90": 40.8,
+   "max": 49,
+   "share_of_laps": 0.6763717805151176
+  },
+  "MEDIUM": {
+   "n_stints": 15,
+   "p10": 16.0,
+   "p50": 19.0,
+   "p90": 22.6,
+   "max": 29,
+   "share_of_laps": 0.3236282194848824
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.026121064133061422,
+   "se": 0.0031641706929351416,
+   "n_laps": 569
+  },
+  "MEDIUM": {
+   "slope": 0.054165209793037794,
+   "se": 0.00945448957131703,
+   "n_laps": 241
+  }
+ },
+ "pit_loss_s": 20.5415,
+ "n_pit_stops": 16,
+ "sc_share_of_laps": 0.02,
+ "track_temp_c": 38.0,
+ "rain": false
+}

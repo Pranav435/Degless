@@ -1,0 +1,64 @@
+{
+ "year": 2023,
+ "circuit": "Las Vegas",
+ "event": "Las Vegas Grand Prix",
+ "location": "Las Vegas",
+ "date": "2023-11-18",
+ "n_laps": 50,
+ "n_classified": 17,
+ "stops": {
+  "1": 10,
+  "2": 7
+ },
+ "plans": {
+  "M-H": 6,
+  "M-H-H": 4,
+  "H-H": 2,
+  "H-M": 2,
+  "H-M-H": 1,
+  "H-H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 26,
+   "p10": 14.0,
+   "p50": 24.0,
+   "p90": 33.0,
+   "max": 35,
+   "share_of_laps": 0.7367178276269185
+  },
+  "MEDIUM": {
+   "n_stints": 14,
+   "p10": 7.6,
+   "p50": 16.0,
+   "p90": 23.1,
+   "max": 26,
+   "share_of_laps": 0.2597402597402597
+  },
+  "SOFT": {
+   "n_stints": 1,
+   "p10": 3.0,
+   "p50": 3.0,
+   "p90": 3.0,
+   "max": 3,
+   "share_of_laps": 0.0035419126328217238
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.0367625094802565,
+   "se": 0.006025479229336152,
+   "n_laps": 504
+  },
+  "MEDIUM": {
+   "slope": 0.09577934809220012,
+   "se": 0.013853879019139724,
+   "n_laps": 137
+  }
+ },
+ "pit_loss_s": 24.157999999999987,
+ "n_pit_stops": 14,
+ "sc_share_of_laps": 0.06,
+ "track_temp_c": 17.8,
+ "rain": false
+}

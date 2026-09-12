@@ -1,0 +1,68 @@
+{
+ "year": 2023,
+ "circuit": "Yas Marina",
+ "event": "Singapore Grand Prix",
+ "location": "Marina Bay",
+ "date": "2023-09-17",
+ "n_laps": 62,
+ "n_classified": 16,
+ "stops": {
+  "1": 10,
+  "2": 6
+ },
+ "plans": {
+  "M-H": 6,
+  "M-H-M": 4,
+  "H-M": 3,
+  "M-H-S": 2,
+  "S-H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 16,
+   "p10": 23.0,
+   "p50": 39.5,
+   "p90": 42.0,
+   "max": 42,
+   "share_of_laps": 0.5383838383838384
+  },
+  "MEDIUM": {
+   "n_stints": 19,
+   "p10": 18.8,
+   "p50": 20.0,
+   "p90": 22.2,
+   "max": 42,
+   "share_of_laps": 0.40404040404040403
+  },
+  "SOFT": {
+   "n_stints": 3,
+   "p10": 18.2,
+   "p50": 19.0,
+   "p90": 19.8,
+   "max": 20,
+   "share_of_laps": 0.05757575757575758
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.045487283980342755,
+   "se": 0.0042918268306946445,
+   "n_laps": 478
+  },
+  "MEDIUM": {
+   "slope": 0.080306678056659,
+   "se": 0.009044526165712262,
+   "n_laps": 319
+  },
+  "SOFT": {
+   "slope": 0.02259122753811671,
+   "se": 0.02730104601306157,
+   "n_laps": 41
+  }
+ },
+ "pit_loss_s": 28.415999999999997,
+ "n_pit_stops": 3,
+ "sc_share_of_laps": 0.04838709677419355,
+ "track_temp_c": 36.4,
+ "rain": false
+}

@@ -1,0 +1,62 @@
+{
+ "year": 2024,
+ "circuit": "Mexico City",
+ "event": "Mexico City Grand Prix",
+ "location": "Mexico City",
+ "date": "2024-10-27",
+ "n_laps": 71,
+ "n_classified": 17,
+ "stops": {
+  "1": 15,
+  "2": 2
+ },
+ "plans": {
+  "M-H": 11,
+  "H-M": 4,
+  "H-M-S": 1,
+  "H-M-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 17,
+   "p10": 35.6,
+   "p50": 41.0,
+   "p90": 47.4,
+   "max": 49,
+   "share_of_laps": 0.5795644891122278
+  },
+  "MEDIUM": {
+   "n_stints": 18,
+   "p10": 22.7,
+   "p50": 27.5,
+   "p90": 31.3,
+   "max": 39,
+   "share_of_laps": 0.41624790619765495
+  },
+  "SOFT": {
+   "n_stints": 1,
+   "p10": 5.0,
+   "p50": 5.0,
+   "p90": 5.0,
+   "max": 5,
+   "share_of_laps": 0.0041876046901172526
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.029463360316299057,
+   "se": 0.0023317437546372896,
+   "n_laps": 638
+  },
+  "MEDIUM": {
+   "slope": 0.05578146794361716,
+   "se": 0.004943620612667347,
+   "n_laps": 417
+  }
+ },
+ "pit_loss_s": 23.313999999999993,
+ "n_pit_stops": 21,
+ "sc_share_of_laps": 0.056338028169014086,
+ "track_temp_c": 36.1,
+ "rain": false
+}

@@ -1,0 +1,45 @@
+{
+ "compounds": [
+  "HARD",
+  "MEDIUM",
+  "SOFT"
+ ],
+ "drivers": [
+  "ALB",
+  "ALO",
+  "ANT",
+  "BEA",
+  "BOR",
+  "BOT",
+  "COL",
+  "GAS",
+  "HAM",
+  "HUL",
+  "LAW",
+  "LEC",
+  "LIN",
+  "NOR",
+  "OCO",
+  "PER",
+  "PIA",
+  "RUS",
+  "SAI",
+  "VER"
+ ],
+ "corners": [
+  2,
+  5,
+  9,
+  14
+ ],
+ "w": 1.5,
+ "use_hinge": true,
+ "n_laps": 184,
+ "n_apex": 736,
+ "max_rhat": 1.009306967925833,
+ "n_divergences": 0,
+ "prior_label": "2026 physics + circuit history",
+ "compound_prior_label": "2026 compound ladder",
+ "event_key": "hungary-2026",
+ "converged": true
+}

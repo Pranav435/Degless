@@ -1,0 +1,40 @@
+{
+ "year": 2025,
+ "circuit": "Melbourne",
+ "event": "Australian Grand Prix",
+ "location": "Melbourne",
+ "date": "2025-03-16",
+ "n_laps": 57,
+ "n_classified": 14,
+ "stops": {
+  "0": 14
+ },
+ "plans": {
+  "H": 8,
+  "M": 6
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 8,
+   "p10": 10.0,
+   "p50": 11.0,
+   "p90": 13.3,
+   "max": 14,
+   "share_of_laps": 0.6052631578947368
+  },
+  "MEDIUM": {
+   "n_stints": 6,
+   "p10": 6.0,
+   "p50": 11.0,
+   "p90": 13.0,
+   "max": 14,
+   "share_of_laps": 0.39473684210526316
+  }
+ },
+ "deg": {},
+ "pit_loss_s": null,
+ "n_pit_stops": 0,
+ "sc_share_of_laps": 0.2807017543859649,
+ "track_temp_c": 19.0,
+ "rain": true
+}

@@ -1,0 +1,59 @@
+{
+ "year": 2025,
+ "circuit": "Silverstone",
+ "event": "British Grand Prix",
+ "location": "Silverstone",
+ "date": "2025-07-06",
+ "n_laps": 52,
+ "n_classified": 15,
+ "stops": {
+  "0": 11,
+  "1": 4
+ },
+ "plans": {
+  "M": 10,
+  "H-M": 1,
+  "S": 1,
+  "M-S": 1,
+  "H-H": 1,
+  "S-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 3,
+   "p10": 10.0,
+   "p50": 10.0,
+   "p90": 13.2,
+   "max": 14,
+   "share_of_laps": 0.17346938775510204
+  },
+  "MEDIUM": {
+   "n_stints": 12,
+   "p10": 9.1,
+   "p50": 10.0,
+   "p90": 11.0,
+   "max": 15,
+   "share_of_laps": 0.6428571428571429
+  },
+  "SOFT": {
+   "n_stints": 4,
+   "p10": 5.800000000000001,
+   "p50": 10.5,
+   "p90": 11.0,
+   "max": 11,
+   "share_of_laps": 0.1836734693877551
+  }
+ },
+ "deg": {
+  "MEDIUM": {
+   "slope": -0.574660945866011,
+   "se": 0.3060522952925639,
+   "n_laps": 98
+  }
+ },
+ "pit_loss_s": 22.019999999999996,
+ "n_pit_stops": 16,
+ "sc_share_of_laps": 0.15384615384615385,
+ "track_temp_c": 23.6,
+ "rain": true
+}

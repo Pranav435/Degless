@@ -1,0 +1,63 @@
+{
+ "year": 2023,
+ "circuit": "Lusail",
+ "event": "Qatar Grand Prix",
+ "location": "Lusail",
+ "date": "2023-10-08",
+ "n_laps": 57,
+ "n_classified": 17,
+ "stops": {
+  "3": 17
+ },
+ "plans": {
+  "M-M-H-M": 6,
+  "M-M-H-H": 2,
+  "S-M-H-H": 2,
+  "M-M-M-H": 2,
+  "M-H-M-H": 1,
+  "S-H-H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 24,
+   "p10": 13.3,
+   "p50": 17.5,
+   "p90": 18.0,
+   "max": 18,
+   "share_of_laps": 0.41597510373443985
+  },
+  "MEDIUM": {
+   "n_stints": 39,
+   "p10": 10.8,
+   "p50": 14.0,
+   "p90": 18.0,
+   "max": 18,
+   "share_of_laps": 0.5622406639004149
+  },
+  "SOFT": {
+   "n_stints": 5,
+   "p10": 3.0,
+   "p50": 3.0,
+   "p90": 6.2,
+   "max": 7,
+   "share_of_laps": 0.021784232365145227
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.04209756272763543,
+   "se": 0.008575039007931981,
+   "n_laps": 349
+  },
+  "MEDIUM": {
+   "slope": 0.013689237307229374,
+   "se": 0.007413547654115276,
+   "n_laps": 447
+  }
+ },
+ "pit_loss_s": 27.75800000000001,
+ "n_pit_stops": 41,
+ "sc_share_of_laps": 0.03508771929824561,
+ "track_temp_c": 37.1,
+ "rain": false
+}

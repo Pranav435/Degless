@@ -1,0 +1,69 @@
+{
+ "year": 2024,
+ "circuit": "Silverstone",
+ "event": "British Grand Prix",
+ "location": "Silverstone",
+ "date": "2024-07-07",
+ "n_laps": 52,
+ "n_classified": 18,
+ "stops": {
+  "1": 15,
+  "2": 3
+ },
+ "plans": {
+  "M-S": 9,
+  "M-M": 4,
+  "M-H": 2,
+  "S-M-M": 1,
+  "H-M-S": 1,
+  "S-M-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 3,
+   "p10": 11.6,
+   "p50": 14.0,
+   "p90": 18.0,
+   "max": 19,
+   "share_of_laps": 0.06312769010043041
+  },
+  "MEDIUM": {
+   "n_stints": 23,
+   "p10": 10.4,
+   "p50": 26.0,
+   "p90": 27.0,
+   "max": 28,
+   "share_of_laps": 0.6901004304160688
+  },
+  "SOFT": {
+   "n_stints": 13,
+   "p10": 12.2,
+   "p50": 14.0,
+   "p90": 14.8,
+   "max": 19,
+   "share_of_laps": 0.2467718794835007
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": -0.17467694243276233,
+   "se": 0.0354674136999758,
+   "n_laps": 39
+  },
+  "MEDIUM": {
+   "slope": -0.17470756403112775,
+   "se": 0.01847184523998749,
+   "n_laps": 465
+  },
+  "SOFT": {
+   "slope": -0.0628679036372084,
+   "se": 0.02564576600193744,
+   "n_laps": 158
+  }
+ },
+ "pit_loss_s": 25.34700000000001,
+ "n_pit_stops": 45,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 25.4,
+ "rain": true
+}

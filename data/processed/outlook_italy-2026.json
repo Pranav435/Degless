@@ -1,0 +1,1570 @@
+{
+ "event": "italy-2026",
+ "event_name": "Italy 2026",
+ "circuit": "Monza",
+ "n_race_laps": 53,
+ "updated_utc": "2026-09-07T19:00:41.911894+00:00",
+ "stage": "sealed",
+ "stage_label": "sealed fit on Practice 1, Practice 2",
+ "prior_basis": "sealed fit",
+ "sources": [
+  "sealed practice fit on Practice 1, Practice 2 (244 clean long-run laps, posterior_italy-2026.npz)",
+  "circuit history [2023, 2024, 2025] folded into the fit"
+ ],
+ "sessions_used": [
+  "Practice 1",
+  "Practice 2"
+ ],
+ "sealed_file": "italy-2026_20260904T193302Z.json",
+ "n_practice_laps": 244,
+ "live": {
+  "session": "11355",
+  "session_name": "Practice 2",
+  "used": false,
+  "rows": [],
+  "note": "Practice 2 is already in the sealed fit; live board not folded in again",
+  "n_long_runs": 24,
+  "track_temp_c": 53.4
+ },
+ "regime": {
+  "ratio": 0.5445337638593781,
+  "ln_sd": 0.38756117064968265,
+  "p05": 0.28783627349034174,
+  "p95": 1.030158625899562,
+  "measured": true,
+  "label": "measured on australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026",
+  "sources": [
+   "australia-2026",
+   "japan-2026",
+   "barcelona-2026",
+   "austria-2026",
+   "belgium-2026",
+   "hungary-2026"
+  ],
+  "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions, geometric mean over australia-2026 0.34x, japan-2026 0.74x, barcelona-2026 0.67x, austria-2026 0.66x, belgium-2026 0.32x, hungary-2026 0.72x; applied to italy-2026, whose own race is never used",
+  "donors": [
+   {
+    "event": "australia-2026",
+    "ratio": 0.344,
+    "compounds": [
+     "SOFT"
+    ],
+    "n_race_stints": 47
+   },
+   {
+    "event": "japan-2026",
+    "ratio": 0.7377,
+    "compounds": [
+     "MEDIUM"
+    ],
+    "n_race_stints": 42
+   },
+   {
+    "event": "barcelona-2026",
+    "ratio": 0.6747,
+    "compounds": [
+     "MEDIUM",
+     "SOFT"
+    ],
+    "n_race_stints": 62
+   },
+   {
+    "event": "austria-2026",
+    "ratio": 0.6592,
+    "compounds": [
+     "HARD",
+     "MEDIUM",
+     "SOFT"
+    ],
+    "n_race_stints": 61
+   },
+   {
+    "event": "belgium-2026",
+    "ratio": 0.3193,
+    "compounds": [
+     "HARD",
+     "MEDIUM",
+     "SOFT"
+    ],
+    "n_race_stints": 40
+   },
+   {
+    "event": "hungary-2026",
+    "ratio": 0.7234,
+    "compounds": [
+     "HARD",
+     "MEDIUM",
+     "SOFT"
+    ],
+    "n_race_stints": 64
+   }
+  ]
+ },
+ "pit_loss_s": 25.32499999999999,
+ "pit_loss_source": "this pit lane, [2023, 2024, 2025]",
+ "allocation": {
+  "SOFT": 2,
+  "MEDIUM": 2,
+  "HARD": 2
+ },
+ "stint_cap": {
+  "SOFT": 10,
+  "MEDIUM": 51,
+  "HARD": 56
+ },
+ "support": {
+  "HARD": 22.0,
+  "MEDIUM": 22.0,
+  "SOFT": 20.0
+ },
+ "thermal": {
+  "beta_per_c": 0.025207229733850672,
+  "track_temp_now": 55.1,
+  "track_temp_hist": 45.416666666666664,
+  "multiplier": 1.2764592167616633,
+  "track_temp_live": 53.4
+ },
+ "history": {
+  "circuit": "Monza",
+  "years": [
+   2023,
+   2024,
+   2025
+  ],
+  "stint_cap": {
+   "SOFT": 10,
+   "MEDIUM": 51,
+   "HARD": 56
+  },
+  "stint_typical": {
+   "SOFT": {
+    "p10": 3.0,
+    "p50": 7.0,
+    "p90": 8.6,
+    "n_stints": 5
+   },
+   "MEDIUM": {
+    "p10": 13.61437908496732,
+    "p50": 21.248366013071898,
+    "p90": 28.496732026143793,
+    "n_stints": 57
+   },
+   "HARD": {
+    "p10": 18.15359477124183,
+    "p50": 28.38562091503268,
+    "p90": 40.23398692810458,
+    "n_stints": 63
+   }
+  },
+  "stops": {
+   "0": 1,
+   "1": 38,
+   "2": 16
+  },
+  "plans": {
+   "M-H": 27,
+   "M-H-H": 7,
+   "H-M": 6,
+   "M-H-M": 5,
+   "H-H-M": 3,
+   "H-S": 2
+  },
+  "pit_loss_s": 25.32499999999999,
+  "sc_share": 0.0,
+  "season": {
+   "factor": 1.4343218899328785,
+   "ln_sd": 0.31909049365884773,
+   "n_circuits": 4,
+   "detail": [
+    {
+     "circuit": "Suzuka",
+     "ratio": 0.966,
+     "deg_2026": {
+      "HARD": 0.02,
+      "MEDIUM": 0.059
+     },
+     "deg_2025": {
+      "HARD": 0.027,
+      "MEDIUM": 0.055,
+      "SOFT": 0.053
+     }
+    },
+    {
+     "circuit": "Barcelona",
+     "ratio": 2.104,
+     "deg_2026": {
+      "HARD": 0.11,
+      "MEDIUM": 0.157,
+      "SOFT": 0.172
+     },
+     "deg_2025": {
+      "MEDIUM": 0.061,
+      "SOFT": 0.117
+     }
+    },
+    {
+     "circuit": "Spielberg",
+     "ratio": 1.398,
+     "deg_2026": {
+      "HARD": 0.078,
+      "MEDIUM": 0.07,
+      "SOFT": 0.05
+     },
+     "deg_2025": {
+      "HARD": 0.051,
+      "MEDIUM": 0.054,
+      "SOFT": -0.021
+     }
+    },
+    {
+     "circuit": "Budapest",
+     "ratio": 1.49,
+     "deg_2026": {
+      "HARD": 0.082,
+      "MEDIUM": 0.065,
+      "SOFT": 0.048
+     },
+     "deg_2025": {
+      "HARD": 0.039,
+      "MEDIUM": 0.061,
+      "SOFT": 0.113
+     }
+    }
+   ],
+   "note": "2026/2025 race degradation, driver + lap fixed effects, laps-weighted per compound"
+  },
+  "thermal": {
+   "beta_per_c": 0.025207229733850672,
+   "track_temp_now": 55.1,
+   "track_temp_hist": 45.416666666666664,
+   "multiplier": 1.2764592167616633
+  },
+  "soft_race_tyre": false
+ },
+ "season": {},
+ "combination": [
+  {
+   "compound": "HARD",
+   "practice": 0.009539939470592881,
+   "practice_as_race": 0.005194819146912587,
+   "practice_sd_ln": 0.7689597612597994,
+   "history_race": 0.07007347990414137,
+   "history_sd_ln": 0.7163289055372171,
+   "combined_race": 0.02091955961117354,
+   "combined": 0.038417378314443446,
+   "combined_sd_ln": 0.3528733855289659,
+   "weight_on_history": 0.5353903286803863,
+   "note": NaN
+  },
+  {
+   "compound": "MEDIUM",
+   "practice": 0.013617554580094901,
+   "practice_as_race": 0.007415218250059593,
+   "practice_sd_ln": 0.6498882571431415,
+   "history_race": 0.07689842147959147,
+   "history_sd_ln": 0.526894225402734,
+   "combined_race": 0.030411746462289557,
+   "combined": 0.055849147437151705,
+   "combined_sd_ln": 0.15,
+   "weight_on_history": 0.6033878254150987,
+   "note": NaN
+  },
+  {
+   "compound": "SOFT",
+   "practice": 0.018982163975995663,
+   "practice_as_race": NaN,
+   "practice_sd_ln": NaN,
+   "history_race": NaN,
+   "history_sd_ln": NaN,
+   "combined_race": NaN,
+   "combined": 0.08206973345290884,
+   "combined_sd_ln": NaN,
+   "weight_on_history": NaN,
+   "note": "no history for this compound here; moved with the ladder"
+  }
+ ],
+ "n_draws": 300,
+ "strategy": {
+  "best": "1-stop M-H @ 24",
+  "best_plan": {
+   "compounds": [
+    "MEDIUM",
+    "HARD"
+   ],
+   "pit_laps": [
+    24
+   ],
+   "stint_lens": [
+    24,
+    29
+   ],
+   "n_stops": 1,
+   "push": 1.0,
+   "label": "1-stop M-H @ 24"
+  },
+  "push": 1.0,
+  "implied_regime": 1.0,
+  "n_strategies": 100466,
+  "n_scored": 4001,
+  "n_draws": 300,
+  "max_stint": {
+   "HARD": 44,
+   "MEDIUM": 44,
+   "SOFT": 10
+  },
+  "p_stops": {
+   "1": 0.9966666666666667,
+   "2": 0.0033333333333333335,
+   "3": 0.0
+  },
+  "by_stops": [
+   {
+    "label": "1-stop M-H @ 24",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     24
+    ],
+    "stint_lens": [
+     24,
+     29
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.0,
+    "win_prob": 0.18,
+    "win_prob_any": 0.9966666666666667
+   },
+   {
+    "label": "2-stop M-H-M @ 17,37",
+    "compounds": [
+     "MEDIUM",
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     17,
+     37
+    ],
+    "stint_lens": [
+     17,
+     20,
+     16
+    ],
+    "push": 1.0,
+    "n_stops": 2,
+    "delta_s": 14.355063540218708,
+    "win_prob": 0.0,
+    "win_prob_any": 0.0033333333333333335
+   },
+   {
+    "label": "3-stop S-M-M-S @ 10,26,43",
+    "compounds": [
+     "SOFT",
+     "MEDIUM",
+     "MEDIUM",
+     "SOFT"
+    ],
+    "pit_laps": [
+     10,
+     26,
+     43
+    ],
+    "stint_lens": [
+     10,
+     16,
+     17,
+     10
+    ],
+    "push": 1.0,
+    "n_stops": 3,
+    "delta_s": 31.928307117930572,
+    "win_prob": 0.0,
+    "win_prob_any": 0.0
+   }
+  ],
+  "by_start": [
+   {
+    "label": "1-stop S-H @ 10",
+    "compounds": [
+     "SOFT",
+     "HARD"
+    ],
+    "pit_laps": [
+     10
+    ],
+    "stint_lens": [
+     10,
+     43
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 8.185239335153312,
+    "win_prob": 0.0,
+    "start": "SOFT",
+    "win_prob_any": 0.0033333333333333335
+   },
+   {
+    "label": "1-stop M-H @ 24",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     24
+    ],
+    "stint_lens": [
+     24,
+     29
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.0,
+    "win_prob": 0.18,
+    "start": "MEDIUM",
+    "win_prob_any": 0.78
+   },
+   {
+    "label": "1-stop H-M @ 30",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     30
+    ],
+    "stint_lens": [
+     30,
+     23
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.37473482067314023,
+    "win_prob": 0.0,
+    "start": "HARD",
+    "win_prob_any": 0.21666666666666667
+   }
+  ],
+  "pit_windows": [
+   {
+    "stop": 1,
+    "recommended": 24,
+    "lo": 20,
+    "hi": 28
+   }
+  ],
+  "life": {
+   "HARD": {
+    "deg_s_per_lap": 0.03792118157005985,
+    "deg_lo": 0.02072788918637205,
+    "deg_hi": 0.06424114101361862,
+    "life_laps": 112.28696767943616,
+    "life_lo": 59.15243252079657,
+    "life_hi": 183.32820499888123,
+    "life_full_push": 112.28696767943616,
+    "pace_offset_s": 0.38030049204826355
+   },
+   "MEDIUM": {
+    "deg_s_per_lap": 0.054768250459352776,
+    "deg_lo": 0.04284125636823634,
+    "deg_hi": 0.06898049157300398,
+    "life_laps": 70.93265840330749,
+    "life_lo": 55.088075470406984,
+    "life_hi": 88.69954623964027,
+    "life_full_push": 70.93265840330749,
+    "pace_offset_s": 0.19087302684783936
+   },
+   "SOFT": {
+    "deg_s_per_lap": 0.07651420956544937,
+    "deg_lo": 0.05363950107828086,
+    "deg_hi": 0.10283403861331523,
+    "life_laps": 51.588368928940206,
+    "life_lo": 36.95277661655014,
+    "life_hi": 70.8433139987664,
+    "life_full_push": 51.588368928940206,
+    "pace_offset_s": 0.0
+   }
+  },
+  "top": [
+   {
+    "label": "1-stop M-H @ 24",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     24
+    ],
+    "stint_lens": [
+     24,
+     29
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.0,
+    "win_prob": 0.18
+   },
+   {
+    "label": "1-stop M-H @ 25",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     25
+    ],
+    "stint_lens": [
+     25,
+     28
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.03265016757273325,
+    "win_prob": 0.17333333333333334
+   },
+   {
+    "label": "1-stop M-H @ 23",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     23
+    ],
+    "stint_lens": [
+     23,
+     30
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.06480006301165483,
+    "win_prob": 0.15
+   },
+   {
+    "label": "1-stop M-H @ 26",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     26
+    ],
+    "stint_lens": [
+     26,
+     27
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.16239370930294636,
+    "win_prob": 0.07333333333333333
+   },
+   {
+    "label": "1-stop M-H @ 22",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     22
+    ],
+    "stint_lens": [
+     22,
+     31
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.22740746532609668,
+    "win_prob": 0.08
+   },
+   {
+    "label": "1-stop H-M @ 30",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     30
+    ],
+    "stint_lens": [
+     30,
+     23
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.37473482067313085,
+    "win_prob": 0.0
+   },
+   {
+    "label": "1-stop H-M @ 29",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     29
+    ],
+    "stint_lens": [
+     29,
+     24
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.38683286159703995,
+    "win_prob": 0.0
+   },
+   {
+    "label": "1-stop M-H @ 27",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     27
+    ],
+    "stint_lens": [
+     27,
+     26
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.3888743515602794,
+    "win_prob": 0.09333333333333334
+   },
+   {
+    "label": "1-stop H-M @ 31",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     31
+    ],
+    "stint_lens": [
+     31,
+     22
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.458988979580713,
+    "win_prob": 0.0
+   },
+   {
+    "label": "1-stop M-H @ 21",
+    "compounds": [
+     "MEDIUM",
+     "HARD"
+    ],
+    "pit_laps": [
+     21
+    ],
+    "stint_lens": [
+     21,
+     32
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.488180003567002,
+    "win_prob": 0.0
+   },
+   {
+    "label": "1-stop H-M @ 28",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     28
+    ],
+    "stint_lens": [
+     28,
+     25
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.49568375995144587,
+    "win_prob": 0.0
+   },
+   {
+    "label": "1-stop H-M @ 32",
+    "compounds": [
+     "HARD",
+     "MEDIUM"
+    ],
+    "pit_laps": [
+     32
+    ],
+    "stint_lens": [
+     32,
+     21
+    ],
+    "push": 1.0,
+    "n_stops": 1,
+    "delta_s": 0.6391952153326388,
+    "win_prob": 0.05333333333333334
+   }
+  ],
+  "grip_budget_s": 3.8
+ },
+ "alternatives": {
+  "plan_b": {
+   "label": "2-stop M-H-M @ 17,37",
+   "compounds": [
+    "MEDIUM",
+    "HARD",
+    "MEDIUM"
+   ],
+   "pit_laps": [
+    17,
+    37
+   ],
+   "stint_lens": [
+    17,
+    20,
+    16
+   ],
+   "push": 1.0,
+   "n_stops": 2,
+   "delta_s": 14.355063540218708,
+   "win_prob": 0.0,
+   "switch_mult": null,
+   "switch_direction": "up",
+   "crossover_curve": [
+    {
+     "mult": 0.6,
+     "b_minus_a_s": 18.149869437798337,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 0.7,
+     "b_minus_a_s": 17.201167956990005,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 0.8,
+     "b_minus_a_s": 16.252466476180714,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 0.9,
+     "b_minus_a_s": 15.303764995363892,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 1.0,
+     "b_minus_a_s": 14.35506351448133,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 1.1,
+     "b_minus_a_s": 13.406362032998416,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 1.2,
+     "b_minus_a_s": 12.457660545822762,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 1.3,
+     "b_minus_a_s": 11.508959003330105,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 1.4,
+     "b_minus_a_s": 10.56025692004205,
+     "p_b_faster": 0.013333333333333334
+    },
+    {
+     "mult": 1.5,
+     "b_minus_a_s": 9.611549728576819,
+     "p_b_faster": 0.04
+    },
+    {
+     "mult": 1.6,
+     "b_minus_a_s": 8.662800279244152,
+     "p_b_faster": 0.06666666666666667
+    },
+    {
+     "mult": 1.7,
+     "b_minus_a_s": 7.828093656324441,
+     "p_b_faster": 0.023333333333333334
+    },
+    {
+     "mult": 1.8,
+     "b_minus_a_s": 7.30695665457263,
+     "p_b_faster": 0.05
+    },
+    {
+     "mult": 1.9,
+     "b_minus_a_s": 6.807904496032307,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 2.0,
+     "b_minus_a_s": 6.664522380465883,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 2.1,
+     "b_minus_a_s": 6.521121805481883,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 2.2,
+     "b_minus_a_s": 6.377644650857619,
+     "p_b_faster": 0.013333333333333334
+    },
+    {
+     "mult": 2.3,
+     "b_minus_a_s": 6.551648460228478,
+     "p_b_faster": 0.0
+    },
+    {
+     "mult": 2.4,
+     "b_minus_a_s": 6.64905582196883,
+     "p_b_faster": 0.0033333333333333335
+    },
+    {
+     "mult": 2.5,
+     "b_minus_a_s": 6.528875192550245,
+     "p_b_faster": 0.01
+    },
+    {
+     "mult": 2.6,
+     "b_minus_a_s": 6.408573797525122,
+     "p_b_faster": 0.013333333333333334
+    }
+   ]
+  }
+ },
+ "voi": {
+  "evpi_s": 0.27459452297901477,
+  "best": "1-stop M-H @ 24",
+  "by_compound": {
+   "HARD": {
+    "gain_s": 0.18338641825911073,
+    "share": 0.6678444139001476,
+    "rate_bins_s_per_lap": [
+     [
+      0.013995303134305423,
+      0.028601720174780673
+     ],
+     [
+      0.028601720174780673,
+      0.03545752302932882
+     ],
+     [
+      0.03545752302932882,
+      0.04555205381603447
+     ],
+     [
+      0.04555205381603447,
+      0.08235979758654863
+     ]
+    ],
+    "best_by_rate_bin": [
+     "1-stop H-M @ 33",
+     "1-stop M-H @ 23",
+     "1-stop M-H @ 24",
+     "1-stop M-H @ 26"
+    ],
+    "decision_moves": true
+   },
+   "MEDIUM": {
+    "gain_s": 0.12128770811708824,
+    "share": 0.4416974774342362,
+    "rate_bins_s_per_lap": [
+     [
+      0.03435728799625084,
+      0.04894990747244575
+     ],
+     [
+      0.04894990747244575,
+      0.0541995976174751
+     ],
+     [
+      0.0541995976174751,
+      0.060079177246197116
+     ],
+     [
+      0.060079177246197116,
+      0.07622171010548813
+     ]
+    ],
+    "best_by_rate_bin": [
+     "1-stop M-H @ 22",
+     "1-stop M-H @ 23",
+     "1-stop M-H @ 24",
+     "1-stop M-H @ 26"
+    ],
+    "decision_moves": true
+   },
+   "SOFT": {
+    "gain_s": 0.0,
+    "share": 0.0,
+    "rate_bins_s_per_lap": [
+     [
+      0.04764456065460439,
+      0.06515388429583624
+     ],
+     [
+      0.06515388429583624,
+      0.07435220856835577
+     ],
+     [
+      0.07435220856835577,
+      0.08606161016689902
+     ],
+     [
+      0.08606161016689902,
+      0.14479303235925717
+     ]
+    ],
+    "best_by_rate_bin": [
+     "1-stop M-H @ 24",
+     "1-stop M-H @ 24",
+     "1-stop M-H @ 24",
+     "1-stop M-H @ 24"
+    ],
+    "decision_moves": false
+   }
+  }
+ },
+ "programme": [
+  {
+   "compound": "HARD",
+   "gain_s": 0.18338641825911073,
+   "share": 0.6678444139001476,
+   "target_laps": 18,
+   "text": "HARD: a long run of 18+ laps (practice so far reaches age 22) - worth 0.2 s of expected regret (67% of the total); at the slow end of its rate the plan is 1-stop H-M @ 33, at the fast end 1-stop M-H @ 26",
+   "decision_moves": true
+  },
+  {
+   "compound": "MEDIUM",
+   "gain_s": 0.12128770811708824,
+   "share": 0.4416974774342362,
+   "target_laps": 18,
+   "text": "MEDIUM: a long run of 18+ laps (practice so far reaches age 22) - worth 0.1 s of expected regret (44% of the total); at the slow end of its rate the plan is 1-stop M-H @ 22, at the fast end 1-stop M-H @ 26",
+   "decision_moves": true
+  },
+  {
+   "compound": "SOFT",
+   "gain_s": 0.0,
+   "share": 0.0,
+   "target_laps": 18,
+   "text": "SOFT: a long run of 18+ laps (practice so far reaches age 20) - worth 0.0 s of expected regret (0% of the total); the decision does not turn on this compound",
+   "decision_moves": false
+  }
+ ],
+ "sc_playbook": {
+  "ranges": [
+   {
+    "from": 1,
+    "to": 3,
+    "verdict": "STAY",
+    "continuation": "HARD until lap 27 \u2192 HARD to the flag",
+    "gain_s": -7.551506589449597
+   },
+   {
+    "from": 4,
+    "to": 6,
+    "verdict": "MARGINAL",
+    "continuation": "HARD to the flag",
+    "gain_s": -1.556242878236626
+   },
+   {
+    "from": 7,
+    "to": 23,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "gain_s": 10.588422801899577
+   },
+   {
+    "from": 24,
+    "to": 24,
+    "verdict": "PLANNED",
+    "continuation": "HARD to the flag",
+    "gain_s": 15.194999999999993
+   },
+   {
+    "from": 25,
+    "to": 47,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "gain_s": -4.457998293709217
+   }
+  ],
+  "rows": [
+   {
+    "lap": 1,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 1,
+    "gain_s": -9.709792029884579,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD until lap 27 \u2192 HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": [
+     27
+    ]
+   },
+   {
+    "lap": 2,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 2,
+    "gain_s": -7.5254743391157115,
+    "p_pit": 0.24333333333333335,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 3,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 3,
+    "gain_s": -5.419253399348502,
+    "p_pit": 0.34,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 4,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 4,
+    "gain_s": -3.418138508097167,
+    "p_pit": 0.4266666666666667,
+    "verdict": "MARGINAL",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 5,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 5,
+    "gain_s": -1.5215651616575945,
+    "p_pit": 0.5033333333333333,
+    "verdict": "MARGINAL",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 6,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 6,
+    "gain_s": 0.2709750350448834,
+    "p_pit": 0.5933333333333334,
+    "verdict": "MARGINAL",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 7,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 7,
+    "gain_s": 1.9599450672117313,
+    "p_pit": 0.6733333333333333,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 8,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 8,
+    "gain_s": 3.5457720578327856,
+    "p_pit": 0.7633333333333333,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 9,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 9,
+    "gain_s": 5.0288565209330995,
+    "p_pit": 0.8266666666666667,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 10,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 10,
+    "gain_s": 6.409580996481994,
+    "p_pit": 0.8666666666666667,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 11,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 11,
+    "gain_s": 7.688317059527235,
+    "p_pit": 0.91,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 12,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 12,
+    "gain_s": 8.86543014273373,
+    "p_pit": 0.9633333333333334,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 13,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 13,
+    "gain_s": 9.941282397596929,
+    "p_pit": 0.99,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 14,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 14,
+    "gain_s": 10.916234204762175,
+    "p_pit": 0.9966666666666667,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 15,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 15,
+    "gain_s": 11.790644906010433,
+    "p_pit": 0.9966666666666667,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 16,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 16,
+    "gain_s": 12.56487313863265,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 17,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 17,
+    "gain_s": 13.239276982235904,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 18,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 18,
+    "gain_s": 13.814214021511502,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 19,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 19,
+    "gain_s": 14.290041372554423,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 20,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 20,
+    "gain_s": 14.667115693684245,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 21,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 21,
+    "gain_s": 14.94579318975105,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 22,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 22,
+    "gain_s": 15.12642961371888,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 23,
+    "stint": 1,
+    "compound": "MEDIUM",
+    "age_on_set": 23,
+    "gain_s": 15.20938026711406,
+    "p_pit": 1.0,
+    "verdict": "PIT",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 24,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 0,
+    "gain_s": 15.194999999999993,
+    "p_pit": 1.0,
+    "verdict": "PLANNED",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 25,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 1,
+    "gain_s": -10.227705722339973,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 26,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 2,
+    "gain_s": -9.233713222905541,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 27,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 3,
+    "gain_s": -8.319120130890992,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 28,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 4,
+    "gain_s": -7.483618592967643,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 29,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 5,
+    "gain_s": -6.726901163395544,
+    "p_pit": 0.0,
+    "verdict": "STAY",
+    "continuation": "HARD to the flag",
+    "new_compound": "HARD",
+    "further_stops": []
+   },
+   {
+    "lap": 30,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 6,
+    "gain_s": -6.015255017166529,
+    "p_pit": 0.09,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 31,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 7,
+    "gain_s": -5.229612289161,
+    "p_pit": 0.12,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 32,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 8,
+    "gain_s": -4.539467600528103,
+    "p_pit": 0.14,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 33,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 9,
+    "gain_s": -3.9444242379825005,
+    "p_pit": 0.15333333333333332,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 34,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 10,
+    "gain_s": -3.4440860337464443,
+    "p_pit": 0.16666666666666666,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 35,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 11,
+    "gain_s": -3.0380573660164325,
+    "p_pit": 0.18666666666666668,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 36,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 12,
+    "gain_s": -2.7259431594312002,
+    "p_pit": 0.20666666666666667,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 37,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 13,
+    "gain_s": -2.507348885541089,
+    "p_pit": 0.21,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 38,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 14,
+    "gain_s": -2.381880563278749,
+    "p_pit": 0.22,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 39,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 15,
+    "gain_s": -2.3491447594312262,
+    "p_pit": 0.21666666666666667,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 40,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 16,
+    "gain_s": -2.408748589113385,
+    "p_pit": 0.20666666666666667,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 41,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 17,
+    "gain_s": -2.5602997162427363,
+    "p_pit": 0.19333333333333333,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 42,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 18,
+    "gain_s": -2.8034063540156255,
+    "p_pit": 0.17333333333333334,
+    "verdict": "STAY",
+    "continuation": "MEDIUM to the flag",
+    "new_compound": "MEDIUM",
+    "further_stops": []
+   },
+   {
+    "lap": 43,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 19,
+    "gain_s": -2.258943153949915,
+    "p_pit": 0.21333333333333335,
+    "verdict": "STAY",
+    "continuation": "SOFT to the flag",
+    "new_compound": "SOFT",
+    "further_stops": []
+   },
+   {
+    "lap": 44,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 20,
+    "gain_s": -2.6776131972137986,
+    "p_pit": 0.16333333333333333,
+    "verdict": "STAY",
+    "continuation": "SOFT to the flag",
+    "new_compound": "SOFT",
+    "further_stops": []
+   },
+   {
+    "lap": 45,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 21,
+    "gain_s": -3.207916592833034,
+    "p_pit": 0.12666666666666668,
+    "verdict": "STAY",
+    "continuation": "SOFT to the flag",
+    "new_compound": "SOFT",
+    "further_stops": []
+   },
+   {
+    "lap": 46,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 22,
+    "gain_s": -3.849348719932546,
+    "p_pit": 0.09,
+    "verdict": "STAY",
+    "continuation": "SOFT to the flag",
+    "new_compound": "SOFT",
+    "further_stops": []
+   },
+   {
+    "lap": 47,
+    "stint": 2,
+    "compound": "HARD",
+    "age_on_set": 23,
+    "gain_s": -4.601405687227981,
+    "p_pit": 0.013333333333333334,
+    "verdict": "STAY",
+    "continuation": "SOFT to the flag",
+    "new_compound": "SOFT",
+    "further_stops": []
+   }
+  ]
+ },
+ "scenarios": {},
+ "runtime_s": 0.6
+}

@@ -1,0 +1,69 @@
+{
+ "year": 2024,
+ "circuit": "Zandvoort",
+ "event": "Dutch Grand Prix",
+ "location": "Zandvoort",
+ "date": "2024-08-25",
+ "n_laps": 72,
+ "n_classified": 20,
+ "stops": {
+  "1": 14,
+  "2": 6
+ },
+ "plans": {
+  "M-H": 13,
+  "M-H-S": 2,
+  "M-H-M": 1,
+  "S-H-M": 1,
+  "S-H-S": 1,
+  "H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 20,
+   "p10": 28.9,
+   "p50": 41.0,
+   "p90": 48.1,
+   "max": 57,
+   "share_of_laps": 0.5652173913043478
+  },
+  "MEDIUM": {
+   "n_stints": 20,
+   "p10": 16.7,
+   "p50": 27.5,
+   "p90": 31.1,
+   "max": 33,
+   "share_of_laps": 0.3555399719495091
+  },
+  "SOFT": {
+   "n_stints": 6,
+   "p10": 14.5,
+   "p50": 18.5,
+   "p90": 23.5,
+   "max": 24,
+   "share_of_laps": 0.07924263674614306
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.040031915642735824,
+   "se": 0.0024883242194691417,
+   "n_laps": 780
+  },
+  "MEDIUM": {
+   "slope": 0.06961583692062455,
+   "se": 0.005210969033094137,
+   "n_laps": 470
+  },
+  "SOFT": {
+   "slope": 0.08998105648121069,
+   "se": 0.010724775776912086,
+   "n_laps": 104
+  }
+ },
+ "pit_loss_s": 23.086499999999972,
+ "n_pit_stops": 26,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 31.3,
+ "rain": false
+}

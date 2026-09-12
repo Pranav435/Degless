@@ -1,0 +1,68 @@
+{
+ "year": 2025,
+ "circuit": "Suzuka",
+ "event": "Japanese Grand Prix",
+ "location": "Suzuka",
+ "date": "2025-04-06",
+ "n_laps": 53,
+ "n_classified": 20,
+ "stops": {
+  "1": 19,
+  "2": 1
+ },
+ "plans": {
+  "M-H": 13,
+  "H-M": 3,
+  "M-S": 2,
+  "S-H": 1,
+  "S-H-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 18,
+   "p10": 26.200000000000003,
+   "p50": 30.5,
+   "p90": 33.3,
+   "max": 38,
+   "share_of_laps": 0.5127478753541076
+  },
+  "MEDIUM": {
+   "n_stints": 19,
+   "p10": 20.8,
+   "p50": 23.0,
+   "p90": 31.4,
+   "max": 33,
+   "share_of_laps": 0.42681775259678945
+  },
+  "SOFT": {
+   "n_stints": 4,
+   "p10": 10.8,
+   "p50": 17.5,
+   "p90": 20.0,
+   "max": 20,
+   "share_of_laps": 0.06043437204910293
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.026526188000354167,
+   "se": 0.0028033053137735365,
+   "n_laps": 521
+  },
+  "MEDIUM": {
+   "slope": 0.05496391179528792,
+   "se": 0.0042080302230901034,
+   "n_laps": 418
+  },
+  "SOFT": {
+   "slope": 0.05276074311544243,
+   "se": 0.011375594152891681,
+   "n_laps": 58
+  }
+ },
+ "pit_loss_s": 23.337000000000018,
+ "n_pit_stops": 21,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 20.4,
+ "rain": false
+}

@@ -1,0 +1,54 @@
+{
+ "year": 2025,
+ "circuit": "Las Vegas",
+ "event": "Las Vegas Grand Prix",
+ "location": "Las Vegas",
+ "date": "2025-11-22",
+ "n_laps": 50,
+ "n_classified": 17,
+ "stops": {
+  "0": 2,
+  "1": 15
+ },
+ "plans": {
+  "M-H": 10,
+  "H-M": 4,
+  "H": 2,
+  "H-H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 18,
+   "p10": 24.4,
+   "p50": 28.5,
+   "p90": 38.20000000000001,
+   "max": 48,
+   "share_of_laps": 0.6444708680142688
+  },
+  "MEDIUM": {
+   "n_stints": 14,
+   "p10": 17.0,
+   "p50": 21.5,
+   "p90": 24.700000000000003,
+   "max": 27,
+   "share_of_laps": 0.3555291319857313
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.028984279004716534,
+   "se": 0.0031812070464478557,
+   "n_laps": 525
+  },
+  "MEDIUM": {
+   "slope": 0.044031267501169785,
+   "se": 0.007088474527889525,
+   "n_laps": 235
+  }
+ },
+ "pit_loss_s": 22.353499999999997,
+ "n_pit_stops": 16,
+ "sc_share_of_laps": 0.02,
+ "track_temp_c": 17.7,
+ "rain": false
+}

@@ -1,0 +1,53 @@
+{
+ "year": 2025,
+ "circuit": "Spa-Francorchamps",
+ "event": "Belgian Grand Prix",
+ "location": "Spa-Francorchamps",
+ "date": "2025-07-27",
+ "n_laps": 44,
+ "n_classified": 20,
+ "stops": {
+  "0": 18,
+  "1": 2
+ },
+ "plans": {
+  "M": 17,
+  "M-H": 2,
+  "H": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 3,
+   "p10": 19.0,
+   "p50": 23.0,
+   "p90": 29.4,
+   "max": 31,
+   "share_of_laps": 0.12371134020618557
+  },
+  "MEDIUM": {
+   "n_stints": 19,
+   "p10": 15.6,
+   "p50": 32.0,
+   "p90": 32.2,
+   "max": 33,
+   "share_of_laps": 0.8762886597938144
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": -0.3132438734160431,
+   "se": 0.014526327248581581,
+   "n_laps": 52
+  },
+  "MEDIUM": {
+   "slope": -0.32914736638020325,
+   "se": 0.011552658546768308,
+   "n_laps": 485
+  }
+ },
+ "pit_loss_s": 25.855000000000047,
+ "n_pit_stops": 26,
+ "sc_share_of_laps": 0.045454545454545456,
+ "track_temp_c": 24.1,
+ "rain": true
+}

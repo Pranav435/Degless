@@ -1,0 +1,54 @@
+{
+ "year": 2025,
+ "circuit": "Montreal",
+ "event": "Canadian Grand Prix",
+ "location": "Montr\u00e9al",
+ "date": "2025-06-15",
+ "n_laps": 70,
+ "n_classified": 17,
+ "stops": {
+  "1": 9,
+  "2": 8
+ },
+ "plans": {
+  "M-H-H": 6,
+  "H-M": 5,
+  "M-H": 4,
+  "H-H-M": 2
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 25,
+   "p10": 22.8,
+   "p50": 29.0,
+   "p90": 54.800000000000004,
+   "max": 57,
+   "share_of_laps": 0.7907801418439716
+  },
+  "MEDIUM": {
+   "n_stints": 17,
+   "p10": 9.6,
+   "p50": 14.0,
+   "p90": 17.4,
+   "max": 19,
+   "share_of_laps": 0.20921985815602837
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.01861959489853085,
+   "se": 0.0017349655350812024,
+   "n_laps": 919
+  },
+  "MEDIUM": {
+   "slope": 0.08486816392618984,
+   "se": 0.008183805401074513,
+   "n_laps": 244
+  }
+ },
+ "pit_loss_s": 19.74299999999998,
+ "n_pit_stops": 28,
+ "sc_share_of_laps": 0.05714285714285714,
+ "track_temp_c": 49.5,
+ "rain": true
+}

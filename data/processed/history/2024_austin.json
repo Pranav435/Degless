@@ -1,0 +1,63 @@
+{
+ "year": 2024,
+ "circuit": "Austin",
+ "event": "United States Grand Prix",
+ "location": "Austin",
+ "date": "2024-10-20",
+ "n_laps": 56,
+ "n_classified": 19,
+ "stops": {
+  "1": 15,
+  "2": 4
+ },
+ "plans": {
+  "M-H": 11,
+  "H-M": 4,
+  "M-M-H": 2,
+  "M-H-M": 1,
+  "M-H-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 19,
+   "p10": 20.8,
+   "p50": 30.0,
+   "p90": 39.2,
+   "max": 40,
+   "share_of_laps": 0.5421002838221382
+  },
+  "MEDIUM": {
+   "n_stints": 22,
+   "p10": 15.1,
+   "p50": 21.5,
+   "p90": 30.900000000000002,
+   "max": 32,
+   "share_of_laps": 0.45411542100283825
+  },
+  "SOFT": {
+   "n_stints": 1,
+   "p10": 4.0,
+   "p50": 4.0,
+   "p90": 4.0,
+   "max": 4,
+   "share_of_laps": 0.003784295175023652
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.02919211232453059,
+   "se": 0.0031748700620328556,
+   "n_laps": 513
+  },
+  "MEDIUM": {
+   "slope": 0.04962505605266118,
+   "se": 0.005882273178300951,
+   "n_laps": 367
+  }
+ },
+ "pit_loss_s": 21.742999999999995,
+ "n_pit_stops": 21,
+ "sc_share_of_laps": 0.017857142857142856,
+ "track_temp_c": 46.9,
+ "rain": false
+}

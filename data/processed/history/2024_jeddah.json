@@ -1,0 +1,67 @@
+{
+ "year": 2024,
+ "circuit": "Jeddah",
+ "event": "Saudi Arabian Grand Prix",
+ "location": "Jeddah",
+ "date": "2024-03-09",
+ "n_laps": 50,
+ "n_classified": 18,
+ "stops": {
+  "1": 17,
+  "2": 1
+ },
+ "plans": {
+  "M-H": 13,
+  "M-S": 3,
+  "S-H": 1,
+  "S-H-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 15,
+   "p10": 33.6,
+   "p50": 43.0,
+   "p90": 43.0,
+   "max": 43,
+   "share_of_laps": 0.6711409395973155
+  },
+  "MEDIUM": {
+   "n_stints": 16,
+   "p10": 7.0,
+   "p50": 7.0,
+   "p90": 36.5,
+   "max": 41,
+   "share_of_laps": 0.25838926174496646
+  },
+  "SOFT": {
+   "n_stints": 6,
+   "p10": 7.0,
+   "p50": 10.5,
+   "p90": 14.0,
+   "max": 14,
+   "share_of_laps": 0.07046979865771812
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.04363463456980243,
+   "se": 0.006617135863824397,
+   "n_laps": 570
+  },
+  "MEDIUM": {
+   "slope": 0.0462883337891985,
+   "se": 0.00844986261143207,
+   "n_laps": 179
+  },
+  "SOFT": {
+   "slope": 0.08890486115828278,
+   "se": 0.023533238687710036,
+   "n_laps": 53
+  }
+ },
+ "pit_loss_s": 21.816000000000003,
+ "n_pit_stops": 5,
+ "sc_share_of_laps": 0.02,
+ "track_temp_c": 31.5,
+ "rain": false
+}

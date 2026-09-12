@@ -1,0 +1,65 @@
+{
+ "year": 2023,
+ "circuit": "Montreal",
+ "event": "Canadian Grand Prix",
+ "location": "Montr\u00e9al",
+ "date": "2023-06-18",
+ "n_laps": 70,
+ "n_classified": 18,
+ "stops": {
+  "0": 1,
+  "1": 5,
+  "2": 12
+ },
+ "plans": {
+  "M-H-H": 8,
+  "M-H": 3,
+  "H-M": 2,
+  "M-H-M": 2,
+  "S-H-H": 1,
+  "H-M-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 27,
+   "p10": 20.0,
+   "p50": 32.0,
+   "p90": 38.400000000000006,
+   "max": 58,
+   "share_of_laps": 0.69376026272578
+  },
+  "MEDIUM": {
+   "n_stints": 19,
+   "p10": 11.0,
+   "p50": 12.0,
+   "p90": 34.8,
+   "max": 39,
+   "share_of_laps": 0.29802955665024633
+  },
+  "SOFT": {
+   "n_stints": 1,
+   "p10": 10.0,
+   "p50": 10.0,
+   "p90": 10.0,
+   "max": 10,
+   "share_of_laps": 0.008210180623973728
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.022429270453536904,
+   "se": 0.0018517315670868472,
+   "n_laps": 732
+  },
+  "MEDIUM": {
+   "slope": 0.025326683096852487,
+   "se": 0.00336331009966734,
+   "n_laps": 300
+  }
+ },
+ "pit_loss_s": 19.791500000000013,
+ "n_pit_stops": 14,
+ "sc_share_of_laps": 0.04285714285714286,
+ "track_temp_c": 30.8,
+ "rain": false
+}

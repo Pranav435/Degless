@@ -1,0 +1,70 @@
+{
+ "year": 2025,
+ "circuit": "Sao Paulo",
+ "event": "S\u00e3o Paulo Grand Prix",
+ "location": "S\u00e3o Paulo",
+ "date": "2025-11-09",
+ "n_laps": 71,
+ "n_classified": 17,
+ "stops": {
+  "1": 2,
+  "2": 14,
+  "3": 1
+ },
+ "plans": {
+  "M-S-M": 5,
+  "S-M-M": 5,
+  "H-M-M": 3,
+  "M-S": 1,
+  "S-M": 1,
+  "M-M-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 4,
+   "p10": 7.3,
+   "p50": 18.0,
+   "p90": 28.7,
+   "max": 29,
+   "share_of_laps": 0.05975103734439834
+  },
+  "MEDIUM": {
+   "n_stints": 33,
+   "p10": 19.2,
+   "p50": 25.0,
+   "p90": 35.8,
+   "max": 52,
+   "share_of_laps": 0.7385892116182573
+  },
+  "SOFT": {
+   "n_stints": 13,
+   "p10": 14.0,
+   "p50": 18.0,
+   "p90": 20.8,
+   "max": 35,
+   "share_of_laps": 0.2016597510373444
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.05655765829464331,
+   "se": 0.011664963396797635,
+   "n_laps": 44
+  },
+  "MEDIUM": {
+   "slope": 0.052477815607404374,
+   "se": 0.001932596977243074,
+   "n_laps": 811
+  },
+  "SOFT": {
+   "slope": 0.07252056897193038,
+   "se": 0.005131290673352816,
+   "n_laps": 177
+  }
+ },
+ "pit_loss_s": 22.054000000000002,
+ "n_pit_stops": 33,
+ "sc_share_of_laps": 0.04225352112676056,
+ "track_temp_c": 30.7,
+ "rain": false
+}

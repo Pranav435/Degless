@@ -1,0 +1,54 @@
+{
+ "year": 2024,
+ "circuit": "Sakhir",
+ "event": "Bahrain Grand Prix",
+ "location": "Sakhir",
+ "date": "2024-03-02",
+ "n_laps": 57,
+ "n_classified": 20,
+ "stops": {
+  "2": 18,
+  "3": 2
+ },
+ "plans": {
+  "S-H-H": 14,
+  "S-H-S": 3,
+  "S-H-H-S": 2,
+  "H-H-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 37,
+   "p10": 18.0,
+   "p50": 21.0,
+   "p90": 26.0,
+   "max": 30,
+   "share_of_laps": 0.7012411347517731
+  },
+  "SOFT": {
+   "n_stints": 25,
+   "p10": 10.0,
+   "p50": 13.0,
+   "p90": 18.800000000000004,
+   "max": 21,
+   "share_of_laps": 0.2987588652482269
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.10646348546620447,
+   "se": 0.0037699243791457816,
+   "n_laps": 729
+  },
+  "SOFT": {
+   "slope": 0.12301568915773045,
+   "se": 0.008788862406285729,
+   "n_laps": 277
+  }
+ },
+ "pit_loss_s": 24.010999999999996,
+ "n_pit_stops": 37,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 23.5,
+ "rain": false
+}

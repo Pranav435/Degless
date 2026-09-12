@@ -1,0 +1,8 @@
+.env
+.venv/
+data/raw/
+data/live/
+__pycache__/
+.pytest_cache/
+.DS_Store
+

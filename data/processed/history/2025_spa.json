@@ -1,0 +1,65 @@
+{
+ "year": 2025,
+ "circuit": "Spa",
+ "event": "Spanish Grand Prix",
+ "location": "Barcelona",
+ "date": "2025-06-01",
+ "n_laps": 66,
+ "n_classified": 17,
+ "stops": {
+  "2": 3,
+  "3": 12,
+  "4": 2
+ },
+ "plans": {
+  "S-M-S-S": 8,
+  "S-M-M-S": 2,
+  "S-M-S": 2,
+  "S-S-M-S": 2,
+  "S-M-M": 1,
+  "M-S-S-S-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 1,
+   "p10": 11.0,
+   "p50": 11.0,
+   "p90": 11.0,
+   "max": 11,
+   "share_of_laps": 0.00980392156862745
+  },
+  "MEDIUM": {
+   "n_stints": 20,
+   "p10": 17.7,
+   "p50": 24.5,
+   "p90": 30.0,
+   "max": 36,
+   "share_of_laps": 0.4269162210338681
+  },
+  "SOFT": {
+   "n_stints": 46,
+   "p10": 8.5,
+   "p50": 12.0,
+   "p90": 20.5,
+   "max": 25,
+   "share_of_laps": 0.5632798573975044
+  }
+ },
+ "deg": {
+  "MEDIUM": {
+   "slope": 0.060640729245121094,
+   "se": 0.004919738066564533,
+   "n_laps": 457
+  },
+  "SOFT": {
+   "slope": 0.11736338901650756,
+   "se": 0.007366131457488087,
+   "n_laps": 526
+  }
+ },
+ "pit_loss_s": 22.320999999999984,
+ "n_pit_stops": 40,
+ "sc_share_of_laps": 0.07575757575757576,
+ "track_temp_c": 48.7,
+ "rain": false
+}

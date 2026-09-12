@@ -1,0 +1,70 @@
+{
+ "year": 2025,
+ "circuit": "Spielberg",
+ "event": "Austrian Grand Prix",
+ "location": "Spielberg",
+ "date": "2025-06-29",
+ "n_laps": 70,
+ "n_classified": 16,
+ "stops": {
+  "1": 3,
+  "2": 12,
+  "3": 1
+ },
+ "plans": {
+  "M-H-M": 4,
+  "M-H": 3,
+  "S-H-M": 2,
+  "M-M-H": 2,
+  "S-M-H": 1,
+  "S-M-M": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 16,
+   "p10": 19.5,
+   "p50": 27.5,
+   "p90": 37.0,
+   "max": 41,
+   "share_of_laps": 0.3992773261065944
+  },
+  "MEDIUM": {
+   "n_stints": 24,
+   "p10": 18.0,
+   "p50": 26.0,
+   "p90": 30.7,
+   "max": 33,
+   "share_of_laps": 0.5356820234869015
+  },
+  "SOFT": {
+   "n_stints": 6,
+   "p10": 9.5,
+   "p50": 12.0,
+   "p90": 14.5,
+   "max": 16,
+   "share_of_laps": 0.06504065040650407
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.05118789548486003,
+   "se": 0.003000285627010941,
+   "n_laps": 408
+  },
+  "MEDIUM": {
+   "slope": 0.054282823103524724,
+   "se": 0.0033205776664924002,
+   "n_laps": 533
+  },
+  "SOFT": {
+   "slope": -0.020777628900994327,
+   "se": 0.020255444484407935,
+   "n_laps": 54
+  }
+ },
+ "pit_loss_s": 20.989000000000004,
+ "n_pit_stops": 30,
+ "sc_share_of_laps": 0.014285714285714285,
+ "track_temp_c": 49.2,
+ "rain": false
+}

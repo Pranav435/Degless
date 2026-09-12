@@ -1,0 +1,63 @@
+{
+ "year": 2024,
+ "circuit": "Las Vegas",
+ "event": "Las Vegas Grand Prix",
+ "location": "Las Vegas",
+ "date": "2024-11-23",
+ "n_laps": 50,
+ "n_classified": 18,
+ "stops": {
+  "1": 1,
+  "2": 17
+ },
+ "plans": {
+  "M-H-H": 12,
+  "H-M-H": 3,
+  "S-H-H": 1,
+  "M-H": 1,
+  "M-H-S": 1
+ },
+ "compounds": {
+  "HARD": {
+   "n_stints": 34,
+   "p10": 15.3,
+   "p50": 19.0,
+   "p90": 25.7,
+   "max": 33,
+   "share_of_laps": 0.7675977653631285
+  },
+  "MEDIUM": {
+   "n_stints": 17,
+   "p10": 9.0,
+   "p50": 11.0,
+   "p90": 15.8,
+   "max": 18,
+   "share_of_laps": 0.22346368715083798
+  },
+  "SOFT": {
+   "n_stints": 2,
+   "p10": 4.0,
+   "p50": 4.0,
+   "p90": 4.0,
+   "max": 4,
+   "share_of_laps": 0.008938547486033519
+  }
+ },
+ "deg": {
+  "HARD": {
+   "slope": 0.08189525436757167,
+   "se": 0.005563204955412884,
+   "n_laps": 640
+  },
+  "MEDIUM": {
+   "slope": 0.15972100108162673,
+   "se": 0.021019949395226063,
+   "n_laps": 181
+  }
+ },
+ "pit_loss_s": 22.345,
+ "n_pit_stops": 39,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 17.6,
+ "rain": false
+}

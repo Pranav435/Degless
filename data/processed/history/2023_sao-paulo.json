@@ -1,0 +1,54 @@
+{
+ "year": 2023,
+ "circuit": "Sao Paulo",
+ "event": "S\u00e3o Paulo Grand Prix",
+ "location": "S\u00e3o Paulo",
+ "date": "2023-11-05",
+ "n_laps": 71,
+ "n_classified": 14,
+ "stops": {
+  "2": 13,
+  "3": 1
+ },
+ "plans": {
+  "S-M-S": 10,
+  "S-S-S": 2,
+  "S-M-S-S": 1,
+  "M-S-S": 1
+ },
+ "compounds": {
+  "MEDIUM": {
+   "n_stints": 12,
+   "p10": 20.2,
+   "p50": 27.0,
+   "p90": 29.9,
+   "max": 32,
+   "share_of_laps": 0.321875
+  },
+  "SOFT": {
+   "n_stints": 31,
+   "p10": 15.0,
+   "p50": 23.0,
+   "p90": 25.0,
+   "max": 28,
+   "share_of_laps": 0.678125
+  }
+ },
+ "deg": {
+  "MEDIUM": {
+   "slope": 0.06140253981810817,
+   "se": 0.02887824509868473,
+   "n_laps": 333
+  },
+  "SOFT": {
+   "slope": 0.035814590312804206,
+   "se": 0.025654472383692343,
+   "n_laps": 653
+  }
+ },
+ "pit_loss_s": 22.182000000000016,
+ "n_pit_stops": 33,
+ "sc_share_of_laps": 0.0,
+ "track_temp_c": 47.9,
+ "rain": true
+}
