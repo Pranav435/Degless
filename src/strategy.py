@@ -72,10 +72,23 @@ each can be switched off by setting its weight to zero, which is what the
 ablations do; with all of them at zero the winner is the `tyre_optimal` plan,
 reported beside the recommendation whatever the weights are.
 
+**V4: one objective, and the race state times the first stop.**  The two
+history terms above are no longer symmetrical.  `tau` stays on the plan family;
+`kappa` is switched off everywhere in production, because the first stop is now
+priced against the cars we are racing (`src.racestate`, `race_state` here) and
+`lambda` prices the exposure of the stops *after* the first.  Every scorer in
+this module takes those weights as keywords and none of them invents one:
+`src.objective.V4Objective` assembles the set once per weekend and splats it
+into `simulate_model`, `pit_window_model`, `evaluate_plans`, `deg_crossover`
+and `counterfactual`, so the search, the window, the counterfactual and a plan
+typed into the app by hand are all one cost.  Passing no race-state term and a
+non-zero `kappa` is the V3 objective, still reachable for the labelled
+baselines and the ablations.
+
 What is still *not* priced: track position as a race-long state beyond the
-undercut, the starting-tyre rule, and any interaction with what other cars
-do.  Those are real and they are why a recommendation here is an input to a
-decision rather than the decision.
+first pit cycle, the starting-tyre rule, and any interaction with what other
+cars do after that cycle.  Those are real and they are why a recommendation
+here is an input to a decision rather than the decision.
 """
 
 from __future__ import annotations
@@ -1447,6 +1460,7 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
                    traffic_s_per_lap: float = DIRTY_AIR_S_PER_LAP,
                    undercut_lambda: float = 0.0,
                    first_stop_prior: dict | None = None, first_stop_kappa_s: float = 0.0,
+                   race_state_terms: dict | None = None,
                    include_unclassified: bool = False) -> pd.DataFrame:
     """For each driver: what their actual stop laps cost against the best
     alternative *with the same compounds and the same number of stops*.
@@ -1474,6 +1488,14 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
     on both sides and cancels - a driver handed a cheap stop is not judged
     against the circuit's green-flag history.
 
+    **V4: `race_state_terms`.**  With the terms (`{group label: term by lap}`,
+    keyed as `_group_label((start, second, n_stops))`) the driver's own plan
+    group's term is charged on the first stop of the actual plan and of every
+    alternative, in place of that stop's undercut exposure, and the first-stop
+    history prior is off - which is the objective the recommendation was made
+    under.  A driver whose group the search never solved is charged nothing on
+    the first stop and says so in `flag`.
+
     Vectorised: every legal placement of the free stops is costed on the
     posterior-mean tables at once; only the actual plan and the best
     alternative are priced draw by draw.
@@ -1491,7 +1513,11 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
     dens = traffic_density(ev)
     lam = float(undercut_lambda or 0.0)
     kappa = float(first_stop_kappa_s or 0.0)
+    rs_terms = None if race_state_terms is None else dict(race_state_terms)
+    if rs_terms is not None:
+        kappa = 0.0                      # the race state times the first stop
     fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
+    k0 = 1 if rs_terms is not None else 0      # the first stop's exposure, or the term
     rf = race_factors or {}
     stops = race_stops(race, ev, compounds=list(model.compounds))
     grid = np.arange(margin, n_laps - margin + 1)
@@ -1532,12 +1558,24 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
             continue
         m_d, cost, means, expo, factor = tables_for(drv)
         starts = np.concatenate([[0], np.cumsum(lens)[:-1]])
+        # -- V4: this driver's plan group's race-state term on the first stop --
+        rs_term, rs_note = None, ""
+        if rs_terms is not None:
+            g_lab = _group_label((seq[0], seq[1], len(actual))) if len(seq) >= 2 else None
+            rs_term = rs_terms.get(g_lab) if g_lab else None
+            if rs_term is None:
+                rs_note = "no race-state term for this family: its first stop is charged nothing"
+            else:
+                rs_term = np.asarray(rs_term, dtype=float)
+        rs_at = ((lambda lap: float(rs_term[min(int(lap), len(rs_term) - 1)])) if rs_term is not None
+                 else (lambda lap: 0.0))
         base = np.full(nd, plan_fixed(actual, sc_flags, seq), dtype=float)
         for c, L, st in zip(seq, lens, starts):
             base += cost[c][:, int(st), int(L)]
         if expo is not None:
-            for k in range(len(seq) - 1):
+            for k in range(k0, len(seq) - 1):
                 base += lam * expo[(seq[k], seq[k + 1])][int(lens[k])] * dens[int(actual[k]) - 1]
+        base += rs_at(actual[0]) if actual else 0.0
         wear = max(float(m_d.wear_at(c, [int(L)], [int(st)], push, ev).mean())
                    for c, L, st in zip(seq, lens, starts))
         # -- the alternatives: free stops on the grid, SC stops held --------
@@ -1570,11 +1608,13 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
         last = P.max(1).astype(float)
         tm -= (1.0 - np.exp(-SC_RATE_PER_LAP * last)) * (1.0 - SC_PIT_LOSS_FRACTION) * pit_loss_s
         if expo is not None:
-            for k in range(len(seq) - 1):
+            for k in range(k0, len(seq) - 1):
                 tm += lam * expo[(seq[k], seq[k + 1])][np.clip(Lm[:, k], 0, max_len)] * dens[np.clip(P[:, k], 1, n_laps) - 1]
         if fsp is not None:
             # the driver's own stop count: the alternatives keep their plan's shape
             tm = tm + first_stop_penalty(seq[0], P[:, 0], fsp, kappa, n_stops=n_stops)
+        if rs_term is not None and P.shape[1]:
+            tm = tm + rs_term[np.clip(P[:, 0], 0, len(rs_term) - 1)]
         j = int(np.argmin(tm))
         best_pits = [int(x) for x in P[j]]
         bl = np.diff(np.concatenate([[0], best_pits, [n_laps]])).astype(int)
@@ -1583,8 +1623,9 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
         for c, L, st in zip(seq, bl, bs):
             best += cost[c][:, int(st), int(L)]
         if expo is not None:
-            for k in range(len(seq) - 1):
+            for k in range(k0, len(seq) - 1):
                 best += lam * expo[(seq[k], seq[k + 1])][int(bl[k])] * dens[int(best_pits[k]) - 1]
+        best += rs_at(best_pits[0]) if best_pits else 0.0
         delta = base - best
         rows.append({
             "driver": drv,
@@ -1600,8 +1641,10 @@ def counterfactual(fit_or_model, event: Event | str, race: pd.DataFrame,
             "sc_stop_laps": [int(p_) for p_, s_ in zip(actual, sc_flags) if s_],
             "classified": bool(info["classified"]),
             "race_factor": factor,
+            "race_state_s": float(rs_at(actual[0])) if actual else 0.0,
             "flag": ("" if info["classified"] else "not classified: damage or retirement, not strategy")
-                    + ("; stops under SC/VSC held fixed" if any(sc_flags) else ""),
+                    + ("; stops under SC/VSC held fixed" if any(sc_flags) else "")
+                    + (f"; {rs_note}" if rs_note else ""),
         })
 
     if not rows:
@@ -1672,7 +1715,8 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
                    undercut_lambda: float = 0.0,
                    plan_prior: dict | None = None, plan_prior_tau_s: float = 0.0,
                    first_stop_prior: dict | None = None,
-                   first_stop_kappa_s: float = 0.0) -> tuple:
+                   first_stop_kappa_s: float = 0.0,
+                   race_state_terms: dict | None = None) -> tuple:
     """Price a list of plans on every draw, with a lap-by-lap trace for each.
 
     Each plan is `{"compounds": [...], "pit_laps": [...], "push": optional,
@@ -1681,6 +1725,17 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
     terms at the weights given, so a plan built by hand is priced exactly as the
     optimiser would price it.  The first-stop penalty is charged on the plan's
     own first stop and reported as `first_stop_s`.
+
+    **V4: `race_state_terms`** (`{group label: term by first-stop lap}`, from
+    `objective.terms_by_group` / `res.race_state["packs"]`, keyed by
+    `_group_label((start, second, n_stops))` - "2-stop M-H") prices the first
+    stop the way the search did: the plan's own group term is charged on its
+    first stop *in place of* that stop's undercut exposure, exactly as
+    `pit_window_model` charges `race_state_term`, the later stops keep
+    `undercut_lambda`, and the first-stop history prior is off (a group whose
+    term is missing is charged nothing on the first stop and says so in
+    `race_state`).  Reported as `race_state_s`.  Without the keyword the
+    behaviour is identical to V3.
     """
     ev = get_event(event) if isinstance(event, str) else event
     n = ev.n_race_laps
@@ -1692,6 +1747,10 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
     lam = float(undercut_lambda or 0.0)
     tau = float(plan_prior_tau_s or 0.0)
     kappa = float(first_stop_kappa_s or 0.0)
+    rs_terms = None if race_state_terms is None else dict(race_state_terms)
+    if rs_terms is not None:
+        # the race state times the first stop; history stays in the plan prior
+        kappa = 0.0
     fsp = first_stop_prior if (first_stop_prior and kappa > 0) else None
     details, rows = [], []
 
@@ -1727,6 +1786,17 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
         prior_pen = plan_prior_penalty(seq, plan_prior, tau) if tau > 0 else 0.0
         first_pen = (first_stop_penalty(seq[0], int(pits[0]), fsp, kappa, n_stops=len(pits))
                      if (fsp is not None and pits) else 0.0)
+        # -- V4: the plan group's race-state term on the first stop -----------
+        rs_s = 0.0
+        rs_note = "" if rs_terms is not None else "not priced: no race-state terms given"
+        if rs_terms is not None and pits:
+            g_lab = _group_label((seq[0], seq[1], len(pits))) if len(seq) >= 2 else None
+            term = rs_terms.get(g_lab) if g_lab else None
+            if term is None:
+                rs_note = "no term for this family"
+            else:
+                t_arr = np.asarray(term, dtype=float)
+                rs_s = float(t_arr[min(int(pits[0]), len(t_arr) - 1)])
 
         def cost_at(p_):
             per_lap = np.zeros((nd, n))
@@ -1738,10 +1808,14 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
             if first_pen:
                 # on the stop it prices, so the lap-by-lap trace shows it there
                 per_lap[:, int(pits[0]) - 1] += first_pen
+            if rs_s:
+                per_lap[:, int(pits[0]) - 1] += rs_s
             pos = 0.0
             if lam > 0 and pits:
                 expo = undercut_exposure_tables(model, ev, p_, n)
-                for k in range(len(seq) - 1):
+                # with a race-state term the first stop's exposure is priced by
+                # the term instead (`pit_window_model` does the same)
+                for k in range(1 if rs_terms is not None else 0, len(seq) - 1):
                     e = lam * expo[(seq[k], seq[k + 1])][int(lens[k])] * dens[pits[k] - 1]
                     per_lap[:, pits[k] - 1] += e
                     pos += e
@@ -1771,6 +1845,7 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
             "label": label, "compounds": seq, "pit_laps": pits, "stint_lens": [int(x) for x in lens],
             "push": p_use, "valid": True, "flags": flags, "times": times, "sc_credit_s": float(credit),
             "position_s": float(pos), "prior_s": float(prior_pen), "first_stop_s": float(first_pen),
+            "race_state_s": float(rs_s), "race_state": rs_note,
             "trace_mean": cum.mean(0), "trace_lo": np.quantile(cum, 0.05, axis=0),
             "trace_hi": np.quantile(cum, 0.95, axis=0), "per_lap_mean": per_lap.mean(0),
             "wear_end_mean": [float(w.mean()) for w in wear_end],
@@ -1780,6 +1855,7 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
                      "stint_lens": [int(x) for x in lens], "push": p_use, "valid": True,
                      "mean_s": float(times.mean()), "position_s": float(pos), "prior_s": float(prior_pen),
                      "first_stop_s": float(first_pen),
+                     "race_state_s": float(rs_s), "race_state": rs_note,
                      "max_wear": float(max(w.mean() for w in wear_end)),
                      "wear_end": [round(float(w.mean()), 2) for w in wear_end],
                      "flags": "; ".join(flags)})
@@ -1808,13 +1884,19 @@ def evaluate_plans(model: TyreModel, event: Event | str, plans: list, pit_loss_s
 
 
 def deg_crossover(model: TyreModel, event: Event | str, plan_a: dict, plan_b: dict,
-                  pit_loss_s: float, *, mults=None, **kw) -> dict:
-    """At what degradation multiplier does plan B overtake plan A?"""
+                  pit_loss_s: float, *, mults=None, race_state_terms: dict | None = None, **kw) -> dict:
+    """At what degradation multiplier does plan B overtake plan A?
+
+    `race_state_terms` is passed through to `evaluate_plans`, so the crossover
+    is read on the objective that chose plan A.  The terms are *not* rescaled
+    with the degradation multiplier: they are the race state measured on the
+    other races, which a different tyre wear rate does not change."""
     ev = get_event(event) if isinstance(event, str) else event
     mults = np.round(np.arange(0.6, 2.61, 0.1), 2) if mults is None else np.asarray(mults, float)
     curve = []
     for m in mults:
-        tbl, det = evaluate_plans(scale_model(model, float(m)), ev, [plan_a, plan_b], pit_loss_s, **kw)
+        tbl, det = evaluate_plans(scale_model(model, float(m)), ev, [plan_a, plan_b], pit_loss_s,
+                                  race_state_terms=race_state_terms, **kw)
         if len(det) < 2 or not (det[0].get("valid") and det[1].get("valid")):
             return {"mult": None, "curve": [], "note": "one of the plans is not valid"}
         d = float(det[1]["times"].mean() - det[0]["times"].mean())

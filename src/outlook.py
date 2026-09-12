@@ -23,6 +23,16 @@ Every build appends a line to a timeline, so the app can show how the
 recommended stop count, the stint lengths and the tyre lives have moved as
 data came in.
 
+**One objective (V4).**  The search, the pit window, the plan-B crossover, the
+scenario regrets and the plan builder's hand-built plans are all priced with
+`src.objective.V4Objective`: the race state times the first stop (its constants
+measured on every 2026 race but this weekend's), `lambda` prices the exposure
+of the *later* stops, `tau` the plan family, and the circuit's first-stop
+history is not charged on our own lap at all - it is kept for the rivals'
+plausible stop laps.  The build writes the objective's label, the race-state
+summary and every plan group's term by lap into the JSON, so the desk prices a
+plan exactly as the optimiser priced its own.
+
 What a build produces, beyond the plan itself:
 
 * **the tyre-optimal plan** beside the position-aware one, so the reader
@@ -41,7 +51,7 @@ from __future__ import annotations
 import json
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -50,6 +60,7 @@ import pandas as pd
 
 from src import firststop, strategy as strat
 from src.calibration import Calibration, get_calibration
+from src.objective import V4Objective, measure_constants_excluding
 from src.compounds import allocation_prior, pace_step_prior
 from src.config import (
     DATA_PROCESSED, DIRTY_AIR_S_PER_LAP, MAX_STINTS_PER_COMPOUND, VALID_COMPOUNDS, Event, get_event,
@@ -116,6 +127,11 @@ class BaseModel:
     first_stop_table: dict | None = None              # firststop.first_stop_penalty_table
     first_stop_prior: dict = field(default_factory=dict)   # its summary, for the JSON
     dirty_air: float = DIRTY_AIR_S_PER_LAP            # this circuit's value, not the pooled one
+    # The one objective (WP-F): the race state's measured constants, the rival
+    # field, lambda on the later stops, tau on the plan family, no first-stop
+    # history prior.  Every search, window, crossover and hand-built plan on
+    # this base model is priced with it.
+    objective: V4Objective | None = None
 
 
 def _regime_from_meta(rg: dict) -> RegimeFactor:
@@ -134,22 +150,50 @@ def _history_temps(ev: Event) -> list:
     return out
 
 
-def sim_kwargs(base: BaseModel) -> dict:
-    """The keyword arguments every search on this base model shares."""
-    cal = base.calibration
+def objective_for(ev: Event, base: BaseModel, *, race_state: bool = True) -> V4Objective:
+    """The one objective for this weekend's outlook (`src.objective`).
+
+    The race state's constants are measured on every 2026 race but this
+    weekend's (leave-one-out by construction: a weekend with no race of its own
+    excludes nothing it could have used).  The rival field is the default -
+    heterogeneous once WP-A lands, Task 1's symmetric pack before it."""
+    const = measure_constants_excluding({ev.key}) if race_state else None
+    return V4Objective.for_event(ev, base.calibration, plan_prior=base.plan_prior,
+                                 first_stop_tables=base.first_stop_table, dirty_air=base.dirty_air,
+                                 race_state=const)
+
+
+def _bounds(base: BaseModel) -> dict:
+    """The search bounds this base model carries - not part of the objective."""
     return dict(regime=base.regime, support=base.support, max_per_compound=base.allocation,
-                max_stint=(base.stint_cap or None), undercut_lambda=cal.undercut_lambda,
-                plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                first_stop_prior=base.first_stop_table, first_stop_kappa_s=cal.first_stop_kappa_s,
-                traffic_s_per_lap=base.dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
+                max_stint=(base.stint_cap or None))
 
 
-def eval_kwargs(base: BaseModel) -> dict:
-    cal = base.calibration
-    return dict(allocation=base.allocation, stint_cap=base.stint_cap, undercut_lambda=cal.undercut_lambda,
-                plan_prior=base.plan_prior, plan_prior_tau_s=cal.plan_prior_tau_s,
-                first_stop_prior=base.first_stop_table, first_stop_kappa_s=cal.first_stop_kappa_s,
-                traffic_s_per_lap=base.dirty_air, grid_penalty_s=cal.grid_start_penalty_s)
+def objective_of(base: BaseModel) -> V4Objective:
+    """This base model's objective, with `base.plan_prior` as the authority on
+    the plan-family counts.
+
+    A caller may swap the prior on a copy of the base model to ask what a
+    different reading of the circuit's history would recommend
+    (`bench_outlook`'s letter-for-letter variant does exactly that), and the
+    objective has to follow it rather than keep the counts it was built with."""
+    obj = base.objective or V4Objective()
+    if (base.plan_prior or {}) != (obj.plan_prior or {}):
+        obj = replace(obj, plan_prior=base.plan_prior)
+    return obj
+
+
+def sim_kwargs(base: BaseModel) -> dict:
+    """The keyword arguments every search on this base model shares: its bounds
+    and the one objective's weights (`V4Objective.sim_kwargs`)."""
+    return {**_bounds(base), **objective_of(base).sim_kwargs()}
+
+
+def eval_kwargs(base: BaseModel, res=None) -> dict:
+    """The same objective for `evaluate_plans` / `deg_crossover`, with the
+    search result's race-state terms when there is one."""
+    return dict(allocation=base.allocation, stint_cap=base.stint_cap,
+                **objective_of(base).eval_kwargs(res))
 
 
 def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_OUTLOOK_DRAWS,
@@ -202,11 +246,14 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
             n_stops=(int(max(_pp_stops, key=_pp_stops.get)) if _pp_stops else None)) or {}
         dirty = cal.dirty_air_for(ev.circuit)
         if fs_sum:
-            sources.append(f"first-stop prior: mode lap {fs_sum['mode']}, "
-                           f"{fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} at kappa {cal.first_stop_kappa_s:.2f} s/nat")
+            # V4: the circuit's first-stop density is no longer charged on our own
+            # lap (kappa = 0); it is kept for the rivals' plausible stop laps.
+            sources.append(f"circuit first-stop history: mode lap {fs_sum['mode']}, "
+                           f"{fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} - the rivals' stop laps, "
+                           f"not a term on ours (kappa 0 under the race-state objective)")
         sources.append(f"dirty air {dirty:.2f} s/lap "
                        f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled over the 2026 races'})")
-        return BaseModel(model=model, regime=_regime_from_meta(meta.get("regime", {})), stage="sealed",
+        base = BaseModel(model=model, regime=_regime_from_meta(meta.get("regime", {})), stage="sealed",
                          sources=sources, pit_loss_s=float(meta.get("pit_loss_s", 22.0)),
                          pit_loss_source=str(meta.get("pit_loss_source", "")),
                          allocation=dict((meta.get("allocation") or {}).get("caps")
@@ -217,6 +264,11 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
                          n_practice_laps=int(meta.get("n_clean_laps", 0)), prior_basis="sealed fit",
                          calibration=cal, plan_prior=pp, net_step=ns,
                          first_stop_table=fs_table, first_stop_prior=fs_sum, dirty_air=dirty)
+        base.objective = objective_for(ev, base)
+        base.sources.append(base.objective.label
+                            + (f"; race state {base.objective.race_state.source}"
+                               if base.objective.race_state is not None else ""))
+        return base
 
     # -- no practice yet: compose the prior --------------------------------
     model = WeekendModel.prior_model(ev, n_draws, rng, calibration=cal)
@@ -271,8 +323,9 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
         start_compound=(max(_pp_starts, key=_pp_starts.get) if _pp_starts else None),
         n_stops=(int(max(_pp_stops, key=_pp_stops.get)) if _pp_stops else None)) or {}
     if fs_sum:
-        sources.append(f"first-stop prior: mode lap {fs_sum['mode']}, {fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} "
-                       f"from {fs_sum['n']} historical green first stops at kappa {cal.first_stop_kappa_s:.2f} s/nat")
+        sources.append(f"circuit first-stop history: mode lap {fs_sum['mode']}, {fs_sum['p25']:.0f}-{fs_sum['p75']:.0f} "
+                       f"from {fs_sum['n']} historical green first stops - the rivals' stop laps, not a term on "
+                       f"ours (kappa 0 under the race-state objective)")
     dirty = cal.dirty_air_for(ev.circuit)
     sources.append(f"dirty air {dirty:.2f} s/lap "
                    f"({'this circuit' if ev.circuit in cal.dirty_air_by_circuit else 'pooled over the 2026 races'})")
@@ -280,12 +333,17 @@ def load_base(ev: Event, *, track_temp_c: float | None = None, n_draws: int = N_
     ns = {"measured": ps.get("net_stint_step_measured"), "se": ps.get("net_stint_step_se"),
           "derivation": ps.get("derivation", "")}
     sources.append(f"calibration: {cal.source}")
-    return BaseModel(model=model, regime=regime, stage="prior", sources=sources, pit_loss_s=float(pit),
+    base = BaseModel(model=model, regime=regime, stage="prior", sources=sources, pit_loss_s=float(pit),
                      pit_loss_source=pit_src, allocation=dict(alloc["caps"]), stint_cap=caps, support=None,
                      history=(cp.as_dict() if cp.available else {}), season=season,
                      thermal=dict(cp.thermal) if cp.available else {}, combination=combination,
                      n_practice_laps=0, prior_basis=basis, calibration=cal, plan_prior=pp, net_step=ns,
                      first_stop_table=fs_table, first_stop_prior=fs_sum, dirty_air=dirty)
+    base.objective = objective_for(ev, base)
+    base.sources.append(base.objective.label
+                        + (f"; race state {base.objective.race_state.source}"
+                           if base.objective.race_state is not None else ""))
+    return base
 
 
 # --------------------------------------------------------------------------
@@ -351,10 +409,11 @@ def _plan_dict(row) -> dict:
             "push": float(row["push"]), "n_stops": int(row["n_stops"]),
             "delta_s": float(row.get("delta_s", 0.0)), "win_prob": float(row.get("win_prob", 0.0)),
             "position_s": float(row.get("position_s", 0.0)), "prior_s": float(row.get("prior_s", 0.0)),
-            "first_stop_s": float(row.get("first_stop_s", 0.0))}
+            "first_stop_s": float(row.get("first_stop_s", 0.0)),
+            "race_state_s": float(row.get("race_state_s", 0.0) or 0.0)}
 
 
-def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, sim_kw: dict) -> dict:
+def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, sim_kw: dict, res=None) -> dict:
     """The search under degradation and pit-lane scenarios, and the plan that
     regrets least across all of them."""
     rng = np.random.default_rng(3)
@@ -375,7 +434,9 @@ def _scenarios(model: TyreModel, ev: Event, base: BaseModel, best_plan: dict, si
     # regret of every candidate in every scenario, on the full draw set
     plans = list(cands.values())
     regret = {p["label"]: [] for p in plans}
-    ek = eval_kwargs(base)
+    # the race-state terms are the measured race state, which a degradation
+    # scenario does not move: the same terms price every cell
+    ek = eval_kwargs(base, res)
     for cell in cells:
         sm = strat.scale_model(model, cell["deg_mult"])
         tbl, det = strat.evaluate_plans(sm, ev, plans, base.pit_loss_s + cell["pit_delta_s"], **ek)
@@ -457,6 +518,8 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
                    + (f" + live {sess_name or 'practice'} board" if live_used else ""))
 
     # -- the search, with the ladder gate enforced --------------------------
+    base.objective = base.objective or objective_for(ev, base)
+    obj = objective_of(base)
     sim_kw = sim_kwargs(base)
     net = base.net_step or {}
     model, res, pace_cal = strat.search_with_pace_calibration(
@@ -490,6 +553,7 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
            "net_step": net, "pace_calibration": {k: v for k, v in pace_cal.items() if k != "model_net_draws"}}
     if res.table.empty:
         out["strategy"] = {}
+        out["objective"] = obj.as_dict()
         out["runtime_s"] = round(time.time() - t0, 1)
         if write:
             _write(ev, out, model, res, pd.DataFrame(), pd.DataFrame())
@@ -497,9 +561,7 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
     best = _plan_dict(res.table.iloc[0])
     push = best["push"]
     pw = strat.pit_window_model(model, ev, res.best, base.pit_loss_s, max_stint=res.max_stint, push=push,
-                                undercut_lambda=cal.undercut_lambda, traffic_s_per_lap=base.dirty_air,
-                                first_stop_prior=base.first_stop_table,
-                                first_stop_kappa_s=cal.first_stop_kappa_s)
+                                **obj.window_kwargs(res))
     windows = strat.windows_from_sweep(pw, res.best)
     life = _life_summary(model, ev, push, res.max_stint if isinstance(res.max_stint, dict) else None)
     comps_present = [c for c in ("SOFT", "MEDIUM", "HARD") if c in model.compounds]
@@ -514,7 +576,7 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
                 for _, r in strat.best_by_start(res).iterrows()]
     # plan B (one more stop) and plan C (one fewer), with the deg multiplier at which each overtakes A
     alts = {}
-    ek = eval_kwargs(base)
+    ek = eval_kwargs(base, res)
     for name, k in (("plan_b", best["n_stops"] + 1), ("plan_c", best["n_stops"] - 1)):
         row = res.by_stops[res.by_stops["n_stops"] == k]
         if row.empty:
@@ -529,8 +591,9 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         alts[name] = alt
     voi = strat.value_of_information(res)
     programme = practice_programme(voi, base, life)
-    # `sc_playbook` prices only the decision *this lap* under a safety car, so the
-    # first-stop prior has nothing to say about it and is deliberately absent.
+    # `sc_playbook` prices only the decision *this lap* under a safety car, so
+    # neither the first-stop history nor the race state's first-stop term has
+    # anything to say about it: both are deliberately absent (WP-F leaves it).
     pb = strat.sc_playbook(model, ev, res.best, base.pit_loss_s, push=push, allocation=base.allocation,
                            stint_cap=base.stint_cap, traffic_s_per_lap=base.dirty_air)
     out["strategy"] = {
@@ -546,14 +609,20 @@ def build(event: Event | str, *, session: str | None = None, n_draws: int = N_OU
         "first_stop_s": float(res.best.get("first_stop_s", 0.0)),
         "undercut_lambda": float(res.undercut_lambda), "plan_prior_tau_s": float(res.plan_prior_tau_s),
         "first_stop_kappa_s": float(res.first_stop_kappa_s),
+        "race_state_s": float(res.best.get("race_state_s", 0.0)),
+        # the race state that timed the first stop, and every group's term by
+        # lap - what the plan builder prices a hand-built plan's first stop with
+        "race_state": obj.block(res, pw),
+        "race_state_terms": obj.terms_json(res),
     }
+    out["objective"] = obj.as_dict()
     out["alternatives"] = alts
     out["voi"] = voi
     out["programme"] = programme
     out["sc_playbook"] = {"ranges": strat.playbook_ranges(pb),
                           "rows": [{k: (v if k != "further_stops" else list(v)) for k, v in r.items()}
                                    for r in pb.to_dict("records")]}
-    out["scenarios"] = {} if quick else _scenarios(model, ev, base, best, sim_kw)
+    out["scenarios"] = {} if quick else _scenarios(model, ev, base, best, sim_kw, res)
     out["runtime_s"] = round(time.time() - t0, 1)
     if write:
         _write(ev, out, model, res, pw, uc)

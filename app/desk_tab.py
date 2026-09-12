@@ -25,6 +25,7 @@ from app.theme import (
     BLACK, DEFS, DIM, FAINT, HAIR, LETTER, RED, WHITE, age, badge, badges, card, ccol, chart, how, ink_on,
     label_text, more, notice, palette, rgba, saving_word, style, tiles, verdict_word,
 )
+from src import objective as objlib
 from src import plans as plan_store
 from src import strategy as strat
 from src.config import PUSH_GRID, SC_RATE_PER_LAP, get_event
@@ -34,6 +35,62 @@ from src.tyre import TyreModel
 SECTIONS = ["Compare", "Undercut", "Safety car", "Commit", "Practice focus"]
 SAVING_TO_PUSH = {saving_word(p): float(p) for p in sorted(PUSH_GRID, reverse=True)}
 SC_WORDS = {0.0: "none", 0.5: "half", 1.0: "normal", 2.0: "double", 3.0: "triple"}
+
+
+# --------------------------------------------------------------------------
+# The objective: a plan typed in here is priced exactly as the forecast's own
+# --------------------------------------------------------------------------
+
+
+def _objective_json(outlook: dict) -> str:
+    """The forecast's own cost terms, as a cache key and a payload.
+
+    Everything the forecast's search charged beyond the tyre and the pit lane:
+    the exposure weight on the stops after the first, the plan-family weight and
+    its counts, the circuit's close-following cost, the start-tyre step and -
+    the one that times the first stop - each plan family's track-position term
+    by lap (`strategy.evaluate_plans(race_state_terms=...)`)."""
+    st = outlook.get("strategy") or {}
+    obj = outlook.get("objective") or {}
+    cal = outlook.get("calibration") or {}
+    # An older forecast on disk carries only the *display* copy of the family
+    # counts (its sequences truncated, no stop counts), which would price the
+    # family term differently from the search that wrote it.  Charge it only
+    # from a complete set of counts; otherwise leave the family term out.
+    pp = obj.get("plan_prior") or outlook.get("plan_prior") or {}
+    if not (pp.get("n") and pp.get("sequences") and pp.get("stops")):
+        pp = {}
+    return json.dumps({"undercut_lambda": float(obj.get("undercut_lambda", cal.get("undercut_lambda", 0.0)) or 0.0),
+                       "plan_prior": pp,
+                       "plan_prior_tau_s": float(obj.get("plan_prior_tau_s", cal.get("plan_prior_tau_s", 0.0)) or 0.0)
+                       if pp else 0.0,
+                       "traffic_s_per_lap": float(obj.get("traffic_s_per_lap", cal.get("dirty_air_used", 0.0)) or 0.0),
+                       "grid_penalty_s": float(obj.get("grid_penalty_s", cal.get("grid_start_penalty_s", 0.0)) or 0.0),
+                       "race_state_terms": st.get("race_state_terms") or {}},
+                      sort_keys=True, default=float)
+
+
+def _eval_kw(obj_json: str) -> dict:
+    """`_objective_json` back into `evaluate_plans` keywords."""
+    o = json.loads(obj_json or "{}")
+    kw = {k: o[k] for k in ("undercut_lambda", "plan_prior_tau_s", "traffic_s_per_lap", "grid_penalty_s") if k in o}
+    if o.get("plan_prior"):
+        kw["plan_prior"] = o["plan_prior"]
+    terms = objlib.terms_from_json(o.get("race_state_terms"))
+    if terms:
+        kw["race_state_terms"] = terms
+    return kw
+
+
+def _window_kw(obj_json: str, plan: dict) -> dict:
+    """...and into `pit_window_model` keywords, with this plan's own family term."""
+    o = json.loads(obj_json or "{}")
+    kw = {k: o[k] for k in ("undercut_lambda", "traffic_s_per_lap") if k in o}
+    terms = objlib.terms_from_json(o.get("race_state_terms"))
+    lab = objlib.group_label(plan.get("compounds"), plan.get("pit_laps"))
+    if lab and lab in terms:
+        kw["race_state_term"] = terms[lab]
+    return kw
 
 
 # --------------------------------------------------------------------------
@@ -57,13 +114,13 @@ def _plans_sig(plans: list) -> str:
 
 @st.cache_data(show_spinner=False)
 def _evaluate(key: str, mtime: float, plans_json: str, deg_mult: float, pit_loss: float, sc_mult: float,
-              alloc_json: str, caps_json: str):
+              alloc_json: str, caps_json: str, obj_json: str = "{}"):
     model = _model_cached(key, mtime)
     ev = get_event(key)
     plans = json.loads(plans_json)
     tbl, det = strat.evaluate_plans(strat.scale_model(model, deg_mult), ev, plans, pit_loss,
                                     sc_rate=SC_RATE_PER_LAP * sc_mult, allocation=json.loads(alloc_json),
-                                    stint_cap=json.loads(caps_json))
+                                    stint_cap=json.loads(caps_json), **_eval_kw(obj_json))
     return tbl, det
 
 
@@ -79,7 +136,7 @@ def _playbook(key: str, mtime: float, plan_json: str, deg_mult: float, pit_loss:
 
 @st.cache_data(show_spinner=False)
 def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_loss: float,
-                  alloc_json: str, caps_json: str):
+                  alloc_json: str, caps_json: str, obj_json: str = "{}"):
     """Windows, switch triggers, undercut exposure and the expected wear at each stop."""
     model = _model_cached(key, mtime)
     ev = get_event(key)
@@ -87,19 +144,20 @@ def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_
     others = json.loads(others_json)
     caps = json.loads(caps_json)
     alloc = json.loads(alloc_json)
-    tbl, det = strat.evaluate_plans(model, ev, [plan], pit_loss, allocation=alloc, stint_cap=caps)
+    ekw = _eval_kw(obj_json)
+    tbl, det = strat.evaluate_plans(model, ev, [plan], pit_loss, allocation=alloc, stint_cap=caps, **ekw)
     d = det[0]
     if not d.get("valid"):
         return None
     p_use = float(d["push"])
     pw = strat.pit_window_model(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"], "push": p_use},
-                                pit_loss, max_stint=(caps or None), push=p_use)
+                                pit_loss, max_stint=(caps or None), push=p_use, **_window_kw(obj_json, plan))
     windows = strat.windows_from_sweep(pw, plan)
     switches = []
     for o in others:
         cx = strat.deg_crossover(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"]},
                                  {"compounds": o["compounds"], "pit_laps": o["pit_laps"]}, pit_loss,
-                                 allocation=alloc, stint_cap=caps)
+                                 allocation=alloc, stint_cap=caps, **ekw)
         base = next((c for c in cx.get("curve", []) if abs(c["mult"] - 1.0) < 1e-9), None)
         switches.append({"label": o.get("label", plan_store.short_label(o["compounds"], o["pit_laps"])),
                          "mult": cx.get("mult"), "direction": cx.get("direction"),
@@ -116,7 +174,7 @@ def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_
                          "wear_end": d["wear_end_mean"][i], "wear_p90": d["wear_end_p90"][i]})
     return {"push": p_use, "windows": windows, "switches": switches, "exposure": exposure,
             "wear_end": d["wear_end_mean"], "mean_s": float(d["times"].mean()), "flags": d["flags"],
-            "stint_lens": d["stint_lens"]}
+            "stint_lens": d["stint_lens"], "race_state_s": float(d.get("race_state_s", 0.0))}
 
 
 # --------------------------------------------------------------------------
@@ -226,12 +284,18 @@ def _section_compare(det: list, valid: list, n: int, outlook: dict) -> None:
                          "Tyre saving": saving_word(d["push"]), "Slower by (s)": f"{d['delta_s']:+.1f}",
                          "Likely range (s)": f"{d['delta_p05']:+.1f} to {d['delta_p95']:+.1f}",
                          "Chance fastest": f"{d['p_fastest']:.0%}",
+                         "Track position at the first stop (s)":
+                             ("—" if d.get("race_state") else f"{d.get('race_state_s', 0.0):+.1f}"),
                          "Tyre life used at each stop": " · ".join(f"{w:.0%}" for w in d["wear_end_mean"]),
                          "Notes": "; ".join(d["flags"])})
         st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True, column_config={
             "Tyre saving": st.column_config.TextColumn(help=DEFS["saving"]),
             "Likely range (s)": st.column_config.TextColumn(help=DEFS["likely_range"]),
             "Chance fastest": st.column_config.TextColumn(help=DEFS["sims"]),
+            "Track position at the first stop (s)": st.column_config.TextColumn(
+                help="What stopping on that lap is worth against the cars around you, at the measured value of a "
+                     "place: zero on the lap the forecast picked, worse either side. Priced against a pack of four "
+                     "on the same plan family; \"—\" where this family has no pack."),
             "Tyre life used at each stop": st.column_config.TextColumn(help=DEFS["life_used"]),
             "Notes": st.column_config.TextColumn(help="A rule the plan bends (tyre sets, the longest stint run here, the "
                                                       "two-tyre rule). It's priced anyway, because the wall may know better."),
@@ -393,7 +457,7 @@ def _triggers(nums: dict, ranges: list) -> tuple[dict, dict]:
 
 
 def _section_commit(key: str, ev, mtime: float, outlook: dict, plans: list, valid: list, pit_base: float,
-                    alloc_json: str, caps_json: str) -> None:
+                    alloc_json: str, caps_json: str, obj_json: str = "{}") -> None:
     n = ev.n_race_laps
     labels = [d["label"] for d in valid]
     k1, k2, k3 = st.columns([1.2, 1, 2])
@@ -411,7 +475,8 @@ def _section_commit(key: str, ev, mtime: float, outlook: dict, plans: list, vali
         plan_card["push"] = float(dcard["push"])
     others = [{"compounds": d["compounds"], "pit_laps": d["pit_laps"], "label": d["label"].split(" · ")[1]}
               for d in valid if d["label"] != card_pick]
-    nums = _card_numbers(key, mtime, json.dumps(plan_card), json.dumps(others), float(pit_base), alloc_json, caps_json)
+    nums = _card_numbers(key, mtime, json.dumps(plan_card), json.dumps(others), float(pit_base), alloc_json,
+                         caps_json, obj_json)
     if nums is None:
         notice("The chosen plan isn't valid.", "alert")
         return
@@ -564,8 +629,9 @@ def render_desk(key: str, ev, outlook: dict | None) -> None:
               help="The wear setting expressed as a change in track temperature: hotter track, faster wear.")
     pit_loss = pit_base + pit_delta
 
+    obj_json = _objective_json(outlook)
     tbl, det = _evaluate(key, mtime, _plans_sig(plans), float(deg_mult), float(pit_loss), float(sc_mult),
-                         alloc_json, caps_json)
+                         alloc_json, caps_json, obj_json)
     valid = [d for d in det if d.get("valid")]
     section = st.segmented_control("Section", SECTIONS, default="Compare", required=True, key=f"desk_{key}_section",
                                    label_visibility="collapsed")
@@ -582,4 +648,4 @@ def render_desk(key: str, ev, outlook: dict | None) -> None:
     elif section == "Safety car":
         _section_safety_car(key, mtime, valid, deg_mult, pit_loss, alloc_json, caps_json)
     else:
-        _section_commit(key, ev, mtime, outlook, plans, valid, pit_base, alloc_json, caps_json)
+        _section_commit(key, ev, mtime, outlook, plans, valid, pit_base, alloc_json, caps_json, obj_json)

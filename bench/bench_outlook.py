@@ -81,8 +81,14 @@ def one(key: str, ev, base, plans, m: dict, *, tag: str) -> dict:
             "plan_prior_mode": ((base.plan_prior.get("nomination") or {}).get("mode")),
             "plan_prior_top": dict(list((base.plan_prior.get("sequences") or {}).items())[:4]),
             "plan_prior_starts": base.plan_prior.get("starts"),
-            "first_stop_in_objective": bool(sk.get("first_stop_prior")),
+            "objective": getattr(getattr(base, "objective", None), "label", ""),
+            "objective_version": getattr(getattr(base, "objective", None), "version", "v3"),
+            "race_state_in_objective": bool(sk.get("race_state") is not None),
+            # V4 hands the first-stop tables to the search for the *rivals*' stop
+            # laps; charged on our own lap only while kappa > 0 (V3)
+            "first_stop_in_objective": bool(sk.get("first_stop_prior") and float(sk.get("first_stop_kappa_s") or 0) > 0),
             "first_stop_kappa_s": sk.get("first_stop_kappa_s"),
+            "race_state_s": rec.get("race_state_s"),
             "first_stop_s": rec.get("first_stop_s"),
             "pace_calibration": {k: v for k, v in pc.items() if k in ("applied", "model_net_before", "model_net_after")},
             "mode_stops": mode_stops, "stops_match_mode": rec["n_stops"] == mode_stops,

@@ -203,12 +203,19 @@ def main() -> None:
         strat.pit_window_model(model, ev, res4.best, pit_loss, max_stint=res4.max_stint, push=res4.best["push"],
                                undercut_lambda=cal.undercut_lambda,
                                race_state_term=racestate.term_by_lap(res4.race_state.get("best"), ev.n_race_laps))
+    from src.objective import terms_by_group
+
+    rs_terms = terms_by_group(res4, ev.n_race_laps)      # V4: every plan group's first-stop term
     with T("per-car plans (20 drivers, 2-lap grid, race-state objective)"):
         strat.per_driver_plans(model, ev, pit_loss, sorted(race["driver"].unique()), race_factors=cal.driver_factors,
                                **kw4)
     with T("undercut window"):
         strat.undercut_window_model(model, "MEDIUM", "SOFT", max_age=30, push=res.best["push"])
-    with T("counterfactual (all drivers, vectorised, SC-aware, per-car)"):
+    with T("counterfactual (all drivers, vectorised, SC-aware, per-car, V4 objective)"):
+        strat.counterfactual(model, ev, race, pit_loss, max_stint=res.max_stint, push=res.best["push"],
+                             race_factors=cal.driver_factors, undercut_lambda=cal.undercut_lambda,
+                             traffic_s_per_lap=dirty_air_of(cal, ev.circuit), race_state_terms=rs_terms)
+    with T("counterfactual (V3 objective baseline)"):
         strat.counterfactual(model, ev, race, pit_loss, max_stint=res.max_stint, push=res.best["push"],
                              race_factors=cal.driver_factors, undercut_lambda=cal.undercut_lambda,
                              **fs_kwargs(strat.counterfactual, fs_tables, kappa))
@@ -219,12 +226,21 @@ def main() -> None:
     plans = [{"compounds": res.best["compounds"], "pit_laps": res.best["pit_laps"]},
              {"compounds": ["MEDIUM", "HARD"], "pit_laps": [ev.n_race_laps // 2]},
              {"compounds": ["SOFT", "HARD", "HARD"], "pit_laps": [15, 40]}]
-    with T("desk: evaluate 3 plans"):
+    # The desk prices a hand-built plan on the shipped V4 objective: the plan
+    # group's race-state term on the first stop (from the race-state search
+    # above), lambda on the later stops, tau on the family.  The V3 row is kept
+    # beside it so the report can say what the terms cost.
+    with T("desk: evaluate 3 plans (V4 objective, race-state terms)"):
+        strat.evaluate_plans(model, ev, plans, pit_loss, undercut_lambda=cal.undercut_lambda, plan_prior=pp,
+                             plan_prior_tau_s=cal.plan_prior_tau_s,
+                             traffic_s_per_lap=dirty_air_of(cal, ev.circuit),
+                             grid_penalty_s=cal.grid_start_penalty_s, race_state_terms=rs_terms)
+    with T("desk: evaluate 3 plans (V3 objective baseline)"):
         strat.evaluate_plans(model, ev, plans, pit_loss, undercut_lambda=cal.undercut_lambda, plan_prior=pp,
                              plan_prior_tau_s=cal.plan_prior_tau_s,
                              **fs_kwargs(strat.evaluate_plans, fs_tables, kappa))
-    with T("desk: degradation crossover (21 multipliers)"):
-        strat.deg_crossover(model, ev, plans[0], plans[1], pit_loss)
+    with T("desk: degradation crossover (21 multipliers, V4 objective)"):
+        strat.deg_crossover(model, ev, plans[0], plans[1], pit_loss, race_state_terms=rs_terms)
     with T("desk: safety-car playbook"):
         strat.sc_playbook(model, ev, {**plans[0], "push": res.best["push"]}, pit_loss)
     with T("desk: value of information"):
