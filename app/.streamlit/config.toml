@@ -1,0 +1,51 @@
+# TGR Haas red / black / white. The theme itself is black so tables, menus and
+# popovers are black; app/theme.css paints the page red.
+
+[theme]
+base = "dark"
+backgroundColor = "#0E0E10"
+secondaryBackgroundColor = "#1C1C21"
+textColor = "#FFFFFF"
+primaryColor = "#0E0E10"
+linkColor = "#FFFFFF"
+linkUnderline = true
+codeBackgroundColor = "#1C1C21"
+codeTextColor = "#FFFFFF"
+borderColor = "rgba(255,255,255,0.28)"
+dataframeBorderColor = "rgba(255,255,255,0.10)"
+dataframeHeaderBackgroundColor = "#1C1C21"
+baseRadius = "0.6rem"
+buttonRadius = "0.6rem"
+headingFontSizes = ["2.1rem", "1.5rem", "1.15rem", "1rem", "0.9rem", "0.8rem"]
+headingFontWeights = [800, 700, 700, 700, 600, 600]
+metricValueFontSize = "1.7rem"
+metricValueFontWeight = 700
+
+# Badge colour slots, re-mapped to palette chips. Every badge also carries an icon and a word.
+redColor = "#E6002B"
+redBackgroundColor = "#FFFFFF"
+redTextColor = "#E6002B"
+greenColor = "#FFFFFF"
+greenBackgroundColor = "#0E0E10"
+greenTextColor = "#FFFFFF"
+grayColor = "#FFFFFF"
+grayBackgroundColor = "#A0001F"
+grayTextColor = "#FFFFFF"
+yellowColor = "#FFD12E"
+yellowBackgroundColor = "#FFD12E"
+yellowTextColor = "#0E0E10"
+blueColor = "#FFFFFF"
+blueBackgroundColor = "#A0001F"
+blueTextColor = "#FFFFFF"
+orangeColor = "#FFFFFF"
+orangeBackgroundColor = "#A0001F"
+orangeTextColor = "#FFFFFF"
+violetColor = "#FFFFFF"
+violetBackgroundColor = "#A0001F"
+violetTextColor = "#FFFFFF"
+
+[theme.sidebar]
+backgroundColor = "#0E0E10"
+secondaryBackgroundColor = "#1C1C21"
+primaryColor = "#E6002B"
+textColor = "#FFFFFF"

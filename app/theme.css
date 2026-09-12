@@ -1,0 +1,35 @@
+/* The red page. Black surfaces come from the Streamlit theme (app/.streamlit/config.toml). */
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], [data-testid="stHeader"] { background: #E6002B; }
+[data-testid="stDecoration"] { display: none; }
+
+/* Only pure white text is readable on the red page (Streamlit dims captions to 60%). */
+.stApp [data-testid="stMain"] [data-testid="stCaptionContainer"] { color: #FFFFFF; opacity: 1; }
+.stApp [data-testid="stTooltipIcon"], .stApp [data-testid="stTooltipIcon"] svg,
+.stApp [data-testid^="stSliderTickBar"], .stApp [data-testid="stSliderThumbValue"] { color: #FFFFFF; }
+
+/* Cards: every chart and table sits on black. */
+.stApp [class*="st-key-card-"] { background: #0E0E10; border-radius: 14px; padding: 14px 18px 10px; }
+.stApp [class*="st-key-card-"] [data-testid="stCaptionContainer"] { color: rgba(255,255,255,0.62); opacity: 1; }
+
+/* Number tiles: dark Haas red on the red page, graphite in the sidebar. */
+.stApp [class*="st-key-tiles-"] [data-testid="stMetric"] { background: #B30022; border-radius: 12px; padding: 10px 14px; height: 100% !important; }
+.stApp [class*="st-key-tiles-"] { align-items: stretch !important; }
+.stApp [class*="st-key-tiles-"] > [data-testid="stElementContainer"] { align-self: stretch !important; }
+[data-testid="stSidebar"] [data-testid="stMetric"] { background: #1C1C21; border-radius: 12px; padding: 10px 14px; }
+.stApp [class*="st-key-editor-"] { background: #B30022; border-radius: 12px; padding: 10px 14px; }
+.stApp [data-testid="stMetricLabel"] p { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* Tabs: white labels; the active one bold with the black underline from primaryColor. */
+.stApp [data-testid="stTab"] p { font-size: 1rem; font-weight: 500; color: #FFFFFF; }
+.stApp [data-testid="stTab"][aria-selected="true"] p { font-weight: 800; }
+
+/* Headline, tyre pills, notices (built in app/theme.py). */
+.dg-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+.dg-headline { font-size: 2.1rem; font-weight: 800; line-height: 1.2; }
+.dg-sub { font-size: 1.02rem; font-weight: 500; margin-top: 4px; }
+.dg-tyre { display: inline-flex; align-items: center; gap: 6px; background: #0E0E10; color: #FFFFFF;
+           border-radius: 999px; padding: 1px 11px 1px 6px; font-weight: 700; font-size: 0.62em;
+           vertical-align: middle; margin: 0 2px; }
+.dg-dot { width: 0.85em; height: 0.85em; border-radius: 50%; display: inline-block; }
+.dg-notice { background: #0E0E10; border-left: 4px solid #FFFFFF; border-radius: 10px; padding: 10px 14px; margin: 4px 0 10px; }
+.dg-notice.dg-alert { border-left-color: #E6002B; }
