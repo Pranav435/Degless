@@ -79,6 +79,10 @@ class Calibration:
     # roughly the spread between adjacent plan families' costs, so a field that
     # nothing has calibrated is neither one-family nor uniform.
     family_temper_s: float = 3.0
+    # which rival model the race state runs: "hetero" (the type field) or
+    # "symmetric" (Task 1's pack), chosen per block in `scripts/80_recalibrate.py`
+    # by which one predicts the donors' green first stops better, leave-one-out.
+    rival_field_mode: str = "hetero"
     # WP-B's tyre-life extrapolation width (log-sd of the wear rate at twice the
     # practice support).  0.0 is V3 bit for bit; the measured value comes from
     # `bench/bench_extrapolation.py` through `src.tyre.EXTRAP_LN_SD_MEASURED`.
@@ -126,7 +130,7 @@ _KEYS = ("grip_budget_s", "grip_budget_by_compound", "manage_cost_s", "manage_we
          "grid_start_penalty_s", "dirty_air_s_per_lap", "dirty_air_by_circuit", "undercut_lambda",
          "plan_prior_tau_s", "first_stop_kappa_s", "sigma_race_lap_s", "driver_factors",
          "driver_factor_ln_sd", "team_factors", "grip_budget_detail", "percar_mode",
-         "family_temper_s", "extrap_ln_sd", "objective_version")
+         "family_temper_s", "rival_field_mode", "extrap_ln_sd", "objective_version")
 
 
 def load_calibration_file(path: Path | None = None) -> dict:

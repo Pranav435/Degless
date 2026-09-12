@@ -138,6 +138,7 @@ GRIDS_QUICK = {"lambda": [0.0, 0.1, 0.2, 0.3], "tau": [0.0, 2.5, 5.0],
 KAPPA_V4 = 0.0
 FAMILY_PRIOR_WEIGHT_K0 = 10.0    # WP-A's `family_prior_weight_k0`: n / (n + k0) on the history
 FAMILY_LL_IDENTIFIED_NATS = 1.0  # a flatter likelihood than this does not identify the temperature
+FIRST_STOP_LL_FLOOR = 0.05       # `src.firststop.UNIFORM_FLOOR`: mass spread over the race under any predicted density
 
 
 def scored_weekends() -> list:
@@ -192,6 +193,7 @@ class Donor:
         self.start_counts = pd.Series([v["compounds"][0] for v in cls.values()]).value_counts()
         firsts = [(v["in_laps"][0], v["sc"][0]) for v in cls.values() if v["in_laps"]]
         green = [p for p, s in firsts if not s]
+        self.green_first = [int(p) for p in green]     # the field's green first stops, for the rival-field check
         self.first_median = float(np.median(green)) if green else None
         self.sc_set = bool(firsts and np.mean([s for _, s in firsts]) > 0.4)
         # V4: the *second* stop is what lambda now prices (the race state times
@@ -309,7 +311,9 @@ class Donor:
         return V4Objective(race_state=self.race_state(cal.get("held_out")),
                            rival_field=objective.rival_field_default(
                                None, family_temper_s=float(cal.get("family_temper",
-                                                                   objective.FAMILY_TEMPER_S_DEFAULT))),
+                                                                   objective.FAMILY_TEMPER_S_DEFAULT)),
+                               mode=str(cal.get("rival_mode", "hetero")),
+                               use_history_prior=bool(cal.get("rival_history", True))),
                            undercut_lambda=float(lam), plan_prior=self.plan_prior,
                            plan_prior_tau_s=float(tau), first_stop_kappa_s=KAPPA_V4,
                            traffic_s_per_lap=self.dirty_for(cal), grid_penalty_s=float(grid),
@@ -466,28 +470,89 @@ def family_loglik(q: dict, costs: dict, start_counts, stop_counts, *, eps: float
     return float(ll)
 
 
-def sweep_family_temper(donors: list, final: dict, grid: list) -> tuple:
-    """The family temperature by maximum likelihood over the donors.
+def field_q_of(res) -> tuple | None:
+    """The first-stop distribution a search's rival model implies for the field.
 
-    Free of new searches: the family costs come from each donor's final search
-    (`decision_scores`), so this is arithmetic on tables that already exist."""
+    The heterogeneous field carries it as the type mixture
+    (`res.race_state["rival_field"]["field_stop_distribution"]`); the symmetric
+    pack's is the recommended group's own choice distribution, because in that
+    model the field *is* four copies of us."""
+    rs = getattr(res, "race_state", None) or {}
+    d = (rs.get("rival_field") or {}).get("field_stop_distribution")
+    if d and d.get("laps"):
+        return np.asarray(d["laps"], dtype=int), np.asarray(d["q"], dtype=float)
+    best = rs.get("best") or {}
+    if best.get("laps"):
+        return np.asarray(best["laps"], dtype=int), np.asarray(best["q"], dtype=float)
+    return None
+
+
+def stop_loglik(laps: np.ndarray, q: np.ndarray, stops: list, n_race_laps: int,
+                floor: float = FIRST_STOP_LL_FLOOR) -> tuple:
+    """Log-likelihood of the field's actual green first stops under a predicted
+    distribution on the lap grid, with a uniform floor over the race so that a
+    stop the model gave no mass to is expensive, not impossible (the same
+    floor `src.firststop` puts under its own density).  Returns `(sum, n)`."""
+    q = np.asarray(q, dtype=float)
+    q = q / q.sum() if q.sum() > 0 else np.full(len(laps), 1.0 / max(len(laps), 1))
+    p = dict(zip((int(l) for l in laps), (1.0 - floor) * q))
+    base = floor / float(n_race_laps)
+    ll = float(sum(np.log(p.get(int(l), 0.0) + base) for l in stops))
+    return ll, int(len(stops))
+
+
+def sweep_family_temper(donors: list, cal: dict, grid: list, models: dict) -> tuple:
+    """The rival field, validated on what the field actually did.
+
+    A rival model exists to say when the cars around us will box, so it is
+    scored on exactly that: the log-likelihood, per stop, of every donor's
+    green first stops under the first-stop distribution the model implies
+    (`field_q_of`), leave-one-out like every other constant here.  Three
+    things come out of it:
+
+    * the **family temperature**: the grid value with the highest pooled
+      likelihood under the heterogeneous field (flat within one nat over the
+      grid = unidentified, and the default stands);
+    * the **rival mode**: the heterogeneous field at that temperature is kept
+      only if it predicts the field's stops at least as well as Task 1's
+      symmetric pack; otherwise the block records `"symmetric"` and the search
+      runs Task 1's pack.  That is the rule `docs/v4_plan.md` set for "if
+      heterogeneous modelling does not generalise, keep the simpler model" -
+      decided on the rivals' behaviour, never on our own plan's benchmark;
+    * a diagnostic row for the field with no historical stop prior.
+
+    One search per donor per grid value at the sweep shortlist; the family
+    costs that the temperature reweights do not depend on the temperature, so
+    the searches differ only in the field equilibrium."""
+    def pooled(c: dict) -> tuple:
+        tot, n, per = 0.0, 0, {}
+        for d in donors:
+            if not d.green_first:
+                continue
+            res = d.search(c, lam=c["lambda"], tau=c["tau"], grid=c["grid"],
+                           calibrated_model=models.get(d.key), shortlist=SWEEP_SHORTLIST)
+            fq = field_q_of(res)
+            if fq is None:
+                continue
+            ll, k = stop_loglik(fq[0], fq[1], d.green_first, d.ev.n_race_laps)
+            cq = np.cumsum(fq[1] / max(fq[1].sum(), 1e-12))
+            per[d.key] = {"ll": round(ll, 3), "n": k, "ll_per_stop": round(ll / max(k, 1), 4),
+                          "predicted_median": int(fq[0][min(int(np.searchsorted(cq, 0.5)), len(fq[0]) - 1)]),
+                          "field_median": float(np.median(d.green_first))}
+            tot += ll
+            n += k
+        return (tot / n if n else float("nan")), n, per
+
     rows = []
     for t in grid:
-        ll, per = 0.0, {}
-        for d in donors:
-            costs = (final.get(d.key) or {}).get("family_costs") or {}
-            if not costs:
-                continue
-            q = family_logit(costs, d.plan_prior, float(t))
-            v = family_loglik(q, costs, d.start_counts.to_dict(), d.stop_counts.to_dict())
-            per[d.key] = round(v, 3)
-            ll += v
-        rows.append({"family_temper": float(t), "loglik": float(ll), "by_donor": per,
-                     "n_families": {d.key: len((final.get(d.key) or {}).get("family_costs") or {}) for d in donors}})
-    if not rows or all(not r["by_donor"] for r in rows):
-        return float(objective.FAMILY_TEMPER_S_DEFAULT), rows, False
-    best = max(rows, key=lambda r: r["loglik"])
-    spread = best["loglik"] - min(r["loglik"] for r in rows)
+        c = dict(cal); c["family_temper"] = float(t); c["rival_mode"] = "hetero"; c["rival_history"] = True
+        ll, n, per = pooled(c)
+        rows.append({"family_temper": float(t), "ll_per_stop": float(ll), "n_stops": n, "by_donor": per})
+    if not rows or all(not np.isfinite(r["ll_per_stop"]) for r in rows):
+        return float(objective.FAMILY_TEMPER_S_DEFAULT), rows, False, {}
+    best = max(rows, key=lambda r: (r["ll_per_stop"] if np.isfinite(r["ll_per_stop"]) else -np.inf))
+    n_stops = max(r["n_stops"] for r in rows)
+    spread = (best["ll_per_stop"] - min(r["ll_per_stop"] for r in rows if np.isfinite(r["ll_per_stop"]))) * n_stops
     identified = bool(spread >= FAMILY_LL_IDENTIFIED_NATS)
     # on the plan's original 1-8 s grid the likelihood was monotone to the edge
     # on every fold; the grid now runs to 200 s (see GRIDS) and the flag says
@@ -500,8 +565,27 @@ def sweep_family_temper(donors: list, final: dict, grid: list) -> tuple:
                                           best)
     for r in rows:
         r["chosen"] = bool(r is chosen)
-    return float(chosen["family_temper"]), rows, identified
-
+    # the mode decision: the symmetric pack and the no-history field at the chosen temperature
+    c_sym = dict(cal); c_sym["family_temper"] = float(chosen["family_temper"]); c_sym["rival_mode"] = "symmetric"
+    ll_sym, n_sym, per_sym = pooled(c_sym)
+    c_noh = dict(cal); c_noh["family_temper"] = float(chosen["family_temper"]); c_noh["rival_mode"] = "hetero"
+    c_noh["rival_history"] = False
+    ll_noh, n_noh, per_noh = pooled(c_noh)
+    ll_het = float(chosen["ll_per_stop"])
+    # the yardstick every rival model has to beat: a stop lap drawn uniformly
+    # over the race (what "no rival model" predicts), on the same donors
+    n_unif = sum(len(d.green_first) for d in donors)
+    ll_unif = (sum(len(d.green_first) * np.log(1.0 / d.ev.n_race_laps) for d in donors) / n_unif
+               if n_unif else float("nan"))
+    mode = "hetero" if (np.isfinite(ll_het) and (not np.isfinite(ll_sym) or ll_het >= ll_sym)) else "symmetric"
+    block = {"mode": mode, "family_temper_s": float(chosen["family_temper"]),
+             "ll_per_stop": {"hetero": ll_het, "symmetric": float(ll_sym), "hetero_no_history": float(ll_noh),
+                             "uniform_over_race": float(ll_unif)},
+             "n_stops": int(n_stops), "by_donor": {"hetero": chosen["by_donor"], "symmetric": per_sym,
+                                                    "hetero_no_history": per_noh},
+             "rule": "hetero is kept when its leave-one-out log-likelihood per green first stop is at least "
+                     "the symmetric pack's; the field's own stops decide, never our plan's benchmark"}
+    return float(chosen["family_temper"]), rows, identified, block
 
 BUDGET_INFORMATIVE_S = 3.0      # below this, no stint that weekend came near the cliff: the product is only a bound
 BUDGET_BAND_S = (3.0, 4.5)
@@ -766,8 +850,12 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
     # the rival field's family temperature, by maximum likelihood on the shares
     # the donors' fields revealed - no further searches (the family costs come
     # from the final tables above)
-    cal["family_temper"], sweeps["family_temper"], ft_identified = sweep_family_temper(
-        donors, final, grids.get("family_temper", GRIDS["family_temper"]))
+    cal["family_temper"], sweeps["family_temper"], ft_identified, rival_block = sweep_family_temper(
+        donors, cal, grids.get("family_temper", GRIDS["family_temper"]), models)
+    cal["rival_mode"] = rival_block.get("mode", "hetero")
+    # the final scores are re-taken with the rival field as chosen (mode and temperature)
+    final = {d.key: d.decision_scores(d.search(cal, lam=cal["lambda"], tau=cal["tau"], grid=cal["grid"],
+                                               kappa=cal["kappa"], calibrated_model=models[d.key])) for d in donors}
     lam_rows = sweeps.get("lambda") or []
     lam_objs = [r["objective"] for r in lam_rows]
     lam_identified = bool(lam_objs and (max(lam_objs) - min(lam_objs)) > tol_second)
@@ -784,6 +872,8 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
         # plan-family prior, never as a term on our own lap.
         "first_stop_kappa_s": KAPPA_V4,
         "family_temper_s": cal["family_temper"],
+        "rival_field_mode": cal["rival_mode"],
+        "rival_field_validation": rival_block,
         "extrap_ln_sd": cal["extrap_ln_sd"],
         "objective_version": "v4",
         "objective_label": donors[0].objective(cal, lam=cal["lambda"], tau=cal["tau"],
@@ -796,10 +886,11 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
                        f"recommendation and field mode are >= 2 stops ({n_second_scored} donors scored)"
                        + ("" if lam_identified else "; the objective is flat over the grid, so lambda is "
                           "unidentified and the smallest value wins")),
-            "family_temper_s": ("maximum likelihood of the donors' start-compound and stop-count shares under "
-                                "the rival family logit q(g) ~ exp(-C_g/tau_f) p_hist(g)^w"
+            "family_temper_s": ("maximum leave-one-out likelihood of the donors' green first stops under the "
+                                "first-stop distribution the heterogeneous rival field implies"
                                 + ("" if ft_identified else "; the likelihood is flat over the grid "
                                    "(< 1 nat), so the temperature is unidentified and WP-A's default stands")),
+            "rival_field_mode": rival_block.get("rule", ""),
             "extrap_ln_sd": ("from src.tyre.EXTRAP_LN_SD_MEASURED (WP-B's measurement)"
                              if cal["extrap_ln_sd"] else "0.0: no measured extrapolation width on this "
                              "checkout (WP-B's src.tyre.EXTRAP_LN_SD_MEASURED is absent or zero)"),
@@ -835,7 +926,9 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
           f"floor {cal['floor']} cost {cal['cost']}; dirty {dirty:.3f} pooled + {len(out['dirty_air_by_circuit'])} circuits; "
           f"lambda {cal['lambda']}{'' if lam_identified else ' (unidentified)'} on the second stop; "
           f"kappa {KAPPA_V4} (fixed; V3 said {v3_kappa}); tau {cal['tau']}; grid {cal['grid']}; "
-          f"family temper {cal['family_temper']}{'' if ft_identified else ' (unidentified)'}; "
+          f"family temper {cal['family_temper']}{'' if ft_identified else ' (unidentified)'} "
+          f"rival mode {cal['rival_mode']} (ll/stop hetero {rival_block.get('ll_per_stop', {}).get('hetero', float('nan')):.3f} "
+          f"vs symmetric {rival_block.get('ll_per_stop', {}).get('symmetric', float('nan')):.3f}); "
           f"extrap ln sd {cal['extrap_ln_sd']}; "
           f"{len(drivers)} drivers / {len(teams)} teams; {out['seconds']}s", flush=True)
     return out

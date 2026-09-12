@@ -970,7 +970,8 @@ def rival_field(types: list, laps, const: RaceStateConstants, cfg: RivalFieldCon
         # and every type expects the two cars ahead of it to stay there
         places = np.full((nT, S), 2.0)
         return {"packs": packs_of(places, q, 0, True), "iterations": 0, "converged": True,
-                "types": _type_table(types, laps, q, w), "n_types": nT}
+                "types": _type_table(types, laps, q, w), "n_types": nT,
+                "field_stop_distribution": _field_distribution(laps, q, w)}
 
     # `B[x, i, j]`: type x's race time to the lap both cars are out of the pits,
     # for its stop on laps[i] against a rival stopping on laps[j].  Our extra
@@ -1036,7 +1037,26 @@ def rival_field(types: list, laps, const: RaceStateConstants, cfg: RivalFieldCon
             break
         q = q_next
     return {"packs": packs_of(places, q, it, converged), "iterations": int(it),
-            "converged": bool(converged), "types": _type_table(types, laps, q, w), "n_types": nT}
+            "converged": bool(converged), "types": _type_table(types, laps, q, w), "n_types": nT,
+            "field_stop_distribution": _field_distribution(laps, q, w)}
+
+
+def _field_distribution(laps: np.ndarray, q: np.ndarray, w: np.ndarray) -> dict:
+    """The field's first-stop distribution the rival model implies: the type
+    mixture `sum_t w_t q_t(lap)`, on the shared lap grid.
+
+    This is the quantity the rival model exists to get right - when the cars
+    around us box - and the one it is validated on: `scripts/80_recalibrate.py`
+    scores it against the donors' actual green first stops, leave-one-out, to
+    choose the family temperature and to decide whether the heterogeneous field
+    predicts the field better than Task 1's symmetric pack."""
+    Q = np.asarray(q, dtype=float)
+    row = Q.sum(1, keepdims=True)
+    Q = np.where(row > 0, Q / np.where(row > 0, row, 1.0), 1.0 / max(Q.shape[1], 1))
+    mix = (np.asarray(w, dtype=float)[:, None] * Q).sum(0)
+    tot = mix.sum()
+    mix = mix / tot if tot > 0 else np.full(len(laps), 1.0 / max(len(laps), 1))
+    return {"laps": [int(x) for x in np.asarray(laps)], "q": [float(x) for x in mix]}
 
 
 def _type_table(types: list, laps: np.ndarray, q: np.ndarray, w: np.ndarray) -> list:

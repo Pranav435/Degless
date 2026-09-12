@@ -88,7 +88,7 @@ def main() -> None:
     from src.regime import RegimeFactor, regime_prior
     from src.replay import build_replay
     from src.telemetry import load_apex, select_corners
-    from src.tyre import TyreModel
+    from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel
     from src.validate import score_race, seal_predictions
 
     try:
@@ -168,7 +168,8 @@ def main() -> None:
     support = clean.groupby("compound")["tyre_age"].max().to_dict()
     total = f.posterior["lin"].shape[0]
     idx = np.random.default_rng(0).choice(total, size=500, replace=False)
-    model = TyreModel.from_fit(f, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+    model = TyreModel.from_fit(f, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                               support=support, extrap_ln_sd=EXTRAP_LN_SD_MEASURED)
     fs_tables = first_stop_tables(cp, ev, list(model.compounds))
     kappa = kappa_of(cal)
     kw = dict(regime=regime, support=support, max_per_compound=m["allocation"]["caps"], max_stint=caps,

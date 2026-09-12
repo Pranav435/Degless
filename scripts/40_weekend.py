@@ -34,7 +34,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import firststop, objective, percar, strategy as strat  # noqa: E402
+from src import firststop, haascar, objective, percar, strategy as strat  # noqa: E402
 from src.objective import V4Objective  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import allocation_prior, model_net_step_draws, pace_step_prior, summary_table as compound_table  # noqa: E402
@@ -299,6 +299,7 @@ def main() -> int:
         model, ev, pit_loss, net_step_s=float(net if net is not None else np.nan),
         net_step_se_s=float(pstep.get("net_stint_step_se") or 0.0), **sim_kw)
     pw, uc, pdp = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+    hcm, haas_terms = None, {}
     if res.table.empty:
         print("  no legal plan")
     else:
@@ -339,8 +340,18 @@ def main() -> int:
                  if "team" in clean else {})
         pooled_dev = percar.team_pooled_dev(model.driver_dev, teams,
                                             n_laps_by_driver=clean.groupby("driver").size().to_dict())
+        try:
+            _prac_raw = DATA_PROCESSED / f"laps_{key}_practice.parquet"
+            hcm = haascar.HaasCarModel.from_weekend(
+                ev, model, clean, calibration=cal,
+                practice_laps=(pd.read_parquet(_prac_raw) if _prac_raw.exists() else None))
+            haas_terms = {d: haascar.car_terms(st) for d, st in hcm.states.items()}
+        except Exception as exc:
+            print(f"  haas car model unavailable: {exc}")
         pdp = strat.per_driver_plans(model, ev, pit_loss, sorted(clean["driver"].unique()),
                                      race_factors=cal.driver_factors, dev_by_driver=pooled_dev,
+                                     warmup_by_driver={d: t["warmup_s"] for d, t in haas_terms.items()} or None,
+                                     traffic_mult_by_driver={d: t["traffic_mult"] for d, t in haas_terms.items()} or None,
                                      factor_ln_sd=cal.driver_factor_ln_sd, factor_shrink=None, **sim_kw)
         timings["per_driver_s"] = round(time.time() - t0, 1)
         if not pdp.empty:
@@ -451,6 +462,7 @@ def main() -> int:
                        else {"enabled": rs_const is not None,
                              "constants": (rs_const.as_dict() if rs_const is not None else None)}),
         "objective": obj.as_dict(),
+        "haas": (haascar.haas_block(hcm, pdp, None) if hcm is not None else {}),
         "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
         "gates": GATES, "timings": timings, "runtime_s": round(time.time() - t_all, 1),
         "written_utc": pd.Timestamp.utcnow().isoformat(),

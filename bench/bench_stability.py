@@ -36,7 +36,7 @@ from src.ingest import load_for_fitting
 from src.laps import build_lap_table, clean_laps
 from src.model_bayes import fit_bayes
 from src.regime import RegimeFactor
-from src.tyre import TyreModel
+from src.tyre import EXTRAP_LN_SD_MEASURED, TyreModel
 from src.validate import _curve_block, score_race
 
 AGES = np.arange(0, 41, dtype=float)
@@ -67,7 +67,9 @@ def one(key: str, sessions: list, seed: int, cp, regime, m, race_clean, cal) -> 
     caps = stint_caps_for(ev, cp) if cp.available else None
     total = f.posterior["lin"].shape[0]
     idx = np.random.default_rng(0).choice(total, size=min(300, total), replace=False)
-    model = TyreModel.from_fit(f, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+    model = TyreModel.from_fit(f, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                               support=clean.groupby("compound")["tyre_age"].max().to_dict(),
+                               extrap_ln_sd=EXTRAP_LN_SD_MEASURED)
     # the shipped objective: V4's race-state first stop (constants from the
     # other races), which replaces the first-stop prior
     from src import racestate

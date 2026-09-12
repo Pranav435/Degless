@@ -75,8 +75,9 @@ import pandas as pd
 from common import (OUT, NON_SC_EVENTS, accepts, arg_events, cp_for, dirty_air_of, driver_plans,  # noqa: E402
                     dump, first_stop_tables, fs_kwargs, kappa_of, memoise_regime, meta, offline,
                     race_table, v2_calibration)
-from src import racestate, strategy as strat
+from src import objective, racestate, strategy as strat
 from src.calibration import Calibration, get_calibration
+from src.tyre import EXTRAP_LN_SD_MEASURED
 from src.config import DATA_PROCESSED, GRIP_BUDGET_S, get_event
 from src.history import apply_circuit_prior, plan_prior_for, race_deg_slopes
 from src.laps import clean_laps
@@ -95,10 +96,17 @@ def ordered(rates: dict) -> bool | None:
     return all(rates[a] > rates[b] for a, b in zip(cs, cs[1:]))
 
 
-def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=None, pace_cal=True,
-        budgets=None, grid=None, dirty=None, regime=None, plan_prior=None, fs_tables=None,
-        kappa=None, race_state="shipped", race_state_cover: bool = True, rival_field=None,
-        estimator: str = "regularized", n_draws: int = N_DRAWS) -> dict:
+def search_variant(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=None, pace_cal=True,
+                   budgets=None, grid=None, dirty=None, regime=None, plan_prior=None, fs_tables=None,
+                   kappa=None, race_state="shipped", race_state_cover: bool = True, rival_field=None,
+                   estimator: str = "regularized", n_draws: int = N_DRAWS, extrap: bool = True,
+                   extrap_ln_sd: float | None = None) -> tuple:
+    """The search behind `run`, returned whole: `(res, model, kw)`.
+
+    `bench_experiments.py` needs the `StrategyResult` (its race-state term
+    prices the pit window) and the model it was searched on; `run` keeps the
+    one-line summary the ablation table is built from.  `extrap_ln_sd`
+    overrides the measured width (the E5 sensitivity levels)."""
     """One search.  Every switched-off term is a keyword whose default is the
     shipped value, so a variant names exactly what it changed.
 
@@ -120,8 +128,14 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
     support = {k: float(v) for k, v in m["age_support_by_compound"].items()}
     total = fit.posterior["lin"].shape[0]
     idx = np.random.default_rng(0).choice(total, size=min(n_draws, total), replace=False)
+    # the model the pipeline ships: the practice support and WP-B's measured
+    # extrapolation width (`extrap=False` is the `extrap_off` variant)
+    width = (EXTRAP_LN_SD_MEASURED if extrap else 0.0) if extrap_ln_sd is None else float(extrap_ln_sd)
     model = TyreModel.from_fit(fit, draws=idx, budget=(budgets if budgets is not None else cal.budgets),
-                               manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s)
+                               manage_floor=cal.manage_wear_floor, manage_cost_s=cal.manage_cost_s,
+                               support=support, extrap_ln_sd=width)
+    if rival_field is None and race_state is not None:
+        rival_field = objective.rival_field_default(cal)
     kw = dict(regime=regime, support=support, max_per_compound=m["allocation"]["caps"], max_stint=caps,
               undercut_lambda=(cal.undercut_lambda if lam is None else lam),
               plan_prior=(m.get("plan_prior") or {} if plan_prior is None else plan_prior),
@@ -139,10 +153,18 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
             kw["first_stop_prior"] = fs_tables
     ns = m.get("net_step") or {}
     if pace_cal and ns.get("measured") is not None:
-        _, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]), net_step_s=float(ns["measured"]),
-                                                       net_step_se_s=float(ns.get("se") or 0.0), **kw)
+        model, res, _ = strat.search_with_pace_calibration(model, ev, float(m["pit_loss_s"]), net_step_s=float(ns["measured"]),
+                                                           net_step_se_s=float(ns.get("se") or 0.0), **kw)
     else:
         res = strat.simulate_model(model, ev, float(m["pit_loss_s"]), **kw)
+    return res, model, kw
+
+
+def run(key: str, m: dict, fit: BayesFit, cal: Calibration, **variant) -> dict:
+    """One search.  Every switched-off term is a keyword whose default is the
+    shipped value, so a variant names exactly what it changed (see
+    `search_variant` for the keywords)."""
+    res, model, kw = search_variant(key, m, fit, cal, **variant)
     return {"best": res.best_label, "p_stops": res.p_stops, "push": res.best["push"],
             "n_stops": res.best["n_stops"], "seq": "-".join(res.best["compounds"]),
             "start": res.best["compounds"][0],
@@ -157,7 +179,7 @@ def run(key: str, m: dict, fit: BayesFit, cal: Calibration, *, lam=None, tau=Non
 
 
 def percar(key: str, m: dict, fit: BayesFit, cal: Calibration, drivers: list, *, race_factors=None,
-           fs_tables=None, n_draws: int = N_DRAWS) -> dict:
+           fs_tables=None, n_draws: int = N_DRAWS, keep_dev: bool = False) -> dict:
     """Per-car plans with whatever driver terms the caller leaves in.
 
     `race_factors=None` *and* a model with its per-driver deviation stripped is
@@ -171,7 +193,7 @@ def percar(key: str, m: dict, fit: BayesFit, cal: Calibration, drivers: list, *,
     idx = np.random.default_rng(0).choice(total, size=min(n_draws, total), replace=False)
     model = TyreModel.from_fit(fit, draws=idx, budget=cal.budgets, manage_floor=cal.manage_wear_floor,
                                manage_cost_s=cal.manage_cost_s)
-    if race_factors is None:
+    if race_factors is None and not keep_dev:
         model = dataclasses.replace(model, driver_dev={})
     kw = dict(regime=RegimeFactor(ratio=float(m["regime"]["ratio"]), ln_sd=float(m["regime"]["ln_sd"])),
               support={k: float(v) for k, v in m["age_support_by_compound"].items()},
@@ -276,6 +298,13 @@ def main() -> None:
                                   estimator="task1"),
             "rivals_no_history": run(key, m, f_ship, cal, fs_tables=fs_tables, rival_field=no_hist),
             "place_value_task1": run(key, m, f_ship, cal, fs_tables=fs_tables, estimator="task1"),
+            "hetero_pack": run(key, m, f_ship, cal, fs_tables=fs_tables,
+                               rival_field=objective.rival_field_default(cal, mode="hetero")),
+            "no_family_logit": run(key, m, f_ship, cal, fs_tables=fs_tables,
+                                   rival_field=objective.rival_field_default(cal, mode="hetero", family_temper_s=200.0)),
+            "rival_rate_levels_1": run(key, m, f_ship, cal, fs_tables=fs_tables,
+                                       rival_field=objective.rival_field_default(cal, rate_levels=1)),
+            "extrap_off": run(key, m, f_ship, cal, fs_tables=fs_tables, extrap=False),
             "race_state_no_cover": run(key, m, f_ship, cal, fs_tables=fs_tables, race_state_cover=False),
             "race_state_lead_lap_value": run(key, m, f_ship, cal, fs_tables=fs_tables,
                                              race_state=dataclasses.replace(rs_c, place_gap_s=rs_c.place_gap_lead_lap_s)),
@@ -327,6 +356,10 @@ def main() -> None:
                         "first_stop_spread": (float(fs_ship.max() - fs_ship.min()) if fs_ship.notna().any() else None),
                         "mode": getattr(cal, "percar_mode", None)},
             "no_percar": percar(key, m, f_ship, cal, drivers, race_factors=None, fs_tables=fs_tables),
+            # the prompt's DEPRIORITISED "historical global driver factors": the
+            # practice deviation stays, the previous-race factor goes
+            "no_hist_driver_factors": percar(key, m, f_ship, cal, drivers, race_factors=None, fs_tables=fs_tables,
+                                             keep_dev=True),
             "spearman": accuracy_spearman(key)}
 
         # -- the `full` variant against what the pipeline shipped ---------------

@@ -1204,7 +1204,8 @@ def _hetero_field(ours: dict, curves: dict, *, means, push_grid, n_laps, max_len
                    "n_types": int(out.get("n_types", len(types))),
                    "n_groups_in_field": len(gs), "n_groups_costed": len(all_g),
                    "iterations": out.get("iterations"), "converged": out.get("converged"),
-                   "plan_prior_n": n_prior, "types": out.get("types") or []}
+                   "plan_prior_n": n_prior, "types": out.get("types") or [],
+                   "field_stop_distribution": out.get("field_stop_distribution")}
 
 
 def _first_stop_density(fs_tables, start_compound, n_stops: int, laps: np.ndarray) -> tuple:

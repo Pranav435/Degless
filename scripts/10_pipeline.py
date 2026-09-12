@@ -41,7 +41,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src import cliff, firststop, objective, percar, racestate, strategy as strat  # noqa: E402
+from src import cliff, firststop, haascar, objective, percar, racestate, strategy as strat  # noqa: E402
 from src.objective import V4Objective  # noqa: E402
 from src.calibration import get_calibration  # noqa: E402
 from src.compounds import (  # noqa: E402
@@ -575,7 +575,9 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     print(f"  circuit first-stop history: " + (f"{fs_summary['source']}" if fs_summary else "none")
           + ("" if fs_tables else " (no table)"))
     if fs_tables:
-        _cells = sorted({k for per in fs_tables.values() for k in per if k != "any"})
+        # the table's cells are keyed by stop count; "any" is the marginal and
+        # "n" (V4) the counts the rival field weighs each cell by
+        _cells = sorted({k for per in fs_tables.values() for k in per if isinstance(k, int)})
         print(f"    conditioned tables per start compound: stop counts {_cells} (plus \"any\")")
     # V4: the race state times the first stop.  Its constants are measured on
     # every other 2026 race (never this one); the first-stop history prior is
@@ -688,8 +690,24 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
     teams = pd.concat([clean, race]).drop_duplicates("driver").set_index("driver")["team"].to_dict()
     pooled_dev = percar.team_pooled_dev(model.driver_dev, teams,
                                         n_laps_by_driver=clean.groupby("driver").size().to_dict())
+    # V4: the two Haas cars carry what this weekend's practice says about them
+    # (`src.haascar`): warm-up and traffic sensitivity as differences from the
+    # field, shrunk driver -> team -> field; the degradation deviation stays the
+    # team-pooled one every car gets.  Estimated, never assumed - a car with no
+    # evidence gets the field terms exactly.
+    hcm, haas_terms = None, {}
+    try:
+        _prac_raw = DATA_PROCESSED / f"laps_{key}_practice.parquet"
+        hcm = haascar.HaasCarModel.from_weekend(
+            ev, model, clean, calibration=cal,
+            practice_laps=(pd.read_parquet(_prac_raw) if _prac_raw.exists() else None))
+        haas_terms = {d: haascar.car_terms(st) for d, st in hcm.states.items()}
+    except Exception as exc:
+        print(f"  haas car model unavailable: {exc}")
     pdp = strat.per_driver_plans(model, ev, float(pl.seconds), drivers_on_grid, race_factors=cal.driver_factors,
                                  dev_by_driver=pooled_dev, factor_ln_sd=cal.driver_factor_ln_sd,
+                                 warmup_by_driver={d: t["warmup_s"] for d, t in haas_terms.items()} or None,
+                                 traffic_mult_by_driver={d: t["traffic_mult"] for d, t in haas_terms.items()} or None,
                                  factor_shrink=None,
                                  **{k: v for k, v in sim_kw.items() if k != "step"})
     timings["per_driver_s"] = round(time.time() - t0, 1)
@@ -918,6 +936,7 @@ def stage_decide(args, ev, fs: dict | None = None) -> int:
         },
         "race_state": rs_block,
         "objective": obj.as_dict(),
+        "haas": (haascar.haas_block(hcm, pdp, rs_block) if hcm is not None else {}),
         "per_driver": (pdp.assign(pit_laps=pdp["pit_laps"].astype(str)).to_dict("records") if not pdp.empty else []),
         "counterfactual_top": (cf.head(3).assign(actual_pit_laps=cf.head(3)["actual_pit_laps"].astype(str),
                                                  model_pit_laps=cf.head(3)["model_pit_laps"].astype(str),

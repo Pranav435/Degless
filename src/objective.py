@@ -212,7 +212,7 @@ def rival_field_default(cal=None, **over):
     cls = getattr(racestate, "RivalFieldConfig", None)
     if cls is None:
         return None
-    kw = {"mode": "hetero",
+    kw = {"mode": str(getattr(cal, "rival_field_mode", "hetero") or "hetero"),
           "family_temper_s": float(getattr(cal, "family_temper_s", FAMILY_TEMPER_S_DEFAULT)
                                    or FAMILY_TEMPER_S_DEFAULT)}
     kw.update(over)

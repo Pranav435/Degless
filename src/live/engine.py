@@ -205,6 +205,10 @@ class WeekendModel:
     # V4: the race-state constants (every other 2026 race); None switches the
     # race state off and the engine runs the V3 objective
     race_state: object | None = None
+    # V4: per-car terms for the Haas cars from this weekend's practice
+    # (`src.haascar.car_terms`): driver code -> {warmup_s, traffic_mult}.  Empty
+    # for every other car, which then runs on the field terms exactly.
+    car_terms: dict = field(default_factory=dict)
 
     @classmethod
     def load(cls, event: Event | str, *, n_draws: int = N_DRAWS, seed: int = 0) -> "WeekendModel":
@@ -287,6 +291,19 @@ class WeekendModel:
         except Exception:
             log.exception("race-state constants unavailable for %s; the V3 objective runs", ev.key)
             rs_const = None
+        # The Haas cars' own warm-up and traffic terms, from the practice tables
+        # on disk; a weekend with no practice yet (prior-only model) has none.
+        car_terms = {}
+        clean_p = DATA_PROCESSED / f"clean_{ev.key}_practice.parquet"
+        if post.exists() and clean_p.exists():
+            try:
+                from src import haascar
+                hcm = haascar.HaasCarModel.from_weekend(
+                    ev, model, pd.read_parquet(clean_p), calibration=cal,
+                    practice_laps=(pd.read_parquet(prac) if prac.exists() else None), sector_times=False)
+                car_terms = {d: haascar.car_terms(st) for d, st in hcm.states.items()}
+            except Exception:
+                log.exception("haas car terms unavailable for %s; the field terms run", ev.key)
         return cls(event=ev, model=model, m_prior=m_prior, pit_loss_s=pit,
                    pit_loss_source=pit_src, allocation=alloc, stint_cap=caps, history=hist,
                    source=source, sealed_file=sealed, n_draws=n,
@@ -294,7 +311,7 @@ class WeekendModel:
                    dirty_air_s_per_lap=float(cal.dirty_air_for(ev.circuit)),
                    calibration_source=cal.source,
                    first_stop_kappa_s=float(cal.first_stop_kappa_s), first_stop_table=fs_table,
-                   driver_dev_pooled=pooled_dev, race_state=rs_const)
+                   driver_dev_pooled=pooled_dev, race_state=rs_const, car_terms=car_terms)
 
     @staticmethod
     def prior_model(ev: Event, n: int, rng: np.random.Generator, calibration=None) -> TyreModel:
@@ -466,6 +483,7 @@ class RaceEngine:
         self.kappa = float(getattr(wm, "first_stop_kappa_s", 0.0) or 0.0)
         self.first_stop_table = getattr(wm, "first_stop_table", None)
         self.pooled_dev = dict(getattr(wm, "driver_dev_pooled", {}) or {})
+        self.car_terms = dict(getattr(wm, "car_terms", {}) or {})
         self._rate_cache: dict = {}
         self.race_state = getattr(wm, "race_state", None) if race_state else None
         self.n_rivals = int(n_rivals) if n_rivals else int(STRATEGIC_RIVALS_K)
@@ -829,6 +847,13 @@ class RaceEngine:
         pit = self.pit_loss_s
         dens = self._density(total)
         traffic = TRAFFIC_LAPS_PER_STOP * self.dirty_air
+        # V4: a Haas car's own traffic sensitivity scales its rejoin charge, and
+        # its own warm-up moves every stop by the difference from the field's
+        # (the fresh-set tables are built once for the field at
+        # OUT_LAP_PENALTY_S).  Any other car: 1.0 and 0.0, the field exactly.
+        ct = self.car_terms.get(state.driver_label(num)) or {}
+        traffic *= float(ct.get("traffic_mult", 1.0) or 1.0)
+        warm_extra = float(ct.get("warmup_s", OUT_LAP_PENALTY_S)) - OUT_LAP_PENALTY_S
         caps = self.wm.stint_cap
         stint_len_now = cur_lap - int(dt.stint_first_lap or 1) + 1      # laps run on this set so far
         BIG = 10 ** 6
@@ -892,7 +917,7 @@ class RaceEngine:
             rem = total - P1
             fsp1 = first_stop_pen(P1, 1)
             fixed1 = (pit * np.where(P1 == now_lap, pit_now_factor, 1.0)
-                      + traffic * dens[np.clip(P1, 1, total) - 1] + fsp1)
+                      + traffic * dens[np.clip(P1, 1, total) - 1] + fsp1 + warm_extra)
             fsp1 = np.broadcast_to(np.asarray(fsp1, dtype=float), P1.shape)
             for c2 in avail:
                 legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
@@ -911,7 +936,7 @@ class RaceEngine:
             K1p = P1p - cur_lap
             fsp2 = first_stop_pen(P1p, 2)
             fixed2 = (pit * np.where(P1p == now_lap, pit_now_factor, 1.0) + pit
-                      + traffic * (dens[P1p - 1] + dens[P2p - 1]) + fsp2)
+                      + traffic * (dens[P1p - 1] + dens[P2p - 1]) + fsp2 + 2.0 * warm_extra)
             fsp2 = np.broadcast_to(np.asarray(fsp2, dtype=float), P1p.shape)
             for c2 in avail:
                 e1 = expo_cont(c2, K1p)
