@@ -1087,7 +1087,7 @@ def _build_state(drv: str, *, ev, team, mate, model, cal, rates, dev_own, dev_po
                    field_value={c: round(v, 4) for c, v in rates.items()}, units="s/lap of age",
                    note=("the field rate plus the fit's own dev[d, c], pooled driver -> team by "
                          f"percar.team_pooled_dev at k = {POOL_K_LAPS:.0f} clean laps; the "
-                         "team -> field step is the fit's own hierarchical prior on dev "
+                         "team -> field step is the fit's own hierarchical pull on dev "
                          "(sigma_dev ~ HalfNormal(0.02)) and is not applied twice here"),
                    detail={"dev_own_s_per_lap": ({c: round(v, 5) for c, v in own_dev_m.items()}
                                                  if own_dev_m else None),
@@ -1226,7 +1226,7 @@ def _build_state(drv: str, *, ev, team, mate, model, cal, rates, dev_own, dev_po
                   "n_race_laps": int(lv_r["n"].get(drv, 0)),
                   "n_sector_laps": int((own_sec or {}).get("n_laps", 0))},
         source=("every quantity above is measured on this weekend; the race-history rate factor "
-                "is a prior and enters only through percar.shrink_factor"))
+                "comes from previous races and enters only through percar.shrink_factor"))
 
 
 def _race_factor(cal, drv: str) -> dict:
@@ -1234,7 +1234,7 @@ def _race_factor(cal, drv: str) -> dict:
     precisely it was measured, and what survives `percar.shrink_factor`."""
     if cal is None:
         return {"factor": 1.0, "ln_sd": None, "shrunk": 1.0,
-                "role": "prior (no calibration passed)"}
+                "role": "previous races (no calibration passed)"}
     factors = getattr(cal, "driver_factors", None) or {}
     sds = getattr(cal, "driver_factor_ln_sd", None) or {}
     f = factors.get(drv, 1.0)
@@ -1243,7 +1243,7 @@ def _race_factor(cal, drv: str) -> dict:
     return {"factor": f, "ln_sd": (float(sd) if sd is not None else None),
             "shrunk": float(percar.shrink_factor(f, sd)),
             "team_factor": float((getattr(cal, "team_factors", None) or {}).get(HAAS_TEAM, float("nan"))),
-            "role": ("prior from previous races, precision-weighted by percar.shrink_factor; "
+            "role": ("from previous races, precision-weighted by percar.shrink_factor; "
                      "never evidence about this weekend"),
             "source": getattr(cal, "source", "")}
 
@@ -1424,7 +1424,7 @@ def explain_difference(state_a: CarState, state_b: CarState, plan_a=None, plan_b
     hb = float((b.race_factor or {}).get("shrunk", 1.0))
     if abs(ha - hb) >= MATERIAL_FACTOR:
         causes.append((abs(ha - hb) / MATERIAL_FACTOR,
-                       f"race-history rate factor (a prior, not this weekend's evidence): {da} "
+                       f"race-history rate factor (from previous races, not this weekend's evidence): {da} "
                        f"x{ha:.3f} vs {db} x{hb:.3f} after precision shrinkage "
                        f"(raw x{float((a.race_factor or {}).get('factor', 1.0)):.3f} / "
                        f"x{float((b.race_factor or {}).get('factor', 1.0)):.3f}, ln_sd "
@@ -1569,7 +1569,7 @@ def haas_block(model_states, per_driver_df=None, race_state_block=None, *,
         "field": field_state, "cars": cars, "explanation": expl, "race_state": rs,
         "evidence_rule": ("every quantity is measured on this weekend and shrunk driver -> team "
                           "-> field with a stated pseudo-count; the race-history driver factor is "
-                          "a prior and enters only through percar.shrink_factor"),
+                          "from previous races; it enters only through percar.shrink_factor"),
     })
 
 

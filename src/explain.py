@@ -237,8 +237,8 @@ def explain_decision(plan: dict, row: dict | None = None, meta: dict | None = No
     if pc is not None and p50 is not None and pc >= LIFE_RISK_SHOW_P:
         age, comp = _num(life.get("tyre_age")), life.get("compound") or row.get("compound")
         head = (f"The {comp} is {int(age)} laps old; " if (comp and age is not None) else "")
-        reasons.append(head + f"the cliff is {p50:.0f} laps away (p10 {_num(life.get('life_p10')) or 0:.0f}, "
-                              f"p90 {_num(life.get('life_p90')) or 0:.0f}); P(cliff before the stop) "
+        reasons.append(head + f"the drop-off is {p50:.0f} laps away (p10 {_num(life.get('life_p10')) or 0:.0f}, "
+                              f"p90 {_num(life.get('life_p90')) or 0:.0f}); P(drop-off before the stop) "
                               f"{pc:.2f} — shown, not decisive")
     if meta.get("sc_active"):
         reasons.append("A safety car is out: the pit loss is discounted this lap")

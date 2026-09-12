@@ -763,7 +763,8 @@ def sweep(donors: list, cal: dict, name: str, values: list, objective, *, models
 
 
 def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | None = None,
-              held_out: str | None = None, v3_kappa: float | None = None) -> dict:
+              held_out: str | None = None, v3_kappa: float | None = None,
+              rival_mode: str = "auto") -> dict:
     t0 = time.time()
     pooled_b, per_b, est_b = pool_cliff_budgets(donors)
     _, per_v2, raw_v2 = pool_budgets(donors)
@@ -852,7 +853,8 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
     # from the final tables above)
     cal["family_temper"], sweeps["family_temper"], ft_identified, rival_block = sweep_family_temper(
         donors, cal, grids.get("family_temper", GRIDS["family_temper"]), models)
-    cal["rival_mode"] = rival_block.get("mode", "hetero")
+    cal["rival_mode"] = rival_block.get("mode", "hetero") if rival_mode == "auto" else str(rival_mode)
+    rival_block["mode_forced"] = (None if rival_mode == "auto" else str(rival_mode))
     # the final scores are re-taken with the rival field as chosen (mode and temperature)
     final = {d.key: d.decision_scores(d.search(cal, lam=cal["lambda"], tau=cal["tau"], grid=cal["grid"],
                                                kappa=cal["kappa"], calibrated_model=models[d.key])) for d in donors}
@@ -937,6 +939,10 @@ def calibrate(donors: list, grids: dict, label: str, *, dirty_circuits: dict | N
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--rival-mode", default="auto", choices=["auto", "hetero", "symmetric"],
+                    help="the rival model the searches run: 'auto' lets each block's stop-likelihood "
+                         "validation choose; a fixed mode is what docs/v4_plan.md §3 (E1) decides after "
+                         "the generalisation experiment, and the validation block is still written")
     ap.add_argument("--events", nargs="*", default=None)
     ap.add_argument("--out", default=str(CALIBRATION_PATH))
     args = ap.parse_args()
@@ -983,11 +989,12 @@ def main() -> int:
     # the global block holds nothing out, so each donor's race state excludes
     # only its own race
     result["global"] = calibrate(list(donors.values()), grids, "global", dirty_circuits=dirty_circuits,
-                                 held_out=None, v3_kappa=v3_kappa.get("_global"))
+                                 held_out=None, v3_kappa=v3_kappa.get("_global"), rival_mode=args.rival_mode)
     for k in keys:
         print(f"\n== leave-one-out: {k} held out ==")
         result["loo"][k] = calibrate([d for kk, d in donors.items() if kk != k], grids, f"loo {k}",
-                                     dirty_circuits=dirty_circuits, held_out=k, v3_kappa=v3_kappa.get(k))
+                                     dirty_circuits=dirty_circuits, held_out=k, v3_kappa=v3_kappa.get(k),
+                                     rival_mode=args.rival_mode)
     Path(args.out).write_text(json.dumps(result, indent=1, default=lambda o: float(o) if isinstance(o, (np.floating,)) else
                                           int(o) if isinstance(o, np.integer) else str(o)))
     print(f"\nwrote {args.out} in {time.time()-t0:.0f}s")
