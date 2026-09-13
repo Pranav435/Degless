@@ -59,8 +59,14 @@ def _rf(cal, **over):
     return objective.rival_field_default(cal, **over)
 
 
-def variants(cal) -> dict:
-    """Name -> the keywords of `bench_ablation.search_variant` that define it."""
+T1_CAL_PATH = ROOT / "bench" / "v4_task1" / "processed" / "calibration.json"
+T1_CAL = {k: v for k, v in ((json.loads(T1_CAL_PATH.read_text()).get("loo") or {}).items())} if T1_CAL_PATH.exists() else {}
+
+
+def variants(cal, cal_key: str | None = None) -> dict:
+    """Name -> the keywords of `bench_ablation.search_variant` that define it.
+
+    `cal_key` is the weekend whose leave-one-out block `cal` is (for E6b)."""
     sym = racestate.RivalFieldConfig(mode="symmetric")
     return {
         # E1: the rival field alone, everything else as Task 1 ran it
@@ -82,6 +88,12 @@ def variants(cal) -> dict:
         "E5_extrap_double": dict(extrap_ln_sd=2.0 * EXTRAP_LN_SD_MEASURED),
         # E8: the shipped objective
         "E8_full": dict(),
+        # E6b (diagnostic): the V4 objective priced with Task 1's per-fold
+        # lambda and tau (bench/v4_task1/processed/calibration.json, V3's sweeps).
+        # Not a shipped variant: it shows what the V4 recalibration's own
+        # constants cost where the donors do not identify them.
+        "E6b_task1_constants": dict(lam=T1_CAL.get(cal_key, {}).get("undercut_lambda"),
+                                    tau=T1_CAL.get(cal_key, {}).get("plan_prior_tau_s")),
     }
 
 
@@ -236,7 +248,7 @@ def main() -> None:
         t0 = time.time()
         for key in args.events:
             d = per_key[key]
-            spec = variants(d["cal"])[name]
+            spec = variants(d["cal"], key)[name]
             try:
                 res, model, kw = BA.search_variant(key, d["m"], d["fit"], d["cal"], fs_tables=d["fs_tables"], **spec)
                 rows[key] = score(key, d["ev"], d["m"], res, model, kw, d["cal"], d["plans"], d["orc"],
