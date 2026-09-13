@@ -34,6 +34,7 @@ from app.theme import (
     fmt,
     headline,
     how,
+    in_ladder,
     more,
     notice,
     palette,
@@ -300,6 +301,163 @@ def _key_laps(recs: list, stops: list) -> list:
     return out[:8]
 
 
+# --------------------------------------------------------------------------
+# Tyre degradation, one Haas car at a time
+# --------------------------------------------------------------------------
+
+
+def _life_word(laps, n_race: int) -> str:
+    """Laps a set would last at the rate it was really wearing."""
+    if not finite(laps) or laps <= 0:
+        return "—"
+    return f"{laps:.0f} laps" if laps < 2 * max(n_race, 1) else "far beyond the race"
+
+
+def _cliff_word(r: dict) -> str:
+    """The engine's laps-to-the-drop-off at the end of a stint, with its band."""
+    p50, p10, p90 = r.get("laps_to_cliff_p50"), r.get("laps_to_cliff_p10"), r.get("laps_to_cliff_p90")
+    if not finite(p50):
+        return "—"
+    if p50 >= 60:
+        return "60+"
+    if finite(p10) and finite(p90) and p90 < 60:
+        return f"{p50:.0f} ({p10:.0f}–{p90:.0f})"
+    return f"{p50:.0f}"
+
+
+def _car_mult(res: dict, code: str) -> float:
+    """This car's own multiplier on the tyre's wear rate in this scenario's truth."""
+    me = _car(res, code) or {}
+    if finite(me.get("car_mult")):
+        return float(me["car_mult"])
+    cm = ((res.get("truth") or {}).get("car_mult") or {}).get(code)
+    return float(cm) if finite(cm) else 1.0
+
+
+def _deg_stints(res: dict, code: str) -> list:
+    """One row per set of tyres this car ran: what the tyre really did on this
+    car, against what the engine had read off the lap times by the end of it.
+
+    The wear rate comes from the simulation's own wear trace rather than being
+    re-derived from the compound's rate, so it carries the fuel-load shape and
+    the extrapolation the truth actually ran with.
+    """
+    me = _car(res, code)
+    if me is None:
+        return []
+    L = me["laps"]
+    ages, comps, wear = list(L["tyre_age"]), list(L["compound"]), list(L["wear"])
+    budget = (res.get("truth") or {}).get("budget") or {}
+    recs = {r["lap"]: r for r in ((res.get("engine") or {}).get(code) or [])}
+    n_race = int(res.get("n_laps") or len(ages))
+    # a new set is on whenever the age counter restarts
+    starts = [i for i in range(len(ages)) if i == 0 or float(ages[i]) <= float(ages[i - 1])]
+    rows = []
+    for n, i0 in enumerate(starts, start=1):
+        i1 = (starts[n] if n < len(starts) else len(ages)) - 1
+        n_laps = i1 - i0 + 1
+        c = str(comps[i1] or "")
+        used = float(wear[i1])              # a set goes on with none of its life used
+        rate = used / n_laps if n_laps else float("nan")
+        r = recs.get(i1 + 1) or {}
+        eff = finite(r.get("m_eff"))
+        m, m_lo, m_hi = ((r.get("m_eff"), r.get("m_eff_lo"), r.get("m_eff_hi")) if eff
+                         else (r.get("m_mean"), r.get("m_lo"), r.get("m_hi")))
+        rows.append({
+            "Stint": n,
+            "Tyre": c.title(),
+            "Laps": f"{i0 + 1}–{i1 + 1} ({n_laps})",
+            "Wear per lap": (fmt(rate * float(budget.get(c, 3.8)), 3, " s") if finite(rate) else "—"),
+            "Life used": (float(min(used, 1.0)) if finite(used) else None),
+            "Set would last": _life_word((1.0 / rate) if finite(rate) and rate > 0 else None, n_race),
+            "Engine's wear vs forecast": (f"{m:.2f}× ({m_lo:.2f}–{m_hi:.2f})"
+                                          if finite(m) and finite(m_lo) and finite(m_hi)
+                                          else (f"{m:.2f}×" if finite(m) else "—")),
+            "Engine's wear per lap": fmt(r.get("deg_now_s_per_lap"), 3, " s"),
+            "Clean laps read": (int(r["n_clean"]) if finite(r.get("n_clean")) else None),
+            "Laps to the drop-off": _cliff_word(r),
+            "Drop-off risk": (float(r["p_past_cliff"]) if finite(r.get("p_past_cliff")) else None),
+        })
+    return rows
+
+
+def _deg_compounds(res: dict, code: str) -> list:
+    """What each tyre in the scenario's truth would do on this car."""
+    me, tr = _car(res, code), (res.get("truth") or {})
+    if me is None or not tr.get("rate"):
+        return []
+    cm = _car_mult(res, code)
+    ran = list(me["laps"]["compound"])
+    n_race = int(res.get("n_laps") or 0)
+    rows = []
+    for c in in_ladder(list(tr["rate"])):
+        rate = float(tr["rate"][c]) * cm
+        if not (finite(rate) and rate > 0):
+            continue
+        rows.append({
+            "Tyre": str(c).title(),
+            "Wear per lap": fmt(rate * float((tr.get("budget") or {}).get(c, 3.8)), 3, " s"),
+            "Set would last": _life_word(1.0 / rate, n_race),
+            "Pace offset": f"{float((tr.get('pace_offset') or {}).get(c, 0.0)):+.2f} s",
+            "Laps run": sum(1 for x in ran if x == c),
+        })
+    return rows
+
+
+def _deg_section(res: dict, val: dict, code: str, key: str) -> None:
+    """This car's tyre degradation: the truth it ran on, and what the engine
+    made of it.  The field-wide version of the same numbers is in "The tyres
+    this race ran on"; every rate here carries this car's own multiplier."""
+    me = _car(res, code)
+    if me is None:
+        return
+    tr, v = (res.get("truth") or {}), (val.get(code) or {})
+    stints, comps = _deg_stints(res, code), _deg_compounds(res, code)
+    if not stints and not comps:
+        return
+    last = NAMES.get(code, code).split()[-1]
+    with card(f"sim-tyrelife-{code}-{key}", f"{last}'s tyre degradation",
+              tip="Left: one row per set of tyres the car ran — what the tyre really gave up per lap on this "
+                  "car, how much of its life had gone by the end of the stint, and what the engine had read off "
+                  "the lap times by then. Right: what each tyre in this scenario's truth would have done on this "
+                  "car. " + DEFS["tyre_wear"]):
+        c1, c2 = st.columns([1.6, 1], gap="medium")
+        with c1:
+            st.dataframe(pd.DataFrame(stints), width="stretch", hide_index=True, column_config={
+                "Laps": st.column_config.TextColumn(help=DEFS["stint"]),
+                "Wear per lap": st.column_config.TextColumn(
+                    help="Seconds this set gave up per lap over the stint, on this car, in this race."),
+                "Life used": st.column_config.ProgressColumn(min_value=0, max_value=1, format="percent",
+                                                             color=palette()["ink"], help=DEFS["life_used"]),
+                "Set would last": st.column_config.TextColumn(
+                    help="Laps to the drop-off at the rate the set was really wearing."),
+                "Engine's wear vs forecast": st.column_config.TextColumn(
+                    help=DEFS["wear_vs_forecast"] + " Median and the 10th–90th band, at the end of the stint."),
+                "Engine's wear per lap": st.column_config.TextColumn(
+                    help="What the engine expected the tyre to cost on its next lap, at the end of the stint."),
+                "Clean laps read": st.column_config.NumberColumn(
+                    help="Green, traffic-free laps the engine had to measure this stint's wear from."),
+                "Laps to the drop-off": st.column_config.TextColumn(
+                    help=DEFS["drop_off"] + " The engine's estimate at the end of the stint, median (10th–90th)."),
+                "Drop-off risk": st.column_config.NumberColumn(format="percent", help=DEFS["drop_off"]),
+            })
+        with c2:
+            st.dataframe(pd.DataFrame(comps), width="stretch", hide_index=True, column_config={
+                "Wear per lap": st.column_config.TextColumn(help="Over a stint on this car, at reference fuel load."),
+                "Set would last": st.column_config.TextColumn(help="Laps to the drop-off on this car."),
+                "Pace offset": st.column_config.TextColumn(help="Lap time this tyre costs against the softest, fresh."),
+                "Laps run": st.column_config.NumberColumn(help="Laps this car actually ran on the tyre in this race."),
+            })
+        bits = [f"{last}'s tyres wore **{_car_mult(res, code):.2f}×** the field's in this race"]
+        if finite(v.get("wear_mae")):
+            bits.append(f"the engine tracked life used to within {100 * float(v['wear_mae']):.1f} points of the truth")
+        mult = float(tr.get("regime_mult", float("nan"))) * float((res.get("config") or {}).get("deg_mult", 1.0))
+        if finite(mult):
+            bits.append(f"the scenario itself ran at {mult:.2f}× the forecast wear")
+        st.caption(" · ".join(bits) + ". Fuel load moves wear between the start and the end of the race, "
+                   "not its total; the engine never sees the truth, it has to find it from lap times.")
+
+
 def _driver_section(res: dict, val: dict, code: str, key: str) -> None:
     recs = (res.get("engine") or {}).get(code) or []
     me = _car(res, code)
@@ -342,6 +500,7 @@ def _driver_section(res: dict, val: dict, code: str, key: str) -> None:
                   tip="The engine's estimate of life used, lap by lap, against the truth the simulation ran on. "
                       "Bars are the engine's drop-off risk."):
             chart(_wear_chart(res, code, recs))
+    _deg_section(res, val, code, key)
     c1, c2 = st.columns([1.15, 1], gap="medium")
     with c1:
         rivals = []

@@ -132,11 +132,18 @@ __all__ = [
     "hier_rate_scale_table",
     "stint_trend",
     "HAAS_DRIVERS",
+    "HAAS_DRIVER_META",
     "HAAS_TEAM",
 ]
 
 HAAS_TEAM = "Haas F1 Team"
 HAAS_DRIVERS = ("OCO", "BEA")
+# Car numbers and full names, so the app and the race engineer name the same two
+# drivers the same way.
+HAAS_DRIVER_META = {
+    "OCO": {"number": 31, "name": "Esteban Ocon"},
+    "BEA": {"number": 87, "name": "Ollie Bearman"},
+}
 
 # -- pseudo-counts, in the units of each quantity's own evidence -------------
 # Every one of these is a *prior strength*, not a fitted constant: it says how

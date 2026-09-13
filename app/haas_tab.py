@@ -25,14 +25,12 @@ from app.live_tab import car_lap_chart
 from app.theme import age, card, chart, finite, fmt, headline, pct, plan_text, tiles
 from src import objective as objlib
 from src.explain import explain_actions, explain_decision
+from src.haascar import HAAS_DRIVER_META, HAAS_DRIVERS, HAAS_TEAM
 from src.live.store import LIVE_DIR, read_laps, read_snapshot
 
-DRIVERS = ["OCO", "BEA"]
-DRIVER_META = {
-    "OCO": {"number": 31, "name": "Esteban Ocon"},
-    "BEA": {"number": 87, "name": "Ollie Bearman"},
-}
-TEAM = "Haas F1 Team"
+DRIVERS = list(HAAS_DRIVERS)
+DRIVER_META = HAAS_DRIVER_META
+TEAM = HAAS_TEAM
 VIEWS = ["Haas Overview", "Ocon", "Bearman"]
 VIEW_DRIVER = {"Ocon": "OCO", "Bearman": "BEA"}
 

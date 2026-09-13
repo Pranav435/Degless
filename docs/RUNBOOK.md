@@ -113,19 +113,30 @@ tyres the model thinks possible).  The headline gives each car's grid and
 finish with the engine against the sealed plan followed blindly; the race
 trace and classification show the whole field; per car, the call lap by lap
 (the lap it named, the window it priced, the lap it stopped), what it believed
-about the tyre against the truth, positions against its rivals, the reasons
-it gave on the in-lap, and every lap's record.  The real-time card times every
-lap's decision for the whole field.  `make racesim EVENT=<key>` rebuilds it
-(`QUICK=1` for the base scenario); `make run` does so after every refit, and
-commits the model's per-car decision cards (`make plans EVENT=<key>`) at the
-same time.
+about the tyre against the truth, that car's own tyre degradation set by set
+(what each set really gave up per lap on this car, how much of its life had
+gone by the end of the stint, and what the engine had read off the lap times by
+then) next to what each compound would have done on it, positions against its
+rivals, the reasons it gave on the in-lap, and every lap's record.  The
+real-time card times every lap's decision for the whole field.  `make racesim
+EVENT=<key>` rebuilds it (`QUICK=1` for the base scenario); `make run` does so
+after every refit, and commits the model's per-car decision cards (`make plans
+EVENT=<key>`) at the same time.
 
 **Race plan / Tyre model / Evidence**: the sealed weekend model and how it was
 built (for a weekend with no practice yet, the Race plan tab shows the
 outlook's plan). **Validation / Replay**: the receipts, once the race has been
-scored. **Engineer**: ask questions; answers are grounded on the model's
-numbers, the outlook, the committed plans and the live snapshot. Needs
-`GEMINI_API_KEY` in `.env`.
+scored. **Engineer**: Haas's tyre-degradation race engineer for #31 Ocon and
+#87 Bearman — ask questions, or take the briefing, and it leads on what each
+car's tyres are doing before anything about track position. Answers are
+grounded on the model's numbers, each car's own degradation rates and the
+evidence behind them, the outlook, the committed plans and the live snapshot;
+it never averages the two drivers into one Haas number, and it says when a
+car's rate is really its team-mate's. Needs `GEMINI_API_KEY` in `.env`
+(`GEMINI_MODEL` and `ENGINEER_MAX_TOKENS` override the model and the per-answer
+output budget). Without a key, or if the provider is busy, the same briefing is
+assembled offline from the identical fact sheet and says which of the two it
+is.
 
 ## Rehearsal, any time
 
