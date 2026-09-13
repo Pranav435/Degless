@@ -88,7 +88,8 @@ def _part_deltas(chosen: dict | None, alt: dict | None) -> list:
     if not chosen or not alt:
         return []
     out = []
-    for key, name in (("tyre_s", "tyre"), ("position_s", "track position"), ("traffic_s", "rejoin traffic")):
+    for key, name in (("tyre_s", "tyre"), ("position_s", "track position"), ("traffic_s", "rejoin traffic"),
+                      ("family_s", "plan-shape handicap")):
         a, c = _num(alt.get(key)), _num(chosen.get(key))
         if a is None or c is None:
             continue

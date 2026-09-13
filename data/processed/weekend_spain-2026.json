@@ -4,10 +4,11 @@
   "n_race_laps": 57,
   "sessions_used": [
     "Practice 1",
-    "Practice 2"
+    "Practice 2",
+    "Practice 3"
   ],
-  "sealed_file": "spain-2026_20260912T115606Z.json",
-  "sealed_sha256": "7ee5b780a3a8f80cfe5cb41d44f5f391923f759d4b4d6ff93e502492cbd97d0e",
+  "sealed_file": "spain-2026_20260913T030151Z.json",
+  "sealed_sha256": "44fba150704c808a1062fad7b11452a4bfb78fffd7edbecd3733f9e085750f78",
   "physics": {
     "burn_kg_per_lap": 1.2280701754385965,
     "k_track_s_per_kg": 0.031755915317559155,
@@ -57,7 +58,9 @@
         "se": 0.345,
         "n_stints": 47,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "japan-2026",
@@ -65,7 +68,9 @@
         "se": 0.6643,
         "n_stints": 42,
         "median_stint_laps": 20.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "barcelona-2026",
@@ -73,7 +78,9 @@
         "se": 0.3363,
         "n_stints": 62,
         "median_stint_laps": 15.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "austria-2026",
@@ -81,7 +88,9 @@
         "se": 0.295,
         "n_stints": 61,
         "median_stint_laps": 19.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "belgium-2026",
@@ -89,7 +98,9 @@
         "se": 0.3225,
         "n_stints": 40,
         "median_stint_laps": 13.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "hungary-2026",
@@ -97,7 +108,9 @@
         "se": 0.3273,
         "n_stints": 64,
         "median_stint_laps": 18.0,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       },
       {
         "event": "italy-2026",
@@ -105,7 +118,9 @@
         "se": 0.3543,
         "n_stints": 28,
         "median_stint_laps": 24.5,
-        "kind": "2026 donor"
+        "kind": "2026 donor",
+        "recency": 1.0,
+        "used": true
       }
     ]
   },
@@ -123,19 +138,33 @@
     },
     "offsets_after": {
       "SOFT": 0.0,
-      "MEDIUM": 0.2606257206585486,
-      "HARD": 0.4101577791621348
+      "MEDIUM": 0.2606256922250003,
+      "HARD": 0.410157758060066
     },
-    "model_net_before": 0.06473321329270727,
-    "model_net_after": 0.09082568530630086,
-    "best_before": "1-stop M-H @ 34",
-    "best_after": "1-stop M-H @ 33"
+    "model_net_before": 0.06521958586274085,
+    "model_net_after": 0.0913120473253,
+    "stint_len_plan": 28.5,
+    "life_cap": 491.389678773806,
+    "passes": 1,
+    "converged": true,
+    "passes_detail": [
+      {
+        "pass": 1,
+        "calibrated_at": 28.5,
+        "plan": "1-stop M-H @ 29",
+        "plan_stint_len": 28.5,
+        "next_length": 28.5,
+        "life_cap": 491.389678773806
+      }
+    ],
+    "best_before": "1-stop M-H @ 30",
+    "best_after": "1-stop M-H @ 29"
   },
   "regime": {
-    "ratio": 0.6592261807596547,
+    "ratio": 0.7054999587956627,
     "ln_sd": 0.24012873354362602,
-    "p05": 0.44410229368805054,
-    "p95": 0.9785564352527777,
+    "p05": 0.4752756474825281,
+    "p95": 1.0472453080587918,
     "measured": true,
     "label": "median of 7 donors, temperature-corrected",
     "sources": [
@@ -147,7 +176,7 @@
       "hungary-2026",
       "italy-2026"
     ],
-    "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; each donor's log ratio corrected by the thermal sensitivity (+0.025/degC) times its race-minus-practice track temperature, residuals pooled with the median: australia-2026 0.75x (dT +2 degC -> 0.72), japan-2026 0.73x (dT +2 degC -> 0.70), barcelona-2026 0.70x (dT +2 degC -> 0.66), austria-2026 0.58x (dT +2 degC -> 0.56), belgium-2026 0.32x (dT -5 degC -> 0.37), hungary-2026 0.64x (dT +17 degC -> 0.42), italy-2026 0.81x (dT +2 degC -> 0.78) -> management residual 0.66x (spread 0.24 ln); no temperature pair for spain-2026; 0.66x applies; the old pooled geometric mean would have given 0.63x. spain-2026's own race is never used",
+    "derivation": "race/practice degradation ratio, stint-fixed-effects estimator on both sessions; each donor's log ratio corrected by the thermal sensitivity (+0.025/degC) times its race-minus-practice track temperature, residuals pooled with the median: australia-2026 0.75x (dT +2 degC -> 0.72), japan-2026 0.73x (dT +2 degC -> 0.70), barcelona-2026 0.70x (dT +2 degC -> 0.66), austria-2026 0.58x (dT +2 degC -> 0.56), belgium-2026 0.32x (dT -5 degC -> 0.37), hungary-2026 0.64x (dT +17 degC -> 0.42), italy-2026 0.81x (dT +2 degC -> 0.78) -> management residual 0.66x (spread 0.24 ln); at spain-2026 practice ran at 50 degC and the race is expected at 53 degC (forecast supplied), so the pool gives 0.71x, so 0.71x applies; the old pooled geometric mean would have given 0.63x. spain-2026's own race is never used",
     "donors": [
       {
         "event": "australia-2026",
@@ -243,14 +272,17 @@
       }
     ],
     "temperature": {
+      "mode": "forecast",
       "beta_per_c": 0.025207229733850672,
       "t_practice_c": 50.30870786516854,
-      "t_race_expected_c": null,
-      "t_race_source": "no forecast: practice temperature assumed",
+      "t_race_expected_c": 53.0,
+      "t_race_source": "forecast supplied",
       "t_race_forecast_sd_c": 0.0,
-      "delta_t_c": 0.0,
+      "delta_t_c": 2.691292134831457,
       "residual_median": 0.6592261807596547,
       "residual_spread_ln": 0.24012873354362602,
+      "pooled_ratio": 0.7054999587956627,
+      "pooled_ln_sd": 0.24012873354362602,
       "pooled_geomean_ratio": 0.6256269437476163,
       "modelled": true
     }
@@ -293,8 +325,8 @@
     },
     "starts": {
       "MEDIUM": 88,
-      "HARD": 11,
-      "SOFT": 22
+      "SOFT": 22,
+      "HARD": 11
     },
     "stops": {
       "1": 57,
@@ -302,8 +334,78 @@
       "3": 15
     },
     "n": 121,
-    "source": "2026 season pooled (australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026, italy-2026)"
+    "source": "2026 season pooled (australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026, italy-2026)",
+    "nomination": {
+      "target": null,
+      "per_race": [
+        {
+          "year": 2026,
+          "event": "australia-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 15,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "japan-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 19,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "barcelona-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 13,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "austria-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 17,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "belgium-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 19,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "hungary-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 19,
+          "n_dropped": 0,
+          "n_clamped": 0
+        },
+        {
+          "year": 2026,
+          "event": "italy-2026",
+          "nomination": null,
+          "comparable": "letters",
+          "n_mapped": 19,
+          "n_dropped": 0,
+          "n_clamped": 0
+        }
+      ],
+      "mode": "letters"
+    }
   },
+  "first_stop_prior": null,
   "allocation": {
     "caps": {
       "SOFT": 2,
@@ -360,19 +462,101 @@
     "derivation": "stints per compound per classified finisher, australia-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 2}; japan-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 1}; barcelona-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 2}; austria-2026 {'SOFT': 1, 'MEDIUM': 2, 'HARD': 2}; belgium-2026 {'SOFT': 1, 'MEDIUM': 1, 'HARD': 2}; hungary-2026 {'SOFT': 2, 'MEDIUM': 1, 'HARD': 2}; italy-2026 {'SOFT': 1, 'MEDIUM': 2, 'HARD': 1} -> {'SOFT': 2, 'MEDIUM': 2, 'HARD': 2} at spain-2026 (the most permissive donor, so the cap never forbids something a donor field actually did)"
   },
   "calibration": {
-    "grip_budget_s": 3.8218006460891125,
+    "grip_budget_s": 4.07747689379326,
     "grip_budget_by_compound": {
-      "HARD": 3.8387290213510443,
-      "MEDIUM": 3.826672916916292,
-      "SOFT": 3.8
+      "SOFT": 3.8417984308528155,
+      "MEDIUM": 4.090632250527002,
+      "HARD": 4.299999999999962
     },
     "manage_cost_s": 0.6,
     "manage_wear_floor": 0.45,
     "grid_start_penalty_s": 0.0,
     "dirty_air_s_per_lap": 0.12036153825116466,
-    "undercut_lambda": 0.3,
+    "dirty_air_by_circuit": {
+      "Melbourne": 0.1312,
+      "Suzuka": 0.2291,
+      "Barcelona": 0.1162,
+      "Spielberg": 0.1393,
+      "Spa-Francorchamps": 0.2133,
+      "Budapest": 0.4073,
+      "Monza": 0.0987
+    },
+    "undercut_lambda": 0.2,
     "plan_prior_tau_s": 4.0,
+    "first_stop_kappa_s": 0.0,
     "sigma_race_lap_s": 0.5,
+    "driver_factor_ln_sd": {
+      "ALB": 0.08646149741702742,
+      "BEA": 0.07723749666602743,
+      "BOR": 0.06998569266700488,
+      "COL": 0.08006229220512144,
+      "GAS": 0.08277714143579767,
+      "HAM": 0.07652925695978414,
+      "LAW": 0.09273200379150497,
+      "LEC": 0.08704178273744888,
+      "LIN": 0.07171696477988285,
+      "OCO": 0.07795004439288562,
+      "PER": 0.09010242031976336,
+      "RUS": 0.08819718830126579,
+      "SAI": 0.08831010096278509,
+      "STR": 0.11858127776054789,
+      "VER": 0.08775318106361062,
+      "ALO": 0.0823120609615682,
+      "ANT": 0.0952815760605492,
+      "BOT": 0.083651932702879,
+      "HAD": 0.09261507298416671,
+      "NOR": 0.08744924644336798,
+      "PIA": 0.0792854855930583,
+      "HUL": 0.11532619554090773,
+      "TSU": 0.1432928153429778
+    },
+    "team_factors": {
+      "Alpine": 1.0065784930368389,
+      "Mercedes": 0.9373327247288253,
+      "Ferrari": 1.1515328621303367,
+      "Williams": 1.1963020632510897,
+      "Audi": 1.0326251452102,
+      "Racing Bulls": 0.953582211055593,
+      "Haas F1 Team": 1.212636174877616,
+      "Cadillac": 1.3655764820296268,
+      "McLaren": 1.1144696789272317,
+      "Red Bull Racing": 0.958299452047209,
+      "Aston Martin": 1.2420749363310537
+    },
+    "grip_budget_detail": {
+      "SOFT": {
+        "budget_s": 3.8417984308528155,
+        "n_obs": 0,
+        "n_obs_excluded": 0,
+        "n_censored": 33,
+        "se_s": NaN,
+        "largest_bound_s": 3.8417984308528155,
+        "source": "largest lower bound 3.84 s over 33 stints on their trend exceeds the prior 3.80 s; no consistent collapse observation"
+      },
+      "MEDIUM": {
+        "budget_s": 4.090632250527002,
+        "n_obs": 0,
+        "n_obs_excluded": 2,
+        "n_censored": 83,
+        "se_s": NaN,
+        "largest_bound_s": 4.090632250527002,
+        "source": "largest lower bound 4.09 s over 83 stints on their trend exceeds the prior 3.80 s; no consistent collapse observation; 2 collapse observation(s) below the median bound excluded as not a tyre cliff"
+      },
+      "HARD": {
+        "budget_s": 4.299999999999962,
+        "n_obs": 1,
+        "n_obs_excluded": 1,
+        "n_censored": 121,
+        "se_s": 0.2924228729601648,
+        "largest_bound_s": 4.187733485335042,
+        "source": "censored log-normal MLE on 1 collapse observations (2.53 s) and 121 lower bounds (largest 4.19 s), obs ln-sd 0.20, prior 3.80 +/-0.15 ln; 1 collapse observation(s) below the median bound excluded as not a tyre cliff"
+      }
+    },
+    "percar_mode": "team_pooled",
+    "family_temper_s": 5.0,
+    "rival_field_mode": "symmetric",
+    "extrap_ln_sd": 0.46,
+    "objective_version": "v4",
     "source": "global, calibrated 2026-09-12 on 7 weekends",
     "detail": {
       "weekends": [
@@ -385,7 +569,8 @@
         "italy-2026"
       ],
       "block": "global"
-    }
+    },
+    "dirty_air_used": 0.12036153825116466
   },
   "pit_loss_s": 23.415999999999997,
   "pit_loss_source": "median of 7 donor races (australia-2026, austria-2026, barcelona-2026, belgium-2026, hungary-2026, italy-2026, japan-2026)",
@@ -393,7 +578,7 @@
   "load_effect": {
     "exponent": 1.6
   },
-  "n_raw_laps": 1041,
+  "n_raw_laps": 1299,
   "n_clean_laps": 178,
   "compound_counts": [
     {
@@ -557,7 +742,8 @@
         "evo_range_s": 1.1955134007098118,
         "per_session": {
           "Practice 1": 0.8186251955611974,
-          "Practice 2": 1.1955134007098118
+          "Practice 2": 1.1955134007098118,
+          "Practice 3": 0.7582745803327966
         },
         "backfit_range_s": 9.346218351503413,
         "HARD": -0.15622329166134816,
@@ -581,23 +767,25 @@
     "n_strategies": 356008,
     "n_scored": 4001,
     "n_draws": 500,
-    "best": "1-stop M-H @ 33",
+    "best": "1-stop M-H @ 29",
     "best_plan": {
       "compounds": [
         "MEDIUM",
         "HARD"
       ],
       "pit_laps": [
-        33
+        29
       ],
       "stint_lens": [
-        33,
-        24
+        29,
+        28
       ],
       "n_stops": 1,
       "push": 1.0,
       "position_s": 0.0,
-      "prior_s": 0.0
+      "prior_s": 0.0,
+      "first_stop_s": 0.0,
+      "race_state_s": 0.0
     },
     "tyre_optimal": {
       "compounds": [
@@ -613,43 +801,291 @@
       ],
       "n_stops": 1,
       "push": 1.0,
-      "delta_s": 7.530357865360507,
-      "tyre_s": 47.46341616225173,
+      "delta_s": 9.422053670627335,
+      "tyre_s": 47.52520935453763,
+      "first_stop_s": 0.0,
       "label": "1-stop M-S @ 33"
     },
     "push": 1.0,
     "implied_regime": 1.0,
-    "grip_budget_s": 3.8218006460891125,
+    "grip_budget_s": 4.07747689379326,
     "grip_budgets": {
-      "HARD": 3.8387290213510443,
-      "MEDIUM": 3.826672916916292,
-      "SOFT": 3.8
+      "HARD": 4.299999999999962,
+      "MEDIUM": 4.090632250527002,
+      "SOFT": 3.8417984308528155
     },
-    "undercut_lambda": 0.3,
+    "undercut_lambda": 0.2,
     "plan_prior_tau_s": 4.0,
+    "first_stop_kappa_s": 0.0,
     "position_s": 0.0,
     "prior_s": 0.0,
+    "first_stop_s": 0.0,
+    "race_state_s": 0.0,
+    "race_state_terms": {
+      "1-stop S-M": [
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.5294,
+        -0.398,
+        -0.2279,
+        0.0,
+        0.296,
+        0.6609,
+        1.0877,
+        1.565,
+        2.0785,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114,
+        2.6114
+      ],
+      "1-stop M-S": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.4092,
+        0.9209,
+        1.4881,
+        2.0692,
+        2.6339,
+        3.1617,
+        3.6403,
+        4.0633,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285,
+        4.4285
+      ],
+      "1-stop M-H": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.1438,
+        0.3325,
+        0.5618,
+        0.8249,
+        1.1141,
+        1.4217,
+        1.7407,
+        2.0649,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888,
+        2.3888
+      ],
+      "1-stop H-M": [
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.3631,
+        -0.1997,
+        0.0,
+        0.2403,
+        0.5201,
+        0.8338,
+        1.173,
+        1.5282,
+        1.8893,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469,
+        2.2469
+      ]
+    },
     "by_stops": [
       {
         "n_stops": 1,
-        "strategy": "1-stop M-H @ 33",
+        "strategy": "1-stop M-H @ 29",
         "compounds": "MEDIUM-HARD",
-        "pit_laps": "[33]",
-        "stint_lens": "[33, 24]",
+        "pit_laps": "[29]",
+        "stint_lens": "[29, 28]",
         "push": 1.0,
-        "max_wear": 0.1357848069709844,
+        "max_wear": 0.11246522964320925,
         "position_s": 0.0,
         "prior_s": 0.0,
-        "tyre_s": 52.985986259817295,
-        "mean_s": 52.98598625405646,
+        "first_stop_s": 0.0,
+        "race_state_s": 0.0,
+        "tyre_s": 53.20884925282855,
+        "mean_s": 53.20884922404274,
         "delta_s": 0.0,
         "delta_p05": 0.0,
         "delta_p95": 0.0,
-        "p05_s": 23.935808726217154,
-        "p95_s": 103.08855977859676,
-        "win_prob": 0.03,
-        "p_beat_best": 0.436,
-        "win_prob_any": 0.994
+        "p05_s": 23.841186357852678,
+        "p95_s": 102.78311215024871,
+        "win_prob": 0.574,
+        "p_beat_best": 0.402,
+        "win_prob_any": 0.992
       },
       {
         "n_stops": 2,
@@ -658,19 +1094,21 @@
         "pit_laps": "[19, 39]",
         "stint_lens": "[19, 20, 18]",
         "push": 1.0,
-        "max_wear": 0.14411267922916612,
+        "max_wear": 0.14262301583132045,
         "position_s": 0.0,
         "prior_s": 10.519772062625748,
-        "tyre_s": 64.08359240395792,
-        "mean_s": 74.6033644387578,
-        "delta_s": 21.61737818470133,
-        "delta_p05": 5.294168368627329,
-        "delta_p95": 36.467842290450825,
-        "p05_s": 58.40056705744614,
-        "p95_s": 111.23485485287057,
+        "first_stop_s": 0.0,
+        "race_state_s": 0.0,
+        "tyre_s": 64.08579070040685,
+        "mean_s": 74.6055627664258,
+        "delta_s": 21.39671354238307,
+        "delta_p05": 5.0036743222660345,
+        "delta_p95": 36.654654684934656,
+        "p05_s": 58.40086778076043,
+        "p95_s": 111.33637620182382,
         "win_prob": 0.0,
-        "p_beat_best": 0.014,
-        "win_prob_any": 0.006
+        "p_beat_best": 0.016,
+        "win_prob_any": 0.008
       },
       {
         "n_stops": 3,
@@ -679,16 +1117,18 @@
         "pit_laps": "[17, 25, 41]",
         "stint_lens": "[17, 8, 16, 16]",
         "push": 1.0,
-        "max_wear": 0.12925413100435354,
+        "max_wear": 0.12784988139799278,
         "position_s": 0.0,
         "prior_s": 12.242911867658073,
-        "tyre_s": 87.75251215270845,
-        "mean_s": 99.99542401174386,
-        "delta_s": 47.0094377576874,
-        "delta_p05": 30.367278360601233,
-        "delta_p95": 60.58912099751429,
-        "p05_s": 84.01153881087082,
-        "p95_s": 134.21608722939268,
+        "first_stop_s": 0.0,
+        "race_state_s": 0.0,
+        "tyre_s": 87.75243890335047,
+        "mean_s": 99.99535077313264,
+        "delta_s": 46.786501549089905,
+        "delta_p05": 29.551203371609173,
+        "delta_p95": 60.718942824403356,
+        "p05_s": 84.01191732718723,
+        "p95_s": 134.183723862312,
         "win_prob": 0.0,
         "p_beat_best": 0.0,
         "win_prob_any": 0.0
@@ -704,14 +1144,16 @@
         "life_laps": 28.0,
         "life_lo": 28.0,
         "life_hi": 28.0,
-        "life_model_uncapped": 943.06924688224,
-        "life_full_push": 943.06924688224,
+        "life_model_uncapped": 1056.3907322029117,
+        "life_full_push": 1056.3907322029117,
         "longer_than_race": true,
         "bound_by": "circuit history",
         "max_stint_laps": 28.0,
         "practice_support_laps": 14.0,
-        "pace_offset_s": 0.4101577791621348,
-        "grip_budget_s": 3.8387290213510443
+        "life_extrap_ln_sd": 0.46,
+        "life_extrap_note": "28 laps is 2.0x the 14-lap practice support: rate uncertain to +58% there, which is what widens the interval",
+        "pace_offset_s": 0.410157758060066,
+        "grip_budget_s": 4.299999999999962
       },
       {
         "compound": "MEDIUM",
@@ -722,14 +1164,16 @@
         "life_laps": 38.0,
         "life_lo": 38.0,
         "life_hi": 38.0,
-        "life_model_uncapped": 754.878161517543,
-        "life_full_push": 754.878161517543,
+        "life_model_uncapped": 806.948756731105,
+        "life_full_push": 806.948756731105,
         "longer_than_race": true,
         "bound_by": "circuit history",
         "max_stint_laps": 38.0,
         "practice_support_laps": 19.0,
-        "pace_offset_s": 0.2606257206585486,
-        "grip_budget_s": 3.826672916916292
+        "life_extrap_ln_sd": 0.46,
+        "life_extrap_note": "38 laps is 2.0x the 19-lap practice support: rate uncertain to +58% there, which is what widens the interval",
+        "pace_offset_s": 0.2606256922250003,
+        "grip_budget_s": 4.090632250527002
       },
       {
         "compound": "SOFT",
@@ -740,61 +1184,1168 @@
         "life_laps": 28.0,
         "life_lo": 28.0,
         "life_hi": 28.0,
-        "life_model_uncapped": 540.0482245053241,
-        "life_full_push": 540.0482245053241,
+        "life_model_uncapped": 545.9885319708956,
+        "life_full_push": 545.9885319708956,
         "longer_than_race": true,
         "bound_by": "circuit history",
         "max_stint_laps": 28.0,
         "practice_support_laps": 14.0,
+        "life_extrap_ln_sd": 0.46,
+        "life_extrap_note": "28 laps is 2.0x the 14-lap practice support: rate uncertain to +58% there, which is what widens the interval",
         "pace_offset_s": 0.0,
-        "grip_budget_s": 3.8
+        "grip_budget_s": 3.8417984308528155
       }
     ],
     "pit_windows": [
       {
         "stop": 1,
-        "recommended": 33,
+        "recommended": 29,
         "lo": 29,
-        "hi": 38
+        "hi": 34
       }
     ]
+  },
+  "race_state": {
+    "enabled": true,
+    "constants": {
+      "place_gap_s": 5.493,
+      "place_gap_lead_lap_s": 3.856,
+      "place_gap_midfield_s": 5.85,
+      "persistence": 0.741,
+      "persistence_raw": 0.743,
+      "persistence_by_donor": {
+        "australia-2026": {
+          "pairs": 1,
+          "kept": 1
+        },
+        "japan-2026": {
+          "pairs": 6,
+          "kept": 5
+        },
+        "barcelona-2026": {
+          "pairs": 5,
+          "kept": 3
+        },
+        "austria-2026": {
+          "pairs": 10,
+          "kept": 9
+        },
+        "belgium-2026": {
+          "pairs": 4,
+          "kept": 1
+        },
+        "hungary-2026": {
+          "pairs": 9,
+          "kept": 7
+        },
+        "italy-2026": {
+          "pairs": 0,
+          "kept": 0
+        }
+      },
+      "n_cycle_pairs_by_donor": {
+        "australia-2026": 1,
+        "japan-2026": 6,
+        "barcelona-2026": 5,
+        "austria-2026": 10,
+        "belgium-2026": 4,
+        "hungary-2026": 9,
+        "italy-2026": 0
+      },
+      "place_value_s": 2.651,
+      "place_value_sd_s": 1.117,
+      "place_value_ci_s": [
+        0.847,
+        4.579
+      ],
+      "cycle_sd_s": 1.858,
+      "sigma_rel_s": 2.628,
+      "pack_gap_median_s": 1.318,
+      "pack_gap_p25_p75_s": [
+        0.748,
+        2.506
+      ],
+      "donors": [
+        "australia-2026",
+        "japan-2026",
+        "barcelona-2026",
+        "austria-2026",
+        "belgium-2026",
+        "hungary-2026",
+        "italy-2026"
+      ],
+      "n_finish_gaps": 115,
+      "n_cycle_pairs": 35,
+      "n_pit_stops": 139,
+      "n_pack_gaps": 973,
+      "n_rivals": 4,
+      "estimator": "regularized",
+      "choice_temper_s": 1.0,
+      "source": "measured on 7 2026 races: australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026, italy-2026; psi shrunk from 0.743 toward 0.727 with 3.7 prior pairs (beta-binomial MoM)"
+    },
+    "group": "1-stop M-H",
+    "mode": "symmetric",
+    "rival_field": {
+      "mode": "symmetric",
+      "config": {
+        "mode": "symmetric",
+        "family_temper_s": 3.0,
+        "history_weight_k0": 10.0,
+        "use_history_prior": true,
+        "rate_levels": 3,
+        "rate_ln_sd": null,
+        "family_prior_weight_k0": 10.0
+      },
+      "n_types": 4,
+      "note": "four copies of our own car on our own plan (Task 1)"
+    },
+    "first_stop": 29,
+    "tyre_optimal_first_stop_in_group": 33,
+    "pack_first_stop_median": 31,
+    "pack_first_stop_iqr": [
+      30,
+      33
+    ],
+    "iterations": 18,
+    "converged": true,
+    "push": 1.0,
+    "race_state_s": 0.0,
+    "curve": {
+      "laps": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "tyre_s": [
+        53.20884925282855,
+        53.11189451868323,
+        53.045522169266995,
+        53.00972057413567,
+        53.00463489626015,
+        53.030534996812065,
+        53.08777705974481,
+        53.17679123610419,
+        53.29808513229222,
+        53.45225160045531
+      ],
+      "places": [
+        1.8655162545070825,
+        1.9197615685135705,
+        1.9909162611493156,
+        2.077413764981925,
+        2.17667861411716,
+        2.285762754501793,
+        2.4017781902624877,
+        2.5221028322837853,
+        2.6444020476339283,
+        2.7665705212405056
+      ],
+      "position_s": [
+        4.945756167636728,
+        5.08956842103565,
+        5.278209907867677,
+        5.507527428973032,
+        5.7706930479559855,
+        6.0598910427712065,
+        6.367464914383559,
+        6.686463121425584,
+        7.010696210874018,
+        7.334582684857137
+      ],
+      "cost_s": [
+        58.15460542046528,
+        58.20146293971888,
+        58.32373207713467,
+        58.517248003108705,
+        58.77532794421614,
+        59.09042603958327,
+        59.45524197412837,
+        59.86325435752977,
+        60.30878134316624,
+        60.78683428531245
+      ],
+      "term_s": [
+        0.0,
+        0.1438122533989213,
+        0.3324537402309494,
+        0.5617712613363033,
+        0.8249368803192577,
+        1.1141348751344786,
+        1.421708746746831,
+        1.7407069537888562,
+        2.06494004323729,
+        2.3888265172204095
+      ],
+      "q": [
+        0.19739994961981006,
+        0.18836658828150332,
+        0.16669054720209836,
+        0.13736480009820728,
+        0.1061203219533389,
+        0.07743851427928389,
+        0.053767694658141754,
+        0.03575397791921256,
+        0.022899922016272542,
+        0.01419768397213139
+      ]
+    },
+    "groups": {
+      "1-stop S-M": {
+        "best_lap": 22,
+        "tyre_best_lap": 25,
+        "q_median": 22,
+        "q_p25_p75": [
+          20,
+          24
+        ],
+        "iterations": 18,
+        "converged": true,
+        "push": 1.0
+      },
+      "1-stop M-S": {
+        "best_lap": 29,
+        "tyre_best_lap": 33,
+        "q_median": 30,
+        "q_p25_p75": [
+          29,
+          32
+        ],
+        "iterations": 21,
+        "converged": true,
+        "push": 1.0
+      },
+      "1-stop M-H": {
+        "best_lap": 29,
+        "tyre_best_lap": 33,
+        "q_median": 31,
+        "q_p25_p75": [
+          30,
+          33
+        ],
+        "iterations": 18,
+        "converged": true,
+        "push": 1.0
+      },
+      "1-stop H-M": {
+        "best_lap": 21,
+        "tyre_best_lap": 28,
+        "q_median": 22,
+        "q_p25_p75": [
+          20,
+          24
+        ],
+        "iterations": 18,
+        "converged": true,
+        "push": 1.0
+      }
+    },
+    "n_groups_solved": 4,
+    "decisions": [
+      {
+        "lap": 29,
+        "actions": [
+          {
+            "action": "PIT NOW",
+            "lap": 29,
+            "legal": true,
+            "cost_s": 58.15460542046528,
+            "tyre_s": 0.20421435656840004,
+            "position_s": 0.0,
+            "places_ahead": 1.8655162545070825,
+            "delta_s": 0.0
+          },
+          {
+            "action": "STAY OUT 1 LAP",
+            "lap": 30,
+            "legal": true,
+            "cost_s": 58.20146293971888,
+            "tyre_s": 0.10725962242307929,
+            "position_s": 0.1438122533989219,
+            "places_ahead": 1.9197615685135705,
+            "delta_s": 0.04685751925359938
+          },
+          {
+            "action": "STAY OUT 2 LAPS",
+            "lap": 31,
+            "legal": true,
+            "cost_s": 58.32373207713467,
+            "tyre_s": 0.04088727300684525,
+            "position_s": 0.33245374023094953,
+            "places_ahead": 1.9909162611493156,
+            "delta_s": 0.1691266566693912
+          },
+          {
+            "action": "STAY OUT 3 LAPS",
+            "lap": 32,
+            "legal": true,
+            "cost_s": 58.517248003108705,
+            "tyre_s": 0.005085677875520389,
+            "position_s": 0.561771261336304,
+            "places_ahead": 2.077413764981925,
+            "delta_s": 0.3626425826434243
+          },
+          {
+            "action": "PIT AT EDGE OF WINDOW",
+            "lap": 34,
+            "legal": true,
+            "cost_s": 59.09042603958327,
+            "tyre_s": 0.025900100551915273,
+            "position_s": 1.1141348751344786,
+            "places_ahead": 2.285762754501793,
+            "delta_s": 0.9358206191179903
+          }
+        ],
+        "decision": "PIT NOW",
+        "decision_lap": 29
+      }
+    ]
+  },
+  "objective": {
+    "label": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+    "version": "v4",
+    "undercut_lambda": 0.2,
+    "undercut_applies_to": "stops after the first",
+    "plan_prior_tau_s": 4.0,
+    "first_stop_kappa_s": 0.0,
+    "traffic_s_per_lap": 0.12036153825116466,
+    "grid_penalty_s": 0.0,
+    "sc_rate": 0.006,
+    "extrap_ln_sd": 0.46,
+    "plan_prior": {
+      "sequences": {
+        "M-H": 43,
+        "M-H-H": 18,
+        "M-H-S": 7,
+        "M-H-M": 7,
+        "M-H-H-S": 5,
+        "M-M-H": 4,
+        "H-M": 3,
+        "H-H": 3,
+        "S-H": 3,
+        "S-M-S": 3,
+        "S-H-M-S": 2,
+        "S-M-H": 2,
+        "S-H-H-S": 2,
+        "S-M": 2,
+        "S-H-M": 2,
+        "H-H-S": 1,
+        "H-M-H": 1,
+        "M-M": 1,
+        "S-H-H": 1,
+        "S-H-M-H": 1,
+        "S-H-H-M": 1,
+        "S-M-H-M": 1,
+        "M-H-M-S": 1,
+        "M-H-S-H": 1,
+        "H-S-H": 1,
+        "M-S": 1,
+        "H-S": 1,
+        "S-M-S-S": 1,
+        "H-M-M": 1,
+        "S-S-M": 1
+      },
+      "starts": {
+        "MEDIUM": 88,
+        "SOFT": 22,
+        "HARD": 11
+      },
+      "stops": {
+        "1": 57,
+        "2": 49,
+        "3": 15
+      },
+      "n": 121,
+      "source": "2026 season pooled (australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026, italy-2026)",
+      "nomination": {
+        "target": null,
+        "per_race": [
+          {
+            "year": 2026,
+            "event": "australia-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 15,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "japan-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 19,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "barcelona-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 13,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "austria-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 17,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "belgium-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 19,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "hungary-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 19,
+            "n_dropped": 0,
+            "n_clamped": 0
+          },
+          {
+            "year": 2026,
+            "event": "italy-2026",
+            "nomination": null,
+            "comparable": "letters",
+            "n_mapped": 19,
+            "n_dropped": 0,
+            "n_clamped": 0
+          }
+        ],
+        "mode": "letters"
+      }
+    },
+    "race_state": {
+      "place_gap_s": 5.493,
+      "place_gap_lead_lap_s": 3.856,
+      "place_gap_midfield_s": 5.85,
+      "persistence": 0.741,
+      "persistence_raw": 0.743,
+      "persistence_by_donor": {
+        "australia-2026": {
+          "pairs": 1,
+          "kept": 1
+        },
+        "japan-2026": {
+          "pairs": 6,
+          "kept": 5
+        },
+        "barcelona-2026": {
+          "pairs": 5,
+          "kept": 3
+        },
+        "austria-2026": {
+          "pairs": 10,
+          "kept": 9
+        },
+        "belgium-2026": {
+          "pairs": 4,
+          "kept": 1
+        },
+        "hungary-2026": {
+          "pairs": 9,
+          "kept": 7
+        },
+        "italy-2026": {
+          "pairs": 0,
+          "kept": 0
+        }
+      },
+      "n_cycle_pairs_by_donor": {
+        "australia-2026": 1,
+        "japan-2026": 6,
+        "barcelona-2026": 5,
+        "austria-2026": 10,
+        "belgium-2026": 4,
+        "hungary-2026": 9,
+        "italy-2026": 0
+      },
+      "place_value_s": 2.651,
+      "place_value_sd_s": 1.117,
+      "place_value_ci_s": [
+        0.847,
+        4.579
+      ],
+      "cycle_sd_s": 1.858,
+      "sigma_rel_s": 2.628,
+      "pack_gap_median_s": 1.318,
+      "pack_gap_p25_p75_s": [
+        0.748,
+        2.506
+      ],
+      "donors": [
+        "australia-2026",
+        "japan-2026",
+        "barcelona-2026",
+        "austria-2026",
+        "belgium-2026",
+        "hungary-2026",
+        "italy-2026"
+      ],
+      "n_finish_gaps": 115,
+      "n_cycle_pairs": 35,
+      "n_pit_stops": 139,
+      "n_pack_gaps": 973,
+      "n_rivals": 4,
+      "estimator": "regularized",
+      "choice_temper_s": 1.0,
+      "source": "measured on 7 2026 races: australia-2026, japan-2026, barcelona-2026, austria-2026, belgium-2026, hungary-2026, italy-2026; psi shrunk from 0.743 toward 0.727 with 3.7 prior pairs (beta-binomial MoM)"
+    },
+    "rival_field": {
+      "mode": "symmetric",
+      "family_temper_s": 5.0,
+      "history_weight_k0": 10.0,
+      "use_history_prior": true,
+      "rate_levels": 3,
+      "rate_ln_sd": null,
+      "family_prior_weight_k0": 10.0
+    },
+    "first_stop_prior_in_objective": false,
+    "first_stop_prior_for_rivals": false,
+    "event": "spain-2026",
+    "n_race_laps": 57
+  },
+  "haas": {
+    "event": "spain-2026",
+    "team": "Haas F1 Team",
+    "drivers": [
+      "OCO",
+      "BEA"
+    ],
+    "source": "spain-2026: practice long runs + the uncleaned practice table (traffic); sector times from the FastF1 cache (15 cars)",
+    "field": {
+      "pace_offset_s": 0.0,
+      "deg_rate_by_compound": {
+        "HARD": 0.0123,
+        "MEDIUM": 0.0153,
+        "SOFT": 0.0275
+      },
+      "warmup_s": 1.1916885021787185,
+      "n_warmup_stints": 29,
+      "consistency_s": 1.0657301338800518,
+      "traffic_excess_s": 0.38883037530274256,
+      "n_traffic_laps": 22,
+      "n_drivers": 22,
+      "sector_deg": {
+        "S1": -0.02518064436355493,
+        "S2": -0.02151839907099372,
+        "S3": 0.07904096976417974
+      },
+      "push_response_s": 0.6
+    },
+    "cars": {
+      "OCO": {
+        "state": {
+          "driver": "OCO",
+          "team": "Haas F1 Team",
+          "event": "spain-2026",
+          "teammate": "BEA",
+          "race_factor": {
+            "factor": 1.1152809928705076,
+            "ln_sd": 0.07795004439288562,
+            "shrunk": 1.0702242736407368,
+            "team_factor": 1.212636174877616,
+            "role": "from previous races, precision-weighted by percar.shrink_factor; never evidence about this weekend",
+            "source": "global, calibrated 2026-09-12 on 7 weekends"
+          },
+          "evidence": {
+            "n_clean_practice_laps": 5,
+            "n_practice_long_run_stints": 1,
+            "n_in_traffic_laps": 2,
+            "n_race_laps": 0,
+            "n_sector_laps": 7
+          },
+          "source": "every quantity above is measured on this weekend; the race-history rate factor comes from previous races and enters only through percar.shrink_factor",
+          "pace_offset_s": {
+            "value": 0.7383872205592504,
+            "n_evidence": 5,
+            "shrink_weight": 0.385,
+            "source": "team",
+            "own": 1.3663038720537517,
+            "team_value": 0.345939313375187,
+            "field_value": 0.0,
+            "units": "s/lap",
+            "note": "the level of the car's clean long-run laps against the field's own compound/age trend; negative is quicker than the field.  It is confounded by the run programme - practice long runs differ in fuel load and in how hard they are being driven, and neither is observable here - so it is reported, not charged: no cost in the objective reads it (see car_terms)",
+            "detail": {
+              "practice_s": 1.3663038720537517,
+              "n_practice_laps": 5,
+              "race_s": null,
+              "n_race_laps": 0,
+              "ycol": "lap_time_corr",
+              "n_by_compound": {
+                "SOFT": 5
+              }
+            }
+          },
+          "deg_rate_by_compound": {
+            "value": {
+              "HARD": 0.0124,
+              "MEDIUM": 0.0162,
+              "SOFT": 0.0281
+            },
+            "n_evidence": 5,
+            "shrink_weight": 0.2,
+            "source": "team",
+            "own": {
+              "HARD": 0.0129,
+              "MEDIUM": 0.0154,
+              "SOFT": 0.0275
+            },
+            "team_value": {
+              "HARD": 0.0123,
+              "MEDIUM": 0.0164,
+              "SOFT": 0.0282
+            },
+            "field_value": {
+              "HARD": 0.0123,
+              "MEDIUM": 0.0153,
+              "SOFT": 0.0275
+            },
+            "units": "s/lap of age",
+            "note": "the field rate plus the fit's own dev[d, c], pooled driver -> team by percar.team_pooled_dev at k = 20 clean laps; the team -> field step is the fit's own hierarchical pull on dev (sigma_dev ~ HalfNormal(0.02)) and is not applied twice here",
+            "detail": {
+              "dev_own_s_per_lap": {
+                "HARD": 0.00054,
+                "MEDIUM": 7e-05,
+                "SOFT": 1e-05
+              },
+              "dev_team_s_per_lap": {
+                "HARD": -6e-05,
+                "MEDIUM": 0.00113,
+                "SOFT": 0.00073
+              },
+              "dev_pooled_s_per_lap": {
+                "HARD": 6e-05,
+                "MEDIUM": 0.00092,
+                "SOFT": 0.00059
+              },
+              "race_measured_s_per_lap": null,
+              "n_clean_laps_by_compound": {
+                "SOFT": 5
+              }
+            }
+          },
+          "age_sensitivity": {
+            "value": 0.0005226300286214004,
+            "n_evidence": 5,
+            "shrink_weight": 0.2,
+            "source": "team",
+            "own": 0.00020875553036603378,
+            "team_value": 0.000601098664997456,
+            "field_value": 0.0,
+            "units": "s/lap per lap of age",
+            "note": "the same pooled deviation as one number: how much more lap time per lap of tyre age this car gives away than the field",
+            "detail": {
+              "rate_scale": 1.0288
+            }
+          },
+          "warmup_s": {
+            "value": 1.1269740609796113,
+            "n_evidence": 1,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 1.1269740609796113,
+            "field_value": 1.1916885021787185,
+            "units": "s per stint",
+            "note": "mean excess of laps 1/2 of a stint over that stint's own trend (fitted from lap 3); in a practice table lap 1 is the out-lap and is filtered out, so this is normally the first flying lap.  A pool of fewer than 2 stints contributes nothing",
+            "detail": {
+              "n_stints": 1,
+              "n_warmup_stints": 1,
+              "per_stint_s": [
+                0.587
+              ],
+              "own_measured_s": 0.5869299492684803,
+              "team_n_warmup_stints": 2,
+              "min_stints": 2,
+              "field_s": 1.1916885021787185
+            }
+          },
+          "consistency_s": {
+            "value": 0.6361160197215934,
+            "n_evidence": 4,
+            "shrink_weight": 0.25,
+            "source": "team",
+            "own": 0.10724921490923305,
+            "team_value": 0.8124049546590468,
+            "field_value": 1.0657301338800518,
+            "units": "s",
+            "note": "residual SD about the stint trend, over the laps the trend was fitted on",
+            "detail": {
+              "n_laps": 4,
+              "field_s": 1.0657301338800518
+            }
+          },
+          "traffic_sensitivity": {
+            "value": 1.1390436667604193,
+            "n_evidence": 2,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 1.1390436667604193,
+            "field_value": 1.0,
+            "units": "x",
+            "note": "the car's excess over the stint trend within 2 s of the car ahead, divided by the field's same excess (0.389 s/lap over 22 laps); 1.0 is a car that loses what everyone loses; this car's 2 in-traffic lap(s) are below the 3-lap floor and contribute nothing",
+            "detail": {
+              "own_excess_s": 1.1371785714285494,
+              "own_n_laps": 2,
+              "team_excess_s": 0.6591523809523588,
+              "team_n_laps": 3,
+              "field_excess_s": 0.38883037530274256,
+              "field_n_laps": 22,
+              "min_own_laps": 3
+            }
+          },
+          "push_response": {
+            "value": 0.6,
+            "n_evidence": 0,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 0.6,
+            "field_value": 0.6,
+            "units": "s/lap at push 0",
+            "note": "not identifiable pre-race: a practice long run is a full-push experiment by construction, so this weekend carries no within-car variation in push from which a per-car management response could be estimated.  The calibrated team/field value is used, fully shrunk",
+            "detail": {
+              "manage_floor": 0.45
+            }
+          },
+          "sector_deg": {
+            "value": {
+              "S1": 0.03604290086329173,
+              "S2": -0.011172159186213814,
+              "S3": 0.08363684112476949
+            },
+            "n_evidence": 7,
+            "shrink_weight": 0.368,
+            "source": "team",
+            "own": {
+              "S1": 0.09700000000000128,
+              "S2": -0.020142857142857688,
+              "S3": 0.08349999999999962
+            },
+            "team_value": {
+              "S1": 0.0004845930335445024,
+              "S2": -0.0059392520448382224,
+              "S3": 0.0837166651142186
+            },
+            "field_value": {
+              "S1": -0.02518064436355493,
+              "S2": -0.02151839907099372,
+              "S3": 0.07904096976417974
+            },
+            "units": "s/lap of age",
+            "note": "per-sector slope against tyre age over this car's long runs, from the FastF1 cache's sector times",
+            "detail": {
+              "n_stints": 1,
+              "n_cars_with_sectors": 15
+            }
+          },
+          "pace_vs_teammate_s": {
+            "value": 0.36467827765777044,
+            "n_evidence": 5,
+            "shrink_weight": 0.385,
+            "source": "team",
+            "own": 0.9481635219102031,
+            "team_value": 0.0,
+            "field_value": 0.0,
+            "units": "s/lap",
+            "note": "this car's level minus BEA's, shrunk toward 0 (the two cars are the same car) by the thinner of the two samples",
+            "detail": {
+              "teammate": "BEA",
+              "n_teammate_laps": 6,
+              "raw_s": 0.9481635219102031
+            }
+          }
+        },
+        "terms": {
+          "warmup_s": 0.635,
+          "traffic_mult": 1.139,
+          "race_factor": {
+            "factor": 1.1152809928705076,
+            "ln_sd": 0.07795004439288562
+          },
+          "dev_override_s_per_lap": {
+            "HARD": 6e-05,
+            "MEDIUM": 0.00092,
+            "SOFT": 0.00059
+          },
+          "note": "warmup_s and traffic_mult are field-relative: a car with no evidence gets the calibrated field values unchanged"
+        },
+        "plan": {
+          "driver": "OCO",
+          "race_factor": 1.1152809928705076,
+          "race_factor_ln_sd": 0.07795004439288562,
+          "dev_source": "pooled",
+          "practice_dev_s_per_lap": {
+            "HARD": 0.0001,
+            "MEDIUM": 0.0009,
+            "SOFT": 0.0006
+          },
+          "eff_rate": {
+            "HARD": 0.0163,
+            "MEDIUM": 0.0193,
+            "SOFT": 0.032
+          },
+          "best": "1-stop M-H @ 30",
+          "n_stops": 1,
+          "compounds": "MEDIUM-HARD",
+          "pit_laps": [
+            30
+          ],
+          "push": 1.0,
+          "first_stop": 30,
+          "first_stop_s": 0.0,
+          "field_best": "1-stop M-H @ 30",
+          "first_stop_vs_field": 0,
+          "same_shape_as_field": true,
+          "warmup_s": 0.6352855588008928,
+          "traffic_mult": 1.1390436667604193
+        }
+      },
+      "BEA": {
+        "state": {
+          "driver": "BEA",
+          "team": "Haas F1 Team",
+          "event": "spain-2026",
+          "teammate": "OCO",
+          "race_factor": {
+            "factor": 1.3184896918552167,
+            "ln_sd": 0.07723749666602743,
+            "shrunk": 1.1890757357034685,
+            "team_factor": 1.212636174877616,
+            "role": "from previous races, precision-weighted by percar.shrink_factor; never evidence about this weekend",
+            "source": "global, calibrated 2026-09-12 on 7 weekends"
+          },
+          "evidence": {
+            "n_clean_practice_laps": 6,
+            "n_practice_long_run_stints": 1,
+            "n_in_traffic_laps": 1,
+            "n_race_laps": 0,
+            "n_sector_laps": 7
+          },
+          "source": "every quantity above is measured on this weekend; the race-history rate factor comes from previous races and enters only through percar.shrink_factor",
+          "pace_offset_s": {
+            "value": 0.3768826148473419,
+            "n_evidence": 6,
+            "shrink_weight": 0.429,
+            "source": "team",
+            "own": 0.41814035014354856,
+            "team_value": 0.345939313375187,
+            "field_value": 0.0,
+            "units": "s/lap",
+            "note": "the level of the car's clean long-run laps against the field's own compound/age trend; negative is quicker than the field.  It is confounded by the run programme - practice long runs differ in fuel load and in how hard they are being driven, and neither is observable here - so it is reported, not charged: no cost in the objective reads it (see car_terms)",
+            "detail": {
+              "practice_s": 0.41814035014354856,
+              "n_practice_laps": 6,
+              "race_s": null,
+              "n_race_laps": 0,
+              "ycol": "lap_time_corr",
+              "n_by_compound": {
+                "MEDIUM": 6
+              }
+            }
+          },
+          "deg_rate_by_compound": {
+            "value": {
+              "HARD": 0.0121,
+              "MEDIUM": 0.0167,
+              "SOFT": 0.0284
+            },
+            "n_evidence": 6,
+            "shrink_weight": 0.231,
+            "source": "team",
+            "own": {
+              "HARD": 0.0117,
+              "MEDIUM": 0.0175,
+              "SOFT": 0.029
+            },
+            "team_value": {
+              "HARD": 0.0123,
+              "MEDIUM": 0.0164,
+              "SOFT": 0.0282
+            },
+            "field_value": {
+              "HARD": 0.0123,
+              "MEDIUM": 0.0153,
+              "SOFT": 0.0275
+            },
+            "units": "s/lap of age",
+            "note": "the field rate plus the fit's own dev[d, c], pooled driver -> team by percar.team_pooled_dev at k = 20 clean laps; the team -> field step is the fit's own hierarchical pull on dev (sigma_dev ~ HalfNormal(0.02)) and is not applied twice here",
+            "detail": {
+              "dev_own_s_per_lap": {
+                "HARD": -0.00066,
+                "MEDIUM": 0.00218,
+                "SOFT": 0.00146
+              },
+              "dev_team_s_per_lap": {
+                "HARD": -6e-05,
+                "MEDIUM": 0.00113,
+                "SOFT": 0.00073
+              },
+              "dev_pooled_s_per_lap": {
+                "HARD": -0.0002,
+                "MEDIUM": 0.00137,
+                "SOFT": 0.0009
+              },
+              "race_measured_s_per_lap": null,
+              "n_clean_laps_by_compound": {
+                "MEDIUM": 6
+              }
+            }
+          },
+          "age_sensitivity": {
+            "value": 0.0006916393992775202,
+            "n_evidence": 6,
+            "shrink_weight": 0.231,
+            "source": "team",
+            "own": 0.0009934418291474383,
+            "team_value": 0.000601098664997456,
+            "field_value": 0.0,
+            "units": "s/lap per lap of age",
+            "note": "the same pooled deviation as one number: how much more lap time per lap of tyre age this car gives away than the field",
+            "detail": {
+              "rate_scale": 1.0355
+            }
+          },
+          "warmup_s": {
+            "value": 1.1269740609796113,
+            "n_evidence": 1,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 1.1269740609796113,
+            "field_value": 1.1916885021787185,
+            "units": "s per stint",
+            "note": "mean excess of laps 1/2 of a stint over that stint's own trend (fitted from lap 3); in a practice table lap 1 is the out-lap and is filtered out, so this is normally the first flying lap.  A pool of fewer than 2 stints contributes nothing",
+            "detail": {
+              "n_stints": 1,
+              "n_warmup_stints": 1,
+              "per_stint_s": [
+                1.279
+              ],
+              "own_measured_s": 1.2787315254960987,
+              "team_n_warmup_stints": 2,
+              "min_stints": 2,
+              "field_s": 1.1916885021787185
+            }
+          },
+          "consistency_s": {
+            "value": 0.6186020378086267,
+            "n_evidence": 5,
+            "shrink_weight": 0.294,
+            "source": "team",
+            "own": 0.1534750373676184,
+            "team_value": 0.8124049546590468,
+            "field_value": 1.0657301338800518,
+            "units": "s",
+            "note": "residual SD about the stint trend, over the laps the trend was fitted on",
+            "detail": {
+              "n_laps": 5,
+              "field_s": 1.0657301338800518
+            }
+          },
+          "traffic_sensitivity": {
+            "value": 1.1390436667604193,
+            "n_evidence": 1,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 1.1390436667604193,
+            "field_value": 1.0,
+            "units": "x",
+            "note": "the car's excess over the stint trend within 2 s of the car ahead, divided by the field's same excess (0.389 s/lap over 22 laps); 1.0 is a car that loses what everyone loses; this car's 1 in-traffic lap(s) are below the 3-lap floor and contribute nothing",
+            "detail": {
+              "own_excess_s": -0.29690000000002215,
+              "own_n_laps": 1,
+              "team_excess_s": 0.6591523809523588,
+              "team_n_laps": 3,
+              "field_excess_s": 0.38883037530274256,
+              "field_n_laps": 22,
+              "min_own_laps": 3
+            }
+          },
+          "push_response": {
+            "value": 0.6,
+            "n_evidence": 0,
+            "shrink_weight": 0.0,
+            "source": "team",
+            "own": null,
+            "team_value": 0.6,
+            "field_value": 0.6,
+            "units": "s/lap at push 0",
+            "note": "not identifiable pre-race: a practice long run is a full-push experiment by construction, so this weekend carries no within-car variation in push from which a per-car management response could be estimated.  The calibrated team/field value is used, fully shrunk",
+            "detail": {
+              "manage_floor": 0.45
+            }
+          },
+          "sector_deg": {
+            "value": {
+              "S1": -0.0026544675577613377,
+              "S2": 0.01897257765589168,
+              "S3": 0.08970263059845368
+            },
+            "n_evidence": 7,
+            "shrink_weight": 0.368,
+            "source": "team",
+            "own": {
+              "S1": -0.008035714285714207,
+              "S2": 0.061678571428571506,
+              "S3": 0.09996428571428524
+            },
+            "team_value": {
+              "S1": 0.0004845930335445024,
+              "S2": -0.0059392520448382224,
+              "S3": 0.0837166651142186
+            },
+            "field_value": {
+              "S1": -0.02518064436355493,
+              "S2": -0.02151839907099372,
+              "S3": 0.07904096976417974
+            },
+            "units": "s/lap of age",
+            "note": "per-sector slope against tyre age over this car's long runs, from the FastF1 cache's sector times",
+            "detail": {
+              "n_stints": 1,
+              "n_cars_with_sectors": 15
+            }
+          },
+          "pace_vs_teammate_s": {
+            "value": -0.36467827765777044,
+            "n_evidence": 5,
+            "shrink_weight": 0.385,
+            "source": "team",
+            "own": -0.9481635219102031,
+            "team_value": 0.0,
+            "field_value": 0.0,
+            "units": "s/lap",
+            "note": "this car's level minus OCO's, shrunk toward 0 (the two cars are the same car) by the thinner of the two samples",
+            "detail": {
+              "teammate": "OCO",
+              "n_teammate_laps": 5,
+              "raw_s": -0.9481635219102031
+            }
+          }
+        },
+        "terms": {
+          "warmup_s": 0.635,
+          "traffic_mult": 1.139,
+          "race_factor": {
+            "factor": 1.3184896918552167,
+            "ln_sd": 0.07723749666602743
+          },
+          "dev_override_s_per_lap": {
+            "HARD": -0.0002,
+            "MEDIUM": 0.00137,
+            "SOFT": 0.0009
+          },
+          "note": "warmup_s and traffic_mult are field-relative: a car with no evidence gets the calibrated field values unchanged"
+        },
+        "plan": {
+          "driver": "BEA",
+          "race_factor": 1.3184896918552167,
+          "race_factor_ln_sd": 0.07723749666602743,
+          "dev_source": "pooled",
+          "practice_dev_s_per_lap": {
+            "HARD": -0.0002,
+            "MEDIUM": 0.0014,
+            "SOFT": 0.0009
+          },
+          "eff_rate": {
+            "HARD": 0.0179,
+            "MEDIUM": 0.022,
+            "SOFT": 0.0359
+          },
+          "best": "1-stop M-H @ 30",
+          "n_stops": 1,
+          "compounds": "MEDIUM-HARD",
+          "pit_laps": [
+            30
+          ],
+          "push": 1.0,
+          "first_stop": 30,
+          "first_stop_s": 0.0,
+          "field_best": "1-stop M-H @ 30",
+          "first_stop_vs_field": 0,
+          "same_shape_as_field": true,
+          "warmup_s": 0.6352855588008928,
+          "traffic_mult": 1.1390436667604193
+        }
+      }
+    },
+    "explanation": [
+      "OCO: 1-stop M-H @ 30; BEA: 1-stop M-H @ 30 - the same first stop (lap 30); the same plan shape",
+      "S1 degradation: OCO +0.0360 vs BEA -0.0027 s/lap of age (+0.0387); it says *where* the loss is, and enters no cost [OCO: n=7, w=0.37, team | BEA: n=7, w=0.37, team]",
+      "pace level: OCO 0.738 s/lap vs BEA 0.377 s/lap (+0.362); the quicker car reaches any given gap to the car ahead sooner, which moves the lap its stop is worth taking [OCO: n=5, w=0.38, team | BEA: n=6, w=0.43, team]",
+      "S2 degradation: OCO -0.0112 vs BEA +0.0190 s/lap of age (-0.0301); it says *where* the loss is, and enters no cost [OCO: n=7, w=0.37, team | BEA: n=7, w=0.37, team]",
+      "race-history rate factor (from previous races, not this weekend's evidence): OCO x1.070 vs BEA x1.189 after precision shrinkage (raw x1.115 / x1.318, ln_sd 0.07795004439288562 / 0.07723749666602743); it scales the whole rate, so the higher factor stops earlier",
+      "S3 degradation: OCO +0.0836 vs BEA +0.0897 s/lap of age (-0.0061); it says *where* the loss is, and enters no cost [OCO: n=7, w=0.37, team | BEA: n=7, w=0.37, team]",
+      "the two recommendations agree: the differences above are not big enough to separate the plans"
+    ],
+    "race_state": {},
+    "evidence_rule": "every quantity is measured on this weekend and shrunk driver -> team -> field with a stated pseudo-count; the race-history driver factor is from previous races; it enters only through percar.shrink_factor"
   },
   "per_driver": [
     {
       "driver": "ALB",
       "race_factor": 1.1275693922400545,
+      "race_factor_ln_sd": 0.08646149741702742,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0006,
-        "MEDIUM": -0.0078,
-        "SOFT": -0.0005
+        "HARD": -0.0,
+        "MEDIUM": -0.0072,
+        "SOFT": 0.0
       },
       "eff_rate": {
-        "HARD": 0.0186,
-        "MEDIUM": 0.0166,
-        "SOFT": 0.034
+        "HARD": 0.0163,
+        "MEDIUM": 0.0148,
+        "SOFT": 0.0315
       },
-      "best": "1-stop M-H @ 36",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[36]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 36,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 4,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "ALO",
       "race_factor": 1.3199369592166743,
+      "race_factor_ln_sd": 0.0823120609615682,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0013,
-        "MEDIUM": -0.0019,
-        "SOFT": 0.0009
+        "HARD": 0.0011,
+        "MEDIUM": -0.0034,
+        "SOFT": 0.0007
       },
       "eff_rate": {
-        "HARD": 0.023,
-        "MEDIUM": 0.0242,
-        "SOFT": 0.0411
+        "HARD": 0.0186,
+        "MEDIUM": 0.0183,
+        "SOFT": 0.0354
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -802,45 +2353,55 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "ANT",
       "race_factor": 0.9097912739069367,
+      "race_factor_ln_sd": 0.0952815760605492,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0009,
-        "MEDIUM": -0.0013,
-        "SOFT": 0.0009
+        "HARD": -0.0013,
+        "MEDIUM": -0.0032,
+        "SOFT": 0.0006
       },
       "eff_rate": {
-        "HARD": 0.015,
-        "MEDIUM": 0.0171,
-        "SOFT": 0.0288
+        "HARD": 0.0139,
+        "MEDIUM": 0.0151,
+        "SOFT": 0.0285
       },
-      "best": "1-stop M-H @ 32",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[32]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 32,
-      "field_best": "1-stop M-H @ 32",
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
       "first_stop_vs_field": 0,
-      "same_shape_as_field": true
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "BEA",
       "race_factor": 1.3184896918552167,
+      "race_factor_ln_sd": 0.07723749666602743,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0007,
-        "MEDIUM": 0.0022,
-        "SOFT": 0.0015
+        "HARD": -0.0002,
+        "MEDIUM": 0.0014,
+        "SOFT": 0.0009
       },
       "eff_rate": {
-        "HARD": 0.0215,
-        "MEDIUM": 0.0273,
-        "SOFT": 0.0421
+        "HARD": 0.0179,
+        "MEDIUM": 0.022,
+        "SOFT": 0.0359
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -848,22 +2409,27 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": 0.6352855588008928,
+      "traffic_mult": 1.1390436667604193
     },
     {
       "driver": "BOR",
       "race_factor": 1.1347504973856133,
+      "race_factor_ln_sd": 0.06998569266700488,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0011,
-        "MEDIUM": -0.0001,
-        "SOFT": -0.0009
+        "HARD": 0.0008,
+        "MEDIUM": -0.0014,
+        "SOFT": 0.0001
       },
       "eff_rate": {
-        "HARD": 0.02,
-        "MEDIUM": 0.0222,
-        "SOFT": 0.0341
+        "HARD": 0.0174,
+        "MEDIUM": 0.0182,
+        "SOFT": 0.032
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -871,22 +2437,27 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "BOT",
       "race_factor": 1.6953553395727992,
+      "race_factor_ln_sd": 0.083651932702879,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0007,
-        "MEDIUM": -0.003,
-        "SOFT": -0.0009
+        "HARD": 0.0003,
+        "MEDIUM": -0.0012,
+        "SOFT": -0.0008
       },
       "eff_rate": {
-        "HARD": 0.0294,
-        "MEDIUM": 0.0315,
-        "SOFT": 0.0514
+        "HARD": 0.0208,
+        "MEDIUM": 0.0239,
+        "SOFT": 0.0395
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -894,229 +2465,279 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "COL",
       "race_factor": 0.9722064787870822,
+      "race_factor_ln_sd": 0.08006229220512144,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0007,
+        "HARD": 0.0004,
         "MEDIUM": -0.0019,
         "SOFT": 0.0009
       },
       "eff_rate": {
-        "HARD": 0.0174,
-        "MEDIUM": 0.0172,
-        "SOFT": 0.0301
+        "HARD": 0.0157,
+        "MEDIUM": 0.0161,
+        "SOFT": 0.0298
       },
-      "best": "1-stop M-H @ 34",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "GAS",
       "race_factor": 1.0421657176244854,
+      "race_factor_ln_sd": 0.08277714143579767,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0004,
+        "HARD": -0.0001,
         "MEDIUM": -0.0018,
         "SOFT": 0.0009
       },
       "eff_rate": {
-        "HARD": 0.0174,
-        "MEDIUM": 0.0185,
-        "SOFT": 0.0325
+        "HARD": 0.0158,
+        "MEDIUM": 0.0167,
+        "SOFT": 0.0311
       },
-      "best": "1-stop M-H @ 32",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[32]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 32,
-      "field_best": "1-stop M-H @ 32",
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
       "first_stop_vs_field": 0,
-      "same_shape_as_field": true
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "HAM",
       "race_factor": 1.2745900039877642,
+      "race_factor_ln_sd": 0.07652925695978414,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0002,
-        "MEDIUM": -0.0032,
-        "SOFT": -0.0018
+        "HARD": -0.0005,
+        "MEDIUM": -0.0037,
+        "SOFT": -0.0005
       },
       "eff_rate": {
-        "HARD": 0.021,
-        "MEDIUM": 0.0223,
-        "SOFT": 0.0372
+        "HARD": 0.0173,
+        "MEDIUM": 0.0183,
+        "SOFT": 0.0338
       },
-      "best": "1-stop M-H @ 32",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[32]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 32,
-      "field_best": "1-stop M-H @ 32",
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
       "first_stop_vs_field": 0,
-      "same_shape_as_field": true
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "HUL",
       "race_factor": 0.9108952479055555,
+      "race_factor_ln_sd": 0.11532619554090773,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0004,
-        "MEDIUM": -0.0032,
-        "SOFT": 0.0015
+        "HARD": 0.0007,
+        "MEDIUM": -0.0021,
+        "SOFT": 0.0006
       },
       "eff_rate": {
-        "HARD": 0.0157,
-        "MEDIUM": 0.0156,
-        "SOFT": 0.0289
+        "HARD": 0.0153,
+        "MEDIUM": 0.0157,
+        "SOFT": 0.0287
       },
-      "best": "1-stop M-H @ 34",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "LAW",
       "race_factor": 0.9536151307152333,
+      "race_factor_ln_sd": 0.09273200379150497,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0001,
-        "MEDIUM": -0.0012,
-        "SOFT": 0.0035
+        "HARD": 0.0,
+        "MEDIUM": -0.0002,
+        "SOFT": 0.0033
       },
       "eff_rate": {
-        "HARD": 0.016,
-        "MEDIUM": 0.0175,
-        "SOFT": 0.0319
+        "HARD": 0.0146,
+        "MEDIUM": 0.0171,
+        "SOFT": 0.0315
       },
-      "best": "1-stop M-H @ 34",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "LEC",
       "race_factor": 1.0403564506369805,
+      "race_factor_ln_sd": 0.08704178273744888,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0011,
-        "MEDIUM": -0.0048,
-        "SOFT": 0.0019
+        "HARD": -0.0008,
+        "MEDIUM": -0.0043,
+        "SOFT": 0.0009
       },
       "eff_rate": {
-        "HARD": 0.0174,
-        "MEDIUM": 0.0169,
-        "SOFT": 0.0333
+        "HARD": 0.0155,
+        "MEDIUM": 0.0156,
+        "SOFT": 0.0309
       },
-      "best": "1-stop M-H @ 34",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "LIN",
       "race_factor": 0.910738592529615,
+      "race_factor_ln_sd": 0.07171696477988285,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0009,
-        "MEDIUM": -0.0018,
-        "SOFT": -0.0024
+        "HARD": 0.0001,
+        "MEDIUM": -0.0033,
+        "SOFT": -0.001
       },
       "eff_rate": {
-        "HARD": 0.0166,
-        "MEDIUM": 0.0167,
-        "SOFT": 0.0264
+        "HARD": 0.0146,
+        "MEDIUM": 0.0147,
+        "SOFT": 0.0273
       },
-      "best": "1-stop M-H @ 34",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "NOR",
       "race_factor": 1.0063707635888952,
+      "race_factor_ln_sd": 0.08744924644336798,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0008,
-        "MEDIUM": -0.001,
-        "SOFT": 0.0045
+        "HARD": -0.0006,
+        "MEDIUM": -0.0004,
+        "SOFT": 0.003
       },
       "eff_rate": {
-        "HARD": 0.0164,
-        "MEDIUM": 0.0192,
-        "SOFT": 0.0337
+        "HARD": 0.0147,
+        "MEDIUM": 0.0182,
+        "SOFT": 0.0317
       },
-      "best": "1-stop M-H @ 32",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[32]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 32,
-      "field_best": "1-stop M-H @ 32",
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
       "first_stop_vs_field": 0,
-      "same_shape_as_field": true
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "OCO",
       "race_factor": 1.1152809928705076,
+      "race_factor_ln_sd": 0.07795004439288562,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": 0.0005,
-        "MEDIUM": 0.0001,
-        "SOFT": 0.0
+        "HARD": 0.0001,
+        "MEDIUM": 0.0009,
+        "SOFT": 0.0006
       },
       "eff_rate": {
-        "HARD": 0.019,
-        "MEDIUM": 0.0209,
-        "SOFT": 0.0343
+        "HARD": 0.0163,
+        "MEDIUM": 0.0193,
+        "SOFT": 0.032
       },
-      "best": "1-stop M-H @ 32",
+      "best": "1-stop M-H @ 30",
       "n_stops": 1,
       "compounds": "MEDIUM-HARD",
-      "pit_laps": "[32]",
+      "pit_laps": "[30]",
       "push": 1.0,
-      "first_stop": 32,
-      "field_best": "1-stop M-H @ 32",
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
       "first_stop_vs_field": 0,
-      "same_shape_as_field": true
+      "same_shape_as_field": true,
+      "warmup_s": 0.6352855588008928,
+      "traffic_mult": 1.1390436667604193
     },
     {
       "driver": "PER",
       "race_factor": 1.0999458843491237,
+      "race_factor_ln_sd": 0.09010242031976336,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0005,
-        "MEDIUM": 0.002,
-        "SOFT": -0.0006
+        "HARD": 0.0,
+        "MEDIUM": -0.0001,
+        "SOFT": -0.0007
       },
       "eff_rate": {
-        "HARD": 0.0175,
-        "MEDIUM": 0.0224,
-        "SOFT": 0.0333
+        "HARD": 0.0155,
+        "MEDIUM": 0.0187,
+        "SOFT": 0.0304
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -1124,22 +2745,27 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "PIA",
       "race_factor": 1.234179996265814,
+      "race_factor_ln_sd": 0.0792854855930583,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.0002,
-        "MEDIUM": 0.0006,
-        "SOFT": 0.0004
+        "HARD": -0.0004,
+        "MEDIUM": 0.0,
+        "SOFT": 0.0019
       },
       "eff_rate": {
-        "HARD": 0.0204,
-        "MEDIUM": 0.0247,
-        "SOFT": 0.038
+        "HARD": 0.0166,
+        "MEDIUM": 0.0208,
+        "SOFT": 0.035
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -1147,114 +2773,27 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     },
     {
       "driver": "RUS",
       "race_factor": 0.9657079178992387,
+      "race_factor_ln_sd": 0.08819718830126579,
+      "dev_source": "pooled",
       "practice_dev_s_per_lap": {
-        "HARD": -0.002,
-        "MEDIUM": -0.0064,
-        "SOFT": 0.0001
+        "HARD": -0.0017,
+        "MEDIUM": -0.0047,
+        "SOFT": 0.0004
       },
       "eff_rate": {
-        "HARD": 0.0147,
-        "MEDIUM": 0.0149,
-        "SOFT": 0.0295
-      },
-      "best": "1-stop M-H @ 36",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[36]",
-      "push": 1.0,
-      "first_stop": 36,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 4,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "SAI",
-      "race_factor": 1.2692244365516896,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0013,
-        "MEDIUM": -0.0058,
-        "SOFT": 0.0012
-      },
-      "eff_rate": {
-        "HARD": 0.0227,
-        "MEDIUM": 0.0195,
-        "SOFT": 0.0399
-      },
-      "best": "1-stop M-H @ 34",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
-      "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "STR",
-      "race_factor": 1.1402965385660024,
-      "practice_dev_s_per_lap": {
-        "HARD": 0.0008,
-        "MEDIUM": -0.0061,
-        "SOFT": 0.0002
-      },
-      "eff_rate": {
-        "HARD": 0.0194,
-        "MEDIUM": 0.0172,
-        "SOFT": 0.0351
-      },
-      "best": "1-stop M-H @ 36",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[36]",
-      "push": 1.0,
-      "first_stop": 36,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 4,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "TSU",
-      "race_factor": 1.0479001996489103,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.001,
-        "MEDIUM": -0.0054,
-        "SOFT": 0.0011
-      },
-      "eff_rate": {
-        "HARD": 0.0168,
-        "MEDIUM": 0.0161,
-        "SOFT": 0.0332
-      },
-      "best": "1-stop M-H @ 34",
-      "n_stops": 1,
-      "compounds": "MEDIUM-HARD",
-      "pit_laps": "[34]",
-      "push": 1.0,
-      "first_stop": 34,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": 2,
-      "same_shape_as_field": true
-    },
-    {
-      "driver": "VER",
-      "race_factor": 0.9950789742766276,
-      "practice_dev_s_per_lap": {
-        "HARD": -0.0001,
-        "MEDIUM": 0.0012,
-        "SOFT": 0.0029
-      },
-      "eff_rate": {
-        "HARD": 0.0168,
-        "MEDIUM": 0.02,
-        "SOFT": 0.033
+        "HARD": 0.014,
+        "MEDIUM": 0.0147,
+        "SOFT": 0.0292
       },
       "best": "1-stop M-H @ 30",
       "n_stops": 1,
@@ -1262,9 +2801,124 @@
       "pit_laps": "[30]",
       "push": 1.0,
       "first_stop": 30,
-      "field_best": "1-stop M-H @ 32",
-      "first_stop_vs_field": -2,
-      "same_shape_as_field": true
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
+    },
+    {
+      "driver": "SAI",
+      "race_factor": 1.2692244365516896,
+      "race_factor_ln_sd": 0.08831010096278509,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0006,
+        "MEDIUM": -0.0065,
+        "SOFT": 0.0006
+      },
+      "eff_rate": {
+        "HARD": 0.018,
+        "MEDIUM": 0.0157,
+        "SOFT": 0.034
+      },
+      "best": "1-stop M-H @ 30",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[30]",
+      "push": 1.0,
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
+    },
+    {
+      "driver": "STR",
+      "race_factor": 1.1402965385660024,
+      "race_factor_ln_sd": 0.11858127776054789,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": 0.0009,
+        "MEDIUM": -0.0048,
+        "SOFT": 0.0004
+      },
+      "eff_rate": {
+        "HARD": 0.0166,
+        "MEDIUM": 0.0154,
+        "SOFT": 0.0316
+      },
+      "best": "1-stop M-H @ 30",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[30]",
+      "push": 1.0,
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
+    },
+    {
+      "driver": "TSU",
+      "race_factor": 1.0479001996489103,
+      "race_factor_ln_sd": 0.1432928153429778,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0003,
+        "MEDIUM": -0.0041,
+        "SOFT": -0.0002
+      },
+      "eff_rate": {
+        "HARD": 0.0153,
+        "MEDIUM": 0.0152,
+        "SOFT": 0.0301
+      },
+      "best": "1-stop M-H @ 30",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[30]",
+      "push": 1.0,
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
+    },
+    {
+      "driver": "VER",
+      "race_factor": 0.9950789742766276,
+      "race_factor_ln_sd": 0.08775318106361062,
+      "dev_source": "pooled",
+      "practice_dev_s_per_lap": {
+        "HARD": -0.0,
+        "MEDIUM": 0.0002,
+        "SOFT": 0.0031
+      },
+      "eff_rate": {
+        "HARD": 0.0148,
+        "MEDIUM": 0.018,
+        "SOFT": 0.0322
+      },
+      "best": "1-stop M-H @ 30",
+      "n_stops": 1,
+      "compounds": "MEDIUM-HARD",
+      "pit_laps": "[30]",
+      "push": 1.0,
+      "first_stop": 30,
+      "first_stop_s": 0.0,
+      "field_best": "1-stop M-H @ 30",
+      "first_stop_vs_field": 0,
+      "same_shape_as_field": true,
+      "warmup_s": NaN,
+      "traffic_mult": NaN
     }
   ],
   "gates": [
@@ -1276,7 +2930,7 @@
     {
       "gate": "enough clean long-run laps (>= 60)",
       "pass": true,
-      "detail": "178 clean laps from 1041 raw over ['Practice 1', 'Practice 2'] (26s)"
+      "detail": "178 clean laps from 1299 raw over ['Practice 1', 'Practice 2', 'Practice 3'] (2s)"
     },
     {
       "gate": "no non-green lap survives",
@@ -1286,12 +2940,12 @@
     {
       "gate": "track evolution identified & plausible (0-5 s)",
       "pass": true,
-      "detail": "push-lap range 1.20s per session {'Practice 1': 0.8186251955611974, 'Practice 2': 1.1955134007098118}; long-run backfit would have given 9.35s; sessions on the backfit: []"
+      "detail": "push-lap range 1.20s per session {'Practice 1': 0.8186251955611974, 'Practice 2': 1.1955134007098118, 'Practice 3': 0.7582745803327966}; long-run backfit would have given 9.35s; sessions on the backfit: []"
     },
     {
       "gate": "convergence: r_hat < 1.01 and zero divergences",
       "pass": true,
-      "detail": "max r_hat 1.0055, 0 divergences (6.6s)"
+      "detail": "max r_hat 1.0055, 0 divergences (6.7s)"
     },
     {
       "gate": "model reproduces the measured net stint-level compound step (enforced)",
@@ -1300,13 +2954,13 @@
     }
   ],
   "timings": {
-    "load_s": 25.8,
-    "priors_s": 0.4,
-    "mixedlm_s": 2.3,
-    "fit_s": 6.6,
-    "per_driver_s": 12.3,
-    "strategy_s": 14.6
+    "load_s": 1.8,
+    "priors_s": 0.5,
+    "mixedlm_s": 2.5,
+    "fit_s": 6.7,
+    "per_driver_s": 17.2,
+    "strategy_s": 21.7
   },
-  "runtime_s": 49.8,
-  "written_utc": "2026-09-12T11:56:20.880561+00:00"
+  "runtime_s": 33.4,
+  "written_utc": "2026-09-13T03:02:13.494237+00:00"
 }

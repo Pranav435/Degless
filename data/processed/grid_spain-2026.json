@@ -1,0 +1,205 @@
+{
+ "event": "spain-2026",
+ "source": "FastF1 qualifying results (20 timed, 2 without a time, at the back)",
+ "cars": [
+  {
+   "num": "1",
+   "code": "NOR",
+   "team": "McLaren",
+   "colour": "F47600",
+   "quali_best_s": 91.824,
+   "quali_position": 1,
+   "grid": 1
+  },
+  {
+   "num": "12",
+   "code": "ANT",
+   "team": "Mercedes",
+   "colour": "00D7B6",
+   "quali_best_s": 91.835,
+   "quali_position": 2,
+   "grid": 2
+  },
+  {
+   "num": "3",
+   "code": "VER",
+   "team": "Red Bull Racing",
+   "colour": "4781D7",
+   "quali_best_s": 91.964,
+   "quali_position": 3,
+   "grid": 3
+  },
+  {
+   "num": "44",
+   "code": "HAM",
+   "team": "Ferrari",
+   "colour": "ED1131",
+   "quali_best_s": 92.013,
+   "quali_position": 4,
+   "grid": 4
+  },
+  {
+   "num": "16",
+   "code": "LEC",
+   "team": "Ferrari",
+   "colour": "ED1131",
+   "quali_best_s": 92.019,
+   "quali_position": 5,
+   "grid": 5
+  },
+  {
+   "num": "63",
+   "code": "RUS",
+   "team": "Mercedes",
+   "colour": "00D7B6",
+   "quali_best_s": 92.149,
+   "quali_position": 6,
+   "grid": 6
+  },
+  {
+   "num": "81",
+   "code": "PIA",
+   "team": "McLaren",
+   "colour": "F47600",
+   "quali_best_s": 92.294,
+   "quali_position": 7,
+   "grid": 7
+  },
+  {
+   "num": "30",
+   "code": "LAW",
+   "team": "Red Bull Racing",
+   "colour": "4781D7",
+   "quali_best_s": 92.316,
+   "quali_position": 8,
+   "grid": 8
+  },
+  {
+   "num": "43",
+   "code": "COL",
+   "team": "Alpine",
+   "colour": "00A1E8",
+   "quali_best_s": 92.903,
+   "quali_position": 9,
+   "grid": 9
+  },
+  {
+   "num": "41",
+   "code": "LIN",
+   "team": "Racing Bulls",
+   "colour": "6C98FF",
+   "quali_best_s": 93.041,
+   "quali_position": 10,
+   "grid": 10
+  },
+  {
+   "num": "27",
+   "code": "HUL",
+   "team": "Audi",
+   "colour": "F50537",
+   "quali_best_s": 93.223,
+   "quali_position": 11,
+   "grid": 11
+  },
+  {
+   "num": "5",
+   "code": "BOR",
+   "team": "Audi",
+   "colour": "F50537",
+   "quali_best_s": 93.388,
+   "quali_position": 12,
+   "grid": 12
+  },
+  {
+   "num": "31",
+   "code": "OCO",
+   "team": "Haas F1 Team",
+   "colour": "9C9FA2",
+   "quali_best_s": 93.667,
+   "quali_position": 13,
+   "grid": 13
+  },
+  {
+   "num": "10",
+   "code": "GAS",
+   "team": "Alpine",
+   "colour": "00A1E8",
+   "quali_best_s": 93.753,
+   "quali_position": 14,
+   "grid": 14
+  },
+  {
+   "num": "22",
+   "code": "TSU",
+   "team": "Racing Bulls",
+   "colour": "6C98FF",
+   "quali_best_s": 94.084,
+   "quali_position": 15,
+   "grid": 15
+  },
+  {
+   "num": "23",
+   "code": "ALB",
+   "team": "Williams",
+   "colour": "1868DB",
+   "quali_best_s": 95.307,
+   "quali_position": 16,
+   "grid": 16
+  },
+  {
+   "num": "55",
+   "code": "SAI",
+   "team": "Williams",
+   "colour": "1868DB",
+   "quali_best_s": 95.312,
+   "quali_position": 17,
+   "grid": 17
+  },
+  {
+   "num": "14",
+   "code": "ALO",
+   "team": "Aston Martin",
+   "colour": "229971",
+   "quali_best_s": 95.388,
+   "quali_position": 18,
+   "grid": 18
+  },
+  {
+   "num": "11",
+   "code": "PER",
+   "team": "Cadillac",
+   "colour": "909090",
+   "quali_best_s": 95.913,
+   "quali_position": 19,
+   "grid": 19
+  },
+  {
+   "num": "77",
+   "code": "BOT",
+   "team": "Cadillac",
+   "colour": "909090",
+   "quali_best_s": 98.011,
+   "quali_position": 20,
+   "grid": 20
+  },
+  {
+   "num": "18",
+   "code": "STR",
+   "team": "Aston Martin",
+   "colour": "229971",
+   "quali_best_s": null,
+   "quali_position": null,
+   "grid": 21
+  },
+  {
+   "num": "87",
+   "code": "BEA",
+   "team": "Haas F1 Team",
+   "colour": "9C9FA2",
+   "quali_best_s": null,
+   "quali_position": null,
+   "grid": 22
+  }
+ ],
+ "written_utc": "2026-09-13T03:15:03+00:00"
+}

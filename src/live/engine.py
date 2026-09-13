@@ -87,6 +87,8 @@ DIRTY_SIGMA_MULT = 1.6       # a lap started 1-2 s behind another car is noisier
 EVO_PRIOR_S_PER_LAP = -0.06  # track evolution over a race before the data can say (donor races: -0.08)
 FIELD_TEMPER = 0.5           # other cars' laps count half: they manage their tyres differently
 MIN_ESS = 40.0               # floor on the effective number of posterior draws (of N_DRAWS)
+EVO_SLOPE_SD_S = 0.02        # prior sd of a compound's race age slope about the sealed model's, s/lap
+EVO_SMOOTH_SD_S = 0.05       # prior sd of the lap effect's second difference, s (evolution is smooth)
 TRAFFIC_INTERVAL_S = 1.0     # a lap started this close behind another car is dirty (DRS range)
 TRAFFIC_SOFT_INTERVAL_S = 2.0 # ...and this close is downweighted
 SLOW_LAP_MARGIN_S = 3.0      # a lap this much slower than the stint median is not a racing lap
@@ -209,6 +211,13 @@ class WeekendModel:
     # (`src.haascar.car_terms`): driver code -> {warmup_s, traffic_mult}.  Empty
     # for every other car, which then runs on the field terms exactly.
     car_terms: dict = field(default_factory=dict)
+    # The plan-family prior the sealed search ran with (`strategy.plan_prior_penalty`):
+    # a sequence the circuit's (or the season's) field does not run carries
+    # tau * (-log p) on the live options too, so the live call and the pre-race
+    # plan cannot disagree about the family for a reason the plan already paid
+    # for.  None, or tau 0, leaves the live objective as it was.
+    plan_prior: dict | None = None
+    plan_prior_tau_s: float = 0.0
 
     @classmethod
     def load(cls, event: Event | str, *, n_draws: int = N_DRAWS, seed: int = 0) -> "WeekendModel":
@@ -304,9 +313,14 @@ class WeekendModel:
                 car_terms = {d: haascar.car_terms(st) for d, st in hcm.states.items()}
             except Exception:
                 log.exception("haas car terms unavailable for %s; the field terms run", ev.key)
+        pp = meta.get("plan_prior") or None
+        tau = float((meta.get("calibration") or {}).get("plan_prior_tau_s", cal.plan_prior_tau_s) or 0.0)
+        if not (pp and pp.get("n") and pp.get("sequences") and pp.get("stops")):
+            pp, tau = None, 0.0
         return cls(event=ev, model=model, m_prior=m_prior, pit_loss_s=pit,
                    pit_loss_source=pit_src, allocation=alloc, stint_cap=caps, history=hist,
                    source=source, sealed_file=sealed, n_draws=n,
+                   plan_prior=pp, plan_prior_tau_s=tau,
                    undercut_lambda=float(cal.undercut_lambda),
                    dirty_air_s_per_lap=float(cal.dirty_air_for(ev.circuit)),
                    calibration_source=cal.source,
@@ -425,6 +439,14 @@ class DriverTyre:
     m_mean: float = float("nan")
     m_lo: float = float("nan")
     m_hi: float = float("nan")
+    # the wear the car's posterior implies against the forecast: the weighted
+    # mean of rate x multiplier over the draws, divided by its unweighted mean.
+    # `m_mean` is the regime multiplier alone and cannot exceed the prior's
+    # range even when the rate draws have moved (the race simulation found it
+    # reading 0.7x on a tyre wearing 3.8x the forecast)
+    m_eff: float = float("nan")
+    m_eff_lo: float = float("nan")
+    m_eff_hi: float = float("nan")
     level_s: float = float("nan")
     wear: np.ndarray | None = None         # (n,) wear now
     p_past_cliff: float = 0.0
@@ -484,6 +506,9 @@ class RaceEngine:
         self.first_stop_table = getattr(wm, "first_stop_table", None)
         self.pooled_dev = dict(getattr(wm, "driver_dev_pooled", {}) or {})
         self.car_terms = dict(getattr(wm, "car_terms", {}) or {})
+        self.plan_prior = getattr(wm, "plan_prior", None)
+        self.tau = float(getattr(wm, "plan_prior_tau_s", 0.0) or 0.0)
+        self._family_cache: dict = {}
         self._rate_cache: dict = {}
         self.race_state = getattr(wm, "race_state", None) if race_state else None
         self.n_rivals = int(n_rivals) if n_rivals else int(STRATEGIC_RIVALS_K)
@@ -527,6 +552,20 @@ class RaceEngine:
 
         return first_stop_penalty(compound, laps, self.first_stop_table, self.kappa, n_stops=n_stops)
 
+    def _family_pen(self, seq) -> float:
+        """The sealed search's family handicap for the whole sequence `seq`
+        (the sets run so far plus the option's), in seconds; 0 without a prior."""
+        if not self.plan_prior or self.tau <= 0:
+            return 0.0
+        key = tuple(seq)
+        v = self._family_cache.get(key)
+        if v is None:
+            from src.strategy import plan_prior_penalty
+
+            v = float(plan_prior_penalty(list(seq), self.plan_prior, self.tau))
+            self._family_cache[key] = v
+        return v
+
     def _total_laps(self, state: LiveState) -> int:
         t = state.lap_count.get("total")
         return int(t) if t else self.n_laps
@@ -536,8 +575,15 @@ class RaceEngine:
         return self.load[idx]
 
     def _fuel_corrected(self, lap_time: np.ndarray, lap_number: np.ndarray, total: int) -> np.ndarray:
-        # Race fuel: the car gets lighter as laps pass; add back what has burned.
-        return lap_time + self.fp.s_per_lap * (total - lap_number)
+        """Every lap at the same fuel mass (the finish's).
+
+        A lap run with `total - lap_number` laps of fuel still on board is
+        slower by that much times `s_per_lap`; taking it *off* puts every lap on
+        the same mass.  (Adding it on - the sign this carried before the race
+        simulation caught it - doubled the fuel slope instead of removing it,
+        so a stint's own laps appeared to get faster and the wear posterior
+        walked to its lowest draws.)"""
+        return lap_time - self.fp.s_per_lap * (total - lap_number)
 
     # -- tyre posterior per driver ------------------------------------------
 
@@ -545,17 +591,28 @@ class RaceEngine:
         """Track evolution per race lap (s, centred), from the cross-section.
 
         All cars run the same lap at the same moment on tyres of different
-        ages, so a race-lap fixed effect and per-compound age slopes are
-        separately identified — the estimator `src.regime` uses offline.  The
-        lap effect absorbs fuel burn too, so the known fuel term is added back
-        and what remains is evolution.  Early in the race, when few laps exist,
-        the estimate is shrunk toward a linear prior.
+        ages, so a race-lap effect and per-compound age slopes are separately
+        identified — the estimator `src.regime` uses offline — *once stints are
+        offset*.  Before the first stops every car's tyre age is its lap
+        number and the two are one column; an unregularised fit then splits
+        the fuel-and-evolution trend between them arbitrarily and the lap
+        effects swing by whole seconds (the race simulation caught this: a
+        ±10 s "evolution" on a race whose truth was −0.03 s/lap).
+
+        So the fit is a Bayesian linear regression, in augmented-row form:
+        the age slopes are shrunk toward the sealed model's own race-regime
+        slope for each compound (sd `EVO_SLOPE_SD_S`) and the lap effects
+        toward a smooth curve (second differences, sd `EVO_SMOOTH_SD_S`).  The
+        lap effect absorbs fuel burn too, so the known fuel term is taken off
+        and what remains is evolution.  Early in the race, when few laps
+        exist, the estimate is shrunk toward a linear prior; the standing
+        start (lap 1) is left out - it is five to ten seconds slow for everyone.
         """
         n = int(total)
         prior = EVO_PRIOR_S_PER_LAP * (np.arange(1, n + 1) - 1.0)
         prior -= prior.mean()
         d = laps[laps["is_accurate"] & (laps["track_status"] == "1") & laps["compound"].isin(self.model.compounds)
-                 & laps["lap_time_s"].notna() & laps["tyre_life"].notna()]
+                 & laps["lap_time_s"].notna() & laps["tyre_life"].notna() & (laps["lap_number"] > 1)]
         n_lap = d["lap_number"].nunique() if len(d) else 0
         if len(d) < 60 or n_lap < 8:
             return prior
@@ -563,23 +620,62 @@ class RaceEngine:
         lapc = pd.Categorical(d["lap_number"].astype(int))
         lap = pd.get_dummies(lapc, drop_first=True).astype(float)
         comp = pd.get_dummies(d["compound"]).astype(float)
+        comps = list(comp.columns)
         age = d["tyre_life"].to_numpy(dtype=float)
-        ageX = np.column_stack([comp[c].to_numpy() * age for c in comp.columns])
+        ageX = np.column_stack([comp[c].to_numpy() * age for c in comps])
         X = np.column_stack([np.ones(len(d)), ageX, comp.to_numpy()[:, 1:], drv.to_numpy(), lap.to_numpy()])
         y = d["lap_time_s"].to_numpy(dtype=float)
+        n_col = X.shape[1]
+        n_lapd = lap.shape[1]
+        sigma = SIGMA_RACE_LAP_S
+        # -- the priors, as rows ------------------------------------------------
+        rows, rhs = [], []
+        m_mean = float(self.m_prior.mean())
+        for j, c in enumerate(comps):
+            # the model's race-regime slope for this compound, s per lap of age
+            slope0 = float(self.model.wear_rate[c].mean() * m_mean * self.model.budget_of(c))
+            r = np.zeros(n_col)
+            r[1 + j] = sigma / EVO_SLOPE_SD_S
+            rows.append(r)
+            rhs.append(slope0 * sigma / EVO_SLOPE_SD_S)
+        off = n_col - n_lapd                    # first lap-dummy column; the dropped category is fe = 0
+        for k in range(n_lapd - 1):
+            # fe[k+2] - 2 fe[k+1] + fe[k], with fe[0] = 0 the dropped level
+            r = np.zeros(n_col)
+            if k >= 1:
+                r[off + k - 1] += 1.0
+            r[off + k] += -2.0
+            r[off + k + 1] += 1.0
+            rows.append(r * (sigma / EVO_SMOOTH_SD_S))
+            rhs.append(0.0)
+        Xa = np.vstack([X, np.array(rows)])
+        ya = np.concatenate([y, np.array(rhs)])
         try:
-            beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+            beta, *_ = np.linalg.lstsq(Xa, ya, rcond=None)
         except Exception:
             return prior
-        fe = np.concatenate([[0.0], beta[len(beta) - lap.shape[1]:]])
+        fe = np.concatenate([[0.0], beta[len(beta) - n_lapd:]])
         levels = np.asarray(lapc.categories, dtype=float)
-        evo = fe + self.fp.s_per_lap * (n - levels)
+        # the lap effect carries the fuel still on board on that lap; take it
+        # off (the same sign as `_fuel_corrected`) and evolution is what is left
+        evo = fe - self.fp.s_per_lap * (n - levels)
         evo -= evo.mean()
         coef = np.polyfit(levels, evo, 2 if n_lap >= 15 else 1)
         est = np.polyval(coef, np.arange(1, n + 1, dtype=float))
         est -= est.mean()
         w = n_lap / (n_lap + 15.0)
-        return w * est + (1 - w) * prior
+        out = w * est + (1 - w) * prior
+        # on the laps most of the field has run, the (smoothed) lap effect
+        # itself; the curve is for the laps not run yet
+        counts = d.groupby("lap_number").size()
+        full = counts[counts >= 8].index.to_numpy(dtype=int)
+        if len(full):
+            at = np.searchsorted(levels, full.astype(float))
+            ok = (at < len(levels)) & (levels[np.minimum(at, len(levels) - 1)] == full)
+            idx = full[ok] - 1
+            out = out.copy()
+            out[idx] = w * (evo[at[ok]] - evo[at[ok]].mean() + est[idx].mean()) + (1 - w) * prior[idx]
+        return out
 
     def _update_tyres(self, state: LiveState, laps: pd.DataFrame, total: int) -> None:
         rate_draws = {c: self.model.wear_rate[c] for c in self.model.compounds}
@@ -715,6 +811,13 @@ class RaceEngine:
             cw = np.cumsum(w[order])
             dt.m_lo = float(m[order][np.searchsorted(cw, 0.05)])
             dt.m_hi = float(m[order][min(np.searchsorted(cw, 0.95), self.n - 1)])
+            eff = rate * m
+            eff_ref = float(eff.mean()) or 1e-9
+            dt.m_eff = float((eff * w).sum() / eff_ref)
+            oe = np.argsort(eff)
+            ce = np.cumsum(w[oe])
+            dt.m_eff_lo = float(eff[oe][np.searchsorted(ce, 0.05)] / eff_ref)
+            dt.m_eff_hi = float(eff[oe][min(np.searchsorted(ce, 0.95), self.n - 1)] / eff_ref)
             dt.p_past_cliff = float(((wear_now >= 1.0) * w).sum())
             per_lap = rate * m * self._load_vec(np.array([cur_lap]))[0]
             ltc = np.where(per_lap > 0, (1.0 - wear_now) / np.maximum(per_lap, 1e-9), np.inf)
@@ -831,9 +934,11 @@ class RaceEngine:
         tables, expo = self._future_cost_tables(total)
         margin = PIT_WINDOW_MARGIN
         used = {}
+        run_so_far = []
         for s in tr.stints:
             if s.get("compound") and s.get("first_lap") is not None:
                 used[s["compound"]] = used.get(s["compound"], 0) + 1
+                run_so_far.append(s["compound"])
         compounds_used = set(used)
         avail = [c for c in self.model.compounds
                  if used.get(c, 0) < int(self.wm.allocation.get(c, MAX_STINTS_PER_COMPOUND))]
@@ -906,9 +1011,11 @@ class RaceEngine:
         xv3s, tv3s, nxcs = [], [], []
         cidx = {c: i for i, c in enumerate(self.model.compounds)}
         legal0 = bool((len(compounds_used) >= 2 or not state.is_race) and cont_ok_vec(R))
-        means.append(np.array([cont_m[R]])); kinds.append(np.array([0])); stops.append(np.array([-1]))
+        fam0 = self._family_pen(run_so_far)
+        means.append(np.array([cont_m[R] + fam0])); kinds.append(np.array([0])); stops.append(np.array([-1]))
         legals.append(np.array([legal0])); recipes.append([("stay", None, None, None, None)])
         xv3s.append(np.zeros(1)); tv3s.append(np.zeros(1)); nxcs.append(np.array([-1]))
+        fams = [np.array([fam0])]
         P1 = np.arange(now_lap, total - margin + 1)
         K1 = P1 - cur_lap
         keep = K1 <= R - margin
@@ -922,7 +1029,9 @@ class RaceEngine:
             for c2 in avail:
                 legal = (~((c2 == cur_c) and len(compounds_used) < 2)) & cont_ok_vec(K1) & cap_ok_vec(c2, rem)
                 ex1 = expo_cont(c2, K1)
-                means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + ex1)
+                fam1 = self._family_pen(run_so_far + [c2])
+                fams.append(np.full(len(P1), fam1))
+                means.append(cont_m[K1] + fixed1 + mean_t[c2][P1, rem] + ex1 + fam1)
                 kinds.append(np.full(len(P1), 1)); stops.append(P1)
                 legals.append(np.asarray(legal, bool) & np.ones(len(P1), bool))
                 recipes.append([(c2, int(p), int(r), None, None) for p, r in zip(P1, rem)])
@@ -946,10 +1055,12 @@ class RaceEngine:
                     legal = cont_ok_vec(K1p) & cap_ok_vec(c2, P2p - P1p) & cap_ok_vec(c3, total - P2p)
                     if not np.any(legal):
                         continue
-                    m2 = cont_m[K1p] + fixed2 + mean_t[c2][P1p, P2p - P1p] + mean_t[c3][P2p, total - P2p] + e1
+                    fam2 = self._family_pen(run_so_far + [c2, c3])
+                    m2 = cont_m[K1p] + fixed2 + mean_t[c2][P1p, P2p - P1p] + mean_t[c3][P2p, total - P2p] + e1 + fam2
                     if expo is not None:
                         e2 = expo[(c2, c3)]
                         m2 = m2 + self.lam * e2[np.clip(P2p - P1p, 0, len(e2) - 1)] * dens[P2p - 1]
+                    fams.append(np.full(len(P1p), fam2))
                     means.append(m2); kinds.append(np.full(len(P1p), 2)); stops.append(P1p)
                     legals.append(np.asarray(legal, bool))
                     recipes.append([(c2, int(a), int(b - a), c3, int(total - b)) for a, b in pairs])
@@ -964,6 +1075,7 @@ class RaceEngine:
                 "stop": np.concatenate(stops), "legal": np.concatenate(legals),
                 "recipe": [r for blk in recipes for r in blk],
                 "xv3": np.concatenate(xv3s), "tv3": np.concatenate(tv3s), "nxc": np.concatenate(nxcs),
+                "fam": np.concatenate(fams), "run_so_far": run_so_far,
                 "first_stop_pen": first_stop_pen, "expo_cont": expo_cont}
 
     def _plan_finish(self, state: LiveState, num: str, dt: DriverTyre, tr, total: int, ctx: dict,
@@ -1038,6 +1150,7 @@ class RaceEngine:
                     t = t + self.lam * e2[min(r1, len(e2) - 1)] * dens[p2 - 1]
             if rs_adj is not None:
                 t = t + float(rs_adj[i])
+            t = t + float(ctx["fam"][i])
             return np.asarray(t, dtype=np.float64)
 
         rows = [price(i) for i in short]
@@ -1072,8 +1185,10 @@ class RaceEngine:
             okm = (st_l_all >= 0) & (pos_in < len(S))
             okm[okm] &= S[pos_in[okm]] == st_l_all[okm]
             np.minimum.at(cur_best, pos_in[okm], ml[okm])
-            core_l = (ctx["mean_all"] - ctx["xv3"])[li]
+            core_l = (ctx["mean_all"] - ctx["xv3"] - ctx["fam"])[li]
             np.minimum.at(core_best, pos_in[okm], core_l[okm])
+            fam_best = np.full(len(S), np.inf)
+            np.minimum.at(fam_best, pos_in[okm], ctx["fam"][li][okm])
             fin = np.isfinite(cur_best)
             pos_l = np.asarray(rs["position_s"], dtype=float)
             trf_l = np.asarray(rs["traffic_s"], dtype=float)
@@ -1081,7 +1196,8 @@ class RaceEngine:
                 S[fin], cur_best[fin],
                 {"tyre_s": core_best[fin] - np.nanmin(core_best[fin]) if fin.any() else core_best[fin],
                  "position_s": pos_l[fin] - np.nanmin(pos_l[fin]) if fin.any() else pos_l[fin],
-                 "traffic_s": trf_l[fin]},
+                 "traffic_s": trf_l[fin],
+                 "family_s": (np.where(np.isfinite(fam_best[fin]), fam_best[fin], 0.0) if fin.any() else fam_best[fin])},
                 now_lap=now_lap, window_hi=(max(in_win) if in_win else None),
                 extra={"rejoin_position": [rs["rejoin"].get(int(s)) for s in S[fin]]})
             rs_report = {**tbl, "rivals": rs["rivals"], "place_value_s": rs["place_value_s"],
@@ -1114,6 +1230,8 @@ class RaceEngine:
             "stint_cap": caps.get(dt.compound), "stint_len_now": int(stint_len_now),
             "box_now_label": (label_of(box_i)[0] if box_i is not None else None),
             "undercut_lambda": self.lam,
+            "plan_prior_tau_s": self.tau,
+            "family_s": float(ctx["fam"][best_i]),
             "first_stop_kappa_s": self.kappa,
             "first_stop_prior_applies": bool(rs is None and first_stint and self.first_stop_table is not None
                                              and self.kappa > 0),
@@ -1565,6 +1683,12 @@ class RaceEngine:
     # -- pit loss, measured live -------------------------------------------
 
     def _measure_pit_loss(self, laps: pd.DataFrame) -> None:
+        # a full pass over every lap of the race, so only when a stop has been
+        # added since the last one (it was a fifth of the tick otherwise)
+        n_in = int(laps["pit_in"].sum()) if len(laps) else 0
+        if n_in == getattr(self, "_pit_seen", None):
+            return
+        self._pit_seen = n_in
         rows = []
         for num, g in laps[laps["is_complete"]].groupby("driver_number"):
             g = g.sort_values("lap_number")
@@ -1629,6 +1753,7 @@ class RaceEngine:
             dt = self.tyres.get(num)
             row = dict(r)
             row.update({"m_mean": float("nan"), "m_lo": float("nan"), "m_hi": float("nan"),
+                        "m_eff": float("nan"), "m_eff_lo": float("nan"), "m_eff_hi": float("nan"),
                         "wear": float("nan"), "p_past_cliff": float("nan"),
                         "laps_to_cliff_p10": float("nan"), "laps_to_cliff_p50": float("nan"),
                         "laps_to_cliff_p90": float("nan"), "deg_now_s_per_lap": float("nan"),
@@ -1639,6 +1764,7 @@ class RaceEngine:
             if dt is not None and dt.wear is not None:
                 w = dt.weights if dt.weights is not None else np.ones(self.n) / self.n
                 row.update({"m_mean": dt.m_mean, "m_lo": dt.m_lo, "m_hi": dt.m_hi,
+                            "m_eff": dt.m_eff, "m_eff_lo": dt.m_eff_lo, "m_eff_hi": dt.m_eff_hi,
                             "wear": float((dt.wear * w).sum()), "p_past_cliff": dt.p_past_cliff,
                             "laps_to_cliff_p10": dt.laps_to_cliff[0],
                             "laps_to_cliff_p50": dt.laps_to_cliff[1],

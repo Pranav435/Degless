@@ -5,7 +5,7 @@ EVENT ?= italy-2026
 # run.  `make history OFFLINE=` re-enables the network if a session is missing.
 OFFLINE ?= --offline
 
-.PHONY: help run cache history history-practice weekend live live-static replay postrace app test verify clean-processed outlook recalibrate benchmark
+.PHONY: help run cache history history-practice weekend live live-static replay postrace app test verify clean-processed outlook recalibrate benchmark plans racesim
 
 help:             ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
@@ -67,3 +67,9 @@ run:              ## THE command: dashboard + calendar-driven feed, refits, scor
 
 outlook:          ## the outlook for a weekend from everything known so far (EVENT=..., SESSION=<live practice key> to fold the live board in)
 	$(VENV)/python scripts/70_outlook.py --event $(EVENT) $(if $(SESSION),--session $(SESSION),)
+
+plans:            ## commit the weekend model's own decision cards for OCO and BEA (EVENT=...)
+	$(VENV)/python scripts/85_plans.py --event $(EVENT)
+
+racesim:          ## simulate the race with the live engine on the wall, for the Race sim tab (EVENT=...; QUICK=1 for the base scenario only)
+	$(VENV)/python scripts/90_racesim.py --event $(EVENT) $(if $(QUICK),--quick,)

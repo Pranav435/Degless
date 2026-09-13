@@ -321,6 +321,27 @@ class Supervisor:
         self.run_task(name, cmd, quiet=True)
         self._outlook_last[ek] = (time.time(), post_m, sk)
 
+    def maybe_after_refit(self, st: dict) -> None:
+        ek = st.get("event_key")
+        if not ek:
+            return
+        post = DATA_PROCESSED / f"posterior_{ek}.npz"
+        if not post.exists():
+            return
+        post_m = post.stat().st_mtime
+        seen = self.__dict__.setdefault("_after_refit", {})
+        for name, script, out in (("plans", "85_plans.py", LIVE_DIR / "plans" / f"{ek}.json"),
+                                  ("racesim", "90_racesim.py", DATA_PROCESSED / f"racesim_{ek}.json")):
+            task = f"{name}:{ek}"
+            if task in self.tasks and self.tasks[task].alive():
+                continue
+            if seen.get(task) == post_m:
+                continue
+            seen[task] = post_m
+            if out.exists() and out.stat().st_mtime > post_m:
+                continue                      # already built on this fit
+            self.run_task(task, [PY, str(ROOT / "scripts" / script), "--event", ek], quiet=True)
+
     def _outlook_state(self) -> dict:
         ek, sk = self._outlook_target
         out = {"event": ek, "session": sk, "running": any(n.startswith("outlook:") and j.alive()
@@ -416,6 +437,10 @@ class Supervisor:
                 self.run_task(name, [PY, str(ROOT / "scripts" / "60_postrace.py"), "--event", last["event_key"]])
         # 5. the outlook for the next race, from everything known so far
         self.maybe_outlook(st)
+        # 6. after a refit: the model's own decision cards for the two cars, and
+        #    the race simulation the Race sim tab reads (both keyed on the
+        #    posterior's mtime, so each refit triggers exactly one of each)
+        self.maybe_after_refit(st)
         self._reap()
         self._write_state(st)
 

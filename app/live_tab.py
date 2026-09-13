@@ -621,8 +621,10 @@ def _render_race(snap: dict, sk: str, event_key: str | None = None) -> None:
         ("Tyre", f"{str(r.get('compound') or '—').title()} · {r.get('tyre_age') or '—'} laps", None,
          f"stint {r.get('stint') or '—'}"),
         ("Life used", pct(r.get("wear")), DEFS["life_used"], f"drop-off risk {pct(r.get('p_past_cliff') or 0)}"),
-        ("Wear vs forecast", f"{fmt(r.get('m_mean'), 2)}×", DEFS["wear_vs_forecast"],
-         f"likely {fmt(r.get('m_lo'), 2)}–{fmt(r.get('m_hi'), 2)}"),
+        ("Wear vs forecast", f"{fmt(r.get('m_eff') if r.get('m_eff') is not None else r.get('m_mean'), 2)}×",
+         DEFS["wear_vs_forecast"],
+         f"likely {fmt(r.get('m_eff_lo') if r.get('m_eff_lo') is not None else r.get('m_lo'), 2)}–"
+         f"{fmt(r.get('m_eff_hi') if r.get('m_eff_hi') is not None else r.get('m_hi'), 2)}"),
         ("Box now costs", fmt(p.get("delta_box_now_s"), 1, " s"),
          "Race time lost by pitting at the end of this lap instead of following the best plan from here.",
          f"rejoin P{rj.get('position', '?')}" + (f" behind {rj['behind']}" if rj.get("behind") else "")),

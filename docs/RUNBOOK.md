@@ -106,6 +106,20 @@ runs on the compound ladder combined with the circuit's race history (or the
 2026 season for a new circuit) and the transferred priors, with the
 uncertainty that implies. It never reads race data for the target weekend.
 
+**Race sim**: the whole race, lap by lap, with the engine on the wall for
+both cars, on a known truth.  Pick a scenario (the forecast tyre, a safety car
+on lap 22, tyres wearing twice or five times the forecast, slower tyres, other
+tyres the model thinks possible).  The headline gives each car's grid and
+finish with the engine against the sealed plan followed blindly; the race
+trace and classification show the whole field; per car, the call lap by lap
+(the lap it named, the window it priced, the lap it stopped), what it believed
+about the tyre against the truth, positions against its rivals, the reasons
+it gave on the in-lap, and every lap's record.  The real-time card times every
+lap's decision for the whole field.  `make racesim EVENT=<key>` rebuilds it
+(`QUICK=1` for the base scenario); `make run` does so after every refit, and
+commits the model's per-car decision cards (`make plans EVENT=<key>`) at the
+same time.
+
 **Race plan / Tyre model / Evidence**: the sealed weekend model and how it was
 built (for a weekend with no practice yet, the Race plan tab shows the
 outlook's plan). **Validation / Replay**: the receipts, once the race has been

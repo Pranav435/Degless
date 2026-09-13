@@ -36,10 +36,21 @@ why.
   undercut/overcut calculator, read the safety-car playbook, and commit a
   decision card per driver that the live race view then tracks the car
   against.
-* **App**: one Streamlit dashboard — Now tab first, then the Strategy desk,
-  the race plan, the tyre model, the evidence, the validation receipts, the
-  replay, and an AI race engineer grounded strictly on the model's numbers
-  (the outlook and the committed plans included).
+* **Race sim** (2026-09-13): the whole Grand Prix simulated lap by lap for
+  all 22 cars *through the live feed path* - every synthetic lap becomes the
+  timing messages the official feed sends, the same `LiveState` and
+  `RaceEngine` tick on them, and the two Haas cars do what the engine says.
+  The same race is run again with the sealed plan followed blindly and with no
+  model at all (cover the car ahead), so the difference is the engine's.
+  Scenarios: the forecast tyre, a safety car, tyres wearing twice and five
+  times the forecast, slower tyres, and other tyres the model thinks possible.
+  `src/racesim.py`, `scripts/90_racesim.py`, `app/sim_tab.py`; the supervisor
+  rebuilds it after every practice refit, as it commits the model's own
+  decision cards for both drivers (`src/cards.py`, `scripts/85_plans.py`).
+* **App**: one Streamlit dashboard — Haas and Now tabs first, then the Race
+  sim, the race plan, the Strategy desk, the tyre model, the evidence, the
+  validation receipts, the replay, and an AI race engineer grounded strictly
+  on the model's numbers (the outlook and the committed plans included).
 
 See `docs/RUNBOOK.md` for race-day operation and `docs/DATA_SOURCES.md` for
 the data-source research.
@@ -60,6 +71,10 @@ scripts/40_weekend.py    pre-race model: fit on practice so far, seal, posterior
 scripts/50_live.py       the live daemon (SignalR / static polling / recorded replay)
 scripts/60_postrace.py   score the sealed model and the live engine's calls after the flag
 scripts/70_outlook.py    build the outlook (the supervisor runs it by itself)
+scripts/85_plans.py      commit the weekend model's per-car decision cards for OCO and BEA (supervisor, after each refit)
+scripts/90_racesim.py    simulate the race with the live engine on the wall -> data/processed/racesim_<key>.json
+src/racesim.py       the race simulation: synthetic feed, engine in the loop, plan-blind and no-model baselines
+src/cards.py         decision-card numbers (windows, triggers, exposure, safety-car rule) shared by the desk and the script
 app/dashboard.py     Streamlit; app/live_tab.py is the Now tab, app/desk_tab.py the Strategy desk
 tests/               parser vs FastF1, engine replay
 data/raw/            FastF1 cache, archived livetiming streams, OpenF1 session index
@@ -125,6 +140,8 @@ Individual steps remain available (`make weekend`, `make live`, `make postrace`,
 | `make login` | sign in deliberately (silent refresh first, browser if needed) |
 | `make login PASTE=1` | paste the `login-session` cookie instead of opening a browser |
 | `make login STATUS=1` | just report what the stored token is worth |
+| `make plans EVENT=<k>` | commit the model's own decision cards for both drivers |
+| `make racesim EVENT=<k>` | simulate the race with the engine on the wall (`QUICK=1`: the base scenario only) |
 
 ## Running on Windows
 
@@ -157,6 +174,36 @@ The rest map one to one:
 
 If you would rather keep the Makefile, `make` works under WSL, Git Bash, or
 `winget install GnuWin32.Make`. Stop `run.py` with Ctrl-C as usual.
+
+## Live engine: what the race simulation found (2026-09-13)
+
+Driving the engine through a synthetic race whose truth is known caught
+three defects the recorded replays had hidden, all in `src/live/engine.py`:
+
+* **The fuel correction had the wrong sign.** `_fuel_corrected` *added* the
+  fuel still on board instead of taking it off, so every lap of a stint
+  appeared to get faster at twice the fuel rate; the race-lap fixed effects
+  absorbed it once enough laps existed, but the smooth curve fitted through
+  them leaked the misfit into every car's stint and the wear posterior walked
+  to its lowest draws.  Fixed, with the same sign in `_race_evolution`.
+* **The evolution regression was unidentified until the first stops.**  With
+  every car's tyre age equal to its lap number, an unregularised lap-effect
+  + age-slope fit split the trend arbitrarily (a ±10 s "evolution" on a race
+  whose truth was −0.03 s/lap).  It is now a Bayesian regression: age slopes
+  shrunk to the sealed model's race-regime slope, lap effects to a smooth
+  curve, the standing start left out; the lap effect itself is used where a
+  lap has been run by most of the field.
+* **The live objective lacked the plan-family prior** the sealed search runs
+  with, so on a low-wear truth it improvised M-S from lap 2 while the card
+  said M-H.  The live options now carry the same `tau * (-log p)` handicap
+  (`WeekendModel.plan_prior`), and the action table reports it as its own
+  part.
+
+On the recorded races (bench replay, same machine, back to back) the changes
+move the stop-call metrics in the engine's favour: Hungary median stop error
+3 → 2 laps (Haas stops within 3 laps 0.50 → 0.75), Barcelona share of stops
+inside the window 0.40 → 0.53 (within 3 laps 0.55 → 0.66), at the cost of a
+lower window-signal recall at Hungary (0.76 → 0.61).
 
 ## Live feed: what changed (2026-09-12)
 
@@ -219,5 +266,33 @@ Barcelona, Austria, Belgium, Hungary. Sprint weekends (China, Canada, Britain)
 are race donors only; Miami, Monaco and Zandvoort were wet and are excluded.
 Bahrain and Saudi Arabia are missing upstream. Italy has a pre-race model on
 FP1+FP2; its post-race scoring was interrupted and the supervisor re-runs it
-at its next start. Spain (Madring, a new circuit with no race history) has a
-prior-only outlook built from the 2026 season until practice starts.
+at its next start.
+
+**Spain 2026 (Madring, race day 2026-09-13).** The sealed model is a refit on
+FP1+FP2+FP3 with the race-day track forecast (53 °C against 50 °C in
+practice; open-meteo air 31-32 °C, clear, matched Saturday's measured air to
+the degree).  What the weekend's data does and does not contain, found with
+the model on the morning of the race:
+
+* FP3 ran as two fragments between two red flags (10:53 and 11:46 UTC); of
+  its 258 laps, 106 are accurate, 83 green, and **no stint reaches six clean
+  laps**, so the fit gained no long-run evidence from it.  The evidence is
+  still FP1+FP2: 178 clean laps, of which **4 on the HARD** (one stint) - the
+  compound the plan runs for 27 laps.  The practice support is 19 laps on the
+  MEDIUM, 14 on the SOFT and HARD; every stint in the plan is priced as an
+  extrapolation beyond it.
+* Qualifying: Ocon P13 (1:33.667), **Bearman set no time** and starts from
+  the back.  The grid is cached in `data/processed/grid_spain-2026.json`.
+* No race history at this circuit: pit loss is the 2026 donor median
+  (23.4 s, unmeasured here), the plan-family prior is the 2026 season pool,
+  stint caps come from the season's longest stints.
+* The live feed captured 23 laps of FP3 (started during the red flag) and
+  nothing of qualifying; both sessions' archives are now saved under
+  `data/raw/livetiming/2026_spain_fp3` and `2026_spain_quali`.
+
+The plan: 1-stop M-H @29 (window 29-34), per car M-H @30 for both drivers,
+committed as decision cards.  The race simulation (Race sim tab) shows the
+engine taking the safety-car stop the blind plan cannot (+25 s, two places
+per car on a lap-22 safety car) and matching the plan under fast wear, while
+on a near-zero-wear truth it stops a few laps later than the plan and gives
+away seconds in rejoin traffic.

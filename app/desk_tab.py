@@ -25,6 +25,7 @@ from app.theme import (
     BLACK, DEFS, DIM, FAINT, HAIR, LETTER, RED, WHITE, age, badge, badges, card, ccol, chart, how, ink_on,
     label_text, more, notice, palette, rgba, saving_word, style, tiles, verdict_word,
 )
+from src import cards
 from src import objective as objlib
 from src import plans as plan_store
 from src import strategy as strat
@@ -43,54 +44,15 @@ SC_WORDS = {0.0: "none", 0.5: "half", 1.0: "normal", 2.0: "double", 3.0: "triple
 
 
 def _objective_json(outlook: dict) -> str:
-    """The forecast's own cost terms, as a cache key and a payload.
-
-    Everything the forecast's search charged beyond the tyre and the pit lane:
-    the exposure weight on the stops after the first, the plan-family weight and
-    its counts, the circuit's close-following cost, the start-tyre step and -
-    the one that times the first stop - each plan family's track-position term
-    by lap (`strategy.evaluate_plans(race_state_terms=...)`)."""
-    st = outlook.get("strategy") or {}
-    obj = outlook.get("objective") or {}
-    cal = outlook.get("calibration") or {}
-    # An older forecast on disk carries only the *display* copy of the family
-    # counts (its sequences truncated, no stop counts), which would price the
-    # family term differently from the search that wrote it.  Charge it only
-    # from a complete set of counts; otherwise leave the family term out.
-    pp = obj.get("plan_prior") or outlook.get("plan_prior") or {}
-    if not (pp.get("n") and pp.get("sequences") and pp.get("stops")):
-        pp = {}
-    return json.dumps({"undercut_lambda": float(obj.get("undercut_lambda", cal.get("undercut_lambda", 0.0)) or 0.0),
-                       "plan_prior": pp,
-                       "plan_prior_tau_s": float(obj.get("plan_prior_tau_s", cal.get("plan_prior_tau_s", 0.0)) or 0.0)
-                       if pp else 0.0,
-                       "traffic_s_per_lap": float(obj.get("traffic_s_per_lap", cal.get("dirty_air_used", 0.0)) or 0.0),
-                       "grid_penalty_s": float(obj.get("grid_penalty_s", cal.get("grid_start_penalty_s", 0.0)) or 0.0),
-                       "race_state_terms": st.get("race_state_terms") or {}},
-                      sort_keys=True, default=float)
+    return cards.objective_json(outlook)
 
 
 def _eval_kw(obj_json: str) -> dict:
-    """`_objective_json` back into `evaluate_plans` keywords."""
-    o = json.loads(obj_json or "{}")
-    kw = {k: o[k] for k in ("undercut_lambda", "plan_prior_tau_s", "traffic_s_per_lap", "grid_penalty_s") if k in o}
-    if o.get("plan_prior"):
-        kw["plan_prior"] = o["plan_prior"]
-    terms = objlib.terms_from_json(o.get("race_state_terms"))
-    if terms:
-        kw["race_state_terms"] = terms
-    return kw
+    return cards.eval_kw(obj_json)
 
 
 def _window_kw(obj_json: str, plan: dict) -> dict:
-    """...and into `pit_window_model` keywords, with this plan's own family term."""
-    o = json.loads(obj_json or "{}")
-    kw = {k: o[k] for k in ("undercut_lambda", "traffic_s_per_lap") if k in o}
-    terms = objlib.terms_from_json(o.get("race_state_terms"))
-    lab = objlib.group_label(plan.get("compounds"), plan.get("pit_laps"))
-    if lab and lab in terms:
-        kw["race_state_term"] = terms[lab]
-    return kw
+    return cards.window_kw(obj_json, plan)
 
 
 # --------------------------------------------------------------------------
@@ -137,44 +99,10 @@ def _playbook(key: str, mtime: float, plan_json: str, deg_mult: float, pit_loss:
 @st.cache_data(show_spinner=False)
 def _card_numbers(key: str, mtime: float, plan_json: str, others_json: str, pit_loss: float,
                   alloc_json: str, caps_json: str, obj_json: str = "{}"):
-    """Windows, switch triggers, undercut exposure and the expected wear at each stop."""
-    model = _model_cached(key, mtime)
-    ev = get_event(key)
-    plan = json.loads(plan_json)
-    others = json.loads(others_json)
-    caps = json.loads(caps_json)
-    alloc = json.loads(alloc_json)
-    ekw = _eval_kw(obj_json)
-    tbl, det = strat.evaluate_plans(model, ev, [plan], pit_loss, allocation=alloc, stint_cap=caps, **ekw)
-    d = det[0]
-    if not d.get("valid"):
-        return None
-    p_use = float(d["push"])
-    pw = strat.pit_window_model(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"], "push": p_use},
-                                pit_loss, max_stint=(caps or None), push=p_use, **_window_kw(obj_json, plan))
-    windows = strat.windows_from_sweep(pw, plan)
-    switches = []
-    for o in others:
-        cx = strat.deg_crossover(model, ev, {"compounds": plan["compounds"], "pit_laps": plan["pit_laps"]},
-                                 {"compounds": o["compounds"], "pit_laps": o["pit_laps"]}, pit_loss,
-                                 allocation=alloc, stint_cap=caps, **ekw)
-        base = next((c for c in cx.get("curve", []) if abs(c["mult"] - 1.0) < 1e-9), None)
-        switches.append({"label": o.get("label", plan_store.short_label(o["compounds"], o["pit_laps"])),
-                         "mult": cx.get("mult"), "direction": cx.get("direction"),
-                         "b_better_at_base": cx.get("b_better_at_base"),
-                         "delta_at_base_s": (base["b_minus_a_s"] if base else None)})
-    exposure = []
-    for i, p_lap in enumerate(plan["pit_laps"]):
-        c_now, c_next = plan["compounds"][i], plan["compounds"][i + 1]
-        age_ = int(d["stint_lens"][i])
-        duel = strat.undercut_duel(model, my_compound=c_now, my_age=age_, their_compound=c_now, their_age=age_,
-                                   gap_s=0.0, new_compound=c_next, push=p_use, event=ev, lap_now=p_lap)
-        exposure.append({"stop": i + 1, "lap": p_lap, "new_compound": c_next,
-                         "gain_1": duel["gain_by_lap_s"][0], "gain_3": duel["gain_by_lap_s"][2],
-                         "wear_end": d["wear_end_mean"][i], "wear_p90": d["wear_end_p90"][i]})
-    return {"push": p_use, "windows": windows, "switches": switches, "exposure": exposure,
-            "wear_end": d["wear_end_mean"], "mean_s": float(d["times"].mean()), "flags": d["flags"],
-            "stint_lens": d["stint_lens"], "race_state_s": float(d.get("race_state_s", 0.0))}
+    """Windows, switch triggers, undercut exposure and the expected wear at each stop (src.cards)."""
+    return cards.card_numbers(_model_cached(key, mtime), get_event(key), json.loads(plan_json),
+                              json.loads(others_json), pit_loss, json.loads(alloc_json),
+                              json.loads(caps_json), obj_json)
 
 
 # --------------------------------------------------------------------------
@@ -420,40 +348,8 @@ def _section_safety_car(key: str, mtime: float, valid: list, deg_mult: float, pi
 
 
 def _triggers(nums: dict, ranges: list) -> tuple[dict, dict]:
-    """Short trigger lines for the card, and the plan B block the live view tracks."""
-    triggers = {}
-    for i, w in enumerate(nums["windows"]):
-        ex = nums["exposure"][i] if i < len(nums["exposure"]) else None
-        line = f"Stop {w['stop']}: lap {w['recommended']} (window {w['lo']}–{w['hi']})"
-        if ex:
-            line += (f". Tyre life used above {min(ex['wear_p90'] + 0.05, 1.0):.0%} before lap "
-                     f"{max(w['lo'], w['recommended'] - 3)}: stop on lap {w['lo']}")
-            line += (f". A car within {max(ex['gain_3'], 0):.1f} s behind on new {ex['new_compound'].title()}s gets "
-                     f"ahead in 3 laps if you stay out past lap {w['recommended']}" if ex["gain_3"] > 0 else
-                     ". No undercut risk at this tyre age")
-        triggers[f"stop_{w['stop']}"] = line
-    alt_block = {}
-    for s in nums["switches"]:
-        name = label_text(s["label"])
-        if s.get("b_better_at_base"):
-            txt = f"{name} is already {-s['delta_at_base_s']:.1f} s faster at the forecast's tyre wear"
-        elif s.get("mult"):
-            txt = (f"Switch to {name} if this car's tyre wear reaches ×{s['mult']:.2f} the forecast "
-                   f"({s['delta_at_base_s']:+.1f} s slower at ×1.0)")
-        else:
-            txt = f"{name} never overtakes this plan (tested up to ×2.6 tyre wear)"
-        triggers[f"switch_{s['label']}"] = txt
-        if not alt_block and s.get("mult") and not s.get("b_better_at_base"):
-            alt_block = {"label": s["label"], "delta_s": s["delta_at_base_s"], "switch_mult": s["mult"],
-                         "when": "Watch the 'Wear vs forecast' tile for this car on the Now tab"}
-    if ranges:
-        box = [r for r in ranges if r["verdict"] == "PIT"]
-        stay = [r for r in ranges if r["verdict"] == "STAY"]
-        triggers["safety_car"] = (("Safety car: box on laps " + ", ".join(f"{r['from']}–{r['to']}" for r in box)
-                                   + f" (saves ~{np.mean([r['gain_s'] for r in box]):.0f} s)"
-                                   + ("; stay out on laps " + ", ".join(f"{r['from']}–{r['to']}" for r in stay) if stay else ""))
-                                  if box else "Safety car: stay on plan whenever it comes")
-    return triggers, alt_block
+    """Short trigger lines for the card, and the plan B block the live view tracks (src.cards)."""
+    return cards.triggers(nums, ranges, label_fn=label_text)
 
 
 def _section_commit(key: str, ev, mtime: float, outlook: dict, plans: list, valid: list, pit_base: float,

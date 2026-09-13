@@ -26,6 +26,7 @@ sys.path.insert(0, str(ROOT))
 from src.config import DATA_PROCESSED, EVENTS, current_event  # noqa: E402
 from app.desk_tab import render_desk  # noqa: E402
 from app.haas_tab import render_haas  # noqa: E402
+from app.sim_tab import render_sim  # noqa: E402
 from app.live_tab import render_now, render_strip, render_system, weekend_status  # noqa: E402
 from app.theme import (  # noqa: E402
     BLACK, DEFS, DIM, FAINT, HAIR, LADDER, LETTER, MUTED, WHITE, badge, badges, card, ccol, chart, finite,
@@ -1024,13 +1025,15 @@ def _tab_engineer() -> None:
 # Tabs
 # ==========================================================================
 
-TAB_NAMES = ["Haas", "Now", "Race plan", "Plan builder", "Tyres", "Evidence", "Replay", "Engineer"]
+TAB_NAMES = ["Haas", "Now", "Race sim", "Race plan", "Plan builder", "Tyres", "Evidence", "Replay", "Engineer"]
 tab = dict(zip(TAB_NAMES, st.tabs(TAB_NAMES)))
 
 with tab["Haas"]:
     render_haas(key, ev, meta, OUTLOOK, HAAS_LIVE_SK)
 with tab["Now"]:
     render_now(WEEKEND, meta, ev, outlook=OUTLOOK, timeline=load_timeline(key))
+with tab["Race sim"]:
+    render_sim(key, ev, meta)
 with tab["Race plan"]:
     _tab_race_plan()
 with tab["Plan builder"]:
