@@ -1,0 +1,94 @@
+| Metric | V3 | Task 1 | V4 |
+|---|---|---|---|
+| Mean |first stop - field green median| (laps, non-SC) | 4.333 | 1.667 | 1.333 |
+| Signed first-stop error (laps, non-SC) | 4.333 | 1.000 | 0.000 |
+| Share of field first stops inside the window | 0.361 | 0.448 | 0.530 |
+| Oracle regret of the tool's plan (s) | 9.399 | 10.917 | 12.664 |
+| Sequence run by anyone (of 7) | 6 | 6 | 5 |
+| Start compound = majority (of 7) | 7 | 7 | 7 |
+| Stop count = mode (of 7) | 7 | 7 | 5 |
+| Mean field share on the recommended sequence | 0.350 | 0.350 | 0.217 |
+| Per-car plans sharing the field plan's shape | 0.862 | 0.721 | 0.735 |
+| R_pos of the tool's plan (s) | – | – | 13.492 |
+| R_pos of the tyre-optimal plan (s) | – | – | 7.114 |
+| R_pos of the field's modal plan (s) | – | – | 18.755 |
+| L(tool): places lost in the first cycle | – | – | -0.115 |
+| L(field modal) | – | – | 0.211 |
+| P_retain(tool) | – | – | 0.965 |
+| Place value V used (s) | – | – | 2.563 |
+| Haas: mean |per-car first stop - own green stop| (laps) | – | – | 2.500 |
+| Haas: signed first-stop error (laps) | – | – | -0.167 |
+| Haas: share of per-car plans on the field plan's shape | – | – | 0.571 |
+| Haas: mean L of the per-car plan | – | – | -0.089 |
+
+| Live metric | V3 | Task 1 | V4 | V4 no race state |
+|---|---|---|---|---|
+| Real stops inside the window 3 laps earlier | 0.421 | 0.443 | 0.459 | 0.420 |
+| Stops within 3 laps of the recommendation | 0.472 | 0.547 | 0.545 | 0.502 |
+| Median |recommended - actual| (laps) | 3.500 | 3.000 | 2.500 | 3.000 |
+| Box-now cost the lap before the real stop (s) | 1.755 | 1.030 | 1.235 | 1.777 |
+| Window signal precision | 0.180 | 0.175 | 0.174 | 0.174 |
+| Window signal recall | 0.516 | 0.566 | 0.558 | 0.494 |
+| Box-now signal precision | 0.193 | 0.199 | 0.196 | 0.194 |
+| Box-now signal recall | 0.496 | 0.604 | 0.555 | 0.493 |
+| Tick mean (ms) | 310.650 | 591.050 | 92.350 | 87.500 |
+| Tick p95 (ms) | 360.200 | 740.000 | 101.650 | 100.950 |
+| Haas stops: n | – | – | 10 | 10 |
+| Haas stops within 3 laps | – | – | 0.333 | 0.542 |
+| Haas median |error| (laps) | – | – | 4.000 | 3.500 |
+| Haas box-now cost the lap before (s) | – | – | 2.092 | 1.806 |
+| Decision changes scored (car-lap pairs) | – | – | 1877 | 0 |
+| Action changed from the previous lap | – | – | 0.631 | – |
+| Action changed with nothing material changed | – | – | 0.172 | – |
+
+first stops (V3 / Task 1 / V4, and the position-aware regret):
+| event | SC | field | V3 | T1 | V4 | V3 err | T1 err | V4 err | V4 window share | R_pos tool | L tool | best candidate |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| australia-2026 | True | 25.000 | 25 | 21 | 14 | 0.000 | -4.000 | -11.000 | 0.000 | 29.000 | 0.272 | oracle_opt |
+| japan-2026 | True | 18.000 | 23 | 19 | 19 | 5.000 | 1.000 | 1.000 | 1.000 | 0.680 | 0.158 | family@16 |
+| barcelona-2026 | False | 13.000 | 19 | 15 | 12 | 6.000 | 2.000 | -1.000 | 0.667 | 0.350 | -0.921 | family@12 |
+| austria-2026 | False | 18.000 | 22 | 20 | 20 | 4.000 | 2.000 | 2.000 | 0.846 | 16.390 | 0.399 | oracle_opt |
+| belgium-2026 | True | 16.000 | 18 | 16 | 16 | 2.000 | 0.000 | 0.000 | 0.333 | 10.130 | -0.201 | oracle_opt |
+| hungary-2026 | False | 19.000 | 22 | 18 | 18 | 3.000 | -1.000 | -1.000 | 0.333 | 24.400 | -0.395 | oracle_opt |
+| italy-2026 | True | – | 22 | 21 | 21 | – | – | – | – | – | – | – |
+
+Haas, per weekend (per-car plan vs the driver's own green first stop):
+| event | driver | plan | first | actual | SC | err | same shape | L |
+|---|---|---|---|---|---|---|---|---|
+| australia-2026 | OCO | 1-stop M-H @ 30 | 30 | 11 | True | – | False | -0.393 |
+| australia-2026 | BEA | 1-stop M-H @ 34 | 34 | 18 | True | – | False | -0.232 |
+| japan-2026 | OCO | 1-stop M-H @ 18 | 18 | 19 | False | -1 | True | -0.068 |
+| japan-2026 | BEA | 1-stop M-H @ 18 | 18 | – | – | – | True | -0.068 |
+| barcelona-2026 | OCO | 2-stop M-H-M @ 18,40 | 18 | 13 | False | 5 | False | 1.567 |
+| barcelona-2026 | BEA | 3-stop M-S-H-S @ 12,28,48 | 12 | – | – | – | False | -0.921 |
+| austria-2026 | OCO | 2-stop M-H-M @ 20,44 | 20 | 18 | False | 2 | True | 0.399 |
+| austria-2026 | BEA | 2-stop M-H-M @ 20,44 | 20 | 24 | True | – | True | 0.399 |
+| belgium-2026 | OCO | 1-stop M-S @ 16 | 16 | 16 | False | 0 | True | -0.201 |
+| belgium-2026 | BEA | 1-stop M-S @ 16 | 16 | 20 | True | – | True | -0.201 |
+| hungary-2026 | OCO | 2-stop M-H-H @ 16,42 | 16 | 17 | False | -1 | False | -0.674 |
+| hungary-2026 | BEA | 2-stop M-H-H @ 16,42 | 16 | 22 | False | -6 | False | -0.674 |
+| italy-2026 | OCO | 1-stop M-H @ 20 | 20 | 3 | True | – | True | – |
+| italy-2026 | BEA | 1-stop M-H @ 20 | 20 | 3 | True | – | True | – |
+
+place-value estimators (bench/out/place_value.json):
+| estimator | fold | n_pairs |
+|---|---|---|
+| pooled | pooled | 35 |
+
+experiments E0-E8 (bench/out/experiments.json):
+| exp | n_events | first_stop_error_laps | first_stop_signed_laps | window_share | oracle_regret_s | rpos_tool_s | L_tool | seq_run_by_anyone | start_matches_majority | stops_match_mode | seconds |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| E0_task1 | 7 | 1.667 | 1.000 | 0.448 | 10.917 | – | – | 6 | 7 | 7 | – |
+| E1_hetero_rivals | 7 | 1.667 | 1.667 | 0.477 | 12.467 | 14.562 | 0.366 | 5 | 7 | 5 | 12.400 |
+| E1b_hetero_no_history | 7 | 1.667 | 1.667 | 0.440 | 12.306 | 14.282 | 0.323 | 5 | 7 | 5 | 13.100 |
+| E1c_symmetric_final | 7 | 1.333 | 0.000 | 0.502 | 12.664 | 13.473 | -0.115 | 5 | 7 | 5 | 13.100 |
+| E2_place_value_task1 | 7 | 1.333 | 0.000 | 0.488 | 12.664 | 13.473 | -0.115 | 5 | 7 | 5 | 13.600 |
+| E2_place_value_lead_lap | 7 | 1.333 | 1.333 | 0.447 | 12.499 | 14.008 | 0.128 | 5 | 7 | 5 | 12.900 |
+| E2_place_value_regularized | 7 | 1.333 | 0.000 | 0.502 | 12.664 | 13.473 | -0.115 | 5 | 7 | 5 | 13.100 |
+| E3_no_family_logit | 7 | 1.667 | 1.667 | 0.516 | 12.390 | 14.557 | 0.374 | 5 | 7 | 5 | 16.400 |
+| E3_rate_levels_1 | 7 | 1.333 | 0.000 | 0.502 | 12.664 | 13.473 | -0.115 | 5 | 7 | 5 | 13.100 |
+| E5_extrap_0 | 7 | 1.333 | 0.000 | 0.530 | 12.697 | 13.532 | -0.115 | 5 | 7 | 5 | 10.900 |
+| E5_extrap_half | 7 | 1.333 | 0.000 | 0.530 | 12.697 | 13.532 | -0.115 | 5 | 7 | 5 | 13.100 |
+| E5_extrap_double | 7 | 1.333 | 0.000 | 0.502 | 12.762 | 13.587 | -0.115 | 5 | 7 | 5 | 13.000 |
+| E8_full | 7 | 1.333 | 0.000 | 0.502 | 12.664 | 13.473 | -0.115 | 5 | 7 | 5 | 13.100 |
+| E6b_task1_constants | 7 | 1.667 | 1.000 | 0.479 | 10.944 | 11.613 | 0.033 | 6 | 7 | 7 | 11.000 |

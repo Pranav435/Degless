@@ -1,0 +1,43 @@
+scored weekends: ['australia-2026', 'japan-2026', 'barcelona-2026', 'austria-2026', 'belgium-2026', 'hungary-2026', 'italy-2026']
+loaded 7 weekends in 1s
+  australia-2026: implied budgets {'HARD': 1.545733450062188, 'MEDIUM': 0.6963180833931495, 'SOFT': 1.0679438918843367}; dirty air 2026 +0.252 / Melbourne history +0.131; first stop median (green) 25.0 sc-set True; net 0.07282897507240052; self regime 0.7533372118384194
+      stint collapse: {'undetermined': 35, 'strategic': 10}; first-stop prior mode 8 median 10 (8-13, n=14)
+  japan-2026: implied budgets {'HARD': 0.7539445005352154, 'MEDIUM': 1.9547227058660457}; dirty air 2026 -0.094 / Suzuka history +0.229; first stop median (green) 18.0 sc-set True; net 0.06861019178487547; self regime 0.7326987078892557
+      stint collapse: {'undetermined': 27, 'strategic': 14, 'collapse': 1}; first-stop prior mode 22 median 20 (16-25, n=51)
+  barcelona-2026: implied budgets {'HARD': 3.424636506726823, 'MEDIUM': 4.07234619528275, 'SOFT': 2.41060003539694}; dirty air 2026 +0.154 / Barcelona history +0.116; first stop median (green) 13.0 sc-set False; net 0.05778517034578316; self regime 0.7011865645099894
+      stint collapse: {'undetermined': 41, 'strategic': 19, 'collapse': 1}; first-stop prior mode 17 median 16 (11-20, n=37)
+  austria-2026: implied budgets {'HARD': 2.819213790357193, 'MEDIUM': 1.8992149708678698, 'SOFT': 0.9574269795969996}; dirty air 2026 +0.120 / Spielberg history +0.139; first stop median (green) 18.0 sc-set False; net 0.10879256329843985; self regime 0.5849966598531712
+      stint collapse: {'undetermined': 44, 'strategic': 15, 'collapse': 2}; first-stop prior mode 21 median 24 (19-29, n=16)
+  belgium-2026: implied budgets {'HARD': 1.107976964144224, 'MEDIUM': 2.3325688083556804, 'SOFT': 1.34298683425738}; dirty air 2026 +0.014 / Spa-Francorchamps history +0.213; first stop median (green) 15.0 sc-set True; net 0.1149219745038569; self regime 0.32017820583491197
+      stint collapse: {'undetermined': 30, 'strategic': 9}; first-stop prior mode 11 median 11 (9-13, n=17)
+  hungary-2026: implied budgets {'HARD': 4.037742881807318, 'MEDIUM': 1.878386318285218, 'SOFT': 1.6151520590760757}; dirty air 2026 +0.430 / Budapest history +0.407; first stop median (green) 19.0 sc-set False; net 0.13094720345432784; self regime 0.639227635679555
+      stint collapse: {'undetermined': 44, 'strategic': 19}; first-stop prior mode 18 median 19 (14-25, n=55)
+  italy-2026: implied budgets {'MEDIUM': 0.5284722527365199, 'SOFT': 1.9821465553526991}; dirty air 2026 -0.198 / Monza history +0.099; first stop median (green) None sc-set True; net 0.055880699596029246; self regime 0.8095785283832064
+      stint collapse: {'undetermined': 25, 'strategic': 3}; first-stop prior mode 15 median 19 (14-25, n=54)
+
+== global (every scored weekend) ==
+  [global] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.3} (pooled 4.08, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.120 pooled + 7 circuits; lambda 0.2 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 4.0; grid 0.0; family temper 5.0 rival mode hetero (ll/stop hetero -4.838 vs symmetric -5.128); extrap ln sd 0.46; 23 drivers / 11 teams; 81.6s
+
+== leave-one-out: australia-2026 held out ==
+  [loo australia-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.27} (pooled 4.07, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.067 pooled + 7 circuits; lambda 0.45 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 6.0; grid 0.0; family temper 3.0 rival mode hetero (ll/stop hetero -4.796 vs symmetric -5.096); extrap ln sd 0.46; 23 drivers / 11 teams; 71.6s
+
+== leave-one-out: japan-2026 held out ==
+  [loo japan-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.3} (pooled 4.08, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.137 pooled + 7 circuits; lambda 0.2 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 4.0; grid 0.0; family temper 3.0 rival mode hetero (ll/stop hetero -4.763 vs symmetric -5.034); extrap ln sd 0.46; 23 drivers / 11 teams; 68.9s
+
+== leave-one-out: barcelona-2026 held out ==
+  [loo barcelona-2026] budgets {'SOFT': 3.8, 'MEDIUM': 3.8, 'HARD': 4.19} (pooled 3.93, 0 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.8, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.067 pooled + 7 circuits; lambda 0.2 on the second stop; kappa 0.0 (fixed; V3 said 0.0); tau 4.0; grid 0.0; family temper 8.0 rival mode hetero (ll/stop hetero -4.971 vs symmetric -5.244); extrap ln sd 0.46; 23 drivers / 11 teams; 74.7s
+
+== leave-one-out: austria-2026 held out ==
+  [loo austria-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.3} (pooled 4.08, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.084 pooled + 7 circuits; lambda 0.15 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 4.0; grid 0.0; family temper 2.0 rival mode hetero (ll/stop hetero -4.929 vs symmetric -5.245); extrap ln sd 0.46; 23 drivers / 11 teams; 65.1s
+
+== leave-one-out: belgium-2026 held out ==
+  [loo belgium-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.27} (pooled 4.07, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.137 pooled + 7 circuits; lambda 0.15 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 4.0; grid 0.0; family temper 8.0 rival mode hetero (ll/stop hetero -4.856 vs symmetric -5.088); extrap ln sd 0.46; 23 drivers / 11 teams; 93.5s
+
+== leave-one-out: hungary-2026 held out ==
+  [loo hungary-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.1} (pooled 4.01, 1 collapse observations; V2 would say {'HARD': 3.27, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.067 pooled + 7 circuits; lambda 0.2 on the second stop; kappa 0.0 (fixed; V3 said 0.0); tau 4.0; grid 0.0; family temper 3.0 rival mode hetero (ll/stop hetero -4.768 vs symmetric -5.005); extrap ln sd 0.46; 23 drivers / 11 teams; 88.4s
+
+== leave-one-out: italy-2026 held out ==
+  [loo italy-2026] budgets {'SOFT': 3.84, 'MEDIUM': 4.09, 'HARD': 4.3} (pooled 4.08, 1 collapse observations; V2 would say {'HARD': 3.84, 'MEDIUM': 3.83, 'SOFT': 3.8}); floor 0.45 cost 0.6; dirty 0.137 pooled + 7 circuits; lambda 0.2 on the second stop; kappa 0.0 (fixed; V3 said 1.0); tau 4.0; grid 0.0; family temper 5.0 rival mode hetero (ll/stop hetero -4.844 vs symmetric -5.128); extrap ln sd 0.46; 22 drivers / 11 teams; 102.2s
+
+wrote /Users/pranav/Documents/coding_projects/degless/data/processed/calibration.json in 647s
+exit 0

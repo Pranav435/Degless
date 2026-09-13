@@ -1,0 +1,29 @@
+E1_hetero_rivals             first err 1.6666666666666667 (signed 1.6666666666666667) window 0.4772079772079772 regret 12.46692818047894 rpos 14.561666666666667 seq/start/stops 5/7/5 [12.4s]
+E1b_hetero_no_history        first err 1.6666666666666667 (signed 1.6666666666666667) window 0.44017094017094016 regret 12.306129311501962 rpos 14.281666666666666 seq/start/stops 5/7/5 [13.1s]
+E1c_symmetric_final          first err 1.3333333333333333 (signed 0.0) window 0.5021367521367522 regret 12.663816970179122 rpos 13.473333333333334 seq/start/stops 5/7/5 [13.1s]
+E2_place_value_task1         first err 1.3333333333333333 (signed 0.0) window 0.4882478632478633 regret 12.663816970179122 rpos 13.473333333333334 seq/start/stops 5/7/5 [13.6s]
+E2_place_value_lead_lap      first err 1.3333333333333333 (signed 1.3333333333333333) window 0.44729344729344733 regret 12.49889115896484 rpos 14.008333333333333 seq/start/stops 5/7/5 [12.9s]
+E2_place_value_regularized   first err 1.3333333333333333 (signed 0.0) window 0.5021367521367522 regret 12.663816970179122 rpos 13.473333333333334 seq/start/stops 5/7/5 [13.1s]
+E3_no_family_logit           first err 1.6666666666666667 (signed 1.6666666666666667) window 0.5156695156695157 regret 12.389917774720503 rpos 14.556666666666667 seq/start/stops 5/7/5 [16.4s]
+E3_rate_levels_1             first err 1.3333333333333333 (signed 0.0) window 0.5021367521367522 regret 12.663816970179122 rpos 13.473333333333334 seq/start/stops 5/7/5 [13.1s]
+E5_extrap_0                  first err 1.3333333333333333 (signed 0.0) window 0.5299145299145299 regret 12.697023217442048 rpos 13.531666666666666 seq/start/stops 5/7/5 [10.9s]
+E5_extrap_half               first err 1.3333333333333333 (signed 0.0) window 0.5299145299145299 regret 12.697023217442048 rpos 13.531666666666666 seq/start/stops 5/7/5 [13.1s]
+E5_extrap_double             first err 1.3333333333333333 (signed 0.0) window 0.5021367521367522 regret 12.761758151619679 rpos 13.586666666666668 seq/start/stops 5/7/5 [13.0s]
+E8_full                      first err 1.3333333333333333 (signed 0.0) window 0.5021367521367522 regret 12.663816970179122 rpos 13.473333333333334 seq/start/stops 5/7/5 [13.1s]
+E6b_task1_constants          first err 1.6666666666666667 (signed 1.0) window 0.4792429792429793 regret 10.944388513209065 rpos 11.613333333333335 seq/start/stops 6/7/7 [11.0s]
+
+                           n_events first_stop_error_laps first_stop_signed_laps window_share oracle_regret_s rpos_tool_s    L_tool seq_run_by_anyone start_matches_majority stops_match_mode
+E0_task1                          7              1.666667                    1.0     0.447904       10.917143        None      None                 6                      7                7
+E1_hetero_rivals                  7              1.666667               1.666667     0.477208       12.466928   14.561667  0.366067                 5                      7                5
+E1b_hetero_no_history             7              1.666667               1.666667     0.440171       12.306129   14.281667  0.323217                 5                      7                5
+E1c_symmetric_final               7              1.333333                    0.0     0.502137       12.663817   13.473333 -0.114567                 5                      7                5
+E2_place_value_task1              7              1.333333                    0.0     0.488248       12.663817   13.473333 -0.114567                 5                      7                5
+E2_place_value_lead_lap           7              1.333333               1.333333     0.447293       12.498891   14.008333  0.128267                 5                      7                5
+E2_place_value_regularized        7              1.333333                    0.0     0.502137       12.663817   13.473333 -0.114567                 5                      7                5
+E3_no_family_logit                7              1.666667               1.666667      0.51567       12.389918   14.556667  0.373733                 5                      7                5
+E3_rate_levels_1                  7              1.333333                    0.0     0.502137       12.663817   13.473333 -0.114567                 5                      7                5
+E5_extrap_0                       7              1.333333                    0.0     0.529915       12.697023   13.531667 -0.114567                 5                      7                5
+E5_extrap_half                    7              1.333333                    0.0     0.529915       12.697023   13.531667 -0.114567                 5                      7                5
+E5_extrap_double                  7              1.333333                    0.0     0.502137       12.761758   13.586667 -0.114567                 5                      7                5
+E8_full                           7              1.333333                    0.0     0.502137       12.663817   13.473333 -0.114567                 5                      7                5
+E6b_task1_constants               7              1.666667                    1.0     0.479243       10.944389   11.613333  0.032767                 6                      7                7

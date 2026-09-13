@@ -1,4 +1,9 @@
 {
+ "builds": {
+  "v3": "bench/v3/out",
+  "task1": "bench/v4_task1/out",
+  "v4": "bench/out"
+ },
  "strategy": {
   "v3": {
    "first_stop_error_laps": 4.333333333333333,
@@ -44,9 +49,35 @@
    },
    "per_car_same_shape": 0.8617698091382301,
    "per_car_first_stop_spread": 5.714285714285714,
-   "counterfactual_over_30s": 1
+   "counterfactual_over_30s": 1,
+   "position_aware": {
+    "n_weekends": 0,
+    "rpos_tool_s": null,
+    "rpos_tyre_optimal_s": null,
+    "rpos_field_modal_s": null,
+    "rpos_winner_s": null,
+    "L_tool": null,
+    "L_field_modal": null,
+    "L_tyre_optimal": null,
+    "P_retain_tool": null,
+    "place_value_s": null,
+    "estimator": null,
+    "rpos_tool_by_event": {},
+    "L_tool_by_event": {},
+    "best_candidate_by_event": {}
+   },
+   "haas": {
+    "n_weekends": 0,
+    "n_car_weekends": 0,
+    "n_scored_green": 0,
+    "first_stop_error_laps": null,
+    "first_stop_signed_laps": null,
+    "share_same_shape_as_field": null,
+    "L_mean": null,
+    "by_event": {}
+   }
   },
-  "v4": {
+  "task1": {
    "first_stop_error_laps": 1.6666666666666667,
    "first_stop_signed_laps": 1.0,
    "first_stop_by_event": {
@@ -90,7 +121,270 @@
    },
    "per_car_same_shape": 0.7205502443892536,
    "per_car_first_stop_spread": 6.285714285714286,
-   "counterfactual_over_30s": 1
+   "counterfactual_over_30s": 1,
+   "position_aware": {
+    "n_weekends": 0,
+    "rpos_tool_s": null,
+    "rpos_tyre_optimal_s": null,
+    "rpos_field_modal_s": null,
+    "rpos_winner_s": null,
+    "L_tool": null,
+    "L_field_modal": null,
+    "L_tyre_optimal": null,
+    "P_retain_tool": null,
+    "place_value_s": null,
+    "estimator": null,
+    "rpos_tool_by_event": {},
+    "L_tool_by_event": {},
+    "best_candidate_by_event": {}
+   },
+   "haas": {
+    "n_weekends": 0,
+    "n_car_weekends": 0,
+    "n_scored_green": 0,
+    "first_stop_error_laps": null,
+    "first_stop_signed_laps": null,
+    "share_same_shape_as_field": null,
+    "L_mean": null,
+    "by_event": {}
+   }
+  },
+  "v4": {
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "first_stop_by_event": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "window_share": 0.5299145299145299,
+   "window_share_by_event": {
+    "australia-2026": 0.0,
+    "japan-2026": 1.0,
+    "barcelona-2026": 0.6666666666666666,
+    "austria-2026": 0.8461538461538461,
+    "belgium-2026": 0.3333333333333333,
+    "hungary-2026": 0.3333333333333333,
+    "italy-2026": null
+   },
+   "oracle_regret_s": 12.664285714285715,
+   "oracle_regret_by_event": {
+    "australia-2026": 28.31,
+    "japan-2026": 0.56,
+    "barcelona-2026": 3.7,
+    "austria-2026": 15.38,
+    "belgium-2026": 12.14,
+    "hungary-2026": 23.89,
+    "italy-2026": 4.67
+   },
+   "regret_field_modal_s": 17.737142857142857,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "plans": {
+    "australia-2026": "2-stop M-H-H @ 14,36",
+    "japan-2026": "1-stop M-H @ 19",
+    "barcelona-2026": "3-stop M-S-M-S @ 12,30,47",
+    "austria-2026": "2-stop M-H-M @ 20,43",
+    "belgium-2026": "1-stop M-S @ 16",
+    "hungary-2026": "2-stop M-H-M @ 18,43",
+    "italy-2026": "1-stop M-H @ 21"
+   },
+   "per_car_same_shape": 0.7350298823983035,
+   "per_car_first_stop_spread": 6.571428571428571,
+   "counterfactual_over_30s": 1,
+   "position_aware": {
+    "n_weekends": 6,
+    "rpos_tool_s": 13.491666666666667,
+    "rpos_tyre_optimal_s": 7.114,
+    "rpos_field_modal_s": 18.755,
+    "rpos_winner_s": 18.488333333333333,
+    "L_tool": -0.11456666666666666,
+    "L_field_modal": 0.21141666666666667,
+    "L_tyre_optimal": 0.8588800000000001,
+    "P_retain_tool": 0.9654333333333334,
+    "place_value_s": 2.5627142857142857,
+    "estimator": "regularized",
+    "rpos_tool_by_event": {
+     "australia-2026": 29.0,
+     "japan-2026": 0.68,
+     "barcelona-2026": 0.35,
+     "austria-2026": 16.39,
+     "belgium-2026": 10.13,
+     "hungary-2026": 24.4,
+     "italy-2026": null
+    },
+    "L_tool_by_event": {
+     "australia-2026": 0.2724,
+     "japan-2026": 0.1582,
+     "barcelona-2026": -0.9208,
+     "austria-2026": 0.3988,
+     "belgium-2026": -0.2013,
+     "hungary-2026": -0.3947,
+     "italy-2026": null
+    },
+    "best_candidate_by_event": {
+     "australia-2026": "oracle_opt",
+     "japan-2026": "family@16",
+     "barcelona-2026": "family@12",
+     "austria-2026": "oracle_opt",
+     "belgium-2026": "oracle_opt",
+     "hungary-2026": "oracle_opt",
+     "italy-2026": null
+    }
+   },
+   "haas": {
+    "n_weekends": 7,
+    "n_car_weekends": 14,
+    "n_scored_green": 6,
+    "first_stop_error_laps": 2.5,
+    "first_stop_signed_laps": -0.16666666666666666,
+    "share_same_shape_as_field": 0.5714285714285714,
+    "L_mean": -0.08899166666666665,
+    "by_event": {
+     "australia-2026": {
+      "OCO": {
+       "plan": "1-stop M-H @ 30",
+       "first_stop": 30,
+       "actual_first_stop": 11,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": false,
+       "L": -0.3932
+      },
+      "BEA": {
+       "plan": "1-stop M-H @ 34",
+       "first_stop": 34,
+       "actual_first_stop": 18,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": false,
+       "L": -0.232
+      }
+     },
+     "japan-2026": {
+      "OCO": {
+       "plan": "1-stop M-H @ 18",
+       "first_stop": 18,
+       "actual_first_stop": 19,
+       "actual_first_sc": false,
+       "first_minus_actual_green": -1,
+       "same_shape_as_field": true,
+       "L": -0.0683
+      },
+      "BEA": {
+       "plan": "1-stop M-H @ 18",
+       "first_stop": 18,
+       "actual_first_stop": null,
+       "actual_first_sc": null,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": true,
+       "L": -0.0683
+      }
+     },
+     "barcelona-2026": {
+      "OCO": {
+       "plan": "2-stop M-H-M @ 18,40",
+       "first_stop": 18,
+       "actual_first_stop": 13,
+       "actual_first_sc": false,
+       "first_minus_actual_green": 5,
+       "same_shape_as_field": false,
+       "L": 1.5673
+      },
+      "BEA": {
+       "plan": "3-stop M-S-H-S @ 12,28,48",
+       "first_stop": 12,
+       "actual_first_stop": null,
+       "actual_first_sc": null,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": false,
+       "L": -0.9208
+      }
+     },
+     "austria-2026": {
+      "OCO": {
+       "plan": "2-stop M-H-M @ 20,44",
+       "first_stop": 20,
+       "actual_first_stop": 18,
+       "actual_first_sc": false,
+       "first_minus_actual_green": 2,
+       "same_shape_as_field": true,
+       "L": 0.3988
+      },
+      "BEA": {
+       "plan": "2-stop M-H-M @ 20,44",
+       "first_stop": 20,
+       "actual_first_stop": 24,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": true,
+       "L": 0.3988
+      }
+     },
+     "belgium-2026": {
+      "OCO": {
+       "plan": "1-stop M-S @ 16",
+       "first_stop": 16,
+       "actual_first_stop": 16,
+       "actual_first_sc": false,
+       "first_minus_actual_green": 0,
+       "same_shape_as_field": true,
+       "L": -0.2013
+      },
+      "BEA": {
+       "plan": "1-stop M-S @ 16",
+       "first_stop": 16,
+       "actual_first_stop": 20,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": true,
+       "L": -0.2013
+      }
+     },
+     "hungary-2026": {
+      "OCO": {
+       "plan": "2-stop M-H-H @ 16,42",
+       "first_stop": 16,
+       "actual_first_stop": 17,
+       "actual_first_sc": false,
+       "first_minus_actual_green": -1,
+       "same_shape_as_field": false,
+       "L": -0.6738
+      },
+      "BEA": {
+       "plan": "2-stop M-H-H @ 16,42",
+       "first_stop": 16,
+       "actual_first_stop": 22,
+       "actual_first_sc": false,
+       "first_minus_actual_green": -6,
+       "same_shape_as_field": false,
+       "L": -0.6738
+      }
+     },
+     "italy-2026": {
+      "OCO": {
+       "plan": "1-stop M-H @ 20",
+       "first_stop": 20,
+       "actual_first_stop": 3,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": true,
+       "L": null
+      },
+      "BEA": {
+       "plan": "1-stop M-H @ 20",
+       "first_stop": 20,
+       "actual_first_stop": 3,
+       "actual_first_sc": true,
+       "first_minus_actual_green": null,
+       "same_shape_as_field": true,
+       "L": null
+      }
+     }
+    }
+   }
   }
  },
  "live": {
@@ -110,6 +404,56 @@
    "box_now_recall": 0.4958982772764561,
    "collapse_precision": 0.17142857142857143,
    "collapse_recall": 0.05004101722723544,
+   "stops_haas": {
+    "n": null,
+    "share_in_window": null,
+    "share_within_3": null,
+    "median_abs_err_laps": null,
+    "box_now_1_before_s": null,
+    "by_event": {
+     "hungary-2026": {
+      "n": null,
+      "share_in_window": null,
+      "share_err_within_3": null,
+      "median_abs_err_laps": null,
+      "median_box_now_delta_1_before": null
+     },
+     "barcelona-2026": {
+      "n": null,
+      "share_in_window": null,
+      "share_err_within_3": null,
+      "median_abs_err_laps": null,
+      "median_box_now_delta_1_before": null
+     }
+    }
+   },
+   "decision_stability": {
+    "n": null,
+    "n_pairs": null,
+    "n_changes": null,
+    "n_unexplained": null,
+    "share_changed": null,
+    "share_unexplained": null,
+    "share_of_changes_unexplained": null,
+    "by_event": {
+     "hungary-2026": {
+      "n": null,
+      "n_pairs": null,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": null
+     },
+     "barcelona-2026": {
+      "n": null,
+      "n_pairs": null,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": null
+     }
+    }
+   },
    "by_event": {
     "hungary-2026": {
      "tick_mean_ms": 335.4,
@@ -145,7 +489,7 @@
     }
    }
   },
-  "v4": {
+  "task1": {
    "tick_mean_ms": 591.05,
    "tick_p95_ms": 740.0,
    "tick_max_ms": 997.45,
@@ -161,6 +505,56 @@
    "box_now_recall": 0.6039786710418376,
    "collapse_precision": 0.17142857142857143,
    "collapse_recall": 0.05004101722723544,
+   "stops_haas": {
+    "n": null,
+    "share_in_window": null,
+    "share_within_3": null,
+    "median_abs_err_laps": null,
+    "box_now_1_before_s": null,
+    "by_event": {
+     "hungary-2026": {
+      "n": null,
+      "share_in_window": null,
+      "share_err_within_3": null,
+      "median_abs_err_laps": null,
+      "median_box_now_delta_1_before": null
+     },
+     "barcelona-2026": {
+      "n": null,
+      "share_in_window": null,
+      "share_err_within_3": null,
+      "median_abs_err_laps": null,
+      "median_box_now_delta_1_before": null
+     }
+    }
+   },
+   "decision_stability": {
+    "n": null,
+    "n_pairs": null,
+    "n_changes": null,
+    "n_unexplained": null,
+    "share_changed": null,
+    "share_unexplained": null,
+    "share_of_changes_unexplained": null,
+    "by_event": {
+     "hungary-2026": {
+      "n": null,
+      "n_pairs": null,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": null
+     },
+     "barcelona-2026": {
+      "n": null,
+      "n_pairs": null,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": null
+     }
+    }
+   },
    "by_event": {
     "hungary-2026": {
      "tick_mean_ms": 708.0,
@@ -196,53 +590,204 @@
     }
    }
   },
-  "v4_no_race_state": {
-   "tick_mean_ms": 599.8,
-   "tick_p95_ms": 671.7,
-   "tick_max_ms": 837.4000000000001,
-   "share_in_window": 0.42124692370795735,
-   "share_within_3": 0.4721082854799016,
-   "median_abs_err_laps": 3.5,
-   "box_now_1_before_s": 1.754719038154434,
-   "top10_median_abs_err": 2.75,
-   "top10_share_in_window": 0.4057971014492754,
-   "window_precision": 0.1798764120663857,
-   "window_recall": 0.5162018047579984,
-   "box_now_precision": 0.19276503480543195,
-   "box_now_recall": 0.4958982772764561,
+  "v4": {
+   "tick_mean_ms": 92.35,
+   "tick_p95_ms": 101.65,
+   "tick_max_ms": 208.70000000000002,
+   "share_in_window": 0.4589827727645611,
+   "share_within_3": 0.5453240360951599,
+   "median_abs_err_laps": 2.5,
+   "box_now_1_before_s": 1.2345510226818952,
+   "top10_median_abs_err": 2.25,
+   "top10_share_in_window": 0.44605475040257647,
+   "window_precision": 0.17418794440853264,
+   "window_recall": 0.5582444626743233,
+   "box_now_precision": 0.1960255066387142,
+   "box_now_recall": 0.5553732567678424,
    "collapse_precision": 0.17142857142857143,
    "collapse_recall": 0.05004101722723544,
+   "stops_haas": {
+    "n": 10,
+    "share_in_window": 0.41666666666666663,
+    "share_within_3": 0.3333333333333333,
+    "median_abs_err_laps": 4.0,
+    "box_now_1_before_s": 2.0917109896454003,
+    "by_event": {
+     "hungary-2026": {
+      "n": 4,
+      "share_in_window": 0.5,
+      "share_err_within_3": 0.5,
+      "median_abs_err_laps": 3.0,
+      "median_box_now_delta_1_before": 0.8008542347294494
+     },
+     "barcelona-2026": {
+      "n": 6,
+      "share_in_window": 0.3333333333333333,
+      "share_err_within_3": 0.16666666666666666,
+      "median_abs_err_laps": 5.0,
+      "median_box_now_delta_1_before": 3.382567744561351
+     }
+    }
+   },
+   "decision_stability": {
+    "n": 1927,
+    "n_pairs": 1877,
+    "n_changes": 1173,
+    "n_unexplained": 325,
+    "share_changed": 0.6305962762088049,
+    "share_unexplained": 0.17182018250628459,
+    "share_of_changes_unexplained": 0.2754942783099904,
+    "by_event": {
+     "hungary-2026": {
+      "n": 1074,
+      "n_pairs": 1048,
+      "n_changes": 610,
+      "n_unexplained": 192,
+      "share_unexplained": 0.183206106870229,
+      "note": null
+     },
+     "barcelona-2026": {
+      "n": 853,
+      "n_pairs": 829,
+      "n_changes": 563,
+      "n_unexplained": 133,
+      "share_unexplained": 0.16043425814234016,
+      "note": null
+     }
+    }
+   },
    "by_event": {
     "hungary-2026": {
-     "tick_mean_ms": 649.7,
-     "tick_p95_ms": 722.7,
+     "tick_mean_ms": 96.5,
+     "tick_p95_ms": 105.3,
      "share_in_window": 0.5217391304347826,
-     "share_err_within_3": 0.43478260869565216,
-     "median_abs_err_laps": 4.0,
-     "median_box_now_delta_1_before": 0.5658560965513288,
+     "share_err_within_3": 0.5434782608695652,
+     "median_abs_err_laps": 3.0,
+     "median_box_now_delta_1_before": 0.5073567849149114,
      "window_pr": [
-      0.19525065963060687,
-      0.6739130434782609
+      0.1971153846153846,
+      0.7391304347826086
      ],
      "box_now_pr": [
-      0.1942257217847769,
-      0.6521739130434783
+      0.1957547169811321,
+      0.6956521739130435
      ]
     },
     "barcelona-2026": {
-     "tick_mean_ms": 549.9,
-     "tick_p95_ms": 620.7,
-     "share_in_window": 0.32075471698113206,
-     "share_err_within_3": 0.5094339622641509,
-     "median_abs_err_laps": 3.0,
-     "median_box_now_delta_1_before": 2.943581979757539,
+     "tick_mean_ms": 88.2,
+     "tick_p95_ms": 98.0,
+     "share_in_window": 0.39622641509433965,
+     "share_err_within_3": 0.5471698113207547,
+     "median_abs_err_laps": 2.0,
+     "median_box_now_delta_1_before": 1.961745260448879,
      "window_pr": [
-      0.1645021645021645,
+      0.15126050420168066,
+      0.37735849056603776
+     ],
+     "box_now_pr": [
+      0.1962962962962963,
+      0.41509433962264153
+     ]
+    }
+   }
+  },
+  "v4_no_race_state": {
+   "tick_mean_ms": 87.5,
+   "tick_p95_ms": 100.94999999999999,
+   "tick_max_ms": 167.95,
+   "share_in_window": 0.41981132075471694,
+   "share_within_3": 0.5018457752255947,
+   "median_abs_err_laps": 3.0,
+   "box_now_1_before_s": 1.7774422675928108,
+   "top10_median_abs_err": 2.75,
+   "top10_share_in_window": 0.4057971014492754,
+   "window_precision": 0.17438946601057043,
+   "window_recall": 0.4944626743232158,
+   "box_now_precision": 0.1944776541170333,
+   "box_now_recall": 0.4930270713699754,
+   "collapse_precision": 0.17142857142857143,
+   "collapse_recall": 0.05004101722723544,
+   "stops_haas": {
+    "n": 10,
+    "share_in_window": 0.4583333333333333,
+    "share_within_3": 0.5416666666666666,
+    "median_abs_err_laps": 3.5,
+    "box_now_1_before_s": 1.8058192464651173,
+    "by_event": {
+     "hungary-2026": {
+      "n": 4,
+      "share_in_window": 0.75,
+      "share_err_within_3": 0.75,
+      "median_abs_err_laps": 2.0,
+      "median_box_now_delta_1_before": 0.8930364928191707
+     },
+     "barcelona-2026": {
+      "n": 6,
+      "share_in_window": 0.16666666666666666,
+      "share_err_within_3": 0.3333333333333333,
+      "median_abs_err_laps": 5.0,
+      "median_box_now_delta_1_before": 2.718602000111064
+     }
+    }
+   },
+   "decision_stability": {
+    "n": 0,
+    "n_pairs": 0,
+    "n_changes": null,
+    "n_unexplained": null,
+    "share_changed": null,
+    "share_unexplained": null,
+    "share_of_changes_unexplained": null,
+    "by_event": {
+     "hungary-2026": {
+      "n": 0,
+      "n_pairs": 0,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": "the plans carry no decision block (Task 1): nothing to score"
+     },
+     "barcelona-2026": {
+      "n": 0,
+      "n_pairs": 0,
+      "n_changes": null,
+      "n_unexplained": null,
+      "share_unexplained": null,
+      "note": "the plans carry no decision block (Task 1): nothing to score"
+     }
+    }
+   },
+   "by_event": {
+    "hungary-2026": {
+     "tick_mean_ms": 91.1,
+     "tick_p95_ms": 106.3,
+     "share_in_window": 0.5,
+     "share_err_within_3": 0.45652173913043476,
+     "median_abs_err_laps": 4.0,
+     "median_box_now_delta_1_before": 0.6643902755971425,
+     "window_pr": [
+      0.19623655913978494,
+      0.6304347826086957
+     ],
+     "box_now_pr": [
+      0.19137466307277629,
+      0.6086956521739131
+     ]
+    },
+    "barcelona-2026": {
+     "tick_mean_ms": 83.9,
+     "tick_p95_ms": 95.6,
+     "share_in_window": 0.33962264150943394,
+     "share_err_within_3": 0.5471698113207547,
+     "median_abs_err_laps": 2.0,
+     "median_box_now_delta_1_before": 2.890494259588479,
+     "window_pr": [
+      0.15254237288135594,
       0.3584905660377358
      ],
      "box_now_pr": [
-      0.19130434782608696,
-      0.33962264150943394
+      0.1975806451612903,
+      0.37735849056603776
      ]
     }
    }
@@ -250,6 +795,330 @@
  },
  "ablation_pooled": {
   "v4": {
+   "full": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "no_race_state": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": 3.0,
+     "austria-2026": 4.0,
+     "hungary-2026": 4.0
+    },
+    "mean_abs_first_err": 3.6666666666666665,
+    "life_ratio_median": 1.1
+   },
+   "symmetric_pack": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "rivals_no_history": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": 0.0,
+     "austria-2026": 5.0,
+     "hungary-2026": 0.0
+    },
+    "mean_abs_first_err": 1.6666666666666667,
+    "life_ratio_median": 1.1
+   },
+   "place_value_task1": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "hetero_pack": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": 0.0,
+     "austria-2026": 5.0,
+     "hungary-2026": 0.0
+    },
+    "mean_abs_first_err": 1.6666666666666667,
+    "life_ratio_median": 1.1
+   },
+   "no_family_logit": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": 1.0,
+     "austria-2026": 4.0,
+     "hungary-2026": 0.0
+    },
+    "mean_abs_first_err": 1.6666666666666667,
+    "life_ratio_median": 1.1
+   },
+   "rival_rate_levels_1": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "extrap_off": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "race_state_no_cover": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 1.0,
+     "hungary-2026": -2.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "race_state_lead_lap_value": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": 0.0,
+     "austria-2026": 3.0,
+     "hungary-2026": 1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "race_state_undiscounted": {
+    "n_events": 7,
+    "seq_run_by_anyone": 4,
+    "start_matches_majority": 6,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.18358395989974938,
+    "first_minus_field": {
+     "barcelona-2026": -3.0,
+     "austria-2026": -2.0,
+     "hungary-2026": -4.0
+    },
+    "mean_abs_first_err": 3.0,
+    "life_ratio_median": 1.1
+   },
+   "no_first_stop_prior": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "no_plan_prior": {
+    "n_events": 7,
+    "seq_run_by_anyone": 2,
+    "start_matches_majority": 2,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.05263157894736842,
+    "first_minus_field": {
+     "barcelona-2026": 1.0,
+     "austria-2026": -3.0,
+     "hungary-2026": -2.0
+    },
+    "mean_abs_first_err": 2.0,
+    "life_ratio_median": 1.1
+   },
+   "no_nomination_mapping": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 6,
+    "stops_match_mode": 6,
+    "mean_seq_share": 0.28386407194456725,
+    "first_minus_field": {
+     "barcelona-2026": 0.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.0,
+    "life_ratio_median": 1.1
+   },
+   "no_dirty_air_circuit": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "no_position": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 1.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.0,
+    "life_ratio_median": 1.1
+   },
+   "no_pace_cal": {
+    "n_events": 7,
+    "seq_run_by_anyone": 7,
+    "start_matches_majority": 7,
+    "stops_match_mode": 6,
+    "mean_seq_share": 0.33664761451139164,
+    "first_minus_field": {
+     "barcelona-2026": 1.0,
+     "austria-2026": 0.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 0.6666666666666666,
+    "life_ratio_median": 1.1
+   },
+   "config_constants": {
+    "n_events": 7,
+    "seq_run_by_anyone": 3,
+    "start_matches_majority": 1,
+    "stops_match_mode": 7,
+    "mean_seq_share": 0.06324465008675535,
+    "first_minus_field": {
+     "barcelona-2026": 5.0,
+     "austria-2026": 0.0,
+     "hungary-2026": 0.0
+    },
+    "mean_abs_first_err": 1.6666666666666667,
+    "life_ratio_median": 1.1
+   },
+   "practice_only": {
+    "n_events": 7,
+    "seq_run_by_anyone": 4,
+    "start_matches_majority": 7,
+    "stops_match_mode": 6,
+    "mean_seq_share": 0.16243550051599584,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 1.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.0,
+    "life_ratio_median": 1.04
+   },
+   "old_budget": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "no_cliff_budgets": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": -1.0
+    },
+    "mean_abs_first_err": 1.3333333333333333,
+    "life_ratio_median": 1.1
+   },
+   "no_circuit_regime_prior": {
+    "n_events": 7,
+    "seq_run_by_anyone": 5,
+    "start_matches_majority": 7,
+    "stops_match_mode": 5,
+    "mean_seq_share": 0.2171974052779006,
+    "first_minus_field": {
+     "barcelona-2026": -1.0,
+     "austria-2026": 2.0,
+     "hungary-2026": 0.0
+    },
+    "mean_abs_first_err": 1.0,
+    "life_ratio_median": 1.1
+   }
+  },
+  "task1": {
    "full": {
     "n_events": 7,
     "seq_run_by_anyone": 6,
@@ -652,34 +1521,54 @@
    "sc_set": true,
    "field_median_green": 25.0,
    "v3_plan": "1-stop M-H @ 25",
-   "v4_plan": "1-stop M-H @ 21",
+   "v4_plan": "2-stop M-H-H @ 14,36",
    "v3_first": 25,
-   "v4_first": 21,
+   "v4_first": 14,
    "v3_err": 0.0,
-   "v4_err": -4.0,
+   "v4_err": -11.0,
    "v3_window": [
     21,
     29
    ],
    "v4_window": [
-    18,
-    24
+    12,
+    17
    ],
    "v3_window_share": 1.0,
    "v4_window_share": 0.0,
-   "tyre_first_in_group": 26,
-   "pack_median": 21,
+   "tyre_first_in_group": 17,
+   "pack_median": 14,
    "pack_iqr": [
-    20,
-    23
+    13,
+    16
    ],
-   "place_value_s": 2.429,
-   "persistence": 0.735,
+   "place_value_s": 2.332,
+   "persistence": 0.726,
    "place_gap_s": 5.162,
    "sigma_rel_s": 2.548,
    "regret_v3": 6.97,
-   "regret_v4": 11.29,
-   "oracle_best": "1-stop M-H @ 40"
+   "regret_v4": 28.31,
+   "oracle_best": "1-stop M-H @ 40",
+   "task1_plan": "1-stop M-H @ 21",
+   "task1_first": 21,
+   "task1_err": -4.0,
+   "task1_window": [
+    18,
+    24
+   ],
+   "task1_window_share": 0.0,
+   "task1_regret": 11.29,
+   "task1_place_value_s": 2.429,
+   "task1_pack_median": 21,
+   "rpos_tool": 29.0,
+   "rpos_tyre_optimal": 12.7,
+   "rpos_field_modal": 20.66,
+   "L_tool": 0.2724,
+   "L_field_modal": 0.1205,
+   "P_retain_tool": 0.9319,
+   "pos_best_candidate": "oracle_opt",
+   "pos_V_s": 2.332,
+   "pos_n_field_stops": 3
   },
   {
    "event": "japan-2026",
@@ -704,57 +1593,97 @@
    "tyre_first_in_group": 23,
    "pack_median": 19,
    "pack_iqr": [
-    17,
+    18,
     21
    ],
-   "place_value_s": 2.578,
-   "persistence": 0.724,
+   "place_value_s": 2.56,
+   "persistence": 0.723,
    "place_gap_s": 5.751,
    "sigma_rel_s": 2.503,
    "regret_v3": 0.61,
    "regret_v4": 0.56,
-   "oracle_best": "1-stop H-M @ 33"
+   "oracle_best": "1-stop H-M @ 33",
+   "task1_plan": "1-stop M-H @ 19",
+   "task1_first": 19,
+   "task1_err": 1.0,
+   "task1_window": [
+    16,
+    22
+   ],
+   "task1_window_share": 1.0,
+   "task1_regret": 0.56,
+   "task1_place_value_s": 2.578,
+   "task1_pack_median": 19,
+   "rpos_tool": 0.68,
+   "rpos_tyre_optimal": null,
+   "rpos_field_modal": 1.78,
+   "L_tool": 0.1582,
+   "L_field_modal": 0.6465,
+   "P_retain_tool": 0.9604,
+   "pos_best_candidate": "family@16",
+   "pos_V_s": 2.56,
+   "pos_n_field_stops": 9
   },
   {
    "event": "barcelona-2026",
    "sc_set": false,
    "field_median_green": 13.0,
    "v3_plan": "2-stop M-H-H @ 19,42",
-   "v4_plan": "2-stop M-H-H @ 15,40",
+   "v4_plan": "3-stop M-S-M-S @ 12,30,47",
    "v3_first": 19,
-   "v4_first": 15,
+   "v4_first": 12,
    "v3_err": 6.0,
-   "v4_err": 2.0,
+   "v4_err": -1.0,
    "v3_window": [
     17,
     21
    ],
    "v4_window": [
-    14,
-    17
+    11,
+    14
    ],
    "v3_window_share": 0.0,
-   "v4_window_share": 0.2857142857142857,
-   "tyre_first_in_group": 19,
-   "pack_median": 16,
+   "v4_window_share": 0.6666666666666666,
+   "tyre_first_in_group": 17,
+   "pack_median": 12,
    "pack_iqr": [
-    15,
-    17
+    11,
+    14
    ],
-   "place_value_s": 2.445,
-   "persistence": 0.767,
+   "place_value_s": 2.436,
+   "persistence": 0.766,
    "place_gap_s": 4.584,
    "sigma_rel_s": 2.503,
    "regret_v3": 5.57,
-   "regret_v4": 7.64,
-   "oracle_best": "3-stop S-M-M-S @ 16,33,50"
+   "regret_v4": 3.7,
+   "oracle_best": "3-stop S-M-M-S @ 16,33,50",
+   "task1_plan": "2-stop M-H-H @ 15,40",
+   "task1_first": 15,
+   "task1_err": 2.0,
+   "task1_window": [
+    14,
+    17
+   ],
+   "task1_window_share": 0.2857142857142857,
+   "task1_regret": 7.64,
+   "task1_place_value_s": 2.445,
+   "task1_pack_median": 16,
+   "rpos_tool": 0.35,
+   "rpos_tyre_optimal": 2.43,
+   "rpos_field_modal": 9.76,
+   "L_tool": -0.9208,
+   "L_field_modal": -0.1978,
+   "P_retain_tool": 1.0,
+   "pos_best_candidate": "family@12",
+   "pos_V_s": 2.436,
+   "pos_n_field_stops": 13
   },
   {
    "event": "austria-2026",
    "sc_set": false,
    "field_median_green": 18.0,
    "v3_plan": "2-stop M-H-M @ 22,46",
-   "v4_plan": "2-stop M-H-M @ 20,45",
+   "v4_plan": "2-stop M-H-M @ 20,43",
    "v3_first": 22,
    "v4_first": 20,
    "v3_err": 4.0,
@@ -769,19 +1698,39 @@
    ],
    "v3_window_share": 0.3076923076923077,
    "v4_window_share": 0.8461538461538461,
-   "tyre_first_in_group": 24,
-   "pack_median": 20,
+   "tyre_first_in_group": 25,
+   "pack_median": 21,
    "pack_iqr": [
-    18,
-    21
+    19,
+    22
    ],
-   "place_value_s": 2.035,
-   "persistence": 0.68,
+   "place_value_s": 2.052,
+   "persistence": 0.682,
    "place_gap_s": 5.652,
    "sigma_rel_s": 2.911,
    "regret_v3": 14.91,
-   "regret_v4": 16.52,
-   "oracle_best": "2-stop S-M-M @ 18,45"
+   "regret_v4": 15.38,
+   "oracle_best": "2-stop S-M-M @ 18,45",
+   "task1_plan": "2-stop M-H-M @ 20,45",
+   "task1_first": 20,
+   "task1_err": 2.0,
+   "task1_window": [
+    18,
+    22
+   ],
+   "task1_window_share": 0.8461538461538461,
+   "task1_regret": 16.52,
+   "task1_place_value_s": 2.035,
+   "task1_pack_median": 20,
+   "rpos_tool": 16.39,
+   "rpos_tyre_optimal": 0.32,
+   "rpos_field_modal": 29.2,
+   "L_tool": 0.3988,
+   "L_field_modal": 0.1327,
+   "P_retain_tool": 0.9003,
+   "pos_best_candidate": "oracle_opt",
+   "pos_V_s": 2.052,
+   "pos_n_field_stops": 16
   },
   {
    "event": "belgium-2026",
@@ -799,23 +1748,43 @@
    ],
    "v4_window": [
     16,
-    16
+    17
    ],
    "v3_window_share": 0.3333333333333333,
-   "v4_window_share": 0.2222222222222222,
+   "v4_window_share": 0.3333333333333333,
    "tyre_first_in_group": 21,
    "pack_median": 16,
    "pack_iqr": [
     16,
     17
    ],
-   "place_value_s": 3.585,
-   "persistence": 0.806,
+   "place_value_s": 3.473,
+   "persistence": 0.797,
    "place_gap_s": 5.85,
    "sigma_rel_s": 2.61,
    "regret_v3": 13.18,
    "regret_v4": 12.14,
-   "oracle_best": "1-stop S-H @ 20"
+   "oracle_best": "1-stop S-H @ 20",
+   "task1_plan": "1-stop M-S @ 16",
+   "task1_first": 16,
+   "task1_err": 0.0,
+   "task1_window": [
+    16,
+    16
+   ],
+   "task1_window_share": 0.2222222222222222,
+   "task1_regret": 12.14,
+   "task1_place_value_s": 3.585,
+   "task1_pack_median": 16,
+   "rpos_tool": 10.13,
+   "rpos_tyre_optimal": 15.42,
+   "rpos_field_modal": 12.98,
+   "L_tool": -0.2013,
+   "L_field_modal": 0.6139,
+   "P_retain_tool": 1.0,
+   "pos_best_candidate": "oracle_opt",
+   "pos_V_s": 3.473,
+   "pos_n_field_stops": 9
   },
   {
    "event": "hungary-2026",
@@ -843,13 +1812,33 @@
     17,
     20
    ],
-   "place_value_s": 2.609,
-   "persistence": 0.731,
+   "place_value_s": 2.595,
+   "persistence": 0.73,
    "place_gap_s": 5.652,
    "sigma_rel_s": 2.736,
    "regret_v3": 20.22,
-   "regret_v4": 23.6,
-   "oracle_best": "2-stop S-M-M @ 19,45"
+   "regret_v4": 23.89,
+   "oracle_best": "2-stop S-M-M @ 19,45",
+   "task1_plan": "2-stop M-H-M @ 18,43",
+   "task1_first": 18,
+   "task1_err": -1.0,
+   "task1_window": [
+    16,
+    21
+   ],
+   "task1_window_share": 0.3333333333333333,
+   "task1_regret": 23.6,
+   "task1_place_value_s": 2.609,
+   "task1_pack_median": 19,
+   "rpos_tool": 24.4,
+   "rpos_tyre_optimal": 4.7,
+   "rpos_field_modal": 38.15,
+   "L_tool": -0.3947,
+   "L_field_modal": -0.0473,
+   "P_retain_tool": 1.0,
+   "pos_best_candidate": "oracle_opt",
+   "pos_V_s": 2.595,
+   "pos_n_field_stops": 19
   },
   {
    "event": "italy-2026",
@@ -877,15 +1866,241 @@
     19,
     23
    ],
-   "place_value_s": 2.507,
-   "persistence": 0.743,
+   "place_value_s": 2.491,
+   "persistence": 0.741,
    "place_gap_s": 5.162,
    "sigma_rel_s": 2.628,
    "regret_v3": 4.33,
    "regret_v4": 4.67,
-   "oracle_best": "1-stop M-S @ 44"
+   "oracle_best": "1-stop M-S @ 44",
+   "task1_plan": "1-stop M-H @ 21",
+   "task1_first": 21,
+   "task1_err": null,
+   "task1_window": [
+    null,
+    null
+   ],
+   "task1_window_share": null,
+   "task1_regret": 4.67,
+   "task1_place_value_s": 2.507,
+   "task1_pack_median": 21,
+   "rpos_tool": null,
+   "rpos_tyre_optimal": null,
+   "rpos_field_modal": null,
+   "L_tool": null,
+   "L_field_modal": null,
+   "P_retain_tool": null,
+   "pos_best_candidate": null,
+   "pos_V_s": 2.491,
+   "pos_n_field_stops": 0
   }
  ],
+ "place_value": [
+  {
+   "estimator": "pooled",
+   "fold": "pooled",
+   "n_pairs": 35
+  }
+ ],
+ "place_value_source": "bench/out/place_value.json",
+ "experiments": [
+  {
+   "exp": "E0_task1",
+   "n_events": 7,
+   "first_stop_error_laps": 1.6666666666666667,
+   "first_stop_signed_laps": 1.0,
+   "window_share": 0.44790394790394794,
+   "oracle_regret_s": 10.917142857142858,
+   "rpos_tool_s": null,
+   "L_tool": null,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7
+  },
+  {
+   "exp": "E1_hetero_rivals",
+   "n_events": 7,
+   "first_stop_error_laps": 1.6666666666666667,
+   "first_stop_signed_laps": 1.6666666666666667,
+   "window_share": 0.4772079772079772,
+   "oracle_regret_s": 12.46692818047894,
+   "rpos_tool_s": 14.561666666666667,
+   "L_tool": 0.3660666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 12.4
+  },
+  {
+   "exp": "E1b_hetero_no_history",
+   "n_events": 7,
+   "first_stop_error_laps": 1.6666666666666667,
+   "first_stop_signed_laps": 1.6666666666666667,
+   "window_share": 0.44017094017094016,
+   "oracle_regret_s": 12.306129311501962,
+   "rpos_tool_s": 14.281666666666666,
+   "L_tool": 0.32321666666666665,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E1c_symmetric_final",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5021367521367522,
+   "oracle_regret_s": 12.663816970179122,
+   "rpos_tool_s": 13.473333333333334,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E2_place_value_task1",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.4882478632478633,
+   "oracle_regret_s": 12.663816970179122,
+   "rpos_tool_s": 13.473333333333334,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.6
+  },
+  {
+   "exp": "E2_place_value_lead_lap",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 1.3333333333333333,
+   "window_share": 0.44729344729344733,
+   "oracle_regret_s": 12.49889115896484,
+   "rpos_tool_s": 14.008333333333333,
+   "L_tool": 0.12826666666666667,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 12.9
+  },
+  {
+   "exp": "E2_place_value_regularized",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5021367521367522,
+   "oracle_regret_s": 12.663816970179122,
+   "rpos_tool_s": 13.473333333333334,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E3_no_family_logit",
+   "n_events": 7,
+   "first_stop_error_laps": 1.6666666666666667,
+   "first_stop_signed_laps": 1.6666666666666667,
+   "window_share": 0.5156695156695157,
+   "oracle_regret_s": 12.389917774720503,
+   "rpos_tool_s": 14.556666666666667,
+   "L_tool": 0.3737333333333333,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 16.4
+  },
+  {
+   "exp": "E3_rate_levels_1",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5021367521367522,
+   "oracle_regret_s": 12.663816970179122,
+   "rpos_tool_s": 13.473333333333334,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E5_extrap_0",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5299145299145299,
+   "oracle_regret_s": 12.697023217442048,
+   "rpos_tool_s": 13.531666666666666,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 10.9
+  },
+  {
+   "exp": "E5_extrap_half",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5299145299145299,
+   "oracle_regret_s": 12.697023217442048,
+   "rpos_tool_s": 13.531666666666666,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E5_extrap_double",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5021367521367522,
+   "oracle_regret_s": 12.761758151619679,
+   "rpos_tool_s": 13.586666666666668,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.0
+  },
+  {
+   "exp": "E8_full",
+   "n_events": 7,
+   "first_stop_error_laps": 1.3333333333333333,
+   "first_stop_signed_laps": 0.0,
+   "window_share": 0.5021367521367522,
+   "oracle_regret_s": 12.663816970179122,
+   "rpos_tool_s": 13.473333333333334,
+   "L_tool": -0.11456666666666666,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "seconds": 13.1
+  },
+  {
+   "exp": "E6b_task1_constants",
+   "n_events": 7,
+   "first_stop_error_laps": 1.6666666666666667,
+   "first_stop_signed_laps": 1.0,
+   "window_share": 0.4792429792429793,
+   "oracle_regret_s": 10.944388513209065,
+   "rpos_tool_s": 11.613333333333335,
+   "L_tool": 0.03276666666666666,
+   "seq_run_by_anyone": 6,
+   "start_matches_majority": 7,
+   "stops_match_mode": 7,
+   "seconds": 11.0
+  }
+ ],
+ "experiments_source": "bench/out/experiments.json",
  "runtime": {
   "v3": {
    "bench_accuracy": {
@@ -930,7 +2145,7 @@
    },
    "total_seconds": 1211
   },
-  "v4": {
+  "task1": {
    "bench_accuracy": {
     "seconds": 82,
     "exit": 0
@@ -972,6 +2187,61 @@
     "exit": 0
    },
    "total_seconds": 1420
+  },
+  "v4": {
+   "bench_accuracy": {
+    "seconds": 32,
+    "exit": 0
+   },
+   "bench_strategy": {
+    "seconds": 3,
+    "exit": 0
+   },
+   "bench_ablation": {
+    "seconds": 370,
+    "exit": 0
+   },
+   "bench_outlook": {
+    "seconds": 19,
+    "exit": 0
+   },
+   "bench_live": {
+    "seconds": 14,
+    "exit": 0
+   },
+   "bench_stability": {
+    "seconds": 61,
+    "exit": 0
+   },
+   "bench_speed": {
+    "seconds": 73,
+    "exit": 0
+   },
+   "bench_apex": {
+    "seconds": 101,
+    "exit": 0
+   },
+   "bench_place_value": {
+    "seconds": 2,
+    "exit": 0
+   },
+   "bench_extrapolation": {
+    "seconds": 2,
+    "exit": 0
+   },
+   "bench_tick_paired": {
+    "seconds": 25,
+    "exit": 0
+   },
+   "bench_experiments": {
+    "seconds": 177,
+    "exit": 0
+   },
+   "pytest": {
+    "seconds": 60,
+    "exit": 0
+   },
+   "total_seconds": 953
   }
  }
 }

@@ -1,0 +1,28 @@
+E1_hetero_rivals             first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [10.6s]
+E1b_hetero_no_history        first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.009575323376302 rpos 15.546666666666667 seq/start/stops 6/7/6 [11.1s]
+E1c_symmetric_final          first err 1.6666666666666667 (signed 1.0) window 0.43162393162393164 regret 13.37905228152448 rpos 14.808333333333332 seq/start/stops 6/7/6 [10.8s]
+E2_place_value_task1         first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [12.2s]
+E2_place_value_lead_lap      first err 3.3333333333333335 (signed 3.3333333333333335) window 0.3027065527065527 regret 13.030062045902525 rpos 15.955 seq/start/stops 6/7/6 [11.9s]
+E2_place_value_regularized   first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [12.6s]
+E3_no_family_logit           first err 2.3333333333333335 (signed 2.3333333333333335) window 0.4408831908831909 regret 13.234825362313702 rpos 15.768333333333336 seq/start/stops 6/7/6 [15.5s]
+E3_rate_levels_1             first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [11.5s]
+E5_extrap_0                  first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [15.2s]
+E5_extrap_half               first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [12.7s]
+E5_extrap_double             first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4038461538461539 regret 13.170374192353279 rpos 15.826666666666668 seq/start/stops 6/7/6 [12.0s]
+E8_full                      first err 2.6666666666666665 (signed 2.6666666666666665) window 0.4408831908831909 regret 13.174514872048965 rpos 15.726666666666668 seq/start/stops 6/7/6 [12.1s]
+
+                           n_events first_stop_error_laps first_stop_signed_laps window_share oracle_regret_s rpos_tool_s    L_tool seq_run_by_anyone start_matches_majority stops_match_mode
+E0_task1                          7              1.666667                    1.0     0.447904       10.917143        None      None                 6                      7                7
+E1_hetero_rivals                  7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E1b_hetero_no_history             7              2.666667               2.666667     0.440883       13.009575   15.546667  0.595283                 6                      7                6
+E1c_symmetric_final               7              1.666667                    1.0     0.431624       13.379052   14.808333  0.179983                 6                      7                6
+E2_place_value_task1              7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E2_place_value_lead_lap           7              3.333333               3.333333     0.302707       13.030062      15.955  0.722217                 6                      7                6
+E2_place_value_regularized        7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E3_no_family_logit                7              2.333333               2.333333     0.440883       13.234825   15.768333  0.555917                 6                      7                6
+E3_rate_levels_1                  7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E5_extrap_0                       7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E5_extrap_half                    7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+E5_extrap_double                  7              2.666667               2.666667     0.403846       13.170374   15.826667  0.638133                 6                      7                6
+E8_full                           7              2.666667               2.666667     0.440883       13.174515   15.726667     0.597                 6                      7                6
+exit 0

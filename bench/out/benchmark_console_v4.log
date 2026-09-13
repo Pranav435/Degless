@@ -1,0 +1,34 @@
+### bench_accuracy Sun Sep 13 07:53:01 IST 2026
+bench_accuracy exit 0  [32s]
+### bench_strategy Sun Sep 13 07:53:33 IST 2026
+bench_strategy exit 0  [3s]
+### bench_ablation Sun Sep 13 07:53:36 IST 2026
+bench_ablation exit 0  [370s]
+### bench_outlook Sun Sep 13 07:59:46 IST 2026
+bench_outlook exit 0  [19s]
+### bench_live Sun Sep 13 08:00:05 IST 2026
+bench_live exit 0  [14s]
+### bench_stability Sun Sep 13 08:00:19 IST 2026
+bench_stability exit 0  [61s]
+### bench_speed Sun Sep 13 08:01:20 IST 2026
+bench_speed exit 0  [73s]
+### bench_apex Sun Sep 13 08:02:33 IST 2026
+bench_apex exit 0  [101s]
+### bench_place_value Sun Sep 13 08:04:14 IST 2026
+bench_place_value exit 0  [2s]
+### bench_extrapolation Sun Sep 13 08:04:16 IST 2026
+bench_extrapolation exit 0  [2s]
+### bench_live Sun Sep 13 08:04:18 IST 2026
+bench_live exit 0  [14s]
+### bench_tick_paired Sun Sep 13 08:04:32 IST 2026
+bench_tick_paired exit 0  [25s]
+### bench_experiments Sun Sep 13 08:04:57 IST 2026
+bench_experiments exit 0  [177s]
+### pytest Sun Sep 13 08:07:54 IST 2026
+pytest exit 0  [60s]
+### bench_compare Sun Sep 13 08:08:54 IST 2026
+bench_compare exit 0  [1s]
+### bench_v4_compare Sun Sep 13 08:08:55 IST 2026
+bench_v4_compare exit 0  [0s]
+### done Sun Sep 13 08:08:55 IST 2026  [total 954s]
+run_all exit 0

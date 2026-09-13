@@ -1,33 +1,34 @@
 {
  "australia-2026": {
   "full": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333332,
+    "2": 0.9800000000000002,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -40,9 +41,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -56,19 +57,20 @@
    }
   },
   "no_race_state": {
-   "best": "1-stop M-H @ 25",
+   "best": "2-stop M-H-H @ 17,38",
    "p_stops": {
-    "1": 0.98,
-    "2": 0.02,
+    "2": 0.97,
+    "1": 0.03,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 25,
+   "first": 17,
    "pit_laps": [
-    25
+    17,
+    38
    ],
    "first_stop_s": 0.0,
    "race_state_s": null,
@@ -84,9 +86,401 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "symmetric_pack": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9966666666666667,
+    "1": 0.0033333333333333335,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     16
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "rivals_no_history": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9933333333333333,
+    "1": 0.006666666666666667,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 15,
+    "q_p25_p75": [
+     13,
+     17
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "place_value_task1": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9966666666666667,
+    "1": 0.0033333333333333335,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     16
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "hetero_pack": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9600000000000001,
+    "1": 0.04,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     15
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "no_family_logit": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9099999999999999,
+    "1": 0.09,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     15
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 0.9800000000000002,
+    "1": 0.02,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     16
+    ],
+    "iterations": 18,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.91,
+     "MEDIUM": 1.43,
+     "SOFT": 0.42
+    },
+    "median": 0.91,
+    "n_over_1": 1
+   }
+  },
+  "extrap_off": {
+   "best": "2-stop M-H-H @ 14,36",
+   "p_stops": {
+    "2": 1.0,
+    "1": 0.0,
+    "3": 0.0
+   },
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    36
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     16
+    ],
+    "iterations": 18,
+    "converged": true,
+    "push": 1.0
+   },
+   "tyre_optimal": "1-stop H-M @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 40.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0404,
+    "MEDIUM": 0.0754,
+    "SOFT": 0.0848
+   },
+   "seq_share": 0.06666666666666667,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -100,33 +494,34 @@
    }
   },
   "race_state_no_cover": {
-   "best": "1-stop M-H @ 20",
+   "best": "2-stop M-H-H @ 13,35",
    "p_stops": {
-    "1": 0.8566666666666667,
-    "2": 0.1433333333333333,
+    "2": 0.9966666666666667,
+    "1": 0.0033333333333333335,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 20,
+   "first": 13,
    "pit_laps": [
-    20
+    13,
+    35
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 20,
-    "tyre_best_lap": 26,
-    "q_median": 20,
+    "best_lap": 13,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     22
+     12,
+     15
     ],
-    "iterations": 16,
+    "iterations": 15,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -139,9 +534,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -155,33 +550,34 @@
    }
   },
   "race_state_lead_lap_value": {
-   "best": "1-stop M-H @ 22",
+   "best": "2-stop M-H-H @ 15,36",
    "p_stops": {
-    "1": 0.8666666666666667,
-    "2": 0.13333333333333333,
+    "2": 0.9966666666666668,
+    "1": 0.0033333333333333335,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 22,
+   "first": 15,
    "pit_laps": [
-    22
+    15,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 22,
-    "tyre_best_lap": 26,
-    "q_median": 22,
+    "best_lap": 15,
+    "tyre_best_lap": 17,
+    "q_median": 15,
     "q_p25_p75": [
-     20,
-     24
+     13,
+     16
     ],
-    "iterations": 18,
+    "iterations": 17,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -194,9 +590,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -210,35 +606,36 @@
    }
   },
   "race_state_undiscounted": {
-   "best": "1-stop M-H @ 18",
+   "best": "2-stop M-H-H @ 12,35",
    "p_stops": {
-    "1": 0.7133333333333334,
-    "2": 0.2866666666666667,
+    "2": 1.0,
+    "1": 0.0,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 18,
+   "first": 12,
    "pit_laps": [
-    18
+    12,
+    35
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 18,
-    "tyre_best_lap": 26,
-    "q_median": 18,
+    "best_lap": 12,
+    "tyre_best_lap": 17,
+    "q_median": 12,
     "q_p25_p75": [
-     17,
-     19
+     11,
+     14
     ],
-    "iterations": 26,
+    "iterations": 22,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
-   "tyre_optimal": "1-stop H-M @ 33",
+   "tyre_optimal": "1-stop H-M @ 32",
    "life": {
     "HARD": 42.0,
     "MEDIUM": 40.0,
@@ -249,9 +646,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -265,33 +662,34 @@
    }
   },
   "no_first_stop_prior": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333332,
+    "2": 0.9800000000000002,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -304,9 +702,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -320,31 +718,31 @@
    }
   },
   "no_plan_prior": {
-   "best": "1-stop M-H @ 21",
+   "best": "1-stop H-M @ 27",
    "p_stops": {
-    "1": 0.8900000000000001,
-    "2": 0.11,
+    "1": 0.9,
+    "2": 0.1,
     "3": 0.0
    },
    "push": 0.7,
    "n_stops": 1,
-   "seq": "MEDIUM-HARD",
-   "start": "MEDIUM",
-   "first": 21,
+   "seq": "HARD-MEDIUM",
+   "start": "HARD",
+   "first": 27,
    "pit_laps": [
-    21
+    27
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 27,
+    "tyre_best_lap": 33,
+    "q_median": 27,
     "q_p25_p75": [
-     19,
-     23
+     25,
+     29
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.7
    },
@@ -359,10 +757,10 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
-   "seq_run_by_anyone": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
    "stops_match_mode": true,
-   "start_matches_majority": true,
+   "start_matches_majority": false,
    "first_minus_field": null,
    "life_ratio": {
     "by_compound": {
@@ -377,8 +775,8 @@
   "no_nomination_mapping": {
    "best": "1-stop M-H @ 21",
    "p_stops": {
-    "1": 0.9866666666666667,
-    "2": 0.013333333333333334,
+    "1": 1.0,
+    "2": 0.0,
     "3": 0.0
    },
    "push": 0.7,
@@ -396,7 +794,7 @@
     "tyre_best_lap": 26,
     "q_median": 21,
     "q_p25_p75": [
-     19,
+     20,
      23
     ],
     "iterations": 20,
@@ -430,33 +828,34 @@
    }
   },
   "no_dirty_air_circuit": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8433333333333334,
-    "2": 0.15666666666666668,
+    "2": 0.9800000000000001,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -469,9 +868,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -485,33 +884,34 @@
    }
   },
   "no_position": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,37",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333335,
+    "2": 0.9866666666666667,
+    "1": 0.013333333333333334,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    37
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -524,9 +924,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -540,10 +940,10 @@
    }
   },
   "no_pace_cal": {
-   "best": "2-stop M-H-H @ 11,35",
+   "best": "2-stop M-H-H @ 11,34",
    "p_stops": {
-    "2": 0.8766666666666667,
-    "1": 0.12333333333333332,
+    "2": 1.0,
+    "1": 0.0,
     "3": 0.0
    },
    "push": 1.0,
@@ -553,7 +953,7 @@
    "first": 11,
    "pit_laps": [
     11,
-    35
+    34
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -563,7 +963,7 @@
     "q_median": 11,
     "q_p25_p75": [
      9,
-     12
+     13
     ],
     "iterations": 19,
     "converged": true,
@@ -598,8 +998,8 @@
   "config_constants": {
    "best": "1-stop H-M @ 36",
    "p_stops": {
-    "1": 0.9733333333333334,
-    "2": 0.02666666666666667,
+    "1": 0.9700000000000001,
+    "2": 0.03,
     "3": 0.0
    },
    "push": 1.0,
@@ -642,8 +1042,8 @@
   "practice_only": {
    "best": "1-stop M-H @ 27",
    "p_stops": {
-    "1": 0.9966666666666666,
-    "2": 0.0033333333333333335,
+    "1": 1.0,
+    "2": 0.0,
     "3": 0.0
    },
    "push": 1.0,
@@ -695,33 +1095,34 @@
    }
   },
   "old_budget": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333332,
+    "2": 0.9800000000000002,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -734,9 +1135,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -750,33 +1151,34 @@
    }
   },
   "no_cliff_budgets": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333332,
+    "2": 0.9800000000000002,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -789,9 +1191,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -805,33 +1207,34 @@
    }
   },
   "no_circuit_regime_prior": {
-   "best": "1-stop M-H @ 21",
+   "best": "2-stop M-H-H @ 14,36",
    "p_stops": {
-    "1": 0.8466666666666667,
-    "2": 0.15333333333333332,
+    "2": 0.9800000000000002,
+    "1": 0.02,
     "3": 0.0
    },
-   "push": 0.7,
-   "n_stops": 1,
-   "seq": "MEDIUM-HARD",
+   "push": 1.0,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 21,
+   "first": 14,
    "pit_laps": [
-    21
+    14,
+    36
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 21,
-    "tyre_best_lap": 26,
-    "q_median": 21,
+    "best_lap": 14,
+    "tyre_best_lap": 17,
+    "q_median": 14,
     "q_p25_p75": [
-     19,
-     23
+     12,
+     16
     ],
-    "iterations": 20,
+    "iterations": 18,
     "converged": true,
-    "push": 0.7
+    "push": 1.0
    },
    "tyre_optimal": "1-stop H-M @ 33",
    "life": {
@@ -844,9 +1247,9 @@
     "MEDIUM": 0.0754,
     "SOFT": 0.0848
    },
-   "seq_share": 0.5333333333333333,
+   "seq_share": 0.06666666666666667,
    "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
@@ -859,20 +1262,20 @@
     "n_over_1": 1
    },
    "regime": {
-    "ratio": 0.6694907242090762,
-    "ln_sd": 0.26589697926927564,
+    "ratio": 0.669490724209074,
+    "ln_sd": 0.2658969792692771,
     "mode": "none",
     "shipped_ratio": 0.669490724209074
    },
-   "rate_mae": 0.04893811987026071,
-   "rate_bias": 0.011424898991185392,
+   "rate_mae": 0.048938119870260734,
+   "rate_bias": 0.011424898991185501,
    "rate_cov90": 0.782608695652174,
    "shipped_rate_mae": 0.04893812003763015
   },
   "percar": {
    "shipped": {
     "n": 20,
-    "share_same_shape_as_field": 0.85,
+    "share_same_shape_as_field": 0.45,
     "first_stop_spread": 28.0,
     "mode": "team_pooled"
    },
@@ -880,20 +1283,27 @@
     "n": 20,
     "share_same_shape_as_field": 1.0,
     "first_stop_spread": 0.0,
-    "first_stop_median": 10.0,
+    "first_stop_median": 12.0,
     "n_distinct_plans": 1
+   },
+   "no_hist_driver_factors": {
+    "n": 20,
+    "share_same_shape_as_field": 0.75,
+    "first_stop_spread": 32.0,
+    "first_stop_median": 15.0,
+    "n_distinct_plans": 2
    },
    "spearman": {
     "source": "bench/out/accuracy.json",
-    "sealed": -0.1305699717401196,
+    "sealed": -0.14148408779634927,
     "sealed_driver_hist": -0.09933284217257345,
     "sealed_driver_practice_dev": -0.4175932917205202,
     "sealed_driver_team_pooled": -0.3928836294885368
    }
   },
   "full_vs_shipped": {
-   "shipped": "1-stop M-H @ 21",
-   "ablation_full": "1-stop M-H @ 21",
+   "shipped": "2-stop M-H-H @ 14,36",
+   "ablation_full": "2-stop M-H-H @ 14,36",
    "matches": true,
    "note": "the pipeline searches 500 draws, the ablation 300"
   },
@@ -1056,7 +1466,7 @@
    "n_classified": 15
   },
   "inputs": {
-   "kappa_s": 1.0,
+   "kappa_s": 0.0,
    "first_stop_prior": true,
    "dirty_air_circuit": 0.1312,
    "dirty_air_pooled": 0.06714154486582084,
@@ -1083,8 +1493,8 @@
   "full": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333333,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1136,19 +1546,19 @@
    }
   },
   "no_race_state": {
-   "best": "1-stop M-H @ 23",
+   "best": "1-stop M-H @ 22",
    "p_stops": {
-    "1": 0.9666666666666666,
-    "2": 0.03333333333333333,
+    "1": 0.9899999999999999,
+    "2": 0.01,
     "3": 0.0
    },
    "push": 0.55,
    "n_stops": 1,
    "seq": "MEDIUM-HARD",
    "start": "MEDIUM",
-   "first": 23,
+   "first": 22,
    "pit_laps": [
-    23
+    22
    ],
    "first_stop_s": 0.0,
    "race_state_s": null,
@@ -1179,11 +1589,396 @@
     "n_over_1": 2
    }
   },
+  "symmetric_pack": {
+   "best": "1-stop M-H @ 19",
+   "p_stops": {
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "rivals_no_history": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 0.9833333333333332,
+    "2": 0.016666666666666666,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 23,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "place_value_task1": {
+   "best": "1-stop M-H @ 19",
+   "p_stops": {
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "hetero_pack": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 0.9833333333333333,
+    "2": 0.016666666666666666,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 23,
+    "q_median": 21,
+    "q_p25_p75": [
+     20,
+     23
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "no_family_logit": {
+   "best": "1-stop M-H @ 20",
+   "p_stops": {
+    "1": 0.98,
+    "2": 0.02,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 20,
+    "tyre_best_lap": 23,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "1-stop M-H @ 19",
+   "p_stops": {
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
+  "extrap_off": {
+   "best": "1-stop M-H @ 19",
+   "p_stops": {
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop H-S @ 33",
+   "life": {
+    "HARD": 42.0,
+    "MEDIUM": 36.0,
+    "SOFT": 22.0
+   },
+   "deg_full_push": {
+    "HARD": 0.058,
+    "MEDIUM": 0.1108,
+    "SOFT": 0.1804
+   },
+   "seq_share": 0.85,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.14,
+     "MEDIUM": 1.09,
+     "SOFT": null
+    },
+    "median": 1.115,
+    "n_over_1": 2
+   }
+  },
   "race_state_no_cover": {
    "best": "1-stop M-H @ 18",
    "p_stops": {
-    "1": 0.9833333333333334,
-    "2": 0.016666666666666666,
+    "1": 0.9900000000000001,
+    "2": 0.01,
     "3": 0.0
    },
    "push": 0.55,
@@ -1237,8 +2032,8 @@
   "race_state_lead_lap_value": {
    "best": "1-stop M-H @ 20",
    "p_stops": {
-    "1": 0.97,
-    "2": 0.03,
+    "1": 0.98,
+    "2": 0.02,
     "3": 0.0
    },
    "push": 0.55,
@@ -1309,7 +2104,7 @@
    "race_state_group": {
     "best_lap": 15,
     "tyre_best_lap": 23,
-    "q_median": 15,
+    "q_median": 16,
     "q_p25_p75": [
      14,
      17
@@ -1347,8 +2142,8 @@
   "no_first_stop_prior": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333333,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1402,8 +2197,8 @@
   "no_plan_prior": {
    "best": "1-stop H-S @ 31",
    "p_stops": {
-    "1": 0.8599999999999998,
-    "2": 0.13999999999999999,
+    "1": 0.8733333333333332,
+    "2": 0.12666666666666665,
     "3": 0.0
    },
    "push": 0.55,
@@ -1457,8 +2252,8 @@
   "no_nomination_mapping": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333333,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1512,8 +2307,8 @@
   "no_dirty_air_circuit": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333334,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1567,8 +2362,8 @@
   "no_position": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.98,
-    "2": 0.02,
+    "1": 0.9766666666666667,
+    "2": 0.023333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1677,8 +2472,8 @@
   "config_constants": {
    "best": "1-stop H-M @ 34",
    "p_stops": {
-    "1": 0.87,
-    "2": 0.12999999999999998,
+    "1": 0.8633333333333333,
+    "2": 0.13666666666666666,
     "3": 0.0
    },
    "push": 0.85,
@@ -1776,8 +2571,8 @@
   "old_budget": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333333,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1831,8 +2626,8 @@
   "no_cliff_budgets": {
    "best": "1-stop M-H @ 19",
    "p_stops": {
-    "1": 0.9833333333333333,
-    "2": 0.016666666666666666,
+    "1": 0.9866666666666667,
+    "2": 0.013333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -1912,7 +2707,7 @@
     "converged": true,
     "push": 0.55
    },
-   "tyre_optimal": "1-stop H-S @ 32",
+   "tyre_optimal": "1-stop H-S @ 33",
    "life": {
     "HARD": 42.0,
     "MEDIUM": 36.0,
@@ -1938,13 +2733,13 @@
     "n_over_1": 2
    },
    "regime": {
-    "ratio": 0.6694907242090762,
-    "ln_sd": 0.26856491686467,
+    "ratio": 0.669490724209074,
+    "ln_sd": 0.2685649168646726,
     "mode": "none",
     "shipped_ratio": 0.6278082385756051
    },
-   "rate_mae": 0.022664786812784787,
-   "rate_bias": -0.021369740262102182,
+   "rate_mae": 0.022664786812784683,
+   "rate_bias": -0.021369740262102033,
    "rate_cov90": 1.0,
    "shipped_rate_mae": 0.02026612937410186
   },
@@ -1952,7 +2747,7 @@
    "shipped": {
     "n": 22,
     "share_same_shape_as_field": 1.0,
-    "first_stop_spread": 2.0,
+    "first_stop_spread": 0.0,
     "mode": "team_pooled"
    },
    "no_percar": {
@@ -1962,9 +2757,16 @@
     "first_stop_median": 14.0,
     "n_distinct_plans": 1
    },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 0.0,
+    "first_stop_median": 14.0,
+    "n_distinct_plans": 1
+   },
    "spearman": {
     "source": "bench/out/accuracy.json",
-    "sealed": 0.42339019740572564,
+    "sealed": 0.3610925113726131,
     "sealed_driver_hist": 0.29473684210526313,
     "sealed_driver_practice_dev": 0.3175438596491228,
     "sealed_driver_team_pooled": 0.360684545472663
@@ -2142,7 +2944,7 @@
    "n_classified": 20
   },
   "inputs": {
-   "kappa_s": 1.0,
+   "kappa_s": 0.0,
    "first_stop_prior": true,
    "dirty_air_circuit": 0.2291,
    "dirty_air_pooled": 0.13724036279951204,
@@ -2167,32 +2969,33 @@
  },
  "barcelona-2026": {
   "full": {
-   "best": "2-stop M-H-H @ 15,40",
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.5266666666666666,
-    "3": 0.4733333333333333,
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 15,
+   "first": 12,
    "pit_laps": [
-    15,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 15,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     14,
-     17
+     11,
+     14
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -2207,11 +3010,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "first_minus_field": -1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2223,20 +3026,21 @@
    }
   },
   "no_race_state": {
-   "best": "2-stop M-H-H @ 19,42",
+   "best": "3-stop M-M-S-S @ 16,32,49",
    "p_stops": {
-    "2": 0.6733333333333333,
-    "3": 0.3266666666666667,
+    "3": 0.5899999999999999,
+    "2": 0.41,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-MEDIUM-SOFT-SOFT",
    "start": "MEDIUM",
-   "first": 19,
+   "first": 16,
    "pit_laps": [
-    19,
-    42
+    16,
+    32,
+    49
    ],
    "first_stop_s": 0.0,
    "race_state_s": null,
@@ -2252,11 +3056,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 6.0,
+   "first_minus_field": 3.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2267,31 +3071,89 @@
     "n_over_1": 2
    }
   },
-  "race_state_no_cover": {
-   "best": "2-stop M-H-H @ 14,40",
+  "symmetric_pack": {
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.5166666666666667,
-    "3": 0.48333333333333334,
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 14,
+   "first": 12,
    "pit_laps": [
-    14,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 14,
-    "tyre_best_lap": 19,
-    "q_median": 15,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     14,
-     16
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "rivals_no_history": {
+   "best": "3-stop M-S-S-M @ 13,30,48",
+   "p_stops": {
+    "3": 0.3833333333333333,
+    "2": 0.6166666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 13,
+   "pit_laps": [
+    13,
+    30,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 13,
+    "tyre_best_lap": 16,
+    "q_median": 13,
+    "q_p25_p75": [
+     12,
+     14
     ],
     "iterations": 19,
     "converged": true,
@@ -2308,9 +3170,180 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "place_value_task1": {
+   "best": "3-stop M-S-S-M @ 12,29,47",
+   "p_stops": {
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 12,
+   "pit_laps": [
+    12,
+    29,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
+    "q_p25_p75": [
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "hetero_pack": {
+   "best": "3-stop M-S-S-M @ 13,30,48",
+   "p_stops": {
+    "3": 0.5533333333333333,
+    "2": 0.44666666666666666,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 13,
+   "pit_laps": [
+    13,
+    30,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 13,
+    "tyre_best_lap": 16,
+    "q_median": 13,
+    "q_p25_p75": [
+     12,
+     15
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_family_logit": {
+   "best": "3-stop M-S-S-M @ 14,31,48",
+   "p_stops": {
+    "3": 0.6066666666666667,
+    "2": 0.39333333333333337,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 14,
+   "pit_laps": [
+    14,
+    31,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 16,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     15
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
    "first_minus_field": 1.0,
    "life_ratio": {
@@ -2323,31 +3356,203 @@
     "n_over_1": 2
    }
   },
-  "race_state_lead_lap_value": {
-   "best": "2-stop M-H-H @ 16,41",
+  "rival_rate_levels_1": {
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.6866666666666668,
-    "3": 0.31333333333333335,
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 16,
+   "first": 12,
    "pit_laps": [
-    16,
-    41
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 16,
-    "tyre_best_lap": 19,
-    "q_median": 16,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     15,
-     18
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "extrap_off": {
+   "best": "3-stop M-S-M-S @ 12,30,47",
+   "p_stops": {
+    "3": 0.6033333333333333,
+    "2": 0.39666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 12,
+   "pit_laps": [
+    12,
+    30,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
+    "q_p25_p75": [
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "race_state_no_cover": {
+   "best": "3-stop M-M-S-S @ 12,29,47",
+   "p_stops": {
+    "3": 0.6000000000000001,
+    "2": 0.4,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-MEDIUM-SOFT-SOFT",
+   "start": "MEDIUM",
+   "first": 12,
+   "pit_laps": [
+    12,
+    29,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 12,
+    "tyre_best_lap": 17,
+    "q_median": 12,
+    "q_p25_p75": [
+     11,
+     13
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "race_state_lead_lap_value": {
+   "best": "3-stop M-S-S-M @ 13,30,48",
+   "p_stops": {
+    "3": 0.5933333333333333,
+    "2": 0.4066666666666666,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 13,
+   "pit_laps": [
+    13,
+    30,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 13,
+    "tyre_best_lap": 16,
+    "q_median": 13,
+    "q_p25_p75": [
+     12,
+     15
     ],
     "iterations": 21,
     "converged": true,
@@ -2364,11 +3569,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 3.0,
+   "first_minus_field": 0.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2380,30 +3585,31 @@
    }
   },
   "race_state_undiscounted": {
-   "best": "2-stop M-H-H @ 13,39",
+   "best": "3-stop M-M-S-S @ 10,28,46",
    "p_stops": {
-    "2": 0.5266666666666667,
-    "3": 0.47333333333333333,
+    "3": 0.6033333333333333,
+    "2": 0.3966666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-MEDIUM-SOFT-SOFT",
    "start": "MEDIUM",
-   "first": 13,
+   "first": 10,
    "pit_laps": [
-    13,
-    39
+    10,
+    28,
+    46
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 13,
-    "tyre_best_lap": 19,
-    "q_median": 13,
+    "best_lap": 10,
+    "tyre_best_lap": 17,
+    "q_median": 10,
     "q_p25_p75": [
-     12,
-     14
+     9,
+     11
     ],
     "iterations": 34,
     "converged": true,
@@ -2420,11 +3626,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 0.0,
+   "first_minus_field": -3.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2436,30 +3642,145 @@
    }
   },
   "no_first_stop_prior": {
-   "best": "2-stop M-H-H @ 15,40",
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.5266666666666666,
-    "3": 0.4733333333333333,
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 15,
+   "first": 12,
    "pit_laps": [
-    15,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 15,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     14,
-     17
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_plan_prior": {
+   "best": "3-stop H-S-S-M @ 14,31,48",
+   "p_stops": {
+    "3": 0.7966666666666666,
+    "2": 0.2,
+    "1": 0.0033333333333333335
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "HARD-SOFT-SOFT-MEDIUM",
+   "start": "HARD",
+   "first": 14,
+   "pit_laps": [
+    14,
+    31,
+    48
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 14,
+    "tyre_best_lap": 19,
+    "q_median": 14,
+    "q_p25_p75": [
+     12,
+     15
+    ],
+    "iterations": 25,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": false,
+   "first_minus_field": 1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_nomination_mapping": {
+   "best": "3-stop S-M-M-S @ 13,30,47",
+   "p_stops": {
+    "3": 0.5766666666666665,
+    "2": 0.42333333333333334,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "SOFT-MEDIUM-MEDIUM-SOFT",
+   "start": "SOFT",
+   "first": 13,
+   "pit_laps": [
+    13,
+    30,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 13,
+    "tyre_best_lap": 17,
+    "q_median": 13,
+    "q_p25_p75": [
+     12,
+     14
     ],
     "iterations": 23,
     "converged": true,
@@ -2476,11 +3797,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
-   "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": false,
+   "first_minus_field": 0.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2491,12 +3812,69 @@
     "n_over_1": 2
    }
   },
-  "no_plan_prior": {
+  "no_dirty_air_circuit": {
+   "best": "3-stop M-S-S-M @ 12,29,47",
+   "p_stops": {
+    "3": 0.6033333333333334,
+    "2": 0.39666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "start": "MEDIUM",
+   "first": 12,
+   "pit_laps": [
+    12,
+    29,
+    47
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
+    "q_p25_p75": [
+     11,
+     14
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
+   "life": {
+    "HARD": 34.0,
+    "MEDIUM": 24.6,
+    "SOFT": 23.7
+   },
+   "deg_full_push": {
+    "HARD": 0.1739,
+    "MEDIUM": 0.2441,
+    "SOFT": 0.2537
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.1,
+     "MEDIUM": 0.95,
+     "SOFT": 1.69
+    },
+    "median": 1.1,
+    "n_over_1": 2
+   }
+  },
+  "no_position": {
    "best": "3-stop M-M-S-S @ 12,30,48",
    "p_stops": {
-    "3": 0.9133333333333332,
-    "2": 0.08333333333333333,
-    "1": 0.0033333333333333335
+    "3": 0.6399999999999999,
+    "2": 0.36,
+    "1": 0.0
    },
    "push": 0.55,
    "n_stops": 3,
@@ -2548,180 +3926,11 @@
     "n_over_1": 2
    }
   },
-  "no_nomination_mapping": {
-   "best": "3-stop S-M-M-S @ 12,30,48",
-   "p_stops": {
-    "3": 0.48000000000000004,
-    "2": 0.52,
-    "1": 0.0
-   },
-   "push": 0.55,
-   "n_stops": 3,
-   "seq": "SOFT-MEDIUM-MEDIUM-SOFT",
-   "start": "SOFT",
-   "first": 12,
-   "pit_laps": [
-    12,
-    30,
-    48
-   ],
-   "first_stop_s": 0.0,
-   "race_state_s": 0.0,
-   "race_state_group": {
-    "best_lap": 12,
-    "tyre_best_lap": 16,
-    "q_median": 12,
-    "q_p25_p75": [
-     11,
-     14
-    ],
-    "iterations": 23,
-    "converged": true,
-    "push": 0.55
-   },
-   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
-   "life": {
-    "HARD": 34.0,
-    "MEDIUM": 24.6,
-    "SOFT": 23.7
-   },
-   "deg_full_push": {
-    "HARD": 0.1739,
-    "MEDIUM": 0.2441,
-    "SOFT": 0.2537
-   },
-   "seq_share": 0.0,
-   "seq_run_by_anyone": false,
-   "stops_match_mode": false,
-   "start_matches_majority": false,
-   "first_minus_field": -1.0,
-   "life_ratio": {
-    "by_compound": {
-     "HARD": 1.1,
-     "MEDIUM": 0.95,
-     "SOFT": 1.69
-    },
-    "median": 1.1,
-    "n_over_1": 2
-   }
-  },
-  "no_dirty_air_circuit": {
-   "best": "2-stop M-H-H @ 15,40",
-   "p_stops": {
-    "2": 0.5233333333333333,
-    "3": 0.47666666666666657,
-    "1": 0.0
-   },
-   "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
-   "start": "MEDIUM",
-   "first": 15,
-   "pit_laps": [
-    15,
-    40
-   ],
-   "first_stop_s": 0.0,
-   "race_state_s": 0.0,
-   "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 15,
-    "q_p25_p75": [
-     14,
-     17
-    ],
-    "iterations": 23,
-    "converged": true,
-    "push": 0.55
-   },
-   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
-   "life": {
-    "HARD": 34.0,
-    "MEDIUM": 24.6,
-    "SOFT": 23.7
-   },
-   "deg_full_push": {
-    "HARD": 0.1739,
-    "MEDIUM": 0.2441,
-    "SOFT": 0.2537
-   },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
-   "start_matches_majority": true,
-   "first_minus_field": 2.0,
-   "life_ratio": {
-    "by_compound": {
-     "HARD": 1.1,
-     "MEDIUM": 0.95,
-     "SOFT": 1.69
-    },
-    "median": 1.1,
-    "n_over_1": 2
-   }
-  },
-  "no_position": {
-   "best": "2-stop M-H-H @ 15,40",
-   "p_stops": {
-    "2": 0.5266666666666666,
-    "3": 0.4733333333333333,
-    "1": 0.0
-   },
-   "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
-   "start": "MEDIUM",
-   "first": 15,
-   "pit_laps": [
-    15,
-    40
-   ],
-   "first_stop_s": 0.0,
-   "race_state_s": 0.0,
-   "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 15,
-    "q_p25_p75": [
-     14,
-     17
-    ],
-    "iterations": 23,
-    "converged": true,
-    "push": 0.55
-   },
-   "tyre_optimal": "3-stop M-M-S-S @ 16,32,49",
-   "life": {
-    "HARD": 34.0,
-    "MEDIUM": 24.6,
-    "SOFT": 23.7
-   },
-   "deg_full_push": {
-    "HARD": 0.1739,
-    "MEDIUM": 0.2441,
-    "SOFT": 0.2537
-   },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
-   "start_matches_majority": true,
-   "first_minus_field": 2.0,
-   "life_ratio": {
-    "by_compound": {
-     "HARD": 1.1,
-     "MEDIUM": 0.95,
-     "SOFT": 1.69
-    },
-    "median": 1.1,
-    "n_over_1": 2
-   }
-  },
   "no_pace_cal": {
-   "best": "2-stop M-H-H @ 14,40",
+   "best": "2-stop M-H-H @ 14,39",
    "p_stops": {
-    "2": 0.9366666666666666,
-    "3": 0.06333333333333334,
+    "2": 0.7933333333333333,
+    "3": 0.20666666666666667,
     "1": 0.0
    },
    "push": 0.55,
@@ -2731,7 +3940,7 @@
    "first": 14,
    "pit_laps": [
     14,
-    40
+    39
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -2741,9 +3950,9 @@
     "q_median": 14,
     "q_p25_p75": [
      13,
-     15
+     16
     ],
-    "iterations": 24,
+    "iterations": 25,
     "converged": true,
     "push": 0.55
    },
@@ -2777,7 +3986,7 @@
    "best": "2-stop S-H-H @ 18,42",
    "p_stops": {
     "2": 0.5633333333333334,
-    "3": 0.43666666666666665,
+    "3": 0.4366666666666667,
     "1": 0.0
    },
    "push": 0.55,
@@ -2819,21 +4028,21 @@
    }
   },
   "practice_only": {
-   "best": "3-stop M-S-S-M @ 12,30,48",
+   "best": "3-stop M-S-M-S @ 12,30,47",
    "p_stops": {
-    "3": 0.8666666666666667,
-    "2": 0.13333333333333333,
+    "3": 0.8733333333333333,
+    "2": 0.12666666666666668,
     "1": 0.0
    },
    "push": 0.55,
    "n_stops": 3,
-   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
+   "seq": "MEDIUM-SOFT-MEDIUM-SOFT",
    "start": "MEDIUM",
    "first": 12,
    "pit_laps": [
     12,
     30,
-    48
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -2843,7 +4052,7 @@
     "q_median": 12,
     "q_p25_p75": [
      11,
-     13
+     14
     ],
     "iterations": 24,
     "converged": true,
@@ -2876,30 +4085,31 @@
    }
   },
   "old_budget": {
-   "best": "2-stop M-H-H @ 15,40",
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.5233333333333333,
-    "3": 0.4766666666666666,
+    "3": 0.5533333333333333,
+    "2": 0.4466666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 15,
+   "first": 12,
    "pit_laps": [
-    15,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 16,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     15,
-     17
+     11,
+     14
     ],
     "iterations": 24,
     "converged": true,
@@ -2916,11 +4126,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "first_minus_field": -1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2932,30 +4142,31 @@
    }
   },
   "no_cliff_budgets": {
-   "best": "2-stop M-H-H @ 15,40",
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.5233333333333333,
-    "3": 0.4766666666666666,
+    "3": 0.5533333333333333,
+    "2": 0.4466666666666667,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 15,
+   "first": 12,
    "pit_laps": [
-    15,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 16,
+    "best_lap": 12,
+    "tyre_best_lap": 16,
+    "q_median": 12,
     "q_p25_p75": [
-     15,
-     17
+     11,
+     14
     ],
     "iterations": 24,
     "converged": true,
@@ -2972,11 +4183,11 @@
     "MEDIUM": 0.2441,
     "SOFT": 0.2537
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "first_minus_field": -1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -2988,32 +4199,33 @@
    }
   },
   "no_circuit_regime_prior": {
-   "best": "2-stop M-H-H @ 15,40",
+   "best": "3-stop M-S-S-M @ 12,29,47",
    "p_stops": {
-    "2": 0.82,
-    "3": 0.18,
+    "3": 0.4700000000000001,
+    "2": 0.5299999999999999,
     "1": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "MEDIUM-HARD-HARD",
+   "n_stops": 3,
+   "seq": "MEDIUM-SOFT-SOFT-MEDIUM",
    "start": "MEDIUM",
-   "first": 15,
+   "first": 12,
    "pit_laps": [
-    15,
-    40
+    12,
+    29,
+    47
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 15,
-    "tyre_best_lap": 19,
-    "q_median": 15,
+    "best_lap": 12,
+    "tyre_best_lap": 17,
+    "q_median": 12,
     "q_p25_p75": [
-     14,
-     17
+     11,
+     14
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -3028,11 +4240,11 @@
     "MEDIUM": 0.224,
     "SOFT": 0.2447
    },
-   "seq_share": 0.46153846153846156,
-   "seq_run_by_anyone": true,
-   "stops_match_mode": true,
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": false,
    "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "first_minus_field": -1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.1,
@@ -3043,21 +4255,21 @@
     "n_over_1": 3
    },
    "regime": {
-    "ratio": 0.6843692444211116,
-    "ln_sd": 0.271868967164839,
+    "ratio": 0.6843692444211048,
+    "ln_sd": 0.2718689671648404,
     "mode": "none",
     "shipped_ratio": 0.6005308175140492
    },
-   "rate_mae": 0.04087481703663622,
-   "rate_bias": -0.0053083346945167675,
+   "rate_mae": 0.040874816777311355,
+   "rate_bias": -0.005308333114487611,
    "rate_cov90": 0.9354838709677419,
    "shipped_rate_mae": 0.0399198503479724
   },
   "percar": {
    "shipped": {
     "n": 22,
-    "share_same_shape_as_field": 0.45454545454545453,
-    "first_stop_spread": 8.0,
+    "share_same_shape_as_field": 0.5909090909090909,
+    "first_stop_spread": 6.0,
     "mode": "team_pooled"
    },
    "no_percar": {
@@ -3067,18 +4279,25 @@
     "first_stop_median": 14.0,
     "n_distinct_plans": 1
    },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 2.0,
+    "first_stop_median": 14.0,
+    "n_distinct_plans": 1
+   },
    "spearman": {
     "source": "bench/out/accuracy.json",
     "sealed": 0.1118177749033395,
-    "sealed_driver_hist": 0.18354176563909516,
-    "sealed_driver_practice_dev": 0.014526383123372382,
+    "sealed_driver_hist": 0.18392659911865353,
+    "sealed_driver_practice_dev": 0.01714920229842573,
     "sealed_driver_team_pooled": -0.004439961897217759
    }
   },
   "full_vs_shipped": {
-   "shipped": "2-stop M-H-H @ 15,40",
-   "ablation_full": "2-stop M-H-H @ 15,40",
-   "matches": true,
+   "shipped": "3-stop M-S-M-S @ 12,30,47",
+   "ablation_full": "3-stop M-S-S-M @ 12,29,47",
+   "matches": false,
    "note": "the pipeline searches 500 draws, the ablation 300"
   },
   "ladder": {
@@ -3258,10 +4477,10 @@
  },
  "austria-2026": {
   "full": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9433333333333331,
-    "3": 0.05666666666666667,
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
     "1": 0.0
    },
    "push": 0.55,
@@ -3271,7 +4490,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3280,10 +4499,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -3314,10 +4533,10 @@
    }
   },
   "no_race_state": {
-   "best": "2-stop M-H-M @ 22,46",
+   "best": "2-stop M-H-M @ 22,45",
    "p_stops": {
-    "2": 0.89,
-    "3": 0.11,
+    "2": 0.8800000000000001,
+    "3": 0.12,
     "1": 0.0
    },
    "push": 0.55,
@@ -3327,9 +4546,9 @@
    "first": 22,
    "pit_laps": [
     22,
-    46
+    45
    ],
-   "first_stop_s": 0.010225562621160478,
+   "first_stop_s": 0.0,
    "race_state_s": null,
    "race_state_group": null,
    "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
@@ -3358,8 +4577,288 @@
     "n_over_1": 2
    }
   },
-  "race_state_no_cover": {
-   "best": "2-stop M-H-M @ 19,44",
+  "symmetric_pack": {
+   "best": "2-stop M-H-M @ 20,44",
+   "p_stops": {
+    "2": 0.9266666666666664,
+    "3": 0.07333333333333333,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 20,
+    "tyre_best_lap": 24,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     22
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 2.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "rivals_no_history": {
+   "best": "2-stop M-H-M @ 23,45",
+   "p_stops": {
+    "2": 0.97,
+    "3": 0.03,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 23,
+    "tyre_best_lap": 24,
+    "q_median": 23,
+    "q_p25_p75": [
+     21,
+     25
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 5.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "place_value_task1": {
+   "best": "2-stop M-H-M @ 20,44",
+   "p_stops": {
+    "2": 0.9266666666666664,
+    "3": 0.07333333333333333,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 20,
+    "tyre_best_lap": 24,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     22
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 2.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "hetero_pack": {
+   "best": "2-stop M-H-M @ 23,45",
+   "p_stops": {
+    "2": 0.97,
+    "3": 0.03,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 23,
+   "pit_laps": [
+    23,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 23,
+    "tyre_best_lap": 24,
+    "q_median": 23,
+    "q_p25_p75": [
+     21,
+     25
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 5.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "no_family_logit": {
+   "best": "2-stop M-H-M @ 22,45",
+   "p_stops": {
+    "2": 0.9566666666666667,
+    "3": 0.043333333333333335,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22,
+    45
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 22,
+    "tyre_best_lap": 24,
+    "q_median": 22,
+    "q_p25_p75": [
+     20,
+     24
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
     "2": 0.9266666666666665,
     "3": 0.07333333333333333,
@@ -3369,17 +4868,129 @@
    "n_stops": 2,
    "seq": "MEDIUM-HARD-MEDIUM",
    "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 20,
+    "tyre_best_lap": 24,
+    "q_median": 20,
+    "q_p25_p75": [
+     19,
+     22
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 2.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "extrap_off": {
+   "best": "2-stop M-H-M @ 20,44",
+   "p_stops": {
+    "2": 0.9233333333333333,
+    "3": 0.07666666666666667,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 20,
+   "pit_laps": [
+    20,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 20,
+    "tyre_best_lap": 24,
+    "q_median": 20,
+    "q_p25_p75": [
+     19,
+     22
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "3-stop M-S-S-M @ 17,35,53",
+   "life": {
+    "HARD": 46.0,
+    "MEDIUM": 37.0,
+    "SOFT": 18.0
+   },
+   "deg_full_push": {
+    "HARD": 0.1145,
+    "MEDIUM": 0.1454,
+    "SOFT": 0.1435
+   },
+   "seq_share": 0.23529411764705882,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 2.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.28,
+     "MEDIUM": 1.37,
+     "SOFT": 0.95
+    },
+    "median": 1.28,
+    "n_over_1": 2
+   }
+  },
+  "race_state_no_cover": {
+   "best": "2-stop M-H-M @ 19,43",
+   "p_stops": {
+    "2": 0.9166666666666666,
+    "3": 0.08333333333333334,
+    "1": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
    "first": 19,
    "pit_laps": [
     19,
-    44
+    43
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 19,
     "tyre_best_lap": 24,
-    "q_median": 19,
+    "q_median": 20,
     "q_p25_p75": [
      18,
      21
@@ -3415,20 +5026,20 @@
    }
   },
   "race_state_lead_lap_value": {
-   "best": "2-stop M-H-M @ 21,45",
+   "best": "2-stop M-M-H @ 21,43",
    "p_stops": {
-    "2": 0.9233333333333333,
-    "3": 0.07666666666666667,
+    "2": 0.9333333333333333,
+    "3": 0.06666666666666667,
     "1": 0.0
    },
    "push": 0.55,
    "n_stops": 2,
-   "seq": "MEDIUM-HARD-MEDIUM",
+   "seq": "MEDIUM-MEDIUM-HARD",
    "start": "MEDIUM",
    "first": 21,
    "pit_laps": [
     21,
-    45
+    43
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3438,9 +5049,9 @@
     "q_median": 21,
     "q_p25_p75": [
      19,
-     22
+     23
     ],
-    "iterations": 17,
+    "iterations": 18,
     "converged": true,
     "push": 0.55
    },
@@ -3471,11 +5082,11 @@
    }
   },
   "race_state_undiscounted": {
-   "best": "2-stop S-H-M @ 16,43",
+   "best": "2-stop S-H-M @ 16,41",
    "p_stops": {
-    "2": 0.8766666666666667,
-    "3": 0.12333333333333334,
-    "1": 0.0
+    "2": 0.83,
+    "3": 0.16,
+    "1": 0.01
    },
    "push": 0.55,
    "n_stops": 2,
@@ -3484,7 +5095,7 @@
    "first": 16,
    "pit_laps": [
     16,
-    43
+    41
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3527,10 +5138,10 @@
    }
   },
   "no_first_stop_prior": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9433333333333331,
-    "3": 0.05666666666666667,
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
     "1": 0.0
    },
    "push": 0.55,
@@ -3540,7 +5151,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3549,10 +5160,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -3583,10 +5194,10 @@
    }
   },
   "no_plan_prior": {
-   "best": "3-stop S-S-M-M @ 15,33,51",
+   "best": "3-stop S-S-M-M @ 15,33,50",
    "p_stops": {
-    "3": 0.5866666666666667,
-    "2": 0.41333333333333333,
+    "3": 0.5499999999999999,
+    "2": 0.45,
     "1": 0.0
    },
    "push": 0.55,
@@ -3597,7 +5208,7 @@
    "pit_laps": [
     15,
     33,
-    51
+    50
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3606,7 +5217,7 @@
     "tyre_best_lap": 18,
     "q_median": 15,
     "q_p25_p75": [
-     13,
+     14,
      16
     ],
     "iterations": 18,
@@ -3640,10 +5251,10 @@
    }
   },
   "no_nomination_mapping": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9433333333333331,
-    "3": 0.05666666666666667,
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
     "1": 0.0
    },
    "push": 0.55,
@@ -3653,7 +5264,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3662,10 +5273,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -3696,10 +5307,10 @@
    }
   },
   "no_dirty_air_circuit": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9366666666666666,
-    "3": 0.06333333333333334,
+    "2": 0.9233333333333332,
+    "3": 0.07666666666666667,
     "1": 0.0
    },
    "push": 0.55,
@@ -3709,7 +5320,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3718,10 +5329,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -3808,26 +5419,26 @@
    }
   },
   "no_pace_cal": {
-   "best": "2-stop M-H-M @ 19,46",
+   "best": "2-stop M-H-H @ 18,42",
    "p_stops": {
-    "2": 0.99,
-    "3": 0.01,
-    "1": 0.0
+    "2": 0.9733333333333334,
+    "3": 0.023333333333333334,
+    "1": 0.0033333333333333335
    },
    "push": 0.55,
    "n_stops": 2,
-   "seq": "MEDIUM-HARD-MEDIUM",
+   "seq": "MEDIUM-HARD-HARD",
    "start": "MEDIUM",
-   "first": 19,
+   "first": 18,
    "pit_laps": [
-    19,
-    46
+    18,
+    42
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 19,
-    "tyre_best_lap": 23,
+    "best_lap": 18,
+    "tyre_best_lap": 24,
     "q_median": 18,
     "q_p25_p75": [
      17,
@@ -3848,11 +5459,11 @@
     "MEDIUM": 0.1454,
     "SOFT": 0.1435
    },
-   "seq_share": 0.23529411764705882,
+   "seq_share": 0.29411764705882354,
    "seq_run_by_anyone": true,
    "stops_match_mode": true,
    "start_matches_majority": true,
-   "first_minus_field": 1.0,
+   "first_minus_field": 0.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.28,
@@ -3866,7 +5477,7 @@
   "config_constants": {
    "best": "2-stop S-H-H @ 18,45",
    "p_stops": {
-    "2": 0.68,
+    "2": 0.6799999999999999,
     "3": 0.31999999999999995,
     "1": 0.0
    },
@@ -3909,32 +5520,32 @@
    }
   },
   "practice_only": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-M-H @ 19,41",
    "p_stops": {
-    "2": 0.8666666666666668,
-    "3": 0.12666666666666668,
-    "1": 0.006666666666666667
+    "2": 0.8466666666666668,
+    "3": 0.14333333333333334,
+    "1": 0.01
    },
    "push": 0.55,
    "n_stops": 2,
-   "seq": "MEDIUM-HARD-MEDIUM",
+   "seq": "MEDIUM-MEDIUM-HARD",
    "start": "MEDIUM",
-   "first": 20,
+   "first": 19,
    "pit_laps": [
-    20,
-    45
+    19,
+    41
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 20,
+    "best_lap": 19,
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
      18,
      21
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -3953,7 +5564,7 @@
    "seq_run_by_anyone": true,
    "stops_match_mode": true,
    "start_matches_majority": true,
-   "first_minus_field": 2.0,
+   "first_minus_field": 1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.28,
@@ -3965,10 +5576,10 @@
    }
   },
   "old_budget": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9433333333333331,
-    "3": 0.05666666666666667,
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
     "1": 0.0
    },
    "push": 0.55,
@@ -3978,7 +5589,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -3987,10 +5598,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -4021,10 +5632,10 @@
    }
   },
   "no_cliff_budgets": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9433333333333332,
-    "3": 0.05666666666666667,
+    "2": 0.9266666666666665,
+    "3": 0.07333333333333333,
     "1": 0.0
    },
    "push": 0.55,
@@ -4034,7 +5645,7 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    44
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
@@ -4043,10 +5654,10 @@
     "tyre_best_lap": 24,
     "q_median": 20,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
-    "iterations": 20,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -4077,10 +5688,10 @@
    }
   },
   "no_circuit_regime_prior": {
-   "best": "2-stop M-H-M @ 20,45",
+   "best": "2-stop M-H-M @ 20,43",
    "p_stops": {
-    "2": 0.9766666666666667,
-    "3": 0.023333333333333334,
+    "2": 0.97,
+    "3": 0.03,
     "1": 0.0
    },
    "push": 0.55,
@@ -4090,17 +5701,17 @@
    "first": 20,
    "pit_laps": [
     20,
-    45
+    43
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 20,
-    "tyre_best_lap": 24,
-    "q_median": 20,
+    "tyre_best_lap": 25,
+    "q_median": 21,
     "q_p25_p75": [
-     18,
-     21
+     19,
+     22
     ],
     "iterations": 20,
     "converged": true,
@@ -4132,20 +5743,20 @@
     "n_over_1": 2
    },
    "regime": {
-    "ratio": 0.7167694816367273,
-    "ln_sd": 0.274191208342158,
+    "ratio": 0.7167694816367223,
+    "ln_sd": 0.27419120834215954,
     "mode": "none",
     "shipped_ratio": 0.652261007717854
    },
-   "rate_mae": 0.03401103702370921,
-   "rate_bias": -0.01945954658380934,
+   "rate_mae": 0.03401103708453042,
+   "rate_bias": -0.019459546697441533,
    "rate_cov90": 0.975,
    "shipped_rate_mae": 0.03150763346336551
   },
   "percar": {
    "shipped": {
     "n": 22,
-    "share_same_shape_as_field": 0.5454545454545454,
+    "share_same_shape_as_field": 0.9545454545454546,
     "first_stop_spread": 4.0,
     "mode": "team_pooled"
    },
@@ -4153,21 +5764,28 @@
     "n": 22,
     "share_same_shape_as_field": 1.0,
     "first_stop_spread": 0.0,
-    "first_stop_median": 16.0,
+    "first_stop_median": 18.0,
     "n_distinct_plans": 1
+   },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 0.9090909090909091,
+    "first_stop_spread": 2.0,
+    "first_stop_median": 18.0,
+    "n_distinct_plans": 2
    },
    "spearman": {
     "source": "bench/out/accuracy.json",
-    "sealed": 0.06034618098466586,
-    "sealed_driver_hist": 0.12169262740063069,
-    "sealed_driver_practice_dev": 0.04616900732289241,
-    "sealed_driver_team_pooled": 0.024960121097832674
+    "sealed": 0.06297315018055816,
+    "sealed_driver_hist": 0.12188599913108168,
+    "sealed_driver_practice_dev": 0.04766820119435714,
+    "sealed_driver_team_pooled": 0.02345986144455915
    }
   },
   "full_vs_shipped": {
-   "shipped": "2-stop M-H-M @ 20,45",
-   "ablation_full": "2-stop M-H-M @ 20,45",
-   "matches": true,
+   "shipped": "2-stop M-H-M @ 20,43",
+   "ablation_full": "2-stop M-H-M @ 20,44",
+   "matches": false,
    "note": "the pipeline searches 500 draws, the ablation 300"
   },
   "ladder": {
@@ -4334,7 +5952,7 @@
    "n_classified": 17
   },
   "inputs": {
-   "kappa_s": 1.0,
+   "kappa_s": 0.0,
    "first_stop_prior": true,
    "dirty_air_circuit": 0.1393,
    "dirty_air_pooled": 0.08402036941416823,
@@ -4361,8 +5979,8 @@
   "full": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7366666666666667,
-    "2": 0.2633333333333333,
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
     "3": 0.0
    },
    "push": 0.55,
@@ -4383,7 +6001,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4414,23 +6032,408 @@
    }
   },
   "no_race_state": {
-   "best": "1-stop M-S @ 18",
+   "best": "1-stop M-S @ 20",
    "p_stops": {
-    "1": 0.5566666666666666,
-    "2": 0.44333333333333336,
+    "1": 0.7033333333333334,
+    "2": 0.29666666666666663,
     "3": 0.0
    },
    "push": 0.55,
    "n_stops": 1,
    "seq": "MEDIUM-SOFT",
    "start": "MEDIUM",
-   "first": 18,
+   "first": 20,
    "pit_laps": [
-    18
+    20
    ],
-   "first_stop_s": 1.1486860453032701,
+   "first_stop_s": 0.0,
    "race_state_s": null,
    "race_state_group": null,
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "symmetric_pack": {
+   "best": "1-stop M-S @ 16",
+   "p_stops": {
+    "1": 0.6933333333333334,
+    "2": 0.30666666666666664,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 16,
+    "tyre_best_lap": 21,
+    "q_median": 16,
+    "q_p25_p75": [
+     16,
+     17
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "rivals_no_history": {
+   "best": "1-stop M-S @ 17",
+   "p_stops": {
+    "1": 0.7566666666666667,
+    "2": 0.24333333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 17,
+   "pit_laps": [
+    17
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 17,
+    "tyre_best_lap": 21,
+    "q_median": 18,
+    "q_p25_p75": [
+     17,
+     19
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "place_value_task1": {
+   "best": "1-stop M-S @ 16",
+   "p_stops": {
+    "1": 0.6933333333333334,
+    "2": 0.30666666666666664,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 16,
+    "tyre_best_lap": 21,
+    "q_median": 16,
+    "q_p25_p75": [
+     16,
+     17
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "hetero_pack": {
+   "best": "1-stop M-S @ 19",
+   "p_stops": {
+    "1": 0.9033333333333333,
+    "2": 0.09666666666666668,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 21,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "no_family_logit": {
+   "best": "1-stop M-S @ 19",
+   "p_stops": {
+    "1": 0.9033333333333333,
+    "2": 0.09666666666666666,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 21,
+    "q_median": 19,
+    "q_p25_p75": [
+     18,
+     20
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "1-stop M-S @ 16",
+   "p_stops": {
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 16,
+    "tyre_best_lap": 21,
+    "q_median": 16,
+    "q_p25_p75": [
+     16,
+     17
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "1-stop S-M @ 23",
+   "life": {
+    "HARD": 36.0,
+    "MEDIUM": 34.0,
+    "SOFT": 28.0
+   },
+   "deg_full_push": {
+    "HARD": 0.171,
+    "MEDIUM": 0.1768,
+    "SOFT": 0.1635
+   },
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.16,
+     "MEDIUM": 1.7,
+     "SOFT": 1.08
+    },
+    "median": 1.16,
+    "n_over_1": 3
+   }
+  },
+  "extrap_off": {
+   "best": "1-stop M-S @ 16",
+   "p_stops": {
+    "1": 0.7066666666666667,
+    "2": 0.29333333333333333,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 16,
+   "pit_laps": [
+    16
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 16,
+    "tyre_best_lap": 21,
+    "q_median": 16,
+    "q_p25_p75": [
+     16,
+     17
+    ],
+    "iterations": 24,
+    "converged": true,
+    "push": 0.55
+   },
    "tyre_optimal": "1-stop S-M @ 23",
    "life": {
     "HARD": 36.0,
@@ -4460,8 +6463,8 @@
   "race_state_no_cover": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7666666666666667,
-    "2": 0.2333333333333333,
+    "1": 0.6999999999999998,
+    "2": 0.3,
     "3": 0.0
    },
    "push": 0.55,
@@ -4515,8 +6518,8 @@
   "race_state_lead_lap_value": {
    "best": "1-stop M-S @ 17",
    "p_stops": {
-    "1": 0.75,
-    "2": 0.24999999999999997,
+    "1": 0.7066666666666668,
+    "2": 0.29333333333333333,
     "3": 0.0
    },
    "push": 0.55,
@@ -4534,8 +6537,8 @@
     "tyre_best_lap": 21,
     "q_median": 17,
     "q_p25_p75": [
-     16,
-     18
+     17,
+     19
     ],
     "iterations": 23,
     "converged": true,
@@ -4570,8 +6573,8 @@
   "race_state_undiscounted": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.78,
-    "2": 0.21999999999999997,
+    "1": 0.73,
+    "2": 0.27,
     "3": 0.0
    },
    "push": 0.55,
@@ -4625,8 +6628,8 @@
   "no_first_stop_prior": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7366666666666667,
-    "2": 0.2633333333333333,
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
     "3": 0.0
    },
    "push": 0.55,
@@ -4647,7 +6650,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4680,8 +6683,8 @@
   "no_plan_prior": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.89,
-    "2": 0.11,
+    "1": 0.84,
+    "2": 0.15999999999999998,
     "3": 0.0
    },
    "push": 0.55,
@@ -4702,7 +6705,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4735,8 +6738,8 @@
   "no_nomination_mapping": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7366666666666667,
-    "2": 0.2633333333333333,
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
     "3": 0.0
    },
    "push": 0.55,
@@ -4757,7 +6760,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4790,8 +6793,8 @@
   "no_dirty_air_circuit": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7233333333333333,
-    "2": 0.2766666666666666,
+    "1": 0.6833333333333332,
+    "2": 0.31666666666666665,
     "3": 0.0
    },
    "push": 0.55,
@@ -4812,7 +6815,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4845,8 +6848,8 @@
   "no_position": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.6233333333333333,
-    "2": 0.37666666666666665,
+    "1": 0.6100000000000001,
+    "2": 0.39000000000000007,
     "3": 0.0
    },
    "push": 0.55,
@@ -4867,7 +6870,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -4900,8 +6903,8 @@
   "no_pace_cal": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.5266666666666666,
-    "2": 0.4733333333333334,
+    "1": 0.5066666666666667,
+    "2": 0.4933333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -4920,7 +6923,7 @@
     "q_median": 16,
     "q_p25_p75": [
      16,
-     16
+     17
     ],
     "iterations": 20,
     "converged": true,
@@ -4955,8 +6958,8 @@
   "config_constants": {
    "best": "1-stop S-M @ 24",
    "p_stops": {
-    "1": 0.72,
-    "2": 0.28,
+    "1": 0.71,
+    "2": 0.29,
     "3": 0.0
    },
    "push": 0.55,
@@ -4997,32 +7000,31 @@
    }
   },
   "practice_only": {
-   "best": "2-stop S-M-S @ 11,26",
+   "best": "1-stop M-S @ 17",
    "p_stops": {
-    "2": 0.55,
-    "1": 0.45000000000000007,
+    "1": 0.52,
+    "2": 0.48,
     "3": 0.0
    },
    "push": 0.55,
-   "n_stops": 2,
-   "seq": "SOFT-MEDIUM-SOFT",
-   "start": "SOFT",
-   "first": 11,
+   "n_stops": 1,
+   "seq": "MEDIUM-SOFT",
+   "start": "MEDIUM",
+   "first": 17,
    "pit_laps": [
-    11,
-    26
+    17
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 11,
-    "tyre_best_lap": 15,
-    "q_median": 11,
+    "best_lap": 17,
+    "tyre_best_lap": 22,
+    "q_median": 17,
     "q_p25_p75": [
-     10,
-     12
+     17,
+     18
     ],
-    "iterations": 23,
+    "iterations": 31,
     "converged": true,
     "push": 0.55
    },
@@ -5037,10 +7039,10 @@
     "MEDIUM": 0.1845,
     "SOFT": 0.2005
    },
-   "seq_share": 0.0,
-   "seq_run_by_anyone": false,
-   "stops_match_mode": false,
-   "start_matches_majority": false,
+   "seq_share": 0.05263157894736842,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
     "by_compound": {
@@ -5055,8 +7057,8 @@
   "old_budget": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7333333333333334,
-    "2": 0.26666666666666666,
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
     "3": 0.0
    },
    "push": 0.55,
@@ -5077,7 +7079,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -5110,8 +7112,8 @@
   "no_cliff_budgets": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.7333333333333334,
-    "2": 0.26666666666666666,
+    "1": 0.6933333333333334,
+    "2": 0.3066666666666667,
     "3": 0.0
    },
    "push": 0.55,
@@ -5132,7 +7134,7 @@
      16,
      17
     ],
-    "iterations": 23,
+    "iterations": 24,
     "converged": true,
     "push": 0.55
    },
@@ -5165,8 +7167,8 @@
   "no_circuit_regime_prior": {
    "best": "1-stop M-S @ 16",
    "p_stops": {
-    "1": 0.87,
-    "2": 0.13,
+    "1": 0.8466666666666667,
+    "2": 0.15333333333333332,
     "3": 0.0
    },
    "push": 0.55,
@@ -5187,7 +7189,7 @@
      16,
      17
     ],
-    "iterations": 21,
+    "iterations": 23,
     "converged": true,
     "push": 0.55
    },
@@ -5217,13 +7219,13 @@
     "n_over_1": 3
    },
    "regime": {
-    "ratio": 0.7167694816367273,
+    "ratio": 0.7167694816367223,
     "ln_sd": 0.15,
     "mode": "none",
     "shipped_ratio": 0.4746224918574549
    },
-   "rate_mae": 0.04794604272256608,
-   "rate_bias": -0.03995260086114238,
+   "rate_mae": 0.04794604199405364,
+   "rate_bias": -0.03995259986080449,
    "rate_cov90": 1.0,
    "shipped_rate_mae": 0.029157724180702106
   },
@@ -5241,12 +7243,19 @@
     "first_stop_median": 16.0,
     "n_distinct_plans": 1
    },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 2.0,
+    "first_stop_median": 16.0,
+    "n_distinct_plans": 1
+   },
    "spearman": {
     "source": "bench/out/accuracy.json",
     "sealed": 0.09062179550303358,
     "sealed_driver_hist": 0.18070175438596495,
     "sealed_driver_practice_dev": 0.15752829240256547,
-    "sealed_driver_team_pooled": 0.041264282804444996
+    "sealed_driver_team_pooled": 0.044795822806030956
    }
   },
   "full_vs_shipped": {
@@ -5419,7 +7428,7 @@
    "n_classified": 19
   },
   "inputs": {
-   "kappa_s": 1.0,
+   "kappa_s": 0.0,
    "first_stop_prior": true,
    "dirty_air_circuit": 0.2133,
    "dirty_air_pooled": 0.13724036279951204,
@@ -5446,8 +7455,8 @@
   "full": {
    "best": "2-stop M-H-M @ 18,43",
    "p_stops": {
-    "2": 0.9533333333333334,
-    "1": 0.04666666666666667,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -5463,13 +7472,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 22,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -5500,9 +7509,9 @@
    }
   },
   "no_race_state": {
-   "best": "2-stop M-H-M @ 22,45",
+   "best": "2-stop M-H-M @ 23,46",
    "p_stops": {
-    "2": 0.9799999999999999,
+    "2": 0.98,
     "1": 0.02,
     "3": 0.0
    },
@@ -5510,10 +7519,10 @@
    "n_stops": 2,
    "seq": "MEDIUM-HARD-MEDIUM",
    "start": "MEDIUM",
-   "first": 22,
+   "first": 23,
    "pit_laps": [
-    22,
-    45
+    23,
+    46
    ],
    "first_stop_s": 0.0,
    "race_state_s": null,
@@ -5533,7 +7542,399 @@
    "seq_run_by_anyone": false,
    "stops_match_mode": true,
    "start_matches_majority": true,
-   "first_minus_field": 3.0,
+   "first_minus_field": 4.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "symmetric_pack": {
+   "best": "2-stop M-H-M @ 18,43",
+   "p_stops": {
+    "2": 0.9566666666666666,
+    "1": 0.043333333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 18,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "rivals_no_history": {
+   "best": "2-stop M-H-M @ 19,44",
+   "p_stops": {
+    "2": 0.9466666666666668,
+    "1": 0.05333333333333334,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     21
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "place_value_task1": {
+   "best": "2-stop M-H-M @ 18,43",
+   "p_stops": {
+    "2": 0.9566666666666666,
+    "1": 0.043333333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 18,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "hetero_pack": {
+   "best": "2-stop M-H-M @ 19,44",
+   "p_stops": {
+    "2": 0.9433333333333334,
+    "1": 0.05666666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "no_family_logit": {
+   "best": "2-stop M-H-M @ 19,44",
+   "p_stops": {
+    "2": 0.9433333333333334,
+    "1": 0.05666666666666667,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 19,
+   "pit_laps": [
+    19,
+    44
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 19,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     21
+    ],
+    "iterations": 17,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": 0.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "2-stop M-H-M @ 18,43",
+   "p_stops": {
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 18,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 1.02,
+     "MEDIUM": 1.52,
+     "SOFT": 0.56
+    },
+    "median": 1.02,
+    "n_over_1": 2
+   }
+  },
+  "extrap_off": {
+   "best": "2-stop M-H-M @ 18,43",
+   "p_stops": {
+    "2": 0.96,
+    "1": 0.04,
+    "3": 0.0
+   },
+   "push": 0.55,
+   "n_stops": 2,
+   "seq": "MEDIUM-HARD-MEDIUM",
+   "start": "MEDIUM",
+   "first": 18,
+   "pit_laps": [
+    18,
+    43
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 18,
+    "tyre_best_lap": 23,
+    "q_median": 19,
+    "q_p25_p75": [
+     17,
+     20
+    ],
+    "iterations": 21,
+    "converged": true,
+    "push": 0.55
+   },
+   "tyre_optimal": "2-stop M-M-S @ 25,51",
+   "life": {
+    "HARD": 50.0,
+    "MEDIUM": 44.0,
+    "SOFT": 19.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0973,
+    "MEDIUM": 0.1185,
+    "SOFT": 0.1384
+   },
+   "seq_share": 0.0,
+   "seq_run_by_anyone": false,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": -1.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.02,
@@ -5547,8 +7948,8 @@
   "race_state_no_cover": {
    "best": "2-stop M-H-M @ 17,43",
    "p_stops": {
-    "2": 0.9666666666666666,
-    "1": 0.03333333333333333,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -5564,11 +7965,11 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 17,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 18,
     "q_p25_p75": [
      16,
-     20
+     19
     ],
     "iterations": 17,
     "converged": true,
@@ -5603,7 +8004,7 @@
   "race_state_lead_lap_value": {
    "best": "2-stop M-H-M @ 20,44",
    "p_stops": {
-    "2": 0.9633333333333335,
+    "2": 0.9633333333333334,
     "1": 0.03666666666666667,
     "3": 0.0
    },
@@ -5620,7 +8021,7 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 20,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 20,
     "q_p25_p75": [
      18,
@@ -5659,9 +8060,9 @@
   "race_state_undiscounted": {
    "best": "2-stop M-H-M @ 15,42",
    "p_stops": {
-    "2": 0.9866666666666667,
+    "2": 0.9966666666666667,
     "3": 0.0,
-    "1": 0.013333333333333334
+    "1": 0.0033333333333333335
    },
    "push": 0.55,
    "n_stops": 2,
@@ -5715,8 +8116,8 @@
   "no_first_stop_prior": {
    "best": "2-stop M-H-M @ 18,43",
    "p_stops": {
-    "2": 0.9533333333333334,
-    "1": 0.04666666666666667,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -5732,13 +8133,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 22,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -5769,32 +8170,32 @@
    }
   },
   "no_plan_prior": {
-   "best": "2-stop M-S-M @ 20,39",
+   "best": "2-stop S-M-M @ 17,43",
    "p_stops": {
-    "2": 0.98,
-    "3": 0.0033333333333333335,
+    "2": 0.9833333333333332,
+    "3": 0.0,
     "1": 0.016666666666666666
    },
    "push": 0.55,
    "n_stops": 2,
-   "seq": "MEDIUM-SOFT-MEDIUM",
-   "start": "MEDIUM",
-   "first": 20,
+   "seq": "SOFT-MEDIUM-MEDIUM",
+   "start": "SOFT",
+   "first": 17,
    "pit_laps": [
-    20,
-    39
+    17,
+    43
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 20,
-    "tyre_best_lap": 25,
-    "q_median": 20,
+    "best_lap": 17,
+    "tyre_best_lap": 19,
+    "q_median": 17,
     "q_p25_p75": [
-     19,
-     22
+     16,
+     18
     ],
-    "iterations": 25,
+    "iterations": 18,
     "converged": true,
     "push": 0.55
    },
@@ -5812,8 +8213,8 @@
    "seq_share": 0.0,
    "seq_run_by_anyone": false,
    "stops_match_mode": true,
-   "start_matches_majority": true,
-   "first_minus_field": 1.0,
+   "start_matches_majority": false,
+   "first_minus_field": -2.0,
    "life_ratio": {
     "by_compound": {
      "HARD": 1.02,
@@ -5827,8 +8228,8 @@
   "no_nomination_mapping": {
    "best": "2-stop M-H-M @ 18,43",
    "p_stops": {
-    "2": 0.9533333333333334,
-    "1": 0.04666666666666667,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -5844,13 +8245,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 22,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -5883,8 +8284,8 @@
   "no_dirty_air_circuit": {
    "best": "2-stop M-H-M @ 18,43",
    "p_stops": {
-    "2": 0.96,
-    "1": 0.04,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -5900,8 +8301,8 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
-    "q_median": 19,
+    "tyre_best_lap": 23,
+    "q_median": 18,
     "q_p25_p75": [
      17,
      20
@@ -5939,8 +8340,8 @@
   "no_position": {
    "best": "2-stop M-H-M @ 18,44",
    "p_stops": {
-    "2": 0.9733333333333334,
-    "1": 0.02666666666666667,
+    "2": 0.9766666666666666,
+    "1": 0.023333333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -6096,7 +8497,7 @@
   "practice_only": {
    "best": "2-stop M-H-M @ 18,44",
    "p_stops": {
-    "2": 0.8333333333333333,
+    "2": 0.8333333333333334,
     "1": 0.16666666666666669,
     "3": 0.0
    },
@@ -6114,12 +8515,12 @@
    "race_state_group": {
     "best_lap": 18,
     "tyre_best_lap": 23,
-    "q_median": 19,
+    "q_median": 18,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 21,
+    "iterations": 20,
     "converged": true,
     "push": 0.55
    },
@@ -6152,8 +8553,8 @@
   "old_budget": {
    "best": "2-stop M-H-M @ 18,43",
    "p_stops": {
-    "2": 0.9533333333333334,
-    "1": 0.04666666666666667,
+    "2": 0.9566666666666667,
+    "1": 0.043333333333333335,
     "3": 0.0
    },
    "push": 0.55,
@@ -6169,13 +8570,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 22,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -6225,13 +8626,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 18,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 22,
+    "iterations": 21,
     "converged": true,
     "push": 0.55
    },
@@ -6264,8 +8665,8 @@
   "no_circuit_regime_prior": {
    "best": "2-stop M-H-M @ 19,44",
    "p_stops": {
-    "2": 0.9633333333333334,
-    "1": 0.03666666666666667,
+    "2": 0.97,
+    "1": 0.03,
     "3": 0.0
    },
    "push": 0.55,
@@ -6281,13 +8682,13 @@
    "race_state_s": 0.0,
    "race_state_group": {
     "best_lap": 19,
-    "tyre_best_lap": 24,
+    "tyre_best_lap": 23,
     "q_median": 19,
     "q_p25_p75": [
      17,
      20
     ],
-    "iterations": 21,
+    "iterations": 20,
     "converged": true,
     "push": 0.55
    },
@@ -6317,13 +8718,13 @@
     "n_over_1": 2
    },
    "regime": {
-    "ratio": 0.7167694816367273,
-    "ln_sd": 0.2752908880756989,
+    "ratio": 0.7167694816367223,
+    "ln_sd": 0.2752908880757005,
     "mode": "none",
     "shipped_ratio": 0.5277635843420668
    },
-   "rate_mae": 0.044136559055661495,
-   "rate_bias": 0.004194115427915313,
+   "rate_mae": 0.0441365590170385,
+   "rate_bias": 0.004194115775523037,
    "rate_cov90": 0.813953488372093,
    "shipped_rate_mae": 0.0455625047405191
   },
@@ -6341,12 +8742,19 @@
     "first_stop_median": 16.0,
     "n_distinct_plans": 1
    },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 0.5,
+    "first_stop_spread": 4.0,
+    "first_stop_median": 16.0,
+    "n_distinct_plans": 3
+   },
    "spearman": {
     "source": "bench/out/accuracy.json",
-    "sealed": -0.11274820679590794,
-    "sealed_driver_hist": -0.3051884377100941,
+    "sealed": -0.14755308191443794,
+    "sealed_driver_hist": -0.3054034718177969,
     "sealed_driver_practice_dev": -0.19832339456241205,
-    "sealed_driver_team_pooled": -0.18941168071688097
+    "sealed_driver_team_pooled": -0.18662437871165438
    }
   },
   "full_vs_shipped": {
@@ -6605,6 +9013,270 @@
    }
   },
   "no_race_state": {
+   "best": "1-stop M-H @ 26",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 26,
+   "pit_laps": [
+    26
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": null,
+   "race_state_group": null,
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "symmetric_pack": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "rivals_no_history": {
+   "best": "1-stop M-H @ 22",
+   "p_stops": {
+    "1": 0.9999999999999999,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 22,
+   "pit_laps": [
+    22
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 22,
+    "tyre_best_lap": 26,
+    "q_median": 22,
+    "q_p25_p75": [
+     20,
+     23
+    ],
+    "iterations": 19,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "place_value_task1": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "hetero_pack": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     22
+    ],
+    "iterations": 18,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "no_family_logit": {
    "best": "1-stop M-H @ 22",
    "p_stops": {
     "1": 1.0,
@@ -6619,9 +9291,130 @@
    "pit_laps": [
     22
    ],
-   "first_stop_s": 0.24775331974217973,
-   "race_state_s": null,
-   "race_state_group": null,
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 22,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     20,
+     23
+    ],
+    "iterations": 16,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "rival_rate_levels_1": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.7
+   },
+   "tyre_optimal": "1-stop H-M @ 28",
+   "life": {
+    "HARD": 44.0,
+    "MEDIUM": 44.0,
+    "SOFT": 10.0
+   },
+   "deg_full_push": {
+    "HARD": 0.0556,
+    "MEDIUM": 0.0733,
+    "SOFT": 0.1117
+   },
+   "seq_share": 0.3157894736842105,
+   "seq_run_by_anyone": true,
+   "stops_match_mode": true,
+   "start_matches_majority": true,
+   "first_minus_field": null,
+   "life_ratio": {
+    "by_compound": {
+     "HARD": 0.88,
+     "MEDIUM": 0.88,
+     "SOFT": 0.42
+    },
+    "median": 0.88,
+    "n_over_1": 0
+   }
+  },
+  "extrap_off": {
+   "best": "1-stop M-H @ 21",
+   "p_stops": {
+    "1": 1.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "push": 0.7,
+   "n_stops": 1,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
+   "pit_laps": [
+    21
+   ],
+   "first_stop_s": 0.0,
+   "race_state_s": 0.0,
+   "race_state_group": {
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
+    "q_p25_p75": [
+     19,
+     23
+    ],
+    "iterations": 20,
+    "converged": true,
+    "push": 0.7
+   },
    "tyre_optimal": "1-stop H-M @ 28",
    "life": {
     "HARD": 44.0,
@@ -6869,35 +9662,35 @@
    }
   },
   "no_plan_prior": {
-   "best": "1-stop H-M @ 23",
+   "best": "1-stop M-H @ 21",
    "p_stops": {
-    "1": 1.0,
-    "2": 0.0,
+    "1": 0.9966666666666667,
+    "2": 0.0033333333333333335,
     "3": 0.0
    },
-   "push": 0.55,
+   "push": 0.7,
    "n_stops": 1,
-   "seq": "HARD-MEDIUM",
-   "start": "HARD",
-   "first": 23,
+   "seq": "MEDIUM-HARD",
+   "start": "MEDIUM",
+   "first": 21,
    "pit_laps": [
-    23
+    21
    ],
    "first_stop_s": 0.0,
    "race_state_s": 0.0,
    "race_state_group": {
-    "best_lap": 23,
-    "tyre_best_lap": 29,
-    "q_median": 23,
+    "best_lap": 21,
+    "tyre_best_lap": 26,
+    "q_median": 21,
     "q_p25_p75": [
-     21,
-     25
+     19,
+     23
     ],
-    "iterations": 21,
+    "iterations": 20,
     "converged": true,
     "push": 0.7
    },
-   "tyre_optimal": "1-stop H-M @ 29",
+   "tyre_optimal": "1-stop H-M @ 28",
    "life": {
     "HARD": 44.0,
     "MEDIUM": 44.0,
@@ -6908,10 +9701,10 @@
     "MEDIUM": 0.0733,
     "SOFT": 0.1117
    },
-   "seq_share": 0.05263157894736842,
+   "seq_share": 0.3157894736842105,
    "seq_run_by_anyone": true,
    "stops_match_mode": true,
-   "start_matches_majority": false,
+   "start_matches_majority": true,
    "first_minus_field": null,
    "life_ratio": {
     "by_compound": {
@@ -7146,8 +9939,8 @@
   "config_constants": {
    "best": "1-stop M-H @ 24",
    "p_stops": {
-    "1": 0.9733333333333333,
-    "2": 0.02666666666666667,
+    "1": 0.97,
+    "2": 0.03,
     "3": 0.0
    },
    "push": 1.0,
@@ -7245,7 +10038,7 @@
   "old_budget": {
    "best": "1-stop M-H @ 21",
    "p_stops": {
-    "1": 1.0,
+    "1": 0.9999999999999999,
     "2": 0.0,
     "3": 0.0
    },
@@ -7300,7 +10093,7 @@
   "no_cliff_budgets": {
    "best": "1-stop M-H @ 21",
    "p_stops": {
-    "1": 1.0,
+    "1": 0.9999999999999999,
     "2": 0.0,
     "3": 0.0
    },
@@ -7407,13 +10200,13 @@
     "n_over_1": 0
    },
    "regime": {
-    "ratio": 0.6694907242090762,
+    "ratio": 0.669490724209074,
     "ln_sd": 0.25677313158368004,
     "mode": "none",
     "shipped_ratio": 0.6549055440739951
    },
-   "rate_mae": 0.03179719438160786,
-   "rate_bias": -0.016383596592758627,
+   "rate_mae": 0.03179719438160782,
+   "rate_bias": -0.01638359659275848,
    "rate_cov90": 0.9047619047619048,
    "shipped_rate_mae": 0.03168744057625351
   },
@@ -7428,12 +10221,19 @@
     "n": 22,
     "share_same_shape_as_field": 1.0,
     "first_stop_spread": 0.0,
-    "first_stop_median": 18.0,
+    "first_stop_median": 20.0,
+    "n_distinct_plans": 1
+   },
+   "no_hist_driver_factors": {
+    "n": 22,
+    "share_same_shape_as_field": 1.0,
+    "first_stop_spread": 2.0,
+    "first_stop_median": 20.0,
     "n_distinct_plans": 1
    },
    "spearman": {
     "source": "bench/out/accuracy.json",
-    "sealed": -0.04796656089772118,
+    "sealed": -0.043806197349513604,
     "sealed_driver_hist": -0.03506493506493507,
     "sealed_driver_practice_dev": -0.06493506493506493,
     "sealed_driver_team_pooled": -0.059740259740259746
@@ -7615,7 +10415,7 @@
    "n_classified": 19
   },
   "inputs": {
-   "kappa_s": 1.0,
+   "kappa_s": 0.0,
    "first_stop_prior": true,
    "dirty_air_circuit": 0.0987,
    "dirty_air_pooled": 0.13724036279951204,
@@ -7641,40 +10441,138 @@
  "_pooled": {
   "full": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 2.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": -1.0
    },
-   "mean_abs_first_err": 1.6666666666666667,
+   "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
   "no_race_state": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 6.0,
+    "barcelona-2026": 3.0,
     "austria-2026": 4.0,
-    "hungary-2026": 3.0
+    "hungary-2026": 4.0
    },
-   "mean_abs_first_err": 4.333333333333333,
+   "mean_abs_first_err": 3.6666666666666665,
+   "life_ratio_median": 1.1
+  },
+  "symmetric_pack": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.3333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "rivals_no_history": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": 0.0,
+    "austria-2026": 5.0,
+    "hungary-2026": 0.0
+   },
+   "mean_abs_first_err": 1.6666666666666667,
+   "life_ratio_median": 1.1
+  },
+  "place_value_task1": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.3333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "hetero_pack": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": 0.0,
+    "austria-2026": 5.0,
+    "hungary-2026": 0.0
+   },
+   "mean_abs_first_err": 1.6666666666666667,
+   "life_ratio_median": 1.1
+  },
+  "no_family_logit": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": 1.0,
+    "austria-2026": 4.0,
+    "hungary-2026": 0.0
+   },
+   "mean_abs_first_err": 1.6666666666666667,
+   "life_ratio_median": 1.1
+  },
+  "rival_rate_levels_1": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.3333333333333333,
+   "life_ratio_median": 1.1
+  },
+  "extrap_off": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
   "race_state_no_cover": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 1.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 1.0,
     "hungary-2026": -2.0
    },
@@ -7683,58 +10581,58 @@
   },
   "race_state_lead_lap_value": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 3.0,
+    "barcelona-2026": 0.0,
     "austria-2026": 3.0,
     "hungary-2026": 1.0
    },
-   "mean_abs_first_err": 2.3333333333333335,
+   "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
   "race_state_undiscounted": {
    "n_events": 7,
-   "seq_run_by_anyone": 5,
+   "seq_run_by_anyone": 4,
    "start_matches_majority": 6,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.316184692500482,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.18358395989974938,
    "first_minus_field": {
-    "barcelona-2026": 0.0,
+    "barcelona-2026": -3.0,
     "austria-2026": -2.0,
     "hungary-2026": -4.0
    },
-   "mean_abs_first_err": 2.0,
+   "mean_abs_first_err": 3.0,
    "life_ratio_median": 1.1
   },
   "no_first_stop_prior": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 2.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": -1.0
    },
-   "mean_abs_first_err": 1.6666666666666667,
+   "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
   "no_plan_prior": {
    "n_events": 7,
-   "seq_run_by_anyone": 3,
-   "start_matches_majority": 4,
+   "seq_run_by_anyone": 2,
+   "start_matches_majority": 2,
    "stops_match_mode": 5,
-   "mean_seq_share": 0.09122807017543859,
+   "mean_seq_share": 0.05263157894736842,
    "first_minus_field": {
-    "barcelona-2026": -1.0,
+    "barcelona-2026": 1.0,
     "austria-2026": -3.0,
-    "hungary-2026": 1.0
+    "hungary-2026": -2.0
    },
-   "mean_abs_first_err": 1.6666666666666667,
+   "mean_abs_first_err": 2.0,
    "life_ratio_median": 1.1
   },
   "no_nomination_mapping": {
@@ -7744,6 +10642,20 @@
    "stops_match_mode": 6,
    "mean_seq_share": 0.28386407194456725,
    "first_minus_field": {
+    "barcelona-2026": 0.0,
+    "austria-2026": 2.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.0,
+   "life_ratio_median": 1.1
+  },
+  "no_dirty_air_circuit": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
+   "first_minus_field": {
     "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": -1.0
@@ -7751,32 +10663,18 @@
    "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
-  "no_dirty_air_circuit": {
-   "n_events": 7,
-   "seq_run_by_anyone": 6,
-   "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
-   "first_minus_field": {
-    "barcelona-2026": 2.0,
-    "austria-2026": 2.0,
-    "hungary-2026": -1.0
-   },
-   "mean_abs_first_err": 1.6666666666666667,
-   "life_ratio_median": 1.1
-  },
   "no_position": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 2.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 1.0,
     "hungary-2026": -1.0
    },
-   "mean_abs_first_err": 1.3333333333333333,
+   "mean_abs_first_err": 1.0,
    "life_ratio_median": 1.1
   },
   "no_pace_cal": {
@@ -7784,13 +10682,13 @@
    "seq_run_by_anyone": 7,
    "start_matches_majority": 7,
    "stops_match_mode": 6,
-   "mean_seq_share": 0.3282442531668538,
+   "mean_seq_share": 0.33664761451139164,
    "first_minus_field": {
     "barcelona-2026": 1.0,
-    "austria-2026": 1.0,
+    "austria-2026": 0.0,
     "hungary-2026": -1.0
    },
-   "mean_abs_first_err": 1.0,
+   "mean_abs_first_err": 0.6666666666666666,
    "life_ratio_median": 1.1
   },
   "config_constants": {
@@ -7809,58 +10707,58 @@
   },
   "practice_only": {
    "n_events": 7,
-   "seq_run_by_anyone": 3,
-   "start_matches_majority": 6,
+   "seq_run_by_anyone": 4,
+   "start_matches_majority": 7,
+   "stops_match_mode": 6,
+   "mean_seq_share": 0.16243550051599584,
+   "first_minus_field": {
+    "barcelona-2026": -1.0,
+    "austria-2026": 1.0,
+    "hungary-2026": -1.0
+   },
+   "mean_abs_first_err": 1.0,
+   "life_ratio_median": 1.04
+  },
+  "old_budget": {
+   "n_events": 7,
+   "seq_run_by_anyone": 5,
+   "start_matches_majority": 7,
    "stops_match_mode": 5,
-   "mean_seq_share": 0.15491670352351466,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
     "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": -1.0
    },
    "mean_abs_first_err": 1.3333333333333333,
-   "life_ratio_median": 1.04
-  },
-  "old_budget": {
-   "n_events": 7,
-   "seq_run_by_anyone": 6,
-   "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
-   "first_minus_field": {
-    "barcelona-2026": 2.0,
-    "austria-2026": 2.0,
-    "hungary-2026": -1.0
-   },
-   "mean_abs_first_err": 1.6666666666666667,
    "life_ratio_median": 1.1
   },
   "no_cliff_budgets": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 2.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": -1.0
    },
-   "mean_abs_first_err": 1.6666666666666667,
+   "mean_abs_first_err": 1.3333333333333333,
    "life_ratio_median": 1.1
   },
   "no_circuit_regime_prior": {
    "n_events": 7,
-   "seq_run_by_anyone": 6,
+   "seq_run_by_anyone": 5,
    "start_matches_majority": 7,
-   "stops_match_mode": 7,
-   "mean_seq_share": 0.3497981378786333,
+   "stops_match_mode": 5,
+   "mean_seq_share": 0.2171974052779006,
    "first_minus_field": {
-    "barcelona-2026": 2.0,
+    "barcelona-2026": -1.0,
     "austria-2026": 2.0,
     "hungary-2026": 0.0
    },
-   "mean_abs_first_err": 1.3333333333333333,
+   "mean_abs_first_err": 1.0,
    "life_ratio_median": 1.1
   }
  },

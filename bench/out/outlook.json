@@ -2,11 +2,11 @@
  "australia-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2023, 2024]",
-  "best": "2-stop M-H-H @ 16,37",
+  "best": "2-stop M-H-H @ 15,35",
   "tyre_optimal": "1-stop H-M @ 31",
   "p_stops": {
-   "2": 0.9466666666666667,
-   "1": 0.05333333333333333,
+   "2": 1.0,
+   "1": 0.0,
    "3": 0.0
   },
   "push": 0.55,
@@ -36,13 +36,17 @@
    "HARD": 7,
    "SOFT": 2
   },
-  "first_stop_in_objective": true,
-  "first_stop_kappa_s": 1.0,
-  "first_stop_s": 1.1329507753789914,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
+  "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
+  "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.04266438761547117,
-   "model_net_after": 0.07098991214484379
+   "model_net_before": -0.032362919353677314,
+   "model_net_after": 0.07125982291487014
   },
   "mode_stops": 1,
   "stops_match_mode": false,
@@ -53,17 +57,17 @@
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": null,
-  "sealed_best": "1-stop M-H @ 21",
-  "same_as_sealed_stops": false,
-  "seconds": 3.8,
+  "sealed_best": "2-stop M-H-H @ 14,36",
+  "same_as_sealed_stops": true,
+  "seconds": 1.1,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024]",
-   "best": "1-stop M-H @ 27",
+   "best": "1-stop M-H @ 23",
    "tyre_optimal": "2-stop M-M-S @ 24,48",
    "p_stops": {
-    "1": 0.8266666666666667,
-    "2": 0.17333333333333334,
+    "1": 0.6466666666666666,
+    "2": 0.3533333333333334,
     "3": 0.0
    },
    "push": 0.55,
@@ -93,13 +97,17 @@
     "HARD": 8,
     "SOFT": 3
    },
-   "first_stop_in_objective": true,
-   "first_stop_kappa_s": 1.0,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
+   "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.13185320851118662,
-    "model_net_after": 0.057690481648271404
+    "model_net_before": -0.13185320851118765,
+    "model_net_after": 0.057690481648270356
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -110,9 +118,9 @@
    "matches_field_modal": true,
    "start_ok": true,
    "first_minus_field": null,
-   "sealed_best": "1-stop M-H @ 21",
-   "same_as_sealed_stops": true,
-   "seconds": 3.7
+   "sealed_best": "2-stop M-H-H @ 14,36",
+   "same_as_sealed_stops": false,
+   "seconds": 1.0
   },
   "baseline_prior_best": "2-stop M-H-H @ 18,38",
   "baseline_prior_seq_share": 0.06666666666666667,
@@ -123,11 +131,11 @@
  "japan-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2023, 2024, 2025]",
-  "best": "1-stop M-H @ 24",
+  "best": "1-stop M-H @ 21",
   "tyre_optimal": "2-stop M-S-S @ 18,36",
   "p_stops": {
-   "1": 0.7066666666666667,
-   "2": 0.29333333333333333,
+   "1": 0.7533333333333332,
+   "2": 0.24666666666666665,
    "3": 0.0
   },
   "push": 0.55,
@@ -157,13 +165,17 @@
    "SOFT": 12,
    "HARD": 9
   },
-  "first_stop_in_objective": true,
-  "first_stop_kappa_s": 1.0,
-  "first_stop_s": 0.08148150166480805,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
+  "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
+  "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.17680217359356387,
-   "model_net_after": 0.021546649695000752
+   "model_net_before": -0.17680217359356473,
+   "model_net_after": 0.02154664969500123
   },
   "mode_stops": 1,
   "stops_match_mode": true,
@@ -176,15 +188,15 @@
   "first_minus_field": null,
   "sealed_best": "1-stop M-H @ 19",
   "same_as_sealed_stops": true,
-  "seconds": 3.1,
+  "seconds": 1.1,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
-   "best": "1-stop M-H @ 24",
+   "best": "1-stop M-H @ 21",
    "tyre_optimal": "2-stop M-S-S @ 18,36",
    "p_stops": {
-    "1": 0.7066666666666667,
-    "2": 0.29333333333333333,
+    "1": 0.7533333333333332,
+    "2": 0.24666666666666665,
     "3": 0.0
    },
    "push": 0.55,
@@ -214,13 +226,17 @@
     "SOFT": 12,
     "HARD": 9
    },
-   "first_stop_in_objective": true,
-   "first_stop_kappa_s": 1.0,
-   "first_stop_s": 0.08148150166480805,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
+   "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
+   "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.17680217359356387,
-    "model_net_after": 0.021546649695000752
+    "model_net_before": -0.17680217359356473,
+    "model_net_after": 0.02154664969500123
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -233,7 +249,7 @@
    "first_minus_field": null,
    "sealed_best": "1-stop M-H @ 19",
    "same_as_sealed_stops": true,
-   "seconds": 3.2
+   "seconds": 1.0
   },
   "baseline_prior_best": "1-stop M-H @ 25",
   "baseline_prior_seq_share": 0.85,
@@ -244,11 +260,11 @@
  "barcelona-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2023, 2025]",
-  "best": "2-stop M-H-H @ 21,44",
+  "best": "2-stop M-S-S @ 19,42",
   "tyre_optimal": "2-stop M-S-S @ 24,45",
   "p_stops": {
-   "2": 0.9833333333333334,
-   "3": 0.016666666666666666,
+   "2": 0.9700000000000001,
+   "3": 0.030000000000000002,
    "1": 0.0
   },
   "push": 0.55,
@@ -277,34 +293,38 @@
    "MEDIUM": 31,
    "HARD": 5
   },
-  "first_stop_in_objective": true,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
   "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
   "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.09441353657914703,
-   "model_net_after": 0.051816567087052054
+   "model_net_before": -0.12074440725620865,
+   "model_net_after": 0.04623739489217846
   },
   "mode_stops": 2,
   "stops_match_mode": true,
   "stops_share": 0.5384615384615384,
-  "seq_share": 0.46153846153846156,
+  "seq_share": 0.0,
   "field_modal_seq": "MEDIUM-HARD-HARD",
-  "seq_run_by_anyone": true,
-  "matches_field_modal": true,
+  "seq_run_by_anyone": false,
+  "matches_field_modal": false,
   "start_ok": true,
-  "first_minus_field": 8.0,
-  "sealed_best": "2-stop M-H-H @ 15,40",
-  "same_as_sealed_stops": true,
-  "seconds": 3.6,
+  "first_minus_field": 6.0,
+  "sealed_best": "3-stop M-S-M-S @ 12,30,47",
+  "same_as_sealed_stops": false,
+  "seconds": 1.4,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2025]",
-   "best": "2-stop S-M-S @ 21,45",
+   "best": "2-stop S-M-S @ 17,43",
    "tyre_optimal": "2-stop M-S-S @ 24,45",
    "p_stops": {
-    "2": 0.9833333333333333,
-    "3": 0.016666666666666666,
+    "2": 0.9733333333333333,
+    "3": 0.026666666666666665,
     "1": 0.0
    },
    "push": 0.55,
@@ -334,13 +354,17 @@
     "MEDIUM": 4,
     "HARD": 2
    },
-   "first_stop_in_objective": true,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
    "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.0821292560396611,
-    "model_net_after": 0.053532693379923516
+    "model_net_before": -0.12074440725620865,
+    "model_net_after": 0.04623739489217846
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -350,10 +374,10 @@
    "seq_run_by_anyone": false,
    "matches_field_modal": false,
    "start_ok": false,
-   "first_minus_field": 8.0,
-   "sealed_best": "2-stop M-H-H @ 15,40",
-   "same_as_sealed_stops": true,
-   "seconds": 3.4
+   "first_minus_field": 4.0,
+   "sealed_best": "3-stop M-S-M-S @ 12,30,47",
+   "same_as_sealed_stops": false,
+   "seconds": 1.3
   },
   "baseline_prior_best": "2-stop M-H-H @ 20,43",
   "baseline_prior_seq_share": 0.46153846153846156,
@@ -364,12 +388,12 @@
  "austria-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2025]",
-  "best": "2-stop M-H-M @ 22,46",
+  "best": "2-stop M-H-M @ 20,44",
   "tyre_optimal": "3-stop M-M-S-S @ 18,36,54",
   "p_stops": {
-   "2": 0.7966666666666667,
-   "3": 0.12666666666666665,
-   "1": 0.07666666666666666
+   "2": 0.7066666666666667,
+   "3": 0.09999999999999999,
+   "1": 0.19333333333333336
   },
   "push": 0.55,
   "life_laps_at_push": {
@@ -397,13 +421,17 @@
    "MEDIUM": 12,
    "SOFT": 4
   },
-  "first_stop_in_objective": true,
-  "first_stop_kappa_s": 1.0,
-  "first_stop_s": 0.010225562621160478,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
+  "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
+  "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.11919714562880315,
-   "model_net_after": 0.0938566447986858
+   "model_net_before": -0.13261037825348046,
+   "model_net_after": 0.08975538349393855
   },
   "mode_stops": 2,
   "stops_match_mode": true,
@@ -413,19 +441,19 @@
   "seq_run_by_anyone": true,
   "matches_field_modal": false,
   "start_ok": true,
-  "first_minus_field": 4.0,
-  "sealed_best": "2-stop M-H-M @ 20,45",
+  "first_minus_field": 2.0,
+  "sealed_best": "2-stop M-H-M @ 20,43",
   "same_as_sealed_stops": true,
-  "seconds": 4.5,
+  "seconds": 1.3,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2025]",
-   "best": "2-stop M-H-M @ 22,46",
+   "best": "2-stop M-H-M @ 20,44",
    "tyre_optimal": "3-stop M-M-S-S @ 18,36,54",
    "p_stops": {
-    "2": 0.7966666666666667,
-    "3": 0.12666666666666665,
-    "1": 0.07666666666666666
+    "2": 0.7066666666666667,
+    "3": 0.09999999999999999,
+    "1": 0.19333333333333336
    },
    "push": 0.55,
    "life_laps_at_push": {
@@ -453,13 +481,17 @@
     "MEDIUM": 12,
     "SOFT": 4
    },
-   "first_stop_in_objective": true,
-   "first_stop_kappa_s": 1.0,
-   "first_stop_s": 0.010225562621160478,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
+   "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
+   "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.11919714562880315,
-    "model_net_after": 0.0938566447986858
+    "model_net_before": -0.13261037825348046,
+    "model_net_after": 0.08975538349393855
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -469,10 +501,10 @@
    "seq_run_by_anyone": true,
    "matches_field_modal": false,
    "start_ok": true,
-   "first_minus_field": 4.0,
-   "sealed_best": "2-stop M-H-M @ 20,45",
+   "first_minus_field": 2.0,
+   "sealed_best": "2-stop M-H-M @ 20,43",
    "same_as_sealed_stops": true,
-   "seconds": 4.4
+   "seconds": 1.3
   },
   "baseline_prior_best": "2-stop M-H-H @ 21,46",
   "baseline_prior_seq_share": 0.29411764705882354,
@@ -483,11 +515,11 @@
  "belgium-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2024]",
-  "best": "2-stop M-S-S @ 12,27",
+  "best": "1-stop M-S @ 18",
   "tyre_optimal": "1-stop M-S @ 23",
   "p_stops": {
-   "2": 0.4866666666666667,
-   "1": 0.5133333333333333,
+   "1": 0.6699999999999999,
+   "2": 0.33,
    "3": 0.0
   },
   "push": 0.55,
@@ -517,34 +549,38 @@
    "SOFT": 1,
    "HARD": 1
   },
-  "first_stop_in_objective": true,
-  "first_stop_kappa_s": 1.0,
-  "first_stop_s": 0.18794136898103964,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
+  "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
+  "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.03621892917854551,
-   "model_net_after": 0.10280794483277424
+   "model_net_before": -0.036218929178546834,
+   "model_net_after": 0.10280794483277508
   },
   "mode_stops": 1,
-  "stops_match_mode": false,
-  "stops_share": 0.05263157894736842,
-  "seq_share": 0.0,
+  "stops_match_mode": true,
+  "stops_share": 0.9473684210526315,
+  "seq_share": 0.05263157894736842,
   "field_modal_seq": "MEDIUM-HARD",
-  "seq_run_by_anyone": false,
+  "seq_run_by_anyone": true,
   "matches_field_modal": false,
   "start_ok": true,
   "first_minus_field": null,
   "sealed_best": "1-stop M-S @ 16",
-  "same_as_sealed_stops": false,
-  "seconds": 6.4,
+  "same_as_sealed_stops": true,
+  "seconds": 0.9,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2024]",
-   "best": "2-stop M-S-S @ 12,27",
+   "best": "1-stop M-S @ 18",
    "tyre_optimal": "1-stop M-S @ 23",
    "p_stops": {
-    "2": 0.4866666666666667,
-    "1": 0.5133333333333333,
+    "1": 0.6699999999999999,
+    "2": 0.33,
     "3": 0.0
    },
    "push": 0.55,
@@ -574,26 +610,30 @@
     "SOFT": 1,
     "HARD": 1
    },
-   "first_stop_in_objective": true,
-   "first_stop_kappa_s": 1.0,
-   "first_stop_s": 0.18794136898103964,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
+   "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
+   "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.03621892917854551,
-    "model_net_after": 0.10280794483277424
+    "model_net_before": -0.036218929178546834,
+    "model_net_after": 0.10280794483277508
    },
    "mode_stops": 1,
-   "stops_match_mode": false,
-   "stops_share": 0.05263157894736842,
-   "seq_share": 0.0,
+   "stops_match_mode": true,
+   "stops_share": 0.9473684210526315,
+   "seq_share": 0.05263157894736842,
    "field_modal_seq": "MEDIUM-HARD",
-   "seq_run_by_anyone": false,
+   "seq_run_by_anyone": true,
    "matches_field_modal": false,
    "start_ok": true,
    "first_minus_field": null,
    "sealed_best": "1-stop M-S @ 16",
-   "same_as_sealed_stops": false,
-   "seconds": 7.1
+   "same_as_sealed_stops": true,
+   "seconds": 0.9
   },
   "baseline_prior_best": "1-stop S-M @ 20",
   "baseline_prior_seq_share": 0.0,
@@ -604,12 +644,12 @@
  "hungary-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2023, 2024, 2025]",
-  "best": "2-stop M-H-M @ 22,45",
+  "best": "2-stop M-H-M @ 18,43",
   "tyre_optimal": "2-stop M-M-S @ 25,51",
   "p_stops": {
-   "2": 0.9866666666666667,
-   "3": 0.013333333333333334,
-   "1": 0.0
+   "2": 0.9766666666666666,
+   "3": 0.02,
+   "1": 0.0033333333333333335
   },
   "push": 0.55,
   "life_laps_at_push": {
@@ -638,13 +678,17 @@
    "SOFT": 10,
    "HARD": 7
   },
-  "first_stop_in_objective": true,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
   "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
   "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.2307319890601734,
-   "model_net_after": 0.06374346962661488
+   "model_net_before": -0.29736726255460644,
+   "model_net_after": 0.01856116842994741
   },
   "mode_stops": 2,
   "stops_match_mode": true,
@@ -654,19 +698,19 @@
   "seq_run_by_anyone": false,
   "matches_field_modal": false,
   "start_ok": true,
-  "first_minus_field": 3.0,
+  "first_minus_field": -1.0,
   "sealed_best": "2-stop M-H-M @ 18,43",
   "same_as_sealed_stops": true,
-  "seconds": 4.5,
+  "seconds": 1.4,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
-   "best": "2-stop M-H-M @ 22,45",
+   "best": "2-stop M-H-M @ 18,43",
    "tyre_optimal": "2-stop M-M-S @ 25,51",
    "p_stops": {
-    "2": 0.9866666666666667,
-    "3": 0.013333333333333334,
-    "1": 0.0
+    "2": 0.9766666666666666,
+    "3": 0.02,
+    "1": 0.0033333333333333335
    },
    "push": 0.55,
    "life_laps_at_push": {
@@ -695,13 +739,17 @@
     "SOFT": 10,
     "HARD": 7
    },
-   "first_stop_in_objective": true,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
    "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
    "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.2307319890601734,
-    "model_net_after": 0.06374346962661488
+    "model_net_before": -0.29736726255460644,
+    "model_net_after": 0.01856116842994741
    },
    "mode_stops": 2,
    "stops_match_mode": true,
@@ -711,10 +759,10 @@
    "seq_run_by_anyone": false,
    "matches_field_modal": false,
    "start_ok": true,
-   "first_minus_field": 3.0,
+   "first_minus_field": -1.0,
    "sealed_best": "2-stop M-H-M @ 18,43",
    "same_as_sealed_stops": true,
-   "seconds": 4.7
+   "seconds": 1.4
   },
   "baseline_prior_best": "2-stop M-H-H @ 21,46",
   "baseline_prior_seq_share": 0.3157894736842105,
@@ -725,10 +773,10 @@
  "italy-2026": {
   "variant": "prior_only",
   "basis": "circuit history [2023, 2024, 2025]",
-  "best": "1-stop M-H @ 23",
+  "best": "1-stop M-H @ 21",
   "tyre_optimal": "1-stop H-M @ 28",
   "p_stops": {
-   "1": 1.0,
+   "1": 0.9999999999999999,
    "2": 0.0,
    "3": 0.0
   },
@@ -759,13 +807,17 @@
    "HARD": 13,
    "SOFT": 1
   },
-  "first_stop_in_objective": true,
-  "first_stop_kappa_s": 1.0,
-  "first_stop_s": 0.5259611215643525,
+  "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+  "objective_version": "v4",
+  "race_state_in_objective": true,
+  "first_stop_in_objective": false,
+  "first_stop_kappa_s": 0.0,
+  "race_state_s": 0.0,
+  "first_stop_s": 0.0,
   "pace_calibration": {
    "applied": true,
-   "model_net_before": -0.05313937459293809,
-   "model_net_after": 0.051849541514122424
+   "model_net_before": -0.053139374592938535,
+   "model_net_after": 0.0518495415141232
   },
   "mode_stops": 1,
   "stops_match_mode": true,
@@ -778,14 +830,14 @@
   "first_minus_field": null,
   "sealed_best": "1-stop M-H @ 21",
   "same_as_sealed_stops": true,
-  "seconds": 3.3,
+  "seconds": 1.0,
   "prior_only_letters": {
    "variant": "prior_only_letters",
    "basis": "circuit history [2023, 2024, 2025]",
-   "best": "1-stop M-H @ 23",
+   "best": "1-stop M-H @ 21",
    "tyre_optimal": "1-stop H-M @ 28",
    "p_stops": {
-    "1": 1.0,
+    "1": 0.9999999999999999,
     "2": 0.0,
     "3": 0.0
    },
@@ -816,13 +868,17 @@
     "HARD": 13,
     "SOFT": 1
    },
-   "first_stop_in_objective": true,
-   "first_stop_kappa_s": 1.0,
-   "first_stop_s": 0.5259611215643525,
+   "objective": "V4 objective: race state (symmetric rival field), lambda on later stops, tau plan prior, no first-stop prior",
+   "objective_version": "v4",
+   "race_state_in_objective": true,
+   "first_stop_in_objective": false,
+   "first_stop_kappa_s": 0.0,
+   "race_state_s": 0.0,
+   "first_stop_s": 0.0,
    "pace_calibration": {
     "applied": true,
-    "model_net_before": -0.05313937459293809,
-    "model_net_after": 0.051849541514122424
+    "model_net_before": -0.053139374592938535,
+    "model_net_after": 0.0518495415141232
    },
    "mode_stops": 1,
    "stops_match_mode": true,
@@ -835,7 +891,7 @@
    "first_minus_field": null,
    "sealed_best": "1-stop M-H @ 21",
    "same_as_sealed_stops": true,
-   "seconds": 3.1
+   "seconds": 1.0
   },
   "baseline_prior_best": "1-stop M-H @ 25",
   "baseline_prior_seq_share": 0.3157894736842105,
@@ -845,12 +901,12 @@
  },
  "_summary": {
   "n_events": 7,
-  "modal_match": 3,
+  "modal_match": 2,
   "modal_match_letters": 3,
   "start_ok": 7,
   "start_ok_letters": 6,
-  "mean_seq_share": 0.2756126742194854,
-  "mean_seq_share_letters": 0.2763452749520861,
-  "stops_match_mode": 5
+  "mean_seq_share": 0.2171974052779006,
+  "mean_seq_share_letters": 0.28386407194456725,
+  "stops_match_mode": 6
  }
 }

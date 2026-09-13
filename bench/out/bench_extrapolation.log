@@ -1,0 +1,49 @@
+
+196 scored race stints over 7 weekends; 12 with a non-positive measured rate (no log ratio)
+support per weekend (laps): AUS H21/M20/S21, AUT H24/M25/S18, BCN H17/M22/S15, BEL H18/M17/S14, HUN H25/M22/S22, ITA H22/M22/S20, JPN H23/M21
+
+=== ln(race rate / sealed predicted rate) by extrapolation ratio ===
+   bin   n  ratio_mean  len_mean  bias_mean  bias_median  disp_mad  noise_ln_sd_median  disp_excess  share_positive
+  <=1x  77       0.818    17.988     -0.103       -0.001     0.701               0.523        0.467           0.494
+1-1.5x  76       1.249    26.210     -0.239       -0.112     0.495               0.291        0.401           0.408
+1.5-2x  19       1.705    34.053     -0.083       -0.086     0.638               0.266        0.580           0.474
+   >2x  12       2.209    46.786     -0.039        0.069     0.312               0.368        0.000           0.583
+pooled 184       1.181    25.000     -0.153       -0.049     0.589               0.367        0.460           0.462
+
+=== the same on (obs - pred)/pred, which every stint has ===
+   bin   n  bias_mean  bias_median  disp_mad  share_positive
+  <=1x  82      0.205       -0.020     0.733           0.463
+1-1.5x  81     -0.093       -0.136     0.465           0.383
+1.5-2x  19      0.070       -0.083     0.685           0.474
+   >2x  14     -0.164       -0.003     0.575           0.500
+pooled 196      0.042       -0.075     0.633           0.434
+
+=== dispersion trend (WLS over the four bins, weights n / 1.36 sigma^2) ===
+  raw dispersion: slope -0.238 +/- 0.104 per unit ratio (t -2.30); 0.607 at 1x -> 0.369 at 2x
+  noise-deflated: slope -0.377 +/- 0.068 per unit ratio (t -5.55); 0.456 at 1x -> 0.079 at 2x
+
+=== ML fit  e ~ N(mu, sigma_0^2 + a^2 max(0, r-1)^2 + nu^2) ===
+  log ratio, noise-deflated (headline): mu -0.184, sigma_0 0.595, a 0.000 +/- n/a (at the boundary) (95% profile 0.000-0.426), LR vs a=0 0.00 (p 1.000); sd 0.595 at 1x -> 0.595 at 2x
+  log ratio, noise charged to the model: mu -0.153, sigma_0 0.871, a 0.000 +/- n/a (at the boundary) (95% profile 0.000-0.375), LR vs a=0 0.00 (p 1.000); sd 0.871 at 1x -> 0.871 at 2x
+  relative error, all 196 stints: mu +0.042, sigma_0 0.979, a 0.000 +/- n/a (at the boundary) (95% profile 0.000-0.426), LR vs a=0 -0.00 (p 1.000); sd 0.979 at 1x -> 0.979 at 2x
+
+=== sign of the error ===
+  beyond support (r > 1): 107 stints, 44% degraded FASTER than predicted (binom p 0.246), mean -0.189
+  inside support (r <= 1): 77 stints, 49% faster (binom p 1.000), mean -0.103
+  beyond - inside: -0.085 ln (Welch t -0.61, p 0.542)
+
+=== leave-one-weekend-out (growth term `a` / pooled deflated dispersion) ===
+  AUS 0.000/0.445, AUT 0.000/0.420, BCN 0.000/0.466, BEL 0.000/0.421, HUN 0.000/0.422, ITA 0.000/0.455, JPN 0.000/0.447
+  a: 0.000-0.000; pooled deflated: 0.420-0.466 (median 0.445)
+
+=== per compound ===
+  HARD    n 113 bias +0.042 disp 0.517 max ratio 2.27 a 0.000
+  MEDIUM  n  50 bias -0.371 disp 0.699 max ratio 2.27 a 0.000
+  SOFT    n  21 bias -0.685 disp 0.675 max ratio 2.07 a 0.000
+
+=== pooled dispersion, deflated three ways ===
+  raw 0.589; minus yardstick noise (0.367) -> 0.460; minus the whole sealed rate interval (0.606) -> 0.000
+
+EXTRAP_LN_SD_MEASURED = 0.460  [the pooled practice->race transfer dispersion, deflated by the scorer's own three-lap-mean noise: no growth with extrapolation is detectable (a = 0.000, 95% profile CI 0-0.426, noise-deflated WLS slope -0.377), so the plan's fallback applies]
+
+wrote /Users/pranav/Documents/coding_projects/degless/bench/out/extrapolation.json

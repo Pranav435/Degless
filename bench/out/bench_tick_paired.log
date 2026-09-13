@@ -1,0 +1,2 @@
+== barcelona-2026: race state on {'mean': 88.1, 'median': 87.3, 'p95': 105.9, 'max': 161.7} | off {'mean': 78.6, 'median': 77.5, 'p95': 91.6, 'max': 126.7} | on/off 1.122 | extra per tick (median) 8.0 ms
+== hungary-2026: race state on {'mean': 93.2, 'median': 94.6, 'p95': 103.8, 'max': 172.5} | off {'mean': 80.3, 'median': 80.4, 'p95': 87.9, 'max': 139.1} | on/off 1.16 | extra per tick (median) 12.5 ms
